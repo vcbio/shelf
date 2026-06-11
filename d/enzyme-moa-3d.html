@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>당효소복합물 — 작용기전 3D</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root{--charcoal:#1C1C1A;--cream:#F2F0EB;--green:#1E3932;--accent:#2E7D5B;--accent2:#3D9970;--beige:#C9BCA4;--gold:#B8954A;--dim:rgba(242,240,235,0.55);}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:var(--charcoal);color:var(--cream);font-family:"Pretendard Variable",Pretendard,-apple-system,system-ui,sans-serif;-webkit-font-smoothing:antialiased;}
+  body{min-height:100vh;display:flex;justify-content:center;}
+  .wrap{width:100%;max-width:820px;padding:24px 18px 36px;display:flex;flex-direction:column;gap:16px;}
+  .eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--beige);font-weight:600;}
+  h1{font-size:clamp(23px,6vw,36px);font-weight:700;line-height:1.16;letter-spacing:-.01em;margin-top:4px;}
+  h1 .hl{color:var(--accent2);}
+  .rule{height:3px;width:48px;background:var(--gold);border-radius:2px;margin-top:8px;}
+  .stage{position:relative;border:1px solid rgba(242,240,235,0.08);border-radius:18px;overflow:hidden;
+    background:radial-gradient(130% 100% at 50% 10%,#23231f 0%,#141413 75%);aspect-ratio:16/11;}
+  #gl{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+  .lab{position:absolute;transform:translate(-50%,-50%);font-size:12px;font-weight:700;color:var(--cream);
+    text-shadow:0 1px 6px rgba(0,0,0,0.8);white-space:nowrap;transition:opacity .3s}
+  .lab small{display:block;font-size:10px;font-weight:600;color:var(--beige);margin-top:1px}
+  .ctx{position:absolute;top:14px;left:16px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--beige);font-weight:600;opacity:.85}
+  .counter{position:absolute;top:12px;right:16px;text-align:right;font-size:12px;line-height:1.7}
+  .counter b{font-size:17px;font-weight:700}
+  .counter .a{color:var(--accent2)} .counter .r{color:var(--gold)}
+  .zone{position:absolute;left:16px;font-size:11px;font-weight:600;color:var(--beige);opacity:.7;pointer-events:none}
+  .z-wall{color:rgba(201,188,164,0.9)} .z-ves{color:#d07a55}
+  .narr{position:absolute;left:0;right:0;bottom:0;padding:16px 18px;background:linear-gradient(0deg,rgba(18,18,16,0.94),rgba(18,18,16,0));
+    font-size:clamp(13px,3.2vw,16px);font-weight:600;line-height:1.4;}
+  .narr .k{color:var(--gold)}
+  .legend{display:flex;flex-wrap:wrap;gap:9px 15px;font-size:12px;color:var(--beige)}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .swatch{width:13px;height:13px;border-radius:50%;display:inline-block;flex:none}
+  .controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .btn{background:var(--green);color:var(--cream);border:1px solid rgba(242,240,235,0.12);border-radius:10px;padding:9px 15px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:7px;transition:background .2s}
+  .btn:hover{background:var(--accent)}
+  .btn svg{width:14px;height:14px}
+  .spd{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--dim)}
+  input[type=range]{accent-color:var(--accent2)}
+  .foot{font-size:11px;line-height:1.6;color:var(--dim);border-top:1px solid rgba(242,240,235,0.08);padding-top:14px}
+  .foot .disc{color:var(--beige);margin-bottom:5px}
+  .badge{display:inline-block;font-size:10px;letter-spacing:.05em;background:rgba(184,149,74,0.16);color:var(--gold);border:1px solid rgba(184,149,74,0.35);border-radius:5px;padding:2px 7px;margin-right:6px;font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">VCBio · 당효소복합물 작용기전 (3D)</div>
+    <h1>효소가 당을 <span class="hl">사슬로 바꾸는</span> 순간</h1>
+    <div class="rule"></div>
+  </header>
+
+  <div class="stage">
+    <canvas id="gl"></canvas>
+    <div class="labels" id="labels"></div>
+    <div class="ctx">소장 내부 · 분자 시점 (개념)</div>
+    <div class="counter">
+      <div class="a"><b id="cAbs">0</b> 혈관 흡수 · 작은 당</div>
+      <div class="r"><b id="cRej">0</b> 흡수 안 됨 · 사슬·전환</div>
+    </div>
+    <div class="zone z-wall" style="bottom:33%">━━ 장 흡수벽 ━━</div>
+    <div class="zone z-ves" style="bottom:16%">혈관 — 흡수</div>
+    <div class="narr" id="narr"></div>
+  </div>
+
+  <div class="legend">
+    <span><i class="swatch" style="background:#3D9970"></i>작은 당 (포도당·맥아당)</span>
+    <span><i class="swatch" style="background:#B8954A"></i>난소화성 올리고당 (사슬)</span>
+    <span><i class="swatch" style="background:#8d8a82"></i>글루콘산 (전환된 당)</span>
+    <span><i class="swatch" style="background:#1E3932;border:1px solid #2E7D5B"></i>효소</span>
+  </div>
+
+  <div class="controls">
+    <button class="btn" id="playBtn"><svg viewBox="0 0 24 24" fill="currentColor"><path id="playIcon" d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg><span id="playLbl">일시정지</span></button>
+    <button class="btn" id="resetBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/></svg>다시</button>
+    <span class="spd">속도 <input type="range" id="spd" min="0.4" max="1.8" step="0.1" value="1"></span>
+  </div>
+
+  <div class="foot">
+    <div class="disc"><span class="badge">규제 안내</span>본 자료는 효소식품(식품제조원료)의 일반 정보이며, 질병의 예방·치료 효능을 표시한 것이 아닙니다. 작용은 소화 과정 중의 개념적 표현이며, 분자 형태는 도식화한 것입니다. 동물시험·in vitro 근거로 인체 효과는 별도 임상 검증이 필요합니다.</div>
+    출처: Kim et al., <i>Biomedicines</i> 2021, 9, 745 (db/db 마우스 전임상) · 자사 원료 사양서 · 식약처 식품공전 효소식품 &nbsp;|&nbsp; ㈜브이씨바이오
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const COL={green:0x3D9970,greenD:0x1E3932,gold:0xB8954A,goldL:0xe0c27e,gray:0x8d8a82,beige:0xC9BCA4,red:0xc4623e};
+const canvas=document.getElementById('gl');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+renderer.setClearColor(0x000000,0);
+const scene=new THREE.Scene();
+scene.fog=new THREE.FogExp2(0x141413,0.055);
+const camera=new THREE.PerspectiveCamera(48,1,0.1,120);
+camera.position.set(0,0,16);
+
+// lights
+scene.add(new THREE.AmbientLight(0x6a7a72,0.9));
+const key=new THREE.DirectionalLight(0xffffff,0.7); key.position.set(6,9,8); scene.add(key);
+const rim=new THREE.DirectionalLight(0x3D9970,0.5); rim.position.set(-8,-3,4); scene.add(rim);
+const pGold=new THREE.PointLight(0xB8954A,0.6,40); pGold.position.set(7,-4,6); scene.add(pGold);
+
+function resize(){
+  const r=canvas.getBoundingClientRect();
+  const w=r.width||canvas.parentElement.clientWidth, h=r.height||w*0.7;
+  renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
+  renderer.setSize(w,h,false);
+  camera.aspect=w/h; camera.updateProjectionMatrix();
+  VW=w; VH=h;
+}
+let VW=1,VH=1;
+window.addEventListener('resize',resize);
+
+// glow sprite texture (white radial)
+function glowTexture(){
+  const c=document.createElement('canvas'); c.width=c.height=128;
+  const g=c.getContext('2d'); const grd=g.createRadialGradient(64,64,0,64,64,64);
+  grd.addColorStop(0,'rgba(255,255,255,0.9)'); grd.addColorStop(0.35,'rgba(255,255,255,0.4)');
+  grd.addColorStop(1,'rgba(255,255,255,0)');
+  g.fillStyle=grd; g.fillRect(0,0,128,128);
+  return new THREE.CanvasTexture(c);
+}
+const GLOW=glowTexture();
+
+// background dust particles for depth
+(function dust(){
+  const N=380, pos=new Float32Array(N*3);
+  for(let i=0;i<N;i++){ pos[i*3]=(Math.random()-0.5)*40; pos[i*3+1]=(Math.random()-0.5)*30; pos[i*3+2]=(Math.random()-0.5)*30-6; }
+  const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  const m=new THREE.PointsMaterial({color:0x3D9970,size:0.08,transparent:true,opacity:0.5,depthWrite:false});
+  scene.add(new THREE.Points(g,m));
+})();
+
+// ---- intestinal membrane + vessel ----
+const MEMBRANE_Y=-4.2;
+(function membrane(){
+  // grid texture
+  const c=document.createElement('canvas'); c.width=512; c.height=64;
+  const g=c.getContext('2d'); g.clearRect(0,0,512,64);
+  g.strokeStyle='rgba(201,188,164,0.55)'; g.lineWidth=2;
+  for(let x=0;x<=512;x+=32){g.beginPath();g.moveTo(x,0);g.lineTo(x,64);g.stroke();}
+  g.strokeStyle='rgba(201,188,164,0.32)';
+  g.beginPath();g.moveTo(0,8);g.lineTo(512,8);g.stroke();
+  g.beginPath();g.moveTo(0,56);g.lineTo(512,56);g.stroke();
+  // villi bumps
+  g.fillStyle='rgba(201,188,164,0.25)';
+  for(let x=0;x<512;x+=32){g.beginPath();g.arc(x+16,0,12,0,Math.PI);g.fill();}
+  const tex=new THREE.CanvasTexture(c);
+  const mat=new THREE.MeshBasicMaterial({map:tex,transparent:true,opacity:0.6,side:THREE.DoubleSide,depthWrite:false});
+  const m=new THREE.Mesh(new THREE.PlaneGeometry(30,3.2),mat);
+  m.position.set(0,MEMBRANE_Y,0); m.rotation.x=-0.12; scene.add(m);
+  // vessel glow below
+  const vmat=new THREE.MeshBasicMaterial({color:0xc4623e,transparent:true,opacity:0.13,depthWrite:false});
+  const v=new THREE.Mesh(new THREE.PlaneGeometry(34,7),vmat); v.position.set(0,MEMBRANE_Y-4,-2); scene.add(v);
+  const vL=new THREE.PointLight(0xc4623e,0.5,30); vL.position.set(0,MEMBRANE_Y-3,4); scene.add(vL);
+})();
+
+// ---- molecule factory ----
+function makeBead(color,radius){
+  const grp=new THREE.Group();
+  const mat=new THREE.MeshStandardMaterial({color,emissive:color,emissiveIntensity:0.25,roughness:0.35,metalness:0.15});
+  const mesh=new THREE.Mesh(new THREE.SphereGeometry(radius,20,20),mat);
+  grp.add(mesh);
+  const spr=new THREE.Sprite(new THREE.SpriteMaterial({map:GLOW,color,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,opacity:0.7}));
+  spr.scale.set(radius*5,radius*5,1); grp.add(spr);
+  grp.userData.mesh=mesh; grp.userData.spr=spr; grp.userData.mat=mat;
+  return grp;
+}
+function tint(grp,color){ grp.userData.mat.color.setHex(color); grp.userData.mat.emissive.setHex(color); grp.userData.spr.material.color.setHex(color); }
+
+// ---- enzymes (organic blobs) ----
+const enzymeDefs=[
+  {short:'GO',name:'Glucose oxidase',pos:[-5.4,2.2,0]},
+  {short:'GT',name:'Glucosyl transferase',pos:[0,-0.6,1]},
+  {short:'CAT',name:'Catalase',pos:[5.2,2.0,-0.5]},
+];
+const enzymes=[];
+function makeEnzyme(def,scale){
+  const geo=new THREE.IcosahedronGeometry(scale,2);
+  const p=geo.attributes.position;
+  for(let i=0;i<p.count;i++){
+    const x=p.getX(i),y=p.getY(i),z=p.getZ(i);
+    const n=0.16*(Math.sin(x*2.1)+Math.cos(y*1.9)+Math.sin(z*2.3));
+    const f=1+n; p.setXYZ(i,x*f,y*f,z*f);
+  }
+  geo.computeVertexNormals();
+  const mat=new THREE.MeshStandardMaterial({color:0x21463a,emissive:0x0c2018,emissiveIntensity:0.5,roughness:0.45,metalness:0.25,flatShading:true,transparent:true,opacity:0.95});
+  const mesh=new THREE.Mesh(geo,mat);
+  const halo=new THREE.Sprite(new THREE.SpriteMaterial({map:GLOW,color:0x2E7D5B,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,opacity:0.5}));
+  halo.scale.set(scale*4.2,scale*4.2,1);
+  const grp=new THREE.Group(); grp.add(mesh); grp.add(halo);
+  grp.position.set(...def.pos);
+  grp.userData={def,mesh,buf:[],flash:0};
+  return grp;
+}
+enzymeDefs.forEach(d=>{ const e=makeEnzyme(d,d.short==='GT'?2.1:1.6); enzymes.push(e); scene.add(e); });
+
+// ---- HTML labels ----
+const labelsEl=document.getElementById('labels');
+enzymes.forEach(e=>{
+  const el=document.createElement('div'); el.className='lab';
+  el.innerHTML=e.userData.def.short+'<small>'+e.userData.def.name+'</small>';
+  labelsEl.appendChild(el); e.userData.labEl=el;
+});
+
+// ---- particle pools ----
+let sugars=[], chains=[], bys=[];
+let absorbed=0, converted=0, rejected=0, t=0, spawnT=0, speed=1, playing=true;
+const FLOW_TOP=9;
+
+function rnd(a,b){return a+Math.random()*(b-a)}
+function spawnSugar(){
+  const malt=Math.random()<0.42;
+  const g=makeBead(COL.green,0.36);
+  g.position.set(rnd(-6,6),FLOW_TOP+rnd(0,2),rnd(-2.5,2.5));
+  let second=null;
+  if(malt){ second=new THREE.Mesh(new THREE.SphereGeometry(0.32,16,16),new THREE.MeshStandardMaterial({color:COL.green,emissive:COL.green,emissiveIntensity:0.25,roughness:0.35})); second.position.set(0.55,0,0); g.add(second); }
+  g.userData.sugar={vy:rnd(0.9,1.4),vx:rnd(-0.2,0.2),vz:rnd(-0.15,0.15),sub:malt?'maltose':'glucose',conv:false,cool:0,second,spin:rnd(-0.02,0.02)};
+  scene.add(g); sugars.push(g);
+}
+function spawnChain(pos){
+  const grp=new THREE.Group(); const n=Math.floor(rnd(4,6));
+  for(let i=0;i<n;i++){ const b=new THREE.Mesh(new THREE.SphereGeometry(0.3,16,16),new THREE.MeshStandardMaterial({color:COL.gold,emissive:COL.gold,emissiveIntensity:0.3,roughness:0.3,metalness:0.3})); b.position.set(i*0.62-(n-1)*0.31,0,0); grp.add(b); }
+  const halo=new THREE.Sprite(new THREE.SpriteMaterial({map:GLOW,color:COL.gold,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,opacity:0.55})); halo.scale.set(n*1.0,1.6,1); grp.add(halo);
+  grp.position.copy(pos);
+  grp.userData={vy:rnd(0.4,0.7),vx:rnd(-0.15,0.15),rot:new THREE.Vector3(rnd(-0.01,0.01),rnd(-0.02,0.02),rnd(-0.01,0.01))};
+  scene.add(grp); chains.push(grp);
+}
+function spawnBy(pos){
+  const b=makeBead(COL.red,0.16); b.position.copy(pos); b.userData.by={vy:rnd(-0.3,0.5),vx:rnd(-0.5,0.5),vz:rnd(-0.3,0.3),life:1};
+  scene.add(b); bys.push(b);
+}
+
+function removeObj(arr,o){ scene.remove(o); o.traverse(c=>{if(c.geometry)c.geometry.dispose(); if(c.material){if(c.material.map&&c.material.map!==GLOW)c.material.map.dispose(); c.material.dispose();}}); const i=arr.indexOf(o); if(i>=0)arr.splice(i,1); }
+
+function step(dt){
+  t+=dt; spawnT-=dt;
+  if(spawnT<=0 && sugars.length<34){ spawnSugar(); spawnT=rnd(11,18)/speed; }
+  // enzymes idle motion
+  enzymes.forEach((e,i)=>{ e.rotation.y+=0.004*speed; e.rotation.x+=0.002*speed;
+    e.position.y=e.userData.def.pos[1]+Math.sin(t*0.03+i)*0.25;
+    if(e.userData.flash>0){ e.userData.mesh.material.emissiveIntensity=0.5+e.userData.flash*0.06; e.userData.flash-=dt*0.6; } else e.userData.mesh.material.emissiveIntensity=0.5;
+  });
+  // sugars
+  for(const s of sugars){
+    const u=s.userData.sugar; if(u.cool>0)u.cool-=dt;
+    s.position.y-=u.vy*0.035*speed; s.position.x+=u.vx*0.02*speed; s.position.z+=u.vz*0.02*speed;
+    s.rotation.x+=u.spin; s.rotation.y+=u.spin;
+    // enzyme interaction
+    if(u.cool<=0){
+      for(const e of enzymes){
+        if(s.position.distanceTo(e.position)<(e.userData.def.short==='GT'?3.0:2.4)){
+          u.cool=0.9;
+          const sh=e.userData.def.short;
+          if(sh==='GO' && !u.conv && u.sub==='glucose' && Math.random()<0.5){
+            u.conv=true; converted++; tint(s,COL.gray); if(u.second)u.second.material.color.setHex(COL.gray),u.second.material.emissive.setHex(COL.gray); spawnBy(s.position);
+          } else if(sh==='GT' && !u.conv && Math.random()<0.6){
+            e.userData.buf.push(1); removeObj(sugars,s);
+            if(e.userData.buf.length>=3){ e.userData.buf.length=0; e.userData.flash=8; spawnChain(e.position); }
+            break;
+          }
+        }
+      }
+    }
+    // membrane: small unconverted sugar passes through -> absorbed in vessel
+    if(!u.conv){
+      if(s.position.y<MEMBRANE_Y && !u.inVessel){ u.inVessel=true; tint(s,COL.red); }
+      if(s.position.y<MEMBRANE_Y-3){ absorbed++; removeObj(sugars,s); }
+    } else {
+      // converted gluconic blocked by membrane -> slides sideways out
+      if(s.position.y<MEMBRANE_Y+0.5){
+        s.position.y=MEMBRANE_Y+0.5;
+        if(!u.blocked){ u.blocked=true; rejected++; u.bx=(s.position.x<0?-1:1)*rnd(0.5,0.9); }
+        s.position.x+=u.bx*0.05*speed;
+      }
+      if(Math.abs(s.position.x)>13) removeObj(sugars,s);
+    }
+  }
+  // chains: never absorbed -> blocked at membrane, slide sideways and exit
+  for(const c of chains){ const cu=c.userData;
+    c.rotation.x+=cu.rot.x*speed; c.rotation.y+=cu.rot.y*speed; c.rotation.z+=cu.rot.z*speed;
+    if(c.position.y>MEMBRANE_Y+0.8){ c.position.y-=cu.vy*0.025*speed; c.position.x+=cu.vx*0.02*speed; }
+    else {
+      c.position.y=MEMBRANE_Y+0.8;
+      if(!cu.blocked){ cu.blocked=true; rejected++; cu.sx=(c.position.x<0?-1:1)*rnd(0.5,0.9); }
+      c.position.x+=cu.sx*0.05*speed;
+    }
+    if(Math.abs(c.position.x)>14) removeObj(chains,c);
+  }
+  // byproducts -> catalase
+  const cat=enzymes.find(e=>e.userData.def.short==='CAT');
+  for(const b of bys){ const u=b.userData.by; b.position.x+=u.vx*0.03*speed; b.position.y+=u.vy*0.03*speed; b.position.z+=u.vz*0.03*speed; u.vy-=0.01; u.life-=0.012*speed;
+    if(cat && b.position.distanceTo(cat.position)<2.4 && Math.random()<0.1){ u.life=0; }
+    if(u.life<=0) removeObj(bys,b); }
+  // camera slow drift
+  camera.position.x=Math.sin(t*0.012)*2.2; camera.position.y=Math.cos(t*0.009)*1.2;
+  camera.lookAt(0,0,0);
+  cAbsEl.textContent=absorbed; cRejEl.textContent=rejected;
+}
+const cAbsEl=document.getElementById('cAbs'), cRejEl=document.getElementById('cRej');
+
+function updateLabels(){
+  const v=new THREE.Vector3();
+  for(const e of enzymes){
+    v.copy(e.position); v.y+=e.userData.def.short==='GT'?2.6:2.0; v.project(camera);
+    const x=(v.x*0.5+0.5)*VW, y=(-v.y*0.5+0.5)*VH;
+    const el=e.userData.labEl;
+    if(v.z<1){ el.style.opacity=1; el.style.left=x+'px'; el.style.top=y+'px'; } else el.style.opacity=0;
+  }
+}
+
+// narration
+const narrs=[
+ '음식 속 <span class="k">당</span>이 흘러 들어옵니다',
+ '효소가 당을 붙잡습니다 — <span class="k">다중효소 복합 (개념)</span>',
+ '작은 당이 <span class="k">긴 사슬(난소화성 올리고당)</span>로 엮입니다',
+ '포도당은 <span class="k">글루콘산</span>으로 전환 (+H₂O₂ → Catalase가 중화)',
+ '큰 사슬은 흡수되지 않고 <span class="k">그대로 지나갑니다</span>',
+ '흡수되는 당이 줄어 <span class="k">식후 혈당이 완만</span> · 동물시험 방향성, 인체 검증 필요',
+];
+let ni=0; const narrEl=document.getElementById('narr');
+function cycleNarr(){ narrEl.style.transition='opacity .35s'; narrEl.style.opacity=0;
+  setTimeout(()=>{narrEl.innerHTML=narrs[ni];narrEl.style.opacity=1;ni=(ni+1)%narrs.length;},360);}
+narrEl.innerHTML=narrs[0]; ni=1; setInterval(cycleNarr,4300);
+
+let last=0;
+function loop(ts){ if(!last)last=ts; let dt=(ts-last)/16.67; last=ts; dt=Math.min(dt,3);
+  if(playing) step(dt); updateLabels(); renderer.render(scene,camera); requestAnimationFrame(loop); }
+
+document.getElementById('playBtn').onclick=()=>{playing=!playing;
+  document.getElementById('playLbl').textContent=playing?'일시정지':'재생';
+  document.getElementById('playIcon').setAttribute('d',playing?'M6 5h4v14H6zM14 5h4v14h-4z':'M8 5v14l11-7z');};
+document.getElementById('resetBtn').onclick=()=>{[...sugars].forEach(o=>removeObj(sugars,o));[...chains].forEach(o=>removeObj(chains,o));[...bys].forEach(o=>removeObj(bys,o));absorbed=0;converted=0;rejected=0;t=0;spawnT=0;enzymes.forEach(e=>e.userData.buf.length=0);};
+document.getElementById('spd').oninput=e=>{speed=parseFloat(e.target.value)};
+
+resize();
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
