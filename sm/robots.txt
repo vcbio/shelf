@@ -1,0 +1,11 @@
+# robots.txt — SM BIO 에스엠바이오
+# 도메인 확정 후 Sitemap URL 업데이트 필요
+
+User-agent: *
+Allow: /
+
+Disallow: /index.html.bak
+Disallow: /_preview_inline.html
+
+# 도메인 확정 후 아래 줄 업데이트
+Sitemap: https://[도메인확정필요]/sitemap.xml
