@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>정부지원사업 모니터링 대시보드</title>
+<style>
+  :root{
+    --bg:#0f1411; --card:#1a201c; --line:#2c352e; --ink:#e8ede9; --mut:#9aa79d;
+    --green:#3fae6f; --amber:#d8a13a; --red:#c9685f; --slate:#6b7a72;
+    --greenbg:#16271d; --amberbg:#2a2415; --redbg:#2a1917; --slatebg:#1d231f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;padding:0 0 48px}
+  .wrap{max-width:760px;margin:0 auto;padding:0 16px}
+  header{padding:28px 0 18px;border-bottom:1px solid var(--line)}
+  h1{font-size:21px;font-weight:700;letter-spacing:-.02em}
+  .sub{color:var(--mut);font-size:13px;margin-top:6px}
+  .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .pill{font-size:11.5px;color:var(--mut);background:var(--slatebg);border:1px solid var(--line);border-radius:99px;padding:3px 10px}
+  .profile{margin-top:14px;font-size:12.5px;color:var(--mut);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+  .profile b{color:var(--ink);font-weight:600}
+  h2{font-size:13px;font-weight:600;color:var(--mut);text-transform:uppercase;letter-spacing:.06em;margin:26px 0 12px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px 15px 13px;margin-bottom:11px}
+  .card.top{border-color:var(--green)}
+  .row1{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+  .name{font-size:15.5px;font-weight:650;letter-spacing:-.01em}
+  .agency{font-size:12px;color:var(--mut);margin-top:2px}
+  .badge{flex-shrink:0;font-size:11px;font-weight:600;border-radius:7px;padding:4px 9px;white-space:nowrap}
+  .b-green{color:var(--green);background:var(--greenbg);border:1px solid #244e36}
+  .b-amber{color:var(--amber);background:var(--amberbg);border:1px solid #4a3d1c}
+  .b-red{color:var(--red);background:var(--redbg);border:1px solid #4a2722}
+  .b-slate{color:#aab6ac;background:var(--slatebg);border:1px solid var(--line)}
+  .detail{font-size:13px;color:#cfd8d1;margin-top:10px}
+  .kv{display:flex;gap:7px;margin-top:7px;font-size:12.5px}
+  .kv .k{color:var(--mut);flex-shrink:0;width:52px}
+  .kv .v{color:#dfe6e0}
+  .note{font-size:12px;color:var(--mut);margin-top:9px;padding-top:9px;border-top:1px dashed var(--line)}
+  .note b{color:var(--amber);font-weight:600}
+  a.link{color:var(--green);font-size:12.5px;text-decoration:none;border-bottom:1px solid #2a4a37;display:inline-block;margin-top:9px}
+  footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);font-size:11.5px;color:var(--slate)}
+  footer b{color:var(--mut)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>정부지원사업 모니터링 대시보드</h1>
+    <div class="sub">청창사 병행 가능 · 프로필 적합도 기준 선별</div>
+    <div class="meta">
+      <span class="pill">최종 갱신 · 2026-06-15</span>
+      <span class="pill">갱신 주기 · 매주 월요일</span>
+      <span class="pill">상태 자동 점검 + Slack 알림</span>
+    </div>
+    <div class="profile">
+      <b>매칭 프로필</b> — 청년 창업기업 · 매출 20억대 · 1인 법인 · 건기식 B2B(위탁생산·유통) · 청창사 16기 진행 중. <b>제조업 미등록</b>(OEM 위탁).
+    </div>
+  </header>
+
+  <h2>지금 움직일 만한 것</h2>
+
+  <div class="card top">
+    <div class="row1">
+      <div><div class="name">청년일자리도약장려금</div><div class="agency">고용노동부 · 고용24</div></div>
+      <span class="badge b-green">조건부 적합 · 상시</span>
+    </div>
+    <div class="detail">청년(만 15~34) 정규직 신규 채용 시 6개월 고용유지 조건으로 <b>1년 최대 720만원/인</b>. 청년창업기업은 5인 미만 사업장도 참여 가능.</div>
+    <div class="kv"><span class="k">자격</span><span class="v">청년 직원 신규 채용 계획이 있을 때만 의미 (대표 본인 제외)</span></div>
+    <div class="kv"><span class="k">신청</span><span class="v">work24.go.kr · 상시(2026.1.26~)</span></div>
+    <div class="note"><b>확인</b> 청년창업기업 5인 미만 예외요건은 운영지침으로 재확인 필요.</div>
+    <a class="link" href="https://www.moel.go.kr/news/notice/noticeView.do?bbs_seq=20260100030" target="_blank">공고 보기 →</a>
+  </div>
+
+  <div class="card top">
+    <div class="row1">
+      <div><div class="name">중진공 정책자금 (청년전용창업자금)</div><div class="agency">중소벤처기업진흥공단 · 융자</div></div>
+      <span class="badge b-amber">조건부 · 업력 확인</span>
+    </div>
+    <div class="detail">만 39세 이하 · <b>업력 3년 미만</b> · 연 2.5% 고정 · 최대 1억원. 업력 3년 초과 시 창업기반지원자금(업력 7년 미만)으로 전환.</div>
+    <div class="kv"><span class="k">성격</span><span class="v">보조금 아님 — 상환 의무 있는 융자(빚)</span></div>
+    <div class="kv"><span class="k">신청</span><span class="v">중진공 누리집 · 전월 말 신청(지역본부 선착순 상담)</span></div>
+    <div class="note"><b>확인</b> 설립일(업력 3년 미만 여부) 확정 시 트랙 결정. 청창사 연계 우대 가능.</div>
+    <a class="link" href="https://www.kosmes.or.kr/nsh/SH/SBI/SHSBI004M0.do" target="_blank">안내 보기 →</a>
+  </div>
+
+  <h2>하반기 라운드 대기 (1차 마감, 모니터링)</h2>
+
+  <div class="card">
+    <div class="row1">
+      <div><div class="name">수출바우처 (수출지원기반활용)</div><div class="agency">중기부 · exportvoucher.com</div></div>
+      <span class="badge b-slate">대기 · 2차/추경</span>
+    </div>
+    <div class="detail">바우처 3,000만~최대 1억원. 1차는 1/9 마감. 연중 2차·추경 라운드 추가 공고 예정.</div>
+    <div class="kv"><span class="k">자격</span><span class="v">수출 실적 또는 구체적 수출 계획이 있어야 유리</span></div>
+    <div class="note">새 라운드 공고 뜨면 알림 예정.</div>
+    <a class="link" href="https://www.mss.go.kr/site/smba/ex/bbs/View.do?cbIdx=310&bcIdx=1064056&parentSeq=1064056" target="_blank">1차 공고 참고 →</a>
+  </div>
+
+  <div class="card">
+    <div class="row1">
+      <div><div class="name">IP나래 프로그램</div><div class="agency">특허청·지역지식재산센터 · pms.ripc.org</div></div>
+      <span class="badge b-slate">대기 · 2차</span>
+    </div>
+    <div class="detail">특허 출원 1건 + IP경영 컨설팅. 지원 최대 1,500만원(자부담 40%). 업력 7년 이내(신산업 10년) 기술·IP 보유 기업.</div>
+    <div class="kv"><span class="k">자격</span><span class="v">자체 기술/IP 보유 시. 1차 3/11 마감</span></div>
+    <div class="note">앞서 본 '소상공인 브랜드·디자인'보다 사업 성격이 더 맞음.</div>
+    <a class="link" href="https://www.kipo.go.kr/ko/kpoContentView.do?menuCd=SCD0200314" target="_blank">사업 안내 →</a>
+  </div>
+
+  <h2>현재 자격 미달 (참고용 · 제외)</h2>
+
+  <div class="card">
+    <div class="row1">
+      <div><div class="name">창업성장기술개발 디딤돌</div><div class="agency">중기부 · iris.go.kr</div></div>
+      <span class="badge b-red">자격 미달</span>
+    </div>
+    <div class="detail">R&D 자금. 1차 접수 6/8~6/30 진행 중이나 <b>직전연도 매출 20억 미만</b> 요건 — 매출 20억 초과로 해당 없음.</div>
+    <div class="note">매출 상한 높은 R&D(중기부 기술혁신개발 등)는 정규 라운드(연초)·제조역량 증빙 필요 → 내년 초 준비 대상.</div>
+  </div>
+
+  <div class="card">
+    <div class="row1">
+      <div><div class="name">식품진흥원 R&D·GMP 인증</div><div class="agency">한국식품산업클러스터진흥원</div></div>
+      <span class="badge b-red">자격 미달</span>
+    </div>
+    <div class="detail">기능성 R&D 최대 1억, 건기식 GMP 인증 등. 다수 사업이 <b>식품제조가공업 등록/입주기업</b> 요건 — 위탁생산(미제조)이라 해당 없음.</div>
+    <div class="note">향후 자체 제조 전환 시 1순위 후보로 복귀.</div>
+  </div>
+
+  <div class="card">
+    <div class="row1">
+      <div><div class="name">소상공인 IP창출 종합패키지(브랜드&디자인)</div><div class="agency">대전지식재산센터 · pms.ripc.org</div></div>
+      <span class="badge b-red">부적합 · 마감</span>
+    </div>
+    <div class="detail">상표·디자인 출원, 브랜드·포장디자인 용역. 6/15 마감. 소상공인 대상 + B2C 브랜딩 성격이라 B2B 플랫폼과 결이 안 맞음.</div>
+  </div>
+
+  <footer>
+    매주 월요일 재검색해 상태·신규 공고를 갱신합니다. 마감일·자격은 검색 시점 기준이며 <b>신청 전 반드시 공고 원문으로 재확인</b>하세요. 새 공고·마감 임박 건은 Slack(헤르메스)으로 알립니다.<br>
+    자동 생성 · VCBio 업무 어시스턴트
+  </footer>
+</div>
+</body>
+</html>
