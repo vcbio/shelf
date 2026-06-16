@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>당효소복합물 — 라이트 에디토리얼 시안</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+  :root{
+    --paper:#FAF8F3; --cream:#F2F0EB; --ink:#1A1A1A;
+    --ink-soft:rgba(26,26,26,.60); --ink-faint:rgba(26,26,26,.40);
+    --green:#1E3932; --green2:#2E7D5B; --beige:#C9BCA4; --gold:#B8954A;
+    --line:rgba(30,57,50,.18);
+    --serif:'Noto Serif KR', serif;
+    --sans:'Pretendard', -apple-system, sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  body{background:#E5E0D5; font-family:var(--sans); color:var(--ink); -webkit-font-smoothing:antialiased; padding:24px 0}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 16px; display:flex; flex-direction:column; gap:24px}
+  .slide{
+    position:relative; aspect-ratio:16/9; background:var(--paper);
+    border:1px solid var(--line); border-radius:4px; overflow:hidden;
+    padding:clamp(28px,4.4vw,56px) clamp(34px,5vw,64px);
+    box-shadow:0 1px 0 rgba(0,0,0,.04), 0 18px 40px -28px rgba(30,57,50,.45);
+    display:flex; flex-direction:column;
+  }
+  .eyebrow{font-size:clamp(9px,1vw,11px); letter-spacing:.22em; text-transform:uppercase;
+    color:var(--green2); font-weight:700}
+  .pageno{position:absolute; right:clamp(20px,3vw,40px); bottom:clamp(16px,2.4vw,30px);
+    font-size:10px; color:var(--ink-faint); letter-spacing:.08em}
+  .logo{position:absolute; left:clamp(34px,5vw,64px); bottom:clamp(16px,2.4vw,30px);
+    font-size:11px; font-weight:700; letter-spacing:.14em; color:var(--green)}
+  h1{font-family:var(--serif); font-weight:700; line-height:1.06; letter-spacing:-.01em}
+  h2{font-family:var(--serif); font-weight:600; line-height:1.18; letter-spacing:-.01em}
+  .rule{height:3px; width:46px; background:var(--gold); margin:14px 0 0; border-radius:2px}
+  .muted{color:var(--ink-soft)} .faint{color:var(--ink-faint)}
+
+  /* 1 — Cover */
+  .cover{justify-content:center}
+  .cover .meta{position:absolute; left:clamp(34px,5vw,64px); right:clamp(34px,5vw,64px);
+    bottom:clamp(46px,7vw,78px); display:grid; grid-template-columns:repeat(4,1fr); gap:18px;
+    padding-top:18px; border-top:1px solid var(--line)}
+  .cover .meta .k{font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--green2); font-weight:700}
+  .cover .meta .v{font-size:clamp(11px,1.25vw,13px); margin-top:5px; color:var(--ink-soft); line-height:1.35}
+  .cover h1{font-size:clamp(40px,6.6vw,84px)}
+  .cover .sub{font-family:var(--sans); font-size:clamp(13px,1.7vw,19px); color:var(--ink-soft);
+    margin-top:18px; font-weight:500; max-width:78%}
+
+  /* generic header for content slides */
+  .head{display:flex; justify-content:space-between; align-items:flex-start; gap:20px}
+  .title{margin-top:10px; font-size:clamp(20px,2.9vw,33px); max-width:88%}
+  .ctx{font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-faint); text-align:right; white-space:nowrap}
+
+  /* 2 — Mechanism 3 columns */
+  .flow{display:grid; grid-template-columns:1fr auto 1fr auto 1fr; align-items:stretch; gap:0;
+    margin-top:auto; margin-bottom:auto}
+  .col{padding:clamp(14px,1.8vw,22px); border:1px solid var(--line); border-radius:6px; background:#fff;
+    display:flex; flex-direction:column; gap:8px}
+  .col.react{background:var(--green); border-color:var(--green)}
+  .col .lab{font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; font-weight:700; color:var(--green2)}
+  .col.react .lab{color:var(--beige)}
+  .col .big{font-family:var(--serif); font-size:clamp(15px,1.9vw,21px); font-weight:600; line-height:1.2}
+  .col.react .big{color:var(--cream)}
+  .col .desc{font-size:clamp(10px,1.15vw,12.5px); color:var(--ink-soft); line-height:1.45}
+  .col.react .desc{color:rgba(242,240,235,.78)}
+  .arrow{display:flex; align-items:center; justify-content:center; width:clamp(22px,3vw,40px);
+    color:var(--gold); font-size:18px}
+  .cap{font-size:clamp(9.5px,1.05vw,11.5px); color:var(--ink-faint); margin-top:14px; line-height:1.4}
+
+  /* 3 — Evidence chart */
+  .grid2{display:grid; grid-template-columns:1.05fr .95fr; gap:clamp(22px,3vw,40px); margin-top:auto; margin-bottom:auto}
+  .chart{display:flex; align-items:flex-end; gap:clamp(28px,4.4vw,56px);
+    padding-left:8px; border-bottom:1px solid var(--line)}
+  .bar{width:clamp(68px,8.6vw,104px); display:flex; flex-direction:column; justify-content:flex-end; align-items:center; gap:8px}
+  .bar .b{width:100%; border-radius:6px 6px 0 0}
+  .bar.ctrl .b{background:var(--beige)} .bar.em .b{background:var(--green)}
+  .bar .val{font-size:clamp(15px,2.1vw,24px); font-weight:700; font-family:var(--serif); text-align:center}
+  .bar .dlt{display:block; font-family:var(--sans); font-size:clamp(10px,1.15vw,12.5px); font-weight:700; color:var(--green2); margin-top:3px; letter-spacing:.02em}
+  .bar .nm{font-size:10px; letter-spacing:.06em; color:var(--ink-soft); text-align:center}
+  .bar.em .val{color:var(--green)}
+  .stat{border-left:3px solid var(--gold); padding:4px 0 4px 16px; margin-bottom:16px}
+  .stat .n{font-family:var(--serif); font-size:clamp(18px,2.4vw,27px); font-weight:700; color:var(--green)}
+  .stat .t{font-size:clamp(10.5px,1.2vw,13px); color:var(--ink-soft); margin-top:3px; line-height:1.4}
+  .disc{display:inline-block; margin-top:6px; font-size:9.5px; letter-spacing:.04em; color:var(--green2);
+    border:1px solid var(--line); border-radius:999px; padding:3px 9px}
+
+  /* 4 — Personas */
+  .pers{display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(10px,1.4vw,16px); margin-top:auto; margin-bottom:auto}
+  .pc{border:1px solid var(--line); border-radius:6px; background:#fff; padding:clamp(13px,1.6vw,18px);
+    display:flex; flex-direction:column; gap:7px; min-height:0}
+  .pc .seg{font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--green2); font-weight:700}
+  .pc .who{font-family:var(--serif); font-size:clamp(13px,1.55vw,17px); font-weight:600; line-height:1.15}
+  .pc .form{font-size:10px; color:var(--gold); font-weight:600; letter-spacing:.02em}
+  .pc .msg{font-size:clamp(10px,1.15vw,12px); color:var(--ink-soft); line-height:1.4; flex:1}
+  .pc .ch{font-size:9px; color:var(--ink-faint); letter-spacing:.03em; border-top:1px solid var(--line); padding-top:6px}
+
+  @media(max-width:640px){
+    .cover .meta{grid-template-columns:1fr 1fr; gap:12px}
+    .cover .sub{max-width:100%}
+    .pers{grid-template-columns:1fr 1fr}
+    .flow{grid-template-columns:1fr; }
+    .arrow{transform:rotate(90deg); width:auto; height:22px}
+    .grid2{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 1 · COVER -->
+  <section class="slide cover">
+    <div class="eyebrow">효소식품 원료 · 식품제조원료용 (업소용)</div>
+    <h1>당효소복합물</h1>
+    <div class="rule"></div>
+    <div class="sub">식후 당 부담에 주목한 다(多)효소 복합물 — 곡물 발효 유래 6종 효소 복합 원료</div>
+    <div class="meta">
+      <div><div class="k">발신</div><div class="v">㈜브이씨바이오<br>VCBio (전면·공급)</div></div>
+      <div><div class="k">기술 출처</div><div class="v">NERIG<br>논문·특허</div></div>
+      <div><div class="k">근거 수준</div><div class="v">in vitro · 동물시험<br>(전임상)</div></div>
+      <div><div class="k">문서</div><div class="v">B2B 원료 제안<br>R&amp;D · 구매 · 상품기획</div></div>
+    </div>
+    <div class="logo">VCBIO</div>
+    <div class="pageno">제안 대상: ____ · 일자: ____</div>
+  </section>
+
+  <!-- 2 · MECHANISM -->
+  <section class="slide">
+    <div class="head">
+      <div>
+        <div class="eyebrow">02 · 작용 컨셉</div>
+        <h2 class="title">흡수를 막지 않습니다 — 당을 다시 잇습니다</h2>
+      </div>
+      <div class="ctx">Mode of Action<br>Biomedicines 2021</div>
+    </div>
+    <div class="rule" style="margin-bottom:6px"></div>
+    <div class="flow">
+      <div class="col">
+        <div class="lab">Input</div>
+        <div class="big">단당류 · 이당류</div>
+        <div class="desc">포도당 · 자당 · 맥아당 · 유당 — 빠르게 흡수되는 작은 당</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="col react">
+        <div class="lab">Reaction</div>
+        <div class="big">6종 효소 복합</div>
+        <div class="desc">Aspergillus niger · oryzae 유래. 작은 당을 잘라내지 않고 <b style="color:var(--gold)">이어붙여 재조립</b></div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="col">
+        <div class="lab">Output</div>
+        <div class="big">난소화성 올리고당</div>
+        <div class="desc">panose · isomaltose · kestose 등 — 소화·흡수가 더딘 큰 사슬로 전환</div>
+      </div>
+    </div>
+    <div class="cap">작용 컨셉 — 소화 과정 중 당류 전환 가능성에 기반(in vitro · 동물시험). 반응 경로는 논문(Biomedicines 2021, 9, 745) 기준이며 효능을 단정하지 않습니다.</div>
+    <div class="logo">VCBIO</div>
+    <div class="pageno">02</div>
+  </section>
+
+  <!-- 3 · EVIDENCE -->
+  <section class="slide">
+    <div class="head">
+      <div>
+        <div class="eyebrow">03 · 근거 자료</div>
+        <h2 class="title">동물시험이 먼저 답했습니다</h2>
+      </div>
+      <div class="ctx">db/db mouse · 1개월<br>EM 300 mg/kg/day</div>
+    </div>
+    <div class="rule" style="margin-bottom:6px"></div>
+    <div class="grid2">
+      <div>
+        <div class="chart">
+          <div class="bar ctrl">
+            <div class="val faint">124.5</div>
+            <div class="b" style="height:210px"></div>
+            <div class="nm">대조군</div>
+          </div>
+          <div class="bar em">
+            <div class="val">91.1<span class="dlt">▼ 26.8%</span></div>
+            <div class="b" style="height:153px"></div>
+            <div class="nm">EM 투여군</div>
+          </div>
+        </div>
+        <div class="cap">중성지방(TG, mg/dL) · 대조군 124.50±13.76 → EM 91.14±6.34 (p&lt;0.05, 실측). 동물시험 결과이며 인체 임상이 아닙니다.</div>
+      </div>
+      <div>
+        <div class="stat">
+          <div class="n">10.21 → 4.41</div>
+          <div class="t">In vitro 글루코스 (g/L) — 효소 복합 처리 후 감소</div>
+        </div>
+        <div class="stat">
+          <div class="n">9.54 → 0.16</div>
+          <div class="t">In vitro 수크로스 (g/L) — Fructosyl transferase 처리</div>
+        </div>
+        <div class="stat" style="border-color:var(--line)">
+          <div class="t" style="margin-top:0">식후 혈당 AUC — 대조군 대비 유의하게 감소(p&lt;0.05, <b>정성</b>). 논문에 그래프로만 제시되어 수치는 표기하지 않습니다.</div>
+        </div>
+        <span class="disc">전임상 근거 · 인체 임상 아님</span>
+      </div>
+    </div>
+    <div class="cap faint" style="margin-top:10px">출처: Kim et al., <i>Biomedicines</i> 2021, 9, 745 (연세의대 · NERIG 공저).</div>
+    <div class="logo">VCBIO</div>
+    <div class="pageno">03</div>
+  </section>
+
+  <!-- 4 · PERSONAS -->
+  <section class="slide">
+    <div class="head">
+      <div>
+        <div class="eyebrow">05 · 제품화 · 제안</div>
+        <h2 class="title">이 원료를 기다린 소비자는 이미 있습니다</h2>
+      </div>
+      <div class="ctx">Target Persona<br>4 segments</div>
+    </div>
+    <div class="rule" style="margin-bottom:6px"></div>
+    <div class="pers">
+      <div class="pc">
+        <div class="seg">01 · 2040</div>
+        <div class="who">탄수 부담 직장인</div>
+        <div class="form">스틱분말 · 정제</div>
+        <div class="msg">“오늘 점심 탄수 부담, 효소로 흘려보내기”</div>
+        <div class="ch">온라인 · 편의점 · 정기구독</div>
+      </div>
+      <div class="pc">
+        <div class="seg">02 · 4060</div>
+        <div class="who">식후 혈당 신경</div>
+        <div class="form">캡슐 · 환 · 정제</div>
+        <div class="msg">“식후 혈당 흐름을 완만하게”</div>
+        <div class="ch">약국 · 홈쇼핑 · 시니어</div>
+      </div>
+      <div class="pc">
+        <div class="seg">03 · 2030</div>
+        <div class="who">다이어트 정체기</div>
+        <div class="form">기능성 음료 · 젤리</div>
+        <div class="msg">“당을 식이섬유처럼, 부담 없이”</div>
+        <div class="ch">온라인 · 헬스 · 인플루언서</div>
+      </div>
+      <div class="pc">
+        <div class="seg">04 · 2030</div>
+        <div class="who">혈당 트렌드 추종</div>
+        <div class="form">멀티(음료·정제·환)</div>
+        <div class="msg">“곡물 발효 효소로 당의 흐름 바꾸기”</div>
+        <div class="ch">인스타 · 유튜브 · D2C</div>
+      </div>
+    </div>
+    <div class="cap">메시지 컨셉은 방향성 표현이며, 실제 표시·광고 시 심의 및 법무 검토가 필요합니다.</div>
+    <div class="logo">VCBIO</div>
+    <div class="pageno">04</div>
+  </section>
+
+</div>
+</body>
+</html>
