@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>견적 초안 — 아르기닌·마카 활력 복합 정제 (내부용)</title>
 <style>
-  :root { --ink:#1c1c1a; --mut:#6b6a64; --line:#e3e1d8; --bg:#faf9f5; --accent:#0f6e56; --warn:#9a3412; }
+  :root { --ink:#1c1c1a; --mut:#6b6a64; --line:#e3e1d8; --bg:#faf9f5; --warn:#9a3412; }
   * { box-sizing:border-box; }
   body { margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard",sans-serif; line-height:1.5; -webkit-text-size-adjust:100%; }
   .wrap { max-width:720px; margin:0 auto; padding:16px; }
@@ -15,7 +15,7 @@
   .head { display:flex; justify-content:space-between; align-items:flex-start; gap:10px; border-bottom:1px solid var(--line); padding-bottom:12px; margin-bottom:12px; flex-wrap:wrap; }
   .head h1 { font-size:18px; margin:0 0 3px; font-weight:600; }
   .head .sub { font-size:13px; color:var(--mut); }
-  .head .spec { font-size:12px; color:var(--mut); white-space:nowrap; }
+  .head .spec { font-size:12px; color:var(--mut); white-space:nowrap; text-align:right; }
   table { width:100%; border-collapse:collapse; font-size:13px; }
   th,td { padding:6px 4px; }
   th { text-align:left; color:var(--mut); font-weight:600; border-bottom:1px solid var(--line); }
@@ -24,11 +24,10 @@
   .exc td { color:var(--mut); }
   .sum td { border-top:1px solid var(--line); font-weight:600; border-bottom:none; }
   .flag { color:var(--warn); font-size:11px; }
-  .sec { margin-top:16px; font-size:13px; font-weight:600; color:var(--mut); }
+  .sec { margin-top:18px; font-size:13px; font-weight:600; }
   .price { display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; }
   .pbox { flex:1; min-width:140px; border-radius:10px; padding:12px 14px; }
-  .pbox.a { background:#eef6f2; }
-  .pbox.b { background:#e6f1fb; }
+  .pbox.a { background:#eef6f2; } .pbox.b { background:#e6f1fb; }
   .pbox .lbl { font-size:12px; color:var(--mut); }
   .pbox .val { font-size:23px; font-weight:600; margin-top:2px; }
   .pbox.b .val { color:#0c447c; }
@@ -45,9 +44,10 @@
         <h1>에스엠바이오 견적 초안</h1>
         <div class="sub">의뢰: 제이유피개발 · (가칭) 아르기닌·마카 활력 복합 정제</div>
       </div>
-      <div class="spec">1g · 60정 · 2,000세트<br>병 + 단상자</div>
+      <div class="spec">1g · 60정 · 2,000세트<br>병(150mL) + 단상자<br>수율 98% (총 120kg)</div>
     </div>
 
+    <div class="sec">A. 배합 (1,000mg/정)</div>
     <table>
       <thead><tr><th>원료</th><th class="r">mg</th><th class="r">%</th><th class="r">단가(원/kg)</th></tr></thead>
       <tbody>
@@ -66,27 +66,42 @@
       </tbody>
     </table>
 
-    <div class="sec">원가 구성 (2,000세트)</div>
+    <div class="sec">B. 부재료 (병 + 단상자, 2,000세트)</div>
+    <table>
+      <thead><tr><th>품목</th><th class="r">단가</th><th class="r">수량</th><th class="r">금액</th></tr></thead>
+      <tbody>
+        <tr><td>용기 — 150mL 병</td><td class="r">350</td><td class="r">2,000</td><td class="r">700,000</td></tr>
+        <tr><td>단상자 <span class="flag">단가 미확정</span></td><td class="r">265</td><td class="r">2,000</td><td class="r">530,000</td></tr>
+        <tr class="exc"><td>라벨스티커</td><td class="r">100</td><td class="r">2,000</td><td class="r">200,000</td></tr>
+        <tr class="exc"><td>실리카겔</td><td class="r">10</td><td class="r">2,000</td><td class="r">20,000</td></tr>
+        <tr class="exc"><td>충진비닐</td><td class="r">20</td><td class="r">2,000</td><td class="r">40,000</td></tr>
+        <tr class="exc"><td>원형마감스티커</td><td class="r">5</td><td class="r">2,000</td><td class="r">10,000</td></tr>
+        <tr><td>카톤박스 <span class="flag">C/T 213=옛병기준·재확인</span></td><td class="r">1,850</td><td class="r">10</td><td class="r">18,500</td></tr>
+        <tr class="sum"><td>부재료비 계</td><td class="r"></td><td class="r"></td><td class="r">1,518,500</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sec">C. 원가 → 견적가</div>
     <table>
       <tbody>
         <tr><td>원재료비</td><td class="r">2,457,336</td></tr>
-        <tr><td>부재료비 (병+단상자 등)</td><td class="r">1,418,500</td></tr>
+        <tr><td>부재료비</td><td class="r">1,518,500</td></tr>
         <tr><td>가공비(직접제조) <span class="flag">정당 12.4원</span></td><td class="r">1,488,000</td></tr>
-        <tr class="exc"><td>= 제조원가</td><td class="r">5,363,836</td></tr>
-        <tr><td>일반관리비 <span class="flag">세트당 450원</span></td><td class="r">900,000</td></tr>
-        <tr><td>기타비용 <span class="flag">제조원가 8%</span></td><td class="r">430,000</td></tr>
+        <tr class="exc"><td>= 제조원가</td><td class="r">5,463,836</td></tr>
+        <tr><td>일반관리비 <span class="flag">세트당 450</span></td><td class="r">900,000</td></tr>
+        <tr><td>기타비용 <span class="flag">제조원가 8%</span></td><td class="r">440,000</td></tr>
         <tr><td>영업이익 <span class="flag">소계 8% · 270원/세트</span></td><td class="r">540,000</td></tr>
-        <tr class="sum"><td>합계</td><td class="r">7,233,836</td></tr>
+        <tr class="sum"><td>합계</td><td class="r">7,343,836</td></tr>
       </tbody>
     </table>
 
     <div class="price">
-      <div class="pbox a"><div class="lbl">견적가 (VAT 별도)</div><div class="val">3,617 <span style="font-size:13px;font-weight:400">원/세트</span></div></div>
-      <div class="pbox b"><div class="lbl">부가세 포함</div><div class="val">3,979 <span style="font-size:13px;font-weight:400">원/세트</span></div></div>
+      <div class="pbox a"><div class="lbl">견적가 (VAT 별도)</div><div class="val">3,672 <span style="font-size:13px;font-weight:400">원/세트</span></div></div>
+      <div class="pbox b"><div class="lbl">부가세 포함</div><div class="val">4,039 <span style="font-size:13px;font-weight:400">원/세트</span></div></div>
     </div>
 
     <div class="note">
-      ※ 대표 보정(2026-06-25): 가공비 정당 12.4원 · 관리비 세트당 450원 · 기타 제조원가 8% · 영업이익 소계 8%, 경상비·마진 만원단위. 미확정(확정 시 견적가 변동): 부재료/포장 실단가(병+단상자) · 홍삼 단가(2024 구가).
+      ※ 보정(대표 2026-06-25): 수율 자동(총 원료 ≥100kg 98%·60~100kg 95%·&lt;60kg 90%) · 가공비 정당12.4원 · 관리비 세트당450 · 기타/영업이익 8% · 경상비/마진 만원단위. 미확정: 홍삼 단가(2024 구가) · 단상자 단가 · 150mL 용기 카톤당 수량(C/T).
     </div>
   </div>
   <div class="foot">에스엠바이오 내부 견적 초안 · 2026-06-25 · 대외비</div>
