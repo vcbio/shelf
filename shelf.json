@@ -30,11 +30,6 @@
   "date": "2026-06-18"
  },
  {
-  "slug": "smbio-jup-arg-maca-int",
-  "title": "제이유피개발 견적초안(내부용·대외비)",
-  "date": "2026-06-25"
- },
- {
   "slug": "saju-jinmo-vc26x7",
   "title": "사주 · 양진모",
   "date": "2026-06-26"
@@ -78,5 +73,10 @@
   "slug": "saju-list-vc26x7",
   "title": "사주 모음 (8명)",
   "date": "2026-06-26"
+ },
+ {
+  "slug": "smbio-jup-arg-maca-int",
+  "title": "제이유피개발 견적초안(내부용·대외비)",
+  "date": "2026-06-29"
  }
 ]
