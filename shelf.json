@@ -78,5 +78,10 @@
   "slug": "smbio-jup-arg-maca-int",
   "title": "제이유피개발 견적초안(내부용·대외비)",
   "date": "2026-06-29"
+ },
+ {
+  "slug": "design-extract-linear",
+  "title": "Linear 디자인 시스템 추출 (designlang 테스트)",
+  "date": "2026-06-30"
  }
 ]
