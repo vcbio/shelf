@@ -45,11 +45,6 @@
   "date": "2026-06-26"
  },
  {
-  "slug": "saju-minsik-vc26x7",
-  "title": "사주 · 민식(본인)",
-  "date": "2026-06-26"
- },
- {
   "slug": "saju-suyeon-vc26x7",
   "title": "사주 · 장수연",
   "date": "2026-06-26"
@@ -83,5 +78,10 @@
   "slug": "design-extract-linear",
   "title": "Linear 디자인 시스템 추출 (designlang 테스트)",
   "date": "2026-06-30"
+ },
+ {
+  "slug": "saju-minsik-vc26x7",
+  "title": "사주 · 민식(본인)",
+  "date": "2026-07-03"
  }
 ]
