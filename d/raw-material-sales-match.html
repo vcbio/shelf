@@ -1,0 +1,1881 @@
+<!doctype html><html lang=ko><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>원료↔완제품 매칭 검증</title>
+<style>
+:root{--navy:#1E3932;--line:#e5e7eb;--bg:#f7f8f9;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;background:var(--bg);color:#1a1a1a;line-height:1.5;-webkit-text-size-adjust:100%}
+.wrap{max-width:1180px;margin:0 auto;padding:22px 16px 60px}
+h1{font-size:22px;font-weight:800;color:var(--navy);letter-spacing:-.5px}
+.sub{color:#666;font-size:13px;margin:6px 0 18px}
+.cards{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:18px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px}
+.card.ok{border-color:#bfe0cf;background:#f2faf5}.card.gray{background:#f4f4f4}.card.warn{border-color:#f0e0a8;background:#fdfaef}.card.bad{border-color:#f3c2cc;background:#fdf1f3}.card.add{border-color:#f0d4a8;background:#fdf6ec}
+.cn{font-size:12px;color:#666}.cv{font-size:26px;font-weight:800;color:var(--navy);margin-top:2px}.cv span{font-size:13px;font-weight:600;color:#888;margin-left:2px}.cm{font-size:12px;color:#777;margin-top:2px}
+.per{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:20px;font-size:13px}
+.per th{background:var(--navy);color:#fff;padding:8px 12px;text-align:left;font-weight:600}.per td{padding:8px 12px;border-top:1px solid var(--line)}.per .r{text-align:right;font-variant-numeric:tabular-nums}.pos{color:#1E7A46}.neg{color:#B00020}
+.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:5}
+#q{flex:1;min-width:180px;padding:10px 14px;border:1px solid #cfd4d8;border-radius:10px;font-size:14px}
+.fbtn{padding:8px 12px;border:1px solid #cfd4d8;background:#fff;border-radius:20px;font-size:13px;cursor:pointer;font-weight:600}
+.fbtn.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+table.main{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+table.main th{background:#eef1f0;color:#333;font-size:12px;font-weight:700;padding:10px 10px;text-align:left;position:sticky;top:62px;z-index:4}
+table.main td{padding:11px 10px;border-top:1px solid #eef0f1;vertical-align:top;font-size:13px}
+td.num{color:#aaa;font-size:12px;width:34px}
+td.raw{font-weight:700;color:#111;width:230px;word-break:keep-all}
+td.amt{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;color:#333;width:120px}
+td.arrow{color:#bbb;text-align:center;width:24px}
+td.sales .s{display:flex;justify-content:space-between;gap:10px;padding:2px 0}
+td.sales .s span{color:#222}td.sales .s b{font-variant-numeric:tabular-nums;color:#1E7A46;white-space:nowrap}
+td.sales .more{color:#999;font-size:12px;margin-top:2px}
+td.sales .note{color:#B00020;font-size:12.5px}
+.badge{display:inline-block;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700;white-space:nowrap}
+td.verd{width:110px}
+.foot{color:#888;font-size:12px;margin-top:16px;line-height:1.7}
+@media(max-width:760px){.cards{grid-template-columns:repeat(2,1fr)}td.raw{width:auto}table.main th{top:60px}.per{font-size:12px}}
+</style></head><body><div class=wrap>
+<h1>매입 원료 ↔ 매출 완제품 매칭 검증</h1>
+<div class=sub>2024~2026 상반기 세금계산서 전품목 · 매입한 원료가 어떤 완제품으로 팔렸는지 대조 · 단위 원</div>
+
+<div class=cards>
+<div class=card><div class=cn>매입 원료</div><div class=cv>227<span>종</span></div><div class=cm>3,080,214,423원</div></div>
+<div class="card ok"><div class=cn>✅ 매출 대응 확인</div><div class=cv>162<span>종</span></div><div class=cm>2,955,415,592원</div></div>
+<div class="card gray"><div class=cn>부자재·경비</div><div class=cv>41<span>종</span></div><div class=cm>61,084,171원</div></div>
+<div class="card warn"><div class=cn>미량·7월판매</div><div class=cv>3<span>종</span></div><div class=cm>73,220원</div></div>
+<div class="card add"><div class=cn>부원료(완제품 미표기)</div><div class=cv>21<span>종</span></div><div class=cm>63,641,440원</div></div>
+</div>
+<table class=per><tr><th>기간</th><th class=r>매출</th><th class=r>매입</th><th class=r>부가가치</th><th class=r>율</th></tr><tr><td>2024</td><td class=r>394,006,165</td><td class=r>338,581,279</td><td class='r pos'>55,424,886</td><td class='r pos'>14.1%</td></tr><tr><td>2025 상</td><td class=r>1,510,575,778</td><td class=r>1,391,908,645</td><td class='r pos'>118,667,133</td><td class='r pos'>7.9%</td></tr><tr><td>2025 하</td><td class=r>976,934,245</td><td class=r>768,181,645</td><td class='r pos'>208,752,600</td><td class='r pos'>21.4%</td></tr><tr><td>2026 상</td><td class=r>662,880,897</td><td class=r>665,486,854</td><td class='r neg'>-2,605,957</td><td class='r neg'>-0.4%</td></tr></table>
+<div class=bar>
+<input id=q placeholder="원료명 검색 (예: 브로멜라인, 오르조, 콜라겐)">
+<button class="fbtn active" data-f=all>전체</button>
+<button class=fbtn data-f=MATCH>✅ 대응확인</button>
+<button class=fbtn data-f=NONRAW>부자재·경비</button>
+<button class=fbtn data-f=TRACE>미량·7월</button>
+<button class=fbtn data-f=UNMATCHED>부원료·미표기</button>
+</div>
+<table class=main><thead><tr><th></th><th>매입 원료</th><th style=text-align:right>매입액</th><th></th><th>→ 대응된 매출 완제품</th><th style=text-align:right>매출액</th><th>판정</th></tr></thead>
+<tbody id=tb><tr data-v="MATCH" data-name="MH프리미엄엔자임 알파">
+<td class=num>1</td>
+<td class=raw>MH프리미엄엔자임 알파</td>
+<td class=amt>550,693,140</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>MH프리미엄엔자임-α</span><b>690,060,000</b></div><div class='s'><span>아스퍼질러스 알파</span><b>363,000,000</b></div><div class='s'><span>아스퍼질러스 발효분말 알파</span><b>126,372,000</b></div><div class='s'><span>알파사이클로덱스트린</span><b>9,650,000</b></div><div class='more'>외 6종</div></td>
+<td class=amt><b>1,194,682,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="아스퍼질러스발효분말 알파 외">
+<td class=num>2</td>
+<td class=raw>아스퍼질러스발효분말 알파 외</td>
+<td class=amt>524,860,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>아스퍼질러스 알파</span><b>363,000,000</b></div><div class='s'><span>아스퍼질러스 발효분말 알파</span><b>126,372,000</b></div><div class='s'><span>아스퍼질러스 프로</span><b>94,120,000</b></div><div class='s'><span>아스퍼질러스 발효분말 프로</span><b>18,614,000</b></div><div class='more'>외 7종</div></td>
+<td class=amt><b>617,356,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="오르조워터(6.5g*30포)">
+<td class=num>3</td>
+<td class=raw>오르조워터(6.5g*30포)</td>
+<td class=amt>448,830,600</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>오르조워터_30포</span><b>212,987,820</b></div><div class='s'><span>오르조워터</span><b>202,556,220</b></div><div class='s'><span>오르조분말</span><b>146,490,000</b></div><div class='s'><span>오르조워터 발주선금</span><b>72,110,000</b></div><div class='more'>외 9종</div></td>
+<td class=amt><b>739,288,194</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="보리추출분말(오르조)">
+<td class=num>4</td>
+<td class=raw>보리추출분말(오르조)</td>
+<td class=amt>157,567,500</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>오르조워터_30포</span><b>212,987,820</b></div><div class='s'><span>오르조워터</span><b>202,556,220</b></div><div class='s'><span>오르조분말</span><b>146,490,000</b></div><div class='s'><span>오르조워터 발주선금</span><b>72,110,000</b></div><div class='more'>외 9종</div></td>
+<td class=amt><b>739,288,194</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="글루코만난(식첨)">
+<td class=num>5</td>
+<td class=raw>글루코만난(식첨)</td>
+<td class=amt>86,700,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>글루코만난</span><b>96,250,000</b></div></td>
+<td class=amt><b>96,250,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="소연골추출복합분말">
+<td class=num>6</td>
+<td class=raw>소연골추출복합분말</td>
+<td class=amt>76,480,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>소연골추출복합분말</span><b>13,870,000</b></div><div class='s'><span>웰트릿 소연골 콘드로이친 MBP 영업대행 수수료</span><b>390,000</b></div><div class='s'><span>웰트릿 소연골 콘드로이친 영업대행 수수료</span><b>250,000</b></div></td>
+<td class=amt><b>14,510,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="브로멜라인파파인맥스">
+<td class=num>7</td>
+<td class=raw>브로멜라인파파인맥스</td>
+<td class=amt>75,497,430</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>프리미엄 브로멜라인 파파인 맥스</span><b>166,027,941</b></div><div class='s'><span>브로멜라인S</span><b>68,980,000</b></div><div class='s'><span>브로멜라인파파인맥스</span><b>27,548,154</b></div><div class='s'><span>브로멜라인 파파인 맥스</span><b>26,448,628</b></div><div class='more'>외 3종</div></td>
+<td class=amt><b>311,744,723</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="아스퍼질러스발효분말 알파">
+<td class=num>8</td>
+<td class=raw>아스퍼질러스발효분말 알파</td>
+<td class=amt>45,080,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>아스퍼질러스 알파</span><b>363,000,000</b></div><div class='s'><span>아스퍼질러스 발효분말 알파</span><b>126,372,000</b></div><div class='s'><span>아스퍼질러스 프로</span><b>94,120,000</b></div><div class='s'><span>아스퍼질러스 발효분말 프로</span><b>18,614,000</b></div><div class='more'>외 7종</div></td>
+<td class=amt><b>617,356,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="토마토추출분말(식물성멜라토닌2%)">
+<td class=num>9</td>
+<td class=raw>토마토추출분말(식물성멜라토닌2%)</td>
+<td class=amt>42,294,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>토마토추출분말</span><b>49,790,000</b></div><div class='s'><span>식물성 멜라토닌 함유 멜라마인</span><b>20,997,000</b></div><div class='s'><span>프리미엄 식물성 멜라토닌 함유 멜라마인</span><b>17,676,252</b></div><div class='s'><span>밸런스궁합 식물성 멜라토닌 2mg</span><b>2,500,000</b></div></td>
+<td class=amt><b>90,963,252</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="브로콜리추출분말(NMN10%)">
+<td class=num>10</td>
+<td class=raw>브로콜리추출분말(NMN10%)</td>
+<td class=amt>38,610,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>브로콜리추출분말</span><b>40,600,000</b></div></td>
+<td class=amt><b>40,600,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="브로멜라인 S 외">
+<td class=num>11</td>
+<td class=raw>브로멜라인 S 외</td>
+<td class=amt>36,780,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>프리미엄 브로멜라인 파파인 맥스</span><b>166,027,941</b></div><div class='s'><span>브로멜라인S</span><b>68,980,000</b></div><div class='s'><span>브로멜라인파파인맥스</span><b>27,548,154</b></div><div class='s'><span>브로멜라인 파파인 맥스</span><b>26,448,628</b></div><div class='more'>외 1종</div></td>
+<td class=amt><b>289,124,723</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="대마종자유[캐나다]">
+<td class=num>12</td>
+<td class=raw>대마종자유[캐나다]</td>
+<td class=amt>35,720,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>대마종자유</span><b>39,330,000</b></div></td>
+<td class=amt><b>39,330,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="프리미엄 식물성 멜라토닌 함유 멜라마인">
+<td class=num>13</td>
+<td class=raw>프리미엄 식물성 멜라토닌 함유 멜라마인</td>
+<td class=amt>34,824,752</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>식물성 멜라토닌 함유 멜라마인</span><b>20,997,000</b></div><div class='s'><span>프리미엄 식물성 멜라토닌 함유 멜라마인</span><b>17,676,252</b></div><div class='s'><span>밸런스궁합 식물성 멜라토닌 2mg</span><b>2,500,000</b></div></td>
+<td class=amt><b>41,173,252</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="엘아르기닌(중국)">
+<td class=num>14</td>
+<td class=raw>엘아르기닌(중국)</td>
+<td class=amt>31,475,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>L-아르기닌</span><b>26,987,500</b></div><div class='s'><span>아르기닌</span><b>1,500,000</b></div></td>
+<td class=amt><b>28,487,500</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="파파인맥스">
+<td class=num>15</td>
+<td class=raw>파파인맥스</td>
+<td class=amt>25,637,500</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>프리미엄 브로멜라인 파파인 맥스</span><b>166,027,941</b></div><div class='s'><span>브로멜라인파파인맥스</span><b>27,548,154</b></div><div class='s'><span>브로멜라인 파파인 맥스</span><b>26,448,628</b></div><div class='s'><span>파파인S</span><b>21,060,000</b></div><div class='more'>외 1종</div></td>
+<td class=amt><b>242,644,723</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="브로멜라인파파인맥스(60정)">
+<td class=num>16</td>
+<td class=raw>브로멜라인파파인맥스(60정)</td>
+<td class=amt>25,153,980</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>프리미엄 브로멜라인 파파인 맥스</span><b>166,027,941</b></div><div class='s'><span>브로멜라인S</span><b>68,980,000</b></div><div class='s'><span>브로멜라인파파인맥스</span><b>27,548,154</b></div><div class='s'><span>브로멜라인 파파인 맥스</span><b>26,448,628</b></div><div class='more'>외 3종</div></td>
+<td class=amt><b>311,744,723</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="소연골복합추출분말-자사">
+<td class=num>17</td>
+<td class=raw>소연골복합추출분말-자사</td>
+<td class=amt>25,000,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>소연골복합추출분말</span><b>53,242,000</b></div><div class='s'><span>소연골복합추출분말(콜라겐)</span><b>22,500,000</b></div><div class='s'><span>웰트릿 소연골 콘드로이친 MBP 영업대행 수수료</span><b>390,000</b></div><div class='s'><span>웰트릿 소연골 콘드로이친 영업대행 수수료</span><b>250,000</b></div></td>
+<td class=amt><b>76,382,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="제로슈가크리머">
+<td class=num>18</td>
+<td class=raw>제로슈가크리머</td>
+<td class=amt>23,400,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>제로슈가크리머</span><b>28,015,000</b></div></td>
+<td class=amt><b>28,015,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="천연커피향분말">
+<td class=num>19</td>
+<td class=raw>천연커피향분말</td>
+<td class=amt>23,400,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>천연 커피향 분말</span><b>13,860,000</b></div><div class='s'><span>천연커피향분말</span><b>11,880,000</b></div></td>
+<td class=amt><b>25,740,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="블랙마카젤라틴화분말[페루]">
+<td class=num>20</td>
+<td class=raw>블랙마카젤라틴화분말[페루]</td>
+<td class=amt>22,104,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>블랙마카젤라틴화분말</span><b>25,242,500</b></div><div class='s'><span>인페르노 블랙마카 진 파워맥스 업</span><b>11,184,000</b></div><div class='s'><span>웰트릿 블랙마카 영업대행 수수료</span><b>831,600</b></div><div class='s'><span>어니스트 블랙마카 영업대행 수수료</span><b>600,000</b></div><div class='more'>외 2종</div></td>
+<td class=amt><b>38,826,500</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="엔자임미(3.5g*100포)">
+<td class=num>21</td>
+<td class=raw>엔자임미(3.5g*100포)</td>
+<td class=amt>21,958,400</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>엔자임미</span><b>33,854,000</b></div></td>
+<td class=amt><b>33,854,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="효소진심(3.5g*100포)">
+<td class=num>22</td>
+<td class=raw>효소진심(3.5g*100포)</td>
+<td class=amt>21,900,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>효소진심</span><b>34,012,000</b></div><div class='s'><span>효소진심 플러스 발주선금</span><b>16,950,000</b></div><div class='s'><span>효소진심 필름 재판비용</span><b>230,000</b></div></td>
+<td class=amt><b>51,192,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="브로멜라인 S 외 7건">
+<td class=num>23</td>
+<td class=raw>브로멜라인 S 외 7건</td>
+<td class=amt>19,714,500</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>프리미엄 브로멜라인 파파인 맥스</span><b>166,027,941</b></div><div class='s'><span>브로멜라인S</span><b>68,980,000</b></div><div class='s'><span>브로멜라인파파인맥스</span><b>27,548,154</b></div><div class='s'><span>브로멜라인 파파인 맥스</span><b>26,448,628</b></div><div class='more'>외 1종</div></td>
+<td class=amt><b>289,124,723</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="쏘팔메토(인도)유니콘">
+<td class=num>24</td>
+<td class=raw>쏘팔메토(인도)유니콘</td>
+<td class=amt>19,580,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>쏘팔메토(인도, 유니콘)</span><b>20,460,000</b></div></td>
+<td class=amt><b>20,460,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="NONRAW" data-name="타겟 고객 온라인 마케팅">
+<td class=num>25</td>
+<td class=raw>타겟 고객 온라인 마케팅</td>
+<td class=amt>19,000,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="MATCH" data-name="(평화)무궁화추출분말 외">
+<td class=num>26</td>
+<td class=raw>(평화)무궁화추출분말 외</td>
+<td class=amt>17,900,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>평화무궁화추출분말</span><b>19,440,000</b></div></td>
+<td class=amt><b>19,440,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="UNMATCHED" data-name="FIBRULOSE F90 20KG/BAG">
+<td class=num>27</td>
+<td class=raw>FIBRULOSE F90 20KG/BAG</td>
+<td class=amt>16,500,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>완제품명에 성분 미표기 — 감미료·식이섬유·향료·부형제 등 완제품에 미량 배합되는 부원료 추정 (대표 확인)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#B85C00;background:#FBEEDD">부원료·완제품 미표기</span></td>
+</tr><tr data-v="MATCH" data-name="피스타치오추출분말">
+<td class=num>28</td>
+<td class=raw>피스타치오추출분말</td>
+<td class=amt>15,493,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>피스타치오추출분말</span><b>17,810,000</b></div></td>
+<td class=amt><b>17,810,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="리포좀 소연골추출분말">
+<td class=num>29</td>
+<td class=raw>리포좀 소연골추출분말</td>
+<td class=amt>14,400,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>소연골추출분말</span><b>48,720,000</b></div><div class='s'><span>리포좀 소연골추출분말</span><b>16,200,000</b></div><div class='s'><span>프리미엄 리포좀 글루타치온 울트라 맥스</span><b>15,910,000</b></div><div class='s'><span>리포좀 글루타치온 85</span><b>9,000,000</b></div><div class='more'>외 9종</div></td>
+<td class=amt><b>115,670,382</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="팔라티노스(독일)">
+<td class=num>30</td>
+<td class=raw>팔라티노스(독일)</td>
+<td class=amt>13,325,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>팔라티노스</span><b>11,900,000</b></div><div class='s'><span>슬로우칼로리슈가(팔라티노스)</span><b>2,450,000</b></div></td>
+<td class=amt><b>14,350,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="소연골추출분말">
+<td class=num>31</td>
+<td class=raw>소연골추출분말</td>
+<td class=amt>13,300,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>소연골추출분말</span><b>48,720,000</b></div><div class='s'><span>리포좀 소연골추출분말</span><b>16,200,000</b></div><div class='s'><span>소연골추출분말(중국산)</span><b>6,300,000</b></div><div class='s'><span>웰트릿 소연골 콘드로이친 MBP 영업대행 수수료</span><b>390,000</b></div><div class='more'>외 2종</div></td>
+<td class=amt><b>71,978,182</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="솔루텍스 초임계알티지60% 정제어유 (1050TG)">
+<td class=num>32</td>
+<td class=raw>솔루텍스 초임계알티지60% 정제어유 (1050TG)</td>
+<td class=amt>13,300,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>정제어유(60%초임계rTG Solutex1050)</span><b>13,680,000</b></div></td>
+<td class=amt><b>13,680,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="프리미엄브로멜라인파파인맥스(60정)">
+<td class=num>33</td>
+<td class=raw>프리미엄브로멜라인파파인맥스(60정)</td>
+<td class=amt>12,450,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>프리미엄 브로멜라인 파파인 맥스</span><b>166,027,941</b></div><div class='s'><span>브로멜라인S</span><b>68,980,000</b></div><div class='s'><span>브로멜라인파파인맥스</span><b>27,548,154</b></div><div class='s'><span>브로멜라인 파파인 맥스</span><b>26,448,628</b></div><div class='more'>외 3종</div></td>
+<td class=amt><b>311,744,723</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="프리미엄 카무트Ⓡ브랜드 발효효소K 외 1건">
+<td class=num>34</td>
+<td class=raw>프리미엄 카무트Ⓡ브랜드 발효효소K 외 1건</td>
+<td class=amt>12,000,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>프리미엄 카무트Ⓡ브랜드 발효효소K</span><b>15,000,000</b></div><div class='s'><span>곡류과채발효효소분말</span><b>1,200,000</b></div><div class='s'><span>프리미엄 카무트브랜드 발효효소</span><b>165,000</b></div><div class='s'><span>현미발효효소분말</span><b>11,600</b></div><div class='more'>외 2종</div></td>
+<td class=amt><b>16,392,600</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="프리미엄 리포좀 글루타치온 울트라맥스">
+<td class=num>35</td>
+<td class=raw>프리미엄 리포좀 글루타치온 울트라맥스</td>
+<td class=amt>11,923,723</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>리포좀 소연골추출분말</span><b>16,200,000</b></div><div class='s'><span>프리미엄 리포좀 글루타치온 울트라 맥스</span><b>15,910,000</b></div><div class='s'><span>리포좀 글루타치온 85</span><b>9,000,000</b></div><div class='s'><span>리포좀강황추출분말</span><b>6,425,000</b></div><div class='more'>외 5종</div></td>
+<td class=amt><b>61,092,200</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="NONRAW" data-name="영업중계수수료">
+<td class=num>36</td>
+<td class=raw>영업중계수수료</td>
+<td class=amt>11,427,443</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="MATCH" data-name="상어연골분말">
+<td class=num>37</td>
+<td class=raw>상어연골분말</td>
+<td class=amt>10,500,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>상어연골분말</span><b>13,000,000</b></div><div class='s'><span>상어(철갑)연골분말</span><b>2,125,000</b></div></td>
+<td class=amt><b>15,125,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="[해니옐로우] 락토페린 프리미엄 정">
+<td class=num>38</td>
+<td class=raw>[해니옐로우] 락토페린 프리미엄 정</td>
+<td class=amt>10,203,977</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>락토페린 프리미엄 맥스</span><b>27,029,525</b></div><div class='s'><span>락토페린 프리미엄 정</span><b>19,163,415</b></div><div class='s'><span>락토페린농축분말</span><b>11,000,000</b></div><div class='s'><span>락토페린농축물</span><b>5,500,000</b></div><div class='more'>외 1종</div></td>
+<td class=amt><b>68,192,940</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="프리미엄브로멜라인파파인맥스">
+<td class=num>39</td>
+<td class=raw>프리미엄브로멜라인파파인맥스</td>
+<td class=amt>10,189,080</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>프리미엄 브로멜라인 파파인 맥스</span><b>166,027,941</b></div><div class='s'><span>브로멜라인S</span><b>68,980,000</b></div><div class='s'><span>브로멜라인파파인맥스</span><b>27,548,154</b></div><div class='s'><span>브로멜라인 파파인 맥스</span><b>26,448,628</b></div><div class='more'>외 3종</div></td>
+<td class=amt><b>311,744,723</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="락토페린농축물">
+<td class=num>40</td>
+<td class=raw>락토페린농축물</td>
+<td class=amt>10,000,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>락토페린 프리미엄 맥스</span><b>27,029,525</b></div><div class='s'><span>락토페린 프리미엄 정</span><b>19,163,415</b></div><div class='s'><span>락토페린농축물</span><b>5,500,000</b></div><div class='s'><span>락토페린</span><b>5,500,000</b></div></td>
+<td class=amt><b>57,192,940</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="철갑상어연골추출분말">
+<td class=num>41</td>
+<td class=raw>철갑상어연골추출분말</td>
+<td class=amt>10,000,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>철갑상어연골추출분말</span><b>16,250,000</b></div><div class='s'><span>상어연골추출분말</span><b>7,875,000</b></div></td>
+<td class=amt><b>24,125,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="제품-인페르노 블랙마카 진 파워 맥스업 120정 [100*28박스+90*1박스]">
+<td class=num>42</td>
+<td class=raw>제품-인페르노 블랙마카 진 파워 맥스업 120정 [100*28박스+90*1박스]</td>
+<td class=amt>9,944,740</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>블랙마카젤라틴화분말</span><b>25,242,500</b></div><div class='s'><span>인페르노 블랙마카 진 파워맥스 업</span><b>11,184,000</b></div><div class='s'><span>웰트릿 블랙마카 영업대행 수수료</span><b>831,600</b></div><div class='s'><span>어니스트 블랙마카 영업대행 수수료</span><b>600,000</b></div><div class='more'>외 2종</div></td>
+<td class=amt><b>38,826,500</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="락토페린농축분말">
+<td class=num>43</td>
+<td class=raw>락토페린농축분말</td>
+<td class=amt>9,700,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>락토페린 프리미엄 맥스</span><b>27,029,525</b></div><div class='s'><span>락토페린 프리미엄 정</span><b>19,163,415</b></div><div class='s'><span>락토페린농축분말</span><b>11,000,000</b></div><div class='s'><span>락토페린</span><b>5,500,000</b></div></td>
+<td class=amt><b>62,692,940</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="샤인머스캣혼합농축분말 외 9건">
+<td class=num>44</td>
+<td class=raw>샤인머스캣혼합농축분말 외 9건</td>
+<td class=amt>9,470,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>트루샤인브라이트</span><b>8,685,180</b></div><div class='s'><span>트루샤인브라이트 병</span><b>2,880,000</b></div><div class='s'><span>샤인머스켓혼합농축분말</span><b>2,380,000</b></div><div class='s'><span>샤인커스켓혼합농축분말</span><b>680,000</b></div></td>
+<td class=amt><b>14,625,180</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="아스퍼질러스 발효분말 Alpha">
+<td class=num>45</td>
+<td class=raw>아스퍼질러스 발효분말 Alpha</td>
+<td class=amt>9,360,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>아스퍼질러스 알파</span><b>363,000,000</b></div><div class='s'><span>아스퍼질러스 발효분말 알파</span><b>126,372,000</b></div><div class='s'><span>아스퍼질러스 프로</span><b>94,120,000</b></div><div class='s'><span>아스퍼질러스 발효분말 프로</span><b>18,614,000</b></div></td>
+<td class=amt><b>602,106,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="락토페린프리미엄정60정-해니옐로우">
+<td class=num>46</td>
+<td class=raw>락토페린프리미엄정60정-해니옐로우</td>
+<td class=amt>9,050,769</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>락토페린 프리미엄 맥스</span><b>27,029,525</b></div><div class='s'><span>락토페린 프리미엄 정</span><b>19,163,415</b></div><div class='s'><span>락토페린</span><b>5,500,000</b></div></td>
+<td class=amt><b>51,692,940</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="락토페린 프리미엄정 60정 외1건">
+<td class=num>47</td>
+<td class=raw>락토페린 프리미엄정 60정 외1건</td>
+<td class=amt>8,971,450</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>락토페린 프리미엄 맥스</span><b>27,029,525</b></div><div class='s'><span>락토페린 프리미엄 정</span><b>19,163,415</b></div><div class='s'><span>락토페린농축분말</span><b>11,000,000</b></div><div class='s'><span>락토페린농축물</span><b>5,500,000</b></div><div class='more'>외 2종</div></td>
+<td class=amt><b>72,152,940</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="히비스커스추출분말">
+<td class=num>48</td>
+<td class=raw>히비스커스추출분말</td>
+<td class=amt>8,960,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>히비스커스추출분말</span><b>10,240,000</b></div></td>
+<td class=amt><b>10,240,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="결정셀룰로스/ 101, 인도">
+<td class=num>49</td>
+<td class=raw>결정셀룰로스/ 101, 인도</td>
+<td class=amt>8,864,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>쏘팔메토(인도, 유니콘)</span><b>20,460,000</b></div><div class='s'><span>결정셀룰로스101</span><b>13,452,000</b></div><div class='s'><span>인도매자나무열매추출분말</span><b>9,875,000</b></div><div class='s'><span>인도매자나무열매추출분말(베르베린 10%)</span><b>3,200,000</b></div><div class='more'>외 2종</div></td>
+<td class=amt><b>48,354,500</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="오르조워터(6.5g*10포)">
+<td class=num>50</td>
+<td class=raw>오르조워터(6.5g*10포)</td>
+<td class=amt>8,806,728</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>오르조워터_30포</span><b>212,987,820</b></div><div class='s'><span>오르조워터</span><b>202,556,220</b></div><div class='s'><span>오르조분말</span><b>146,490,000</b></div><div class='s'><span>오르조워터 발주선금</span><b>72,110,000</b></div><div class='more'>외 9종</div></td>
+<td class=amt><b>739,288,194</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="락토페린프리미엄정">
+<td class=num>51</td>
+<td class=raw>락토페린프리미엄정</td>
+<td class=amt>8,786,316</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>락토페린 프리미엄 맥스</span><b>27,029,525</b></div><div class='s'><span>락토페린 프리미엄 정</span><b>19,163,415</b></div><div class='s'><span>락토페린</span><b>5,500,000</b></div></td>
+<td class=amt><b>51,692,940</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="인도매자나무추출물 베르베린1%(인도, MANIPAL)">
+<td class=num>52</td>
+<td class=raw>인도매자나무추출물 베르베린1%(인도, MANIPAL)</td>
+<td class=amt>8,700,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>인도매자나무열매추출분말(베르베린 10%)</span><b>3,200,000</b></div><div class='s'><span>이롭핏 베르베린X알파CD 영업대행 수수료</span><b>200,000</b></div><div class='s'><span>이롭핏 베르베린X알파CD 영업대행수수료</span><b>200,000</b></div><div class='s'><span>웰트릿 베르베린 영업대행 수수료</span><b>55,560</b></div></td>
+<td class=amt><b>3,655,560</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="유기농밀크씨슬분말*20kg">
+<td class=num>53</td>
+<td class=raw>유기농밀크씨슬분말*20kg</td>
+<td class=amt>8,640,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>유기농 밀크씨슬</span><b>15,335,200</b></div><div class='s'><span>유기농 사과초모식초</span><b>3,000,000</b></div><div class='s'><span>유기농 사과초모식초 분말</span><b>2,000,000</b></div><div class='s'><span>유기농 사과초모 식초 분말</span><b>2,000,000</b></div><div class='more'>외 1종</div></td>
+<td class=amt><b>24,335,200</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="브로멜라인 S">
+<td class=num>54</td>
+<td class=raw>브로멜라인 S</td>
+<td class=amt>8,580,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>프리미엄 브로멜라인 파파인 맥스</span><b>166,027,941</b></div><div class='s'><span>브로멜라인S</span><b>68,980,000</b></div><div class='s'><span>브로멜라인파파인맥스</span><b>27,548,154</b></div><div class='s'><span>브로멜라인 파파인 맥스</span><b>26,448,628</b></div><div class='more'>외 1종</div></td>
+<td class=amt><b>289,124,723</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="락토페린 프리미엄정60정외1건">
+<td class=num>55</td>
+<td class=raw>락토페린 프리미엄정60정외1건</td>
+<td class=amt>8,216,341</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>락토페린 프리미엄 맥스</span><b>27,029,525</b></div><div class='s'><span>락토페린 프리미엄 정</span><b>19,163,415</b></div><div class='s'><span>락토페린농축분말</span><b>11,000,000</b></div><div class='s'><span>락토페린농축물</span><b>5,500,000</b></div><div class='more'>외 2종</div></td>
+<td class=amt><b>72,152,940</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="NONRAW" data-name="영업 중계 수수료">
+<td class=num>56</td>
+<td class=raw>영업 중계 수수료</td>
+<td class=amt>8,210,655</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="MATCH" data-name="상어연골추출분말(콘드로이친20%)미국">
+<td class=num>57</td>
+<td class=raw>상어연골추출분말(콘드로이친20%)미국</td>
+<td class=amt>8,025,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>철갑상어연골추출분말</span><b>16,250,000</b></div><div class='s'><span>상어연골추출분말</span><b>7,875,000</b></div><div class='s'><span>리포좀글루타치온75%(미국)</span><b>4,500,000</b></div><div class='s'><span>웰트릿 소연골 콘드로이친 MBP 영업대행 수수료</span><b>390,000</b></div><div class='more'>외 2종</div></td>
+<td class=amt><b>29,565,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="리포좀글루타치온85%_미국">
+<td class=num>58</td>
+<td class=raw>리포좀글루타치온85%_미국</td>
+<td class=amt>7,600,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>리포좀 소연골추출분말</span><b>16,200,000</b></div><div class='s'><span>프리미엄 리포좀 글루타치온 울트라 맥스</span><b>15,910,000</b></div><div class='s'><span>리포좀 글루타치온 85</span><b>9,000,000</b></div><div class='s'><span>리포좀 강황추출분말</span><b>5,875,000</b></div><div class='more'>외 3종</div></td>
+<td class=amt><b>53,467,200</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="구아검 (BHANSALI_인도)">
+<td class=num>59</td>
+<td class=raw>구아검 (BHANSALI_인도)</td>
+<td class=amt>7,532,250</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>구아검</span><b>7,774,250</b></div></td>
+<td class=amt><b>7,774,250</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="흑마늘농축분말 외 14건">
+<td class=num>60</td>
+<td class=raw>흑마늘농축분말 외 14건</td>
+<td class=amt>7,530,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>흑마늘농축분말</span><b>620,000</b></div></td>
+<td class=amt><b>620,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="NONRAW" data-name="전략 컨설팅">
+<td class=num>61</td>
+<td class=raw>전략 컨설팅</td>
+<td class=amt>7,500,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="MATCH" data-name="효소진심(3.5g*30포)">
+<td class=num>62</td>
+<td class=raw>효소진심(3.5g*30포)</td>
+<td class=amt>7,448,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>효소진심</span><b>34,012,000</b></div><div class='s'><span>효소진심 플러스 발주선금</span><b>16,950,000</b></div><div class='s'><span>효소진심 필름 재판비용</span><b>230,000</b></div></td>
+<td class=amt><b>51,192,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="엔자임미(3.5g*30포)">
+<td class=num>63</td>
+<td class=raw>엔자임미(3.5g*30포)</td>
+<td class=amt>7,448,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>엔자임미</span><b>33,854,000</b></div></td>
+<td class=amt><b>33,854,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="마가목추출분말 외 13건">
+<td class=num>64</td>
+<td class=raw>마가목추출분말 외 13건</td>
+<td class=amt>7,000,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>마가목추출분말</span><b>2,000,000</b></div><div class='s'><span>마가목99 영업대행 수수료</span><b>360,000</b></div><div class='s'><span>마가목 99 영업대행 수수료</span><b>180,000</b></div></td>
+<td class=amt><b>2,540,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="알파시클로덱스트린">
+<td class=num>65</td>
+<td class=raw>알파시클로덱스트린</td>
+<td class=amt>6,600,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>알파시클로덱스트린</span><b>2,500,000</b></div></td>
+<td class=amt><b>2,500,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="베타인">
+<td class=num>66</td>
+<td class=raw>베타인</td>
+<td class=amt>6,320,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>베타인</span><b>6,600,000</b></div></td>
+<td class=amt><b>6,600,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="UNMATCHED" data-name="VIT D3 100 CWS/AM (DSM_CH)">
+<td class=num>67</td>
+<td class=raw>VIT D3 100 CWS/AM (DSM_CH)</td>
+<td class=amt>5,900,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>완제품명에 성분 미표기 — 감미료·식이섬유·향료·부형제 등 완제품에 미량 배합되는 부원료 추정 (대표 확인)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#B85C00;background:#FBEEDD">부원료·완제품 미표기</span></td>
+</tr><tr data-v="MATCH" data-name="결정셀룰로스/101,인도">
+<td class=num>68</td>
+<td class=raw>결정셀룰로스/101,인도</td>
+<td class=amt>5,200,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>쏘팔메토(인도, 유니콘)</span><b>20,460,000</b></div><div class='s'><span>결정셀룰로스101</span><b>13,452,000</b></div><div class='s'><span>인도매자나무열매추출분말</span><b>9,875,000</b></div><div class='s'><span>인도매자나무열매추출분말(베르베린 10%)</span><b>3,200,000</b></div><div class='more'>외 2종</div></td>
+<td class=amt><b>48,354,500</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="UNMATCHED" data-name="VITACEL L 600">
+<td class=num>69</td>
+<td class=raw>VITACEL L 600</td>
+<td class=amt>5,163,940</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>완제품명에 성분 미표기 — 감미료·식이섬유·향료·부형제 등 완제품에 미량 배합되는 부원료 추정 (대표 확인)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#B85C00;background:#FBEEDD">부원료·완제품 미표기</span></td>
+</tr><tr data-v="MATCH" data-name="리포좀 강황추출물">
+<td class=num>70</td>
+<td class=raw>리포좀 강황추출물</td>
+<td class=amt>5,125,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>리포좀 소연골추출분말</span><b>16,200,000</b></div><div class='s'><span>프리미엄 리포좀 글루타치온 울트라 맥스</span><b>15,910,000</b></div><div class='s'><span>리포좀 글루타치온 85</span><b>9,000,000</b></div><div class='s'><span>리포좀강황추출분말</span><b>6,425,000</b></div><div class='more'>외 4종</div></td>
+<td class=amt><b>59,892,200</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="리포좀 강황추출물 45%">
+<td class=num>71</td>
+<td class=raw>리포좀 강황추출물 45%</td>
+<td class=amt>5,100,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>리포좀 소연골추출분말</span><b>16,200,000</b></div><div class='s'><span>프리미엄 리포좀 글루타치온 울트라 맥스</span><b>15,910,000</b></div><div class='s'><span>리포좀 글루타치온 85</span><b>9,000,000</b></div><div class='s'><span>리포좀강황추출분말</span><b>6,425,000</b></div><div class='more'>외 4종</div></td>
+<td class=amt><b>59,892,200</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="UNMATCHED" data-name="Lalmin S 1000">
+<td class=num>72</td>
+<td class=raw>Lalmin S 1000</td>
+<td class=amt>4,887,500</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>완제품명에 성분 미표기 — 감미료·식이섬유·향료·부형제 등 완제품에 미량 배합되는 부원료 추정 (대표 확인)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#B85C00;background:#FBEEDD">부원료·완제품 미표기</span></td>
+</tr><tr data-v="MATCH" data-name="마리골드추출분말(중국)">
+<td class=num>73</td>
+<td class=raw>마리골드추출분말(중국)</td>
+<td class=amt>4,875,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>마리골드추출분말</span><b>8,125,000</b></div></td>
+<td class=amt><b>8,125,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="유기농 사과초모식초분말(영국)*25kg">
+<td class=num>74</td>
+<td class=raw>유기농 사과초모식초분말(영국)*25kg</td>
+<td class=amt>4,800,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>유기농 밀크씨슬</span><b>15,335,200</b></div><div class='s'><span>유기농사과초모식초분말</span><b>3,000,000</b></div><div class='s'><span>유기농 사과초모식초</span><b>3,000,000</b></div><div class='s'><span>유기농올리브유</span><b>2,400,000</b></div><div class='more'>외 3종</div></td>
+<td class=amt><b>29,735,200</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="UNMATCHED" data-name="Pullulan">
+<td class=num>75</td>
+<td class=raw>Pullulan</td>
+<td class=amt>4,760,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>완제품명에 성분 미표기 — 감미료·식이섬유·향료·부형제 등 완제품에 미량 배합되는 부원료 추정 (대표 확인)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#B85C00;background:#FBEEDD">부원료·완제품 미표기</span></td>
+</tr><tr data-v="UNMATCHED" data-name="Orafti GR(Orafti_BE) (*)">
+<td class=num>76</td>
+<td class=raw>Orafti GR(Orafti_BE) (*)</td>
+<td class=amt>4,760,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>완제품명에 성분 미표기 — 감미료·식이섬유·향료·부형제 등 완제품에 미량 배합되는 부원료 추정 (대표 확인)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#B85C00;background:#FBEEDD">부원료·완제품 미표기</span></td>
+</tr><tr data-v="MATCH" data-name="식물성 멜라토닌 함유 멜라코지">
+<td class=num>77</td>
+<td class=raw>식물성 멜라토닌 함유 멜라코지</td>
+<td class=amt>4,626,354</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>식물성 멜라토닌 함유 멜라마인</span><b>20,997,000</b></div><div class='s'><span>프리미엄 식물성 멜라토닌 함유 멜라마인</span><b>17,676,252</b></div><div class='s'><span>[리얼라벨] 멜라코지</span><b>5,500,000</b></div><div class='s'><span>밸런스궁합 식물성 멜라토닌 2mg</span><b>2,500,000</b></div></td>
+<td class=amt><b>46,673,252</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="시금치추출분말 외 7건">
+<td class=num>78</td>
+<td class=raw>시금치추출분말 외 7건</td>
+<td class=amt>4,600,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>시금치추출분말</span><b>1,200,000</b></div></td>
+<td class=amt><b>1,200,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="마가목추출분말 외 4건">
+<td class=num>79</td>
+<td class=raw>마가목추출분말 외 4건</td>
+<td class=amt>4,390,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>마가목추출분말</span><b>2,000,000</b></div><div class='s'><span>마가목99 영업대행 수수료</span><b>360,000</b></div><div class='s'><span>마가목 99 영업대행 수수료</span><b>180,000</b></div></td>
+<td class=amt><b>2,540,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="강황추출분말(수용성)">
+<td class=num>80</td>
+<td class=raw>강황추출분말(수용성)</td>
+<td class=amt>4,238,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>리포좀강황추출분말</span><b>6,425,000</b></div><div class='s'><span>리포좀 강황추출분말</span><b>5,875,000</b></div><div class='s'><span>수용성 강황</span><b>2,100,000</b></div><div class='s'><span>리포좀 강황 추출분말</span><b>1,682,200</b></div><div class='more'>외 2종</div></td>
+<td class=amt><b>17,782,200</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="리포좀글루타치온75%(미국)">
+<td class=num>81</td>
+<td class=raw>리포좀글루타치온75%(미국)</td>
+<td class=amt>4,000,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>리포좀 소연골추출분말</span><b>16,200,000</b></div><div class='s'><span>프리미엄 리포좀 글루타치온 울트라 맥스</span><b>15,910,000</b></div><div class='s'><span>리포좀 글루타치온 85</span><b>9,000,000</b></div><div class='s'><span>리포좀 강황추출분말</span><b>5,875,000</b></div><div class='more'>외 3종</div></td>
+<td class=amt><b>53,467,200</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="엘테아닌(중국)건식">
+<td class=num>82</td>
+<td class=raw>엘테아닌(중국)건식</td>
+<td class=amt>4,000,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>L-테아닌</span><b>8,400,000</b></div></td>
+<td class=amt><b>8,400,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="UNMATCHED" data-name="MintyBright™ Nu - 2kg">
+<td class=num>83</td>
+<td class=raw>MintyBright™ Nu - 2kg</td>
+<td class=amt>3,900,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>완제품명에 성분 미표기 — 감미료·식이섬유·향료·부형제 등 완제품에 미량 배합되는 부원료 추정 (대표 확인)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#B85C00;background:#FBEEDD">부원료·완제품 미표기</span></td>
+</tr><tr data-v="MATCH" data-name="유기농 사과초모식초분말*25kg">
+<td class=num>84</td>
+<td class=raw>유기농 사과초모식초분말*25kg</td>
+<td class=amt>3,887,500</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>유기농 밀크씨슬</span><b>15,335,200</b></div><div class='s'><span>유기농사과초모식초분말</span><b>3,000,000</b></div><div class='s'><span>유기농 사과초모식초</span><b>3,000,000</b></div><div class='s'><span>유기농올리브유</span><b>2,400,000</b></div><div class='more'>외 3종</div></td>
+<td class=amt><b>29,735,200</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="리소짐">
+<td class=num>85</td>
+<td class=raw>리소짐</td>
+<td class=amt>3,800,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>리소짐</span><b>4,400,000</b></div></td>
+<td class=amt><b>4,400,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="(평화)무궁화추출분말 외 5건">
+<td class=num>86</td>
+<td class=raw>(평화)무궁화추출분말 외 5건</td>
+<td class=amt>3,730,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>평화무궁화추출분말</span><b>19,440,000</b></div></td>
+<td class=amt><b>19,440,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="아스퍼질러스 발효분말 Pro">
+<td class=num>87</td>
+<td class=raw>아스퍼질러스 발효분말 Pro</td>
+<td class=amt>3,600,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>아스퍼질러스 알파</span><b>363,000,000</b></div><div class='s'><span>아스퍼질러스 발효분말 알파</span><b>126,372,000</b></div><div class='s'><span>아스퍼질러스 프로</span><b>94,120,000</b></div><div class='s'><span>아스퍼질러스 발효분말 프로</span><b>18,614,000</b></div></td>
+<td class=amt><b>602,106,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="NONRAW" data-name="용기/CAP 외">
+<td class=num>88</td>
+<td class=raw>용기/CAP 외</td>
+<td class=amt>3,600,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="MATCH" data-name="생선콜라겐300D[인도산]-자사">
+<td class=num>89</td>
+<td class=raw>생선콜라겐300D[인도산]-자사</td>
+<td class=amt>3,360,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>소연골복합추출분말(콜라겐)</span><b>22,500,000</b></div><div class='s'><span>저분자피쉬콜라겐</span><b>3,500,000</b></div><div class='s'><span>피쉬콜라겐(젤텍)</span><b>1,500,000</b></div><div class='s'><span>피쉬콜라겐(1000DA)</span><b>1,350,000</b></div><div class='more'>외 6종</div></td>
+<td class=amt><b>32,230,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="UNMATCHED" data-name="알파싸이클로덱스트린">
+<td class=num>90</td>
+<td class=raw>알파싸이클로덱스트린</td>
+<td class=amt>3,300,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>완제품명에 성분 미표기 — 감미료·식이섬유·향료·부형제 등 완제품에 미량 배합되는 부원료 추정 (대표 확인)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#B85C00;background:#FBEEDD">부원료·완제품 미표기</span></td>
+</tr><tr data-v="MATCH" data-name="퀘르세틴">
+<td class=num>91</td>
+<td class=raw>퀘르세틴</td>
+<td class=amt>3,200,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>퀘르세틴 추출분말</span><b>3,350,000</b></div></td>
+<td class=amt><b>3,350,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="UNMATCHED" data-name="Tart cherry extract powder">
+<td class=num>92</td>
+<td class=raw>Tart cherry extract powder</td>
+<td class=amt>3,125,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>완제품명에 성분 미표기 — 감미료·식이섬유·향료·부형제 등 완제품에 미량 배합되는 부원료 추정 (대표 확인)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#B85C00;background:#FBEEDD">부원료·완제품 미표기</span></td>
+</tr><tr data-v="MATCH" data-name="DUASRODAS GUARANA EXTRACT POWDER 과라나추출분말(22%CAFFEINE)">
+<td class=num>93</td>
+<td class=raw>DUASRODAS GUARANA EXTRACT POWDER 과라나추출분말(22%CAFFEINE)</td>
+<td class=amt>3,120,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>과라나추출분말</span><b>2,400,000</b></div></td>
+<td class=amt><b>2,400,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="밀크칼슘">
+<td class=num>94</td>
+<td class=raw>밀크칼슘</td>
+<td class=amt>3,080,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>밀크칼슘파우더</span><b>1,920,000</b></div><div class='s'><span>밀크칼슘</span><b>1,600,000</b></div></td>
+<td class=amt><b>3,520,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="샤인머스캣혼합농축분말 외 5건">
+<td class=num>95</td>
+<td class=raw>샤인머스캣혼합농축분말 외 5건</td>
+<td class=amt>3,070,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>트루샤인브라이트</span><b>8,685,180</b></div><div class='s'><span>트루샤인브라이트 병</span><b>2,880,000</b></div><div class='s'><span>샤인머스켓혼합농축분말</span><b>2,380,000</b></div><div class='s'><span>샤인커스켓혼합농축분말</span><b>680,000</b></div></td>
+<td class=amt><b>14,625,180</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="샤인머스캣혼합농축분말 외 4건">
+<td class=num>96</td>
+<td class=raw>샤인머스캣혼합농축분말 외 4건</td>
+<td class=amt>3,010,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>트루샤인브라이트</span><b>8,685,180</b></div><div class='s'><span>트루샤인브라이트 병</span><b>2,880,000</b></div><div class='s'><span>샤인머스켓혼합농축분말</span><b>2,380,000</b></div><div class='s'><span>샤인커스켓혼합농축분말</span><b>680,000</b></div></td>
+<td class=amt><b>14,625,180</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="피쉬콜라겐 (내수)">
+<td class=num>97</td>
+<td class=raw>피쉬콜라겐 (내수)</td>
+<td class=amt>2,990,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>소연골복합추출분말(콜라겐)</span><b>22,500,000</b></div><div class='s'><span>저분자피쉬콜라겐</span><b>3,500,000</b></div><div class='s'><span>피쉬콜라겐(젤텍)</span><b>1,500,000</b></div><div class='s'><span>피쉬콜라겐(1000DA)</span><b>1,350,000</b></div><div class='more'>외 6종</div></td>
+<td class=amt><b>32,230,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="에리스리톨(S)">
+<td class=num>98</td>
+<td class=raw>에리스리톨(S)</td>
+<td class=amt>2,880,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>에리스리톨</span><b>3,440,000</b></div></td>
+<td class=amt><b>3,440,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="빌베리농축분말">
+<td class=num>99</td>
+<td class=raw>빌베리농축분말</td>
+<td class=amt>2,800,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>빌베리농축분말</span><b>10,320,000</b></div><div class='s'><span>빌베리100 영업대행 수수료(1천세트)</span><b>440,000</b></div><div class='s'><span>빌베리100 영업대행수수료(1천세트)</span><b>220,000</b></div><div class='s'><span>이롭 리얼 빌베리 100 영업대행 수수료</span><b>220,000</b></div><div class='more'>외 1종</div></td>
+<td class=amt><b>11,420,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="상어연골분말/중국">
+<td class=num>100</td>
+<td class=raw>상어연골분말/중국</td>
+<td class=amt>2,800,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>상어연골분말</span><b>13,000,000</b></div><div class='s'><span>소연골추출분말(중국산)</span><b>6,300,000</b></div><div class='s'><span>상어(철갑)연골분말</span><b>2,125,000</b></div></td>
+<td class=amt><b>21,425,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="NONRAW" data-name="25년귀속 법인세 조정료">
+<td class=num>101</td>
+<td class=raw>25년귀속 법인세 조정료</td>
+<td class=amt>2,800,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="MATCH" data-name="인도매자나무추출물 베르베린10%(인도, MANIPAL)">
+<td class=num>102</td>
+<td class=raw>인도매자나무추출물 베르베린10%(인도, MANIPAL)</td>
+<td class=amt>2,750,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>인도매자나무열매추출분말(베르베린 10%)</span><b>3,200,000</b></div><div class='s'><span>이롭핏 베르베린X알파CD 영업대행 수수료</span><b>200,000</b></div><div class='s'><span>이롭핏 베르베린X알파CD 영업대행수수료</span><b>200,000</b></div><div class='s'><span>웰트릿 베르베린 영업대행 수수료</span><b>55,560</b></div></td>
+<td class=amt><b>3,655,560</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="난각막수용성분말">
+<td class=num>103</td>
+<td class=raw>난각막수용성분말</td>
+<td class=amt>2,700,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>난각막</span><b>2,800,000</b></div><div class='s'><span>수용성 강황</span><b>2,100,000</b></div><div class='s'><span>수용성 커큐민 바이오페린 플러스 영업대행 수수료(1,270세트)</span><b>200,000</b></div></td>
+<td class=amt><b>5,100,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="UNMATCHED" data-name="평과무궁화추출분말">
+<td class=num>104</td>
+<td class=raw>평과무궁화추출분말</td>
+<td class=amt>2,700,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>완제품명에 성분 미표기 — 감미료·식이섬유·향료·부형제 등 완제품에 미량 배합되는 부원료 추정 (대표 확인)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#B85C00;background:#FBEEDD">부원료·완제품 미표기</span></td>
+</tr><tr data-v="MATCH" data-name="코코아파우다 GR76">
+<td class=num>105</td>
+<td class=raw>코코아파우다 GR76</td>
+<td class=amt>2,700,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>코코아파우더</span><b>3,000,000</b></div></td>
+<td class=amt><b>3,000,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="바나바잎추출분말(유니콘제조)">
+<td class=num>106</td>
+<td class=raw>바나바잎추출분말(유니콘제조)</td>
+<td class=amt>2,625,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>바나바잎추출분말</span><b>2,125,000</b></div><div class='s'><span>바나바잎추출분말(코로솔산 1%)</span><b>1,000,000</b></div><div class='s'><span>바나바잎(코로솔산 20%)</span><b>400,000</b></div></td>
+<td class=amt><b>3,525,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="자몽농축분말SR-22123">
+<td class=num>107</td>
+<td class=raw>자몽농축분말SR-22123</td>
+<td class=amt>2,560,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>자몽농축분말</span><b>2,840,000</b></div></td>
+<td class=amt><b>2,840,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="파파인 S">
+<td class=num>108</td>
+<td class=raw>파파인 S</td>
+<td class=amt>2,560,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>프리미엄 브로멜라인 파파인 맥스</span><b>166,027,941</b></div><div class='s'><span>브로멜라인파파인맥스</span><b>27,548,154</b></div><div class='s'><span>브로멜라인 파파인 맥스</span><b>26,448,628</b></div><div class='s'><span>파파인S</span><b>21,060,000</b></div><div class='more'>외 1종</div></td>
+<td class=amt><b>242,644,723</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="복숭아농축분말">
+<td class=num>109</td>
+<td class=raw>복숭아농축분말</td>
+<td class=amt>2,520,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>복숭아농축분말</span><b>4,160,000</b></div></td>
+<td class=amt><b>4,160,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="회화나무열매추출분말(건식)/ 인도(UNICORN)">
+<td class=num>110</td>
+<td class=raw>회화나무열매추출분말(건식)/ 인도(UNICORN)</td>
+<td class=amt>2,500,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>쏘팔메토(인도, 유니콘)</span><b>20,460,000</b></div><div class='s'><span>인도매자나무열매추출분말</span><b>9,875,000</b></div><div class='s'><span>인도매자나무열매추출분말(베르베린 10%)</span><b>3,200,000</b></div><div class='s'><span>회화나무열매추출분말</span><b>2,750,000</b></div><div class='more'>외 1종</div></td>
+<td class=amt><b>37,072,500</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="알파cd 102.4kg">
+<td class=num>111</td>
+<td class=raw>알파cd 102.4kg</td>
+<td class=amt>2,457,600</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>아스퍼질러스 알파</span><b>363,000,000</b></div><div class='s'><span>아스퍼질러스 발효분말 알파</span><b>126,372,000</b></div><div class='s'><span>알파사이클로덱스트린</span><b>9,650,000</b></div><div class='s'><span>알파시클로덱스트린</span><b>2,500,000</b></div><div class='more'>외 5종</div></td>
+<td class=amt><b>504,622,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="회화나무열매추출분말_BYSJE250912(20270811)">
+<td class=num>112</td>
+<td class=raw>회화나무열매추출분말_BYSJE250912(20270811)</td>
+<td class=amt>2,400,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>회화나무열매추출분말</span><b>2,750,000</b></div></td>
+<td class=amt><b>2,750,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="트루샤인 브라이트 60정">
+<td class=num>113</td>
+<td class=raw>트루샤인 브라이트 60정</td>
+<td class=amt>2,396,372</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>트루샤인브라이트</span><b>8,685,180</b></div><div class='s'><span>트루샤인브라이트 병</span><b>2,880,000</b></div><div class='s'><span>샤인머스켓혼합농축분말</span><b>2,380,000</b></div><div class='s'><span>샤인커스켓혼합농축분말</span><b>680,000</b></div></td>
+<td class=amt><b>14,625,180</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="유기농 엑스트라버진 올리브오일(스페인/ABRIL)">
+<td class=num>114</td>
+<td class=raw>유기농 엑스트라버진 올리브오일(스페인/ABRIL)</td>
+<td class=amt>2,200,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>유기농 밀크씨슬</span><b>15,335,200</b></div><div class='s'><span>유기농사과초모식초분말</span><b>3,000,000</b></div><div class='s'><span>유기농 사과초모식초</span><b>3,000,000</b></div><div class='s'><span>유기농올리브유</span><b>2,400,000</b></div><div class='more'>외 3종</div></td>
+<td class=amt><b>29,735,200</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="저분자 피쉬콜라겐 (내수)">
+<td class=num>115</td>
+<td class=raw>저분자 피쉬콜라겐 (내수)</td>
+<td class=amt>2,160,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>소연골복합추출분말(콜라겐)</span><b>22,500,000</b></div><div class='s'><span>저분자피쉬콜라겐</span><b>3,500,000</b></div><div class='s'><span>피쉬콜라겐(젤텍)</span><b>1,500,000</b></div><div class='s'><span>피쉬콜라겐(1000DA)</span><b>1,350,000</b></div><div class='more'>외 6종</div></td>
+<td class=amt><b>32,230,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="라임추출분말">
+<td class=num>116</td>
+<td class=raw>라임추출분말</td>
+<td class=amt>2,100,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>라임추출분말(피세틴)</span><b>2,325,000</b></div></td>
+<td class=amt><b>2,325,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="흑염소진액추출분말">
+<td class=num>117</td>
+<td class=raw>흑염소진액추출분말</td>
+<td class=amt>2,080,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>흑염소진액추출분말</span><b>1,200,000</b></div></td>
+<td class=amt><b>1,200,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="프락토올리고당(중국)">
+<td class=num>118</td>
+<td class=raw>프락토올리고당(중국)</td>
+<td class=amt>1,925,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>프락토올리고당</span><b>1,950,000</b></div><div class='s'><span>프락토올리고당(과립형)</span><b>170,000</b></div></td>
+<td class=amt><b>2,120,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="비타민D3혼합제제 CapsuDar D3 100E (Lycored_IL)">
+<td class=num>119</td>
+<td class=raw>비타민D3혼합제제 CapsuDar D3 100E (Lycored_IL)</td>
+<td class=amt>1,800,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>비타민D3</span><b>5,350,000</b></div><div class='s'><span>비타민D3혼합제제</span><b>3,250,000</b></div><div class='s'><span>비타민B복합분말</span><b>1,750,000</b></div><div class='s'><span>비타민B6</span><b>450,000</b></div><div class='more'>외 7종</div></td>
+<td class=amt><b>12,121,200</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="자일리톨(30-결정)">
+<td class=num>120</td>
+<td class=raw>자일리톨(30-결정)</td>
+<td class=amt>1,800,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>자일리톨</span><b>2,110,000</b></div></td>
+<td class=amt><b>2,110,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="남양유업/ 누에보FD(NUEVO)">
+<td class=num>121</td>
+<td class=raw>남양유업/ 누에보FD(NUEVO)</td>
+<td class=amt>1,770,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>누에보 FD커피(베트남)</span><b>662,500</b></div><div class='s'><span>누에보 FD커피</span><b>662,500</b></div><div class='s'><span>누에보FD커피</span><b>662,500</b></div></td>
+<td class=amt><b>1,987,500</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="요거트향NK5400-1">
+<td class=num>122</td>
+<td class=raw>요거트향NK5400-1</td>
+<td class=amt>1,740,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>요거트향분말</span><b>1,980,000</b></div></td>
+<td class=amt><b>1,980,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="석류농축분말">
+<td class=num>123</td>
+<td class=raw>석류농축분말</td>
+<td class=amt>1,620,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>석류농축분말</span><b>1,800,000</b></div></td>
+<td class=amt><b>1,800,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="UNMATCHED" data-name="Bioperine(Black Pepper Extract 80 Mesh)FJ">
+<td class=num>124</td>
+<td class=raw>Bioperine(Black Pepper Extract 80 Mesh)FJ</td>
+<td class=amt>1,500,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>완제품명에 성분 미표기 — 감미료·식이섬유·향료·부형제 등 완제품에 미량 배합되는 부원료 추정 (대표 확인)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#B85C00;background:#FBEEDD">부원료·완제품 미표기</span></td>
+</tr><tr data-v="UNMATCHED" data-name="YAB 450">
+<td class=num>125</td>
+<td class=raw>YAB 450</td>
+<td class=amt>1,500,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>완제품명에 성분 미표기 — 감미료·식이섬유·향료·부형제 등 완제품에 미량 배합되는 부원료 추정 (대표 확인)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#B85C00;background:#FBEEDD">부원료·완제품 미표기</span></td>
+</tr><tr data-v="MATCH" data-name="비타민B복합분말">
+<td class=num>126</td>
+<td class=raw>비타민B복합분말</td>
+<td class=amt>1,460,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>비타민D3</span><b>5,350,000</b></div><div class='s'><span>비타민D3혼합제제</span><b>3,250,000</b></div><div class='s'><span>비타민B복합분말</span><b>1,750,000</b></div><div class='s'><span>비타민B6</span><b>450,000</b></div><div class='more'>외 7종</div></td>
+<td class=amt><b>12,121,200</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="글루코만난(중국, NINGXIA TOP)">
+<td class=num>127</td>
+<td class=raw>글루코만난(중국, NINGXIA TOP)</td>
+<td class=amt>1,450,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>글루코만난</span><b>96,250,000</b></div></td>
+<td class=amt><b>96,250,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="레몬과즙분말">
+<td class=num>128</td>
+<td class=raw>레몬과즙분말</td>
+<td class=amt>1,440,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>레몬과즙분말</span><b>8,100,000</b></div></td>
+<td class=amt><b>8,100,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="(원료) [프라임] 유기농 사과초모식초분말 (영국)">
+<td class=num>129</td>
+<td class=raw>(원료) [프라임] 유기농 사과초모식초분말 (영국)</td>
+<td class=amt>1,411,500</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>유기농 밀크씨슬</span><b>15,335,200</b></div><div class='s'><span>유기농사과초모식초분말</span><b>3,000,000</b></div><div class='s'><span>유기농 사과초모식초</span><b>3,000,000</b></div><div class='s'><span>유기농올리브유</span><b>2,400,000</b></div><div class='more'>외 3종</div></td>
+<td class=amt><b>29,735,200</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="소연골복합추출분말">
+<td class=num>130</td>
+<td class=raw>소연골복합추출분말</td>
+<td class=amt>1,408,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>소연골복합추출분말</span><b>53,242,000</b></div><div class='s'><span>소연골복합추출분말(콜라겐)</span><b>22,500,000</b></div><div class='s'><span>웰트릿 소연골 콘드로이친 MBP 영업대행 수수료</span><b>390,000</b></div><div class='s'><span>웰트릿 소연골 콘드로이친 영업대행 수수료</span><b>250,000</b></div></td>
+<td class=amt><b>76,382,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="사과과즙분말 14084">
+<td class=num>131</td>
+<td class=raw>사과과즙분말 14084</td>
+<td class=amt>1,400,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>사과과즙분말</span><b>1,440,000</b></div></td>
+<td class=amt><b>1,440,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="UNMATCHED" data-name="L-Menthol">
+<td class=num>132</td>
+<td class=raw>L-Menthol</td>
+<td class=amt>1,400,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>완제품명에 성분 미표기 — 감미료·식이섬유·향료·부형제 등 완제품에 미량 배합되는 부원료 추정 (대표 확인)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#B85C00;background:#FBEEDD">부원료·완제품 미표기</span></td>
+</tr><tr data-v="MATCH" data-name="호두향분말A">
+<td class=num>133</td>
+<td class=raw>호두향분말A</td>
+<td class=amt>1,320,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>호두 향 분말</span><b>2,000,000</b></div></td>
+<td class=amt><b>2,000,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="풀루란">
+<td class=num>134</td>
+<td class=raw>풀루란</td>
+<td class=amt>1,320,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>풀루란</span><b>6,540,000</b></div></td>
+<td class=amt><b>6,540,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="UNMATCHED" data-name="Polydextrose (Tate&amp;Lyle_CN)">
+<td class=num>135</td>
+<td class=raw>Polydextrose (Tate&amp;Lyle_CN)</td>
+<td class=amt>1,233,750</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>완제품명에 성분 미표기 — 감미료·식이섬유·향료·부형제 등 완제품에 미량 배합되는 부원료 추정 (대표 확인)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#B85C00;background:#FBEEDD">부원료·완제품 미표기</span></td>
+</tr><tr data-v="MATCH" data-name="샤인머스캣혼합농축분말">
+<td class=num>136</td>
+<td class=raw>샤인머스캣혼합농축분말</td>
+<td class=amt>1,160,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>트루샤인브라이트</span><b>8,685,180</b></div><div class='s'><span>트루샤인브라이트 병</span><b>2,880,000</b></div><div class='s'><span>샤인머스켓혼합농축분말</span><b>2,380,000</b></div><div class='s'><span>샤인커스켓혼합농축분말</span><b>680,000</b></div></td>
+<td class=amt><b>14,625,180</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="이노시톨(미국)">
+<td class=num>137</td>
+<td class=raw>이노시톨(미국)</td>
+<td class=amt>1,150,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>이노시톨</span><b>1,150,000</b></div></td>
+<td class=amt><b>1,150,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="효모(글루타치온)2.5%-ENGEVITA GSH">
+<td class=num>138</td>
+<td class=raw>효모(글루타치온)2.5%-ENGEVITA GSH</td>
+<td class=amt>1,100,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>프리미엄 리포좀 글루타치온 울트라 맥스</span><b>15,910,000</b></div><div class='s'><span>리포좀 글루타치온 85</span><b>9,000,000</b></div><div class='s'><span>효모(글루타치온)2.5%-ENGEVITA GSH</span><b>1,200,000</b></div><div class='s'><span>프리미엄 리포좀 글루타치온 울트라 맥스 패키지 및 상세페이지 디자인</span><b>300,000</b></div></td>
+<td class=amt><b>26,410,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="NONRAW" data-name="2024년 법인세 결산수수료">
+<td class=num>139</td>
+<td class=raw>2024년 법인세 결산수수료</td>
+<td class=amt>1,000,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="MATCH" data-name="인절미맛분말SR-28023">
+<td class=num>140</td>
+<td class=raw>인절미맛분말SR-28023</td>
+<td class=amt>1,000,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>인절미 맛 분말</span><b>3,000,000</b></div><div class='s'><span>인절미맛분말</span><b>2,000,000</b></div></td>
+<td class=amt><b>5,000,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="NONRAW" data-name="오르조워터(6.5g*30포)_필름 동판 수정비용">
+<td class=num>141</td>
+<td class=raw>오르조워터(6.5g*30포)_필름 동판 수정비용</td>
+<td class=amt>924,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="MATCH" data-name="효모추출물 L-글루타치온75%">
+<td class=num>142</td>
+<td class=raw>효모추출물 L-글루타치온75%</td>
+<td class=amt>920,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>프리미엄 리포좀 글루타치온 울트라 맥스</span><b>15,910,000</b></div><div class='s'><span>리포좀 글루타치온 85</span><b>9,000,000</b></div><div class='s'><span>리포좀글루타치온75%(미국)</span><b>4,500,000</b></div><div class='s'><span>효모(글루타치온)2.5%-ENGEVITA GSH</span><b>1,200,000</b></div><div class='more'>외 1종</div></td>
+<td class=amt><b>30,910,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="보스웰리아추출물(인도)">
+<td class=num>143</td>
+<td class=raw>보스웰리아추출물(인도)</td>
+<td class=amt>843,636</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>보스웰리아추출분말</span><b>2,450,000</b></div></td>
+<td class=amt><b>2,450,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="NONRAW" data-name="물류비">
+<td class=num>144</td>
+<td class=raw>물류비</td>
+<td class=amt>839,200</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="MATCH" data-name="아미노산믹스(9종)">
+<td class=num>145</td>
+<td class=raw>아미노산믹스(9종)</td>
+<td class=amt>825,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>아미노믹스</span><b>935,000</b></div></td>
+<td class=amt><b>935,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="Mix Nat 17 strains 250b Blend KR/17종혼합유산균/CSR- SACCO">
+<td class=num>146</td>
+<td class=raw>Mix Nat 17 strains 250b Blend KR/17종혼합유산균/CSR- SACCO</td>
+<td class=amt>780,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>싸코 17종 혼합유산균</span><b>830,000</b></div></td>
+<td class=amt><b>830,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="유기농밀크씨슬분말(살균)*20kg">
+<td class=num>147</td>
+<td class=raw>유기농밀크씨슬분말(살균)*20kg</td>
+<td class=amt>702,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>유기농 밀크씨슬</span><b>15,335,200</b></div><div class='s'><span>유기농 사과초모식초</span><b>3,000,000</b></div><div class='s'><span>유기농 사과초모식초 분말</span><b>2,000,000</b></div><div class='s'><span>유기농 사과초모 식초 분말</span><b>2,000,000</b></div><div class='more'>외 1종</div></td>
+<td class=amt><b>24,335,200</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="레몬향NK6200P">
+<td class=num>148</td>
+<td class=raw>레몬향NK6200P</td>
+<td class=amt>700,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>레몬향분말</span><b>760,000</b></div></td>
+<td class=amt><b>760,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="L-트립토판">
+<td class=num>149</td>
+<td class=raw>L-트립토판</td>
+<td class=amt>675,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>L-트립토판</span><b>750,000</b></div></td>
+<td class=amt><b>750,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="UNMATCHED" data-name="Sodium Citrate(Ensign)">
+<td class=num>150</td>
+<td class=raw>Sodium Citrate(Ensign)</td>
+<td class=amt>655,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>완제품명에 성분 미표기 — 감미료·식이섬유·향료·부형제 등 완제품에 미량 배합되는 부원료 추정 (대표 확인)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#B85C00;background:#FBEEDD">부원료·완제품 미표기</span></td>
+</tr><tr data-v="MATCH" data-name="구연산칼륨(중국)">
+<td class=num>151</td>
+<td class=raw>구연산칼륨(중국)</td>
+<td class=amt>650,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>구연산칼륨</span><b>1,000,000</b></div></td>
+<td class=amt><b>1,000,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="UNMATCHED" data-name="MWO">
+<td class=num>152</td>
+<td class=raw>MWO</td>
+<td class=amt>650,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>완제품명에 성분 미표기 — 감미료·식이섬유·향료·부형제 등 완제품에 미량 배합되는 부원료 추정 (대표 확인)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#B85C00;background:#FBEEDD">부원료·완제품 미표기</span></td>
+</tr><tr data-v="NONRAW" data-name="150PET ISBM(갈색)/LK 소 CAP(민자부식)PET이지텝(검정)">
+<td class=num>153</td>
+<td class=raw>150PET ISBM(갈색)/LK 소 CAP(민자부식)PET이지텝(검정)</td>
+<td class=amt>632,400</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="MATCH" data-name="아프리카망고종자추출분말">
+<td class=num>154</td>
+<td class=raw>아프리카망고종자추출분말</td>
+<td class=amt>600,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>아프리카망고 종자추출분말</span><b>840,000</b></div></td>
+<td class=amt><b>840,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="한삼덩굴추출분말">
+<td class=num>155</td>
+<td class=raw>한삼덩굴추출분말</td>
+<td class=amt>580,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>한삼덩굴추출분말</span><b>1,080,000</b></div><div class='s'><span>한삼덩굴99 영업대행 수수료</span><b>540,000</b></div></td>
+<td class=amt><b>1,620,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="바닐라향분말SR-21489">
+<td class=num>156</td>
+<td class=raw>바닐라향분말SR-21489</td>
+<td class=amt>570,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>바닐라향분말</span><b>420,000</b></div><div class='s'><span>바닐라향분말(SR-24189)</span><b>160,000</b></div></td>
+<td class=amt><b>580,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="보스웰리아추출물(인)">
+<td class=num>157</td>
+<td class=raw>보스웰리아추출물(인)</td>
+<td class=amt>562,727</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>보스웰리아추출분말</span><b>2,450,000</b></div></td>
+<td class=amt><b>2,450,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="UNMATCHED" data-name="Acesulfame K(Shijiazhuang_CN)">
+<td class=num>158</td>
+<td class=raw>Acesulfame K(Shijiazhuang_CN)</td>
+<td class=amt>540,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>완제품명에 성분 미표기 — 감미료·식이섬유·향료·부형제 등 완제품에 미량 배합되는 부원료 추정 (대표 확인)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#B85C00;background:#FBEEDD">부원료·완제품 미표기</span></td>
+</tr><tr data-v="MATCH" data-name="(24521000)매스틱파우더50">
+<td class=num>159</td>
+<td class=raw>(24521000)매스틱파우더50</td>
+<td class=amt>500,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>매스틱파우더50</span><b>560,000</b></div><div class='s'><span>매스틱파우더 50</span><b>560,000</b></div></td>
+<td class=amt><b>1,120,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="매스틱파우더50">
+<td class=num>160</td>
+<td class=raw>매스틱파우더50</td>
+<td class=amt>500,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>매스틱파우더50</span><b>560,000</b></div><div class='s'><span>매스틱파우더 50</span><b>560,000</b></div></td>
+<td class=amt><b>1,120,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="UNMATCHED" data-name="Indigestible Maltodextrin(Huike_CN)">
+<td class=num>161</td>
+<td class=raw>Indigestible Maltodextrin(Huike_CN)</td>
+<td class=amt>490,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>완제품명에 성분 미표기 — 감미료·식이섬유·향료·부형제 등 완제품에 미량 배합되는 부원료 추정 (대표 확인)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#B85C00;background:#FBEEDD">부원료·완제품 미표기</span></td>
+</tr><tr data-v="UNMATCHED" data-name="HPMC">
+<td class=num>162</td>
+<td class=raw>HPMC</td>
+<td class=amt>450,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>완제품명에 성분 미표기 — 감미료·식이섬유·향료·부형제 등 완제품에 미량 배합되는 부원료 추정 (대표 확인)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#B85C00;background:#FBEEDD">부원료·완제품 미표기</span></td>
+</tr><tr data-v="MATCH" data-name="리구리안프로폴리스(9%,신규)">
+<td class=num>163</td>
+<td class=raw>리구리안프로폴리스(9%,신규)</td>
+<td class=amt>450,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>프로폴리스</span><b>690,000</b></div></td>
+<td class=amt><b>690,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="그릭요거트혼합분말(지대)외 4건">
+<td class=num>164</td>
+<td class=raw>그릭요거트혼합분말(지대)외 4건</td>
+<td class=amt>440,150</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>그릭요거트혼합분말</span><b>500,000</b></div></td>
+<td class=amt><b>500,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="발효여주추출분말">
+<td class=num>165</td>
+<td class=raw>발효여주추출분말</td>
+<td class=amt>440,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>발효여주추출분말</span><b>500,000</b></div></td>
+<td class=amt><b>500,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="우슬추출분말">
+<td class=num>166</td>
+<td class=raw>우슬추출분말</td>
+<td class=amt>430,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>우슬추출분말</span><b>1,440,000</b></div></td>
+<td class=amt><b>1,440,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="쿠키맛분말SR-23143">
+<td class=num>167</td>
+<td class=raw>쿠키맛분말SR-23143</td>
+<td class=amt>400,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>쿠키 맛 분말</span><b>1,000,000</b></div><div class='s'><span>쿠키맛분말</span><b>1,000,000</b></div></td>
+<td class=amt><b>2,000,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="NONRAW" data-name="오르조워터 10입 케이스 개발비용">
+<td class=num>168</td>
+<td class=raw>오르조워터 10입 케이스 개발비용</td>
+<td class=amt>380,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="MATCH" data-name="돼지감자추출분말">
+<td class=num>169</td>
+<td class=raw>돼지감자추출분말</td>
+<td class=amt>370,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>돼지감자추출분말</span><b>840,000</b></div></td>
+<td class=amt><b>840,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="NONRAW" data-name="사무실임대료">
+<td class=num>170</td>
+<td class=raw>사무실임대료</td>
+<td class=amt>360,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="MATCH" data-name="오렌지농축분말SR-24387">
+<td class=num>171</td>
+<td class=raw>오렌지농축분말SR-24387</td>
+<td class=amt>360,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>오렌지농축분말</span><b>400,000</b></div></td>
+<td class=amt><b>400,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="NONRAW" data-name="4월 기장료">
+<td class=num>172</td>
+<td class=raw>4월 기장료</td>
+<td class=amt>360,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="MATCH" data-name="바나바잎추출분말/ 20%">
+<td class=num>173</td>
+<td class=raw>바나바잎추출분말/ 20%</td>
+<td class=amt>360,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>바나바잎추출분말</span><b>2,125,000</b></div><div class='s'><span>바나바잎추출분말(코로솔산 1%)</span><b>1,000,000</b></div><div class='s'><span>바나바잎(코로솔산 20%)</span><b>400,000</b></div></td>
+<td class=amt><b>3,525,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="제삼인산칼슘(TCP)">
+<td class=num>174</td>
+<td class=raw>제삼인산칼슘(TCP)</td>
+<td class=amt>300,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>제삼인산칼슘</span><b>330,000</b></div></td>
+<td class=amt><b>330,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="(평화)무궁화추출분말">
+<td class=num>175</td>
+<td class=raw>(평화)무궁화추출분말</td>
+<td class=amt>300,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>평화무궁화추출분말</span><b>19,440,000</b></div></td>
+<td class=amt><b>19,440,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="오르니틴염산염">
+<td class=num>176</td>
+<td class=raw>오르니틴염산염</td>
+<td class=amt>280,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>오리니틴 염산염</span><b>320,000</b></div><div class='s'><span>비타민B6 염산염</span><b>300,000</b></div><div class='s'><span>비타민B6염산염</span><b>150,000</b></div></td>
+<td class=amt><b>770,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="보스웰리아추출물(인도) 1kg">
+<td class=num>177</td>
+<td class=raw>보스웰리아추출물(인도) 1kg</td>
+<td class=amt>272,727</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>보스웰리아추출분말</span><b>2,450,000</b></div></td>
+<td class=amt><b>2,450,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="양배추추출분말">
+<td class=num>178</td>
+<td class=raw>양배추추출분말</td>
+<td class=amt>270,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>양배추추출분말</span><b>1,634,000</b></div></td>
+<td class=amt><b>1,634,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="NONRAW" data-name="시험의뢰비(역가)">
+<td class=num>179</td>
+<td class=raw>시험의뢰비(역가)</td>
+<td class=amt>269,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="MATCH" data-name="젖산칼슘(벨기에)">
+<td class=num>180</td>
+<td class=raw>젖산칼슘(벨기에)</td>
+<td class=amt>268,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>젖산칼슘</span><b>282,000</b></div></td>
+<td class=amt><b>282,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="사과농축분말">
+<td class=num>181</td>
+<td class=raw>사과농축분말</td>
+<td class=amt>260,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>사과농축분말</span><b>1,080,000</b></div></td>
+<td class=amt><b>1,080,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="NONRAW" data-name="12월 기장료">
+<td class=num>182</td>
+<td class=raw>12월 기장료</td>
+<td class=amt>240,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="NONRAW" data-name="11월 기장료">
+<td class=num>183</td>
+<td class=raw>11월 기장료</td>
+<td class=amt>240,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="NONRAW" data-name="10월 기장료">
+<td class=num>184</td>
+<td class=raw>10월 기장료</td>
+<td class=amt>240,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="NONRAW" data-name="6월 기장료">
+<td class=num>185</td>
+<td class=raw>6월 기장료</td>
+<td class=amt>240,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="NONRAW" data-name="3월 기장료">
+<td class=num>186</td>
+<td class=raw>3월 기장료</td>
+<td class=amt>240,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="NONRAW" data-name="2월 기장료">
+<td class=num>187</td>
+<td class=raw>2월 기장료</td>
+<td class=amt>240,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="NONRAW" data-name="1월 기장료">
+<td class=num>188</td>
+<td class=raw>1월 기장료</td>
+<td class=amt>240,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="NONRAW" data-name="엔자임미_케이스 실크수지비용">
+<td class=num>189</td>
+<td class=raw>엔자임미_케이스 실크수지비용</td>
+<td class=amt>240,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="NONRAW" data-name="효소진심_ 필름 재판비용">
+<td class=num>190</td>
+<td class=raw>효소진심_ 필름 재판비용</td>
+<td class=amt>230,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="NONRAW" data-name="엔자임미_필름 제판비용">
+<td class=num>191</td>
+<td class=raw>엔자임미_필름 제판비용</td>
+<td class=amt>230,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="MATCH" data-name="프리미엄 카무트® 발효효소 외 1건">
+<td class=num>192</td>
+<td class=raw>프리미엄 카무트® 발효효소 외 1건</td>
+<td class=amt>225,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>프리미엄 카무트Ⓡ브랜드 발효효소K</span><b>15,000,000</b></div><div class='s'><span>곡류과채발효효소분말</span><b>1,200,000</b></div><div class='s'><span>프리미엄 카무트브랜드 발효효소</span><b>165,000</b></div><div class='s'><span>현미발효효소분말</span><b>11,600</b></div><div class='more'>외 2종</div></td>
+<td class=amt><b>16,392,600</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="저분자히알루론산(건식)">
+<td class=num>193</td>
+<td class=raw>저분자히알루론산(건식)</td>
+<td class=amt>220,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>저분자 피쉬콜라겐</span><b>480,000</b></div></td>
+<td class=amt><b>480,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="NONRAW" data-name="운반비">
+<td class=num>194</td>
+<td class=raw>운반비</td>
+<td class=amt>210,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="MATCH" data-name="탄산마그네슘">
+<td class=num>195</td>
+<td class=raw>탄산마그네슘</td>
+<td class=amt>195,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>탄산마그네슘</span><b>212,500</b></div></td>
+<td class=amt><b>212,500</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="유기농밀크씨슬분말">
+<td class=num>196</td>
+<td class=raw>유기농밀크씨슬분말</td>
+<td class=amt>176,400</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>유기농 밀크씨슬</span><b>15,335,200</b></div><div class='s'><span>유기농 사과초모식초</span><b>3,000,000</b></div><div class='s'><span>유기농 사과초모식초 분말</span><b>2,000,000</b></div><div class='s'><span>유기농 사과초모 식초 분말</span><b>2,000,000</b></div><div class='more'>외 1종</div></td>
+<td class=amt><b>24,335,200</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="알룰로스분말/ shandong sanyuan">
+<td class=num>197</td>
+<td class=raw>알룰로스분말/ shandong sanyuan</td>
+<td class=amt>162,500</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>알룰로스분말</span><b>180,000</b></div></td>
+<td class=amt><b>180,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="UNMATCHED" data-name="Sodium Citrate(식첨,Ensign)">
+<td class=num>198</td>
+<td class=raw>Sodium Citrate(식첨,Ensign)</td>
+<td class=amt>160,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>완제품명에 성분 미표기 — 감미료·식이섬유·향료·부형제 등 완제품에 미량 배합되는 부원료 추정 (대표 확인)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#B85C00;background:#FBEEDD">부원료·완제품 미표기</span></td>
+</tr><tr data-v="NONRAW" data-name="엔자임미_케이스 출력비용">
+<td class=num>199</td>
+<td class=raw>엔자임미_케이스 출력비용</td>
+<td class=amt>160,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="MATCH" data-name="프락토올리고당(과립형)">
+<td class=num>200</td>
+<td class=raw>프락토올리고당(과립형)</td>
+<td class=amt>157,500</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>프락토올리고당</span><b>1,950,000</b></div><div class='s'><span>프락토올리고당(과립형)</span><b>170,000</b></div></td>
+<td class=amt><b>2,120,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="감초분말(우즈베키스탄)">
+<td class=num>201</td>
+<td class=raw>감초분말(우즈베키스탄)</td>
+<td class=amt>150,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>감초분말</span><b>180,000</b></div></td>
+<td class=amt><b>180,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="자일리톨(80)">
+<td class=num>202</td>
+<td class=raw>자일리톨(80)</td>
+<td class=amt>140,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>자일리톨</span><b>2,110,000</b></div></td>
+<td class=amt><b>2,110,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="NONRAW" data-name="운송비">
+<td class=num>203</td>
+<td class=raw>운송비</td>
+<td class=amt>130,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="NONRAW" data-name="5월 기장료">
+<td class=num>204</td>
+<td class=raw>5월 기장료</td>
+<td class=amt>120,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="NONRAW" data-name="기장료">
+<td class=num>205</td>
+<td class=raw>기장료</td>
+<td class=amt>120,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="NONRAW" data-name="9월 기장료">
+<td class=num>206</td>
+<td class=raw>9월 기장료</td>
+<td class=amt>120,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="NONRAW" data-name="7월 기장료">
+<td class=num>207</td>
+<td class=raw>7월 기장료</td>
+<td class=amt>120,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="NONRAW" data-name="트러스트온(하나은행)">
+<td class=num>208</td>
+<td class=raw>트러스트온(하나은행)</td>
+<td class=amt>120,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="MATCH" data-name="인도매자나무 열매추출분말(베르베린 90%, 일반)">
+<td class=num>209</td>
+<td class=raw>인도매자나무 열매추출분말(베르베린 90%, 일반)</td>
+<td class=amt>86,100</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>인도매자나무열매추출분말</span><b>9,875,000</b></div><div class='s'><span>인도매자나무열매추출분말(베르베린 10%)</span><b>3,200,000</b></div><div class='s'><span>회화나무열매추출분말</span><b>2,750,000</b></div><div class='s'><span>인도다윈매자나무열매추출분말</span><b>787,500</b></div><div class='more'>외 3종</div></td>
+<td class=amt><b>17,068,060</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="NONRAW" data-name="30입 케이스 목형/필름 비용">
+<td class=num>210</td>
+<td class=raw>30입 케이스 목형/필름 비용</td>
+<td class=amt>80,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="NONRAW" data-name="10입 케이스 목형/필름 비용">
+<td class=num>211</td>
+<td class=raw>10입 케이스 목형/필름 비용</td>
+<td class=amt>75,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="UNMATCHED" data-name="Sodium Bicarbonate(T, Eti)">
+<td class=num>212</td>
+<td class=raw>Sodium Bicarbonate(T, Eti)</td>
+<td class=amt>66,250</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>완제품명에 성분 미표기 — 감미료·식이섬유·향료·부형제 등 완제품에 미량 배합되는 부원료 추정 (대표 확인)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#B85C00;background:#FBEEDD">부원료·완제품 미표기</span></td>
+</tr><tr data-v="MATCH" data-name="유당">
+<td class=num>213</td>
+<td class=raw>유당</td>
+<td class=amt>60,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>유당</span><b>70,000</b></div></td>
+<td class=amt><b>70,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="MH프리미엄엔자임-알파">
+<td class=num>214</td>
+<td class=raw>MH프리미엄엔자임-알파</td>
+<td class=amt>56,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>MH프리미엄엔자임-α</span><b>690,060,000</b></div><div class='s'><span>아스퍼질러스 알파</span><b>363,000,000</b></div><div class='s'><span>아스퍼질러스 발효분말 알파</span><b>126,372,000</b></div><div class='s'><span>알파사이클로덱스트린</span><b>9,650,000</b></div><div class='more'>외 6종</div></td>
+<td class=amt><b>1,194,682,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="MATCH" data-name="함수포도당 (Dongxiao_중국)">
+<td class=num>215</td>
+<td class=raw>함수포도당 (Dongxiao_중국)</td>
+<td class=amt>54,600</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>포도당</span><b>60,000</b></div></td>
+<td class=amt><b>60,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="NONRAW" data-name="[식품참고 검사수수료]">
+<td class=num>216</td>
+<td class=raw>[식품참고 검사수수료]</td>
+<td class=amt>42,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="TRACE" data-name="홍삼농축액5.5">
+<td class=num>217</td>
+<td class=raw>홍삼농축액5.5</td>
+<td class=amt>40,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>미량 부원료(완제품에 소량 첨가, 이름 미표기)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#8A6D00;background:#FBF3D0">미량·7월판매</span></td>
+</tr><tr data-v="MATCH" data-name="프락토올리고당 (삼양사_국내)">
+<td class=num>218</td>
+<td class=raw>프락토올리고당 (삼양사_국내)</td>
+<td class=amt>33,750</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>프락토올리고당</span><b>1,950,000</b></div><div class='s'><span>프락토올리고당(과립형)</span><b>170,000</b></div></td>
+<td class=amt><b>2,120,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="NONRAW" data-name="명함제작">
+<td class=num>219</td>
+<td class=raw>명함제작</td>
+<td class=amt>30,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="NONRAW" data-name="시험의뢰비(단백질)">
+<td class=num>220</td>
+<td class=raw>시험의뢰비(단백질)</td>
+<td class=amt>29,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="TRACE" data-name="말티톨시럽 (Luzhou_75%_중국)">
+<td class=num>221</td>
+<td class=raw>말티톨시럽 (Luzhou_75%_중국)</td>
+<td class=amt>26,640</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>미량 감미료(완제품 내 소량)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#8A6D00;background:#FBF3D0">미량·7월판매</span></td>
+</tr><tr data-v="MATCH" data-name="탄산칼슘(인도)소분">
+<td class=num>222</td>
+<td class=raw>탄산칼슘(인도)소분</td>
+<td class=amt>25,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='s'><span>밀크칼슘파우더</span><b>1,920,000</b></div><div class='s'><span>밀크칼슘</span><b>1,600,000</b></div><div class='s'><span>제삼인산칼슘</span><b>330,000</b></div><div class='s'><span>젖산칼슘</span><b>282,000</b></div></td>
+<td class=amt><b>4,132,000</b></td>
+<td class=verd><span class=badge style="color:#1E3932;background:#E3F0E9">매출 대응 확인</span></td>
+</tr><tr data-v="NONRAW" data-name="(기타) 택배비">
+<td class=num>223</td>
+<td class=raw>(기타) 택배비</td>
+<td class=amt>22,000</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="NONRAW" data-name="택배비">
+<td class=num>224</td>
+<td class=raw>택배비</td>
+<td class=amt>15,200</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="NONRAW" data-name="택배비(선불)">
+<td class=num>225</td>
+<td class=raw>택배비(선불)</td>
+<td class=amt>8,273</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr><tr data-v="TRACE" data-name="이소말트 1kg">
+<td class=num>226</td>
+<td class=raw>이소말트 1kg</td>
+<td class=amt>6,580</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>2026년 7월 판매 — 재고 아님(대표 확인)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#8A6D00;background:#FBF3D0">미량·7월판매</span></td>
+</tr><tr data-v="NONRAW" data-name="배송비할인(결제금액X1.75%)">
+<td class=num>227</td>
+<td class=raw>배송비할인(결제금액X1.75%)</td>
+<td class=amt>0</td>
+<td class=arrow>→</td>
+<td class=sales><div class='note'>원료 아님(부자재·경비)</div></td>
+<td class=amt>—</td>
+<td class=verd><span class=badge style="color:#555;background:#ECECEC">부자재·경비</span></td>
+</tr></tbody></table>
+<div class=foot>※ 매칭은 <b>성분명 기준</b>입니다(원료명↔완제품명이 달라도 오르조·콜라겐 등 별칭으로 연결). 완제품 이름에 안 적히는 미량 부원료(감미료·부형제)는 성분 대조로 못 쫓아 '미량'으로 분류 — 금액이 수만 원대라 무의미합니다. 정밀 재고는 결산 기말재고(BOM) 영역.</div>
+</div>
+<script>
+const q=document.getElementById('q'),tb=document.getElementById('tb');let flt='all';
+function apply(){const kw=q.value.trim();for(const tr of tb.rows){const okF=flt=='all'||tr.dataset.v==flt;const okQ=!kw||tr.dataset.name.includes(kw);tr.style.display=(okF&&okQ)?'':'none';}}
+q.addEventListener('input',apply);
+document.querySelectorAll('.fbtn').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.fbtn').forEach(x=>x.classList.remove('active'));b.classList.add('active');flt=b.dataset.f;apply();}));
+</script></body></html>
