@@ -93,5 +93,10 @@
   "slug": "raw-material-sales-match",
   "title": "원료↔완제품 매칭 검증 (2024~2026)",
   "date": "2026-07-10"
+ },
+ {
+  "slug": "purchase-sales-ledger",
+  "title": "매입·매출 거래원장 (2024~2026)",
+  "date": "2026-07-10"
  }
 ]
