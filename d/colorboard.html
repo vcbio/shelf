@@ -143,20 +143,38 @@ body[data-tab="home"] #recToggle{display:none}
 body[data-tab="pre"] .chips{display:none} /* R14: 추천 탭 — 프리셋 6개뿐, 검색·필터 비표시 */
 body[data-tab="pre"] .searchrow{display:none}
 .presub{font-size:13.5px;color:#6e6a5e;line-height:1.6;margin:2px 0 14px}
-.pcard{background:#fff;border:1.5px solid #ddd8cb;border-radius:14px;padding:14px;display:flex;flex-direction:column}
-.pcard h3{font-size:17.5px;font-weight:800;letter-spacing:-.01em;margin:2px 0 4px}
+/* R15: 프리셋 카드 = .prcard (팔레트 카드가 이미 .pcard를 사용 — R14 클래스 충돌을 개명으로 해소) */
+.prcard{background:#fff;border:1.5px solid #ddd8cb;border-radius:14px;padding:14px;display:flex;flex-direction:column}
+.prcard h3{font-size:17.5px;font-weight:800;letter-spacing:-.01em;margin:2px 0 4px}
+.prcard.exp{border-style:dashed;opacity:.93}
+.brandrow{display:flex;gap:5px;margin:8px 0 2px;flex-wrap:wrap}
+.brandtag{font-size:11px;font-weight:800;border-radius:6px;padding:4px 9px;letter-spacing:-.01em}
+.brandtag.vc{background:#1E3932;color:#F2F0EB}   /* canon HEX — 뱃지 표기 전용(색 계산 재사용 금지) */
+.brandtag.sm{background:#1F7A4D;color:#D7F06A;border:1px solid #D7F06A}
+.brandtag.etc{background:#e8e6df;color:#5a564c}
+.famtag.warn{background:rgba(156,110,20,.88)}
+.section.subtle{color:#8a8478;border-color:#e0dccf;font-size:16px;margin-top:30px}
 .pout{background:#eaf3ee;border:1px solid #cfe3d7;border-radius:9px;padding:9px 12px;font-size:12.5px;color:#1f6b45;font-weight:600;line-height:1.55;margin:6px 0 2px}
 .pchips{display:flex;flex-wrap:wrap;gap:5px;margin:9px 0 4px}
 .pch{font-size:11px;background:#f1efe8;border:1px solid #e4e0d4;border-radius:6px;padding:4px 9px;font-weight:600;color:#5a564c;font-style:normal}
 .pnote{font-size:11.5px;color:#9a958a;margin:2px 0 0}
+.pnote.warn{color:#a06a1a;background:#faf3e3;border:1px solid #eddfba;border-radius:7px;padding:6px 9px;line-height:1.5}
 .pbtn{margin-top:12px;background:#1f2d26;color:#eafff3;border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:800;cursor:pointer}
 .pbtn:hover{background:#2E7D5B}
+.stkcard{background:#fff;border:1.5px solid #ddd8cb;border-radius:14px;padding:14px;display:flex;flex-direction:column}
+.stkcard h3{font-size:15.5px;font-weight:800;margin:0 0 6px}
+.stkgoal{font-size:11.5px;font-weight:700;color:#6e6a5e;background:#f1efe8;border-radius:6px;padding:3px 8px;margin-left:6px;vertical-align:2px}
+.stkflow{font-size:12.5px;font-weight:700;color:#1f6b45;line-height:1.6;margin:2px 0 6px}
 @media(prefers-color-scheme:dark){
-html:not([data-theme="light"]) .pcard{background:#1c1a15;border-color:#332f28}
+html:not([data-theme="light"]) .prcard,html:not([data-theme="light"]) .stkcard{background:#1c1a15;border-color:#332f28}
 html:not([data-theme="light"]) .pout{background:#1b2b22;border-color:#2a4234;color:#7fd9a8}
-html:not([data-theme="light"]) .pch{background:#221f1a;border-color:#38342c;color:#a49d8d}
+html:not([data-theme="light"]) .pch,html:not([data-theme="light"]) .stkgoal{background:#221f1a;border-color:#38342c;color:#a49d8d}
 html:not([data-theme="light"]) .presub{color:#a49d8d}
 html:not([data-theme="light"]) .pnote{color:#8a8478}
+html:not([data-theme="light"]) .pnote.warn{color:#d8b26a;background:#241d10;border-color:#44361a}
+html:not([data-theme="light"]) .stkflow{color:#7fd9a8}
+html:not([data-theme="light"]) .brandtag.etc{background:#2a2620;color:#a49d8d}
+html:not([data-theme="light"]) .section.subtle{border-color:#332f28}
 }
 .kcard .schd h3{font-size:16px}
 .kcard .skcode{font-family:'SF Mono',Menlo,Consolas,monospace;font-size:11px;font-weight:700;color:#2E7D5B;background:#eaf3ee;border-radius:5px;padding:2px 7px;margin-left:6px}
@@ -260,11 +278,15 @@ html[data-theme="dark"] #themeToggle{background:#221f1a;border-color:#38342c;col
 html[data-theme="dark"] .ey{color:#5fc492}
 html[data-theme="dark"] #recToggle{color:#5fc492}
 html[data-theme="dark"] #emptyHint{color:#9d9788}
-html[data-theme="dark"] .pcard{background:#1c1a15;border-color:#332f28}
+html[data-theme="dark"] .prcard,html[data-theme="dark"] .stkcard{background:#1c1a15;border-color:#332f28}
 html[data-theme="dark"] .pout{background:#1b2b22;border-color:#2a4234;color:#7fd9a8}
-html[data-theme="dark"] .pch{background:#221f1a;border-color:#38342c;color:#a49d8d}
+html[data-theme="dark"] .pch,html[data-theme="dark"] .stkgoal{background:#221f1a;border-color:#38342c;color:#a49d8d}
 html[data-theme="dark"] .presub{color:#a49d8d}
 html[data-theme="dark"] .pnote{color:#8a8478}
+html[data-theme="dark"] .pnote.warn{color:#d8b26a;background:#241d10;border-color:#44361a}
+html[data-theme="dark"] .stkflow{color:#7fd9a8}
+html[data-theme="dark"] .brandtag.etc{background:#2a2620;color:#a49d8d}
+html[data-theme="dark"] .section.subtle{border-color:#332f28}
 html[data-theme="dark"] .tab{background:#221f1a;color:#d8d3c8;border-color:#38342c}
 html[data-theme="dark"] .tab.act{background:#1f2d26;color:#eafff3;border-color:#2E7D5B}
 html[data-theme="dark"] .kcard .skcode{background:#1b2b22;color:#7fd9a8}
@@ -279,7 +301,7 @@ html[data-theme="dark"] .psrc{color:#9d9788}
 <header style="position:relative">
 <button id="themeToggle" onclick="toggleTheme()" aria-label="라이트/다크 전환" title="라이트/다크 전환">🌓</button>
 <div class="ey">VCBIO · DESIGN SYSTEM</div>
-<h1>🎨 디자인 선택 보드 <span class="h1sub">v3 · <span style="white-space:nowrap">추천 조합 6</span> + <span style="white-space:nowrap">색감 38</span> + <span style="white-space:nowrap">스타일 92</span> + <span style="white-space:nowrap">스킬 15</span> + <span style="white-space:nowrap">홈페이지 6축</span></span></h1>
+<h1>🎨 디자인 선택 보드 <span class="h1sub">v3 · <span style="white-space:nowrap">추천 조합 8</span> + <span style="white-space:nowrap">색감 40</span> + <span style="white-space:nowrap">스타일 92</span> + <span style="white-space:nowrap">스킬 15</span> + <span style="white-space:nowrap">홈페이지 6축</span></span></h1>
 <p class="sub">덱·자료는 <b>팔레트 1 + 스타일 1</b>(+ 필요하면 <b>스킬 여러 개</b>), 홈페이지는 <b>🌐 탭</b>에서 6축. 고른 조합은 하단 바에서 한 줄로 복사됩니다.</p>
 </header>
 <details class="canon" id="canonBox">
@@ -300,68 +322,170 @@ html[data-theme="dark"] .psrc{color:#9d9788}
 </div>
 <div class="chips"><button class="chip on" aria-pressed="true" data-f="all" onclick="filt(this)">전체</button><button class="chip" aria-pressed="false" data-f="건기식웰니스" onclick="filt(this)">건기식·웰니스</button><button class="chip" aria-pressed="false" data-f="식품FB" onclick="filt(this)">식품·F&amp;B</button><button class="chip" aria-pressed="false" data-f="뷰티럭셔리" onclick="filt(this)">뷰티·럭셔리</button><button class="chip" aria-pressed="false" data-f="테크핀테크" onclick="filt(this)">테크·핀테크</button><button class="chip" aria-pressed="false" data-f="금융컨설팅" onclick="filt(this)">금융·컨설팅</button><button class="chip" aria-pressed="false" data-f="패션" onclick="filt(this)">패션</button><button class="chip" aria-pressed="false" data-f="의료" onclick="filt(this)">의료</button><button class="chip" aria-pressed="false" data-f="스포츠" onclick="filt(this)">스포츠</button><button class="chip" aria-pressed="false" data-f="키즈" onclick="filt(this)">키즈</button></div>
 <div class="searchrow"><span class="qwrap"><input id="q" aria-label="이름·무드·용도 검색" placeholder="검색: 이름·무드·용도 (예: 신뢰, 웰니스, 그라데이션)"><button id="qClear" aria-label="검색어 지우기" onclick="clearQ()">✕</button></span><button id="recToggle" aria-pressed="false" onclick="toggleRec()"><span class="rtf">🌿 건기식 추천만</span><span class="rts">🌿 건기식 추천</span></button></div>
-<div class="jumprow" id="jump-pal"><button class="jchip" onclick="jumpGrp(this)" data-g="5색 세트">5색 세트</button><button class="jchip" onclick="jumpGrp(this)" data-g="그라데이션">그라데이션</button><button class="jchip" onclick="jumpGrp(this)" data-g="4색 조합">4색 조합</button><button class="jchip" onclick="jumpGrp(this)" data-g="레드·오렌지 조합">레드·오렌지 조합</button><button class="jchip" onclick="jumpGrp(this)" data-g="블루 조합">블루 조합</button><button class="jchip" onclick="jumpGrp(this)" data-g="그린+폰트">그린+폰트</button><button class="jchip" onclick="jumpGrp(this)" data-g="단일색 사다리">단일색 사다리</button></div>
+<div class="jumprow" id="jump-pal"><button class="jchip" onclick="jumpGrp(this)" data-g="브랜드 정본">브랜드 정본</button><button class="jchip" onclick="jumpGrp(this)" data-g="5색 세트">5색 세트</button><button class="jchip" onclick="jumpGrp(this)" data-g="그라데이션">그라데이션</button><button class="jchip" onclick="jumpGrp(this)" data-g="4색 조합">4색 조합</button><button class="jchip" onclick="jumpGrp(this)" data-g="레드·오렌지 조합">레드·오렌지 조합</button><button class="jchip" onclick="jumpGrp(this)" data-g="블루 조합">블루 조합</button><button class="jchip" onclick="jumpGrp(this)" data-g="그린+폰트">그린+폰트</button><button class="jchip" onclick="jumpGrp(this)" data-g="단일색 사다리">단일색 사다리</button></div>
 <div class="jumprow" id="jump-sty"><button class="jchip" onclick="jumpGrp(this)" data-g="범용 스타일">범용 스타일</button><button class="jchip" onclick="jumpGrp(this)" data-g="랜딩 페이지">랜딩 페이지</button><button class="jchip" onclick="jumpGrp(this)" data-g="대시보드·BI">대시보드·BI</button><button class="jchip" onclick="jumpGrp(this)" data-g="모바일 특화">모바일 특화</button><button class="jchip" onclick="jumpGrp(this)" data-g="✨ 2026 트렌드">✨ 2026 트렌드</button><button class="jchip" onclick="jumpGrp(this)" data-g="🎬 덱 연출">🎬 덱 연출</button></div>
 <div class="jumprow" id="jump-home"><button class="jchip" onclick="jumpGrp(this)" data-g="축 1 · 브랜드 프리셋">브랜드</button><button class="jchip" onclick="jumpGrp(this)" data-g="축 2 · 히어로 유형">히어로</button><button class="jchip" onclick="jumpGrp(this)" data-g="축 3 · 컴포넌트 베이스">베이스</button><button class="jchip" onclick="jumpGrp(this)" data-g="축 4 · 모션 수위">모션</button><button class="jchip" onclick="jumpGrp(this)" data-g="축 5 · 섹션 구성 프리셋">구성</button><button class="jchip" onclick="jumpGrp(this)" data-g="축 6 · 레퍼런스 톤 (선택 시 해당 DESIGN.md 로드)">톤</button></div>
 </div>
 
 <div class="tabpane act" id="pane-pre" role="tabpanel" aria-labelledby="tabPre">
-<div class="section">🎁 추천 조합 <span class="secsub">6종 · 완성품 기준 프리셋 — 담은 뒤 하단 바에서 조합 복사</span></div>
-<p class="presub">어떤 완성품이 필요한지부터 고르세요 — <b>이 조합 담기</b>를 누르면 색감·스타일·스킬이 한 번에 선택됩니다(세부는 각 탭에서 바꿔도 됩니다).</p>
-<div class="grid sgrid pgrid"><div class="pcard">
-      <div class="thumbwrap"><img loading="eager" width="456" height="257" src="colorboard-thumbs/p02.jpg?v=2" alt="원료 제안덱 대표 이미지"><span class="famtag">추천 조합</span></div>
+<div class="section">🎁 추천 조합 <span class="secsub">8종 · 완성품 기준 프리셋 — 담은 뒤 하단 바에서 조합 복사</span></div>
+<p class="presub">어떤 완성품이 필요한지부터 고르세요 — <b>이 조합 담기</b>를 누르면 색감·스타일·스킬이 한 번에 선택됩니다(세부는 각 탭에서 바꿔도 됩니다).<br>견적서·마감내역서는 표·계산형이라 여기가 아니라 견적/회계 도구에서 만듭니다.</p>
+<div class="grid sgrid pgrid"><div class="prcard">
+      <div class="thumbwrap"><img loading="eager" width="456" height="257" src="colorboard-thumbs/121.jpg?v=2" alt="원료 제안덱 대표 이미지"><span class="famtag">추천 조합</span></div>
+      <div class="brandrow"><span class="brandtag vc">브이씨바이오</span></div>
       <h3>📑 원료 제안덱</h3>
-      <div class="pout">📦 이런 게 나옵니다 — 가로 16:9 덱 → PDF 12~20장(표지·원료 개요·기전·근거·스펙·제안 조건) — 거래처 송부용</div>
+      <div class="pout">📦 이런 게 나옵니다 — 가로 16:9 덱 → PDF 18~19장(표지·원료 개요·기전·근거등급 배지·스펙·제안 조건) — 거래처 송부용</div>
       <p class="use">🎯 이럴 때: 원료 하나를 잡아 거래처에 제안할 때 (영업 기본값)</p>
-      <div class="pchips"><i class="pch">색감 세트2 · 세이지→틸</i><i class="pch">스타일 미니멀·스위스 스타일</i><i class="pch">스킬 원료 제안덱</i><i class="pch">스킬 한국어 AI티 제거</i></div>
-      
+      <div class="pchips"><i class="pch">색감 VCBio 딥그린 정본</i><i class="pch">스킬 원료 제안덱</i><i class="pch">스킬 차트·데이터 시각화</i><i class="pch">스킬 한국어 AI티 제거</i><i class="pch">스킬 책장 배포</i></div>
+      <p class="pnote">※ 색·레이아웃은 ingredient-proposal-deck 정본 시스템이 관장(딥그린 #1E3932 계열) — 방향 스킬·스타일 탭과 혼합 금지(스택①)</p>
       <button class="pbtn" onclick="applyPreset(0)">🎁 이 조합 담기</button>
-    </div><div class="pcard">
-      <div class="thumbwrap"><img loading="eager" width="456" height="257" src="colorboard-thumbs/p14.jpg?v=2" alt="회사 소개서·IR 덱 대표 이미지"><span class="famtag">추천 조합</span></div>
-      <h3>🏢 회사 소개서·IR 덱</h3>
-      <div class="pout">📦 이런 게 나옵니다 — 가로 16:9 덱 → PDF 10~15장(회사·사업영역·인증·실적 차트) — 미팅·투자 검토용</div>
-      <p class="use">🎯 이럴 때: 회사 자체를 소개하거나 실적·수치를 보여줄 때</p>
-      <div class="pchips"><i class="pch">색감 네이비·베이지</i><i class="pch">스타일 미니멀·스위스 스타일</i><i class="pch">덱 연출 ECharts</i><i class="pch">스킬 미적 방향 선행</i></div>
-      
+    </div><div class="prcard">
+      <div class="thumbwrap"><img loading="eager" width="456" height="257" src="colorboard-thumbs/121.jpg?v=2" alt="정부지원 발표덱·사업계획서 대표 이미지"><span class="famtag">추천 조합</span></div>
+      <div class="brandrow"><span class="brandtag vc">브이씨바이오</span><span class="brandtag etc">혜안</span></div>
+      <h3>🏛️ 정부지원 발표덱·사업계획서</h3>
+      <div class="pout">📦 이런 게 나옵니다 — 관공서 서식(hwpx·docx 서식1~5) + 발표 pptx(15분) → PDF 14~18장(회사·사업영역·트랙션 차트·재무) — 정부 평가위원 제출용</div>
+      <p class="use">🎯 이럴 때: 정부지원·IR 심사에 사업계획·실적을 낼 때 (정직 기재 엄수)</p>
+      <div class="pchips"><i class="pch">색감 VCBio 딥그린 정본</i><i class="pch">스타일 미니멀·스위스 스타일</i><i class="pch">덱 연출 ECharts</i><i class="pch">스킬 스위스 편집 디자인</i><i class="pch">스킬 타이포그래피</i><i class="pch">스킬 차트·데이터 시각화</i><i class="pch">스킬 한국어 AI티 제거</i><i class="pch">스킬 책장 배포</i></div>
+      <p class="pnote">※ 혜안 명의 건은 혜안 브랜드 톤 별도 · reveal.js 기본, impress.js 금지(정직 톤) · 신뢰 강조 필요 시 색감을 네이비·베이지로 교체</p>
       <button class="pbtn" onclick="applyPreset(1)">🎁 이 조합 담기</button>
-    </div><div class="pcard">
-      <div class="thumbwrap"><img loading="eager" width="456" height="257" src="colorboard-thumbs/94.jpg?v=2" alt="에스엠바이오 홈페이지 대표 이미지"><span class="famtag">추천 조합</span></div>
-      <h3>🌐 에스엠바이오 홈페이지</h3>
-      <div class="pout">📦 이런 게 나옵니다 — 반응형 원페이지 웹(히어로→신뢰→제품→공정·인증→문의) — 배포 URL 제공, 폰·PC 대응</div>
-      <p class="use">🎯 이럴 때: 정제(타블렛) 영업용 홈페이지를 만들거나 갱신할 때</p>
-      <div class="pchips"><i class="pch">히어로 보수 B2B</i><i class="pch">베이스 shadcn 계열</i><i class="pch">모션 절제</i><i class="pch">구성 원페이지 영업형</i><i class="pch">브랜드 에스엠바이오</i></div>
-      
+    </div><div class="prcard">
+      <div class="thumbwrap"><img loading="eager" width="456" height="257" src="colorboard-thumbs/122.jpg?v=2" alt="에스엠바이오 영업 인쇄물 대표 이미지"><span class="famtag">추천 조합</span></div>
+      <div class="brandrow"><span class="brandtag sm">에스엠바이오</span></div>
+      <h3>📘 에스엠바이오 영업 인쇄물</h3>
+      <div class="pout">📦 이런 게 나옵니다 — 브로셔·3단 접지 리플렛·회사소개서(11장 기준) pptx → PDF(표지·KPI·OEM/ODM·원스톱·제형·공정·설비·강점·품질) — 정제 영업 배포용</div>
+      <p class="use">🎯 이럴 때: 정제(타블렛) 거래처에 회사·설비·강점을 인쇄물로 소개할 때</p>
+      <div class="pchips"><i class="pch">색감 에스엠바이오 라임 정본</i><i class="pch">스타일 플랫 디자인</i><i class="pch">스킬 미적 방향 선행</i><i class="pch">스킬 타이포그래피</i><i class="pch">스킬 한국어 AI티 제거</i><i class="pch">스킬 책장 배포</i></div>
+      <p class="pnote">※ 정본 토큰 팔레트로 잠금(#1F7A4D·라임 #D7F06A·골드 #C2A36B) · 제목 Paperlogy/본문 Pretendard · 3단 리플렛은 접지·재단 여백 별도</p>
       <button class="pbtn" onclick="applyPreset(2)">🎁 이 조합 담기</button>
-    </div><div class="pcard">
-      <div class="thumbwrap"><img loading="eager" width="456" height="257" src="colorboard-thumbs/108.jpg?v=2" alt="브랜드 화보(영상) 대표 이미지"><span class="famtag">추천 조합</span></div>
-      <h3>🎬 브랜드 화보(영상)</h3>
-      <div class="pout">📦 이런 게 나옵니다 — 세로 1080×1920 무음 mp4 클립 3~6개(문장별 2~3초) — 숏폼·자막 밑 b-roll</div>
-      <p class="use">🎯 이럴 때: 제품·원료를 움직이는 영상 화보로 보여주고 싶을 때</p>
-      <div class="pchips"><i class="pch">색감 세트3 · 민트→파스텔핑크</i><i class="pch">스킬 브랜드 화보(모션클립)</i></div>
-      <p class="pnote">※ 색감은 클립 워시 톤 참고용</p>
+    </div><div class="prcard">
+      <div class="thumbwrap"><img loading="eager" width="456" height="257" src="colorboard-thumbs/94.jpg?v=2" alt="에스엠바이오 홈페이지 대표 이미지"><span class="famtag">추천 조합</span></div>
+      <div class="brandrow"><span class="brandtag sm">에스엠바이오</span></div>
+      <h3>🌐 에스엠바이오 홈페이지</h3>
+      <div class="pout">📦 이런 게 나옵니다 — 반응형 다섹션 웹(히어로→회사→제품→공정·인증→문의) — 배포 URL, 폰·PC 대응</div>
+      <p class="use">🎯 이럴 때: 정제 영업용 공식 홈페이지를 만들거나 갱신할 때</p>
+      <div class="pchips"><i class="pch">스킬 안티슬롭</i><i class="pch">스킬 모션 교정</i><i class="pch">스킬 타이포그래피</i><i class="pch">스킬 책장 배포</i><i class="pch">히어로 보수 B2B</i><i class="pch">베이스 shadcn 계열</i><i class="pch">모션 절제</i><i class="pch">구성 기업 소개형</i><i class="pch">브랜드 에스엠바이오</i><i class="pch">톤 ag1</i></div>
+      <p class="pnote">※ 색은 브랜드 축(에스엠바이오)이 정본 토큰으로 잠금 · animate만 사용(baseline-ui와 동시 금지)</p>
       <button class="pbtn" onclick="applyPreset(3)">🎁 이 조합 담기</button>
-    </div><div class="pcard">
-      <div class="thumbwrap"><img loading="eager" width="456" height="257" src="colorboard-thumbs/87.jpg?v=2" alt="임팩트 발표덱 대표 이미지"><span class="famtag">추천 조합</span></div>
+    </div><div class="prcard">
+      <div class="thumbwrap"><img loading="eager" width="456" height="257" src="colorboard-thumbs/97.jpg?v=2" alt="에스엠바이오 랜딩페이지(웹+A4) 대표 이미지"><span class="famtag">추천 조합</span></div>
+      <div class="brandrow"><span class="brandtag sm">에스엠바이오</span></div>
+      <h3>📄 에스엠바이오 랜딩페이지(웹+A4)</h3>
+      <div class="pout">📦 이런 게 나옵니다 — 단일 스크롤 웹 1p + A4 인쇄본 — 견적폼 CTA 내장(FormSubmit→수신 연동)</div>
+      <p class="use">🎯 이럴 때: 콜드메일·인쇄 배포용 정제 영업 랜딩을 만들 때</p>
+      <div class="pchips"><i class="pch">스킬 안티슬롭</i><i class="pch">스킬 타이포그래피</i><i class="pch">스킬 한국어 AI티 제거</i><i class="pch">스킬 책장 배포</i><i class="pch">히어로 스플릿(카피+제품컷)</i><i class="pch">베이스 정적 HTML(CSS-only)</i><i class="pch">모션 절제</i><i class="pch">구성 원페이지 영업형</i><i class="pch">브랜드 에스엠바이오</i><i class="pch">톤 ag1</i></div>
+      <p class="pnote">※ 웹+인쇄 겸용이라 A4 프린트 레이아웃 별도 산출 · design-taste-frontend는 랜딩 전용(덱·대시보드 금지)</p>
+      <button class="pbtn" onclick="applyPreset(4)">🎁 이 조합 담기</button>
+    </div></div>
+<div class="section subtle">🧪 예상 <span class="secsub">실물 이력 없음 · 참고용</span></div>
+<div class="grid sgrid pgrid"><div class="prcard exp">
+      <div class="thumbwrap"><img loading="eager" width="456" height="257" src="colorboard-thumbs/87.jpg?v=2" alt="임팩트 발표덱 대표 이미지"><span class="famtag warn">🧪 예상</span></div>
+      <div class="brandrow"><span class="brandtag vc">브이씨바이오</span></div>
       <h3>🎤 임팩트 발표덱</h3>
       <div class="pout">📦 이런 게 나옵니다 — 가로 16:9 시네마틱 PT덱(줌·회전 전환) — 행사·수주 발표 현장용</div>
       <p class="use">🎯 이럴 때: 큰 자리에서 강한 인상이 필요할 때 (과용 금지)</p>
-      <div class="pchips"><i class="pch">색감 시네마틱 스크롤스토퍼</i><i class="pch">스타일 리퀴드 글라스</i><i class="pch">덱 연출 impress.js</i><i class="pch">스킬 하이엔드 에이전시 룩</i></div>
-      
-      <button class="pbtn" onclick="applyPreset(4)">🎁 이 조합 담기</button>
-    </div><div class="pcard">
-      <div class="thumbwrap"><img loading="eager" width="456" height="257" src="colorboard-thumbs/6.jpg?v=2" alt="SNS 카드뉴스 대표 이미지"><span class="famtag">추천 조합</span></div>
+      <div class="pchips"><i class="pch">색감 시네마틱 스크롤스토퍼</i><i class="pch">스타일 리퀴드 글래스</i><i class="pch">덱 연출 impress.js</i><i class="pch">스킬 하이엔드 에이전시 룩</i><i class="pch">스킬 모션 교정</i><i class="pch">스킬 한국어 AI티 제거</i></div>
+      <p class="pnote">※ 실물 이력 없음(예상) · impress.js·시네마틱 색은 캠페인 예외 — 신뢰 B2B엔 미사용</p>
+      <button class="pbtn" onclick="applyPreset(5)">🎁 이 조합 담기</button>
+    </div><div class="prcard exp">
+      <div class="thumbwrap"><img loading="eager" width="456" height="257" src="colorboard-thumbs/75.jpg?v=2" alt="SNS 카드뉴스 대표 이미지"><span class="famtag warn">🧪 예상</span></div>
+      <div class="brandrow"><span class="brandtag sm">에스엠바이오</span><span class="brandtag vc">브이씨바이오</span></div>
       <h3>🗂️ SNS 카드뉴스</h3>
       <div class="pout">📦 이런 게 나옵니다 — 정방형 1080×1080 카드 6~10장 PNG — 인스타·블로그 업로드용</div>
       <p class="use">🎯 이럴 때: 소식·원료 지식을 SNS에 연재할 때</p>
-      <div class="pchips"><i class="pch">색감 모던 강렬 시선집중</i><i class="pch">스타일 비비드·블록형</i><i class="pch">스킬 한국어 AI티 제거</i></div>
-      
-      <button class="pbtn" onclick="applyPreset(5)">🎁 이 조합 담기</button>
+      <div class="pchips"><i class="pch">색감 생동감 그린</i><i class="pch">스타일 플랫 디자인</i><i class="pch">스킬 미적 방향 선행</i><i class="pch">스킬 타이포그래피</i><i class="pch">스킬 한국어 AI티 제거</i></div>
+      <p class="pnote">※ 실물 0건(예상) · 발신 주체=B2B 건기식 톤 유지 — 비비드·리퀴드글라스 지양</p>
+      <button class="pbtn" onclick="applyPreset(6)">🎁 이 조합 담기</button>
+    </div><div class="prcard exp">
+      <div class="thumbwrap"><img loading="eager" width="456" height="257" src="colorboard-thumbs/108.jpg?v=2" alt="브랜드 화보(영상) 대표 이미지"><span class="famtag warn">🧪 예상</span></div>
+      <div class="brandrow"><span class="brandtag vc">브이씨바이오</span><span class="brandtag sm">에스엠바이오</span></div>
+      <h3>🎬 브랜드 화보(영상)</h3>
+      <div class="pout">📦 이런 게 나옵니다 — 세로 1080×1920 무음 mp4 클립 3~6개(문장별 2~3초) — 숏폼·자막 밑 b-roll</div>
+      <p class="use">🎯 이럴 때: 제품·원료를 움직이는 영상 화보로 보여주고 싶을 때</p>
+      <div class="pchips"><i class="pch">스킬 브랜드 화보(모션클립)</i><i class="pch">스킬 책장 배포</i></div>
+      <p class="pnote">※ 실물 0건(예상) · 색은 vcbio-motion-clip 워시 프리셋이 잠금 — 톤 교체는 color-expert로만</p>
+      <button class="pbtn" onclick="applyPreset(7)">🎁 이 조합 담기</button>
+    </div></div>
+<div class="section">🧰 스킬 조합 추천 <span class="secsub">8종 · 작업 방식 묶음 — 담으면 스킬 탭에 한 번에 선택됩니다</span></div>
+<div class="grid kgrid"><div class="stkcard">
+      <h3>① 원료 제안덱 <span class="stkgoal">영업 기본 제안서</span></h3>
+      <p class="stkflow">🧰 원료 제안덱 → 차트·데이터 시각화 → 한국어 AI티 제거 → 책장 배포</p>
+      <div class="pchips"></div>
+      <p class="mood">💡 ipd가 색·구성·규제표기까지 자기완결(정본 잠금)</p>
+      <p class="pnote warn">⚠️ 방향 스킬(frontend·swiss·high-end·theme-factory) 혼합 금지</p>
+      <button class="pbtn" onclick="applyStack(0)">🧰 이 스킬들 담기</button>
+    </div><div class="stkcard">
+      <h3>② 회사 소개서·IR 덱 <span class="stkgoal">문서·IR 격식</span></h3>
+      <p class="stkflow">🧰 스위스 편집 디자인 → 타이포그래피 → 차트·데이터 시각화 → 한국어 AI티 제거 → 책장 배포</p>
+      <div class="pchips"><i class="pch">덱 연출 ECharts</i></div>
+      <p class="mood">💡 swiss=문서·IR 톤 지정(그리드·단일 액센트)</p>
+      <p class="pnote warn">⚠️ 방향 스킬 택1(swiss만) — frontend-design 병행 금지</p>
+      <button class="pbtn" onclick="applyStack(1)">🧰 이 스킬들 담기</button>
+    </div><div class="stkcard">
+      <h3>③ 홈페이지·랜딩 <span class="stkgoal">영업 원페이지</span></h3>
+      <p class="stkflow">🧰 안티슬롭 → 모션 교정 → 타이포그래피 → UI 디테일 폴리시 → 책장 배포</p>
+      <div class="pchips"></div>
+      <p class="mood">💡 랜딩 전용 안티슬롭(trust-first 다이얼)</p>
+      <p class="pnote warn">⚠️ animate↔baseline-ui 같은 파일 동시 금지 · 덱/대시보드엔 금지</p>
+      <button class="pbtn" onclick="applyStack(2)">🧰 이 스킬들 담기</button>
+    </div><div class="stkcard">
+      <h3>④ 프리미엄 홈페이지·브로셔 <span class="stkgoal">하이엔드 룩</span></h3>
+      <p class="stkflow">🧰 하이엔드 에이전시 룩 → 모션 교정 → 타이포그래피 → UI 디테일 폴리시 → 책장 배포</p>
+      <div class="pchips"></div>
+      <p class="mood">💡 $150k 에이전시급 컴포넌트</p>
+      <p class="pnote warn">⚠️ 방향 3종 택1 · B2B 신뢰엔 과함(다크·퍼플 주의)</p>
+      <button class="pbtn" onclick="applyStack(3)">🧰 이 스킬들 담기</button>
+    </div><div class="stkcard">
+      <h3>⑤ 임팩트 발표덱 <span class="stkgoal">행사·수주 현장</span></h3>
+      <p class="stkflow">🧰 하이엔드 에이전시 룩 → 모션 교정 → 한국어 AI티 제거</p>
+      <div class="pchips"><i class="pch">덱 연출 impress.js</i></div>
+      <p class="mood">💡 시네마틱 강인상</p>
+      <p class="pnote warn">⚠️ impress.js 임팩트 한정·과용 금지 · 방향 3종 택1</p>
+      <button class="pbtn" onclick="applyStack(4)">🧰 이 스킬들 담기</button>
+    </div><div class="stkcard">
+      <h3>⑥ 데이터 대시보드·제품 상세 <span class="stkgoal">웹앱·상세</span></h3>
+      <p class="stkflow">🧰 빠른 UI 정리 → 차트·데이터 시각화 → 색 전문 → 타이포그래피 → UI 디테일 폴리시</p>
+      <div class="pchips"></div>
+      <p class="mood">💡 방향 스킬 배제 영역 → baseline-ui로 시작</p>
+      <p class="pnote warn">⚠️ animate 배제(baseline-ui와 충돌) · color-expert=확장만</p>
+      <button class="pbtn" onclick="applyStack(5)">🧰 이 스킬들 담기</button>
+    </div><div class="stkcard">
+      <h3>⑦ SNS 카드뉴스 <span class="stkgoal">소셜 연재</span></h3>
+      <p class="stkflow">🧰 미적 방향 선행 → 색 전문 → 타이포그래피 → 한국어 AI티 제거</p>
+      <div class="pchips"></div>
+      <p class="mood">💡 랜딩도 덱도 아님 → 범용 방향</p>
+      <p class="pnote warn">⚠️ color-expert=팔레트 확장만(신규 선택 아님) · B2B 톤 유지</p>
+      <button class="pbtn" onclick="applyStack(6)">🧰 이 스킬들 담기</button>
+    </div><div class="stkcard">
+      <h3>⑧ 브랜드 화보(영상) <span class="stkgoal">영상 클립</span></h3>
+      <p class="stkflow">🧰 브랜드 화보(모션클립) → 색 전문 → 책장 배포</p>
+      <div class="pchips"></div>
+      <p class="mood">💡 자체 폰트·워시 잠금(자기완결)</p>
+      <p class="pnote warn">⚠️ 방향 스킬 불필요 · color-expert는 워시 HEX 교체 시만</p>
+      <button class="pbtn" onclick="applyStack(7)">🧰 이 스킬들 담기</button>
     </div></div>
 </div>
 
 <div class="tabpane" id="pane-pal" role="tabpanel" aria-labelledby="tabPal">
-<div class="section">🎨 색감 팔레트 <span class="secsub">38종 · 스와치 클릭=HEX 복사</span></div>
-<h3 class="grp">5색 세트 <span class="cnt">6</span></h3><div class="grid"><div class="card pcard" data-tags="뷰티럭셔리 패션" data-name="5색 세트 세트1 · 피치→네이비 일몰처럼 저무는 서정·성숙·빈티지 필름 톤 가을·연말 감성 캠페인·무드 에디토리얼·향수/티/캔들 뷰티럭셔리 패션" data-combo="세트1 · 피치→네이비" data-hexes="#DD9E82·#D4656E·#A95E75·#61536F·#2F516D" data-rec="0">
+<div class="section">🎨 색감 팔레트 <span class="secsub">40종 · 스와치 클릭=HEX 복사</span></div>
+<h3 class="grp">브랜드 정본 <span class="cnt">2</span></h3><div class="grid"><div class="card pcard" data-tags="건기식웰니스" data-name="브랜드 정본 VCBio 딥그린 정본 회사 공식 키컬러 — 딥그린+크림, 골드는 5% 제한 강조 브이씨바이오 명의 전 산출물(제안덱·IR·정부 발표덱) 건기식웰니스" data-combo="VCBio 딥그린 정본" data-hexes="#1E3932·#2E7D5B·#F2F0EB·#C9BCA4·#B8954A" data-rec="0">
+      <div class="thumbwrap"><img src="colorboard-thumbs/121.jpg?v=2" loading="lazy" alt="VCBio 딥그린 정본 표지 예시"></div>
+      <div class="chd" onclick="selPal(this)"><h3 role="button" tabindex="0" aria-pressed="false">VCBio 딥그린 정본</h3><div class="hactions"><button class="copyall" data-hex="#1E3932 #2E7D5B #F2F0EB #C9BCA4 #B8954A" onclick="cpall(event,this)">전체 복사</button><span class="pickmark" aria-hidden="true">＋</span></div></div>
+      
+      <div class="tags"><span class="tg">건기식웰니스</span></div>
+      <div class="sws"><button class="sw" style="background:#1E3932;color:#fff" data-hex="#1E3932" onclick="cp(event,this)"><span class="hx">#1E3932</span><span class=lb>딥그린</span></button><button class="sw" style="background:#2E7D5B;color:#fff" data-hex="#2E7D5B" onclick="cp(event,this)"><span class="hx">#2E7D5B</span><span class=lb>액센트그린</span></button><button class="sw" style="background:#F2F0EB;color:#1a1a1a" data-hex="#F2F0EB" onclick="cp(event,this)"><span class="hx">#F2F0EB</span><span class=lb>크림</span></button><button class="sw" style="background:#C9BCA4;color:#1a1a1a" data-hex="#C9BCA4" onclick="cp(event,this)"><span class="hx">#C9BCA4</span><span class=lb>베이지</span></button><button class="sw" style="background:#B8954A;color:#1a1a1a" data-hex="#B8954A" onclick="cp(event,this)"><span class="hx">#B8954A</span><span class=lb>골드</span></button></div>
+      <p class="mood">💡 회사 공식 키컬러 — 딥그린+크림, 골드는 5% 제한 강조</p>
+      <p class="use">🎯 브이씨바이오 명의 전 산출물(제안덱·IR·정부 발표덱)</p>
+      <p class="role">🎨 키=딥그린 · 강조=액센트그린 · 배경=크림 · 보조=베이지 · 제한강조=골드 (출처: Vault 디자인-토큰-통합규격 §VCBio)</p>
+    </div><div class="card pcard" data-tags="건기식웰니스" data-name="브랜드 정본 에스엠바이오 라임 정본 정제 영업 명의 — 메인그린+크림, 라임은 미세 강조만 에스엠바이오 명의 전 산출물(인쇄물·홈페이지·랜딩) 건기식웰니스" data-combo="에스엠바이오 라임 정본" data-hexes="#1F7A4D·#D7F06A·#FBFBF8·#1E211C·#C2A36B" data-rec="0">
+      <div class="thumbwrap"><img src="colorboard-thumbs/122.jpg?v=2" loading="lazy" alt="에스엠바이오 라임 정본 표지 예시"></div>
+      <div class="chd" onclick="selPal(this)"><h3 role="button" tabindex="0" aria-pressed="false">에스엠바이오 라임 정본</h3><div class="hactions"><button class="copyall" data-hex="#1F7A4D #D7F06A #FBFBF8 #1E211C #C2A36B" onclick="cpall(event,this)">전체 복사</button><span class="pickmark" aria-hidden="true">＋</span></div></div>
+      
+      <div class="tags"><span class="tg">건기식웰니스</span></div>
+      <div class="sws"><button class="sw" style="background:#1F7A4D;color:#fff" data-hex="#1F7A4D" onclick="cp(event,this)"><span class="hx">#1F7A4D</span><span class=lb>메인그린</span></button><button class="sw" style="background:#D7F06A;color:#1a1a1a" data-hex="#D7F06A" onclick="cp(event,this)"><span class="hx">#D7F06A</span><span class=lb>라임</span></button><button class="sw" style="background:#FBFBF8;color:#1a1a1a" data-hex="#FBFBF8" onclick="cp(event,this)"><span class="hx">#FBFBF8</span><span class=lb>크림bg</span></button><button class="sw" style="background:#1E211C;color:#fff" data-hex="#1E211C" onclick="cp(event,this)"><span class="hx">#1E211C</span><span class=lb>잉크</span></button><button class="sw" style="background:#C2A36B;color:#1a1a1a" data-hex="#C2A36B" onclick="cp(event,this)"><span class="hx">#C2A36B</span><span class=lb>골드</span></button></div>
+      <p class="mood">💡 정제 영업 명의 — 메인그린+크림, 라임은 미세 강조만</p>
+      <p class="use">🎯 에스엠바이오 명의 전 산출물(인쇄물·홈페이지·랜딩)</p>
+      <p class="role">🎨 메인=그린600 · 미세강조=라임 · 배경=크림bg · 본문=잉크 · 포인트=골드 (출처: sm-bio-homepage style.css :root)</p>
+    </div></div><h3 class="grp">5색 세트 <span class="cnt">6</span></h3><div class="grid"><div class="card pcard" data-tags="뷰티럭셔리 패션" data-name="5색 세트 세트1 · 피치→네이비 일몰처럼 저무는 서정·성숙·빈티지 필름 톤 가을·연말 감성 캠페인·무드 에디토리얼·향수/티/캔들 뷰티럭셔리 패션" data-combo="세트1 · 피치→네이비" data-hexes="#DD9E82·#D4656E·#A95E75·#61536F·#2F516D" data-rec="0">
       <div class="thumbwrap"><img src="colorboard-thumbs/p01.jpg?v=2" loading="lazy" alt="세트1 · 피치→네이비 표지 예시"></div>
       <div class="chd" onclick="selPal(this)"><h3 role="button" tabindex="0" aria-pressed="false">세트1 · 피치→네이비</h3><div class="hactions"><button class="copyall" data-hex="#DD9E82 #D4656E #A95E75 #61536F #2F516D" onclick="cpall(event,this)">전체 복사</button><span class="pickmark" aria-hidden="true">＋</span></div></div>
       
@@ -1790,7 +1914,7 @@ Everything else must remain professionally designed: clean Swiss editorial layou
   <button class="clr" onclick="clearSel()">초기화</button>
   <button class="cbtn off" id="copyCombo" onclick="copyCombo()" aria-label="조합 복사 — 먼저 카드를 선택하세요">조합 복사</button>
 </div>
-<div id="toast" aria-live="polite"></div><script>var PRESETS_JS=[{"pal": "세트2 · 세이지→틸", "sty": "미니멀·스위스 스타일", "skills": ["ingredient-proposal-deck", "humanize-korean"], "decks": [], "home": {}, "name": "원료 제안덱"}, {"pal": "네이비·베이지", "sty": "미니멀·스위스 스타일", "skills": ["frontend-design"], "decks": ["ECharts"], "home": {}, "name": "회사 소개서·IR 덱"}, {"pal": null, "sty": null, "skills": [], "decks": [], "home": {"brand": "에스엠바이오", "hero": "보수 B2B", "base": "shadcn 계열", "motion": "절제", "layout": "원페이지 영업형"}, "name": "에스엠바이오 홈페이지"}, {"pal": "세트3 · 민트→파스텔핑크", "sty": null, "skills": ["vcbio-motion-clip"], "decks": [], "home": {}, "name": "브랜드 화보(영상)"}, {"pal": "시네마틱 스크롤스토퍼", "sty": "리퀴드 글라스", "skills": ["high-end-visual-design"], "decks": ["impress.js"], "home": {}, "name": "임팩트 발표덱"}, {"pal": "모던 강렬 시선집중", "sty": "비비드·블록형", "skills": ["humanize-korean"], "decks": [], "home": {}, "name": "SNS 카드뉴스"}];
+<div id="toast" aria-live="polite"></div><script>var PRESETS_JS=[{"pal": "VCBio 딥그린 정본", "sty": null, "skills": ["ingredient-proposal-deck", "dataviz", "humanize-korean", "vcbio-shelf"], "decks": [], "home": {}, "name": "원료 제안덱"}, {"pal": "VCBio 딥그린 정본", "sty": "미니멀·스위스 스타일", "skills": ["swiss-design", "ui-typography", "dataviz", "humanize-korean", "vcbio-shelf"], "decks": ["ECharts"], "home": {}, "name": "정부지원 발표덱·사업계획서"}, {"pal": "에스엠바이오 라임 정본", "sty": "플랫 디자인", "skills": ["frontend-design", "ui-typography", "humanize-korean", "vcbio-shelf"], "decks": [], "home": {}, "name": "에스엠바이오 영업 인쇄물"}, {"pal": null, "sty": null, "skills": ["design-taste-frontend", "animate", "ui-typography", "vcbio-shelf"], "decks": [], "home": {"brand": "에스엠바이오", "hero": "보수 B2B", "base": "shadcn 계열", "motion": "절제", "layout": "기업 소개형", "tone": "ag1"}, "name": "에스엠바이오 홈페이지"}, {"pal": null, "sty": null, "skills": ["design-taste-frontend", "ui-typography", "humanize-korean", "vcbio-shelf"], "decks": [], "home": {"brand": "에스엠바이오", "hero": "스플릿(카피+제품컷)", "base": "정적 HTML(CSS-only)", "motion": "절제", "layout": "원페이지 영업형", "tone": "ag1"}, "name": "에스엠바이오 랜딩페이지(웹+A4)"}, {"pal": "시네마틱 스크롤스토퍼", "sty": "리퀴드 글래스", "skills": ["high-end-visual-design", "animate", "humanize-korean"], "decks": ["impress.js"], "home": {}, "name": "임팩트 발표덱"}, {"pal": "생동감 그린", "sty": "플랫 디자인", "skills": ["frontend-design", "ui-typography", "humanize-korean"], "decks": [], "home": {}, "name": "SNS 카드뉴스"}, {"pal": null, "sty": null, "skills": ["vcbio-motion-clip", "vcbio-shelf"], "decks": [], "home": {}, "name": "브랜드 화보(영상)"}];var STACKS_JS=[{"name": "① 원료 제안덱", "skills": ["ingredient-proposal-deck", "dataviz", "humanize-korean", "vcbio-shelf"], "decks": []}, {"name": "② 회사 소개서·IR 덱", "skills": ["swiss-design", "ui-typography", "dataviz", "humanize-korean", "vcbio-shelf"], "decks": ["ECharts"]}, {"name": "③ 홈페이지·랜딩", "skills": ["design-taste-frontend", "animate", "ui-typography", "emil-design-eng", "vcbio-shelf"], "decks": []}, {"name": "④ 프리미엄 홈페이지·브로셔", "skills": ["high-end-visual-design", "animate", "ui-typography", "emil-design-eng", "vcbio-shelf"], "decks": []}, {"name": "⑤ 임팩트 발표덱", "skills": ["high-end-visual-design", "animate", "humanize-korean"], "decks": ["impress.js"]}, {"name": "⑥ 데이터 대시보드·제품 상세", "skills": ["baseline-ui", "dataviz", "color-expert", "ui-typography", "emil-design-eng"], "decks": []}, {"name": "⑦ SNS 카드뉴스", "skills": ["frontend-design", "color-expert", "ui-typography", "humanize-korean"], "decks": []}, {"name": "⑧ 브랜드 화보(영상)", "skills": ["vcbio-motion-clip", "color-expert", "vcbio-shelf"], "decks": []}];
 var SEL={palEl:null,palTxt:null,styEl:null,styTxt:null};
 window._lastY=0;window._tick=false;
 function unslim(){var tb=document.querySelector('.toolbar');if(tb)tb.classList.remove('slim');window._lastY=window.scrollY;}  /* R8-6 */
@@ -1967,10 +2091,10 @@ function copyCombo(){
   var warn=(!SEL.palTxt&&!SEL.styTxt&&!hCount())?' · 색감·스타일 없음':'';  /* R4-5·R11-2: 홈 축(브랜드 색 토큰 포함) 있으면 오알람 생략 */
   copyText(s,'조합 복사됨 ✓ — '+sum.join('·')+warn+' (전문은 클립보드에)');
 }
-function applyPreset(i){  /* R14: 프리셋 원클릭 담기 — 기존 선택 초기화 후 기존 선택 경로(h3 click) 재사용 */
+function clickCard(sel){var c=document.querySelector(sel);if(!c)return false;var h=c.querySelector('.chd h3,.schd h3');if(h){h.click();return true;}return false;}  /* R14·R15 공용 */
+function applyPreset(i){  /* R14·R15: 프리셋 원클릭 담기 — 기존 선택 초기화 후 기존 선택 경로(h3 click) 재사용 */
   var p=PRESETS_JS[i];
   clearSel();
-  function clickCard(sel){var c=document.querySelector(sel);if(!c)return false;var h=c.querySelector('.chd h3,.schd h3');if(h){h.click();return true;}return false;}
   var miss=[];
   if(p.pal&&!clickCard('#pane-pal .card[data-combo="'+p.pal+'"]'))miss.push(p.pal);
   if(p.sty&&!clickCard('#pane-sty .card[data-combo="'+p.sty+'"]'))miss.push(p.sty);
@@ -1978,7 +2102,20 @@ function applyPreset(i){  /* R14: 프리셋 원클릭 담기 — 기존 선택 �
   (p.skills||[]).forEach(function(s){if(!clickCard('#pane-skill .card[data-combo="'+s+'"]'))miss.push(s);});
   for(var ax in (p.home||{})){if(!clickCard('#pane-home .hcard[data-axis="'+ax+'"][data-combo="'+p.home[ax]+'"]'))miss.push(p.home[ax]);}
   if(miss.length){toast("일부 항목을 찾지 못했습니다: "+miss.join('·'));return;}
-  toast("'"+p.name+"' 조합을 담았습니다 — 아래 조합 복사를 누르세요");
+  toast("'"+p.name+"' 담김 ✓ — 화면 맨 아래 [조합 복사] → 복사된 문장을 Claude 채팅에 붙여넣으면 제작 시작");  /* R15 D10 */
+}
+function applyStack(i){  /* R15: 스킬 스택 담기 — 스킬·덱 선택만 초기화(팔레트·스타일·홈 유지) */
+  var s=STACKS_JS[i];
+  for(var j=0;j<SKSEL.length;j++)SKSEL[j].el.classList.remove('picked');
+  SKSEL=[];
+  for(var k=0;k<DSEL.length;k++)DSEL[k].el.classList.remove('picked');
+  DSEL=[];
+  updateBar();
+  var miss=[];
+  s.skills.forEach(function(c){if(!clickCard('#pane-skill .card[data-combo="'+c+'"]'))miss.push(c);});
+  (s.decks||[]).forEach(function(d){if(!clickCard('#pane-sty .dcard[data-combo="'+d+'"]'))miss.push(d);});
+  if(miss.length){toast("일부 항목을 찾지 못했습니다: "+miss.join('·'));return;}
+  toast("'"+s.name+"' 스킬 스택 담김 ✓ — 🧰 스킬 탭에서 확인 후 하단 [조합 복사]");
 }
 function clearSel(){
   ['pal','sty'].forEach(function(k){if(SEL[k+'El'])SEL[k+'El'].classList.remove('picked');SEL[k+'El']=null;SEL[k+'Txt']=null;SEL[k+'Hex']=null;});  /* R6-11a */
