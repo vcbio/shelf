@@ -85,11 +85,6 @@
   "date": "2026-07-06"
  },
  {
-  "slug": "colorboard",
-  "title": "VCBio 색감 선택보드(표지 샘플)",
-  "date": "2026-07-08"
- },
- {
   "slug": "raw-material-sales-match",
   "title": "원료↔완제품 매칭 검증 (2024~2026)",
   "date": "2026-07-10"
@@ -108,5 +103,10 @@
   "slug": "product-flow",
   "title": "품목별 수불부 — 매입↔매출 흐름 (2024~2026)",
   "date": "2026-07-10"
+ },
+ {
+  "slug": "colorboard",
+  "title": "디자인 선택 보드 v3 — 색감+스타일",
+  "date": "2026-07-12"
  }
 ]
