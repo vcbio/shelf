@@ -142,6 +142,19 @@ body[data-tab="home"] .chips{display:none}
 body[data-tab="home"] #recToggle{display:none}
 body[data-tab="pre"] .chips{display:none} /* R14: 추천 탭 — 프리셋 6개뿐, 검색·필터 비표시 */
 body[data-tab="pre"] .searchrow{display:none}
+body[data-tab="term"] .chips{display:none} /* R16: 용어 탭 — 참고용 표, 검색·필터 비표시 */
+body[data-tab="term"] #recToggle{display:none}
+body[data-tab="term"] .searchrow{display:none}
+/* R16: 📖 용어 탭 — 비개발자 지시용 UI 용어 카드(모바일 우선 세로 나열) */
+.tgrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.thd{display:flex;align-items:baseline;gap:9px;margin-bottom:7px}
+.tnum{font-family:'SF Mono',Menlo,Consolas,monospace;font-size:12px;font-weight:800;color:#2E7D5B;background:#eaf3ee;border-radius:6px;padding:2px 7px;flex:0 0 auto}
+.ttitle{font-size:15px;font-weight:800;letter-spacing:-.01em;line-height:1.3}
+.ttitle .tko{font-size:13px;font-weight:700;color:#6e6a5e;margin-left:3px}
+.tdesc{font-size:12.5px;color:#4a463e;line-height:1.5;margin-bottom:10px}
+.tprompt{display:block;width:100%;text-align:left;font-family:'SF Mono',Menlo,Consolas,monospace;font-size:12px;font-weight:600;color:#2E7D5B;background:#eaf3ee;border:1px solid #cfe4d8;border-radius:8px;padding:8px 11px;cursor:pointer;line-height:1.45}
+.tprompt::before{content:'📋 '}
+.tprompt:hover{background:#dcefe4}
 .presub{font-size:13.5px;color:#6e6a5e;line-height:1.6;margin:2px 0 14px}
 /* R15: 프리셋 카드 = .prcard (팔레트 카드가 이미 .pcard를 사용 — R14 클래스 충돌을 개명으로 해소) */
 .prcard{background:#fff;border:1.5px solid #ddd8cb;border-radius:14px;padding:14px;display:flex;flex-direction:column}
@@ -237,6 +250,10 @@ body[data-tab="home"] #jump-home{display:flex} /* R8-4 */
 html:not([data-theme="light"]) .tab{background:#221f1a;color:#d8d3c8;border-color:#38342c}
 html:not([data-theme="light"]) .tab.act{background:#1f2d26;color:#eafff3;border-color:#2E7D5B}
 html:not([data-theme="light"]) .kcard .skcode{background:#1b2b22;color:#7fd9a8}
+html:not([data-theme="light"]) .tnum,html:not([data-theme="light"]) .tprompt{background:#1b2b22;color:#7fd9a8;border-color:#2a4234}
+html:not([data-theme="light"]) .tprompt:hover{background:#22362a}
+html:not([data-theme="light"]) .ttitle .tko{color:#a49d8d}
+html:not([data-theme="light"]) .tdesc{color:#c9c3b6}
 html:not([data-theme="light"]) .sknote{background:#1e1b16;border-color:#38342c;color:#9d9788}
 html:not([data-theme="light"]) .jchip{background:#221f1a;border-color:#38342c;color:#a49d8d}
 html:not([data-theme="light"]) .noresult{background:#1e1b16;border-color:#38342c;color:#a49d8d}
@@ -290,6 +307,10 @@ html[data-theme="dark"] .section.subtle{border-color:#332f28}
 html[data-theme="dark"] .tab{background:#221f1a;color:#d8d3c8;border-color:#38342c}
 html[data-theme="dark"] .tab.act{background:#1f2d26;color:#eafff3;border-color:#2E7D5B}
 html[data-theme="dark"] .kcard .skcode{background:#1b2b22;color:#7fd9a8}
+html[data-theme="dark"] .tnum,html[data-theme="dark"] .tprompt{background:#1b2b22;color:#7fd9a8;border-color:#2a4234}
+html[data-theme="dark"] .tprompt:hover{background:#22362a}
+html[data-theme="dark"] .ttitle .tko{color:#a49d8d}
+html[data-theme="dark"] .tdesc{color:#c9c3b6}
 html[data-theme="dark"] .sknote{background:#1e1b16;border-color:#38342c;color:#9d9788}
 html[data-theme="dark"] .jchip{background:#221f1a;border-color:#38342c;color:#a49d8d}
 html[data-theme="dark"] .noresult{background:#1e1b16;border-color:#38342c;color:#a49d8d}
@@ -301,7 +322,8 @@ html[data-theme="dark"] .psrc{color:#9d9788}
 <header style="position:relative">
 <button id="themeToggle" onclick="toggleTheme()" aria-label="라이트/다크 전환" title="라이트/다크 전환">🌓</button>
 <div class="ey">VCBIO · DESIGN SYSTEM</div>
-<h1>🎨 디자인 선택 보드 <span class="h1sub">v3 · <span style="white-space:nowrap">추천 조합 8</span> + <span style="white-space:nowrap">색감 40</span> + <span style="white-space:nowrap">스타일 92</span> + <span style="white-space:nowrap">스킬 15</span> + <span style="white-space:nowrap">홈페이지 6축</span></span></h1>
+<!-- R16 (v3.2): 📖 용어 탭 추가 — 비개발자 지시용 UI 용어 15종(순수 추가, 기존 5탭 불변) -->
+<h1>🎨 디자인 선택 보드 <span class="h1sub">v3.2 · <span style="white-space:nowrap">추천 조합 8</span> + <span style="white-space:nowrap">색감 40</span> + <span style="white-space:nowrap">스타일 92</span> + <span style="white-space:nowrap">스킬 15</span> + <span style="white-space:nowrap">홈페이지 6축</span> + <span style="white-space:nowrap">용어 15</span></span></h1>
 <p class="sub">덱·자료는 <b>팔레트 1 + 스타일 1</b>(+ 필요하면 <b>스킬 여러 개</b>), 홈페이지는 <b>🌐 탭</b>에서 6축. 고른 조합은 하단 바에서 한 줄로 복사됩니다.</p>
 </header>
 <details class="canon" id="canonBox">
@@ -319,6 +341,7 @@ html[data-theme="dark"] .psrc{color:#9d9788}
 <button class="tab" role="tab" aria-selected="false" tabindex="-1" aria-controls="pane-sty" id="tabSty" onclick="showTab('sty')"><span class="tlf">✨ 스타일</span><span class="tls">✨ 스타일</span></button>
 <button class="tab" role="tab" aria-selected="false" tabindex="-1" aria-controls="pane-skill" id="tabSkill" onclick="showTab('skill')"><span class="tlf">🧰 디자인 스킬</span><span class="tls">🧰 스킬</span></button>
 <button class="tab" role="tab" aria-selected="false" tabindex="-1" aria-controls="pane-home" id="tabHome" onclick="showTab('home')"><span class="tlf">🌐 홈페이지</span><span class="tls">🌐 홈</span></button>
+<button class="tab" role="tab" aria-selected="false" tabindex="-1" aria-controls="pane-term" id="tabTerm" onclick="showTab('term')"><span class="tlf">📖 용어</span><span class="tls">📖 용어</span></button>
 </div>
 <div class="chips"><button class="chip on" aria-pressed="true" data-f="all" onclick="filt(this)">전체</button><button class="chip" aria-pressed="false" data-f="건기식웰니스" onclick="filt(this)">건기식·웰니스</button><button class="chip" aria-pressed="false" data-f="식품FB" onclick="filt(this)">식품·F&amp;B</button><button class="chip" aria-pressed="false" data-f="뷰티럭셔리" onclick="filt(this)">뷰티·럭셔리</button><button class="chip" aria-pressed="false" data-f="테크핀테크" onclick="filt(this)">테크·핀테크</button><button class="chip" aria-pressed="false" data-f="금융컨설팅" onclick="filt(this)">금융·컨설팅</button><button class="chip" aria-pressed="false" data-f="패션" onclick="filt(this)">패션</button><button class="chip" aria-pressed="false" data-f="의료" onclick="filt(this)">의료</button><button class="chip" aria-pressed="false" data-f="스포츠" onclick="filt(this)">스포츠</button><button class="chip" aria-pressed="false" data-f="키즈" onclick="filt(this)">키즈</button></div>
 <div class="searchrow"><span class="qwrap"><input id="q" aria-label="이름·무드·용도 검색" placeholder="검색: 이름·무드·용도 (예: 신뢰, 웰니스, 그라데이션)"><button id="qClear" aria-label="검색어 지우기" onclick="clearQ()">✕</button></span><button id="recToggle" aria-pressed="false" onclick="toggleRec()"><span class="rtf">🌿 건기식 추천만</span><span class="rts">🌿 건기식 추천</span></button></div>
@@ -1903,6 +1926,28 @@ Everything else must remain professionally designed: clean Swiss editorial layou
 <div class="sknote"><p>· 부품 출처: UI컴포넌트소스·깃허브덱웹자료(Vault 레퍼런스) — 전부 무료·상업가능 검증(2026-07-12)</p><p>· 색·폰트는 항상 우리 정본(팔레트·Pretendard)으로 재스킨</p></div>
 </div>
 
+<div class="tabpane" id="pane-term" role="tabpanel" aria-labelledby="tabTerm">
+<div class="section">📖 용어 <span class="secsub">15종 · 디자인 지시할 때 쓰는 UI 용어 · 프롬프트 예시는 탭하면 복사</span></div>
+<p class="presub">조합을 고른 뒤, 지시할 때 이 말로 말하면 한 번에 전달됩니다.</p>
+<div class="grid tgrid">
+<div class="card tcard"><div class="thd"><span class="tnum">01</span><h3 class="ttitle">Padding <span class="tko">패딩</span></h3></div><p class="tdesc">테두리와 내용 사이 '안쪽' 여백 — 넉넉하면 고급져 보임</p><button class="tprompt" onclick="copyText(this.textContent,'프롬프트 복사됨 ✓')">버튼 안쪽 패딩을 넉넉하게 줘</button></div>
+<div class="card tcard"><div class="thd"><span class="tnum">02</span><h3 class="ttitle">Margin <span class="tko">마진</span></h3></div><p class="tdesc">'바깥쪽' 여백 — 패딩은 안, 마진은 밖</p><button class="tprompt" onclick="copyText(this.textContent,'프롬프트 복사됨 ✓')">카드 사이 마진을 더 넓혀줘</button></div>
+<div class="card tcard"><div class="thd"><span class="tnum">03</span><h3 class="ttitle">Border Radius <span class="tko">모서리 둥글기</span></h3></div><p class="tdesc">0=각짐, 클수록 friendly</p><button class="tprompt" onclick="copyText(this.textContent,'프롬프트 복사됨 ✓')">모서리 둥글기를 12px 정도 넣어줘</button></div>
+<div class="card tcard"><div class="thd"><span class="tnum">04</span><h3 class="ttitle">Sticky Header <span class="tko">스티키 헤더</span></h3></div><p class="tdesc">스크롤해도 위에 붙어 따라오는 헤더</p><button class="tprompt" onclick="copyText(this.textContent,'프롬프트 복사됨 ✓')">상단에 스티키 헤더를 적용해줘</button></div>
+<div class="card tcard"><div class="thd"><span class="tnum">05</span><h3 class="ttitle">Footer <span class="tko">푸터</span></h3></div><p class="tdesc">맨 아래 링크·회사정보·약관 칸 — 신뢰 요소</p><button class="tprompt" onclick="copyText(this.textContent,'프롬프트 복사됨 ✓')">하단에 메뉴와 회사 정보가 있는 푸터 만들어줘</button></div>
+<div class="card tcard"><div class="thd"><span class="tnum">06</span><h3 class="ttitle">Bento Grid <span class="tko">벤토 그리드</span></h3></div><p class="tdesc">도시락 칸처럼 크고 작은 박스 조합 레이아웃</p><button class="tprompt" onclick="copyText(this.textContent,'프롬프트 복사됨 ✓')">메인 화면을 벤토 그리드 스타일로 배치해줘</button></div>
+<div class="card tcard"><div class="thd"><span class="tnum">07</span><h3 class="ttitle">Accordion <span class="tko">아코디언</span></h3></div><p class="tdesc">접혔다 펼쳐지는 FAQ 단골</p><button class="tprompt" onclick="copyText(this.textContent,'프롬프트 복사됨 ✓')">자주 묻는 질문을 아코디언으로 만들어줘</button></div>
+<div class="card tcard"><div class="thd"><span class="tnum">08</span><h3 class="ttitle">Tab <span class="tko">탭</span></h3></div><p class="tdesc">같은 자리에서 내용만 갈아끼우는 칸막이</p><button class="tprompt" onclick="copyText(this.textContent,'프롬프트 복사됨 ✓')">소개·리뷰·문의를 탭으로 나눠줘</button></div>
+<div class="card tcard"><div class="thd"><span class="tnum">09</span><h3 class="ttitle">Carousel <span class="tko">캐러셀</span></h3></div><p class="tdesc">좌우로 넘겨 보는 이미지 슬라이더</p><button class="tprompt" onclick="copyText(this.textContent,'프롬프트 복사됨 ✓')">후기 이미지를 캐러셀로 넘겨보게 해줘</button></div>
+<div class="card tcard"><div class="thd"><span class="tnum">10</span><h3 class="ttitle">Tooltip <span class="tko">툴팁</span></h3></div><p class="tdesc">올리면 뜨는 작은 설명 말풍선</p><button class="tprompt" onclick="copyText(this.textContent,'프롬프트 복사됨 ✓')">아이콘에 마우스 올리면 툴팁 설명이 뜨게 해줘</button></div>
+<div class="card tcard"><div class="thd"><span class="tnum">11</span><h3 class="ttitle">Toggle Switch <span class="tko">토글 스위치</span></h3></div><p class="tdesc">켜고/끄기 스위치 — 설정 화면 단골</p><button class="tprompt" onclick="copyText(this.textContent,'프롬프트 복사됨 ✓')">알림 on/off 토글 스위치를 넣어줘</button></div>
+<div class="card tcard"><div class="thd"><span class="tnum">12</span><h3 class="ttitle">Badge <span class="tko">뱃지</span></h3></div><p class="tdesc">숫자·NEW로 시선 찍는 표식</p><button class="tprompt" onclick="copyText(this.textContent,'프롬프트 복사됨 ✓')">알림 아이콘에 안 읽은 개수 뱃지를 붙여줘</button></div>
+<div class="card tcard"><div class="thd"><span class="tnum">13</span><h3 class="ttitle">Toast <span class="tko">토스트</span></h3></div><p class="tdesc">잠깐 떴다 사라지는 알림</p><button class="tprompt" onclick="copyText(this.textContent,'프롬프트 복사됨 ✓')">저장하면 '저장됐어요' 토스트를 잠깐 띄워줘</button></div>
+<div class="card tcard"><div class="thd"><span class="tnum">14</span><h3 class="ttitle">Dark Mode <span class="tko">다크 모드</span></h3></div><p class="tdesc">이젠 '있으면 좋은'이 아니라 기본</p><button class="tprompt" onclick="copyText(this.textContent,'프롬프트 복사됨 ✓')">라이트/다크 모드 전환 기능을 넣어줘</button></div>
+<div class="card tcard"><div class="thd"><span class="tnum">15</span><h3 class="ttitle">Pagination <span class="tko">페이지네이션</span></h3></div><p class="tdesc">1,2,3 페이지로 끊어 보여주는 번호</p><button class="tprompt" onclick="copyText(this.textContent,'프롬프트 복사됨 ✓')">목록을 10개씩 페이지네이션으로 나눠줘</button></div>
+</div>
+</div>
+
 </div>
 <div class="combobar">
   <span id="emptyHint">카드를 눌러 선택하세요</span>
@@ -1969,12 +2014,12 @@ function eagerThumbs(k){  /* R4-9: 활성 페인 첫 6장 eager 로드 */
 }
 function showTab(k){
   document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('act');t.setAttribute('aria-selected','false');t.setAttribute('tabindex','-1');});
-  var ids={pre:'tabPre',pal:'tabPal',sty:'tabSty',skill:'tabSkill',home:'tabHome'};  /* R14 */
+  var ids={pre:'tabPre',pal:'tabPal',sty:'tabSty',skill:'tabSkill',home:'tabHome',term:'tabTerm'};  /* R14·R16 */
   var tb=document.getElementById(ids[k]); tb.classList.add('act'); tb.setAttribute('aria-selected','true'); tb.setAttribute('tabindex','0');  /* R3-4·R4-2 roving */
   document.querySelectorAll('.tabpane').forEach(function(p){p.classList.remove('act');});
   document.getElementById('pane-'+k).classList.add('act');
   document.body.setAttribute('data-tab',k);
-  var ph={pre:'검색: 완성품 이름',pal:'검색: 이름·무드·용도 (예: 신뢰, 웰니스, 그라데이션)',sty:'검색: 이름·무드·용도 (예: 대시보드, 뉴모피즘, 트렌드)',skill:'검색: 이름·용도 (예: 모션, 타이포)',home:'검색: 이름·용도 (예: 히어로, shadcn)'};  /* R14: pre는 검색줄 자체 숨김(placeholder는 방어값) */
+  var ph={pre:'검색: 완성품 이름',pal:'검색: 이름·무드·용도 (예: 신뢰, 웰니스, 그라데이션)',sty:'검색: 이름·무드·용도 (예: 대시보드, 뉴모피즘, 트렌드)',skill:'검색: 이름·용도 (예: 모션, 타이포)',home:'검색: 이름·용도 (예: 히어로, shadcn)',term:'검색'};  /* R14·R16: pre·term은 검색줄 자체 숨김(placeholder는 방어값) */
   document.getElementById('q').placeholder=ph[k];  /* R6-7 */
   eagerThumbs(k);  /* R4-9 */
   var pane=document.getElementById('pane-'+k), pr=pane.getBoundingClientRect();  /* R5-7: 깊은 스크롤에서 전환 시 페인 상단으로 */
@@ -2211,7 +2256,7 @@ document.addEventListener('DOMContentLoaded',function(){
   });
   document.querySelector('.tabbar').addEventListener('keydown',function(e){  /* R4-2: 좌우 화살표 roving */
     if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;
-    var order=['pre','pal','sty','skill','home'];  /* R14 */
+    var order=['pre','pal','sty','skill','home','term'];  /* R14·R16 */
     var cur=document.body.getAttribute('data-tab');
     var i=order.indexOf(cur);
     var n=order[(i+(e.key==='ArrowRight'?1:order.length-1))%order.length];
