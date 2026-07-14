@@ -31,6 +31,12 @@
   .flag { color:var(--warn); font-size:11px; }
   .ok { color:var(--grn); font-size:11px; }
   .sec { margin-top:18px; font-size:13px; font-weight:600; }
+  .fiber { background:#f2f7f4; border:1px solid #dbe8df; border-radius:10px; padding:10px 12px; margin-top:8px; }
+  .fgrid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; text-align:center; }
+  .fi .fl { font-size:11px; color:var(--mut); }
+  .fi .fv { font-size:16px; font-weight:700; color:var(--grn); margin-top:2px; white-space:nowrap; }
+  .fcalc { font-size:11.5px; color:var(--mut); margin-top:8px; border-top:1px dashed #dbe8df; padding-top:8px; line-height:1.6; }
+  @media (max-width:480px){ .fgrid { grid-template-columns:1fr; gap:4px; } }
   .price { display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; }
   .pbox { flex:1; min-width:140px; border-radius:10px; padding:12px 14px; }
   .pbox.a { background:#eef6f2; } .pbox.b { background:#e6f1fb; }
@@ -59,7 +65,15 @@
       <div class="sp"><div class="sl">수율</div><div class="sv">98%</div><div class="sd">투입 153kg</div></div>
     </div>
 
-    <div class="sec">A. 배합 (500mg/정 · 투입 153kg) — 식이섬유 계산 44.7% <span class="ok">라벨 12,000mg(40%) 충족</span></div>
+    <div class="sec">A. 배합 (500mg/정 · 투입 153kg)</div>
+    <div class="fiber">
+      <div class="fgrid">
+        <div class="fi"><div class="fl">정당 식이섬유</div><div class="fv">223.3 mg</div></div>
+        <div class="fi"><div class="fl">총 내용량당 (60정)</div><div class="fv">13,395 mg</div></div>
+        <div class="fi"><div class="fl">라벨 보장치 대비</div><div class="fv">12,000mg +11.6%</div></div>
+      </div>
+      <div class="fcalc">계산: 결정셀룰로스 125mg × 97% = 121.3mg &nbsp;+&nbsp; 난소화성말토덱스트린 120mg × 85% = 102.0mg &nbsp;→&nbsp; <b>223.3mg/정 × 60정 = 13,395mg/통</b> (500mg 대비 44.7%). 과일야채분말 자체 식이섬유는 보수적으로 미산입 — 실분석치는 계산치보다 높게 나옴.</div>
+    </div>
     <table style="font-size:12px;">
       <thead><tr><th>원료</th><th class="r">%</th><th class="r">정당 mg</th><th class="r">투입(kg)</th><th class="r">단가</th><th class="r">금액</th></tr></thead>
       <tbody>
