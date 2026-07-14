@@ -15,7 +15,12 @@
   .head { display:flex; justify-content:space-between; align-items:flex-start; gap:10px; border-bottom:1px solid var(--line); padding-bottom:12px; margin-bottom:12px; flex-wrap:wrap; }
   .head h1 { font-size:18px; margin:0 0 3px; font-weight:600; }
   .head .sub { font-size:13px; color:var(--mut); }
-  .head .spec { font-size:12px; color:var(--mut); white-space:nowrap; text-align:right; }
+  .specbar { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:14px; }
+  .sp { background:#f2f7f4; border:1px solid #dbe8df; border-radius:10px; padding:10px 8px; text-align:center; }
+  .sp .sl { font-size:11px; color:var(--mut); }
+  .sp .sv { font-size:17px; font-weight:700; color:var(--grn); margin-top:2px; white-space:nowrap; }
+  .sp .sd { font-size:10.5px; color:var(--mut); margin-top:2px; }
+  @media (max-width:480px){ .specbar { grid-template-columns:repeat(2,1fr); } }
   table { width:100%; border-collapse:collapse; font-size:13px; }
   th,td { padding:6px 4px; }
   th { text-align:left; color:var(--mut); font-weight:600; border-bottom:1px solid var(--line); }
@@ -45,7 +50,13 @@
         <h1>샐그린 27 — 견적 약식</h1>
         <div class="sub">의뢰: (주)에이비그라운드 · 제조처 이전(현 한미양행) · 과·채가공품</div>
       </div>
-      <div class="spec">0.5g · 60정(30g/통) · 5,000통<br>병 90PET(안전캡) · 라벨 별도<br>수율 98% (총 150kg)</div>
+    </div>
+
+    <div class="specbar">
+      <div class="sp"><div class="sl">규격</div><div class="sv">0.5g × 60정</div><div class="sd">30g/통 · 과·채가공품</div></div>
+      <div class="sp"><div class="sl">발주수량</div><div class="sv">5,000통</div><div class="sd">총 30만 정 · 150kg</div></div>
+      <div class="sp"><div class="sl">용기</div><div class="sv">90 PET</div><div class="sd">안전캡 · 라벨 별도</div></div>
+      <div class="sp"><div class="sl">수율</div><div class="sv">98%</div><div class="sd">투입 153kg</div></div>
     </div>
 
     <div class="sec">A. 배합 (500mg/정 · 투입 153kg) — 식이섬유 계산 44.7% <span class="ok">라벨 12,000mg(40%) 충족</span></div>
