@@ -46,31 +46,36 @@ window.addEventListener('resize',fit);window.addEventListener('load',fit);
    ============================================================================ */
 
 /* ---------------------------------------------------------------------------
-   [팔레트 — 임시본] 다크 차콜 베이스 + 단일 강조색(엠버/오렌지 1색)
-   강의용 selectable 톤. 최종 색은 대표 선택보드 후 아래 값만 교체하면 됨.
+   [팔레트 — 블루본] 다크 네이비 베이스 + 단일 강조색(블루 1색)
+   강의용 selectable 톤. 최종 색은 아래 값만 교체하면 됨.
    --------------------------------------------------------------------------- */
 :root{
-  --bg:          #1A1714;   /* 다크 차콜 (미세 웜) 베이스 */
-  --bg-deep:     #100D0B;   /* 비네트/최하단 */
-  --surface:     #262019;   /* 카드 표면 */
-  --surface2:    #302820;   /* 카드 강조 표면 */
-  --line:        #3D342A;   /* 헤어라인·구분선 */
-  --text:        #F5F0E8;   /* 본문 밝은 오프화이트 */
-  --text-dim:    #A99B87;   /* 라벨·캡션 뮤트 */
-  --accent:      #F5A524;   /* 엠버 — 주강조(핵심어·활성·불스아이) */
-  --accent2:     #FFC468;   /* 라이트 엠버 — 보조강조 */
-  --accent-soft: rgba(245,165,36,.13); /* 엠버 소프트 배경 */
-  --accent-line: rgba(245,165,36,.34); /* 엠버 헤어라인 */
-  --accent-ink:  #1A1206;   /* 엠버 칩 위 글자 */
-  --glow:        rgba(245,165,36,.42); /* 발광 라디얼 */
+  --bg:          #101720;   /* 다크 네이비 베이스 */
+  --bg-deep:     #0A0E14;   /* 비네트/최하단 */
+  --surface:     #18222E;   /* 카드 표면 */
+  --surface2:    #1E2B3A;   /* 카드 강조 표면 */
+  --line:        #2A3849;   /* 헤어라인·구분선 */
+  --text:        #EDF3FA;   /* 본문 밝은 오프화이트 */
+  --text-dim:    #8FA0B5;   /* 라벨·캡션 뮤트 */
+  --accent:      #227AFF;   /* 블루 — 주강조(핵심어·활성·불스아이) */
+  --accent2:     #6AAEFF;   /* 라이트 블루 — 보조강조 */
+  --accent-soft: rgba(34,122,255,.13); /* 블루 소프트 배경 */
+  --accent-line: rgba(34,122,255,.34); /* 블루 헤어라인 */
+  --accent-ink:  #061226;   /* 블루 칩 위 글자 */
+  --glow:        rgba(34,122,255,.42); /* 발광 라디얼 */
 
-  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 톤 절제.
+  /* 과녁(다트판) 전용 — 명암 교차 링을 또렷하게 (s05·s06) */
+  --board-light: #D8E2EE;   /* 밝은 링 */
+  --board-dark:  #223142;   /* 어두운 링 */
+  --board-bull:  var(--accent); /* 중앙 불스아이 */
+
+  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 블루 톤에 조화.
      전부 변수라 리스킨 시 함께 조정 가능. */
-  --cap-a: #F5A524;   /* 엠버 */
-  --cap-b: #E4713B;   /* 테라코타 */
-  --cap-c: #6FA8A0;   /* 세이지 틸 */
-  --cap-d: #C9B24E;   /* 머스터드 */
-  --cap-e: #B5715C;   /* 클레이 */
+  --cap-a: #227AFF;   /* 블루 */
+  --cap-b: #37D0A9;   /* 민트 그린 */
+  --cap-c: #6AAEFF;   /* 라이트 블루 */
+  --cap-d: #9AB0C9;   /* 슬레이트 그레이 */
+  --cap-e: #4B7178;   /* 딥 틸 */
 }
 
 /* ---------------------------------------------------------------------------
@@ -121,8 +126,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 .bg-grad{ position:absolute; inset:0; z-index:0;
   background:
     radial-gradient(110% 90% at 82% 16%, var(--accent-soft), transparent 55%),
-    radial-gradient(90% 80% at 8% 104%, rgba(245,165,36,.06), transparent 60%),
-    linear-gradient(158deg,#221D17 0%, var(--bg) 44%, var(--bg-deep) 100%); }
+    radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
+    linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
   background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
@@ -191,16 +196,16 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
       &lt;/filter&gt;
     &lt;/defs&gt;
 
-    &lt;g mask=&quot;url(#maskR)&quot; transform=&quot;translate(1000 300)&quot;&gt;
+    &lt;g mask=&quot;url(#maskR)&quot;&gt;&lt;g transform=&quot;translate(1000 300)&quot;&gt;
       &lt;!-- 동심원 링 (저대비 뮤트 라인) --&gt;
-      &lt;g fill=&quot;none&quot; stroke=&quot;var(--text-dim)&quot; stroke-opacity=&quot;.18&quot;&gt;
+      &lt;g fill=&quot;none&quot; stroke=&quot;var(--text-dim)&quot; stroke-opacity=&quot;.20&quot;&gt;
         &lt;circle r=&quot;300&quot; stroke-width=&quot;1&quot;/&gt;
         &lt;circle r=&quot;238&quot; stroke-width=&quot;1&quot;/&gt;
         &lt;circle r=&quot;176&quot; stroke-width=&quot;1&quot;/&gt;
         &lt;circle r=&quot;116&quot; stroke-width=&quot;1.2&quot;/&gt;
       &lt;/g&gt;
       &lt;!-- 다트판 섹터 분할선 (20갈래 느낌은 과하니 12갈래로 절제) --&gt;
-      &lt;g stroke=&quot;var(--text-dim)&quot; stroke-opacity=&quot;.12&quot; stroke-width=&quot;1&quot;&gt;
+      &lt;g stroke=&quot;var(--text-dim)&quot; stroke-opacity=&quot;.13&quot; stroke-width=&quot;1&quot;&gt;
         &lt;line x1=&quot;0&quot; y1=&quot;-300&quot; x2=&quot;0&quot; y2=&quot;300&quot;/&gt;
         &lt;line x1=&quot;-300&quot; y1=&quot;0&quot; x2=&quot;300&quot; y2=&quot;0&quot;/&gt;
         &lt;line x1=&quot;-212&quot; y1=&quot;-212&quot; x2=&quot;212&quot; y2=&quot;212&quot;/&gt;
@@ -210,10 +215,10 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
         &lt;line x1=&quot;-260&quot; y1=&quot;-150&quot; x2=&quot;260&quot; y2=&quot;150&quot;/&gt;
         &lt;line x1=&quot;260&quot; y1=&quot;-150&quot; x2=&quot;-260&quot; y2=&quot;150&quot;/&gt;
       &lt;/g&gt;
-      &lt;!-- 트리플/더블 링 힌트 (엠버 저채도) --&gt;
-      &lt;circle r=&quot;206&quot; fill=&quot;none&quot; stroke=&quot;var(--accent)&quot; stroke-opacity=&quot;.16&quot; stroke-width=&quot;6&quot;/&gt;
-      &lt;circle r=&quot;122&quot; fill=&quot;none&quot; stroke=&quot;var(--accent)&quot; stroke-opacity=&quot;.14&quot; stroke-width=&quot;6&quot;/&gt;
-      &lt;!-- 불스아이 (유일한 선명 포커스 — 엠버 발광) --&gt;
+      &lt;!-- 트리플/더블 링 힌트 (블루 저채도) --&gt;
+      &lt;circle r=&quot;206&quot; fill=&quot;none&quot; stroke=&quot;var(--accent)&quot; stroke-opacity=&quot;.18&quot; stroke-width=&quot;6&quot;/&gt;
+      &lt;circle r=&quot;122&quot; fill=&quot;none&quot; stroke=&quot;var(--accent)&quot; stroke-opacity=&quot;.16&quot; stroke-width=&quot;6&quot;/&gt;
+      &lt;!-- 불스아이 (유일한 선명 포커스 — 블루 발광) --&gt;
       &lt;circle r=&quot;58&quot; fill=&quot;var(--accent)&quot; fill-opacity=&quot;.14&quot;/&gt;
       &lt;circle r=&quot;30&quot; fill=&quot;none&quot; stroke=&quot;var(--accent)&quot; stroke-opacity=&quot;.7&quot; stroke-width=&quot;2&quot; filter=&quot;url(#cGlow)&quot;/&gt;
       &lt;circle r=&quot;12&quot; fill=&quot;var(--accent)&quot; filter=&quot;url(#cGlow)&quot;/&gt;
@@ -223,12 +228,12 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
         &lt;path d=&quot;M150,-96 l26,-8 l-10,20 Z&quot; fill=&quot;var(--accent2)&quot;/&gt;
         &lt;circle cx=&quot;12&quot; cy=&quot;0&quot; r=&quot;4.5&quot; fill=&quot;var(--text)&quot;/&gt;
       &lt;/g&gt;
-    &lt;/g&gt;
+    &lt;/g&gt;&lt;/g&gt;
   &lt;/svg&gt;
 
   &lt;!-- 좌측 가독 페이드 --&gt;
   &lt;div style=&quot;position:absolute;inset:0;z-index:2;pointer-events:none;
-    background:linear-gradient(90deg, rgba(16,13,11,.72) 0%, rgba(16,13,11,.4) 34%, transparent 56%);&quot;&gt;&lt;/div&gt;
+    background:linear-gradient(90deg, color-mix(in srgb, var(--bg-deep) 72%, transparent) 0%, color-mix(in srgb, var(--bg-deep) 40%, transparent) 34%, transparent 56%);&quot;&gt;&lt;/div&gt;
   &lt;div class=&quot;bg-grain&quot; style=&quot;z-index:3;opacity:.28;&quot;&gt;&lt;/div&gt;
   &lt;div class=&quot;vignette&quot; style=&quot;z-index:3;&quot;&gt;&lt;/div&gt;
 
@@ -279,31 +284,36 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
    ============================================================================ */
 
 /* ---------------------------------------------------------------------------
-   [팔레트 — 임시본] 다크 차콜 베이스 + 단일 강조색(엠버/오렌지 1색)
-   강의용 selectable 톤. 최종 색은 대표 선택보드 후 아래 값만 교체하면 됨.
+   [팔레트 — 블루본] 다크 네이비 베이스 + 단일 강조색(블루 1색)
+   강의용 selectable 톤. 최종 색은 아래 값만 교체하면 됨.
    --------------------------------------------------------------------------- */
 :root{
-  --bg:          #1A1714;   /* 다크 차콜 (미세 웜) 베이스 */
-  --bg-deep:     #100D0B;   /* 비네트/최하단 */
-  --surface:     #262019;   /* 카드 표면 */
-  --surface2:    #302820;   /* 카드 강조 표면 */
-  --line:        #3D342A;   /* 헤어라인·구분선 */
-  --text:        #F5F0E8;   /* 본문 밝은 오프화이트 */
-  --text-dim:    #A99B87;   /* 라벨·캡션 뮤트 */
-  --accent:      #F5A524;   /* 엠버 — 주강조(핵심어·활성·불스아이) */
-  --accent2:     #FFC468;   /* 라이트 엠버 — 보조강조 */
-  --accent-soft: rgba(245,165,36,.13); /* 엠버 소프트 배경 */
-  --accent-line: rgba(245,165,36,.34); /* 엠버 헤어라인 */
-  --accent-ink:  #1A1206;   /* 엠버 칩 위 글자 */
-  --glow:        rgba(245,165,36,.42); /* 발광 라디얼 */
+  --bg:          #101720;   /* 다크 네이비 베이스 */
+  --bg-deep:     #0A0E14;   /* 비네트/최하단 */
+  --surface:     #18222E;   /* 카드 표면 */
+  --surface2:    #1E2B3A;   /* 카드 강조 표면 */
+  --line:        #2A3849;   /* 헤어라인·구분선 */
+  --text:        #EDF3FA;   /* 본문 밝은 오프화이트 */
+  --text-dim:    #8FA0B5;   /* 라벨·캡션 뮤트 */
+  --accent:      #227AFF;   /* 블루 — 주강조(핵심어·활성·불스아이) */
+  --accent2:     #6AAEFF;   /* 라이트 블루 — 보조강조 */
+  --accent-soft: rgba(34,122,255,.13); /* 블루 소프트 배경 */
+  --accent-line: rgba(34,122,255,.34); /* 블루 헤어라인 */
+  --accent-ink:  #061226;   /* 블루 칩 위 글자 */
+  --glow:        rgba(34,122,255,.42); /* 발광 라디얼 */
 
-  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 톤 절제.
+  /* 과녁(다트판) 전용 — 명암 교차 링을 또렷하게 (s05·s06) */
+  --board-light: #D8E2EE;   /* 밝은 링 */
+  --board-dark:  #223142;   /* 어두운 링 */
+  --board-bull:  var(--accent); /* 중앙 불스아이 */
+
+  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 블루 톤에 조화.
      전부 변수라 리스킨 시 함께 조정 가능. */
-  --cap-a: #F5A524;   /* 엠버 */
-  --cap-b: #E4713B;   /* 테라코타 */
-  --cap-c: #6FA8A0;   /* 세이지 틸 */
-  --cap-d: #C9B24E;   /* 머스터드 */
-  --cap-e: #B5715C;   /* 클레이 */
+  --cap-a: #227AFF;   /* 블루 */
+  --cap-b: #37D0A9;   /* 민트 그린 */
+  --cap-c: #6AAEFF;   /* 라이트 블루 */
+  --cap-d: #9AB0C9;   /* 슬레이트 그레이 */
+  --cap-e: #4B7178;   /* 딥 틸 */
 }
 
 /* ---------------------------------------------------------------------------
@@ -354,8 +364,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 .bg-grad{ position:absolute; inset:0; z-index:0;
   background:
     radial-gradient(110% 90% at 82% 16%, var(--accent-soft), transparent 55%),
-    radial-gradient(90% 80% at 8% 104%, rgba(245,165,36,.06), transparent 60%),
-    linear-gradient(158deg,#221D17 0%, var(--bg) 44%, var(--bg-deep) 100%); }
+    radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
+    linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
   background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
@@ -496,31 +506,36 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
    ============================================================================ */
 
 /* ---------------------------------------------------------------------------
-   [팔레트 — 임시본] 다크 차콜 베이스 + 단일 강조색(엠버/오렌지 1색)
-   강의용 selectable 톤. 최종 색은 대표 선택보드 후 아래 값만 교체하면 됨.
+   [팔레트 — 블루본] 다크 네이비 베이스 + 단일 강조색(블루 1색)
+   강의용 selectable 톤. 최종 색은 아래 값만 교체하면 됨.
    --------------------------------------------------------------------------- */
 :root{
-  --bg:          #1A1714;   /* 다크 차콜 (미세 웜) 베이스 */
-  --bg-deep:     #100D0B;   /* 비네트/최하단 */
-  --surface:     #262019;   /* 카드 표면 */
-  --surface2:    #302820;   /* 카드 강조 표면 */
-  --line:        #3D342A;   /* 헤어라인·구분선 */
-  --text:        #F5F0E8;   /* 본문 밝은 오프화이트 */
-  --text-dim:    #A99B87;   /* 라벨·캡션 뮤트 */
-  --accent:      #F5A524;   /* 엠버 — 주강조(핵심어·활성·불스아이) */
-  --accent2:     #FFC468;   /* 라이트 엠버 — 보조강조 */
-  --accent-soft: rgba(245,165,36,.13); /* 엠버 소프트 배경 */
-  --accent-line: rgba(245,165,36,.34); /* 엠버 헤어라인 */
-  --accent-ink:  #1A1206;   /* 엠버 칩 위 글자 */
-  --glow:        rgba(245,165,36,.42); /* 발광 라디얼 */
+  --bg:          #101720;   /* 다크 네이비 베이스 */
+  --bg-deep:     #0A0E14;   /* 비네트/최하단 */
+  --surface:     #18222E;   /* 카드 표면 */
+  --surface2:    #1E2B3A;   /* 카드 강조 표면 */
+  --line:        #2A3849;   /* 헤어라인·구분선 */
+  --text:        #EDF3FA;   /* 본문 밝은 오프화이트 */
+  --text-dim:    #8FA0B5;   /* 라벨·캡션 뮤트 */
+  --accent:      #227AFF;   /* 블루 — 주강조(핵심어·활성·불스아이) */
+  --accent2:     #6AAEFF;   /* 라이트 블루 — 보조강조 */
+  --accent-soft: rgba(34,122,255,.13); /* 블루 소프트 배경 */
+  --accent-line: rgba(34,122,255,.34); /* 블루 헤어라인 */
+  --accent-ink:  #061226;   /* 블루 칩 위 글자 */
+  --glow:        rgba(34,122,255,.42); /* 발광 라디얼 */
 
-  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 톤 절제.
+  /* 과녁(다트판) 전용 — 명암 교차 링을 또렷하게 (s05·s06) */
+  --board-light: #D8E2EE;   /* 밝은 링 */
+  --board-dark:  #223142;   /* 어두운 링 */
+  --board-bull:  var(--accent); /* 중앙 불스아이 */
+
+  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 블루 톤에 조화.
      전부 변수라 리스킨 시 함께 조정 가능. */
-  --cap-a: #F5A524;   /* 엠버 */
-  --cap-b: #E4713B;   /* 테라코타 */
-  --cap-c: #6FA8A0;   /* 세이지 틸 */
-  --cap-d: #C9B24E;   /* 머스터드 */
-  --cap-e: #B5715C;   /* 클레이 */
+  --cap-a: #227AFF;   /* 블루 */
+  --cap-b: #37D0A9;   /* 민트 그린 */
+  --cap-c: #6AAEFF;   /* 라이트 블루 */
+  --cap-d: #9AB0C9;   /* 슬레이트 그레이 */
+  --cap-e: #4B7178;   /* 딥 틸 */
 }
 
 /* ---------------------------------------------------------------------------
@@ -571,8 +586,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 .bg-grad{ position:absolute; inset:0; z-index:0;
   background:
     radial-gradient(110% 90% at 82% 16%, var(--accent-soft), transparent 55%),
-    radial-gradient(90% 80% at 8% 104%, rgba(245,165,36,.06), transparent 60%),
-    linear-gradient(158deg,#221D17 0%, var(--bg) 44%, var(--bg-deep) 100%); }
+    radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
+    linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
   background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
@@ -750,31 +765,36 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
    ============================================================================ */
 
 /* ---------------------------------------------------------------------------
-   [팔레트 — 임시본] 다크 차콜 베이스 + 단일 강조색(엠버/오렌지 1색)
-   강의용 selectable 톤. 최종 색은 대표 선택보드 후 아래 값만 교체하면 됨.
+   [팔레트 — 블루본] 다크 네이비 베이스 + 단일 강조색(블루 1색)
+   강의용 selectable 톤. 최종 색은 아래 값만 교체하면 됨.
    --------------------------------------------------------------------------- */
 :root{
-  --bg:          #1A1714;   /* 다크 차콜 (미세 웜) 베이스 */
-  --bg-deep:     #100D0B;   /* 비네트/최하단 */
-  --surface:     #262019;   /* 카드 표면 */
-  --surface2:    #302820;   /* 카드 강조 표면 */
-  --line:        #3D342A;   /* 헤어라인·구분선 */
-  --text:        #F5F0E8;   /* 본문 밝은 오프화이트 */
-  --text-dim:    #A99B87;   /* 라벨·캡션 뮤트 */
-  --accent:      #F5A524;   /* 엠버 — 주강조(핵심어·활성·불스아이) */
-  --accent2:     #FFC468;   /* 라이트 엠버 — 보조강조 */
-  --accent-soft: rgba(245,165,36,.13); /* 엠버 소프트 배경 */
-  --accent-line: rgba(245,165,36,.34); /* 엠버 헤어라인 */
-  --accent-ink:  #1A1206;   /* 엠버 칩 위 글자 */
-  --glow:        rgba(245,165,36,.42); /* 발광 라디얼 */
+  --bg:          #101720;   /* 다크 네이비 베이스 */
+  --bg-deep:     #0A0E14;   /* 비네트/최하단 */
+  --surface:     #18222E;   /* 카드 표면 */
+  --surface2:    #1E2B3A;   /* 카드 강조 표면 */
+  --line:        #2A3849;   /* 헤어라인·구분선 */
+  --text:        #EDF3FA;   /* 본문 밝은 오프화이트 */
+  --text-dim:    #8FA0B5;   /* 라벨·캡션 뮤트 */
+  --accent:      #227AFF;   /* 블루 — 주강조(핵심어·활성·불스아이) */
+  --accent2:     #6AAEFF;   /* 라이트 블루 — 보조강조 */
+  --accent-soft: rgba(34,122,255,.13); /* 블루 소프트 배경 */
+  --accent-line: rgba(34,122,255,.34); /* 블루 헤어라인 */
+  --accent-ink:  #061226;   /* 블루 칩 위 글자 */
+  --glow:        rgba(34,122,255,.42); /* 발광 라디얼 */
 
-  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 톤 절제.
+  /* 과녁(다트판) 전용 — 명암 교차 링을 또렷하게 (s05·s06) */
+  --board-light: #D8E2EE;   /* 밝은 링 */
+  --board-dark:  #223142;   /* 어두운 링 */
+  --board-bull:  var(--accent); /* 중앙 불스아이 */
+
+  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 블루 톤에 조화.
      전부 변수라 리스킨 시 함께 조정 가능. */
-  --cap-a: #F5A524;   /* 엠버 */
-  --cap-b: #E4713B;   /* 테라코타 */
-  --cap-c: #6FA8A0;   /* 세이지 틸 */
-  --cap-d: #C9B24E;   /* 머스터드 */
-  --cap-e: #B5715C;   /* 클레이 */
+  --cap-a: #227AFF;   /* 블루 */
+  --cap-b: #37D0A9;   /* 민트 그린 */
+  --cap-c: #6AAEFF;   /* 라이트 블루 */
+  --cap-d: #9AB0C9;   /* 슬레이트 그레이 */
+  --cap-e: #4B7178;   /* 딥 틸 */
 }
 
 /* ---------------------------------------------------------------------------
@@ -825,8 +845,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 .bg-grad{ position:absolute; inset:0; z-index:0;
   background:
     radial-gradient(110% 90% at 82% 16%, var(--accent-soft), transparent 55%),
-    radial-gradient(90% 80% at 8% 104%, rgba(245,165,36,.06), transparent 60%),
-    linear-gradient(158deg,#221D17 0%, var(--bg) 44%, var(--bg-deep) 100%); }
+    radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
+    linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
   background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
@@ -1003,31 +1023,36 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
    ============================================================================ */
 
 /* ---------------------------------------------------------------------------
-   [팔레트 — 임시본] 다크 차콜 베이스 + 단일 강조색(엠버/오렌지 1색)
-   강의용 selectable 톤. 최종 색은 대표 선택보드 후 아래 값만 교체하면 됨.
+   [팔레트 — 블루본] 다크 네이비 베이스 + 단일 강조색(블루 1색)
+   강의용 selectable 톤. 최종 색은 아래 값만 교체하면 됨.
    --------------------------------------------------------------------------- */
 :root{
-  --bg:          #1A1714;   /* 다크 차콜 (미세 웜) 베이스 */
-  --bg-deep:     #100D0B;   /* 비네트/최하단 */
-  --surface:     #262019;   /* 카드 표면 */
-  --surface2:    #302820;   /* 카드 강조 표면 */
-  --line:        #3D342A;   /* 헤어라인·구분선 */
-  --text:        #F5F0E8;   /* 본문 밝은 오프화이트 */
-  --text-dim:    #A99B87;   /* 라벨·캡션 뮤트 */
-  --accent:      #F5A524;   /* 엠버 — 주강조(핵심어·활성·불스아이) */
-  --accent2:     #FFC468;   /* 라이트 엠버 — 보조강조 */
-  --accent-soft: rgba(245,165,36,.13); /* 엠버 소프트 배경 */
-  --accent-line: rgba(245,165,36,.34); /* 엠버 헤어라인 */
-  --accent-ink:  #1A1206;   /* 엠버 칩 위 글자 */
-  --glow:        rgba(245,165,36,.42); /* 발광 라디얼 */
+  --bg:          #101720;   /* 다크 네이비 베이스 */
+  --bg-deep:     #0A0E14;   /* 비네트/최하단 */
+  --surface:     #18222E;   /* 카드 표면 */
+  --surface2:    #1E2B3A;   /* 카드 강조 표면 */
+  --line:        #2A3849;   /* 헤어라인·구분선 */
+  --text:        #EDF3FA;   /* 본문 밝은 오프화이트 */
+  --text-dim:    #8FA0B5;   /* 라벨·캡션 뮤트 */
+  --accent:      #227AFF;   /* 블루 — 주강조(핵심어·활성·불스아이) */
+  --accent2:     #6AAEFF;   /* 라이트 블루 — 보조강조 */
+  --accent-soft: rgba(34,122,255,.13); /* 블루 소프트 배경 */
+  --accent-line: rgba(34,122,255,.34); /* 블루 헤어라인 */
+  --accent-ink:  #061226;   /* 블루 칩 위 글자 */
+  --glow:        rgba(34,122,255,.42); /* 발광 라디얼 */
 
-  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 톤 절제.
+  /* 과녁(다트판) 전용 — 명암 교차 링을 또렷하게 (s05·s06) */
+  --board-light: #D8E2EE;   /* 밝은 링 */
+  --board-dark:  #223142;   /* 어두운 링 */
+  --board-bull:  var(--accent); /* 중앙 불스아이 */
+
+  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 블루 톤에 조화.
      전부 변수라 리스킨 시 함께 조정 가능. */
-  --cap-a: #F5A524;   /* 엠버 */
-  --cap-b: #E4713B;   /* 테라코타 */
-  --cap-c: #6FA8A0;   /* 세이지 틸 */
-  --cap-d: #C9B24E;   /* 머스터드 */
-  --cap-e: #B5715C;   /* 클레이 */
+  --cap-a: #227AFF;   /* 블루 */
+  --cap-b: #37D0A9;   /* 민트 그린 */
+  --cap-c: #6AAEFF;   /* 라이트 블루 */
+  --cap-d: #9AB0C9;   /* 슬레이트 그레이 */
+  --cap-e: #4B7178;   /* 딥 틸 */
 }
 
 /* ---------------------------------------------------------------------------
@@ -1078,8 +1103,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 .bg-grad{ position:absolute; inset:0; z-index:0;
   background:
     radial-gradient(110% 90% at 82% 16%, var(--accent-soft), transparent 55%),
-    radial-gradient(90% 80% at 8% 104%, rgba(245,165,36,.06), transparent 60%),
-    linear-gradient(158deg,#221D17 0%, var(--bg) 44%, var(--bg-deep) 100%); }
+    radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
+    linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
   background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
@@ -1134,15 +1159,32 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
     &lt;div class=&quot;label&quot; style=&quot;color:var(--text-dim)&quot;&gt;연구실이 품질을 보는 두 축&lt;/div&gt;
   &lt;/div&gt;
 
-  &lt;!-- SVG 심볼 정의: 과녁 + 히트 (전 보드 공용) --&gt;
+  &lt;!-- SVG 심볼 정의: 과녁(명암 교차 링) + 히트 마커 (전 보드 공용) --&gt;
   &lt;svg width=&quot;0&quot; height=&quot;0&quot; style=&quot;position:absolute;&quot;&gt;
     &lt;defs&gt;
+      &lt;!-- 명중점 드롭섀도 --&gt;
+      &lt;filter id=&quot;hitShadow&quot; x=&quot;-60%&quot; y=&quot;-60%&quot; width=&quot;220%&quot; height=&quot;220%&quot;&gt;
+        &lt;feDropShadow dx=&quot;0&quot; dy=&quot;1&quot; stdDeviation=&quot;1.4&quot; flood-color=&quot;#000&quot; flood-opacity=&quot;.55&quot;/&gt;
+      &lt;/filter&gt;
+      &lt;!-- 불스아이 발광 (①번 판 전용) --&gt;
+      &lt;filter id=&quot;bullGlow&quot; x=&quot;-80%&quot; y=&quot;-80%&quot; width=&quot;260%&quot; height=&quot;260%&quot;&gt;
+        &lt;feGaussianBlur stdDeviation=&quot;4.5&quot; result=&quot;b&quot;/&gt;
+        &lt;feMerge&gt;&lt;feMergeNode in=&quot;b&quot;/&gt;&lt;feMergeNode in=&quot;SourceGraphic&quot;/&gt;&lt;/feMerge&gt;
+      &lt;/filter&gt;
+      &lt;!-- 과녁: 밝은 링/어두운 링 교차 + 중앙 불스아이 (viewBox 0 0 200 200) --&gt;
       &lt;g id=&quot;target&quot;&gt;
-        &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;54&quot; fill=&quot;var(--bg-deep)&quot; stroke=&quot;var(--line)&quot; stroke-width=&quot;1.5&quot;/&gt;
-        &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;40&quot; fill=&quot;none&quot; stroke=&quot;var(--line)&quot; stroke-width=&quot;1.5&quot;/&gt;
-        &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;26&quot; fill=&quot;none&quot; stroke=&quot;var(--line)&quot; stroke-width=&quot;1.5&quot;/&gt;
-        &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;12&quot; fill=&quot;var(--surface)&quot; stroke=&quot;var(--line)&quot; stroke-width=&quot;1.5&quot;/&gt;
-        &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;3.4&quot; fill=&quot;var(--text-dim)&quot;/&gt;
+        &lt;circle cx=&quot;100&quot; cy=&quot;100&quot; r=&quot;98&quot; fill=&quot;var(--board-dark)&quot; stroke=&quot;var(--line)&quot; stroke-width=&quot;2&quot;/&gt;
+        &lt;circle cx=&quot;100&quot; cy=&quot;100&quot; r=&quot;80&quot; fill=&quot;var(--board-light)&quot;/&gt;
+        &lt;circle cx=&quot;100&quot; cy=&quot;100&quot; r=&quot;62&quot; fill=&quot;var(--board-dark)&quot;/&gt;
+        &lt;circle cx=&quot;100&quot; cy=&quot;100&quot; r=&quot;44&quot; fill=&quot;var(--board-light)&quot;/&gt;
+        &lt;circle cx=&quot;100&quot; cy=&quot;100&quot; r=&quot;26&quot; fill=&quot;var(--board-dark)&quot;/&gt;
+        &lt;circle cx=&quot;100&quot; cy=&quot;100&quot; r=&quot;12&quot; fill=&quot;var(--board-bull)&quot;/&gt;
+        &lt;!-- 링 경계 헤어라인(또렷함 보강) --&gt;
+        &lt;g fill=&quot;none&quot; stroke=&quot;var(--bg-deep)&quot; stroke-opacity=&quot;.55&quot; stroke-width=&quot;1&quot;&gt;
+          &lt;circle cx=&quot;100&quot; cy=&quot;100&quot; r=&quot;80&quot;/&gt;&lt;circle cx=&quot;100&quot; cy=&quot;100&quot; r=&quot;62&quot;/&gt;
+          &lt;circle cx=&quot;100&quot; cy=&quot;100&quot; r=&quot;44&quot;/&gt;&lt;circle cx=&quot;100&quot; cy=&quot;100&quot; r=&quot;26&quot;/&gt;
+          &lt;circle cx=&quot;100&quot; cy=&quot;100&quot; r=&quot;12&quot;/&gt;
+        &lt;/g&gt;
       &lt;/g&gt;
     &lt;/defs&gt;
   &lt;/svg&gt;
@@ -1155,15 +1197,14 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
     &lt;!-- 2×2 그리드 --&gt;
     &lt;div style=&quot;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:14px 20px;margin-top:20px;flex:1;&quot;&gt;
 
-      &lt;!-- ① 정확○ 정밀○ — 우리가 갈 곳 (강조) --&gt;
-      &lt;div class=&quot;card card--glow&quot; style=&quot;display:flex;align-items:center;gap:20px;padding:16px 22px;&quot;&gt;
-        &lt;svg width=&quot;104&quot; height=&quot;104&quot; viewBox=&quot;0 0 120 120&quot; style=&quot;flex:none;&quot;&gt;
+      &lt;!-- ① 정확○ 정밀○ — 우리가 갈 곳 (강조) — 4발 전부 불스아이 밀집 --&gt;
+      &lt;div class=&quot;card card--glow&quot; style=&quot;display:flex;align-items:center;gap:22px;padding:16px 22px;&quot;&gt;
+        &lt;svg width=&quot;200&quot; height=&quot;200&quot; viewBox=&quot;0 0 200 200&quot; style=&quot;flex:none;&quot;&gt;
           &lt;use href=&quot;#target&quot;/&gt;
-          &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;12&quot; fill=&quot;none&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;2&quot; opacity=&quot;.8&quot;/&gt;
-          &lt;g fill=&quot;var(--accent)&quot; stroke=&quot;var(--accent-ink)&quot; stroke-width=&quot;.6&quot;&gt;
-            &lt;circle cx=&quot;58&quot; cy=&quot;60&quot; r=&quot;3.6&quot;/&gt;&lt;circle cx=&quot;63&quot; cy=&quot;57&quot; r=&quot;3.6&quot;/&gt;
-            &lt;circle cx=&quot;60&quot; cy=&quot;64&quot; r=&quot;3.6&quot;/&gt;&lt;circle cx=&quot;56&quot; cy=&quot;58&quot; r=&quot;3.6&quot;/&gt;
-            &lt;circle cx=&quot;63&quot; cy=&quot;62&quot; r=&quot;3.6&quot;/&gt;
+          &lt;circle cx=&quot;100&quot; cy=&quot;100&quot; r=&quot;12&quot; fill=&quot;var(--board-bull)&quot; filter=&quot;url(#bullGlow)&quot;/&gt;
+          &lt;g fill=&quot;var(--text)&quot; stroke=&quot;var(--board-dark)&quot; stroke-width=&quot;1.5&quot; filter=&quot;url(#hitShadow)&quot;&gt;
+            &lt;circle cx=&quot;99&quot; cy=&quot;99&quot; r=&quot;5&quot;/&gt;&lt;circle cx=&quot;106&quot; cy=&quot;98&quot; r=&quot;5&quot;/&gt;
+            &lt;circle cx=&quot;96&quot; cy=&quot;105&quot; r=&quot;5&quot;/&gt;&lt;circle cx=&quot;104&quot; cy=&quot;106&quot; r=&quot;5&quot;/&gt;
           &lt;/g&gt;
         &lt;/svg&gt;
         &lt;div&gt;
@@ -1176,14 +1217,13 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
         &lt;/div&gt;
       &lt;/div&gt;
 
-      &lt;!-- ② 정확✕ 정밀○ — 한결같이 틀림 --&gt;
-      &lt;div class=&quot;card&quot; style=&quot;display:flex;align-items:center;gap:20px;padding:16px 22px;&quot;&gt;
-        &lt;svg width=&quot;104&quot; height=&quot;104&quot; viewBox=&quot;0 0 120 120&quot; style=&quot;flex:none;&quot;&gt;
+      &lt;!-- ② 정확✕ 정밀○ — 한결같이 틀림 — 바깥 링 한 구석에 밀집 --&gt;
+      &lt;div class=&quot;card&quot; style=&quot;display:flex;align-items:center;gap:22px;padding:16px 22px;&quot;&gt;
+        &lt;svg width=&quot;200&quot; height=&quot;200&quot; viewBox=&quot;0 0 200 200&quot; style=&quot;flex:none;&quot;&gt;
           &lt;use href=&quot;#target&quot;/&gt;
-          &lt;g fill=&quot;var(--text-dim)&quot;&gt;
-            &lt;circle cx=&quot;37&quot; cy=&quot;39&quot; r=&quot;3.6&quot;/&gt;&lt;circle cx=&quot;42&quot; cy=&quot;36&quot; r=&quot;3.6&quot;/&gt;
-            &lt;circle cx=&quot;39&quot; cy=&quot;43&quot; r=&quot;3.6&quot;/&gt;&lt;circle cx=&quot;34&quot; cy=&quot;40&quot; r=&quot;3.6&quot;/&gt;
-            &lt;circle cx=&quot;43&quot; cy=&quot;41&quot; r=&quot;3.6&quot;/&gt;
+          &lt;g fill=&quot;var(--text)&quot; stroke=&quot;var(--board-dark)&quot; stroke-width=&quot;1.5&quot; filter=&quot;url(#hitShadow)&quot;&gt;
+            &lt;circle cx=&quot;57&quot; cy=&quot;57&quot; r=&quot;5&quot;/&gt;&lt;circle cx=&quot;64&quot; cy=&quot;54&quot; r=&quot;5&quot;/&gt;
+            &lt;circle cx=&quot;54&quot; cy=&quot;65&quot; r=&quot;5&quot;/&gt;&lt;circle cx=&quot;63&quot; cy=&quot;63&quot; r=&quot;5&quot;/&gt;
           &lt;/g&gt;
         &lt;/svg&gt;
         &lt;div&gt;
@@ -1196,14 +1236,14 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
         &lt;/div&gt;
       &lt;/div&gt;
 
-      &lt;!-- ③ 정확○ 정밀✕ — 평균은 맞는데 매번 다름 --&gt;
-      &lt;div class=&quot;card&quot; style=&quot;display:flex;align-items:center;gap:20px;padding:16px 22px;&quot;&gt;
-        &lt;svg width=&quot;104&quot; height=&quot;104&quot; viewBox=&quot;0 0 120 120&quot; style=&quot;flex:none;&quot;&gt;
+      &lt;!-- ③ 정확○ 정밀✕ — 평균은 맞는데 매번 다름 — 중심 주위로 넓게 산개 --&gt;
+      &lt;div class=&quot;card&quot; style=&quot;display:flex;align-items:center;gap:22px;padding:16px 22px;&quot;&gt;
+        &lt;svg width=&quot;200&quot; height=&quot;200&quot; viewBox=&quot;0 0 200 200&quot; style=&quot;flex:none;&quot;&gt;
           &lt;use href=&quot;#target&quot;/&gt;
-          &lt;g fill=&quot;var(--text-dim)&quot;&gt;
-            &lt;circle cx=&quot;44&quot; cy=&quot;50&quot; r=&quot;3.6&quot;/&gt;&lt;circle cx=&quot;75&quot; cy=&quot;53&quot; r=&quot;3.6&quot;/&gt;
-            &lt;circle cx=&quot;58&quot; cy=&quot;43&quot; r=&quot;3.6&quot;/&gt;&lt;circle cx=&quot;52&quot; cy=&quot;75&quot; r=&quot;3.6&quot;/&gt;
-            &lt;circle cx=&quot;68&quot; cy=&quot;69&quot; r=&quot;3.6&quot;/&gt;
+          &lt;g fill=&quot;var(--text)&quot; stroke=&quot;var(--board-dark)&quot; stroke-width=&quot;1.5&quot; filter=&quot;url(#hitShadow)&quot;&gt;
+            &lt;circle cx=&quot;100&quot; cy=&quot;60&quot; r=&quot;5&quot;/&gt;&lt;circle cx=&quot;62&quot; cy=&quot;104&quot; r=&quot;5&quot;/&gt;
+            &lt;circle cx=&quot;140&quot; cy=&quot;96&quot; r=&quot;5&quot;/&gt;&lt;circle cx=&quot;96&quot; cy=&quot;140&quot; r=&quot;5&quot;/&gt;
+            &lt;circle cx=&quot;110&quot; cy=&quot;104&quot; r=&quot;5&quot;/&gt;
           &lt;/g&gt;
         &lt;/svg&gt;
         &lt;div&gt;
@@ -1216,14 +1256,17 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
         &lt;/div&gt;
       &lt;/div&gt;
 
-      &lt;!-- ④ 정확✕ 정밀✕ — 대부분의 첫 경험 --&gt;
-      &lt;div class=&quot;card&quot; style=&quot;display:flex;align-items:center;gap:20px;padding:16px 22px;&quot;&gt;
-        &lt;svg width=&quot;104&quot; height=&quot;104&quot; viewBox=&quot;0 0 120 120&quot; style=&quot;flex:none;&quot;&gt;
+      &lt;!-- ④ 정확✕ 정밀✕ — 대부분의 첫 경험 — 판 전체 제멋대로 + 1발은 판 밖 --&gt;
+      &lt;div class=&quot;card&quot; style=&quot;display:flex;align-items:center;gap:22px;padding:16px 22px;&quot;&gt;
+        &lt;svg width=&quot;200&quot; height=&quot;200&quot; viewBox=&quot;0 0 200 200&quot; style=&quot;flex:none;overflow:visible;&quot;&gt;
           &lt;use href=&quot;#target&quot;/&gt;
-          &lt;g fill=&quot;var(--text-dim)&quot;&gt;
-            &lt;circle cx=&quot;30&quot; cy=&quot;34&quot; r=&quot;3.6&quot;/&gt;&lt;circle cx=&quot;84&quot; cy=&quot;42&quot; r=&quot;3.6&quot;/&gt;
-            &lt;circle cx=&quot;46&quot; cy=&quot;82&quot; r=&quot;3.6&quot;/&gt;&lt;circle cx=&quot;80&quot; cy=&quot;78&quot; r=&quot;3.6&quot;/&gt;
-            &lt;circle cx=&quot;61&quot; cy=&quot;56&quot; r=&quot;3.6&quot;/&gt;&lt;circle cx=&quot;37&quot; cy=&quot;64&quot; r=&quot;3.6&quot;/&gt;
+          &lt;g fill=&quot;var(--text)&quot; stroke=&quot;var(--board-dark)&quot; stroke-width=&quot;1.5&quot; filter=&quot;url(#hitShadow)&quot;&gt;
+            &lt;circle cx=&quot;52&quot; cy=&quot;46&quot; r=&quot;5&quot;/&gt;&lt;circle cx=&quot;150&quot; cy=&quot;64&quot; r=&quot;5&quot;/&gt;
+            &lt;circle cx=&quot;78&quot; cy=&quot;150&quot; r=&quot;5&quot;/&gt;&lt;circle cx=&quot;150&quot; cy=&quot;150&quot; r=&quot;5&quot;/&gt;
+            &lt;circle cx=&quot;36&quot; cy=&quot;116&quot; r=&quot;5&quot;/&gt;
+            &lt;!-- 판 밖 근처로 튄 1발 (다트 꼬리 포함) --&gt;
+            &lt;line x1=&quot;204&quot; y1=&quot;18&quot; x2=&quot;192&quot; y2=&quot;28&quot; stroke=&quot;var(--text-dim)&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot;/&gt;
+            &lt;circle cx=&quot;190&quot; cy=&quot;30&quot; r=&quot;5&quot;/&gt;
           &lt;/g&gt;
         &lt;/svg&gt;
         &lt;div&gt;
@@ -1257,31 +1300,36 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
    ============================================================================ */
 
 /* ---------------------------------------------------------------------------
-   [팔레트 — 임시본] 다크 차콜 베이스 + 단일 강조색(엠버/오렌지 1색)
-   강의용 selectable 톤. 최종 색은 대표 선택보드 후 아래 값만 교체하면 됨.
+   [팔레트 — 블루본] 다크 네이비 베이스 + 단일 강조색(블루 1색)
+   강의용 selectable 톤. 최종 색은 아래 값만 교체하면 됨.
    --------------------------------------------------------------------------- */
 :root{
-  --bg:          #1A1714;   /* 다크 차콜 (미세 웜) 베이스 */
-  --bg-deep:     #100D0B;   /* 비네트/최하단 */
-  --surface:     #262019;   /* 카드 표면 */
-  --surface2:    #302820;   /* 카드 강조 표면 */
-  --line:        #3D342A;   /* 헤어라인·구분선 */
-  --text:        #F5F0E8;   /* 본문 밝은 오프화이트 */
-  --text-dim:    #A99B87;   /* 라벨·캡션 뮤트 */
-  --accent:      #F5A524;   /* 엠버 — 주강조(핵심어·활성·불스아이) */
-  --accent2:     #FFC468;   /* 라이트 엠버 — 보조강조 */
-  --accent-soft: rgba(245,165,36,.13); /* 엠버 소프트 배경 */
-  --accent-line: rgba(245,165,36,.34); /* 엠버 헤어라인 */
-  --accent-ink:  #1A1206;   /* 엠버 칩 위 글자 */
-  --glow:        rgba(245,165,36,.42); /* 발광 라디얼 */
+  --bg:          #101720;   /* 다크 네이비 베이스 */
+  --bg-deep:     #0A0E14;   /* 비네트/최하단 */
+  --surface:     #18222E;   /* 카드 표면 */
+  --surface2:    #1E2B3A;   /* 카드 강조 표면 */
+  --line:        #2A3849;   /* 헤어라인·구분선 */
+  --text:        #EDF3FA;   /* 본문 밝은 오프화이트 */
+  --text-dim:    #8FA0B5;   /* 라벨·캡션 뮤트 */
+  --accent:      #227AFF;   /* 블루 — 주강조(핵심어·활성·불스아이) */
+  --accent2:     #6AAEFF;   /* 라이트 블루 — 보조강조 */
+  --accent-soft: rgba(34,122,255,.13); /* 블루 소프트 배경 */
+  --accent-line: rgba(34,122,255,.34); /* 블루 헤어라인 */
+  --accent-ink:  #061226;   /* 블루 칩 위 글자 */
+  --glow:        rgba(34,122,255,.42); /* 발광 라디얼 */
 
-  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 톤 절제.
+  /* 과녁(다트판) 전용 — 명암 교차 링을 또렷하게 (s05·s06) */
+  --board-light: #D8E2EE;   /* 밝은 링 */
+  --board-dark:  #223142;   /* 어두운 링 */
+  --board-bull:  var(--accent); /* 중앙 불스아이 */
+
+  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 블루 톤에 조화.
      전부 변수라 리스킨 시 함께 조정 가능. */
-  --cap-a: #F5A524;   /* 엠버 */
-  --cap-b: #E4713B;   /* 테라코타 */
-  --cap-c: #6FA8A0;   /* 세이지 틸 */
-  --cap-d: #C9B24E;   /* 머스터드 */
-  --cap-e: #B5715C;   /* 클레이 */
+  --cap-a: #227AFF;   /* 블루 */
+  --cap-b: #37D0A9;   /* 민트 그린 */
+  --cap-c: #6AAEFF;   /* 라이트 블루 */
+  --cap-d: #9AB0C9;   /* 슬레이트 그레이 */
+  --cap-e: #4B7178;   /* 딥 틸 */
 }
 
 /* ---------------------------------------------------------------------------
@@ -1332,8 +1380,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 .bg-grad{ position:absolute; inset:0; z-index:0;
   background:
     radial-gradient(110% 90% at 82% 16%, var(--accent-soft), transparent 55%),
-    radial-gradient(90% 80% at 8% 104%, rgba(245,165,36,.06), transparent 60%),
-    linear-gradient(158deg,#221D17 0%, var(--bg) 44%, var(--bg-deep) 100%); }
+    radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
+    linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
   background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
@@ -1399,16 +1447,31 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
     &lt;div style=&quot;flex:1;display:flex;align-items:center;justify-content:center;margin-top:6px;&quot;&gt;
       &lt;svg viewBox=&quot;0 0 1000 470&quot; width=&quot;1000&quot; style=&quot;max-width:100%;height:auto;&quot;&gt;
         &lt;defs&gt;
-          &lt;!-- 과녁 심볼 (스케일 가능) --&gt;
+          &lt;!-- 과녁 심볼 (명암 교차 링 + 불스아이, 스케일 가능) --&gt;
           &lt;symbol id=&quot;board6&quot; viewBox=&quot;0 0 120 120&quot;&gt;
-            &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;54&quot; fill=&quot;var(--bg-deep)&quot; stroke=&quot;var(--line)&quot; stroke-width=&quot;1.5&quot;/&gt;
-            &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;40&quot; fill=&quot;none&quot; stroke=&quot;var(--line)&quot; stroke-width=&quot;1.5&quot;/&gt;
-            &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;26&quot; fill=&quot;none&quot; stroke=&quot;var(--line)&quot; stroke-width=&quot;1.5&quot;/&gt;
-            &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;12&quot; fill=&quot;var(--surface)&quot; stroke=&quot;var(--line)&quot; stroke-width=&quot;1.5&quot;/&gt;
+            &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;58&quot; fill=&quot;var(--board-dark)&quot; stroke=&quot;var(--line)&quot; stroke-width=&quot;1.5&quot;/&gt;
+            &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;47&quot; fill=&quot;var(--board-light)&quot;/&gt;
+            &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;36&quot; fill=&quot;var(--board-dark)&quot;/&gt;
+            &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;25&quot; fill=&quot;var(--board-light)&quot;/&gt;
+            &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;15&quot; fill=&quot;var(--board-dark)&quot;/&gt;
+            &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;7&quot; fill=&quot;var(--board-bull)&quot;/&gt;
+            &lt;g fill=&quot;none&quot; stroke=&quot;var(--bg-deep)&quot; stroke-opacity=&quot;.55&quot; stroke-width=&quot;.8&quot;&gt;
+              &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;47&quot;/&gt;&lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;36&quot;/&gt;
+              &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;25&quot;/&gt;&lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;15&quot;/&gt;&lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;7&quot;/&gt;
+            &lt;/g&gt;
           &lt;/symbol&gt;
           &lt;marker id=&quot;ah6&quot; markerWidth=&quot;12&quot; markerHeight=&quot;12&quot; refX=&quot;8&quot; refY=&quot;5&quot; orient=&quot;auto&quot;&gt;
             &lt;path d=&quot;M0,0 L9,5 L0,10 Z&quot; fill=&quot;var(--accent)&quot;/&gt;
           &lt;/marker&gt;
+          &lt;!-- 명중점 드롭섀도 --&gt;
+          &lt;filter id=&quot;hit6&quot; x=&quot;-60%&quot; y=&quot;-60%&quot; width=&quot;220%&quot; height=&quot;220%&quot;&gt;
+            &lt;feDropShadow dx=&quot;0&quot; dy=&quot;1&quot; stdDeviation=&quot;1.2&quot; flood-color=&quot;#000&quot; flood-opacity=&quot;.55&quot;/&gt;
+          &lt;/filter&gt;
+          &lt;!-- 불스아이 발광 (메인 보드 전용) --&gt;
+          &lt;filter id=&quot;bull6&quot; x=&quot;-80%&quot; y=&quot;-80%&quot; width=&quot;260%&quot; height=&quot;260%&quot;&gt;
+            &lt;feGaussianBlur stdDeviation=&quot;3.5&quot; result=&quot;b&quot;/&gt;
+            &lt;feMerge&gt;&lt;feMergeNode in=&quot;b&quot;/&gt;&lt;feMergeNode in=&quot;SourceGraphic&quot;/&gt;&lt;/feMerge&gt;
+          &lt;/filter&gt;
         &lt;/defs&gt;
 
         &lt;!-- 축 (원점 = 메인 보드 중심 260,340) --&gt;
@@ -1417,25 +1480,25 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 
         &lt;!-- 메인 보드 (지금·나·이 AI) --&gt;
         &lt;use href=&quot;#board6&quot; x=&quot;140&quot; y=&quot;220&quot; width=&quot;240&quot; height=&quot;240&quot;/&gt;
-        &lt;g fill=&quot;var(--accent)&quot; stroke=&quot;var(--accent-ink)&quot; stroke-width=&quot;.7&quot;&gt;
-          &lt;circle cx=&quot;258&quot; cy=&quot;340&quot; r=&quot;4.4&quot;/&gt;&lt;circle cx=&quot;264&quot; cy=&quot;336&quot; r=&quot;4.4&quot;/&gt;
-          &lt;circle cx=&quot;261&quot; cy=&quot;345&quot; r=&quot;4.4&quot;/&gt;&lt;circle cx=&quot;255&quot; cy=&quot;338&quot; r=&quot;4.4&quot;/&gt;
-          &lt;circle cx=&quot;265&quot; cy=&quot;343&quot; r=&quot;4.4&quot;/&gt;
+        &lt;circle cx=&quot;260&quot; cy=&quot;340&quot; r=&quot;14&quot; fill=&quot;var(--board-bull)&quot; filter=&quot;url(#bull6)&quot;/&gt;
+        &lt;g fill=&quot;var(--text)&quot; stroke=&quot;var(--board-dark)&quot; stroke-width=&quot;1.4&quot; filter=&quot;url(#hit6)&quot;&gt;
+          &lt;circle cx=&quot;258&quot; cy=&quot;340&quot; r=&quot;5.5&quot;/&gt;&lt;circle cx=&quot;266&quot; cy=&quot;336&quot; r=&quot;5.5&quot;/&gt;
+          &lt;circle cx=&quot;261&quot; cy=&quot;346&quot; r=&quot;5.5&quot;/&gt;&lt;circle cx=&quot;253&quot; cy=&quot;338&quot; r=&quot;5.5&quot;/&gt;
         &lt;/g&gt;
         &lt;text x=&quot;260&quot; y=&quot;452&quot; text-anchor=&quot;middle&quot; font-family=&quot;Pretendard,sans-serif&quot; font-size=&quot;14&quot; font-weight=&quot;700&quot; fill=&quot;var(--text)&quot;&gt;지금 · 내가 · 이 AI로&lt;/text&gt;
 
         &lt;!-- 우측 보드 (다음 주에 또 던져도 = 반복성) --&gt;
         &lt;use href=&quot;#board6&quot; x=&quot;640&quot; y=&quot;260&quot; width=&quot;160&quot; height=&quot;160&quot;/&gt;
-        &lt;g fill=&quot;var(--accent)&quot; stroke=&quot;var(--accent-ink)&quot; stroke-width=&quot;.6&quot;&gt;
-          &lt;circle cx=&quot;718&quot; cy=&quot;340&quot; r=&quot;3.4&quot;/&gt;&lt;circle cx=&quot;723&quot; cy=&quot;337&quot; r=&quot;3.4&quot;/&gt;
-          &lt;circle cx=&quot;720&quot; cy=&quot;344&quot; r=&quot;3.4&quot;/&gt;&lt;circle cx=&quot;716&quot; cy=&quot;338&quot; r=&quot;3.4&quot;/&gt;
+        &lt;g fill=&quot;var(--text)&quot; stroke=&quot;var(--board-dark)&quot; stroke-width=&quot;1.2&quot; filter=&quot;url(#hit6)&quot;&gt;
+          &lt;circle cx=&quot;718&quot; cy=&quot;340&quot; r=&quot;4&quot;/&gt;&lt;circle cx=&quot;724&quot; cy=&quot;337&quot; r=&quot;4&quot;/&gt;
+          &lt;circle cx=&quot;720&quot; cy=&quot;345&quot; r=&quot;4&quot;/&gt;&lt;circle cx=&quot;715&quot; cy=&quot;338&quot; r=&quot;4&quot;/&gt;
         &lt;/g&gt;
 
         &lt;!-- 상단 보드 (다른 사람·다른 AI가 던져도 = 재현성) --&gt;
         &lt;use href=&quot;#board6&quot; x=&quot;180&quot; y=&quot;60&quot; width=&quot;160&quot; height=&quot;160&quot;/&gt;
-        &lt;g fill=&quot;var(--accent)&quot; stroke=&quot;var(--accent-ink)&quot; stroke-width=&quot;.6&quot;&gt;
-          &lt;circle cx=&quot;258&quot; cy=&quot;140&quot; r=&quot;3.4&quot;/&gt;&lt;circle cx=&quot;263&quot; cy=&quot;137&quot; r=&quot;3.4&quot;/&gt;
-          &lt;circle cx=&quot;260&quot; cy=&quot;144&quot; r=&quot;3.4&quot;/&gt;&lt;circle cx=&quot;256&quot; cy=&quot;138&quot; r=&quot;3.4&quot;/&gt;
+        &lt;g fill=&quot;var(--text)&quot; stroke=&quot;var(--board-dark)&quot; stroke-width=&quot;1.2&quot; filter=&quot;url(#hit6)&quot;&gt;
+          &lt;circle cx=&quot;258&quot; cy=&quot;140&quot; r=&quot;4&quot;/&gt;&lt;circle cx=&quot;264&quot; cy=&quot;137&quot; r=&quot;4&quot;/&gt;
+          &lt;circle cx=&quot;260&quot; cy=&quot;145&quot; r=&quot;4&quot;/&gt;&lt;circle cx=&quot;255&quot; cy=&quot;138&quot; r=&quot;4&quot;/&gt;
         &lt;/g&gt;
 
         &lt;!-- 가로축 라벨 (시간) --&gt;
@@ -1443,8 +1506,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
         &lt;text x=&quot;600&quot; y=&quot;414&quot; text-anchor=&quot;middle&quot; font-family=&quot;Pretendard,sans-serif&quot; font-size=&quot;13&quot; font-weight=&quot;600&quot; letter-spacing=&quot;2&quot; fill=&quot;var(--text-dim)&quot;&gt;시간축 · 반복성&lt;/text&gt;
 
         &lt;!-- 세로축 라벨 (조건) --&gt;
-        &lt;text x=&quot;298&quot; y=&quot;112&quot; font-family=&quot;Pretendard,sans-serif&quot; font-size=&quot;17&quot; font-weight=&quot;800&quot; fill=&quot;var(--accent)&quot;&gt;다른 사람·다른 AI가 던져도?&lt;/text&gt;
-        &lt;text x=&quot;298&quot; y=&quot;134&quot; font-family=&quot;Pretendard,sans-serif&quot; font-size=&quot;13&quot; font-weight=&quot;600&quot; letter-spacing=&quot;2&quot; fill=&quot;var(--text-dim)&quot;&gt;조건축 · 재현성&lt;/text&gt;
+        &lt;text x=&quot;360&quot; y=&quot;112&quot; font-family=&quot;Pretendard,sans-serif&quot; font-size=&quot;17&quot; font-weight=&quot;800&quot; fill=&quot;var(--accent)&quot;&gt;다른 사람·다른 AI가 던져도?&lt;/text&gt;
+        &lt;text x=&quot;360&quot; y=&quot;134&quot; font-family=&quot;Pretendard,sans-serif&quot; font-size=&quot;13&quot; font-weight=&quot;600&quot; letter-spacing=&quot;2&quot; fill=&quot;var(--text-dim)&quot;&gt;조건축 · 재현성&lt;/text&gt;
       &lt;/svg&gt;
     &lt;/div&gt;
   &lt;/div&gt;
@@ -1466,31 +1529,36 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
    ============================================================================ */
 
 /* ---------------------------------------------------------------------------
-   [팔레트 — 임시본] 다크 차콜 베이스 + 단일 강조색(엠버/오렌지 1색)
-   강의용 selectable 톤. 최종 색은 대표 선택보드 후 아래 값만 교체하면 됨.
+   [팔레트 — 블루본] 다크 네이비 베이스 + 단일 강조색(블루 1색)
+   강의용 selectable 톤. 최종 색은 아래 값만 교체하면 됨.
    --------------------------------------------------------------------------- */
 :root{
-  --bg:          #1A1714;   /* 다크 차콜 (미세 웜) 베이스 */
-  --bg-deep:     #100D0B;   /* 비네트/최하단 */
-  --surface:     #262019;   /* 카드 표면 */
-  --surface2:    #302820;   /* 카드 강조 표면 */
-  --line:        #3D342A;   /* 헤어라인·구분선 */
-  --text:        #F5F0E8;   /* 본문 밝은 오프화이트 */
-  --text-dim:    #A99B87;   /* 라벨·캡션 뮤트 */
-  --accent:      #F5A524;   /* 엠버 — 주강조(핵심어·활성·불스아이) */
-  --accent2:     #FFC468;   /* 라이트 엠버 — 보조강조 */
-  --accent-soft: rgba(245,165,36,.13); /* 엠버 소프트 배경 */
-  --accent-line: rgba(245,165,36,.34); /* 엠버 헤어라인 */
-  --accent-ink:  #1A1206;   /* 엠버 칩 위 글자 */
-  --glow:        rgba(245,165,36,.42); /* 발광 라디얼 */
+  --bg:          #101720;   /* 다크 네이비 베이스 */
+  --bg-deep:     #0A0E14;   /* 비네트/최하단 */
+  --surface:     #18222E;   /* 카드 표면 */
+  --surface2:    #1E2B3A;   /* 카드 강조 표면 */
+  --line:        #2A3849;   /* 헤어라인·구분선 */
+  --text:        #EDF3FA;   /* 본문 밝은 오프화이트 */
+  --text-dim:    #8FA0B5;   /* 라벨·캡션 뮤트 */
+  --accent:      #227AFF;   /* 블루 — 주강조(핵심어·활성·불스아이) */
+  --accent2:     #6AAEFF;   /* 라이트 블루 — 보조강조 */
+  --accent-soft: rgba(34,122,255,.13); /* 블루 소프트 배경 */
+  --accent-line: rgba(34,122,255,.34); /* 블루 헤어라인 */
+  --accent-ink:  #061226;   /* 블루 칩 위 글자 */
+  --glow:        rgba(34,122,255,.42); /* 발광 라디얼 */
 
-  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 톤 절제.
+  /* 과녁(다트판) 전용 — 명암 교차 링을 또렷하게 (s05·s06) */
+  --board-light: #D8E2EE;   /* 밝은 링 */
+  --board-dark:  #223142;   /* 어두운 링 */
+  --board-bull:  var(--accent); /* 중앙 불스아이 */
+
+  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 블루 톤에 조화.
      전부 변수라 리스킨 시 함께 조정 가능. */
-  --cap-a: #F5A524;   /* 엠버 */
-  --cap-b: #E4713B;   /* 테라코타 */
-  --cap-c: #6FA8A0;   /* 세이지 틸 */
-  --cap-d: #C9B24E;   /* 머스터드 */
-  --cap-e: #B5715C;   /* 클레이 */
+  --cap-a: #227AFF;   /* 블루 */
+  --cap-b: #37D0A9;   /* 민트 그린 */
+  --cap-c: #6AAEFF;   /* 라이트 블루 */
+  --cap-d: #9AB0C9;   /* 슬레이트 그레이 */
+  --cap-e: #4B7178;   /* 딥 틸 */
 }
 
 /* ---------------------------------------------------------------------------
@@ -1541,8 +1609,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 .bg-grad{ position:absolute; inset:0; z-index:0;
   background:
     radial-gradient(110% 90% at 82% 16%, var(--accent-soft), transparent 55%),
-    radial-gradient(90% 80% at 8% 104%, rgba(245,165,36,.06), transparent 60%),
-    linear-gradient(158deg,#221D17 0%, var(--bg) 44%, var(--bg-deep) 100%); }
+    radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
+    linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
   background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
@@ -1695,31 +1763,36 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
    ============================================================================ */
 
 /* ---------------------------------------------------------------------------
-   [팔레트 — 임시본] 다크 차콜 베이스 + 단일 강조색(엠버/오렌지 1색)
-   강의용 selectable 톤. 최종 색은 대표 선택보드 후 아래 값만 교체하면 됨.
+   [팔레트 — 블루본] 다크 네이비 베이스 + 단일 강조색(블루 1색)
+   강의용 selectable 톤. 최종 색은 아래 값만 교체하면 됨.
    --------------------------------------------------------------------------- */
 :root{
-  --bg:          #1A1714;   /* 다크 차콜 (미세 웜) 베이스 */
-  --bg-deep:     #100D0B;   /* 비네트/최하단 */
-  --surface:     #262019;   /* 카드 표면 */
-  --surface2:    #302820;   /* 카드 강조 표면 */
-  --line:        #3D342A;   /* 헤어라인·구분선 */
-  --text:        #F5F0E8;   /* 본문 밝은 오프화이트 */
-  --text-dim:    #A99B87;   /* 라벨·캡션 뮤트 */
-  --accent:      #F5A524;   /* 엠버 — 주강조(핵심어·활성·불스아이) */
-  --accent2:     #FFC468;   /* 라이트 엠버 — 보조강조 */
-  --accent-soft: rgba(245,165,36,.13); /* 엠버 소프트 배경 */
-  --accent-line: rgba(245,165,36,.34); /* 엠버 헤어라인 */
-  --accent-ink:  #1A1206;   /* 엠버 칩 위 글자 */
-  --glow:        rgba(245,165,36,.42); /* 발광 라디얼 */
+  --bg:          #101720;   /* 다크 네이비 베이스 */
+  --bg-deep:     #0A0E14;   /* 비네트/최하단 */
+  --surface:     #18222E;   /* 카드 표면 */
+  --surface2:    #1E2B3A;   /* 카드 강조 표면 */
+  --line:        #2A3849;   /* 헤어라인·구분선 */
+  --text:        #EDF3FA;   /* 본문 밝은 오프화이트 */
+  --text-dim:    #8FA0B5;   /* 라벨·캡션 뮤트 */
+  --accent:      #227AFF;   /* 블루 — 주강조(핵심어·활성·불스아이) */
+  --accent2:     #6AAEFF;   /* 라이트 블루 — 보조강조 */
+  --accent-soft: rgba(34,122,255,.13); /* 블루 소프트 배경 */
+  --accent-line: rgba(34,122,255,.34); /* 블루 헤어라인 */
+  --accent-ink:  #061226;   /* 블루 칩 위 글자 */
+  --glow:        rgba(34,122,255,.42); /* 발광 라디얼 */
 
-  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 톤 절제.
+  /* 과녁(다트판) 전용 — 명암 교차 링을 또렷하게 (s05·s06) */
+  --board-light: #D8E2EE;   /* 밝은 링 */
+  --board-dark:  #223142;   /* 어두운 링 */
+  --board-bull:  var(--accent); /* 중앙 불스아이 */
+
+  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 블루 톤에 조화.
      전부 변수라 리스킨 시 함께 조정 가능. */
-  --cap-a: #F5A524;   /* 엠버 */
-  --cap-b: #E4713B;   /* 테라코타 */
-  --cap-c: #6FA8A0;   /* 세이지 틸 */
-  --cap-d: #C9B24E;   /* 머스터드 */
-  --cap-e: #B5715C;   /* 클레이 */
+  --cap-a: #227AFF;   /* 블루 */
+  --cap-b: #37D0A9;   /* 민트 그린 */
+  --cap-c: #6AAEFF;   /* 라이트 블루 */
+  --cap-d: #9AB0C9;   /* 슬레이트 그레이 */
+  --cap-e: #4B7178;   /* 딥 틸 */
 }
 
 /* ---------------------------------------------------------------------------
@@ -1770,8 +1843,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 .bg-grad{ position:absolute; inset:0; z-index:0;
   background:
     radial-gradient(110% 90% at 82% 16%, var(--accent-soft), transparent 55%),
-    radial-gradient(90% 80% at 8% 104%, rgba(245,165,36,.06), transparent 60%),
-    linear-gradient(158deg,#221D17 0%, var(--bg) 44%, var(--bg-deep) 100%); }
+    radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
+    linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
   background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
@@ -1914,31 +1987,36 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
    ============================================================================ */
 
 /* ---------------------------------------------------------------------------
-   [팔레트 — 임시본] 다크 차콜 베이스 + 단일 강조색(엠버/오렌지 1색)
-   강의용 selectable 톤. 최종 색은 대표 선택보드 후 아래 값만 교체하면 됨.
+   [팔레트 — 블루본] 다크 네이비 베이스 + 단일 강조색(블루 1색)
+   강의용 selectable 톤. 최종 색은 아래 값만 교체하면 됨.
    --------------------------------------------------------------------------- */
 :root{
-  --bg:          #1A1714;   /* 다크 차콜 (미세 웜) 베이스 */
-  --bg-deep:     #100D0B;   /* 비네트/최하단 */
-  --surface:     #262019;   /* 카드 표면 */
-  --surface2:    #302820;   /* 카드 강조 표면 */
-  --line:        #3D342A;   /* 헤어라인·구분선 */
-  --text:        #F5F0E8;   /* 본문 밝은 오프화이트 */
-  --text-dim:    #A99B87;   /* 라벨·캡션 뮤트 */
-  --accent:      #F5A524;   /* 엠버 — 주강조(핵심어·활성·불스아이) */
-  --accent2:     #FFC468;   /* 라이트 엠버 — 보조강조 */
-  --accent-soft: rgba(245,165,36,.13); /* 엠버 소프트 배경 */
-  --accent-line: rgba(245,165,36,.34); /* 엠버 헤어라인 */
-  --accent-ink:  #1A1206;   /* 엠버 칩 위 글자 */
-  --glow:        rgba(245,165,36,.42); /* 발광 라디얼 */
+  --bg:          #101720;   /* 다크 네이비 베이스 */
+  --bg-deep:     #0A0E14;   /* 비네트/최하단 */
+  --surface:     #18222E;   /* 카드 표면 */
+  --surface2:    #1E2B3A;   /* 카드 강조 표면 */
+  --line:        #2A3849;   /* 헤어라인·구분선 */
+  --text:        #EDF3FA;   /* 본문 밝은 오프화이트 */
+  --text-dim:    #8FA0B5;   /* 라벨·캡션 뮤트 */
+  --accent:      #227AFF;   /* 블루 — 주강조(핵심어·활성·불스아이) */
+  --accent2:     #6AAEFF;   /* 라이트 블루 — 보조강조 */
+  --accent-soft: rgba(34,122,255,.13); /* 블루 소프트 배경 */
+  --accent-line: rgba(34,122,255,.34); /* 블루 헤어라인 */
+  --accent-ink:  #061226;   /* 블루 칩 위 글자 */
+  --glow:        rgba(34,122,255,.42); /* 발광 라디얼 */
 
-  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 톤 절제.
+  /* 과녁(다트판) 전용 — 명암 교차 링을 또렷하게 (s05·s06) */
+  --board-light: #D8E2EE;   /* 밝은 링 */
+  --board-dark:  #223142;   /* 어두운 링 */
+  --board-bull:  var(--accent); /* 중앙 불스아이 */
+
+  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 블루 톤에 조화.
      전부 변수라 리스킨 시 함께 조정 가능. */
-  --cap-a: #F5A524;   /* 엠버 */
-  --cap-b: #E4713B;   /* 테라코타 */
-  --cap-c: #6FA8A0;   /* 세이지 틸 */
-  --cap-d: #C9B24E;   /* 머스터드 */
-  --cap-e: #B5715C;   /* 클레이 */
+  --cap-a: #227AFF;   /* 블루 */
+  --cap-b: #37D0A9;   /* 민트 그린 */
+  --cap-c: #6AAEFF;   /* 라이트 블루 */
+  --cap-d: #9AB0C9;   /* 슬레이트 그레이 */
+  --cap-e: #4B7178;   /* 딥 틸 */
 }
 
 /* ---------------------------------------------------------------------------
@@ -1989,8 +2067,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 .bg-grad{ position:absolute; inset:0; z-index:0;
   background:
     radial-gradient(110% 90% at 82% 16%, var(--accent-soft), transparent 55%),
-    radial-gradient(90% 80% at 8% 104%, rgba(245,165,36,.06), transparent 60%),
-    linear-gradient(158deg,#221D17 0%, var(--bg) 44%, var(--bg-deep) 100%); }
+    radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
+    linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
   background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
@@ -2107,31 +2185,36 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
    ============================================================================ */
 
 /* ---------------------------------------------------------------------------
-   [팔레트 — 임시본] 다크 차콜 베이스 + 단일 강조색(엠버/오렌지 1색)
-   강의용 selectable 톤. 최종 색은 대표 선택보드 후 아래 값만 교체하면 됨.
+   [팔레트 — 블루본] 다크 네이비 베이스 + 단일 강조색(블루 1색)
+   강의용 selectable 톤. 최종 색은 아래 값만 교체하면 됨.
    --------------------------------------------------------------------------- */
 :root{
-  --bg:          #1A1714;   /* 다크 차콜 (미세 웜) 베이스 */
-  --bg-deep:     #100D0B;   /* 비네트/최하단 */
-  --surface:     #262019;   /* 카드 표면 */
-  --surface2:    #302820;   /* 카드 강조 표면 */
-  --line:        #3D342A;   /* 헤어라인·구분선 */
-  --text:        #F5F0E8;   /* 본문 밝은 오프화이트 */
-  --text-dim:    #A99B87;   /* 라벨·캡션 뮤트 */
-  --accent:      #F5A524;   /* 엠버 — 주강조(핵심어·활성·불스아이) */
-  --accent2:     #FFC468;   /* 라이트 엠버 — 보조강조 */
-  --accent-soft: rgba(245,165,36,.13); /* 엠버 소프트 배경 */
-  --accent-line: rgba(245,165,36,.34); /* 엠버 헤어라인 */
-  --accent-ink:  #1A1206;   /* 엠버 칩 위 글자 */
-  --glow:        rgba(245,165,36,.42); /* 발광 라디얼 */
+  --bg:          #101720;   /* 다크 네이비 베이스 */
+  --bg-deep:     #0A0E14;   /* 비네트/최하단 */
+  --surface:     #18222E;   /* 카드 표면 */
+  --surface2:    #1E2B3A;   /* 카드 강조 표면 */
+  --line:        #2A3849;   /* 헤어라인·구분선 */
+  --text:        #EDF3FA;   /* 본문 밝은 오프화이트 */
+  --text-dim:    #8FA0B5;   /* 라벨·캡션 뮤트 */
+  --accent:      #227AFF;   /* 블루 — 주강조(핵심어·활성·불스아이) */
+  --accent2:     #6AAEFF;   /* 라이트 블루 — 보조강조 */
+  --accent-soft: rgba(34,122,255,.13); /* 블루 소프트 배경 */
+  --accent-line: rgba(34,122,255,.34); /* 블루 헤어라인 */
+  --accent-ink:  #061226;   /* 블루 칩 위 글자 */
+  --glow:        rgba(34,122,255,.42); /* 발광 라디얼 */
 
-  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 톤 절제.
+  /* 과녁(다트판) 전용 — 명암 교차 링을 또렷하게 (s05·s06) */
+  --board-light: #D8E2EE;   /* 밝은 링 */
+  --board-dark:  #223142;   /* 어두운 링 */
+  --board-bull:  var(--accent); /* 중앙 불스아이 */
+
+  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 블루 톤에 조화.
      전부 변수라 리스킨 시 함께 조정 가능. */
-  --cap-a: #F5A524;   /* 엠버 */
-  --cap-b: #E4713B;   /* 테라코타 */
-  --cap-c: #6FA8A0;   /* 세이지 틸 */
-  --cap-d: #C9B24E;   /* 머스터드 */
-  --cap-e: #B5715C;   /* 클레이 */
+  --cap-a: #227AFF;   /* 블루 */
+  --cap-b: #37D0A9;   /* 민트 그린 */
+  --cap-c: #6AAEFF;   /* 라이트 블루 */
+  --cap-d: #9AB0C9;   /* 슬레이트 그레이 */
+  --cap-e: #4B7178;   /* 딥 틸 */
 }
 
 /* ---------------------------------------------------------------------------
@@ -2182,8 +2265,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 .bg-grad{ position:absolute; inset:0; z-index:0;
   background:
     radial-gradient(110% 90% at 82% 16%, var(--accent-soft), transparent 55%),
-    radial-gradient(90% 80% at 8% 104%, rgba(245,165,36,.06), transparent 60%),
-    linear-gradient(158deg,#221D17 0%, var(--bg) 44%, var(--bg-deep) 100%); }
+    radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
+    linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
   background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
@@ -2361,31 +2444,36 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
    ============================================================================ */
 
 /* ---------------------------------------------------------------------------
-   [팔레트 — 임시본] 다크 차콜 베이스 + 단일 강조색(엠버/오렌지 1색)
-   강의용 selectable 톤. 최종 색은 대표 선택보드 후 아래 값만 교체하면 됨.
+   [팔레트 — 블루본] 다크 네이비 베이스 + 단일 강조색(블루 1색)
+   강의용 selectable 톤. 최종 색은 아래 값만 교체하면 됨.
    --------------------------------------------------------------------------- */
 :root{
-  --bg:          #1A1714;   /* 다크 차콜 (미세 웜) 베이스 */
-  --bg-deep:     #100D0B;   /* 비네트/최하단 */
-  --surface:     #262019;   /* 카드 표면 */
-  --surface2:    #302820;   /* 카드 강조 표면 */
-  --line:        #3D342A;   /* 헤어라인·구분선 */
-  --text:        #F5F0E8;   /* 본문 밝은 오프화이트 */
-  --text-dim:    #A99B87;   /* 라벨·캡션 뮤트 */
-  --accent:      #F5A524;   /* 엠버 — 주강조(핵심어·활성·불스아이) */
-  --accent2:     #FFC468;   /* 라이트 엠버 — 보조강조 */
-  --accent-soft: rgba(245,165,36,.13); /* 엠버 소프트 배경 */
-  --accent-line: rgba(245,165,36,.34); /* 엠버 헤어라인 */
-  --accent-ink:  #1A1206;   /* 엠버 칩 위 글자 */
-  --glow:        rgba(245,165,36,.42); /* 발광 라디얼 */
+  --bg:          #101720;   /* 다크 네이비 베이스 */
+  --bg-deep:     #0A0E14;   /* 비네트/최하단 */
+  --surface:     #18222E;   /* 카드 표면 */
+  --surface2:    #1E2B3A;   /* 카드 강조 표면 */
+  --line:        #2A3849;   /* 헤어라인·구분선 */
+  --text:        #EDF3FA;   /* 본문 밝은 오프화이트 */
+  --text-dim:    #8FA0B5;   /* 라벨·캡션 뮤트 */
+  --accent:      #227AFF;   /* 블루 — 주강조(핵심어·활성·불스아이) */
+  --accent2:     #6AAEFF;   /* 라이트 블루 — 보조강조 */
+  --accent-soft: rgba(34,122,255,.13); /* 블루 소프트 배경 */
+  --accent-line: rgba(34,122,255,.34); /* 블루 헤어라인 */
+  --accent-ink:  #061226;   /* 블루 칩 위 글자 */
+  --glow:        rgba(34,122,255,.42); /* 발광 라디얼 */
 
-  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 톤 절제.
+  /* 과녁(다트판) 전용 — 명암 교차 링을 또렷하게 (s05·s06) */
+  --board-light: #D8E2EE;   /* 밝은 링 */
+  --board-dark:  #223142;   /* 어두운 링 */
+  --board-bull:  var(--accent); /* 중앙 불스아이 */
+
+  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 블루 톤에 조화.
      전부 변수라 리스킨 시 함께 조정 가능. */
-  --cap-a: #F5A524;   /* 엠버 */
-  --cap-b: #E4713B;   /* 테라코타 */
-  --cap-c: #6FA8A0;   /* 세이지 틸 */
-  --cap-d: #C9B24E;   /* 머스터드 */
-  --cap-e: #B5715C;   /* 클레이 */
+  --cap-a: #227AFF;   /* 블루 */
+  --cap-b: #37D0A9;   /* 민트 그린 */
+  --cap-c: #6AAEFF;   /* 라이트 블루 */
+  --cap-d: #9AB0C9;   /* 슬레이트 그레이 */
+  --cap-e: #4B7178;   /* 딥 틸 */
 }
 
 /* ---------------------------------------------------------------------------
@@ -2436,8 +2524,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 .bg-grad{ position:absolute; inset:0; z-index:0;
   background:
     radial-gradient(110% 90% at 82% 16%, var(--accent-soft), transparent 55%),
-    radial-gradient(90% 80% at 8% 104%, rgba(245,165,36,.06), transparent 60%),
-    linear-gradient(158deg,#221D17 0%, var(--bg) 44%, var(--bg-deep) 100%); }
+    radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
+    linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
   background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
@@ -2608,31 +2696,36 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
    ============================================================================ */
 
 /* ---------------------------------------------------------------------------
-   [팔레트 — 임시본] 다크 차콜 베이스 + 단일 강조색(엠버/오렌지 1색)
-   강의용 selectable 톤. 최종 색은 대표 선택보드 후 아래 값만 교체하면 됨.
+   [팔레트 — 블루본] 다크 네이비 베이스 + 단일 강조색(블루 1색)
+   강의용 selectable 톤. 최종 색은 아래 값만 교체하면 됨.
    --------------------------------------------------------------------------- */
 :root{
-  --bg:          #1A1714;   /* 다크 차콜 (미세 웜) 베이스 */
-  --bg-deep:     #100D0B;   /* 비네트/최하단 */
-  --surface:     #262019;   /* 카드 표면 */
-  --surface2:    #302820;   /* 카드 강조 표면 */
-  --line:        #3D342A;   /* 헤어라인·구분선 */
-  --text:        #F5F0E8;   /* 본문 밝은 오프화이트 */
-  --text-dim:    #A99B87;   /* 라벨·캡션 뮤트 */
-  --accent:      #F5A524;   /* 엠버 — 주강조(핵심어·활성·불스아이) */
-  --accent2:     #FFC468;   /* 라이트 엠버 — 보조강조 */
-  --accent-soft: rgba(245,165,36,.13); /* 엠버 소프트 배경 */
-  --accent-line: rgba(245,165,36,.34); /* 엠버 헤어라인 */
-  --accent-ink:  #1A1206;   /* 엠버 칩 위 글자 */
-  --glow:        rgba(245,165,36,.42); /* 발광 라디얼 */
+  --bg:          #101720;   /* 다크 네이비 베이스 */
+  --bg-deep:     #0A0E14;   /* 비네트/최하단 */
+  --surface:     #18222E;   /* 카드 표면 */
+  --surface2:    #1E2B3A;   /* 카드 강조 표면 */
+  --line:        #2A3849;   /* 헤어라인·구분선 */
+  --text:        #EDF3FA;   /* 본문 밝은 오프화이트 */
+  --text-dim:    #8FA0B5;   /* 라벨·캡션 뮤트 */
+  --accent:      #227AFF;   /* 블루 — 주강조(핵심어·활성·불스아이) */
+  --accent2:     #6AAEFF;   /* 라이트 블루 — 보조강조 */
+  --accent-soft: rgba(34,122,255,.13); /* 블루 소프트 배경 */
+  --accent-line: rgba(34,122,255,.34); /* 블루 헤어라인 */
+  --accent-ink:  #061226;   /* 블루 칩 위 글자 */
+  --glow:        rgba(34,122,255,.42); /* 발광 라디얼 */
 
-  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 톤 절제.
+  /* 과녁(다트판) 전용 — 명암 교차 링을 또렷하게 (s05·s06) */
+  --board-light: #D8E2EE;   /* 밝은 링 */
+  --board-dark:  #223142;   /* 어두운 링 */
+  --board-bull:  var(--accent); /* 중앙 불스아이 */
+
+  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 블루 톤에 조화.
      전부 변수라 리스킨 시 함께 조정 가능. */
-  --cap-a: #F5A524;   /* 엠버 */
-  --cap-b: #E4713B;   /* 테라코타 */
-  --cap-c: #6FA8A0;   /* 세이지 틸 */
-  --cap-d: #C9B24E;   /* 머스터드 */
-  --cap-e: #B5715C;   /* 클레이 */
+  --cap-a: #227AFF;   /* 블루 */
+  --cap-b: #37D0A9;   /* 민트 그린 */
+  --cap-c: #6AAEFF;   /* 라이트 블루 */
+  --cap-d: #9AB0C9;   /* 슬레이트 그레이 */
+  --cap-e: #4B7178;   /* 딥 틸 */
 }
 
 /* ---------------------------------------------------------------------------
@@ -2683,8 +2776,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 .bg-grad{ position:absolute; inset:0; z-index:0;
   background:
     radial-gradient(110% 90% at 82% 16%, var(--accent-soft), transparent 55%),
-    radial-gradient(90% 80% at 8% 104%, rgba(245,165,36,.06), transparent 60%),
-    linear-gradient(158deg,#221D17 0%, var(--bg) 44%, var(--bg-deep) 100%); }
+    radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
+    linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
   background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
@@ -2830,31 +2923,36 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
    ============================================================================ */
 
 /* ---------------------------------------------------------------------------
-   [팔레트 — 임시본] 다크 차콜 베이스 + 단일 강조색(엠버/오렌지 1색)
-   강의용 selectable 톤. 최종 색은 대표 선택보드 후 아래 값만 교체하면 됨.
+   [팔레트 — 블루본] 다크 네이비 베이스 + 단일 강조색(블루 1색)
+   강의용 selectable 톤. 최종 색은 아래 값만 교체하면 됨.
    --------------------------------------------------------------------------- */
 :root{
-  --bg:          #1A1714;   /* 다크 차콜 (미세 웜) 베이스 */
-  --bg-deep:     #100D0B;   /* 비네트/최하단 */
-  --surface:     #262019;   /* 카드 표면 */
-  --surface2:    #302820;   /* 카드 강조 표면 */
-  --line:        #3D342A;   /* 헤어라인·구분선 */
-  --text:        #F5F0E8;   /* 본문 밝은 오프화이트 */
-  --text-dim:    #A99B87;   /* 라벨·캡션 뮤트 */
-  --accent:      #F5A524;   /* 엠버 — 주강조(핵심어·활성·불스아이) */
-  --accent2:     #FFC468;   /* 라이트 엠버 — 보조강조 */
-  --accent-soft: rgba(245,165,36,.13); /* 엠버 소프트 배경 */
-  --accent-line: rgba(245,165,36,.34); /* 엠버 헤어라인 */
-  --accent-ink:  #1A1206;   /* 엠버 칩 위 글자 */
-  --glow:        rgba(245,165,36,.42); /* 발광 라디얼 */
+  --bg:          #101720;   /* 다크 네이비 베이스 */
+  --bg-deep:     #0A0E14;   /* 비네트/최하단 */
+  --surface:     #18222E;   /* 카드 표면 */
+  --surface2:    #1E2B3A;   /* 카드 강조 표면 */
+  --line:        #2A3849;   /* 헤어라인·구분선 */
+  --text:        #EDF3FA;   /* 본문 밝은 오프화이트 */
+  --text-dim:    #8FA0B5;   /* 라벨·캡션 뮤트 */
+  --accent:      #227AFF;   /* 블루 — 주강조(핵심어·활성·불스아이) */
+  --accent2:     #6AAEFF;   /* 라이트 블루 — 보조강조 */
+  --accent-soft: rgba(34,122,255,.13); /* 블루 소프트 배경 */
+  --accent-line: rgba(34,122,255,.34); /* 블루 헤어라인 */
+  --accent-ink:  #061226;   /* 블루 칩 위 글자 */
+  --glow:        rgba(34,122,255,.42); /* 발광 라디얼 */
 
-  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 톤 절제.
+  /* 과녁(다트판) 전용 — 명암 교차 링을 또렷하게 (s05·s06) */
+  --board-light: #D8E2EE;   /* 밝은 링 */
+  --board-dark:  #223142;   /* 어두운 링 */
+  --board-bull:  var(--accent); /* 중앙 불스아이 */
+
+  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 블루 톤에 조화.
      전부 변수라 리스킨 시 함께 조정 가능. */
-  --cap-a: #F5A524;   /* 엠버 */
-  --cap-b: #E4713B;   /* 테라코타 */
-  --cap-c: #6FA8A0;   /* 세이지 틸 */
-  --cap-d: #C9B24E;   /* 머스터드 */
-  --cap-e: #B5715C;   /* 클레이 */
+  --cap-a: #227AFF;   /* 블루 */
+  --cap-b: #37D0A9;   /* 민트 그린 */
+  --cap-c: #6AAEFF;   /* 라이트 블루 */
+  --cap-d: #9AB0C9;   /* 슬레이트 그레이 */
+  --cap-e: #4B7178;   /* 딥 틸 */
 }
 
 /* ---------------------------------------------------------------------------
@@ -2905,8 +3003,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 .bg-grad{ position:absolute; inset:0; z-index:0;
   background:
     radial-gradient(110% 90% at 82% 16%, var(--accent-soft), transparent 55%),
-    radial-gradient(90% 80% at 8% 104%, rgba(245,165,36,.06), transparent 60%),
-    linear-gradient(158deg,#221D17 0%, var(--bg) 44%, var(--bg-deep) 100%); }
+    radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
+    linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
   background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
@@ -3011,31 +3109,36 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
    ============================================================================ */
 
 /* ---------------------------------------------------------------------------
-   [팔레트 — 임시본] 다크 차콜 베이스 + 단일 강조색(엠버/오렌지 1색)
-   강의용 selectable 톤. 최종 색은 대표 선택보드 후 아래 값만 교체하면 됨.
+   [팔레트 — 블루본] 다크 네이비 베이스 + 단일 강조색(블루 1색)
+   강의용 selectable 톤. 최종 색은 아래 값만 교체하면 됨.
    --------------------------------------------------------------------------- */
 :root{
-  --bg:          #1A1714;   /* 다크 차콜 (미세 웜) 베이스 */
-  --bg-deep:     #100D0B;   /* 비네트/최하단 */
-  --surface:     #262019;   /* 카드 표면 */
-  --surface2:    #302820;   /* 카드 강조 표면 */
-  --line:        #3D342A;   /* 헤어라인·구분선 */
-  --text:        #F5F0E8;   /* 본문 밝은 오프화이트 */
-  --text-dim:    #A99B87;   /* 라벨·캡션 뮤트 */
-  --accent:      #F5A524;   /* 엠버 — 주강조(핵심어·활성·불스아이) */
-  --accent2:     #FFC468;   /* 라이트 엠버 — 보조강조 */
-  --accent-soft: rgba(245,165,36,.13); /* 엠버 소프트 배경 */
-  --accent-line: rgba(245,165,36,.34); /* 엠버 헤어라인 */
-  --accent-ink:  #1A1206;   /* 엠버 칩 위 글자 */
-  --glow:        rgba(245,165,36,.42); /* 발광 라디얼 */
+  --bg:          #101720;   /* 다크 네이비 베이스 */
+  --bg-deep:     #0A0E14;   /* 비네트/최하단 */
+  --surface:     #18222E;   /* 카드 표면 */
+  --surface2:    #1E2B3A;   /* 카드 강조 표면 */
+  --line:        #2A3849;   /* 헤어라인·구분선 */
+  --text:        #EDF3FA;   /* 본문 밝은 오프화이트 */
+  --text-dim:    #8FA0B5;   /* 라벨·캡션 뮤트 */
+  --accent:      #227AFF;   /* 블루 — 주강조(핵심어·활성·불스아이) */
+  --accent2:     #6AAEFF;   /* 라이트 블루 — 보조강조 */
+  --accent-soft: rgba(34,122,255,.13); /* 블루 소프트 배경 */
+  --accent-line: rgba(34,122,255,.34); /* 블루 헤어라인 */
+  --accent-ink:  #061226;   /* 블루 칩 위 글자 */
+  --glow:        rgba(34,122,255,.42); /* 발광 라디얼 */
 
-  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 톤 절제.
+  /* 과녁(다트판) 전용 — 명암 교차 링을 또렷하게 (s05·s06) */
+  --board-light: #D8E2EE;   /* 밝은 링 */
+  --board-dark:  #223142;   /* 어두운 링 */
+  --board-bull:  var(--accent); /* 중앙 불스아이 */
+
+  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 블루 톤에 조화.
      전부 변수라 리스킨 시 함께 조정 가능. */
-  --cap-a: #F5A524;   /* 엠버 */
-  --cap-b: #E4713B;   /* 테라코타 */
-  --cap-c: #6FA8A0;   /* 세이지 틸 */
-  --cap-d: #C9B24E;   /* 머스터드 */
-  --cap-e: #B5715C;   /* 클레이 */
+  --cap-a: #227AFF;   /* 블루 */
+  --cap-b: #37D0A9;   /* 민트 그린 */
+  --cap-c: #6AAEFF;   /* 라이트 블루 */
+  --cap-d: #9AB0C9;   /* 슬레이트 그레이 */
+  --cap-e: #4B7178;   /* 딥 틸 */
 }
 
 /* ---------------------------------------------------------------------------
@@ -3086,8 +3189,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 .bg-grad{ position:absolute; inset:0; z-index:0;
   background:
     radial-gradient(110% 90% at 82% 16%, var(--accent-soft), transparent 55%),
-    radial-gradient(90% 80% at 8% 104%, rgba(245,165,36,.06), transparent 60%),
-    linear-gradient(158deg,#221D17 0%, var(--bg) 44%, var(--bg-deep) 100%); }
+    radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
+    linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
   background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
@@ -3196,31 +3299,36 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
    ============================================================================ */
 
 /* ---------------------------------------------------------------------------
-   [팔레트 — 임시본] 다크 차콜 베이스 + 단일 강조색(엠버/오렌지 1색)
-   강의용 selectable 톤. 최종 색은 대표 선택보드 후 아래 값만 교체하면 됨.
+   [팔레트 — 블루본] 다크 네이비 베이스 + 단일 강조색(블루 1색)
+   강의용 selectable 톤. 최종 색은 아래 값만 교체하면 됨.
    --------------------------------------------------------------------------- */
 :root{
-  --bg:          #1A1714;   /* 다크 차콜 (미세 웜) 베이스 */
-  --bg-deep:     #100D0B;   /* 비네트/최하단 */
-  --surface:     #262019;   /* 카드 표면 */
-  --surface2:    #302820;   /* 카드 강조 표면 */
-  --line:        #3D342A;   /* 헤어라인·구분선 */
-  --text:        #F5F0E8;   /* 본문 밝은 오프화이트 */
-  --text-dim:    #A99B87;   /* 라벨·캡션 뮤트 */
-  --accent:      #F5A524;   /* 엠버 — 주강조(핵심어·활성·불스아이) */
-  --accent2:     #FFC468;   /* 라이트 엠버 — 보조강조 */
-  --accent-soft: rgba(245,165,36,.13); /* 엠버 소프트 배경 */
-  --accent-line: rgba(245,165,36,.34); /* 엠버 헤어라인 */
-  --accent-ink:  #1A1206;   /* 엠버 칩 위 글자 */
-  --glow:        rgba(245,165,36,.42); /* 발광 라디얼 */
+  --bg:          #101720;   /* 다크 네이비 베이스 */
+  --bg-deep:     #0A0E14;   /* 비네트/최하단 */
+  --surface:     #18222E;   /* 카드 표면 */
+  --surface2:    #1E2B3A;   /* 카드 강조 표면 */
+  --line:        #2A3849;   /* 헤어라인·구분선 */
+  --text:        #EDF3FA;   /* 본문 밝은 오프화이트 */
+  --text-dim:    #8FA0B5;   /* 라벨·캡션 뮤트 */
+  --accent:      #227AFF;   /* 블루 — 주강조(핵심어·활성·불스아이) */
+  --accent2:     #6AAEFF;   /* 라이트 블루 — 보조강조 */
+  --accent-soft: rgba(34,122,255,.13); /* 블루 소프트 배경 */
+  --accent-line: rgba(34,122,255,.34); /* 블루 헤어라인 */
+  --accent-ink:  #061226;   /* 블루 칩 위 글자 */
+  --glow:        rgba(34,122,255,.42); /* 발광 라디얼 */
 
-  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 톤 절제.
+  /* 과녁(다트판) 전용 — 명암 교차 링을 또렷하게 (s05·s06) */
+  --board-light: #D8E2EE;   /* 밝은 링 */
+  --board-dark:  #223142;   /* 어두운 링 */
+  --board-bull:  var(--accent); /* 중앙 불스아이 */
+
+  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 블루 톤에 조화.
      전부 변수라 리스킨 시 함께 조정 가능. */
-  --cap-a: #F5A524;   /* 엠버 */
-  --cap-b: #E4713B;   /* 테라코타 */
-  --cap-c: #6FA8A0;   /* 세이지 틸 */
-  --cap-d: #C9B24E;   /* 머스터드 */
-  --cap-e: #B5715C;   /* 클레이 */
+  --cap-a: #227AFF;   /* 블루 */
+  --cap-b: #37D0A9;   /* 민트 그린 */
+  --cap-c: #6AAEFF;   /* 라이트 블루 */
+  --cap-d: #9AB0C9;   /* 슬레이트 그레이 */
+  --cap-e: #4B7178;   /* 딥 틸 */
 }
 
 /* ---------------------------------------------------------------------------
@@ -3271,8 +3379,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 .bg-grad{ position:absolute; inset:0; z-index:0;
   background:
     radial-gradient(110% 90% at 82% 16%, var(--accent-soft), transparent 55%),
-    radial-gradient(90% 80% at 8% 104%, rgba(245,165,36,.06), transparent 60%),
-    linear-gradient(158deg,#221D17 0%, var(--bg) 44%, var(--bg-deep) 100%); }
+    radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
+    linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
   background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
@@ -3443,31 +3551,36 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
    ============================================================================ */
 
 /* ---------------------------------------------------------------------------
-   [팔레트 — 임시본] 다크 차콜 베이스 + 단일 강조색(엠버/오렌지 1색)
-   강의용 selectable 톤. 최종 색은 대표 선택보드 후 아래 값만 교체하면 됨.
+   [팔레트 — 블루본] 다크 네이비 베이스 + 단일 강조색(블루 1색)
+   강의용 selectable 톤. 최종 색은 아래 값만 교체하면 됨.
    --------------------------------------------------------------------------- */
 :root{
-  --bg:          #1A1714;   /* 다크 차콜 (미세 웜) 베이스 */
-  --bg-deep:     #100D0B;   /* 비네트/최하단 */
-  --surface:     #262019;   /* 카드 표면 */
-  --surface2:    #302820;   /* 카드 강조 표면 */
-  --line:        #3D342A;   /* 헤어라인·구분선 */
-  --text:        #F5F0E8;   /* 본문 밝은 오프화이트 */
-  --text-dim:    #A99B87;   /* 라벨·캡션 뮤트 */
-  --accent:      #F5A524;   /* 엠버 — 주강조(핵심어·활성·불스아이) */
-  --accent2:     #FFC468;   /* 라이트 엠버 — 보조강조 */
-  --accent-soft: rgba(245,165,36,.13); /* 엠버 소프트 배경 */
-  --accent-line: rgba(245,165,36,.34); /* 엠버 헤어라인 */
-  --accent-ink:  #1A1206;   /* 엠버 칩 위 글자 */
-  --glow:        rgba(245,165,36,.42); /* 발광 라디얼 */
+  --bg:          #101720;   /* 다크 네이비 베이스 */
+  --bg-deep:     #0A0E14;   /* 비네트/최하단 */
+  --surface:     #18222E;   /* 카드 표면 */
+  --surface2:    #1E2B3A;   /* 카드 강조 표면 */
+  --line:        #2A3849;   /* 헤어라인·구분선 */
+  --text:        #EDF3FA;   /* 본문 밝은 오프화이트 */
+  --text-dim:    #8FA0B5;   /* 라벨·캡션 뮤트 */
+  --accent:      #227AFF;   /* 블루 — 주강조(핵심어·활성·불스아이) */
+  --accent2:     #6AAEFF;   /* 라이트 블루 — 보조강조 */
+  --accent-soft: rgba(34,122,255,.13); /* 블루 소프트 배경 */
+  --accent-line: rgba(34,122,255,.34); /* 블루 헤어라인 */
+  --accent-ink:  #061226;   /* 블루 칩 위 글자 */
+  --glow:        rgba(34,122,255,.42); /* 발광 라디얼 */
 
-  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 톤 절제.
+  /* 과녁(다트판) 전용 — 명암 교차 링을 또렷하게 (s05·s06) */
+  --board-light: #D8E2EE;   /* 밝은 링 */
+  --board-dark:  #223142;   /* 어두운 링 */
+  --board-bull:  var(--accent); /* 중앙 불스아이 */
+
+  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 블루 톤에 조화.
      전부 변수라 리스킨 시 함께 조정 가능. */
-  --cap-a: #F5A524;   /* 엠버 */
-  --cap-b: #E4713B;   /* 테라코타 */
-  --cap-c: #6FA8A0;   /* 세이지 틸 */
-  --cap-d: #C9B24E;   /* 머스터드 */
-  --cap-e: #B5715C;   /* 클레이 */
+  --cap-a: #227AFF;   /* 블루 */
+  --cap-b: #37D0A9;   /* 민트 그린 */
+  --cap-c: #6AAEFF;   /* 라이트 블루 */
+  --cap-d: #9AB0C9;   /* 슬레이트 그레이 */
+  --cap-e: #4B7178;   /* 딥 틸 */
 }
 
 /* ---------------------------------------------------------------------------
@@ -3518,8 +3631,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 .bg-grad{ position:absolute; inset:0; z-index:0;
   background:
     radial-gradient(110% 90% at 82% 16%, var(--accent-soft), transparent 55%),
-    radial-gradient(90% 80% at 8% 104%, rgba(245,165,36,.06), transparent 60%),
-    linear-gradient(158deg,#221D17 0%, var(--bg) 44%, var(--bg-deep) 100%); }
+    radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
+    linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
   background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
@@ -3633,31 +3746,36 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
    ============================================================================ */
 
 /* ---------------------------------------------------------------------------
-   [팔레트 — 임시본] 다크 차콜 베이스 + 단일 강조색(엠버/오렌지 1색)
-   강의용 selectable 톤. 최종 색은 대표 선택보드 후 아래 값만 교체하면 됨.
+   [팔레트 — 블루본] 다크 네이비 베이스 + 단일 강조색(블루 1색)
+   강의용 selectable 톤. 최종 색은 아래 값만 교체하면 됨.
    --------------------------------------------------------------------------- */
 :root{
-  --bg:          #1A1714;   /* 다크 차콜 (미세 웜) 베이스 */
-  --bg-deep:     #100D0B;   /* 비네트/최하단 */
-  --surface:     #262019;   /* 카드 표면 */
-  --surface2:    #302820;   /* 카드 강조 표면 */
-  --line:        #3D342A;   /* 헤어라인·구분선 */
-  --text:        #F5F0E8;   /* 본문 밝은 오프화이트 */
-  --text-dim:    #A99B87;   /* 라벨·캡션 뮤트 */
-  --accent:      #F5A524;   /* 엠버 — 주강조(핵심어·활성·불스아이) */
-  --accent2:     #FFC468;   /* 라이트 엠버 — 보조강조 */
-  --accent-soft: rgba(245,165,36,.13); /* 엠버 소프트 배경 */
-  --accent-line: rgba(245,165,36,.34); /* 엠버 헤어라인 */
-  --accent-ink:  #1A1206;   /* 엠버 칩 위 글자 */
-  --glow:        rgba(245,165,36,.42); /* 발광 라디얼 */
+  --bg:          #101720;   /* 다크 네이비 베이스 */
+  --bg-deep:     #0A0E14;   /* 비네트/최하단 */
+  --surface:     #18222E;   /* 카드 표면 */
+  --surface2:    #1E2B3A;   /* 카드 강조 표면 */
+  --line:        #2A3849;   /* 헤어라인·구분선 */
+  --text:        #EDF3FA;   /* 본문 밝은 오프화이트 */
+  --text-dim:    #8FA0B5;   /* 라벨·캡션 뮤트 */
+  --accent:      #227AFF;   /* 블루 — 주강조(핵심어·활성·불스아이) */
+  --accent2:     #6AAEFF;   /* 라이트 블루 — 보조강조 */
+  --accent-soft: rgba(34,122,255,.13); /* 블루 소프트 배경 */
+  --accent-line: rgba(34,122,255,.34); /* 블루 헤어라인 */
+  --accent-ink:  #061226;   /* 블루 칩 위 글자 */
+  --glow:        rgba(34,122,255,.42); /* 발광 라디얼 */
 
-  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 톤 절제.
+  /* 과녁(다트판) 전용 — 명암 교차 링을 또렷하게 (s05·s06) */
+  --board-light: #D8E2EE;   /* 밝은 링 */
+  --board-dark:  #223142;   /* 어두운 링 */
+  --board-bull:  var(--accent); /* 중앙 불스아이 */
+
+  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 블루 톤에 조화.
      전부 변수라 리스킨 시 함께 조정 가능. */
-  --cap-a: #F5A524;   /* 엠버 */
-  --cap-b: #E4713B;   /* 테라코타 */
-  --cap-c: #6FA8A0;   /* 세이지 틸 */
-  --cap-d: #C9B24E;   /* 머스터드 */
-  --cap-e: #B5715C;   /* 클레이 */
+  --cap-a: #227AFF;   /* 블루 */
+  --cap-b: #37D0A9;   /* 민트 그린 */
+  --cap-c: #6AAEFF;   /* 라이트 블루 */
+  --cap-d: #9AB0C9;   /* 슬레이트 그레이 */
+  --cap-e: #4B7178;   /* 딥 틸 */
 }
 
 /* ---------------------------------------------------------------------------
@@ -3708,8 +3826,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 .bg-grad{ position:absolute; inset:0; z-index:0;
   background:
     radial-gradient(110% 90% at 82% 16%, var(--accent-soft), transparent 55%),
-    radial-gradient(90% 80% at 8% 104%, rgba(245,165,36,.06), transparent 60%),
-    linear-gradient(158deg,#221D17 0%, var(--bg) 44%, var(--bg-deep) 100%); }
+    radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
+    linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
   background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
@@ -3882,31 +4000,36 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
    ============================================================================ */
 
 /* ---------------------------------------------------------------------------
-   [팔레트 — 임시본] 다크 차콜 베이스 + 단일 강조색(엠버/오렌지 1색)
-   강의용 selectable 톤. 최종 색은 대표 선택보드 후 아래 값만 교체하면 됨.
+   [팔레트 — 블루본] 다크 네이비 베이스 + 단일 강조색(블루 1색)
+   강의용 selectable 톤. 최종 색은 아래 값만 교체하면 됨.
    --------------------------------------------------------------------------- */
 :root{
-  --bg:          #1A1714;   /* 다크 차콜 (미세 웜) 베이스 */
-  --bg-deep:     #100D0B;   /* 비네트/최하단 */
-  --surface:     #262019;   /* 카드 표면 */
-  --surface2:    #302820;   /* 카드 강조 표면 */
-  --line:        #3D342A;   /* 헤어라인·구분선 */
-  --text:        #F5F0E8;   /* 본문 밝은 오프화이트 */
-  --text-dim:    #A99B87;   /* 라벨·캡션 뮤트 */
-  --accent:      #F5A524;   /* 엠버 — 주강조(핵심어·활성·불스아이) */
-  --accent2:     #FFC468;   /* 라이트 엠버 — 보조강조 */
-  --accent-soft: rgba(245,165,36,.13); /* 엠버 소프트 배경 */
-  --accent-line: rgba(245,165,36,.34); /* 엠버 헤어라인 */
-  --accent-ink:  #1A1206;   /* 엠버 칩 위 글자 */
-  --glow:        rgba(245,165,36,.42); /* 발광 라디얼 */
+  --bg:          #101720;   /* 다크 네이비 베이스 */
+  --bg-deep:     #0A0E14;   /* 비네트/최하단 */
+  --surface:     #18222E;   /* 카드 표면 */
+  --surface2:    #1E2B3A;   /* 카드 강조 표면 */
+  --line:        #2A3849;   /* 헤어라인·구분선 */
+  --text:        #EDF3FA;   /* 본문 밝은 오프화이트 */
+  --text-dim:    #8FA0B5;   /* 라벨·캡션 뮤트 */
+  --accent:      #227AFF;   /* 블루 — 주강조(핵심어·활성·불스아이) */
+  --accent2:     #6AAEFF;   /* 라이트 블루 — 보조강조 */
+  --accent-soft: rgba(34,122,255,.13); /* 블루 소프트 배경 */
+  --accent-line: rgba(34,122,255,.34); /* 블루 헤어라인 */
+  --accent-ink:  #061226;   /* 블루 칩 위 글자 */
+  --glow:        rgba(34,122,255,.42); /* 발광 라디얼 */
 
-  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 톤 절제.
+  /* 과녁(다트판) 전용 — 명암 교차 링을 또렷하게 (s05·s06) */
+  --board-light: #D8E2EE;   /* 밝은 링 */
+  --board-dark:  #223142;   /* 어두운 링 */
+  --board-bull:  var(--accent); /* 중앙 불스아이 */
+
+  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 블루 톤에 조화.
      전부 변수라 리스킨 시 함께 조정 가능. */
-  --cap-a: #F5A524;   /* 엠버 */
-  --cap-b: #E4713B;   /* 테라코타 */
-  --cap-c: #6FA8A0;   /* 세이지 틸 */
-  --cap-d: #C9B24E;   /* 머스터드 */
-  --cap-e: #B5715C;   /* 클레이 */
+  --cap-a: #227AFF;   /* 블루 */
+  --cap-b: #37D0A9;   /* 민트 그린 */
+  --cap-c: #6AAEFF;   /* 라이트 블루 */
+  --cap-d: #9AB0C9;   /* 슬레이트 그레이 */
+  --cap-e: #4B7178;   /* 딥 틸 */
 }
 
 /* ---------------------------------------------------------------------------
@@ -3957,8 +4080,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 .bg-grad{ position:absolute; inset:0; z-index:0;
   background:
     radial-gradient(110% 90% at 82% 16%, var(--accent-soft), transparent 55%),
-    radial-gradient(90% 80% at 8% 104%, rgba(245,165,36,.06), transparent 60%),
-    linear-gradient(158deg,#221D17 0%, var(--bg) 44%, var(--bg-deep) 100%); }
+    radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
+    linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
   background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
@@ -4106,31 +4229,36 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
    ============================================================================ */
 
 /* ---------------------------------------------------------------------------
-   [팔레트 — 임시본] 다크 차콜 베이스 + 단일 강조색(엠버/오렌지 1색)
-   강의용 selectable 톤. 최종 색은 대표 선택보드 후 아래 값만 교체하면 됨.
+   [팔레트 — 블루본] 다크 네이비 베이스 + 단일 강조색(블루 1색)
+   강의용 selectable 톤. 최종 색은 아래 값만 교체하면 됨.
    --------------------------------------------------------------------------- */
 :root{
-  --bg:          #1A1714;   /* 다크 차콜 (미세 웜) 베이스 */
-  --bg-deep:     #100D0B;   /* 비네트/최하단 */
-  --surface:     #262019;   /* 카드 표면 */
-  --surface2:    #302820;   /* 카드 강조 표면 */
-  --line:        #3D342A;   /* 헤어라인·구분선 */
-  --text:        #F5F0E8;   /* 본문 밝은 오프화이트 */
-  --text-dim:    #A99B87;   /* 라벨·캡션 뮤트 */
-  --accent:      #F5A524;   /* 엠버 — 주강조(핵심어·활성·불스아이) */
-  --accent2:     #FFC468;   /* 라이트 엠버 — 보조강조 */
-  --accent-soft: rgba(245,165,36,.13); /* 엠버 소프트 배경 */
-  --accent-line: rgba(245,165,36,.34); /* 엠버 헤어라인 */
-  --accent-ink:  #1A1206;   /* 엠버 칩 위 글자 */
-  --glow:        rgba(245,165,36,.42); /* 발광 라디얼 */
+  --bg:          #101720;   /* 다크 네이비 베이스 */
+  --bg-deep:     #0A0E14;   /* 비네트/최하단 */
+  --surface:     #18222E;   /* 카드 표면 */
+  --surface2:    #1E2B3A;   /* 카드 강조 표면 */
+  --line:        #2A3849;   /* 헤어라인·구분선 */
+  --text:        #EDF3FA;   /* 본문 밝은 오프화이트 */
+  --text-dim:    #8FA0B5;   /* 라벨·캡션 뮤트 */
+  --accent:      #227AFF;   /* 블루 — 주강조(핵심어·활성·불스아이) */
+  --accent2:     #6AAEFF;   /* 라이트 블루 — 보조강조 */
+  --accent-soft: rgba(34,122,255,.13); /* 블루 소프트 배경 */
+  --accent-line: rgba(34,122,255,.34); /* 블루 헤어라인 */
+  --accent-ink:  #061226;   /* 블루 칩 위 글자 */
+  --glow:        rgba(34,122,255,.42); /* 발광 라디얼 */
 
-  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 톤 절제.
+  /* 과녁(다트판) 전용 — 명암 교차 링을 또렷하게 (s05·s06) */
+  --board-light: #D8E2EE;   /* 밝은 링 */
+  --board-dark:  #223142;   /* 어두운 링 */
+  --board-bull:  var(--accent); /* 중앙 불스아이 */
+
+  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 블루 톤에 조화.
      전부 변수라 리스킨 시 함께 조정 가능. */
-  --cap-a: #F5A524;   /* 엠버 */
-  --cap-b: #E4713B;   /* 테라코타 */
-  --cap-c: #6FA8A0;   /* 세이지 틸 */
-  --cap-d: #C9B24E;   /* 머스터드 */
-  --cap-e: #B5715C;   /* 클레이 */
+  --cap-a: #227AFF;   /* 블루 */
+  --cap-b: #37D0A9;   /* 민트 그린 */
+  --cap-c: #6AAEFF;   /* 라이트 블루 */
+  --cap-d: #9AB0C9;   /* 슬레이트 그레이 */
+  --cap-e: #4B7178;   /* 딥 틸 */
 }
 
 /* ---------------------------------------------------------------------------
@@ -4181,8 +4309,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 .bg-grad{ position:absolute; inset:0; z-index:0;
   background:
     radial-gradient(110% 90% at 82% 16%, var(--accent-soft), transparent 55%),
-    radial-gradient(90% 80% at 8% 104%, rgba(245,165,36,.06), transparent 60%),
-    linear-gradient(158deg,#221D17 0%, var(--bg) 44%, var(--bg-deep) 100%); }
+    radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
+    linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
   background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
@@ -4325,31 +4453,36 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
    ============================================================================ */
 
 /* ---------------------------------------------------------------------------
-   [팔레트 — 임시본] 다크 차콜 베이스 + 단일 강조색(엠버/오렌지 1색)
-   강의용 selectable 톤. 최종 색은 대표 선택보드 후 아래 값만 교체하면 됨.
+   [팔레트 — 블루본] 다크 네이비 베이스 + 단일 강조색(블루 1색)
+   강의용 selectable 톤. 최종 색은 아래 값만 교체하면 됨.
    --------------------------------------------------------------------------- */
 :root{
-  --bg:          #1A1714;   /* 다크 차콜 (미세 웜) 베이스 */
-  --bg-deep:     #100D0B;   /* 비네트/최하단 */
-  --surface:     #262019;   /* 카드 표면 */
-  --surface2:    #302820;   /* 카드 강조 표면 */
-  --line:        #3D342A;   /* 헤어라인·구분선 */
-  --text:        #F5F0E8;   /* 본문 밝은 오프화이트 */
-  --text-dim:    #A99B87;   /* 라벨·캡션 뮤트 */
-  --accent:      #F5A524;   /* 엠버 — 주강조(핵심어·활성·불스아이) */
-  --accent2:     #FFC468;   /* 라이트 엠버 — 보조강조 */
-  --accent-soft: rgba(245,165,36,.13); /* 엠버 소프트 배경 */
-  --accent-line: rgba(245,165,36,.34); /* 엠버 헤어라인 */
-  --accent-ink:  #1A1206;   /* 엠버 칩 위 글자 */
-  --glow:        rgba(245,165,36,.42); /* 발광 라디얼 */
+  --bg:          #101720;   /* 다크 네이비 베이스 */
+  --bg-deep:     #0A0E14;   /* 비네트/최하단 */
+  --surface:     #18222E;   /* 카드 표면 */
+  --surface2:    #1E2B3A;   /* 카드 강조 표면 */
+  --line:        #2A3849;   /* 헤어라인·구분선 */
+  --text:        #EDF3FA;   /* 본문 밝은 오프화이트 */
+  --text-dim:    #8FA0B5;   /* 라벨·캡션 뮤트 */
+  --accent:      #227AFF;   /* 블루 — 주강조(핵심어·활성·불스아이) */
+  --accent2:     #6AAEFF;   /* 라이트 블루 — 보조강조 */
+  --accent-soft: rgba(34,122,255,.13); /* 블루 소프트 배경 */
+  --accent-line: rgba(34,122,255,.34); /* 블루 헤어라인 */
+  --accent-ink:  #061226;   /* 블루 칩 위 글자 */
+  --glow:        rgba(34,122,255,.42); /* 발광 라디얼 */
 
-  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 톤 절제.
+  /* 과녁(다트판) 전용 — 명암 교차 링을 또렷하게 (s05·s06) */
+  --board-light: #D8E2EE;   /* 밝은 링 */
+  --board-dark:  #223142;   /* 어두운 링 */
+  --board-bull:  var(--accent); /* 중앙 불스아이 */
+
+  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 블루 톤에 조화.
      전부 변수라 리스킨 시 함께 조정 가능. */
-  --cap-a: #F5A524;   /* 엠버 */
-  --cap-b: #E4713B;   /* 테라코타 */
-  --cap-c: #6FA8A0;   /* 세이지 틸 */
-  --cap-d: #C9B24E;   /* 머스터드 */
-  --cap-e: #B5715C;   /* 클레이 */
+  --cap-a: #227AFF;   /* 블루 */
+  --cap-b: #37D0A9;   /* 민트 그린 */
+  --cap-c: #6AAEFF;   /* 라이트 블루 */
+  --cap-d: #9AB0C9;   /* 슬레이트 그레이 */
+  --cap-e: #4B7178;   /* 딥 틸 */
 }
 
 /* ---------------------------------------------------------------------------
@@ -4400,8 +4533,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 .bg-grad{ position:absolute; inset:0; z-index:0;
   background:
     radial-gradient(110% 90% at 82% 16%, var(--accent-soft), transparent 55%),
-    radial-gradient(90% 80% at 8% 104%, rgba(245,165,36,.06), transparent 60%),
-    linear-gradient(158deg,#221D17 0%, var(--bg) 44%, var(--bg-deep) 100%); }
+    radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
+    linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
   background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
@@ -4504,31 +4637,36 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
    ============================================================================ */
 
 /* ---------------------------------------------------------------------------
-   [팔레트 — 임시본] 다크 차콜 베이스 + 단일 강조색(엠버/오렌지 1색)
-   강의용 selectable 톤. 최종 색은 대표 선택보드 후 아래 값만 교체하면 됨.
+   [팔레트 — 블루본] 다크 네이비 베이스 + 단일 강조색(블루 1색)
+   강의용 selectable 톤. 최종 색은 아래 값만 교체하면 됨.
    --------------------------------------------------------------------------- */
 :root{
-  --bg:          #1A1714;   /* 다크 차콜 (미세 웜) 베이스 */
-  --bg-deep:     #100D0B;   /* 비네트/최하단 */
-  --surface:     #262019;   /* 카드 표면 */
-  --surface2:    #302820;   /* 카드 강조 표면 */
-  --line:        #3D342A;   /* 헤어라인·구분선 */
-  --text:        #F5F0E8;   /* 본문 밝은 오프화이트 */
-  --text-dim:    #A99B87;   /* 라벨·캡션 뮤트 */
-  --accent:      #F5A524;   /* 엠버 — 주강조(핵심어·활성·불스아이) */
-  --accent2:     #FFC468;   /* 라이트 엠버 — 보조강조 */
-  --accent-soft: rgba(245,165,36,.13); /* 엠버 소프트 배경 */
-  --accent-line: rgba(245,165,36,.34); /* 엠버 헤어라인 */
-  --accent-ink:  #1A1206;   /* 엠버 칩 위 글자 */
-  --glow:        rgba(245,165,36,.42); /* 발광 라디얼 */
+  --bg:          #101720;   /* 다크 네이비 베이스 */
+  --bg-deep:     #0A0E14;   /* 비네트/최하단 */
+  --surface:     #18222E;   /* 카드 표면 */
+  --surface2:    #1E2B3A;   /* 카드 강조 표면 */
+  --line:        #2A3849;   /* 헤어라인·구분선 */
+  --text:        #EDF3FA;   /* 본문 밝은 오프화이트 */
+  --text-dim:    #8FA0B5;   /* 라벨·캡션 뮤트 */
+  --accent:      #227AFF;   /* 블루 — 주강조(핵심어·활성·불스아이) */
+  --accent2:     #6AAEFF;   /* 라이트 블루 — 보조강조 */
+  --accent-soft: rgba(34,122,255,.13); /* 블루 소프트 배경 */
+  --accent-line: rgba(34,122,255,.34); /* 블루 헤어라인 */
+  --accent-ink:  #061226;   /* 블루 칩 위 글자 */
+  --glow:        rgba(34,122,255,.42); /* 발광 라디얼 */
 
-  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 톤 절제.
+  /* 과녁(다트판) 전용 — 명암 교차 링을 또렷하게 (s05·s06) */
+  --board-light: #D8E2EE;   /* 밝은 링 */
+  --board-dark:  #223142;   /* 어두운 링 */
+  --board-bull:  var(--accent); /* 중앙 불스아이 */
+
+  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 블루 톤에 조화.
      전부 변수라 리스킨 시 함께 조정 가능. */
-  --cap-a: #F5A524;   /* 엠버 */
-  --cap-b: #E4713B;   /* 테라코타 */
-  --cap-c: #6FA8A0;   /* 세이지 틸 */
-  --cap-d: #C9B24E;   /* 머스터드 */
-  --cap-e: #B5715C;   /* 클레이 */
+  --cap-a: #227AFF;   /* 블루 */
+  --cap-b: #37D0A9;   /* 민트 그린 */
+  --cap-c: #6AAEFF;   /* 라이트 블루 */
+  --cap-d: #9AB0C9;   /* 슬레이트 그레이 */
+  --cap-e: #4B7178;   /* 딥 틸 */
 }
 
 /* ---------------------------------------------------------------------------
@@ -4579,8 +4717,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 .bg-grad{ position:absolute; inset:0; z-index:0;
   background:
     radial-gradient(110% 90% at 82% 16%, var(--accent-soft), transparent 55%),
-    radial-gradient(90% 80% at 8% 104%, rgba(245,165,36,.06), transparent 60%),
-    linear-gradient(158deg,#221D17 0%, var(--bg) 44%, var(--bg-deep) 100%); }
+    radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
+    linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
   background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
@@ -4645,7 +4783,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
       &lt;/filter&gt;
     &lt;/defs&gt;
 
-    &lt;g mask=&quot;url(#maskC)&quot; transform=&quot;translate(640 360)&quot;&gt;
+    &lt;g mask=&quot;url(#maskC)&quot;&gt;&lt;g transform=&quot;translate(640 360)&quot;&gt;
       &lt;!-- 동심원 링 --&gt;
       &lt;g fill=&quot;none&quot; stroke=&quot;var(--text-dim)&quot; stroke-opacity=&quot;.14&quot;&gt;
         &lt;circle r=&quot;330&quot; stroke-width=&quot;1&quot;/&gt;
@@ -4670,7 +4808,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
       &lt;!-- 불스아이 (텍스트 뒤라 아주 은은히) --&gt;
       &lt;circle r=&quot;64&quot; fill=&quot;var(--accent)&quot; fill-opacity=&quot;.08&quot;/&gt;
       &lt;circle r=&quot;34&quot; fill=&quot;none&quot; stroke=&quot;var(--accent)&quot; stroke-opacity=&quot;.4&quot; stroke-width=&quot;2&quot; filter=&quot;url(#cGlow2)&quot;/&gt;
-    &lt;/g&gt;
+    &lt;/g&gt;&lt;/g&gt;
   &lt;/svg&gt;
 
   &lt;div class=&quot;bg-grain&quot; style=&quot;z-index:3;opacity:.3;&quot;&gt;&lt;/div&gt;
