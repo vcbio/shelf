@@ -135,13 +135,13 @@
   "date": "2026-07-21"
  },
  {
-  "slug": "semicolony-ai-deck",
-  "title": "세미콜로니 AI 강의덱 (21장)",
-  "date": "2026-07-21"
- },
- {
   "slug": "semicolony-s04-3d",
   "title": "세미콜로니 강의 s04 (3D 단독)",
+  "date": "2026-07-22"
+ },
+ {
+  "slug": "semicolony-ai-deck",
+  "title": "세미콜로니 AI 강의덱 (21장)",
   "date": "2026-07-22"
  }
 ]
