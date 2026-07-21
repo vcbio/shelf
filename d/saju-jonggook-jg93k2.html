@@ -22,7 +22,21 @@
 
 </script>
 
-<style>:root{color-scheme:light;}</style>
+<style>:root{color-scheme:light;}
+/* ── 모바일 대응 (2026-07-21 추가) ── */
+.tw { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; }
+.tw table { margin-bottom: 0; }
+@media (max-width: 640px) {
+  body { padding: 10px; }
+  h1 { font-size: 20px; }
+  .subtitle { font-size: 12px; }
+  .profile-box { padding: 14px; }
+  .profile-row { grid-template-columns: 78px 1fr; gap: 8px; font-size: 12px; }
+  .tw table { min-width: 560px; }
+  .tab { min-width: 72px; font-size: 12px; padding: 7px 4px; }
+  .tabs { padding: 6px; gap: 4px; }
+}
+</style>
 <style>
 * { box-sizing: border-box; }
 body {
@@ -245,7 +259,7 @@ details.terms dd { margin: 2px 0 0 0; color: #6e6353; line-height: 1.6; }
 <div class="section-title">타고난 사주 여덟 글자 (만세력 원국)</div>
 <div class="section-sub">태어난 시각을 연·월·일·시 네 기둥으로 나눈 것이 사주(四柱)이고, 각 기둥이 두 글자씩이라 여덟 글자(八字)입니다. 아래 표에는 만세력에서 보는 요소를 전부 담았어요 — 글자 속에 숨은 기운(지장간), 그 기운의 세기(십이운성), 자리에 붙는 특수 기운(십이신살), 소리로 매기는 오행(납음)까지입니다.</div>
 
-<table class="mans">
+<div class="tw"><table class="mans">
 <tr><th>구분</th><th>시주 (時)</th><th>일주 (日) ★나</th><th>월주 (月)</th><th>연주 (年)</th></tr>
 <tr class="top"><td class="lab">천간 (위 글자)</td><td>甲</td><td class="day">戊</td><td>癸</td><td>壬</td></tr>
 <tr class="top"><td class="lab">지지 (아래 글자)</td><td>寅</td><td class="day">戌</td><td>丑</td><td>申</td></tr>
@@ -257,7 +271,7 @@ details.terms dd { margin: 2px 0 0 0; color: #6e6353; line-height: 1.6; }
 <tr><td class="lab">기운의 세기 (십이운성)</td><td>장생 (막 태어남)</td><td class="day">묘 (묻혀 있음)</td><td>양 (품고 기름)</td><td>병 (기울어짐)</td></tr>
 <tr><td class="lab">자리의 특수 기운 (십이신살)</td><td>역마살 (이동)</td><td class="day">월살 (마름·정체)</td><td>반안살 (안장·승진)</td><td>지살 (자리잡음)</td></tr>
 <tr><td class="lab">소리 오행 (납음)</td><td>대계수 (큰 시냇물)</td><td class="day">평지목 (들판의 나무)</td><td>상자목 (뽕나무)</td><td>검봉금 (칼끝의 쇠)</td></tr>
-</table>
+</table></div>
 
 <div class="relation-grid" style="margin-top:14px;">
 <div class="relation"><div class="relation-title">비어 있는 자리 (공망 空亡) — 진·사 (辰巳)</div><div class="relation-desc">일주 무술(戊戌)은 갑오(甲午)순에 속해, 진(辰)·사(巳) 두 글자가 비어 있는 자리(공망)가 됩니다. 이 글자가 오는 해·달에는 애쓴 만큼 손에 잡히는 느낌이 덜해요. <b>2024년(갑진)·2025년(을사)이 정확히 그 두 해</b>였습니다. 헛된 시간이었다는 뜻이 아니라, 결과가 눈에 보이기까지 시차가 있었다는 뜻입니다.</div></div>
@@ -277,13 +291,13 @@ details.terms dd { margin: 2px 0 0 0; color: #6e6353; line-height: 1.6; }
 <div class="section">
 <div class="section-title">10년 단위 큰 흐름 (대운) — 6세 시작, 순행</div>
 <div class="section-sub">연간이 임(壬)으로 양(陽)에 속하고 남성이라 흐름이 순방향으로 흐릅니다. 6세부터 10년씩 바뀌어요. 아래 표에서 <b>火가 들어오는 칸</b>이 이 사주의 황금기입니다.</div>
-<table class="mans">
+<div class="tw"><table class="mans">
 <tr><th>대운</th><th>甲寅</th><th>乙卯</th><th>丙辰 ★현재</th><th>丁巳</th><th>戊午</th><th>己未</th><th>庚申</th><th>辛酉</th></tr>
 <tr><td class="lab">나이</td><td>6~15</td><td>16~25</td><td class="day">26~35</td><td>36~45</td><td>46~55</td><td>56~65</td><td>66~75</td><td>76~</td></tr>
 <tr><td class="lab">연도</td><td>1998~</td><td>2008~</td><td class="day">2018~2027</td><td>2028~2037</td><td>2038~2047</td><td>2048~2057</td><td>2058~</td><td>2068~</td></tr>
 <tr><td class="lab">오행</td><td>木木</td><td>木木</td><td class="day">火土</td><td>火火</td><td>土火</td><td>土土</td><td>金金</td><td>金金</td></tr>
 <tr><td class="lab">볕(火) 세기</td><td>낮음</td><td>낮음</td><td class="day">중간</td><td>매우 높음</td><td>매우 높음</td><td>중간</td><td>낮음</td><td>낮음</td></tr>
-</table>
+</table></div>
 <div class="deep">
 <h4>지금 흐름(병진丙辰, 26~35세)을 정확히 보면</h4>
 <p>병(丙)은 태양 그 자체입니다. 이 사주가 평생 기다린 글자예요. 그래서 26세 이후로 <span class="em">숨통이 트이기 시작한 것은 분명한 사실</span>입니다. 다만 정직하게 말씀드리면, 이 10년은 <strong>하늘 쪽(丙)에만 볕이 들고 땅 쪽(辰)은 흔들리는 구간</strong>이에요. 진(辰)은 위에서 본 비어 있는 자리(공망)에 해당하고, 동시에 제 일지 술(戌)과 정면으로 부딪히는 글자(진술충)입니다. 대운은 앞 5년이 천간, 뒤 5년이 지지 쪽으로 더 기울어 작동한다고 보는데, 그렇게 보면 <span class="em">2023년 무렵부터 지금까지가 이 10년 중 체감이 가장 애매한 구간</span>이었습니다.</p>
@@ -907,13 +921,13 @@ details.terms dd { margin: 2px 0 0 0; color: #6e6353; line-height: 1.6; }
 <p><strong>★ 수성 17년 (2023.9~2040.9) — 지금부터의 시기:</strong> 2023년 9월에 토성이 끝나고 수성으로 넘어왔습니다. 수성은 <span class="em">머리·말·계산·소통·실무·거래</span>의 별이에요. 무겁게 버티는 방식에서 <strong>머리를 써서 푸는 방식</strong>으로 국면이 바뀐 겁니다. 수성이 2하우스(말·재산)에 있어 이 시기의 결과는 실제 수입으로 연결됩니다. 사주에서 볕(丙)이 들기 시작한 시점과 거의 같은 때에 시간표가 바뀐 것이라, <strong>두 체계가 독립적으로 같은 전환점을 가리킵니다</strong>.</p>
 
 <h4>현재 작은 시기 (안타르다샤)</h4>
-<table class="mans" style="margin-top:6px;">
+<div class="tw"><table class="mans" style="margin-top:6px;">
 <tr><th>작은 시기</th><th>기간</th><th>성격</th></tr>
 <tr><td>수성 - 수성</td><td>2023.9 ~ 2026.2</td><td>새 국면의 시작 · 머리 쓰는 일이 열림</td></tr>
 <tr><td class="day"><strong>수성 - 케투 ★현재</strong></td><td class="day"><strong>2026.2 ~ 2027.2</strong></td><td class="day"><strong>정리·내려놓기·예상 밖 전환</strong></td></tr>
 <tr><td>수성 - 금성</td><td>2027.2 ~ 2029.12</td><td>확장·인연·풍요 · 본격적인 결실</td></tr>
 <tr><td>수성 - 태양</td><td>2029.12 ~ 2030.10</td><td>공식화·명예 · 자리가 드러남</td></tr>
-</table>
+</table></div>
 <p style="font-size:11px; color:#8d8068; margin-top:6px;">이후로는 달·화성·라후·목성·토성 순으로 이어져 2040년 9월에 수성 큰 시기가 끝납니다.</p>
 
 <div class="info">
@@ -1143,24 +1157,24 @@ details.terms dd { margin: 2px 0 0 0; color: #6e6353; line-height: 1.6; }
 <p style="margin-top:10px"><strong>합치면:</strong> <span class="em">"겉은 편해 보이지만 속은 무겁고 깊으며, 책임감이 세고, 표현 대신 인내로 버텨온 사람. 능력과 그릇은 충분한데 그것을 데워줄 온기가 늘 모자랐던 사람."</span> 네 체계가 각자 다른 언어로 같은 사람을 그립니다.</p>
 
 <h4>네 체계 교차 검증표 — 같은 결론을 다른 언어로</h4>
-<table class="xtable">
+<div class="tw"><table class="xtable">
 <tr><th>주제</th><th>사주</th><th>자미두수</th><th>베다</th><th>서양</th><th>강도</th></tr>
 <tr><td class="sbj">지금부터 좋아지되<br>진짜는 36세부터</td><td>丙辰 대운 → 丁巳·戊午 火 20년 (2028~2047)</td><td class="sbj" style="color:#8d8068; font-weight:normal; font-style:italic;">(유년·운한 미계산 — 명반 기준)</td><td>토성 19년 종료 → 수성 마하 진입 2023.9</td><td>토성 리턴 2022.2~3 통과</td><td><span class="badge badge-strong">강 · 3체계</span></td></tr>
 <tr><td class="sbj">뜨거움(火)이<br>평생 과제</td><td>火 0개 · 조후용신 火</td><td>명궁 천부(안정·보수) · 무곡 화기</td><td>달 12하우스 (혼자 삭임)</td><td>염소 스텔리움 + 달 전갈 + 달□토성 0.7°</td><td><span class="badge badge-strong">강 · 4체계</span></td></tr>
 <tr><td class="sbj">겉과 속이<br>다르다</td><td>속은 편관 2개(긴장), 겉은 무토(무던함)</td><td>명궁 천부(지킴) ↔ 천이궁 자미화권·칠살(밀어붙임)</td><td class="sbj" style="color:#8d8068; font-weight:normal; font-style:italic;">(뚜렷한 신호 없음)</td><td>ASC 사수(밝음) ↔ 태양 염소·달 전갈(무거움)</td><td><span class="badge badge-med">보통~강 · 3체계</span></td></tr>
 <tr><td class="sbj">인연은<br>격렬하고 변동이 큼</td><td>편관 2개 + 寅申충(역마) + 일지 비견</td><td>부처궁 염정·파군 + 지공</td><td>금성 4하우스 · 7하우스 케투</td><td>달 전갈·명왕성 겹침 (오브 7.6°)</td><td><span class="badge badge-strong">강 · 4체계</span></td></tr>
 <tr><td class="sbj">사람에게서<br>복이 온다</td><td>천을귀인 축(丑)이 월지에 있음</td><td>노복궁 천량 화록 · 관록궁 천괴·좌보 · 천이궁 천월</td><td>목성 11하우스 (이익·네트워크)</td><td class="sbj" style="color:#8d8068; font-weight:normal; font-style:italic;">(목성 11방 · 보조 신호)</td><td><span class="badge badge-med">보통~강 · 3체계</span></td></tr>
-</table>
+</table></div>
 
 <h4>세 가지 판정 — 일치도 · 시기창 · 충돌 시 기준</h4>
-<table class="xtable">
+<div class="tw"><table class="xtable">
 <tr><th>주제</th><th>① 주축 일치도</th><th>② 시기창 정렬</th><th>③ 충돌 시 무엇을 믿는가</th></tr>
 <tr><td class="sbj">36세부터가 진짜</td><td>일치 (사주·베다·서양)</td><td>정렬 — 2022~2023년에 셋 다 전환점, 2028년에 사주 대운 교체</td><td>시기 계산은 <b>사주 대운 + 베다 다샤</b>를 기준으로 봅니다. 서양 트랜짓은 월 단위 보조입니다.</td></tr>
 <tr><td class="sbj">火(온기)가 과제</td><td>일치 (네 체계 전부)</td><td>정렬 — 2026년·2028~2047년에 火가 채워지는 시기가 겹침</td><td>충돌 없음. 네 체계가 각자 논리로 같은 결론이라 이 항목이 가장 단단합니다.</td></tr>
 <tr><td class="sbj">겉과 속의 간극</td><td>부분 일치 (베다는 뚜렷한 신호 없음)</td><td>시기 문제가 아니라 상수(常數)</td><td>성격 구조는 <b>서양의 ASC·달·태양 3요소</b>와 <b>자미두수 명궁·천이궁</b>을 우선합니다.</td></tr>
 <tr><td class="sbj">인연의 격렬함</td><td>일치 (네 체계 전부)</td><td>부분 정렬 — 사주는 2027~2030, 베다는 2027.2~2029.12로 겹침</td><td>인연의 <b>성질</b>은 자미두수 부처궁, <b>시기</b>는 베다 다샤를 우선합니다.</td></tr>
 <tr><td class="sbj">사람에게서 오는 복</td><td>일치 (사주·자미두수·베다)</td><td>정렬 — 2026년(귀인의 해)과 2027.2 이후 확장 구간</td><td>인복의 <b>구조</b>는 자미두수 보좌성과 베다 11하우스를, <b>시기</b>는 사주 세운을 봅니다.</td></tr>
-</table>
+</table></div>
 <p style="font-size:11px; color:#8d8068;">계산으로 검증된 것은 천체 위치·다샤 기간·간지 같은 <strong>값</strong>입니다. 네 체계의 <strong>해석</strong>이 같은 방향을 가리키는 것은 서로 독립된 증거 넷이라는 뜻이 아니라, 같은 사람을 네 각도에서 본 그림이 비슷하더라는 정도로 받아들이는 것이 정확합니다. 특히 자미두수는 유년·운한 시기 계산을 넣지 않아, 시기 관련 줄에서는 근거가 아니라 명반 상수로만 썼습니다.</p>
 
 <div class="ez"><span class="tag">쉽게 보기</span><b>표의 각 줄이 무슨 뜻이냐면 —</b>
