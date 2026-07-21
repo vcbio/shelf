@@ -29,7 +29,7 @@ h2{max-width:1000px;margin:38px auto 4px;padding:0 16px;font-size:16px;color:#F5
 <div class="ov-row"><span class="ov-name">파트 4 · 실천법 <span style="color:#777;font-weight:400">(s08–s11)</span></span><span class="ov-time">10분</span><span class="ov-desc">기둥별 실천 3가지 — 구체적으로 시켜라 · 지시문을 저장하라 · 자료를 줘라</span></div>
 <div class="ov-row"><span class="ov-name">파트 5 · 라이브 데모 <span style="color:#777;font-weight:400">(s12–s14)</span></span><span class="ov-time">12분</span><span class="ov-desc">같은 요청 4번 실험 — 대충 한 줄×2 vs 매뉴얼+자료×2, 반복성을 눈으로 증명</span></div>
 <div class="ov-row"><span class="ov-name">파트 6 · 헤르메스 <span style="color:#777;font-weight:400">(s15–s17)</span></span><span class="ov-time">5분</span><span class="ov-desc">3기둥의 종착지 — 매뉴얼+기록+검사가 갖춰지면 AI 직원이 된다</span></div>
-<div class="ov-row"><span class="ov-name">파트 7 · 마무리 <span style="color:#777;font-weight:400">(s18–s21)</span></span><span class="ov-time">6분</span><span class="ov-desc">주의사항 → 용어 사다리(사진) → 오늘의 과제 → Q&A</span></div>
+<div class="ov-row"><span class="ov-name">파트 7 · 마무리 <span style="color:#777;font-weight:400">(s18–s21)</span></span><span class="ov-time">6분</span><span class="ov-desc">주의사항 → 용어 사다리(사진) → 레벨 자가진단+과제 → Q&A</span></div>
 </div>
 <script>
 function fit(){document.querySelectorAll('.frame').forEach(f=>{const s=f.clientWidth/1280;f.querySelector('iframe').style.transform='scale('+s+')';});}
@@ -37,7 +37,8 @@ window.addEventListener('resize',fit);window.addEventListener('load',fit);
 </script>
 <h2>파트 1 · 후킹 — 5분</h2><p class="part-desc">실물부터 보여주고 신뢰를 확보한다 — "저 코딩 못 하는데 이걸 만듭니다"</p>
 <div class="wrap"><p class="label">s01 · 표지</p><p class="role">오프닝 인사. 다트판 모티프가 강의 전체의 복선.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s01 · 표지 — &quot;AI, 뽑기에서 장비로&quot; / 다트판 동심원 모티프 다크 풀블리드 --&gt;
-&lt;style&gt;/* ============================================================================
+&lt;style&gt;
+/* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
    시안본 / 2026-07-21 / 콘셉트: 연구실의 반복성·정밀성·재현성을 AI에 접목
    전 슬라이드 공용: 1280x720 16:9 캔버스. 로컬 더블클릭으로 단독 렌더.
@@ -129,7 +130,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
     radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
     linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
-  background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
+  background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'&gt;&lt;filter id='n'&gt;&lt;feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/&gt;&lt;/filter&gt;&lt;rect width='140' height='140' filter='url(%23n)' opacity='0.6'/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
   background:radial-gradient(130% 120% at 50% 42%, transparent 56%, rgba(0,0,0,.44) 100%); }
 .glow-orb{ position:absolute; border-radius:50%; filter:blur(64px); z-index:0; pointer-events:none;
@@ -169,6 +170,33 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   border-radius:16px; }
 .card--glow{ background:linear-gradient(180deg,var(--surface2),var(--surface));
   box-shadow:0 0 0 1px var(--accent-line), 0 20px 46px -24px rgba(0,0,0,.75); }
+
+/* ---------------------------------------------------------------------------
+   [공용 화살표 언어 — 2026-07-21 폴리시 추가] (기존 규칙 불변, 추가만)
+   촌스러운 꽉 찬 삼각촉 폐기 → 꼬리 페이드 라인 + 열린 셰브런 헤드로 통일.
+   · 라인 색은 per-slide 공유 그라디언트(#arwG-h 가로 / #arwG-v 세로 / -hd 뮤트)로
+     inline style=&quot;stroke:url(#…)&quot; 지정 — 꼬리 .15 → 머리 .9 로 밝아짐.
+   · 헤드는 .arw-head 셰브런(두 획, round cap/join, 라인과 동일 굵기).
+   · 발광은 .arw-glow 만(절제).  · 점선 흐름은 .arw-flow(원형 도트 대시).
+   --------------------------------------------------------------------------- */
+.arw-line{ fill:none; stroke-width:1.8; stroke-linecap:round; }
+.arw-head{ fill:none; stroke:var(--accent); stroke-width:1.8;
+  stroke-linecap:round; stroke-linejoin:round; }
+.arw-head--dim{ stroke:var(--text-dim); }
+.arw-glow{ filter:drop-shadow(0 0 6px var(--glow)); }
+/* 점선 흐름 변형(s17 컨베이어): 도트 굵기·간격의 유일 정본. 인라인 우회 금지. */
+.arw-flow{ fill:none; stroke-width:3.2; stroke-linecap:round; stroke-dasharray:.1 7; }
+
+/* 텍스트 화살표(→) 절제: 본문보다 작게·뮤트·좌우 여백 균등 */
+.tarrow{ font-size:.82em; font-weight:400; color:var(--text-dim);
+  margin:0 .32em; letter-spacing:0; }
+
+/* [카드 디테일 유틸] 상단 1px 라이트 엣지 + 깊이 그림자 — 빛 받는 상단 면(§12) */
+.lite-edge{ box-shadow:inset 0 1px 0 rgba(255,255,255,.07); }
+.depth{ box-shadow:0 14px 34px -18px rgba(0,0,0,.6); }
+.card-lift{ box-shadow:inset 0 1px 0 rgba(255,255,255,.07),
+  0 14px 34px -18px rgba(0,0,0,.6); }
+
 &lt;/style&gt;
 &lt;div class=&quot;slide&quot;&gt;
 
@@ -222,12 +250,23 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
       &lt;circle r=&quot;58&quot; fill=&quot;var(--accent)&quot; fill-opacity=&quot;.14&quot;/&gt;
       &lt;circle r=&quot;30&quot; fill=&quot;none&quot; stroke=&quot;var(--accent)&quot; stroke-opacity=&quot;.7&quot; stroke-width=&quot;2&quot; filter=&quot;url(#cGlow)&quot;/&gt;
       &lt;circle r=&quot;12&quot; fill=&quot;var(--accent)&quot; filter=&quot;url(#cGlow)&quot;/&gt;
-      &lt;!-- 명중한 다트 한 대 (정확·정밀의 상징, 불스아이에 꽂힘) --&gt;
-      &lt;g filter=&quot;url(#cGlow)&quot;&gt;
-        &lt;line x1=&quot;12&quot; y1=&quot;0&quot; x2=&quot;150&quot; y2=&quot;-96&quot; stroke=&quot;var(--text)&quot; stroke-opacity=&quot;.85&quot; stroke-width=&quot;3&quot; stroke-linecap=&quot;round&quot;/&gt;
-        &lt;path d=&quot;M150,-96 l26,-8 l-10,20 Z&quot; fill=&quot;var(--accent2)&quot;/&gt;
-        &lt;circle cx=&quot;12&quot; cy=&quot;0&quot; r=&quot;4.5&quot; fill=&quot;var(--text)&quot;/&gt;
+      &lt;!-- 명중한 다트 한 대 (촉·배럴·샤프트·2톤 플라이트, 불스아이에 꽂힘) --&gt;
+      &lt;g filter=&quot;url(#cGlow)&quot; transform=&quot;translate(12,0) rotate(-34.82)&quot;&gt;
+        &lt;!-- 강철 촉 --&gt;
+        &lt;path d=&quot;M0,0 L15,-2.3 L15,2.3 Z&quot; fill=&quot;var(--text)&quot;/&gt;
+        &lt;!-- 배럴(금속) + 하단 실린더 음영 --&gt;
+        &lt;path d=&quot;M15,-3.4 L70,-3.1 L70,3.1 L15,3.4 Z&quot; fill=&quot;var(--text)&quot;/&gt;
+        &lt;path d=&quot;M15,.2 L70,.2 L70,3.1 L15,3.4 Z&quot; fill=&quot;var(--bg-deep)&quot; fill-opacity=&quot;.24&quot;/&gt;
+        &lt;!-- 샤프트 --&gt;
+        &lt;path d=&quot;M70,-1.5 L114,-1.5 L114,1.5 L70,1.5 Z&quot; fill=&quot;var(--text-dim)&quot;/&gt;
+        &lt;!-- 플라이트(2톤 깃) --&gt;
+        &lt;path d=&quot;M114,0 L170,-17 L160,0 Z&quot; fill=&quot;var(--accent2)&quot;/&gt;
+        &lt;path d=&quot;M114,0 L170,17 L160,0 Z&quot; fill=&quot;var(--accent)&quot;/&gt;
+        &lt;path d=&quot;M170,-17 L160,0 L170,17&quot; fill=&quot;none&quot; stroke=&quot;var(--bg-deep)&quot; stroke-opacity=&quot;.38&quot; stroke-width=&quot;1&quot; stroke-linejoin=&quot;round&quot;/&gt;
       &lt;/g&gt;
+      &lt;!-- 임팩트 링 (명중 순간) --&gt;
+      &lt;circle cx=&quot;12&quot; cy=&quot;0&quot; r=&quot;17&quot; fill=&quot;none&quot; stroke=&quot;var(--accent2)&quot; stroke-opacity=&quot;.5&quot; stroke-width=&quot;1.5&quot;/&gt;
+      &lt;circle cx=&quot;12&quot; cy=&quot;0&quot; r=&quot;5&quot; fill=&quot;var(--text)&quot; filter=&quot;url(#cGlow)&quot;/&gt;
     &lt;/g&gt;&lt;/g&gt;
   &lt;/svg&gt;
 
@@ -275,7 +314,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 &lt;/div&gt;
 "></iframe></div></div>
 <div class="wrap"><p class="label">s02 · 자기소개</p><p class="role">연구원→대표 타임라인. "저는 코딩 못 합니다" — 청중과 같은 편임을 선언.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s02 · 자기소개 — 3단계 타임라인 + 중앙 큰 문구 &quot;저는 코딩 못 합니다&quot; --&gt;
-&lt;style&gt;/* ============================================================================
+&lt;style&gt;
+/* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
    시안본 / 2026-07-21 / 콘셉트: 연구실의 반복성·정밀성·재현성을 AI에 접목
    전 슬라이드 공용: 1280x720 16:9 캔버스. 로컬 더블클릭으로 단독 렌더.
@@ -367,7 +407,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
     radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
     linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
-  background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
+  background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'&gt;&lt;filter id='n'&gt;&lt;feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/&gt;&lt;/filter&gt;&lt;rect width='140' height='140' filter='url(%23n)' opacity='0.6'/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
   background:radial-gradient(130% 120% at 50% 42%, transparent 56%, rgba(0,0,0,.44) 100%); }
 .glow-orb{ position:absolute; border-radius:50%; filter:blur(64px); z-index:0; pointer-events:none;
@@ -407,6 +447,33 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   border-radius:16px; }
 .card--glow{ background:linear-gradient(180deg,var(--surface2),var(--surface));
   box-shadow:0 0 0 1px var(--accent-line), 0 20px 46px -24px rgba(0,0,0,.75); }
+
+/* ---------------------------------------------------------------------------
+   [공용 화살표 언어 — 2026-07-21 폴리시 추가] (기존 규칙 불변, 추가만)
+   촌스러운 꽉 찬 삼각촉 폐기 → 꼬리 페이드 라인 + 열린 셰브런 헤드로 통일.
+   · 라인 색은 per-slide 공유 그라디언트(#arwG-h 가로 / #arwG-v 세로 / -hd 뮤트)로
+     inline style=&quot;stroke:url(#…)&quot; 지정 — 꼬리 .15 → 머리 .9 로 밝아짐.
+   · 헤드는 .arw-head 셰브런(두 획, round cap/join, 라인과 동일 굵기).
+   · 발광은 .arw-glow 만(절제).  · 점선 흐름은 .arw-flow(원형 도트 대시).
+   --------------------------------------------------------------------------- */
+.arw-line{ fill:none; stroke-width:1.8; stroke-linecap:round; }
+.arw-head{ fill:none; stroke:var(--accent); stroke-width:1.8;
+  stroke-linecap:round; stroke-linejoin:round; }
+.arw-head--dim{ stroke:var(--text-dim); }
+.arw-glow{ filter:drop-shadow(0 0 6px var(--glow)); }
+/* 점선 흐름 변형(s17 컨베이어): 도트 굵기·간격의 유일 정본. 인라인 우회 금지. */
+.arw-flow{ fill:none; stroke-width:3.2; stroke-linecap:round; stroke-dasharray:.1 7; }
+
+/* 텍스트 화살표(→) 절제: 본문보다 작게·뮤트·좌우 여백 균등 */
+.tarrow{ font-size:.82em; font-weight:400; color:var(--text-dim);
+  margin:0 .32em; letter-spacing:0; }
+
+/* [카드 디테일 유틸] 상단 1px 라이트 엣지 + 깊이 그림자 — 빛 받는 상단 면(§12) */
+.lite-edge{ box-shadow:inset 0 1px 0 rgba(255,255,255,.07); }
+.depth{ box-shadow:0 14px 34px -18px rgba(0,0,0,.6); }
+.card-lift{ box-shadow:inset 0 1px 0 rgba(255,255,255,.07),
+  0 14px 34px -18px rgba(0,0,0,.6); }
+
 &lt;/style&gt;
 &lt;div class=&quot;slide&quot;&gt;
 
@@ -417,7 +484,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 
   &lt;div class=&quot;kicker&quot;&gt;&lt;span class=&quot;no&quot;&gt;02&lt;/span&gt;&lt;span class=&quot;bar&quot;&gt;&lt;/span&gt;&lt;span class=&quot;nm&quot;&gt;About Me&lt;/span&gt;&lt;/div&gt;
   &lt;div style=&quot;position:absolute;top:44px;right:64px;text-align:right;z-index:6;&quot;&gt;
-    &lt;div class=&quot;label&quot; style=&quot;color:var(--text-dim)&quot;&gt;연구원 → 대표 → AI 운영&lt;/div&gt;
+    &lt;div class=&quot;label&quot; style=&quot;color:var(--text-dim)&quot;&gt;연구원 &lt;span class=&quot;tarrow&quot;&gt;→&lt;/span&gt; 대표 &lt;span class=&quot;tarrow&quot;&gt;→&lt;/span&gt; AI 운영&lt;/div&gt;
   &lt;/div&gt;
 
   &lt;div class=&quot;stage&quot; style=&quot;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;z-index:6;&quot;&gt;
@@ -450,7 +517,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 
       &lt;!-- 연결선 1 --&gt;
       &lt;div style=&quot;flex:0 0 40px;height:70px;display:flex;align-items:center;&quot;&gt;
-        &lt;div style=&quot;width:100%;height:2px;background:linear-gradient(90deg,var(--line),var(--accent-line));&quot;&gt;&lt;/div&gt;
+        &lt;div style=&quot;width:100%;height:2px;border-radius:1px;background:linear-gradient(90deg,transparent,var(--accent-line));&quot;&gt;&lt;/div&gt;
       &lt;/div&gt;
 
       &lt;!-- 단계 2: 대표 (건물) --&gt;
@@ -469,7 +536,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 
       &lt;!-- 연결선 2 (강조) --&gt;
       &lt;div style=&quot;flex:0 0 40px;height:70px;display:flex;align-items:center;&quot;&gt;
-        &lt;div style=&quot;width:100%;height:2px;background:linear-gradient(90deg,var(--accent-line),var(--accent));&quot;&gt;&lt;/div&gt;
+        &lt;div style=&quot;width:100%;height:2px;border-radius:1px;background:linear-gradient(90deg,var(--accent-line),var(--accent));&quot;&gt;&lt;/div&gt;
       &lt;/div&gt;
 
       &lt;!-- 단계 3: AI 운영 (스파크) — 현재, 강조 --&gt;
@@ -755,264 +822,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 &lt;/div&gt;
 "></iframe></div></div>
 <h2>파트 2 · 진단 — 5분</h2><p class="part-desc">청중의 실패 경험에 공감 — "AI를 뽑기처럼 쓰고 있어서 그렇습니다"</p>
-<div class="wrap"><p class="label">s04 · 뽑기 진단</p><p class="role">"한 줄 던지고 나오는 대로 받으면 매번 다른 게 당연합니다"</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s04 · 뽑기 진단 — 캡슐토이(가챠) 기계 인라인 SVG + &quot;AI를 뽑기처럼 쓰고 계시죠?&quot; --&gt;
-&lt;style&gt;/* ============================================================================
-   세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
-   시안본 / 2026-07-21 / 콘셉트: 연구실의 반복성·정밀성·재현성을 AI에 접목
-   전 슬라이드 공용: 1280x720 16:9 캔버스. 로컬 더블클릭으로 단독 렌더.
-   ★ 색은 전부 이 파일의 CSS 변수로만 정의 — 변수 값 교체만으로 전체 리스킨.
-   ★ 외부 의존 0 (system.css 필요 규격을 여기에 복사). 폰트만 시스템 fallback.
-   ============================================================================ */
-
-/* ---------------------------------------------------------------------------
-   [팔레트 — 블루본] 다크 네이비 베이스 + 단일 강조색(블루 1색)
-   강의용 selectable 톤. 최종 색은 아래 값만 교체하면 됨.
-   --------------------------------------------------------------------------- */
-:root{
-  --bg:          #101720;   /* 다크 네이비 베이스 */
-  --bg-deep:     #0A0E14;   /* 비네트/최하단 */
-  --surface:     #18222E;   /* 카드 표면 */
-  --surface2:    #1E2B3A;   /* 카드 강조 표면 */
-  --line:        #2A3849;   /* 헤어라인·구분선 */
-  --text:        #EDF3FA;   /* 본문 밝은 오프화이트 */
-  --text-dim:    #8FA0B5;   /* 라벨·캡션 뮤트 */
-  --accent:      #227AFF;   /* 블루 — 주강조(핵심어·활성·불스아이) */
-  --accent2:     #6AAEFF;   /* 라이트 블루 — 보조강조 */
-  --accent-soft: rgba(34,122,255,.13); /* 블루 소프트 배경 */
-  --accent-line: rgba(34,122,255,.34); /* 블루 헤어라인 */
-  --accent-ink:  #061226;   /* 블루 칩 위 글자 */
-  --glow:        rgba(34,122,255,.42); /* 발광 라디얼 */
-
-  /* 과녁(다트판) 전용 — 명암 교차 링을 또렷하게 (s05·s06) */
-  --board-light: #D8E2EE;   /* 밝은 링 */
-  --board-dark:  #223142;   /* 어두운 링 */
-  --board-bull:  var(--accent); /* 중앙 불스아이 */
-
-  /* 뽑기 캡슐용 소폭 확장 팔레트 (s04) — 알록달록하되 블루 톤에 조화.
-     전부 변수라 리스킨 시 함께 조정 가능. */
-  --cap-a: #227AFF;   /* 블루 */
-  --cap-b: #37D0A9;   /* 민트 그린 */
-  --cap-c: #6AAEFF;   /* 라이트 블루 */
-  --cap-d: #9AB0C9;   /* 슬레이트 그레이 */
-  --cap-e: #4B7178;   /* 딥 틸 */
-}
-
-/* ---------------------------------------------------------------------------
-   [타이포 스케일 — Pretendard 단독 fallback]
-   --------------------------------------------------------------------------- */
-:root{
-  --f-giant: 92px;
-  --f-title: 46px;
-  --f-sub:   26px;
-  --f-body:  20px;
-  --f-small: 16px;
-  --f-label: 13px;
-  --f-foot:  12px;
-}
-
-*{ margin:0; padding:0; box-sizing:border-box; }
-html,body{ background:#000; }
-
-.slide{
-  position:relative; width:1280px; height:720px; overflow:hidden;
-  background:var(--bg); color:var(--text);
-  font-family:&quot;Pretendard&quot;,-apple-system,&quot;Malgun Gothic&quot;,&quot;Apple SD Gothic Neo&quot;,sans-serif;
-  -webkit-font-smoothing:antialiased; text-rendering:geometricPrecision;
-  word-break:keep-all; overflow-wrap:anywhere;
-}
-/* 브라우저 중앙 정렬(더블클릭 열람 시) */
-body{ display:flex; align-items:center; justify-content:center; min-height:100vh; }
-
-/* 타이포 유틸 */
-.giant{ font-size:var(--f-giant); font-weight:800; letter-spacing:-.035em; line-height:1.02; }
-.title{ font-size:var(--f-title); font-weight:800; letter-spacing:-.025em; line-height:1.1; }
-.sub  { font-size:var(--f-sub);   font-weight:500; letter-spacing:-.01em;  line-height:1.35; color:var(--text); }
-.body { font-size:var(--f-body);  font-weight:400; line-height:1.5; color:var(--text); }
-.small{ font-size:var(--f-small); font-weight:400; line-height:1.45; color:var(--text-dim); }
-.label{ font-size:var(--f-label); font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); }
-.ac { color:var(--accent); }
-.ac2{ color:var(--accent2); }
-.dim{ color:var(--text-dim); }
-.w800{ font-weight:800; } .w700{ font-weight:700; } .w600{ font-weight:600; } .w400{ font-weight:400; }
-
-/* 그리드/스테이지 — safe margin 64px */
-:root{ --mx:64px; --my:64px; --cw:1152px; --ch:592px; }
-.stage{ position:absolute; inset:var(--my) var(--mx); width:var(--cw); height:var(--ch); }
-
-/* ---------------------------------------------------------------------------
-   [배경 텍스처] 그레인 + 발광 라디얼 + 비네트
-   --------------------------------------------------------------------------- */
-.bg-grad{ position:absolute; inset:0; z-index:0;
-  background:
-    radial-gradient(110% 90% at 82% 16%, var(--accent-soft), transparent 55%),
-    radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
-    linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
-.bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
-  background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
-.vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
-  background:radial-gradient(130% 120% at 50% 42%, transparent 56%, rgba(0,0,0,.44) 100%); }
-.glow-orb{ position:absolute; border-radius:50%; filter:blur(64px); z-index:0; pointer-events:none;
-  background:radial-gradient(circle, var(--glow), transparent 70%); }
-
-/* ---------------------------------------------------------------------------
-   [페이지 가구] 키커(좌상) · 브랜드(좌하) · 페이지번호(우하)
-   --------------------------------------------------------------------------- */
-.kicker{ position:absolute; top:48px; left:var(--mx); display:flex; align-items:center; gap:10px; z-index:6; }
-.kicker .no{ font-size:var(--f-label); font-weight:700; letter-spacing:.12em; color:var(--accent); }
-.kicker .bar{ width:22px; height:1px; background:var(--line); }
-.kicker .nm{ font-size:var(--f-label); font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); }
-
-.foot-brand{ position:absolute; left:var(--mx); bottom:40px; display:flex; align-items:center; gap:8px; z-index:6; }
-.foot-brand .mark{ width:16px; height:16px; border-radius:5px;
-  background:linear-gradient(135deg,var(--accent),var(--accent2)); }
-.foot-brand .wm{ font-size:var(--f-foot); font-weight:700; letter-spacing:.08em; color:var(--text); }
-.foot-page{ position:absolute; right:var(--mx); bottom:40px; z-index:6;
-  font-size:var(--f-foot); font-weight:600; letter-spacing:.1em; color:var(--text-dim); font-variant-numeric:tabular-nums; }
-.foot-page b{ color:var(--text); font-weight:800; }
-
-/* 각주(용어 병기) */
-.footnote{ position:absolute; left:50%; transform:translateX(-50%); bottom:38px; z-index:6;
-  font-size:var(--f-foot); letter-spacing:.02em; color:var(--text-dim); }
-.footnote b{ color:var(--text); font-weight:700; }
-
-/* ---------------------------------------------------------------------------
-   [컴포넌트] 칩 / 카드
-   --------------------------------------------------------------------------- */
-.chip{ display:inline-flex; align-items:center; gap:8px; height:32px; padding:0 15px;
-  border-radius:999px; font-size:var(--f-small); font-weight:600; }
-.chip--pill{ background:var(--accent); color:var(--accent-ink); }
-.chip--ghost{ background:transparent; border:1px solid var(--line); color:var(--text-dim); }
-.chip--dot::before{ content:&quot;&quot;; width:7px; height:7px; border-radius:50%; background:var(--accent); }
-
-.card{ position:relative; background:var(--surface); border:1px solid var(--line);
-  border-radius:16px; }
-.card--glow{ background:linear-gradient(180deg,var(--surface2),var(--surface));
-  box-shadow:0 0 0 1px var(--accent-line), 0 20px 46px -24px rgba(0,0,0,.75); }
-&lt;/style&gt;
-&lt;div class=&quot;slide&quot;&gt;
-
-  &lt;div class=&quot;bg-grad&quot;&gt;&lt;/div&gt;
-  &lt;div class=&quot;glow-orb&quot; style=&quot;width:460px;height:460px;right:120px;top:120px;opacity:.4;&quot;&gt;&lt;/div&gt;
-  &lt;div class=&quot;bg-grain&quot;&gt;&lt;/div&gt;
-  &lt;div class=&quot;vignette&quot;&gt;&lt;/div&gt;
-
-  &lt;div class=&quot;kicker&quot;&gt;&lt;span class=&quot;no&quot;&gt;04&lt;/span&gt;&lt;span class=&quot;bar&quot;&gt;&lt;/span&gt;&lt;span class=&quot;nm&quot;&gt;Diagnosis&lt;/span&gt;&lt;/div&gt;
-  &lt;div style=&quot;position:absolute;top:44px;right:64px;text-align:right;z-index:6;&quot;&gt;
-    &lt;div class=&quot;label&quot; style=&quot;color:var(--text-dim)&quot;&gt;지금 이렇게 쓰고 있진 않나요&lt;/div&gt;
-  &lt;/div&gt;
-
-  &lt;div class=&quot;stage&quot; style=&quot;display:flex;align-items:center;z-index:6;&quot;&gt;
-
-    &lt;!-- 좌: 텍스트 --&gt;
-    &lt;div style=&quot;flex:1;padding-right:30px;&quot;&gt;
-      &lt;div class=&quot;giant&quot; style=&quot;font-size:60px;max-width:520px;line-height:1.14;&quot;&gt;
-        AI를 &lt;span class=&quot;ac&quot;&gt;뽑기&lt;/span&gt;처럼&lt;br&gt;쓰고 계시죠?
-      &lt;/div&gt;
-      &lt;div style=&quot;margin-top:30px;display:flex;flex-direction:column;gap:14px;max-width:440px;&quot;&gt;
-        &lt;div style=&quot;display:flex;align-items:center;gap:12px;&quot;&gt;
-          &lt;span style=&quot;width:7px;height:7px;border-radius:50%;background:var(--accent);flex:none;&quot;&gt;&lt;/span&gt;
-          &lt;span class=&quot;body&quot; style=&quot;color:var(--text);&quot;&gt;한 줄 던지고,&lt;/span&gt;
-        &lt;/div&gt;
-        &lt;div style=&quot;display:flex;align-items:center;gap:12px;&quot;&gt;
-          &lt;span style=&quot;width:7px;height:7px;border-radius:50%;background:var(--accent);flex:none;&quot;&gt;&lt;/span&gt;
-          &lt;span class=&quot;body&quot; style=&quot;color:var(--text);&quot;&gt;나오는 대로 받고,&lt;/span&gt;
-        &lt;/div&gt;
-        &lt;div style=&quot;display:flex;align-items:center;gap:12px;&quot;&gt;
-          &lt;span style=&quot;width:7px;height:7px;border-radius:50%;background:var(--accent);flex:none;&quot;&gt;&lt;/span&gt;
-          &lt;span class=&quot;body&quot; style=&quot;color:var(--text);&quot;&gt;매번 다르고.&lt;/span&gt;
-        &lt;/div&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-
-    &lt;!-- 우: 가챠 기계 SVG --&gt;
-    &lt;div style=&quot;flex:0 0 430px;display:flex;justify-content:center;&quot;&gt;
-      &lt;svg width=&quot;360&quot; height=&quot;470&quot; viewBox=&quot;0 0 360 470&quot; fill=&quot;none&quot;
-        style=&quot;filter:drop-shadow(0 30px 40px rgba(0,0,0,.45));&quot;&gt;
-        &lt;defs&gt;
-          &lt;radialGradient id=&quot;dome&quot; cx=&quot;42%&quot; cy=&quot;32%&quot; r=&quot;72%&quot;&gt;
-            &lt;stop offset=&quot;0&quot; stop-color=&quot;var(--surface2)&quot; stop-opacity=&quot;.55&quot;/&gt;
-            &lt;stop offset=&quot;70%&quot; stop-color=&quot;var(--surface)&quot; stop-opacity=&quot;.35&quot;/&gt;
-            &lt;stop offset=&quot;100%&quot; stop-color=&quot;var(--bg-deep)&quot; stop-opacity=&quot;.6&quot;/&gt;
-          &lt;/radialGradient&gt;
-          &lt;clipPath id=&quot;domeClip&quot;&gt;&lt;circle cx=&quot;180&quot; cy=&quot;150&quot; r=&quot;120&quot;/&gt;&lt;/clipPath&gt;
-        &lt;/defs&gt;
-
-        &lt;!-- 유리 돔 --&gt;
-        &lt;circle cx=&quot;180&quot; cy=&quot;150&quot; r=&quot;120&quot; fill=&quot;url(#dome)&quot; stroke=&quot;var(--line)&quot; stroke-width=&quot;2&quot;/&gt;
-        &lt;!-- 돔 안 캡슐들 (알록달록·변수 팔레트) --&gt;
-        &lt;g clip-path=&quot;url(#domeClip)&quot;&gt;
-          &lt;!-- 각 캡슐 = 두 반원 색 조합 --&gt;
-          &lt;g transform=&quot;translate(140 210) rotate(-18)&quot;&gt;
-            &lt;rect x=&quot;-19&quot; y=&quot;-13&quot; width=&quot;38&quot; height=&quot;26&quot; rx=&quot;13&quot; fill=&quot;var(--cap-a)&quot;/&gt;
-            &lt;path d=&quot;M0,-13 a13,13 0 0 0 0,26 Z&quot; fill=&quot;var(--cap-b)&quot;/&gt;
-            &lt;ellipse cx=&quot;-8&quot; cy=&quot;-6&quot; rx=&quot;6&quot; ry=&quot;3&quot; fill=&quot;var(--text)&quot; opacity=&quot;.28&quot;/&gt;
-          &lt;/g&gt;
-          &lt;g transform=&quot;translate(198 218) rotate(14)&quot;&gt;
-            &lt;rect x=&quot;-19&quot; y=&quot;-13&quot; width=&quot;38&quot; height=&quot;26&quot; rx=&quot;13&quot; fill=&quot;var(--cap-c)&quot;/&gt;
-            &lt;path d=&quot;M0,-13 a13,13 0 0 0 0,26 Z&quot; fill=&quot;var(--cap-d)&quot;/&gt;
-            &lt;ellipse cx=&quot;-8&quot; cy=&quot;-6&quot; rx=&quot;6&quot; ry=&quot;3&quot; fill=&quot;var(--text)&quot; opacity=&quot;.28&quot;/&gt;
-          &lt;/g&gt;
-          &lt;g transform=&quot;translate(168 168) rotate(6)&quot;&gt;
-            &lt;rect x=&quot;-19&quot; y=&quot;-13&quot; width=&quot;38&quot; height=&quot;26&quot; rx=&quot;13&quot; fill=&quot;var(--cap-d)&quot;/&gt;
-            &lt;path d=&quot;M0,-13 a13,13 0 0 0 0,26 Z&quot; fill=&quot;var(--cap-e)&quot;/&gt;
-            &lt;ellipse cx=&quot;-8&quot; cy=&quot;-6&quot; rx=&quot;6&quot; ry=&quot;3&quot; fill=&quot;var(--text)&quot; opacity=&quot;.28&quot;/&gt;
-          &lt;/g&gt;
-          &lt;g transform=&quot;translate(228 170) rotate(-10)&quot;&gt;
-            &lt;rect x=&quot;-19&quot; y=&quot;-13&quot; width=&quot;38&quot; height=&quot;26&quot; rx=&quot;13&quot; fill=&quot;var(--cap-b)&quot;/&gt;
-            &lt;path d=&quot;M0,-13 a13,13 0 0 0 0,26 Z&quot; fill=&quot;var(--cap-a)&quot;/&gt;
-            &lt;ellipse cx=&quot;-8&quot; cy=&quot;-6&quot; rx=&quot;6&quot; ry=&quot;3&quot; fill=&quot;var(--text)&quot; opacity=&quot;.28&quot;/&gt;
-          &lt;/g&gt;
-          &lt;g transform=&quot;translate(120 158) rotate(22)&quot;&gt;
-            &lt;rect x=&quot;-19&quot; y=&quot;-13&quot; width=&quot;38&quot; height=&quot;26&quot; rx=&quot;13&quot; fill=&quot;var(--cap-e)&quot;/&gt;
-            &lt;path d=&quot;M0,-13 a13,13 0 0 0 0,26 Z&quot; fill=&quot;var(--cap-c)&quot;/&gt;
-            &lt;ellipse cx=&quot;-8&quot; cy=&quot;-6&quot; rx=&quot;6&quot; ry=&quot;3&quot; fill=&quot;var(--text)&quot; opacity=&quot;.28&quot;/&gt;
-          &lt;/g&gt;
-          &lt;g transform=&quot;translate(240 226) rotate(30)&quot;&gt;
-            &lt;rect x=&quot;-16&quot; y=&quot;-11&quot; width=&quot;32&quot; height=&quot;22&quot; rx=&quot;11&quot; fill=&quot;var(--cap-a)&quot;/&gt;
-            &lt;path d=&quot;M0,-11 a11,11 0 0 0 0,22 Z&quot; fill=&quot;var(--cap-d)&quot;/&gt;
-          &lt;/g&gt;
-          &lt;g transform=&quot;translate(112 234) rotate(-26)&quot;&gt;
-            &lt;rect x=&quot;-16&quot; y=&quot;-11&quot; width=&quot;32&quot; height=&quot;22&quot; rx=&quot;11&quot; fill=&quot;var(--cap-c)&quot;/&gt;
-            &lt;path d=&quot;M0,-11 a11,11 0 0 0 0,22 Z&quot; fill=&quot;var(--cap-b)&quot;/&gt;
-          &lt;/g&gt;
-        &lt;/g&gt;
-        &lt;!-- 돔 하이라이트 --&gt;
-        &lt;path d=&quot;M118,88 A120,120 0 0 1 210,54&quot; stroke=&quot;var(--text)&quot; stroke-opacity=&quot;.22&quot; stroke-width=&quot;4&quot; stroke-linecap=&quot;round&quot; fill=&quot;none&quot;/&gt;
-
-        &lt;!-- 목 부분 --&gt;
-        &lt;rect x=&quot;150&quot; y=&quot;264&quot; width=&quot;60&quot; height=&quot;20&quot; fill=&quot;var(--surface2)&quot; stroke=&quot;var(--line)&quot; stroke-width=&quot;2&quot;/&gt;
-
-        &lt;!-- 본체 (엠버 강조 하우징) --&gt;
-        &lt;rect x=&quot;96&quot; y=&quot;284&quot; width=&quot;168&quot; height=&quot;150&quot; rx=&quot;14&quot; fill=&quot;var(--surface)&quot; stroke=&quot;var(--line)&quot; stroke-width=&quot;2&quot;/&gt;
-        &lt;rect x=&quot;96&quot; y=&quot;284&quot; width=&quot;168&quot; height=&quot;150&quot; rx=&quot;14&quot; fill=&quot;var(--accent)&quot; fill-opacity=&quot;.08&quot;/&gt;
-        &lt;!-- 손잡이(노브) --&gt;
-        &lt;circle cx=&quot;180&quot; cy=&quot;330&quot; r=&quot;24&quot; fill=&quot;var(--surface2)&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;2.5&quot;/&gt;
-        &lt;rect x=&quot;177&quot; y=&quot;312&quot; width=&quot;6&quot; height=&quot;36&quot; rx=&quot;3&quot; fill=&quot;var(--accent)&quot;/&gt;
-        &lt;rect x=&quot;162&quot; y=&quot;327&quot; width=&quot;36&quot; height=&quot;6&quot; rx=&quot;3&quot; fill=&quot;var(--accent)&quot;/&gt;
-        &lt;!-- 배출구 --&gt;
-        &lt;rect x=&quot;132&quot; y=&quot;374&quot; width=&quot;96&quot; height=&quot;46&quot; rx=&quot;9&quot; fill=&quot;var(--bg-deep)&quot; stroke=&quot;var(--line)&quot; stroke-width=&quot;2&quot;/&gt;
-        &lt;text x=&quot;180&quot; y=&quot;402&quot; text-anchor=&quot;middle&quot; font-family=&quot;Pretendard,sans-serif&quot;
-          font-size=&quot;11&quot; font-weight=&quot;700&quot; letter-spacing=&quot;2&quot; fill=&quot;var(--text-dim)&quot;&gt;OUTPUT&lt;/text&gt;
-
-        &lt;!-- 다리 --&gt;
-        &lt;rect x=&quot;112&quot; y=&quot;434&quot; width=&quot;18&quot; height=&quot;24&quot; rx=&quot;4&quot; fill=&quot;var(--surface2)&quot;/&gt;
-        &lt;rect x=&quot;230&quot; y=&quot;434&quot; width=&quot;18&quot; height=&quot;24&quot; rx=&quot;4&quot; fill=&quot;var(--surface2)&quot;/&gt;
-
-        &lt;!-- 배출된 캡슐 하나 (배출구 앞, 발광 강조) --&gt;
-        &lt;g transform=&quot;translate(180 454)&quot; filter=&quot;drop-shadow(0 0 10px var(--glow))&quot;&gt;
-          &lt;rect x=&quot;-24&quot; y=&quot;-16&quot; width=&quot;48&quot; height=&quot;32&quot; rx=&quot;16&quot; fill=&quot;var(--accent)&quot;/&gt;
-          &lt;path d=&quot;M0,-16 a16,16 0 0 0 0,32 Z&quot; fill=&quot;var(--accent2)&quot;/&gt;
-          &lt;ellipse cx=&quot;-9&quot; cy=&quot;-7&quot; rx=&quot;7&quot; ry=&quot;3.5&quot; fill=&quot;var(--text)&quot; opacity=&quot;.4&quot;/&gt;
-        &lt;/g&gt;
-      &lt;/svg&gt;
-    &lt;/div&gt;
-
-  &lt;/div&gt;
-
-  &lt;div class=&quot;foot-brand&quot;&gt;&lt;span class=&quot;mark&quot;&gt;&lt;/span&gt;&lt;span class=&quot;wm&quot;&gt;Semicolony&lt;/span&gt;&lt;/div&gt;
-  &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;04&lt;/b&gt; / 21&lt;/div&gt;
-&lt;/div&gt;
-"></iframe></div></div>
+<div class="wrap"><p class="label">s04 · 뽑기 진단</p><p class="role">"한 줄 던지고 나오는 대로 받으면 매번 다른 게 당연합니다"</p><div class="frame"><iframe loading="lazy" src="./semicolony-s04-3d.html"></iframe></div></div>
 <div class="wrap"><p class="label">s05 · 다트판 2×2</p><p class="role">정확성×정밀성 4분면. 청중에게 "지금 어느 판인가요?" 손들게 하기.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s05 · 다트판 2×2 — 정확성·정밀성 매트릭스 / &quot;지금 어느 판인가요?&quot; --&gt;
 &lt;style&gt;/* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -1317,7 +1127,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 "></iframe></div></div>
 <h2>파트 3 · 연구실의 답 — 7분</h2><p class="part-desc">연구실 품질 개념(반복성·정밀성·재현성)을 AI에 접목하는 강의의 등뼈</p>
 <div class="wrap"><p class="label">s06 · 반복성·재현성 확장</p><p class="role">좋은 판을 한 번이 아니라 다음 주에도, 남이 해도 만드는 게 실력.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s06 · 반복성·재현성 두 축 — 다트판 1개 + 시간축(가로)·조건축(세로) / &quot;다음 주에도, 남이 해도&quot; --&gt;
-&lt;style&gt;/* ============================================================================
+&lt;style&gt;
+/* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
    시안본 / 2026-07-21 / 콘셉트: 연구실의 반복성·정밀성·재현성을 AI에 접목
    전 슬라이드 공용: 1280x720 16:9 캔버스. 로컬 더블클릭으로 단독 렌더.
@@ -1409,7 +1220,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
     radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
     linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
-  background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
+  background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'&gt;&lt;filter id='n'&gt;&lt;feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/&gt;&lt;/filter&gt;&lt;rect width='140' height='140' filter='url(%23n)' opacity='0.6'/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
   background:radial-gradient(130% 120% at 50% 42%, transparent 56%, rgba(0,0,0,.44) 100%); }
 .glow-orb{ position:absolute; border-radius:50%; filter:blur(64px); z-index:0; pointer-events:none;
@@ -1449,6 +1260,33 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   border-radius:16px; }
 .card--glow{ background:linear-gradient(180deg,var(--surface2),var(--surface));
   box-shadow:0 0 0 1px var(--accent-line), 0 20px 46px -24px rgba(0,0,0,.75); }
+
+/* ---------------------------------------------------------------------------
+   [공용 화살표 언어 — 2026-07-21 폴리시 추가] (기존 규칙 불변, 추가만)
+   촌스러운 꽉 찬 삼각촉 폐기 → 꼬리 페이드 라인 + 열린 셰브런 헤드로 통일.
+   · 라인 색은 per-slide 공유 그라디언트(#arwG-h 가로 / #arwG-v 세로 / -hd 뮤트)로
+     inline style=&quot;stroke:url(#…)&quot; 지정 — 꼬리 .15 → 머리 .9 로 밝아짐.
+   · 헤드는 .arw-head 셰브런(두 획, round cap/join, 라인과 동일 굵기).
+   · 발광은 .arw-glow 만(절제).  · 점선 흐름은 .arw-flow(원형 도트 대시).
+   --------------------------------------------------------------------------- */
+.arw-line{ fill:none; stroke-width:1.8; stroke-linecap:round; }
+.arw-head{ fill:none; stroke:var(--accent); stroke-width:1.8;
+  stroke-linecap:round; stroke-linejoin:round; }
+.arw-head--dim{ stroke:var(--text-dim); }
+.arw-glow{ filter:drop-shadow(0 0 6px var(--glow)); }
+/* 점선 흐름 변형(s17 컨베이어): 도트 굵기·간격의 유일 정본. 인라인 우회 금지. */
+.arw-flow{ fill:none; stroke-width:3.2; stroke-linecap:round; stroke-dasharray:.1 7; }
+
+/* 텍스트 화살표(→) 절제: 본문보다 작게·뮤트·좌우 여백 균등 */
+.tarrow{ font-size:.82em; font-weight:400; color:var(--text-dim);
+  margin:0 .32em; letter-spacing:0; }
+
+/* [카드 디테일 유틸] 상단 1px 라이트 엣지 + 깊이 그림자 — 빛 받는 상단 면(§12) */
+.lite-edge{ box-shadow:inset 0 1px 0 rgba(255,255,255,.07); }
+.depth{ box-shadow:0 14px 34px -18px rgba(0,0,0,.6); }
+.card-lift{ box-shadow:inset 0 1px 0 rgba(255,255,255,.07),
+  0 14px 34px -18px rgba(0,0,0,.6); }
+
 &lt;/style&gt;
 &lt;div class=&quot;slide&quot;&gt;
 
@@ -1485,9 +1323,15 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
           &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;25&quot;/&gt;&lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;15&quot;/&gt;&lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;7&quot;/&gt;
         &lt;/g&gt;
       &lt;/symbol&gt;
-      &lt;marker id=&quot;ah6&quot; markerWidth=&quot;12&quot; markerHeight=&quot;12&quot; refX=&quot;8&quot; refY=&quot;5&quot; orient=&quot;auto&quot;&gt;
-        &lt;path d=&quot;M0,0 L9,5 L0,10 Z&quot; fill=&quot;var(--accent)&quot;/&gt;
-      &lt;/marker&gt;
+      &lt;!-- 공용 화살표 라인 그라디언트 (꼬리 .15 → 머리 .9) --&gt;
+      &lt;linearGradient id=&quot;arwG-h&quot; gradientUnits=&quot;userSpaceOnUse&quot; x1=&quot;540&quot; y1=&quot;480&quot; x2=&quot;984&quot; y2=&quot;480&quot;&gt;
+        &lt;stop offset=&quot;0&quot; stop-color=&quot;var(--accent)&quot; stop-opacity=&quot;.22&quot;/&gt;
+        &lt;stop offset=&quot;1&quot; stop-color=&quot;var(--accent)&quot; stop-opacity=&quot;.95&quot;/&gt;
+      &lt;/linearGradient&gt;
+      &lt;linearGradient id=&quot;arwG-v&quot; gradientUnits=&quot;userSpaceOnUse&quot; x1=&quot;420&quot; y1=&quot;362&quot; x2=&quot;420&quot; y2=&quot;332&quot;&gt;
+        &lt;stop offset=&quot;0&quot; stop-color=&quot;var(--accent)&quot; stop-opacity=&quot;.22&quot;/&gt;
+        &lt;stop offset=&quot;1&quot; stop-color=&quot;var(--accent)&quot; stop-opacity=&quot;.95&quot;/&gt;
+      &lt;/linearGradient&gt;
       &lt;!-- 명중점 드롭섀도 --&gt;
       &lt;filter id=&quot;hit6&quot; x=&quot;-60%&quot; y=&quot;-60%&quot; width=&quot;220%&quot; height=&quot;220%&quot;&gt;
         &lt;feDropShadow dx=&quot;0&quot; dy=&quot;1&quot; stdDeviation=&quot;1.2&quot; flood-color=&quot;#000&quot; flood-opacity=&quot;.55&quot;/&gt;
@@ -1499,9 +1343,11 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
       &lt;/filter&gt;
     &lt;/defs&gt;
 
-    &lt;!-- L자 축: 조건축(세로, 원점 위로) + 시간축(가로, 원점 오른쪽으로). 화살촉은 라인 끝에만. --&gt;
-    &lt;line x1=&quot;420&quot; y1=&quot;362&quot; x2=&quot;420&quot; y2=&quot;330&quot; stroke=&quot;var(--accent-line)&quot; stroke-width=&quot;2&quot; marker-end=&quot;url(#ah6)&quot;/&gt;
-    &lt;line x1=&quot;538&quot; y1=&quot;480&quot; x2=&quot;990&quot; y2=&quot;480&quot; stroke=&quot;var(--accent-line)&quot; stroke-width=&quot;2&quot; marker-end=&quot;url(#ah6)&quot;/&gt;
+    &lt;!-- L자 축: 조건축(세로, 원점 위로) + 시간축(가로, 원점 오른쪽으로). 꼬리 페이드 라인 + 셰브런 헤드. --&gt;
+    &lt;line x1=&quot;420&quot; y1=&quot;362&quot; x2=&quot;420&quot; y2=&quot;332&quot; class=&quot;arw-line&quot; style=&quot;stroke:url(#arwG-v)&quot;/&gt;
+    &lt;polyline class=&quot;arw-head arw-glow&quot; points=&quot;414,339 420,331 426,339&quot;/&gt;
+    &lt;line x1=&quot;540&quot; y1=&quot;480&quot; x2=&quot;984&quot; y2=&quot;480&quot; class=&quot;arw-line&quot; style=&quot;stroke:url(#arwG-h)&quot;/&gt;
+    &lt;polyline class=&quot;arw-head arw-glow&quot; points=&quot;983,473 991,480 983,487&quot;/&gt;
 
     &lt;!-- 원점 과녁 (지금·내가·이 AI) 중심(420,480) 지름220 --&gt;
     &lt;use href=&quot;#board6&quot; x=&quot;310&quot; y=&quot;370&quot; width=&quot;220&quot; height=&quot;220&quot;/&gt;
@@ -1775,7 +1621,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 "></iframe></div></div>
 <h2>파트 4 · 실천법 — 10분</h2><p class="part-desc">기둥별 실천 3가지 — 구체적으로 시켜라 · 지시문을 저장하라 · 자료를 줘라</p>
 <div class="wrap"><p class="label">s08 · 잘 시키는 법 4원칙</p><p class="role">역할·재료·형태·예시. 나쁜 프롬프트 vs 좋은 프롬프트 대비.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s08 · 잘 시키는 법 — before/after 말풍선 + 4원칙 칩 / &quot;구체적으로 시켜라&quot; --&gt;
-&lt;style&gt;/* ============================================================================
+&lt;style&gt;
+/* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
    시안본 / 2026-07-21 / 콘셉트: 연구실의 반복성·정밀성·재현성을 AI에 접목
    전 슬라이드 공용: 1280x720 16:9 캔버스. 로컬 더블클릭으로 단독 렌더.
@@ -1867,7 +1714,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
     radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
     linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
-  background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
+  background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'&gt;&lt;filter id='n'&gt;&lt;feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/&gt;&lt;/filter&gt;&lt;rect width='140' height='140' filter='url(%23n)' opacity='0.6'/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
   background:radial-gradient(130% 120% at 50% 42%, transparent 56%, rgba(0,0,0,.44) 100%); }
 .glow-orb{ position:absolute; border-radius:50%; filter:blur(64px); z-index:0; pointer-events:none;
@@ -1907,6 +1754,33 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   border-radius:16px; }
 .card--glow{ background:linear-gradient(180deg,var(--surface2),var(--surface));
   box-shadow:0 0 0 1px var(--accent-line), 0 20px 46px -24px rgba(0,0,0,.75); }
+
+/* ---------------------------------------------------------------------------
+   [공용 화살표 언어 — 2026-07-21 폴리시 추가] (기존 규칙 불변, 추가만)
+   촌스러운 꽉 찬 삼각촉 폐기 → 꼬리 페이드 라인 + 열린 셰브런 헤드로 통일.
+   · 라인 색은 per-slide 공유 그라디언트(#arwG-h 가로 / #arwG-v 세로 / -hd 뮤트)로
+     inline style=&quot;stroke:url(#…)&quot; 지정 — 꼬리 .15 → 머리 .9 로 밝아짐.
+   · 헤드는 .arw-head 셰브런(두 획, round cap/join, 라인과 동일 굵기).
+   · 발광은 .arw-glow 만(절제).  · 점선 흐름은 .arw-flow(원형 도트 대시).
+   --------------------------------------------------------------------------- */
+.arw-line{ fill:none; stroke-width:1.8; stroke-linecap:round; }
+.arw-head{ fill:none; stroke:var(--accent); stroke-width:1.8;
+  stroke-linecap:round; stroke-linejoin:round; }
+.arw-head--dim{ stroke:var(--text-dim); }
+.arw-glow{ filter:drop-shadow(0 0 6px var(--glow)); }
+/* 점선 흐름 변형(s17 컨베이어): 도트 굵기·간격의 유일 정본. 인라인 우회 금지. */
+.arw-flow{ fill:none; stroke-width:3.2; stroke-linecap:round; stroke-dasharray:.1 7; }
+
+/* 텍스트 화살표(→) 절제: 본문보다 작게·뮤트·좌우 여백 균등 */
+.tarrow{ font-size:.82em; font-weight:400; color:var(--text-dim);
+  margin:0 .32em; letter-spacing:0; }
+
+/* [카드 디테일 유틸] 상단 1px 라이트 엣지 + 깊이 그림자 — 빛 받는 상단 면(§12) */
+.lite-edge{ box-shadow:inset 0 1px 0 rgba(255,255,255,.07); }
+.depth{ box-shadow:0 14px 34px -18px rgba(0,0,0,.6); }
+.card-lift{ box-shadow:inset 0 1px 0 rgba(255,255,255,.07),
+  0 14px 34px -18px rgba(0,0,0,.6); }
+
 &lt;/style&gt;
 &lt;div class=&quot;slide&quot;&gt;
 
@@ -1942,12 +1816,12 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
       &lt;div style=&quot;display:flex;flex-direction:column;&quot;&gt;
         &lt;div class=&quot;label&quot; style=&quot;margin-bottom:12px;&quot;&gt;이렇게 시키면 &lt;span style=&quot;color:var(--text-dim)&quot;&gt;뽑기&lt;/span&gt;&lt;/div&gt;
         &lt;div style=&quot;flex:1;display:flex;align-items:center;&quot;&gt;
-          &lt;div style=&quot;position:relative;background:var(--surface);border:1px solid var(--line);
+          &lt;div class=&quot;depth&quot; style=&quot;position:relative;background:var(--surface);border:1px solid var(--line);
             border-radius:18px 18px 18px 4px;padding:28px 26px;width:100%;opacity:.55;filter:blur(.4px);&quot;&gt;
-            &lt;div style=&quot;font-size:26px;font-weight:700;color:var(--text-dim);letter-spacing:-.01em;&quot;&gt;
+            &lt;div style=&quot;font-size:31px;font-weight:700;color:var(--text-dim);letter-spacing:-.02em;line-height:1.15;&quot;&gt;
               “견적서 좀 써줘”
             &lt;/div&gt;
-            &lt;div class=&quot;small&quot; style=&quot;margin-top:12px;&quot;&gt;→ 무엇을, 어떤 형식으로? AI가 알아서 추측 → 매번 다른 결과&lt;/div&gt;
+            &lt;div class=&quot;small&quot; style=&quot;margin-top:14px;&quot;&gt;&lt;span class=&quot;tarrow&quot;&gt;→&lt;/span&gt; 무엇을, 어떤 형식으로? AI가 알아서 추측 &lt;span class=&quot;tarrow&quot;&gt;→&lt;/span&gt; 매번 다른 결과&lt;/div&gt;
           &lt;/div&gt;
         &lt;/div&gt;
       &lt;/div&gt;
@@ -2197,7 +2071,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 &lt;/div&gt;
 "></iframe></div></div>
 <div class="wrap"><p class="label">s10 · 지시문을 저장하라</p><p class="role">반복성의 핵심 — 매번 새로 치는 순간 반복성은 죽는다.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s10 · 저장하라 — 저장된 지시문 1장 → 월·화·수 복제 → 같은 결과로 수렴 / &quot;잘 된 지시문은 저장하라&quot; --&gt;
-&lt;style&gt;/* ============================================================================
+&lt;style&gt;
+/* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
    시안본 / 2026-07-21 / 콘셉트: 연구실의 반복성·정밀성·재현성을 AI에 접목
    전 슬라이드 공용: 1280x720 16:9 캔버스. 로컬 더블클릭으로 단독 렌더.
@@ -2289,7 +2164,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
     radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
     linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
-  background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
+  background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'&gt;&lt;filter id='n'&gt;&lt;feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/&gt;&lt;/filter&gt;&lt;rect width='140' height='140' filter='url(%23n)' opacity='0.6'/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
   background:radial-gradient(130% 120% at 50% 42%, transparent 56%, rgba(0,0,0,.44) 100%); }
 .glow-orb{ position:absolute; border-radius:50%; filter:blur(64px); z-index:0; pointer-events:none;
@@ -2329,6 +2204,33 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   border-radius:16px; }
 .card--glow{ background:linear-gradient(180deg,var(--surface2),var(--surface));
   box-shadow:0 0 0 1px var(--accent-line), 0 20px 46px -24px rgba(0,0,0,.75); }
+
+/* ---------------------------------------------------------------------------
+   [공용 화살표 언어 — 2026-07-21 폴리시 추가] (기존 규칙 불변, 추가만)
+   촌스러운 꽉 찬 삼각촉 폐기 → 꼬리 페이드 라인 + 열린 셰브런 헤드로 통일.
+   · 라인 색은 per-slide 공유 그라디언트(#arwG-h 가로 / #arwG-v 세로 / -hd 뮤트)로
+     inline style=&quot;stroke:url(#…)&quot; 지정 — 꼬리 .15 → 머리 .9 로 밝아짐.
+   · 헤드는 .arw-head 셰브런(두 획, round cap/join, 라인과 동일 굵기).
+   · 발광은 .arw-glow 만(절제).  · 점선 흐름은 .arw-flow(원형 도트 대시).
+   --------------------------------------------------------------------------- */
+.arw-line{ fill:none; stroke-width:1.8; stroke-linecap:round; }
+.arw-head{ fill:none; stroke:var(--accent); stroke-width:1.8;
+  stroke-linecap:round; stroke-linejoin:round; }
+.arw-head--dim{ stroke:var(--text-dim); }
+.arw-glow{ filter:drop-shadow(0 0 6px var(--glow)); }
+/* 점선 흐름 변형(s17 컨베이어): 도트 굵기·간격의 유일 정본. 인라인 우회 금지. */
+.arw-flow{ fill:none; stroke-width:3.2; stroke-linecap:round; stroke-dasharray:.1 7; }
+
+/* 텍스트 화살표(→) 절제: 본문보다 작게·뮤트·좌우 여백 균등 */
+.tarrow{ font-size:.82em; font-weight:400; color:var(--text-dim);
+  margin:0 .32em; letter-spacing:0; }
+
+/* [카드 디테일 유틸] 상단 1px 라이트 엣지 + 깊이 그림자 — 빛 받는 상단 면(§12) */
+.lite-edge{ box-shadow:inset 0 1px 0 rgba(255,255,255,.07); }
+.depth{ box-shadow:0 14px 34px -18px rgba(0,0,0,.6); }
+.card-lift{ box-shadow:inset 0 1px 0 rgba(255,255,255,.07),
+  0 14px 34px -18px rgba(0,0,0,.6); }
+
 &lt;/style&gt;
 &lt;div class=&quot;slide&quot;&gt;
 
@@ -2336,6 +2238,13 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;glow-orb&quot; style=&quot;width:440px;height:440px;left:22%;top:58%;transform:translate(-50%,-50%);opacity:.32;&quot;&gt;&lt;/div&gt;
   &lt;div class=&quot;bg-grain&quot;&gt;&lt;/div&gt;
   &lt;div class=&quot;vignette&quot;&gt;&lt;/div&gt;
+
+  &lt;!-- 공용 화살표 라인 그라디언트 (꼬리 .15 → 머리 .9) --&gt;
+  &lt;svg width=&quot;0&quot; height=&quot;0&quot; style=&quot;position:absolute&quot; aria-hidden=&quot;true&quot;&gt;&lt;defs&gt;
+    &lt;linearGradient id=&quot;arwG-h&quot; gradientUnits=&quot;userSpaceOnUse&quot; x1=&quot;0&quot; y1=&quot;10&quot; x2=&quot;78&quot; y2=&quot;10&quot;&gt;
+      &lt;stop offset=&quot;0&quot; stop-color=&quot;var(--accent)&quot; stop-opacity=&quot;.2&quot;/&gt;
+      &lt;stop offset=&quot;1&quot; stop-color=&quot;var(--accent)&quot; stop-opacity=&quot;.95&quot;/&gt;&lt;/linearGradient&gt;
+  &lt;/defs&gt;&lt;/svg&gt;
 
   &lt;div class=&quot;kicker&quot;&gt;&lt;span class=&quot;no&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;bar&quot;&gt;&lt;/span&gt;&lt;span class=&quot;nm&quot;&gt;Save It&lt;/span&gt;&lt;/div&gt;
   &lt;div style=&quot;position:absolute;top:44px;right:64px;text-align:right;z-index:6;&quot;&gt;
@@ -2381,17 +2290,17 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
       &lt;div style=&quot;flex:none;display:flex;flex-direction:column;align-items:center;margin:0 26px;padding-bottom:34px;&quot;&gt;
         &lt;div class=&quot;small&quot; style=&quot;margin-bottom:6px;color:var(--accent);&quot;&gt;그대로 불러 씀&lt;/div&gt;
         &lt;svg width=&quot;88&quot; height=&quot;20&quot; viewBox=&quot;0 0 88 20&quot; fill=&quot;none&quot;&gt;
-          &lt;line x1=&quot;0&quot; y1=&quot;10&quot; x2=&quot;78&quot; y2=&quot;10&quot; stroke=&quot;var(--accent-line)&quot; stroke-width=&quot;2&quot;/&gt;
-          &lt;path d=&quot;M76 4 L86 10 L76 16 Z&quot; fill=&quot;var(--accent)&quot;/&gt;
+          &lt;line x1=&quot;0&quot; y1=&quot;10&quot; x2=&quot;78&quot; y2=&quot;10&quot; class=&quot;arw-line&quot; style=&quot;stroke:url(#arwG-h)&quot;/&gt;
+          &lt;polyline class=&quot;arw-head arw-glow&quot; points=&quot;78,4.5 86,10 78,15.5&quot;/&gt;
         &lt;/svg&gt;
       &lt;/div&gt;
 
       &lt;!-- ② 월·화·수 복제본 3장 --&gt;
       &lt;div style=&quot;display:flex;flex-direction:column;align-items:center;gap:14px;flex:none;&quot;&gt;
-        &lt;div style=&quot;display:flex;gap:14px;&quot;&gt;
+        &lt;div style=&quot;display:flex;gap:8px;&quot;&gt;
           &lt;!-- 반복 --&gt;
           &lt;div style=&quot;display:flex;flex-direction:column;align-items:center;gap:8px;&quot;&gt;
-            &lt;div style=&quot;width:78px;height:100px;border-radius:11px;background:var(--surface);border:1px solid var(--line);
+            &lt;div class=&quot;lite-edge&quot; style=&quot;width:78px;height:100px;border-radius:11px;background:var(--surface);border:1px solid var(--line);
               display:flex;align-items:center;justify-content:center;&quot;&gt;
               &lt;svg width=&quot;30&quot; height=&quot;30&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--text-dim)&quot; stroke-width=&quot;1.7&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;
                 &lt;path d=&quot;M6 2h8l4 4v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z&quot;/&gt;&lt;path d=&quot;M14 2v4h4&quot;/&gt;&lt;path d=&quot;M8 12h6M8 16h4&quot;/&gt;
@@ -2400,7 +2309,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
             &lt;span class=&quot;chip chip--ghost&quot; style=&quot;height:24px;font-size:12px;padding:0 11px;&quot;&gt;월&lt;/span&gt;
           &lt;/div&gt;
           &lt;div style=&quot;display:flex;flex-direction:column;align-items:center;gap:8px;&quot;&gt;
-            &lt;div style=&quot;width:78px;height:100px;border-radius:11px;background:var(--surface);border:1px solid var(--line);
+            &lt;div class=&quot;lite-edge&quot; style=&quot;width:78px;height:100px;border-radius:11px;background:var(--surface);border:1px solid var(--line);
               display:flex;align-items:center;justify-content:center;&quot;&gt;
               &lt;svg width=&quot;30&quot; height=&quot;30&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--text-dim)&quot; stroke-width=&quot;1.7&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;
                 &lt;path d=&quot;M6 2h8l4 4v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z&quot;/&gt;&lt;path d=&quot;M14 2v4h4&quot;/&gt;&lt;path d=&quot;M8 12h6M8 16h4&quot;/&gt;
@@ -2409,7 +2318,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
             &lt;span class=&quot;chip chip--ghost&quot; style=&quot;height:24px;font-size:12px;padding:0 11px;&quot;&gt;화&lt;/span&gt;
           &lt;/div&gt;
           &lt;div style=&quot;display:flex;flex-direction:column;align-items:center;gap:8px;&quot;&gt;
-            &lt;div style=&quot;width:78px;height:100px;border-radius:11px;background:var(--surface);border:1px solid var(--line);
+            &lt;div class=&quot;lite-edge&quot; style=&quot;width:78px;height:100px;border-radius:11px;background:var(--surface);border:1px solid var(--line);
               display:flex;align-items:center;justify-content:center;&quot;&gt;
               &lt;svg width=&quot;30&quot; height=&quot;30&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--text-dim)&quot; stroke-width=&quot;1.7&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;
                 &lt;path d=&quot;M6 2h8l4 4v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z&quot;/&gt;&lt;path d=&quot;M14 2v4h4&quot;/&gt;&lt;path d=&quot;M8 12h6M8 16h4&quot;/&gt;
@@ -2425,8 +2334,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
       &lt;div style=&quot;flex:none;display:flex;flex-direction:column;align-items:center;margin:0 26px;padding-bottom:34px;&quot;&gt;
         &lt;div class=&quot;small&quot; style=&quot;margin-bottom:6px;color:var(--accent);&quot;&gt;항상&lt;/div&gt;
         &lt;svg width=&quot;88&quot; height=&quot;20&quot; viewBox=&quot;0 0 88 20&quot; fill=&quot;none&quot;&gt;
-          &lt;line x1=&quot;0&quot; y1=&quot;10&quot; x2=&quot;78&quot; y2=&quot;10&quot; stroke=&quot;var(--accent-line)&quot; stroke-width=&quot;2&quot;/&gt;
-          &lt;path d=&quot;M76 4 L86 10 L76 16 Z&quot; fill=&quot;var(--accent)&quot;/&gt;
+          &lt;line x1=&quot;0&quot; y1=&quot;10&quot; x2=&quot;78&quot; y2=&quot;10&quot; class=&quot;arw-line&quot; style=&quot;stroke:url(#arwG-h)&quot;/&gt;
+          &lt;polyline class=&quot;arw-head arw-glow&quot; points=&quot;78,4.5 86,10 78,15.5&quot;/&gt;
         &lt;/svg&gt;
       &lt;/div&gt;
 
@@ -2456,7 +2365,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 &lt;/div&gt;
 "></iframe></div></div>
 <div class="wrap"><p class="label">s11 · 자료를 줘라</p><p class="role">재현성의 핵심 — 같은 공책을 주면 새 세션·다른 모델도 같은 결과.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s11 · 자료를 줘라 — 파일 뭉치 → AI 노드 → 새 세션·다른 AI가 같은 결과로 / &quot;설명하지 말고, 자료를 줘라&quot; --&gt;
-&lt;style&gt;/* ============================================================================
+&lt;style&gt;
+/* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
    시안본 / 2026-07-21 / 콘셉트: 연구실의 반복성·정밀성·재현성을 AI에 접목
    전 슬라이드 공용: 1280x720 16:9 캔버스. 로컬 더블클릭으로 단독 렌더.
@@ -2548,7 +2458,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
     radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
     linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
-  background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
+  background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'&gt;&lt;filter id='n'&gt;&lt;feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/&gt;&lt;/filter&gt;&lt;rect width='140' height='140' filter='url(%23n)' opacity='0.6'/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
   background:radial-gradient(130% 120% at 50% 42%, transparent 56%, rgba(0,0,0,.44) 100%); }
 .glow-orb{ position:absolute; border-radius:50%; filter:blur(64px); z-index:0; pointer-events:none;
@@ -2588,6 +2498,33 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   border-radius:16px; }
 .card--glow{ background:linear-gradient(180deg,var(--surface2),var(--surface));
   box-shadow:0 0 0 1px var(--accent-line), 0 20px 46px -24px rgba(0,0,0,.75); }
+
+/* ---------------------------------------------------------------------------
+   [공용 화살표 언어 — 2026-07-21 폴리시 추가] (기존 규칙 불변, 추가만)
+   촌스러운 꽉 찬 삼각촉 폐기 → 꼬리 페이드 라인 + 열린 셰브런 헤드로 통일.
+   · 라인 색은 per-slide 공유 그라디언트(#arwG-h 가로 / #arwG-v 세로 / -hd 뮤트)로
+     inline style=&quot;stroke:url(#…)&quot; 지정 — 꼬리 .15 → 머리 .9 로 밝아짐.
+   · 헤드는 .arw-head 셰브런(두 획, round cap/join, 라인과 동일 굵기).
+   · 발광은 .arw-glow 만(절제).  · 점선 흐름은 .arw-flow(원형 도트 대시).
+   --------------------------------------------------------------------------- */
+.arw-line{ fill:none; stroke-width:1.8; stroke-linecap:round; }
+.arw-head{ fill:none; stroke:var(--accent); stroke-width:1.8;
+  stroke-linecap:round; stroke-linejoin:round; }
+.arw-head--dim{ stroke:var(--text-dim); }
+.arw-glow{ filter:drop-shadow(0 0 6px var(--glow)); }
+/* 점선 흐름 변형(s17 컨베이어): 도트 굵기·간격의 유일 정본. 인라인 우회 금지. */
+.arw-flow{ fill:none; stroke-width:3.2; stroke-linecap:round; stroke-dasharray:.1 7; }
+
+/* 텍스트 화살표(→) 절제: 본문보다 작게·뮤트·좌우 여백 균등 */
+.tarrow{ font-size:.82em; font-weight:400; color:var(--text-dim);
+  margin:0 .32em; letter-spacing:0; }
+
+/* [카드 디테일 유틸] 상단 1px 라이트 엣지 + 깊이 그림자 — 빛 받는 상단 면(§12) */
+.lite-edge{ box-shadow:inset 0 1px 0 rgba(255,255,255,.07); }
+.depth{ box-shadow:0 14px 34px -18px rgba(0,0,0,.6); }
+.card-lift{ box-shadow:inset 0 1px 0 rgba(255,255,255,.07),
+  0 14px 34px -18px rgba(0,0,0,.6); }
+
 &lt;/style&gt;
 &lt;div class=&quot;slide&quot;&gt;
 
@@ -2595,6 +2532,16 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;glow-orb&quot; style=&quot;width:440px;height:440px;left:44%;top:54%;transform:translate(-50%,-50%);opacity:.3;&quot;&gt;&lt;/div&gt;
   &lt;div class=&quot;bg-grain&quot;&gt;&lt;/div&gt;
   &lt;div class=&quot;vignette&quot;&gt;&lt;/div&gt;
+
+  &lt;!-- 공용 화살표 라인 그라디언트 (꼬리 → 머리 밝아짐) --&gt;
+  &lt;svg width=&quot;0&quot; height=&quot;0&quot; style=&quot;position:absolute&quot; aria-hidden=&quot;true&quot;&gt;&lt;defs&gt;
+    &lt;linearGradient id=&quot;arwG-h&quot; gradientUnits=&quot;userSpaceOnUse&quot; x1=&quot;0&quot; y1=&quot;10&quot; x2=&quot;66&quot; y2=&quot;10&quot;&gt;
+      &lt;stop offset=&quot;0&quot; stop-color=&quot;var(--accent)&quot; stop-opacity=&quot;.2&quot;/&gt;
+      &lt;stop offset=&quot;1&quot; stop-color=&quot;var(--accent)&quot; stop-opacity=&quot;.95&quot;/&gt;&lt;/linearGradient&gt;
+    &lt;linearGradient id=&quot;arwG-hd&quot; gradientUnits=&quot;userSpaceOnUse&quot; x1=&quot;0&quot; y1=&quot;8&quot; x2=&quot;26&quot; y2=&quot;8&quot;&gt;
+      &lt;stop offset=&quot;0&quot; stop-color=&quot;var(--text-dim)&quot; stop-opacity=&quot;.22&quot;/&gt;
+      &lt;stop offset=&quot;1&quot; stop-color=&quot;var(--text-dim)&quot; stop-opacity=&quot;.9&quot;/&gt;&lt;/linearGradient&gt;
+  &lt;/defs&gt;&lt;/svg&gt;
 
   &lt;div class=&quot;kicker&quot;&gt;&lt;span class=&quot;no&quot;&gt;11&lt;/span&gt;&lt;span class=&quot;bar&quot;&gt;&lt;/span&gt;&lt;span class=&quot;nm&quot;&gt;Give It Materials&lt;/span&gt;&lt;/div&gt;
   &lt;div style=&quot;position:absolute;top:44px;right:64px;text-align:right;z-index:6;&quot;&gt;
@@ -2645,8 +2592,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
       &lt;div style=&quot;flex:none;display:flex;flex-direction:column;align-items:center;margin:0 22px;&quot;&gt;
         &lt;div class=&quot;small&quot; style=&quot;margin-bottom:6px;color:var(--accent);&quot;&gt;자료 주입&lt;/div&gt;
         &lt;svg width=&quot;76&quot; height=&quot;20&quot; viewBox=&quot;0 0 76 20&quot; fill=&quot;none&quot;&gt;
-          &lt;line x1=&quot;0&quot; y1=&quot;10&quot; x2=&quot;66&quot; y2=&quot;10&quot; stroke=&quot;var(--accent-line)&quot; stroke-width=&quot;2&quot;/&gt;
-          &lt;path d=&quot;M64 4 L74 10 L64 16 Z&quot; fill=&quot;var(--accent)&quot;/&gt;
+          &lt;line x1=&quot;0&quot; y1=&quot;10&quot; x2=&quot;66&quot; y2=&quot;10&quot; class=&quot;arw-line&quot; style=&quot;stroke:url(#arwG-h)&quot;/&gt;
+          &lt;polyline class=&quot;arw-head arw-glow&quot; points=&quot;66,4.5 74,10 66,15.5&quot;/&gt;
         &lt;/svg&gt;
       &lt;/div&gt;
 
@@ -2668,8 +2615,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
       &lt;div style=&quot;flex:none;display:flex;flex-direction:column;align-items:center;margin:0 22px;&quot;&gt;
         &lt;div class=&quot;small&quot; style=&quot;margin-bottom:6px;color:var(--text-dim);&quot;&gt;누가 해도&lt;/div&gt;
         &lt;svg width=&quot;76&quot; height=&quot;20&quot; viewBox=&quot;0 0 76 20&quot; fill=&quot;none&quot;&gt;
-          &lt;line x1=&quot;0&quot; y1=&quot;10&quot; x2=&quot;66&quot; y2=&quot;10&quot; stroke=&quot;var(--accent-line)&quot; stroke-width=&quot;2&quot;/&gt;
-          &lt;path d=&quot;M64 4 L74 10 L64 16 Z&quot; fill=&quot;var(--accent)&quot;/&gt;
+          &lt;line x1=&quot;0&quot; y1=&quot;10&quot; x2=&quot;66&quot; y2=&quot;10&quot; class=&quot;arw-line&quot; style=&quot;stroke:url(#arwG-h)&quot;/&gt;
+          &lt;polyline class=&quot;arw-head arw-glow&quot; points=&quot;66,4.5 74,10 66,15.5&quot;/&gt;
         &lt;/svg&gt;
       &lt;/div&gt;
 
@@ -2678,7 +2625,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
         &lt;!-- 새 세션 --&gt;
         &lt;div style=&quot;display:flex;align-items:center;gap:14px;&quot;&gt;
           &lt;span class=&quot;chip chip--ghost&quot; style=&quot;height:30px;font-size:14px;border-color:var(--accent-line);color:var(--accent);width:118px;justify-content:center;&quot;&gt;새 세션&lt;/span&gt;
-          &lt;svg width=&quot;34&quot; height=&quot;16&quot; viewBox=&quot;0 0 34 16&quot; fill=&quot;none&quot;&gt;&lt;line x1=&quot;0&quot; y1=&quot;8&quot; x2=&quot;26&quot; y2=&quot;8&quot; stroke=&quot;var(--line)&quot; stroke-width=&quot;2&quot;/&gt;&lt;path d=&quot;M24 3 L32 8 L24 13 Z&quot; fill=&quot;var(--text-dim)&quot;/&gt;&lt;/svg&gt;
+          &lt;svg width=&quot;34&quot; height=&quot;16&quot; viewBox=&quot;0 0 34 16&quot; fill=&quot;none&quot;&gt;&lt;line x1=&quot;0&quot; y1=&quot;8&quot; x2=&quot;26&quot; y2=&quot;8&quot; class=&quot;arw-line&quot; style=&quot;stroke:url(#arwG-hd)&quot;/&gt;&lt;polyline class=&quot;arw-head arw-head--dim&quot; points=&quot;26,4 32,8 26,12&quot;/&gt;&lt;/svg&gt;
           &lt;div style=&quot;width:64px;height:80px;border-radius:10px;background:var(--surface);border:1px solid var(--accent-line);
             box-shadow:0 0 0 3px var(--accent-soft);display:flex;align-items:center;justify-content:center;&quot;&gt;
             &lt;svg width=&quot;28&quot; height=&quot;28&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;1.8&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;9&quot;/&gt;&lt;path d=&quot;m8 12 2.6 2.6L16 9&quot;/&gt;&lt;/svg&gt;
@@ -2687,13 +2634,13 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
         &lt;!-- 다른 AI 모델 --&gt;
         &lt;div style=&quot;display:flex;align-items:center;gap:14px;&quot;&gt;
           &lt;span class=&quot;chip chip--ghost&quot; style=&quot;height:30px;font-size:14px;border-color:var(--accent-line);color:var(--accent);width:118px;justify-content:center;&quot;&gt;다른 AI 모델&lt;/span&gt;
-          &lt;svg width=&quot;34&quot; height=&quot;16&quot; viewBox=&quot;0 0 34 16&quot; fill=&quot;none&quot;&gt;&lt;line x1=&quot;0&quot; y1=&quot;8&quot; x2=&quot;26&quot; y2=&quot;8&quot; stroke=&quot;var(--line)&quot; stroke-width=&quot;2&quot;/&gt;&lt;path d=&quot;M24 3 L32 8 L24 13 Z&quot; fill=&quot;var(--text-dim)&quot;/&gt;&lt;/svg&gt;
+          &lt;svg width=&quot;34&quot; height=&quot;16&quot; viewBox=&quot;0 0 34 16&quot; fill=&quot;none&quot;&gt;&lt;line x1=&quot;0&quot; y1=&quot;8&quot; x2=&quot;26&quot; y2=&quot;8&quot; class=&quot;arw-line&quot; style=&quot;stroke:url(#arwG-hd)&quot;/&gt;&lt;polyline class=&quot;arw-head arw-head--dim&quot; points=&quot;26,4 32,8 26,12&quot;/&gt;&lt;/svg&gt;
           &lt;div style=&quot;width:64px;height:80px;border-radius:10px;background:var(--surface);border:1px solid var(--accent-line);
             box-shadow:0 0 0 3px var(--accent-soft);display:flex;align-items:center;justify-content:center;&quot;&gt;
             &lt;svg width=&quot;28&quot; height=&quot;28&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;1.8&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;9&quot;/&gt;&lt;path d=&quot;m8 12 2.6 2.6L16 9&quot;/&gt;&lt;/svg&gt;
           &lt;/div&gt;
         &lt;/div&gt;
-        &lt;div class=&quot;small&quot; style=&quot;text-align:right;color:var(--text-dim);margin-top:-4px;&quot;&gt;→ 같은 결과&lt;/div&gt;
+        &lt;div class=&quot;small&quot; style=&quot;text-align:right;color:var(--text-dim);margin-top:-4px;&quot;&gt;&lt;span class=&quot;tarrow&quot;&gt;→&lt;/span&gt; 같은 결과&lt;/div&gt;
       &lt;/div&gt;
 
     &lt;/div&gt;
@@ -2708,7 +2655,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 "></iframe></div></div>
 <h2>파트 5 · 라이브 데모 — 12분</h2><p class="part-desc">같은 요청 4번 실험 — 대충 한 줄×2 vs 매뉴얼+자료×2, 반복성을 눈으로 증명</p>
 <div class="wrap"><p class="label">s12 · 실험 예고</p><p class="role">데모 진입 장표. 같은 요청을 조건만 바꿔 4번 던지는 실험 설계.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s12 · 실험 예고 — 플라스크 + 2×2 실험 설계표(셀은 물음표) / &quot;같은 요청을 4번 던져보겠습니다&quot; --&gt;
-&lt;style&gt;/* ============================================================================
+&lt;style&gt;
+/* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
    시안본 / 2026-07-21 / 콘셉트: 연구실의 반복성·정밀성·재현성을 AI에 접목
    전 슬라이드 공용: 1280x720 16:9 캔버스. 로컬 더블클릭으로 단독 렌더.
@@ -2800,7 +2748,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
     radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
     linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
-  background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
+  background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'&gt;&lt;filter id='n'&gt;&lt;feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/&gt;&lt;/filter&gt;&lt;rect width='140' height='140' filter='url(%23n)' opacity='0.6'/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
   background:radial-gradient(130% 120% at 50% 42%, transparent 56%, rgba(0,0,0,.44) 100%); }
 .glow-orb{ position:absolute; border-radius:50%; filter:blur(64px); z-index:0; pointer-events:none;
@@ -2840,6 +2788,33 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   border-radius:16px; }
 .card--glow{ background:linear-gradient(180deg,var(--surface2),var(--surface));
   box-shadow:0 0 0 1px var(--accent-line), 0 20px 46px -24px rgba(0,0,0,.75); }
+
+/* ---------------------------------------------------------------------------
+   [공용 화살표 언어 — 2026-07-21 폴리시 추가] (기존 규칙 불변, 추가만)
+   촌스러운 꽉 찬 삼각촉 폐기 → 꼬리 페이드 라인 + 열린 셰브런 헤드로 통일.
+   · 라인 색은 per-slide 공유 그라디언트(#arwG-h 가로 / #arwG-v 세로 / -hd 뮤트)로
+     inline style=&quot;stroke:url(#…)&quot; 지정 — 꼬리 .15 → 머리 .9 로 밝아짐.
+   · 헤드는 .arw-head 셰브런(두 획, round cap/join, 라인과 동일 굵기).
+   · 발광은 .arw-glow 만(절제).  · 점선 흐름은 .arw-flow(원형 도트 대시).
+   --------------------------------------------------------------------------- */
+.arw-line{ fill:none; stroke-width:1.8; stroke-linecap:round; }
+.arw-head{ fill:none; stroke:var(--accent); stroke-width:1.8;
+  stroke-linecap:round; stroke-linejoin:round; }
+.arw-head--dim{ stroke:var(--text-dim); }
+.arw-glow{ filter:drop-shadow(0 0 6px var(--glow)); }
+/* 점선 흐름 변형(s17 컨베이어): 도트 굵기·간격의 유일 정본. 인라인 우회 금지. */
+.arw-flow{ fill:none; stroke-width:3.2; stroke-linecap:round; stroke-dasharray:.1 7; }
+
+/* 텍스트 화살표(→) 절제: 본문보다 작게·뮤트·좌우 여백 균등 */
+.tarrow{ font-size:.82em; font-weight:400; color:var(--text-dim);
+  margin:0 .32em; letter-spacing:0; }
+
+/* [카드 디테일 유틸] 상단 1px 라이트 엣지 + 깊이 그림자 — 빛 받는 상단 면(§12) */
+.lite-edge{ box-shadow:inset 0 1px 0 rgba(255,255,255,.07); }
+.depth{ box-shadow:0 14px 34px -18px rgba(0,0,0,.6); }
+.card-lift{ box-shadow:inset 0 1px 0 rgba(255,255,255,.07),
+  0 14px 34px -18px rgba(0,0,0,.6); }
+
 &lt;/style&gt;
 &lt;div class=&quot;slide&quot;&gt;
 
@@ -2871,21 +2846,32 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
         &lt;g transform=&quot;translate(66 8)&quot;&gt;
           &lt;path d=&quot;M-20,0 h40 M-14,4 v34 L-40,104 a10,10 0 0 0 9,16 h62 a10,10 0 0 0 9,-16 L18,38 V4&quot;
                 fill=&quot;none&quot; stroke=&quot;var(--text-dim)&quot; stroke-width=&quot;2.4&quot; stroke-linejoin=&quot;round&quot; stroke-linecap=&quot;round&quot;/&gt;
-          &lt;!-- 액체 --&gt;
+          &lt;!-- 액체 (하단 진함 → 표면 옅음 그라디언트 느낌: 바닥 음영) --&gt;
           &lt;path d=&quot;M-31,84 L-14,58 v-18 h32 v18 L35,84 a10,10 0 0 1 -4,36 h-58 a10,10 0 0 1 -4,-36 Z&quot;
                 fill=&quot;var(--accent)&quot; fill-opacity=&quot;.22&quot;/&gt;
+          &lt;path d=&quot;M-27,112 a4,4 0 0 0 4,8 h46 a4,4 0 0 0 4,-8 Z&quot; fill=&quot;var(--accent)&quot; fill-opacity=&quot;.16&quot;/&gt;
+          &lt;!-- 액면(메니스커스): 기본 + 하이라이트 2톤 --&gt;
           &lt;path d=&quot;M-31,84 h66&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;2&quot; stroke-opacity=&quot;.55&quot;/&gt;
+          &lt;path d=&quot;M-31,82.4 h66&quot; stroke=&quot;var(--accent2)&quot; stroke-width=&quot;1.1&quot; stroke-opacity=&quot;.7&quot; stroke-linecap=&quot;round&quot;/&gt;
+          &lt;!-- 유리 스페큘러 하이라이트 --&gt;
+          &lt;path d=&quot;M-30,90 L-14,60&quot; stroke=&quot;var(--text)&quot; stroke-opacity=&quot;.14&quot; stroke-width=&quot;2.4&quot; stroke-linecap=&quot;round&quot;/&gt;
           &lt;!-- 기포 --&gt;
           &lt;circle cx=&quot;-6&quot; cy=&quot;96&quot; r=&quot;3.4&quot; fill=&quot;var(--accent)&quot; fill-opacity=&quot;.55&quot;/&gt;
           &lt;circle cx=&quot;10&quot; cy=&quot;104&quot; r=&quot;2.6&quot; fill=&quot;var(--accent)&quot; fill-opacity=&quot;.45&quot;/&gt;
           &lt;circle cx=&quot;2&quot; cy=&quot;110&quot; r=&quot;2&quot; fill=&quot;var(--accent2)&quot; fill-opacity=&quot;.6&quot;/&gt;
+          &lt;circle cx=&quot;16&quot; cy=&quot;94&quot; r=&quot;1.6&quot; fill=&quot;var(--accent2)&quot; fill-opacity=&quot;.5&quot;/&gt;
         &lt;/g&gt;
         &lt;!-- 비커 --&gt;
         &lt;g transform=&quot;translate(200 24)&quot;&gt;
           &lt;path d=&quot;M-6,0 h64 M0,4 V90 a10,10 0 0 0 10,10 h34 a10,10 0 0 0 10,-10 V4&quot;
                 fill=&quot;none&quot; stroke=&quot;var(--text-dim)&quot; stroke-width=&quot;2.4&quot; stroke-linejoin=&quot;round&quot; stroke-linecap=&quot;round&quot;/&gt;
           &lt;path d=&quot;M0,58 V90 a10,10 0 0 0 10,10 h34 a10,10 0 0 0 10,-10 V58 Z&quot; fill=&quot;var(--accent)&quot; fill-opacity=&quot;.16&quot;/&gt;
+          &lt;path d=&quot;M0,82 V90 a10,10 0 0 0 10,10 h34 a10,10 0 0 0 10,-10 V82 Z&quot; fill=&quot;var(--accent)&quot; fill-opacity=&quot;.12&quot;/&gt;
+          &lt;!-- 액면 2톤 + 유리 스페큘러 --&gt;
           &lt;path d=&quot;M0,58 h54&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;2&quot; stroke-opacity=&quot;.45&quot;/&gt;
+          &lt;path d=&quot;M0,56.6 h54&quot; stroke=&quot;var(--accent2)&quot; stroke-width=&quot;1.1&quot; stroke-opacity=&quot;.6&quot; stroke-linecap=&quot;round&quot;/&gt;
+          &lt;path d=&quot;M3,64 L3,88&quot; stroke=&quot;var(--text)&quot; stroke-opacity=&quot;.13&quot; stroke-width=&quot;2.2&quot; stroke-linecap=&quot;round&quot;/&gt;
+          &lt;circle cx=&quot;30&quot; cy=&quot;78&quot; r=&quot;2&quot; fill=&quot;var(--accent2)&quot; fill-opacity=&quot;.5&quot;/&gt;
           &lt;!-- 눈금 --&gt;
           &lt;path d=&quot;M0,30 h9 M0,44 h9 M0,72 h9&quot; stroke=&quot;var(--text-dim)&quot; stroke-width=&quot;1.4&quot; stroke-opacity=&quot;.6&quot;/&gt;
         &lt;/g&gt;
@@ -2902,14 +2888,14 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
         &lt;div class=&quot;label&quot; style=&quot;text-align:center;align-self:end;padding-bottom:6px;color:var(--text-dim);&quot;&gt;2회차&lt;/div&gt;
 
         &lt;!-- 행 1: 대충 한 줄 --&gt;
-        &lt;div class=&quot;card&quot; style=&quot;display:flex;flex-direction:column;justify-content:center;padding:14px 16px;&quot;&gt;
+        &lt;div class=&quot;card card-lift&quot; style=&quot;display:flex;flex-direction:column;justify-content:center;padding:14px 16px;&quot;&gt;
           &lt;div style=&quot;font-size:16px;font-weight:800;color:var(--text);&quot;&gt;대충 한 줄&lt;/div&gt;
           &lt;div class=&quot;small&quot; style=&quot;margin-top:2px;&quot;&gt;지시 A&lt;/div&gt;
         &lt;/div&gt;
-        &lt;div class=&quot;card&quot; style=&quot;display:flex;align-items:center;justify-content:center;height:96px;&quot;&gt;
+        &lt;div class=&quot;card card-lift&quot; style=&quot;display:flex;align-items:center;justify-content:center;height:96px;&quot;&gt;
           &lt;span style=&quot;font-size:44px;font-weight:800;color:var(--text-dim);opacity:.5;&quot;&gt;?&lt;/span&gt;
         &lt;/div&gt;
-        &lt;div class=&quot;card&quot; style=&quot;display:flex;align-items:center;justify-content:center;height:96px;&quot;&gt;
+        &lt;div class=&quot;card card-lift&quot; style=&quot;display:flex;align-items:center;justify-content:center;height:96px;&quot;&gt;
           &lt;span style=&quot;font-size:44px;font-weight:800;color:var(--text-dim);opacity:.5;&quot;&gt;?&lt;/span&gt;
         &lt;/div&gt;
 
@@ -2918,10 +2904,10 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
           &lt;div style=&quot;font-size:16px;font-weight:800;color:var(--accent);&quot;&gt;매뉴얼 + 자료&lt;/div&gt;
           &lt;div class=&quot;small&quot; style=&quot;margin-top:2px;color:var(--text-dim);&quot;&gt;지시 B&lt;/div&gt;
         &lt;/div&gt;
-        &lt;div class=&quot;card&quot; style=&quot;display:flex;align-items:center;justify-content:center;height:96px;&quot;&gt;
+        &lt;div class=&quot;card card-lift&quot; style=&quot;display:flex;align-items:center;justify-content:center;height:96px;&quot;&gt;
           &lt;span style=&quot;font-size:44px;font-weight:800;color:var(--text-dim);opacity:.5;&quot;&gt;?&lt;/span&gt;
         &lt;/div&gt;
-        &lt;div class=&quot;card&quot; style=&quot;display:flex;align-items:center;justify-content:center;height:96px;&quot;&gt;
+        &lt;div class=&quot;card card-lift&quot; style=&quot;display:flex;align-items:center;justify-content:center;height:96px;&quot;&gt;
           &lt;span style=&quot;font-size:44px;font-weight:800;color:var(--text-dim);opacity:.5;&quot;&gt;?&lt;/span&gt;
         &lt;/div&gt;
 
@@ -3310,7 +3296,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 &lt;/div&gt;
 "></iframe></div></div>
 <h2>파트 6 · 헤르메스 — 5분</h2><p class="part-desc">3기둥의 종착지 — 매뉴얼+기록+검사가 갖춰지면 AI 직원이 된다</p>
-<div class="wrap"><p class="label">s15 · 헤르메스 조직도</p><p class="role">"AI 직원을 고용했습니다" — 견적서·거래명세서·서류정리·일정관리.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s15 · 헤르메스 조직도 — 중앙 발광 노드 + 연결선 → 자식 카드 4개 / &quot;AI 직원을 고용했습니다&quot; --&gt;
+<div class="wrap"><p class="label">s15 · 헤르메스 조직도</p><p class="role">"AI 직원을 고용했습니다" — 견적서·거래명세서·서류정리·일정관리.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;!-- s15 · 헤르메스 조직도 — 중앙 발광 노드 + 연결선 → 자식 카드 4개 / &quot;AI 직원을 고용했습니다&quot; --&gt;
 &lt;style&gt;/* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
    시안본 / 2026-07-21 / 콘셉트: 연구실의 반복성·정밀성·재현성을 AI에 접목
@@ -3403,7 +3390,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
     radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
     linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
-  background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
+  background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'&gt;&lt;filter id='n'&gt;&lt;feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/&gt;&lt;/filter&gt;&lt;rect width='140' height='140' filter='url(%23n)' opacity='0.6'/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
   background:radial-gradient(130% 120% at 50% 42%, transparent 56%, rgba(0,0,0,.44) 100%); }
 .glow-orb{ position:absolute; border-radius:50%; filter:blur(64px); z-index:0; pointer-events:none;
@@ -3459,7 +3446,10 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;stage&quot; style=&quot;display:flex;flex-direction:column;z-index:6;&quot;&gt;
 
     &lt;!-- 헤드라인 --&gt;
-    &lt;div class=&quot;title&quot; style=&quot;font-size:42px;&quot;&gt;&lt;span class=&quot;ac&quot;&gt;AI 직원&lt;/span&gt;을 고용했습니다&lt;/div&gt;
+    &lt;div style=&quot;display:flex;align-items:center;gap:16px;flex-wrap:wrap;&quot;&gt;
+      &lt;div class=&quot;title&quot; style=&quot;font-size:42px;&quot;&gt;&lt;span class=&quot;ac&quot;&gt;AI 직원&lt;/span&gt;을 고용했습니다&lt;/div&gt;
+      &lt;div class=&quot;chip chip--ghost chip--dot&quot; style=&quot;font-size:14px;&quot;&gt;오늘 배운 실천법이 도착하는 곳 · 가장 높은 단계&lt;/div&gt;
+    &lt;/div&gt;
 
     &lt;!-- 조직도 --&gt;
     &lt;div style=&quot;position:relative;height:452px;margin:auto 0;&quot;&gt;
@@ -3758,7 +3748,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 &lt;/div&gt;
 "></iframe></div></div>
 <div class="wrap"><p class="label">s17 · 검사 라인</p><p class="role">만드는 AI와 검사하는 AI를 분리. 최종 도장은 사람이 찍는다.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s17 · 검사 라인 — 만드는 AI → 검사하는 AI → 사람 도장 / 가로 흐름 다이어그램 --&gt;
-&lt;style&gt;/* ============================================================================
+&lt;style&gt;
+/* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
    시안본 / 2026-07-21 / 콘셉트: 연구실의 반복성·정밀성·재현성을 AI에 접목
    전 슬라이드 공용: 1280x720 16:9 캔버스. 로컬 더블클릭으로 단독 렌더.
@@ -3850,7 +3841,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
     radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
     linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
-  background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
+  background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'&gt;&lt;filter id='n'&gt;&lt;feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/&gt;&lt;/filter&gt;&lt;rect width='140' height='140' filter='url(%23n)' opacity='0.6'/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
   background:radial-gradient(130% 120% at 50% 42%, transparent 56%, rgba(0,0,0,.44) 100%); }
 .glow-orb{ position:absolute; border-radius:50%; filter:blur(64px); z-index:0; pointer-events:none;
@@ -3890,6 +3881,33 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   border-radius:16px; }
 .card--glow{ background:linear-gradient(180deg,var(--surface2),var(--surface));
   box-shadow:0 0 0 1px var(--accent-line), 0 20px 46px -24px rgba(0,0,0,.75); }
+
+/* ---------------------------------------------------------------------------
+   [공용 화살표 언어 — 2026-07-21 폴리시 추가] (기존 규칙 불변, 추가만)
+   촌스러운 꽉 찬 삼각촉 폐기 → 꼬리 페이드 라인 + 열린 셰브런 헤드로 통일.
+   · 라인 색은 per-slide 공유 그라디언트(#arwG-h 가로 / #arwG-v 세로 / -hd 뮤트)로
+     inline style=&quot;stroke:url(#…)&quot; 지정 — 꼬리 .15 → 머리 .9 로 밝아짐.
+   · 헤드는 .arw-head 셰브런(두 획, round cap/join, 라인과 동일 굵기).
+   · 발광은 .arw-glow 만(절제).  · 점선 흐름은 .arw-flow(원형 도트 대시).
+   --------------------------------------------------------------------------- */
+.arw-line{ fill:none; stroke-width:1.8; stroke-linecap:round; }
+.arw-head{ fill:none; stroke:var(--accent); stroke-width:1.8;
+  stroke-linecap:round; stroke-linejoin:round; }
+.arw-head--dim{ stroke:var(--text-dim); }
+.arw-glow{ filter:drop-shadow(0 0 6px var(--glow)); }
+/* 점선 흐름 변형(s17 컨베이어): 도트 굵기·간격의 유일 정본. 인라인 우회 금지. */
+.arw-flow{ fill:none; stroke-width:3.2; stroke-linecap:round; stroke-dasharray:.1 7; }
+
+/* 텍스트 화살표(→) 절제: 본문보다 작게·뮤트·좌우 여백 균등 */
+.tarrow{ font-size:.82em; font-weight:400; color:var(--text-dim);
+  margin:0 .32em; letter-spacing:0; }
+
+/* [카드 디테일 유틸] 상단 1px 라이트 엣지 + 깊이 그림자 — 빛 받는 상단 면(§12) */
+.lite-edge{ box-shadow:inset 0 1px 0 rgba(255,255,255,.07); }
+.depth{ box-shadow:0 14px 34px -18px rgba(0,0,0,.6); }
+.card-lift{ box-shadow:inset 0 1px 0 rgba(255,255,255,.07),
+  0 14px 34px -18px rgba(0,0,0,.6); }
+
 &lt;/style&gt;
 &lt;div class=&quot;slide&quot;&gt;
 
@@ -3897,6 +3915,16 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;glow-orb&quot; style=&quot;width:440px;height:440px;right:80px;top:60px;opacity:.32;&quot;&gt;&lt;/div&gt;
   &lt;div class=&quot;bg-grain&quot;&gt;&lt;/div&gt;
   &lt;div class=&quot;vignette&quot;&gt;&lt;/div&gt;
+
+  &lt;!-- 공용 화살표 라인 그라디언트 (도트 흐름은 진행 방향으로 밝아짐) --&gt;
+  &lt;svg width=&quot;0&quot; height=&quot;0&quot; style=&quot;position:absolute&quot; aria-hidden=&quot;true&quot;&gt;&lt;defs&gt;
+    &lt;linearGradient id=&quot;arwG-h&quot; gradientUnits=&quot;userSpaceOnUse&quot; x1=&quot;6&quot; y1=&quot;20&quot; x2=&quot;66&quot; y2=&quot;20&quot;&gt;
+      &lt;stop offset=&quot;0&quot; stop-color=&quot;var(--accent)&quot; stop-opacity=&quot;.38&quot;/&gt;
+      &lt;stop offset=&quot;1&quot; stop-color=&quot;var(--accent)&quot; stop-opacity=&quot;1&quot;/&gt;&lt;/linearGradient&gt;
+    &lt;linearGradient id=&quot;arwG-hd&quot; gradientUnits=&quot;userSpaceOnUse&quot; x1=&quot;6&quot; y1=&quot;20&quot; x2=&quot;66&quot; y2=&quot;20&quot;&gt;
+      &lt;stop offset=&quot;0&quot; stop-color=&quot;var(--text-dim)&quot; stop-opacity=&quot;.32&quot;/&gt;
+      &lt;stop offset=&quot;1&quot; stop-color=&quot;var(--text-dim)&quot; stop-opacity=&quot;.95&quot;/&gt;&lt;/linearGradient&gt;
+  &lt;/defs&gt;&lt;/svg&gt;
 
   &lt;div class=&quot;kicker&quot;&gt;&lt;span class=&quot;no&quot;&gt;17&lt;/span&gt;&lt;span class=&quot;bar&quot;&gt;&lt;/span&gt;&lt;span class=&quot;nm&quot;&gt;Inspection Line&lt;/span&gt;&lt;/div&gt;
   &lt;div style=&quot;position:absolute;top:44px;right:64px;text-align:right;z-index:6;&quot;&gt;
@@ -3937,13 +3965,9 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
       &lt;!-- 컨베이어 화살표 1 --&gt;
       &lt;div style=&quot;flex:0 0 86px;height:72px;display:flex;align-items:center;justify-content:center;&quot;&gt;
         &lt;svg width=&quot;86&quot; height=&quot;40&quot; viewBox=&quot;0 0 86 40&quot; fill=&quot;none&quot;&gt;
-          &lt;!-- 컨베이어 롤러 도트 --&gt;
-          &lt;g fill=&quot;var(--text-dim)&quot; opacity=&quot;.45&quot;&gt;
-            &lt;circle cx=&quot;10&quot; cy=&quot;32&quot; r=&quot;3&quot;/&gt;&lt;circle cx=&quot;26&quot; cy=&quot;32&quot; r=&quot;3&quot;/&gt;
-            &lt;circle cx=&quot;42&quot; cy=&quot;32&quot; r=&quot;3&quot;/&gt;&lt;circle cx=&quot;58&quot; cy=&quot;32&quot; r=&quot;3&quot;/&gt;&lt;circle cx=&quot;74&quot; cy=&quot;32&quot; r=&quot;3&quot;/&gt;
-          &lt;/g&gt;
-          &lt;line x1=&quot;6&quot; y1=&quot;16&quot; x2=&quot;66&quot; y2=&quot;16&quot; stroke=&quot;var(--text-dim)&quot; stroke-opacity=&quot;.6&quot; stroke-width=&quot;2.4&quot;/&gt;
-          &lt;path d=&quot;M64,9 78,16 64,23&quot; fill=&quot;none&quot; stroke=&quot;var(--text-dim)&quot; stroke-opacity=&quot;.85&quot; stroke-width=&quot;2.4&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/&gt;
+          &lt;!-- 도트 흐름 (진행 방향으로 밝아짐) + 셰브런 헤드 --&gt;
+          &lt;line class=&quot;arw-line arw-flow&quot; x1=&quot;6&quot; y1=&quot;20&quot; x2=&quot;66&quot; y2=&quot;20&quot; style=&quot;stroke:url(#arwG-hd)&quot;/&gt;
+          &lt;polyline class=&quot;arw-head arw-head--dim&quot; points=&quot;68,13 78,20 68,27&quot;/&gt;
         &lt;/svg&gt;
       &lt;/div&gt;
 
@@ -3969,12 +3993,9 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
       &lt;!-- 컨베이어 화살표 2 (강조) --&gt;
       &lt;div style=&quot;flex:0 0 86px;height:72px;display:flex;align-items:center;justify-content:center;&quot;&gt;
         &lt;svg width=&quot;86&quot; height=&quot;40&quot; viewBox=&quot;0 0 86 40&quot; fill=&quot;none&quot;&gt;
-          &lt;g fill=&quot;var(--accent)&quot; opacity=&quot;.4&quot;&gt;
-            &lt;circle cx=&quot;10&quot; cy=&quot;32&quot; r=&quot;3&quot;/&gt;&lt;circle cx=&quot;26&quot; cy=&quot;32&quot; r=&quot;3&quot;/&gt;
-            &lt;circle cx=&quot;42&quot; cy=&quot;32&quot; r=&quot;3&quot;/&gt;&lt;circle cx=&quot;58&quot; cy=&quot;32&quot; r=&quot;3&quot;/&gt;&lt;circle cx=&quot;74&quot; cy=&quot;32&quot; r=&quot;3&quot;/&gt;
-          &lt;/g&gt;
-          &lt;line x1=&quot;6&quot; y1=&quot;16&quot; x2=&quot;66&quot; y2=&quot;16&quot; stroke=&quot;var(--accent)&quot; stroke-opacity=&quot;.7&quot; stroke-width=&quot;2.4&quot;/&gt;
-          &lt;path d=&quot;M64,9 78,16 64,23&quot; fill=&quot;none&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;2.4&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/&gt;
+          &lt;!-- 도트 흐름 (진행 방향으로 밝아짐) + 셰브런 헤드 (강조) --&gt;
+          &lt;line class=&quot;arw-line arw-flow&quot; x1=&quot;6&quot; y1=&quot;20&quot; x2=&quot;66&quot; y2=&quot;20&quot; style=&quot;stroke:url(#arwG-h)&quot;/&gt;
+          &lt;polyline class=&quot;arw-head arw-glow&quot; points=&quot;68,13 78,20 68,27&quot;/&gt;
         &lt;/svg&gt;
       &lt;/div&gt;
 
@@ -4010,7 +4031,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;17&lt;/b&gt; / 21&lt;/div&gt;
 &lt;/div&gt;
 "></iframe></div></div>
-<h2>파트 7 · 마무리 — 6분</h2><p class="part-desc">주의사항 → 용어 사다리(사진) → 오늘의 과제 → Q&A</p>
+<h2>파트 7 · 마무리 — 6분</h2><p class="part-desc">주의사항 → 용어 사다리(사진) → 레벨 자가진단+과제 → Q&A</p>
 <div class="wrap"><p class="label">s18 · 주의 3종</p><p class="role">기밀 넣지 마라 · 숫자 검증해라 · 그대로 보내지 마라.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s18 · 주의 3종 — 기밀 금지 / 사실 대조 / 그대로 발송 금지 / 경고 카드 3개 --&gt;
 &lt;style&gt;/* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -4464,7 +4485,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;19&lt;/b&gt; / 21&lt;/div&gt;
 &lt;/div&gt;
 "></iframe></div></div>
-<div class="wrap"><p class="label">s20 · 오늘의 과제</p><p class="role">"잘 된 지시문 1개 저장" — 이것만 하면 강의값은 뽑은 것.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s20 · 오늘의 과제 — 큰 체크박스 1개 + &quot;잘 된 지시문 1개, 저장해 보세요&quot; --&gt;
+<div class="wrap"><p class="label">s20 · 나는 지금 몇 레벨? (자가진단+과제)</p><p class="role">7단계 레벨 사다리로 "나는 지금 몇 레벨?" 자가진단 + 오늘의 과제(지시문 1개 저장).</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;!-- s20 · Level Check — 7단계 레벨 사다리(자가진단) + 오늘의 과제 통합 / &quot;나는 지금 몇 레벨?&quot; --&gt;
 &lt;style&gt;/* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
    시안본 / 2026-07-21 / 콘셉트: 연구실의 반복성·정밀성·재현성을 AI에 접목
@@ -4557,7 +4579,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
     radial-gradient(90% 80% at 8% 104%, rgba(34,122,255,.06), transparent 60%),
     linear-gradient(158deg,#14202D 0%, var(--bg) 44%, var(--bg-deep) 100%); }
 .bg-grain{ position:absolute; inset:0; z-index:0; opacity:.42; mix-blend-mode:overlay; pointer-events:none;
-  background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; width=&#x27;140&#x27; height=&#x27;140&#x27;&gt;&lt;filter id=&#x27;n&#x27;&gt;&lt;feTurbulence type=&#x27;fractalNoise&#x27; baseFrequency=&#x27;0.9&#x27; numOctaves=&#x27;2&#x27; stitchTiles=&#x27;stitch&#x27;/&gt;&lt;/filter&gt;&lt;rect width=&#x27;140&#x27; height=&#x27;140&#x27; filter=&#x27;url(%23n)&#x27; opacity=&#x27;0.6&#x27;/&gt;&lt;/svg&gt;&quot;); }
+  background-image:url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'&gt;&lt;filter id='n'&gt;&lt;feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/&gt;&lt;/filter&gt;&lt;rect width='140' height='140' filter='url(%23n)' opacity='0.6'/&gt;&lt;/svg&gt;&quot;); }
 .vignette{ position:absolute; inset:0; z-index:0; pointer-events:none;
   background:radial-gradient(130% 120% at 50% 42%, transparent 56%, rgba(0,0,0,.44) 100%); }
 .glow-orb{ position:absolute; border-radius:50%; filter:blur(64px); z-index:0; pointer-events:none;
@@ -4601,49 +4623,124 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 &lt;div class=&quot;slide&quot;&gt;
 
   &lt;div class=&quot;bg-grad&quot;&gt;&lt;/div&gt;
-  &lt;div class=&quot;glow-orb&quot; style=&quot;width:520px;height:520px;left:50%;top:50%;transform:translate(-50%,-56%);opacity:.4;&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;glow-orb&quot; style=&quot;width:460px;height:460px;left:76%;top:14%;transform:translate(-50%,-50%);opacity:.3;&quot;&gt;&lt;/div&gt;
   &lt;div class=&quot;bg-grain&quot;&gt;&lt;/div&gt;
   &lt;div class=&quot;vignette&quot;&gt;&lt;/div&gt;
 
-  &lt;div class=&quot;kicker&quot;&gt;&lt;span class=&quot;no&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;bar&quot;&gt;&lt;/span&gt;&lt;span class=&quot;nm&quot;&gt;Today&#x27;s Task&lt;/span&gt;&lt;/div&gt;
+  &lt;div class=&quot;kicker&quot;&gt;&lt;span class=&quot;no&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;bar&quot;&gt;&lt;/span&gt;&lt;span class=&quot;nm&quot;&gt;Level Check&lt;/span&gt;&lt;/div&gt;
   &lt;div style=&quot;position:absolute;top:44px;right:64px;text-align:right;z-index:6;&quot;&gt;
-    &lt;div class=&quot;label&quot; style=&quot;color:var(--text-dim)&quot;&gt;딱 하나만 하고 가세요&lt;/div&gt;
+    &lt;div class=&quot;label&quot; style=&quot;color:var(--text-dim)&quot;&gt;다음 단계가 보이는 지도&lt;/div&gt;
   &lt;/div&gt;
 
-  &lt;div class=&quot;stage&quot; style=&quot;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;z-index:6;&quot;&gt;
+  &lt;style&gt;
+    /* 레벨 사다리 전용 */
+    .lv-bar{ position:absolute; bottom:0; width:154px; border-radius:13px 13px 0 0;
+      display:flex; flex-direction:column; align-items:center; text-align:center;
+      padding:13px 7px 0; overflow:hidden; }
+    .lv-bar.off{ background:var(--surface); border:1px solid var(--line); border-top:2px solid var(--line); }
+    .lv-bar.on{ background:linear-gradient(180deg,var(--accent-soft),rgba(34,122,255,.02));
+      border:1px solid var(--accent-line); border-top:2px solid var(--accent); }
+    .lv-no{ font-size:12px; font-weight:800; letter-spacing:.04em; line-height:1; }
+    .lv-bar.off .lv-no{ color:var(--text-dim); }
+    .lv-bar.on  .lv-no{ color:var(--accent); }
+    .lv-nm{ font-size:16px; font-weight:800; color:var(--text); line-height:1.15; margin-top:7px; }
+    .lv-ai{ font-size:11.5px; font-weight:600; color:var(--text-dim); letter-spacing:.01em; margin-top:5px; }
+    .lv-de{ font-size:11.5px; font-weight:400; color:var(--text-dim); line-height:1.3; margin-top:9px;
+      padding-top:8px; border-top:1px solid var(--line); width:100%; }
+    .band-lab{ display:flex; flex-direction:column; gap:3px; padding-bottom:7px; border-bottom:1.5px solid var(--accent-line); }
+    .band-lab .bn{ font-size:15px; font-weight:800; color:var(--text); letter-spacing:-.01em; }
+    .band-lab .br{ font-size:11px; font-weight:700; letter-spacing:.06em; color:var(--text-dim); }
+    .mk{ position:absolute; display:inline-flex; align-items:center; gap:7px; height:27px; padding:0 12px;
+      border-radius:999px; font-size:12.5px; font-weight:700; white-space:nowrap; z-index:4; }
+    .mk-stop{ background:var(--surface2); border:1px solid var(--line); color:var(--text); }
+    .mk-herm{ background:var(--accent); color:var(--accent-ink); box-shadow:0 6px 20px -8px var(--glow); }
+  &lt;/style&gt;
 
-    &lt;div class=&quot;chip chip--ghost chip--dot&quot; style=&quot;margin-bottom:34px;&quot;&gt;오늘의 과제&lt;/div&gt;
-
-    &lt;!-- 큰 체크박스 --&gt;
-    &lt;div style=&quot;display:flex;align-items:center;justify-content:center;margin-bottom:40px;&quot;&gt;
-      &lt;svg width=&quot;150&quot; height=&quot;150&quot; viewBox=&quot;0 0 150 150&quot; fill=&quot;none&quot;
-        style=&quot;filter:drop-shadow(0 20px 40px rgba(0,0,0,.5));&quot;&gt;
-        &lt;rect x=&quot;10&quot; y=&quot;10&quot; width=&quot;130&quot; height=&quot;130&quot; rx=&quot;30&quot;
-          fill=&quot;url(#boxFill)&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;3&quot;/&gt;
-        &lt;defs&gt;
-          &lt;linearGradient id=&quot;boxFill&quot; x1=&quot;0&quot; y1=&quot;0&quot; x2=&quot;1&quot; y2=&quot;1&quot;&gt;
-            &lt;stop offset=&quot;0&quot; stop-color=&quot;var(--surface2)&quot;/&gt;
-            &lt;stop offset=&quot;1&quot; stop-color=&quot;var(--surface)&quot;/&gt;
-          &lt;/linearGradient&gt;
-        &lt;/defs&gt;
-        &lt;!-- 발광 체크 --&gt;
-        &lt;path d=&quot;M44 78 66 100 108 52&quot; fill=&quot;none&quot; stroke=&quot;var(--accent)&quot;
-          stroke-width=&quot;12&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;
-          filter=&quot;drop-shadow(0 0 12px var(--glow))&quot;/&gt;
-      &lt;/svg&gt;
-    &lt;/div&gt;
+  &lt;div class=&quot;stage&quot; style=&quot;display:flex;flex-direction:column;z-index:6;&quot;&gt;
 
     &lt;!-- 헤드라인 --&gt;
-    &lt;div class=&quot;giant&quot; style=&quot;font-size:52px;max-width:900px;line-height:1.16;&quot;&gt;
-      오늘 과제: 잘 된 &lt;span class=&quot;ac&quot;&gt;지시문 1개&lt;/span&gt;,&lt;br&gt;저장해 보세요
+    &lt;div style=&quot;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;&quot;&gt;
+      &lt;div&gt;
+        &lt;div class=&quot;title&quot; style=&quot;font-size:40px;&quot;&gt;나는 지금 &lt;span class=&quot;ac&quot;&gt;몇 레벨&lt;/span&gt;?&lt;/div&gt;
+        &lt;div class=&quot;small&quot; style=&quot;margin-top:7px;font-size:15px;&quot;&gt;
+          그냥 묻는 단계부터 AI 팀을 굴리는 단계까지, &lt;b class=&quot;w700&quot; style=&quot;color:var(--text)&quot;&gt;지금 내 위치&lt;/b&gt;를 찾으세요.
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;chip chip--pill&quot; style=&quot;height:34px;font-size:15px;font-weight:800;&quot;&gt;오늘 강의 = Lv.2 – 5&lt;/div&gt;
     &lt;/div&gt;
 
-    &lt;div class=&quot;sub&quot; style=&quot;margin-top:26px;color:var(--text-dim);max-width:640px;&quot;&gt;
-      이것만 하면 오늘 &lt;b class=&quot;w700&quot; style=&quot;color:var(--text)&quot;&gt;강의값은 뽑은&lt;/b&gt; 겁니다.
+    &lt;!-- 밴드 라벨 (3구간) --&gt;
+    &lt;div style=&quot;display:grid;grid-template-columns:repeat(7,1fr);gap:12px;margin-top:18px;&quot;&gt;
+      &lt;div class=&quot;band-lab&quot; style=&quot;grid-column:1/3;&quot;&gt;&lt;span class=&quot;bn&quot;&gt;대화형&lt;/span&gt;&lt;span class=&quot;br&quot;&gt;LV.1 – 2 · 말로 시킨다&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;band-lab&quot; style=&quot;grid-column:3/5;&quot;&gt;&lt;span class=&quot;bn&quot;&gt;작업형&lt;/span&gt;&lt;span class=&quot;br&quot;&gt;LV.3 – 4 · 일을 맡긴다&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;band-lab&quot; style=&quot;grid-column:5/8;&quot;&gt;&lt;span class=&quot;bn&quot;&gt;운영형&lt;/span&gt;&lt;span class=&quot;br&quot;&gt;LV.5 – 7 · 시스템을 만든다&lt;/span&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- 레벨 사다리 (계단형 상승) --&gt;
+    &lt;div style=&quot;position:relative;width:1152px;height:296px;margin-top:14px;&quot;&gt;
+
+      &lt;!-- 포인트 마커 --&gt;
+      &lt;div class=&quot;mk mk-stop&quot; style=&quot;left:334px;top:0;&quot;&gt;
+        &lt;span style=&quot;width:6px;height:6px;border-radius:50%;background:var(--accent);&quot;&gt;&lt;/span&gt;대부분 여기서 멈춥니다
+      &lt;/div&gt;
+      &lt;!-- Lv.3 아래로 잇는 점선 --&gt;
+      &lt;svg width=&quot;1152&quot; height=&quot;296&quot; style=&quot;position:absolute;inset:0;z-index:1;pointer-events:none;&quot;&gt;
+        &lt;path d=&quot;M409,27 V132&quot; stroke=&quot;var(--accent-line)&quot; stroke-width=&quot;1.4&quot; stroke-dasharray=&quot;3 4&quot; fill=&quot;none&quot;/&gt;
+        &lt;path d=&quot;M990,27 V60&quot; stroke=&quot;rgba(34,122,255,.55)&quot; stroke-width=&quot;1.4&quot; stroke-dasharray=&quot;3 4&quot; fill=&quot;none&quot;/&gt;
+      &lt;/svg&gt;
+      &lt;div class=&quot;mk mk-herm&quot; style=&quot;left:876px;top:0;&quot;&gt;
+        &lt;span style=&quot;width:6px;height:6px;border-radius:50%;background:var(--accent-ink);&quot;&gt;&lt;/span&gt;아까 보신 헤르메스가 여기
+      &lt;/div&gt;
+
+      &lt;!-- 7개 계단 --&gt;
+      &lt;div class=&quot;lv-bar off&quot; style=&quot;left:0px;height:128px;z-index:2;&quot;&gt;
+        &lt;span class=&quot;lv-no&quot;&gt;Lv.1&lt;/span&gt;&lt;span class=&quot;lv-nm&quot;&gt;그냥 묻기&lt;/span&gt;&lt;span class=&quot;lv-ai&quot;&gt;· 프롬프트&lt;/span&gt;&lt;span class=&quot;lv-de&quot;&gt;매번 처음부터 설명한다&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;lv-bar on&quot; style=&quot;left:166px;height:146px;z-index:2;&quot;&gt;
+        &lt;span class=&quot;lv-no&quot;&gt;Lv.2&lt;/span&gt;&lt;span class=&quot;lv-nm&quot;&gt;재료 주기&lt;/span&gt;&lt;span class=&quot;lv-ai&quot;&gt;· 컨텍스트&lt;/span&gt;&lt;span class=&quot;lv-de&quot;&gt;내 상황·자료·기준을 준다&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;lv-bar on&quot; style=&quot;left:332px;height:164px;z-index:2;&quot;&gt;
+        &lt;span class=&quot;lv-no&quot;&gt;Lv.3&lt;/span&gt;&lt;span class=&quot;lv-nm&quot;&gt;손발 주기&lt;/span&gt;&lt;span class=&quot;lv-ai&quot;&gt;· 도구&lt;/span&gt;&lt;span class=&quot;lv-de&quot;&gt;파일을 읽고, 고치고, 실행한다&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;lv-bar on&quot; style=&quot;left:498px;height:182px;z-index:2;&quot;&gt;
+        &lt;span class=&quot;lv-no&quot;&gt;Lv.4&lt;/span&gt;&lt;span class=&quot;lv-nm&quot;&gt;바깥 연결&lt;/span&gt;&lt;span class=&quot;lv-ai&quot;&gt;· MCP&lt;/span&gt;&lt;span class=&quot;lv-de&quot;&gt;메일·캘린더·노션과 연결한다&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;lv-bar on&quot; style=&quot;left:664px;height:200px;z-index:2;&quot;&gt;
+        &lt;span class=&quot;lv-no&quot;&gt;Lv.5&lt;/span&gt;&lt;span class=&quot;lv-nm&quot;&gt;매뉴얼 저장&lt;/span&gt;&lt;span class=&quot;lv-ai&quot;&gt;· 스킬&lt;/span&gt;&lt;span class=&quot;lv-de&quot;&gt;반복 업무 방식을 저장해 둔다&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;lv-bar off&quot; style=&quot;left:830px;height:218px;z-index:2;&quot;&gt;
+        &lt;span class=&quot;lv-no&quot;&gt;Lv.6&lt;/span&gt;&lt;span class=&quot;lv-nm&quot;&gt;직원 나누기&lt;/span&gt;&lt;span class=&quot;lv-ai&quot;&gt;· 서브에이전트&lt;/span&gt;&lt;span class=&quot;lv-de&quot;&gt;역할별 AI 직원으로 나눈다&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;lv-bar off&quot; style=&quot;left:996px;height:236px;z-index:2;&quot;&gt;
+        &lt;span class=&quot;lv-no&quot;&gt;Lv.7&lt;/span&gt;&lt;span class=&quot;lv-nm&quot;&gt;팀 굴리기&lt;/span&gt;&lt;span class=&quot;lv-ai&quot;&gt;· AI 팀&lt;/span&gt;&lt;span class=&quot;lv-de&quot;&gt;AI가 팀처럼 돌아가게 만든다&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- 오늘의 과제 스트립 --&gt;
+    &lt;div class=&quot;card card--glow&quot; style=&quot;margin-top:16px;padding:16px 22px;display:flex;align-items:center;gap:18px;&quot;&gt;
+      &lt;!-- 체크박스 --&gt;
+      &lt;svg width=&quot;38&quot; height=&quot;38&quot; viewBox=&quot;0 0 38 38&quot; fill=&quot;none&quot; style=&quot;flex-shrink:0;&quot;&gt;
+        &lt;rect x=&quot;4&quot; y=&quot;4&quot; width=&quot;30&quot; height=&quot;30&quot; rx=&quot;9&quot; fill=&quot;var(--surface2)&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;2&quot;/&gt;
+        &lt;path d=&quot;M12 20 17 25 27 13&quot; fill=&quot;none&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;3.2&quot;
+          stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; filter=&quot;drop-shadow(0 0 6px var(--glow))&quot;/&gt;
+      &lt;/svg&gt;
+      &lt;div style=&quot;flex:1;&quot;&gt;
+        &lt;div style=&quot;font-size:22px;font-weight:800;color:var(--text);letter-spacing:-.01em;&quot;&gt;
+          오늘 과제: 잘 된 &lt;span class=&quot;ac&quot;&gt;지시문 1개&lt;/span&gt;, 저장해 보세요
+        &lt;/div&gt;
+        &lt;div class=&quot;small&quot; style=&quot;margin-top:4px;font-size:14px;&quot;&gt;
+          이것만 하면 오늘 &lt;b class=&quot;w700&quot; style=&quot;color:var(--text)&quot;&gt;강의값은 뽑은&lt;/b&gt; 겁니다.
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div style=&quot;flex-shrink:0;text-align:right;padding-left:18px;border-left:1px solid var(--line);&quot;&gt;
+        &lt;div class=&quot;label&quot; style=&quot;color:var(--accent);margin-bottom:3px;&quot;&gt;Next Step&lt;/div&gt;
+        &lt;div style=&quot;font-size:16px;font-weight:800;color:var(--text);&quot;&gt;= Lv.5로 올라가는 &lt;span class=&quot;ac&quot;&gt;첫발&lt;/span&gt;&lt;/div&gt;
+      &lt;/div&gt;
     &lt;/div&gt;
 
   &lt;/div&gt;
 
+  &lt;div class=&quot;footnote&quot;&gt;레벨 구분 참고 &amp;nbsp;·&amp;nbsp; 세비아 &lt;b&gt;@sebia.ai&lt;/b&gt; ‘Claude Code 7단계 체크리스트’&lt;/div&gt;
   &lt;div class=&quot;foot-brand&quot;&gt;&lt;span class=&quot;mark&quot;&gt;&lt;/span&gt;&lt;span class=&quot;wm&quot;&gt;Semicolony&lt;/span&gt;&lt;/div&gt;
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;20&lt;/b&gt; / 21&lt;/div&gt;
 &lt;/div&gt;
