@@ -1463,82 +1463,75 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;/div&gt;
 
   &lt;div class=&quot;stage&quot; style=&quot;display:flex;flex-direction:column;z-index:6;&quot;&gt;
-
     &lt;!-- 헤드라인 --&gt;
     &lt;div class=&quot;title&quot; style=&quot;font-size:40px;&quot;&gt;
       &lt;span class=&quot;ac&quot;&gt;다음 주&lt;/span&gt;에도, &lt;span class=&quot;ac&quot;&gt;남&lt;/span&gt;이 해도
     &lt;/div&gt;
-
-    &lt;!-- 두 축 다이어그램 --&gt;
-    &lt;div style=&quot;flex:1;display:flex;align-items:center;justify-content:center;margin-top:6px;&quot;&gt;
-      &lt;svg viewBox=&quot;0 0 1020 480&quot; width=&quot;1020&quot; style=&quot;max-width:100%;height:auto;&quot;&gt;
-        &lt;defs&gt;
-          &lt;!-- 과녁 심볼 (명암 교차 링 + 불스아이, 스케일 가능) --&gt;
-          &lt;symbol id=&quot;board6&quot; viewBox=&quot;0 0 120 120&quot;&gt;
-            &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;58&quot; fill=&quot;var(--board-dark)&quot; stroke=&quot;var(--line)&quot; stroke-width=&quot;1.5&quot;/&gt;
-            &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;47&quot; fill=&quot;var(--board-light)&quot;/&gt;
-            &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;36&quot; fill=&quot;var(--board-dark)&quot;/&gt;
-            &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;25&quot; fill=&quot;var(--board-light)&quot;/&gt;
-            &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;15&quot; fill=&quot;var(--board-dark)&quot;/&gt;
-            &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;7&quot; fill=&quot;var(--board-bull)&quot;/&gt;
-            &lt;g fill=&quot;none&quot; stroke=&quot;var(--bg-deep)&quot; stroke-opacity=&quot;.55&quot; stroke-width=&quot;.8&quot;&gt;
-              &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;47&quot;/&gt;&lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;36&quot;/&gt;
-              &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;25&quot;/&gt;&lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;15&quot;/&gt;&lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;7&quot;/&gt;
-            &lt;/g&gt;
-          &lt;/symbol&gt;
-          &lt;marker id=&quot;ah6&quot; markerWidth=&quot;12&quot; markerHeight=&quot;12&quot; refX=&quot;8&quot; refY=&quot;5&quot; orient=&quot;auto&quot;&gt;
-            &lt;path d=&quot;M0,0 L9,5 L0,10 Z&quot; fill=&quot;var(--accent)&quot;/&gt;
-          &lt;/marker&gt;
-          &lt;!-- 명중점 드롭섀도 --&gt;
-          &lt;filter id=&quot;hit6&quot; x=&quot;-60%&quot; y=&quot;-60%&quot; width=&quot;220%&quot; height=&quot;220%&quot;&gt;
-            &lt;feDropShadow dx=&quot;0&quot; dy=&quot;1&quot; stdDeviation=&quot;1.2&quot; flood-color=&quot;#000&quot; flood-opacity=&quot;.55&quot;/&gt;
-          &lt;/filter&gt;
-          &lt;!-- 불스아이 발광 (메인 보드 전용) --&gt;
-          &lt;filter id=&quot;bull6&quot; x=&quot;-80%&quot; y=&quot;-80%&quot; width=&quot;260%&quot; height=&quot;260%&quot;&gt;
-            &lt;feGaussianBlur stdDeviation=&quot;3.5&quot; result=&quot;b&quot;/&gt;
-            &lt;feMerge&gt;&lt;feMergeNode in=&quot;b&quot;/&gt;&lt;feMergeNode in=&quot;SourceGraphic&quot;/&gt;&lt;/feMerge&gt;
-          &lt;/filter&gt;
-        &lt;/defs&gt;
-
-        &lt;!-- 축 (원점 = 메인 보드 중심 300,325) --&gt;
-        &lt;line x1=&quot;300&quot; y1=&quot;325&quot; x2=&quot;972&quot; y2=&quot;325&quot; stroke=&quot;var(--accent-line)&quot; stroke-width=&quot;2&quot; marker-end=&quot;url(#ah6)&quot;/&gt;
-        &lt;line x1=&quot;300&quot; y1=&quot;325&quot; x2=&quot;300&quot; y2=&quot;46&quot; stroke=&quot;var(--accent-line)&quot; stroke-width=&quot;2&quot; marker-end=&quot;url(#ah6)&quot;/&gt;
-
-        &lt;!-- 메인 보드 (지금·나·이 AI) --&gt;
-        &lt;use href=&quot;#board6&quot; x=&quot;175&quot; y=&quot;200&quot; width=&quot;250&quot; height=&quot;250&quot;/&gt;
-        &lt;circle cx=&quot;300&quot; cy=&quot;325&quot; r=&quot;14&quot; fill=&quot;var(--board-bull)&quot; filter=&quot;url(#bull6)&quot;/&gt;
-        &lt;g fill=&quot;var(--text)&quot; stroke=&quot;var(--board-dark)&quot; stroke-width=&quot;1.4&quot; filter=&quot;url(#hit6)&quot;&gt;
-          &lt;circle cx=&quot;298&quot; cy=&quot;325&quot; r=&quot;5.5&quot;/&gt;&lt;circle cx=&quot;306&quot; cy=&quot;321&quot; r=&quot;5.5&quot;/&gt;
-          &lt;circle cx=&quot;300&quot; cy=&quot;331&quot; r=&quot;5.5&quot;/&gt;&lt;circle cx=&quot;293&quot; cy=&quot;323&quot; r=&quot;5.5&quot;/&gt;
-        &lt;/g&gt;
-        &lt;text x=&quot;300&quot; y=&quot;472&quot; text-anchor=&quot;middle&quot; font-family=&quot;Pretendard,sans-serif&quot; font-size=&quot;14&quot; font-weight=&quot;700&quot; fill=&quot;var(--text)&quot;&gt;지금 · 내가 · 이 AI로&lt;/text&gt;
-
-        &lt;!-- 우측 보드 (다음 주에 또 던져도 = 반복성) --&gt;
-        &lt;use href=&quot;#board6&quot; x=&quot;698&quot; y=&quot;243&quot; width=&quot;165&quot; height=&quot;165&quot;/&gt;
-        &lt;g fill=&quot;var(--text)&quot; stroke=&quot;var(--board-dark)&quot; stroke-width=&quot;1.2&quot; filter=&quot;url(#hit6)&quot;&gt;
-          &lt;circle cx=&quot;778&quot; cy=&quot;325&quot; r=&quot;4&quot;/&gt;&lt;circle cx=&quot;786&quot; cy=&quot;322&quot; r=&quot;4&quot;/&gt;
-          &lt;circle cx=&quot;781&quot; cy=&quot;332&quot; r=&quot;4&quot;/&gt;&lt;circle cx=&quot;773&quot; cy=&quot;323&quot; r=&quot;4&quot;/&gt;
-        &lt;/g&gt;
-
-        &lt;!-- 상단 보드 (다른 사람·다른 AI가 던져도 = 재현성) --&gt;
-        &lt;use href=&quot;#board6&quot; x=&quot;218&quot; y=&quot;58&quot; width=&quot;165&quot; height=&quot;165&quot;/&gt;
-        &lt;g fill=&quot;var(--text)&quot; stroke=&quot;var(--board-dark)&quot; stroke-width=&quot;1.2&quot; filter=&quot;url(#hit6)&quot;&gt;
-          &lt;circle cx=&quot;298&quot; cy=&quot;140&quot; r=&quot;4&quot;/&gt;&lt;circle cx=&quot;307&quot; cy=&quot;137&quot; r=&quot;4&quot;/&gt;
-          &lt;circle cx=&quot;301&quot; cy=&quot;146&quot; r=&quot;4&quot;/&gt;&lt;circle cx=&quot;293&quot; cy=&quot;138&quot; r=&quot;4&quot;/&gt;
-        &lt;/g&gt;
-
-        &lt;!-- 가로축 라벨 (시간·반복성) --&gt;
-        &lt;text x=&quot;545&quot; y=&quot;378&quot; text-anchor=&quot;middle&quot; font-family=&quot;Pretendard,sans-serif&quot; font-size=&quot;18&quot; font-weight=&quot;800&quot; fill=&quot;var(--accent)&quot;&gt;다음 주에 다시 던져도?&lt;/text&gt;
-        &lt;text x=&quot;545&quot; y=&quot;400&quot; text-anchor=&quot;middle&quot; font-family=&quot;Pretendard,sans-serif&quot; font-size=&quot;13&quot; font-weight=&quot;600&quot; letter-spacing=&quot;2&quot; fill=&quot;var(--text-dim)&quot;&gt;시간축 · 반복성&lt;/text&gt;
-        &lt;text x=&quot;545&quot; y=&quot;421&quot; text-anchor=&quot;middle&quot; font-family=&quot;Pretendard,sans-serif&quot; font-size=&quot;12.5&quot; fill=&quot;var(--text-dim)&quot;&gt;지시문을 저장해 두면 시간이 지나도 같은 품질&lt;/text&gt;
-
-        &lt;!-- 세로축 라벨 (조건·재현성) --&gt;
-        &lt;text x=&quot;405&quot; y=&quot;110&quot; font-family=&quot;Pretendard,sans-serif&quot; font-size=&quot;18&quot; font-weight=&quot;800&quot; fill=&quot;var(--accent)&quot;&gt;다른 사람·다른 AI가 던져도?&lt;/text&gt;
-        &lt;text x=&quot;405&quot; y=&quot;132&quot; font-family=&quot;Pretendard,sans-serif&quot; font-size=&quot;13&quot; font-weight=&quot;600&quot; letter-spacing=&quot;2&quot; fill=&quot;var(--text-dim)&quot;&gt;조건축 · 재현성&lt;/text&gt;
-        &lt;text x=&quot;405&quot; y=&quot;153&quot; font-family=&quot;Pretendard,sans-serif&quot; font-size=&quot;12.5&quot; fill=&quot;var(--text-dim)&quot;&gt;자료를 한 곳에 모아 두면 누가 해도 같은 결과&lt;/text&gt;
-      &lt;/svg&gt;
-    &lt;/div&gt;
   &lt;/div&gt;
+
+  &lt;!-- 두 축 다이어그램 (풀캔버스 좌표 1280×720 — 확정 레이아웃) --&gt;
+  &lt;svg viewBox=&quot;0 0 1280 720&quot; style=&quot;position:absolute;inset:0;width:100%;height:100%;z-index:5;pointer-events:none;&quot;&gt;
+    &lt;defs&gt;
+      &lt;!-- 과녁 심볼 (명암 교차 링 + 불스아이, 스케일 가능) --&gt;
+      &lt;symbol id=&quot;board6&quot; viewBox=&quot;0 0 120 120&quot;&gt;
+        &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;58&quot; fill=&quot;var(--board-dark)&quot; stroke=&quot;var(--line)&quot; stroke-width=&quot;1.5&quot;/&gt;
+        &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;47&quot; fill=&quot;var(--board-light)&quot;/&gt;
+        &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;36&quot; fill=&quot;var(--board-dark)&quot;/&gt;
+        &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;25&quot; fill=&quot;var(--board-light)&quot;/&gt;
+        &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;15&quot; fill=&quot;var(--board-dark)&quot;/&gt;
+        &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;7&quot; fill=&quot;var(--board-bull)&quot;/&gt;
+        &lt;g fill=&quot;none&quot; stroke=&quot;var(--bg-deep)&quot; stroke-opacity=&quot;.55&quot; stroke-width=&quot;.8&quot;&gt;
+          &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;47&quot;/&gt;&lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;36&quot;/&gt;
+          &lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;25&quot;/&gt;&lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;15&quot;/&gt;&lt;circle cx=&quot;60&quot; cy=&quot;60&quot; r=&quot;7&quot;/&gt;
+        &lt;/g&gt;
+      &lt;/symbol&gt;
+      &lt;marker id=&quot;ah6&quot; markerWidth=&quot;12&quot; markerHeight=&quot;12&quot; refX=&quot;8&quot; refY=&quot;5&quot; orient=&quot;auto&quot;&gt;
+        &lt;path d=&quot;M0,0 L9,5 L0,10 Z&quot; fill=&quot;var(--accent)&quot;/&gt;
+      &lt;/marker&gt;
+      &lt;!-- 명중점 드롭섀도 --&gt;
+      &lt;filter id=&quot;hit6&quot; x=&quot;-60%&quot; y=&quot;-60%&quot; width=&quot;220%&quot; height=&quot;220%&quot;&gt;
+        &lt;feDropShadow dx=&quot;0&quot; dy=&quot;1&quot; stdDeviation=&quot;1.2&quot; flood-color=&quot;#000&quot; flood-opacity=&quot;.55&quot;/&gt;
+      &lt;/filter&gt;
+      &lt;!-- 불스아이 발광 (원점 과녁 전용) --&gt;
+      &lt;filter id=&quot;bull6&quot; x=&quot;-80%&quot; y=&quot;-80%&quot; width=&quot;260%&quot; height=&quot;260%&quot;&gt;
+        &lt;feGaussianBlur stdDeviation=&quot;3.5&quot; result=&quot;b&quot;/&gt;
+        &lt;feMerge&gt;&lt;feMergeNode in=&quot;b&quot;/&gt;&lt;feMergeNode in=&quot;SourceGraphic&quot;/&gt;&lt;/feMerge&gt;
+      &lt;/filter&gt;
+    &lt;/defs&gt;
+
+    &lt;!-- L자 축: 조건축(세로, 원점 위로) + 시간축(가로, 원점 오른쪽으로). 화살촉은 라인 끝에만. --&gt;
+    &lt;line x1=&quot;420&quot; y1=&quot;362&quot; x2=&quot;420&quot; y2=&quot;330&quot; stroke=&quot;var(--accent-line)&quot; stroke-width=&quot;2&quot; marker-end=&quot;url(#ah6)&quot;/&gt;
+    &lt;line x1=&quot;538&quot; y1=&quot;480&quot; x2=&quot;990&quot; y2=&quot;480&quot; stroke=&quot;var(--accent-line)&quot; stroke-width=&quot;2&quot; marker-end=&quot;url(#ah6)&quot;/&gt;
+
+    &lt;!-- 원점 과녁 (지금·내가·이 AI) 중심(420,480) 지름220 --&gt;
+    &lt;use href=&quot;#board6&quot; x=&quot;310&quot; y=&quot;370&quot; width=&quot;220&quot; height=&quot;220&quot;/&gt;
+    &lt;circle cx=&quot;420&quot; cy=&quot;480&quot; r=&quot;13&quot; fill=&quot;var(--board-bull)&quot; filter=&quot;url(#bull6)&quot;/&gt;
+    &lt;g fill=&quot;var(--text)&quot; stroke=&quot;var(--board-dark)&quot; stroke-width=&quot;1.4&quot; filter=&quot;url(#hit6)&quot;&gt;
+      &lt;circle cx=&quot;418&quot; cy=&quot;480&quot; r=&quot;5.5&quot;/&gt;&lt;circle cx=&quot;426&quot; cy=&quot;476&quot; r=&quot;5.5&quot;/&gt;
+      &lt;circle cx=&quot;420&quot; cy=&quot;486&quot; r=&quot;5.5&quot;/&gt;&lt;circle cx=&quot;413&quot; cy=&quot;478&quot; r=&quot;5.5&quot;/&gt;
+    &lt;/g&gt;
+    &lt;text x=&quot;420&quot; y=&quot;632&quot; text-anchor=&quot;middle&quot; font-family=&quot;Pretendard,sans-serif&quot; font-size=&quot;14&quot; font-weight=&quot;700&quot; fill=&quot;var(--text)&quot;&gt;지금 · 내가 · 이 AI로&lt;/text&gt;
+
+    &lt;!-- 조건축 위성 과녁 (재현성) 중심(420,238) 지름160 --&gt;
+    &lt;use href=&quot;#board6&quot; x=&quot;340&quot; y=&quot;158&quot; width=&quot;160&quot; height=&quot;160&quot;/&gt;
+    &lt;g fill=&quot;var(--text)&quot; stroke=&quot;var(--board-dark)&quot; stroke-width=&quot;1.2&quot; filter=&quot;url(#hit6)&quot;&gt;
+      &lt;circle cx=&quot;418&quot; cy=&quot;238&quot; r=&quot;4&quot;/&gt;&lt;circle cx=&quot;426&quot; cy=&quot;235&quot; r=&quot;4&quot;/&gt;
+      &lt;circle cx=&quot;420&quot; cy=&quot;244&quot; r=&quot;4&quot;/&gt;&lt;circle cx=&quot;413&quot; cy=&quot;236&quot; r=&quot;4&quot;/&gt;
+    &lt;/g&gt;
+    &lt;text x=&quot;540&quot; y=&quot;212&quot; font-family=&quot;Pretendard,sans-serif&quot; font-size=&quot;18&quot; font-weight=&quot;800&quot; fill=&quot;var(--accent)&quot;&gt;다른 사람·다른 AI가 던져도?&lt;/text&gt;
+    &lt;text x=&quot;540&quot; y=&quot;236&quot; font-family=&quot;Pretendard,sans-serif&quot; font-size=&quot;13&quot; font-weight=&quot;600&quot; letter-spacing=&quot;2&quot; fill=&quot;var(--text-dim)&quot;&gt;조건축 · 재현성&lt;/text&gt;
+    &lt;text x=&quot;540&quot; y=&quot;260&quot; font-family=&quot;Pretendard,sans-serif&quot; font-size=&quot;12.5&quot; fill=&quot;var(--text-dim)&quot;&gt;자료를 한 곳에 모아 두면 누가 해도 같은 결과&lt;/text&gt;
+
+    &lt;!-- 시간축 위성 과녁 (반복성) 중심(1080,480) 지름160 --&gt;
+    &lt;use href=&quot;#board6&quot; x=&quot;1000&quot; y=&quot;400&quot; width=&quot;160&quot; height=&quot;160&quot;/&gt;
+    &lt;g fill=&quot;var(--text)&quot; stroke=&quot;var(--board-dark)&quot; stroke-width=&quot;1.2&quot; filter=&quot;url(#hit6)&quot;&gt;
+      &lt;circle cx=&quot;1078&quot; cy=&quot;480&quot; r=&quot;4&quot;/&gt;&lt;circle cx=&quot;1086&quot; cy=&quot;477&quot; r=&quot;4&quot;/&gt;
+      &lt;circle cx=&quot;1081&quot; cy=&quot;486&quot; r=&quot;4&quot;/&gt;&lt;circle cx=&quot;1073&quot; cy=&quot;478&quot; r=&quot;4&quot;/&gt;
+    &lt;/g&gt;
+    &lt;text x=&quot;764&quot; y=&quot;562&quot; text-anchor=&quot;middle&quot; font-family=&quot;Pretendard,sans-serif&quot; font-size=&quot;18&quot; font-weight=&quot;800&quot; fill=&quot;var(--accent)&quot;&gt;다음 주에 다시 던져도?&lt;/text&gt;
+    &lt;text x=&quot;764&quot; y=&quot;586&quot; text-anchor=&quot;middle&quot; font-family=&quot;Pretendard,sans-serif&quot; font-size=&quot;13&quot; font-weight=&quot;600&quot; letter-spacing=&quot;2&quot; fill=&quot;var(--text-dim)&quot;&gt;시간축 · 반복성&lt;/text&gt;
+    &lt;text x=&quot;764&quot; y=&quot;610&quot; text-anchor=&quot;middle&quot; font-family=&quot;Pretendard,sans-serif&quot; font-size=&quot;12.5&quot; fill=&quot;var(--text-dim)&quot;&gt;지시문을 저장해 두면 시간이 지나도 같은 품질&lt;/text&gt;
+  &lt;/svg&gt;
 
   &lt;!-- 각주: 용어 병기 --&gt;
   &lt;div class=&quot;footnote&quot;&gt;전문용어 &amp;nbsp;·&amp;nbsp; 반복성 &lt;b&gt;repeatability&lt;/b&gt; &amp;nbsp;/&amp;nbsp; 재현성 &lt;b&gt;reproducibility&lt;/b&gt;&lt;/div&gt;
