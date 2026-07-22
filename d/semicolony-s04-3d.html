@@ -160,6 +160,19 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 .card-lift{ box-shadow:inset 0 1px 0 rgba(255,255,255,.07),
   0 14px 34px -18px rgba(0,0,0,.6); }
 
+/* ---------------------------------------------------------------------------
+   [호버 리프트 — 카드류 공용 2026-07-22] (기존 규칙 불변, 추가만)
+   마우스 오버 시 살짝 떠오르며 확대. 카드형 요소·다트판에 .hov-lift 부여.
+   썸네일 줌은 .hov-zoom(컨테이너 overflow:hidden 전제).
+   compositor-friendly(transform/opacity)만 사용. reduced-motion 무력화.
+   --------------------------------------------------------------------------- */
+.hov-lift{ transition: transform .28s cubic-bezier(.2,.7,.3,1), box-shadow .28s ease; will-change: transform; }
+.hov-lift:hover{ transform: translateY(-4px) scale(1.035); box-shadow: 0 18px 44px -18px rgba(0,0,0,.65), 0 0 0 1px var(--accent-line); }
+.hov-lift:active{ transform: translateY(-1px) scale(1.01); transition-duration:.09s; }
+.hov-zoom img{ transition: transform .45s cubic-bezier(.2,.7,.3,1); }
+.hov-zoom:hover img{ transform: scale(1.06); }
+@media (prefers-reduced-motion: reduce){ .hov-lift,.hov-zoom img{ transition:none } .hov-lift:hover,.hov-lift:active{ transform:none; box-shadow:none } .hov-zoom:hover img{ transform:none } }
+
 </style>
 <div class="slide">
 
