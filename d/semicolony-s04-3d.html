@@ -214,7 +214,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
       <div id="gacha3d" style="width:420px;height:540px;position:relative;filter:drop-shadow(0 30px 40px rgba(0,0,0,.45));">
 
         <!-- WebGL 실패 시 인라인 SVG 폴백 (기본 숨김; JS 폴백 분기에서 표시) -->
-        <div id="gacha3d-fallback" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;">
+        <div id="gacha3d-fallback" class="hov-lift" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;">
           <svg width="360" height="470" viewBox="0 0 360 470" fill="none">
             <defs>
               <radialGradient id="glassFB" cx="40%" cy="30%" r="76%">
@@ -522,8 +522,17 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
     }
 
     var start = performance.now();
+    var playing = true;                 // 최초 1회 자동재생
+    var PLAY_DUR = 3.4;                  // 전체 연출 길이(초) — 이후 아이들 오르빗
+    function resetPlay(t0) {             // 마우스 진입 시 처음부터 다시 재생
+      start = t0; playing = true;
+      ejected.visible = false; ejected.scale.set(0, 0, 0);
+      ejected.traverse(function (o) { if (o.isMesh && o.material && o.material.emissive) o.material.emissiveIntensity = 0; });
+      glowLight.intensity = 0;
+    }
     function frame(now) {
       var t = (now - start) / 1000; // 초
+      if (playing && t > PLAY_DUR) playing = false;  // 연출 끝 → 다음 트리거 허용
 
       // 1) 노브 180° 회전 (0.3s~1.6s) — 손잡이가 한 바퀴 돌아 다시 수평으로 정지
       knob.rotation.z = -Math.PI * easeOutCubic(seg(t, 0.3, 1.6));
@@ -558,6 +567,11 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
       requestAnimationFrame(frame);
     }
     requestAnimationFrame(frame);
+
+    // 마우스 올리면 연출 리플레이 (노브 회전→캡슐 낙하→트레이 안착+발광). 재생 중 중복 트리거 가드.
+    mount.addEventListener('mouseenter', function () {
+      if (!playing) resetPlay(performance.now());
+    });
 
     // 리사이즈 대응
     window.addEventListener('resize', function () {
