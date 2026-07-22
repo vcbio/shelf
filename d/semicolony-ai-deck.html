@@ -28,7 +28,7 @@ h2{max-width:1000px;margin:38px auto 4px;padding:0 16px;font-size:16px;color:#F5
 <div class="ov-row"><span class="ov-name">파트 3 · 연구실의 답 <span style="color:#777;font-weight:400">(s08–s09)</span></span><span class="ov-time">7분</span><span class="ov-desc">연구실 품질 개념(반복성·정밀성·재현성)을 AI에 접목하는 강의의 등뼈</span></div>
 <div class="ov-row"><span class="ov-name">파트 4 · 실천법 <span style="color:#777;font-weight:400">(s10–s13)</span></span><span class="ov-time">10분</span><span class="ov-desc">기둥별 실천 3가지 — 구체적으로 시켜라 · 지시문을 저장하라 · 자료를 줘라</span></div>
 <div class="ov-row"><span class="ov-name">파트 5 · 라이브 데모 <span style="color:#777;font-weight:400">(s14–s16)</span></span><span class="ov-time">11분</span><span class="ov-desc">같은 요청 4번 실험 — 대충 한 줄×2 vs 매뉴얼+자료×2, 반복성을 눈으로 증명</span></div>
-<div class="ov-row"><span class="ov-name">파트 6 · 헤르메스 <span style="color:#777;font-weight:400">(s17–s20)</span></span><span class="ov-time">6분</span><span class="ov-desc">3기둥의 종착지 — 매뉴얼+기록+검사가 갖춰지면 AI 직원이 된다</span></div>
+<div class="ov-row"><span class="ov-name">파트 6 · 에이전트 <span style="color:#777;font-weight:400">(s17–s20)</span></span><span class="ov-time">6분</span><span class="ov-desc">3기둥의 종착지 — 매뉴얼+기록+검사가 갖춰지면 AI 직원이 된다</span></div>
 <div class="ov-row"><span class="ov-name">파트 7 · 마무리 <span style="color:#777;font-weight:400">(s21–s24)</span></span><span class="ov-time">5분</span><span class="ov-desc">주의사항 → 용어 사다리(사진) → 레벨 자가진단+과제 → Q&A</span></div>
 </div>
 <script>
@@ -4414,10 +4414,10 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;16&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
 "></iframe></div></div>
-<h2>파트 6 · 헤르메스 — 6분</h2>
+<h2>파트 6 · 에이전트 — 6분</h2>
 <p class="part-desc">3기둥의 종착지 — 매뉴얼+기록+검사가 갖춰지면 AI 직원이 된다</p>
-<div class="wrap"><p class="label">s17 · 헤르메스 조직도</p><p class="role">"AI 직원을 고용했습니다" — 견적서·거래명세서·서류정리·일정관리.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;meta charset=&quot;UTF-8&quot;&gt;
-&lt;!-- s17 · 헤르메스 조직도 — 중앙 발광 노드 + 연결선 → 자식 카드 4개 / &quot;AI 직원을 고용했습니다&quot; --&gt;
+<div class="wrap"><p class="label">s17 · 에이전트 업무 루프</p><p class="role">"AI 직원을 고용했습니다" — 발주서→승인(사람 게이트)→매입·매출→거래명세서·알림∥입고분류→검수·전송.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;!-- s17 · 에이전트 업무 루프 — 발주서→승인(사람 게이트)→매입·매출 등록→분기(동시 진행)→합류(검수·전송) / &quot;AI 직원을 고용했습니다&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -4599,9 +4599,9 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;bg-grain&quot;&gt;&lt;/div&gt;
   &lt;div class=&quot;vignette&quot;&gt;&lt;/div&gt;
 
-  &lt;div class=&quot;kicker&quot;&gt;&lt;span class=&quot;no&quot;&gt;17&lt;/span&gt;&lt;span class=&quot;bar&quot;&gt;&lt;/span&gt;&lt;span class=&quot;nm&quot;&gt;Hermes · Org&lt;/span&gt;&lt;/div&gt;
+  &lt;div class=&quot;kicker&quot;&gt;&lt;span class=&quot;no&quot;&gt;17&lt;/span&gt;&lt;span class=&quot;bar&quot;&gt;&lt;/span&gt;&lt;span class=&quot;nm&quot;&gt;Agent · Work Loop&lt;/span&gt;&lt;/div&gt;
   &lt;div style=&quot;position:absolute;top:44px;right:64px;text-align:right;z-index:6;&quot;&gt;
-    &lt;div class=&quot;label&quot; style=&quot;color:var(--text-dim)&quot;&gt;AI 직원, 헤르메스&lt;/div&gt;
+    &lt;div class=&quot;label&quot; style=&quot;color:var(--text-dim)&quot;&gt;에이전트의 실제 업무 루프&lt;/div&gt;
   &lt;/div&gt;
 
   &lt;div class=&quot;stage&quot; style=&quot;display:flex;flex-direction:column;z-index:6;&quot;&gt;
@@ -4609,103 +4609,149 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
     &lt;!-- 헤드라인 --&gt;
     &lt;div style=&quot;display:flex;align-items:center;gap:16px;flex-wrap:wrap;&quot;&gt;
       &lt;div class=&quot;title&quot; style=&quot;font-size:42px;&quot;&gt;&lt;span class=&quot;ac&quot;&gt;AI 직원&lt;/span&gt;을 고용했습니다&lt;/div&gt;
-      &lt;div class=&quot;chip chip--ghost chip--dot&quot; style=&quot;font-size:14px;&quot;&gt;오늘 배운 실천법이 도착하는 곳 · 가장 높은 단계&lt;/div&gt;
+      &lt;div class=&quot;chip chip--ghost chip--dot&quot; style=&quot;font-size:14px;&quot;&gt;한 번 시켜두면 스스로 도는 업무 루프 · 가장 높은 단계&lt;/div&gt;
     &lt;/div&gt;
 
-    &lt;!-- 조직도 --&gt;
-    &lt;div style=&quot;position:relative;height:452px;margin:auto 0;&quot;&gt;
+    &lt;!-- 업무 루프 다이어그램 --&gt;
+    &lt;div style=&quot;position:relative;width:1152px;height:470px;margin:auto 0;&quot;&gt;
 
-      &lt;!-- 연결선 레이어 (SVG, 카드 뒤) --&gt;
-      &lt;svg viewBox=&quot;0 0 1152 452&quot; preserveAspectRatio=&quot;none&quot;
+      &lt;!-- 연결선 레이어 (.arw-* 언어 — 분기·합류) --&gt;
+      &lt;svg viewBox=&quot;0 0 1152 470&quot; preserveAspectRatio=&quot;none&quot;
            style=&quot;position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;&quot;&gt;
-        &lt;g fill=&quot;none&quot; stroke=&quot;var(--accent-line)&quot; stroke-width=&quot;1.6&quot;&gt;
-          &lt;!-- 허브 → 버스 --&gt;
-          &lt;path d=&quot;M576,104 V236&quot;/&gt;
-          &lt;!-- 수평 버스 --&gt;
-          &lt;path d=&quot;M127.5,236 H1024.5&quot;/&gt;
-          &lt;!-- 버스 → 각 카드 --&gt;
-          &lt;path d=&quot;M127.5,236 V300&quot;/&gt;
-          &lt;path d=&quot;M426.5,236 V300&quot;/&gt;
-          &lt;path d=&quot;M725.5,236 V300&quot;/&gt;
-          &lt;path d=&quot;M1024.5,236 V300&quot;/&gt;
-        &lt;/g&gt;
-        &lt;!-- 접점 노드 --&gt;
-        &lt;g fill=&quot;var(--accent)&quot;&gt;
-          &lt;circle cx=&quot;127.5&quot; cy=&quot;236&quot; r=&quot;3&quot;/&gt;&lt;circle cx=&quot;426.5&quot; cy=&quot;236&quot; r=&quot;3&quot;/&gt;
-          &lt;circle cx=&quot;725.5&quot; cy=&quot;236&quot; r=&quot;3&quot;/&gt;&lt;circle cx=&quot;1024.5&quot; cy=&quot;236&quot; r=&quot;3&quot;/&gt;
-        &lt;/g&gt;
+        &lt;defs&gt;
+          &lt;linearGradient id=&quot;arwG-h&quot; gradientUnits=&quot;userSpaceOnUse&quot; x1=&quot;170&quot; y1=&quot;0&quot; x2=&quot;214&quot; y2=&quot;0&quot;&gt;
+            &lt;stop offset=&quot;0&quot; stop-color=&quot;var(--accent)&quot; stop-opacity=&quot;.28&quot;/&gt;
+            &lt;stop offset=&quot;1&quot; stop-color=&quot;var(--accent)&quot; stop-opacity=&quot;.95&quot;/&gt;&lt;/linearGradient&gt;
+          &lt;linearGradient id=&quot;arwG-v&quot; gradientUnits=&quot;userSpaceOnUse&quot; x1=&quot;0&quot; y1=&quot;72&quot; x2=&quot;0&quot; y2=&quot;250&quot;&gt;
+            &lt;stop offset=&quot;0&quot; stop-color=&quot;var(--accent)&quot; stop-opacity=&quot;.28&quot;/&gt;
+            &lt;stop offset=&quot;1&quot; stop-color=&quot;var(--accent)&quot; stop-opacity=&quot;.95&quot;/&gt;&lt;/linearGradient&gt;
+        &lt;/defs&gt;
+
+        &lt;!-- 허브(에이전트) → 발주서 --&gt;
+        &lt;path class=&quot;arw-line&quot; d=&quot;M99,72 V244&quot; style=&quot;stroke:url(#arwG-v)&quot;/&gt;
+        &lt;polyline class=&quot;arw-head arw-glow&quot; points=&quot;92,236 99,244 106,236&quot;/&gt;
+
+        &lt;!-- 발주서 → 승인 → 매입·매출 (순차) --&gt;
+        &lt;line class=&quot;arw-line&quot; x1=&quot;174&quot; y1=&quot;298&quot; x2=&quot;206&quot; y2=&quot;298&quot; style=&quot;stroke:url(#arwG-h)&quot;/&gt;
+        &lt;polyline class=&quot;arw-head arw-glow&quot; points=&quot;206,291 214,298 206,305&quot;/&gt;
+        &lt;line class=&quot;arw-line&quot; x1=&quot;364&quot; y1=&quot;298&quot; x2=&quot;396&quot; y2=&quot;298&quot; style=&quot;stroke:url(#arwG-h)&quot;/&gt;
+        &lt;polyline class=&quot;arw-head arw-glow&quot; points=&quot;396,291 404,298 396,305&quot;/&gt;
+
+        &lt;!-- 매입·매출 → 분기(동시 진행): 상단·하단 갈래 --&gt;
+        &lt;path class=&quot;arw-line&quot; d=&quot;M554,298 H575&quot; style=&quot;stroke:var(--accent-line)&quot;/&gt;
+        &lt;path class=&quot;arw-line&quot; d=&quot;M575,298 V198 H588&quot; style=&quot;stroke:var(--accent-line)&quot;/&gt;
+        &lt;path class=&quot;arw-line&quot; d=&quot;M575,298 V398 H588&quot; style=&quot;stroke:var(--accent-line)&quot;/&gt;
+        &lt;polyline class=&quot;arw-head&quot; points=&quot;588,191 596,198 588,205&quot;/&gt;
+        &lt;polyline class=&quot;arw-head&quot; points=&quot;588,391 596,398 588,405&quot;/&gt;
+        &lt;circle cx=&quot;575&quot; cy=&quot;298&quot; r=&quot;3.2&quot; fill=&quot;var(--accent)&quot;/&gt;
+
+        &lt;!-- 합류: 두 갈래 → 검수·전송 --&gt;
+        &lt;path class=&quot;arw-line&quot; d=&quot;M810,198 H837 V298&quot; style=&quot;stroke:var(--accent-line)&quot;/&gt;
+        &lt;path class=&quot;arw-line&quot; d=&quot;M810,398 H837 V298&quot; style=&quot;stroke:var(--accent-line)&quot;/&gt;
+        &lt;path class=&quot;arw-line&quot; d=&quot;M837,298 H850&quot; style=&quot;stroke:url(#arwG-h)&quot;/&gt;
+        &lt;polyline class=&quot;arw-head arw-glow&quot; points=&quot;850,291 858,298 850,305&quot;/&gt;
+        &lt;circle cx=&quot;837&quot; cy=&quot;298&quot; r=&quot;3.2&quot; fill=&quot;var(--accent)&quot;/&gt;
       &lt;/svg&gt;
 
-      &lt;!-- 중앙 허브 노드 (발광) — 중심정렬 래퍼 + 리프트 이너(translateX 보존) --&gt;
-      &lt;div style=&quot;position:absolute;left:50%;top:6px;transform:translateX(-50%);z-index:2;&quot;&gt;
-      &lt;div class=&quot;hov-lift&quot; style=&quot;
-        display:flex;align-items:center;gap:13px;padding:16px 26px;border-radius:16px;
-        background:linear-gradient(180deg,var(--surface2),var(--surface));
-        box-shadow:0 0 0 1px var(--accent), 0 0 42px -6px var(--glow), 0 20px 46px -22px rgba(0,0,0,.8);&quot;&gt;
-        &lt;!-- 헤르메스 마크 (날개 아이콘) --&gt;
-        &lt;svg width=&quot;34&quot; height=&quot;34&quot; viewBox=&quot;0 0 34 34&quot; fill=&quot;none&quot;&gt;
-          &lt;circle cx=&quot;17&quot; cy=&quot;17&quot; r=&quot;15&quot; fill=&quot;var(--accent)&quot; fill-opacity=&quot;.14&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;1.4&quot;/&gt;
-          &lt;path d=&quot;M17,9 v16 M17,12 c-4,-4 -9,-4 -12,-2 c4,1 6,3 12,5
-                   M17,12 c4,-4 9,-4 12,-2 c-4,1 -6,3 -12,5&quot; fill=&quot;none&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;1.6&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/&gt;
-        &lt;/svg&gt;
+      &lt;!-- 허브: 에이전트 (발광, 좌상단 액터) --&gt;
+      &lt;div class=&quot;card card--glow hov-lift&quot; style=&quot;position:absolute;left:8px;top:8px;width:182px;height:64px;z-index:2;
+        display:flex;align-items:center;gap:12px;padding:0 16px;&quot;&gt;
+        &lt;div style=&quot;width:40px;height:40px;flex:none;border-radius:11px;background:var(--accent-soft);
+          border:1px solid var(--accent-line);display:flex;align-items:center;justify-content:center;&quot;&gt;
+          &lt;svg width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;1.7&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;
+            &lt;rect x=&quot;5&quot; y=&quot;8&quot; width=&quot;14&quot; height=&quot;11&quot; rx=&quot;3&quot;/&gt;&lt;path d=&quot;M12 8V4.5M9 4.5h6&quot;/&gt;
+            &lt;circle cx=&quot;9.5&quot; cy=&quot;13.5&quot; r=&quot;1.2&quot; fill=&quot;var(--accent)&quot; stroke=&quot;none&quot;/&gt;&lt;circle cx=&quot;14.5&quot; cy=&quot;13.5&quot; r=&quot;1.2&quot; fill=&quot;var(--accent)&quot; stroke=&quot;none&quot;/&gt;
+            &lt;path d=&quot;M2 12.5v3M22 12.5v3&quot;/&gt;&lt;/svg&gt;
+        &lt;/div&gt;
         &lt;div&gt;
-          &lt;div style=&quot;font-size:22px;font-weight:800;letter-spacing:-.01em;color:var(--text);&quot;&gt;헤르메스&lt;/div&gt;
-          &lt;div class=&quot;label&quot; style=&quot;margin-top:2px;color:var(--accent);&quot;&gt;Hermes · 자동화 담당&lt;/div&gt;
+          &lt;div style=&quot;font-size:18px;font-weight:800;letter-spacing:-.01em;color:var(--text);&quot;&gt;에이전트&lt;/div&gt;
+          &lt;div class=&quot;label&quot; style=&quot;margin-top:1px;font-size:10px;letter-spacing:.08em;color:var(--accent);&quot;&gt;AGENT · 자동화 담당&lt;/div&gt;
         &lt;/div&gt;
       &lt;/div&gt;
+
+      &lt;!-- 1. 발주서 작성 --&gt;
+      &lt;div class=&quot;card hov-lift&quot; style=&quot;position:absolute;left:24px;top:250px;width:150px;height:96px;z-index:1;
+        padding:12px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:7px;justify-content:center;&quot;&gt;
+        &lt;svg width=&quot;28&quot; height=&quot;28&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;1.6&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;
+          &lt;path d=&quot;M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z&quot;/&gt;&lt;path d=&quot;M14 3v4h4&quot;/&gt;&lt;path d=&quot;M9 12h6M9 16h4&quot;/&gt;&lt;/svg&gt;
+        &lt;div style=&quot;font-size:15px;font-weight:800;color:var(--text);&quot;&gt;발주서 작성&lt;/div&gt;
+        &lt;div class=&quot;small&quot; style=&quot;font-size:11px;&quot;&gt;단가·수량 자동&lt;/div&gt;
       &lt;/div&gt;
 
-      &lt;!-- 자식 카드 4개 --&gt;
-      &lt;div style=&quot;position:absolute;left:0;right:0;bottom:0;z-index:1;
-        display:grid;grid-template-columns:repeat(4,1fr);gap:44px;&quot;&gt;
-
-        &lt;!-- 1. 견적서 작성 --&gt;
-        &lt;div class=&quot;card hov-lift&quot; style=&quot;padding:18px 16px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:11px;height:150px;justify-content:center;&quot;&gt;
-          &lt;svg width=&quot;38&quot; height=&quot;38&quot; viewBox=&quot;0 0 38 38&quot; fill=&quot;none&quot;&gt;
-            &lt;rect x=&quot;8&quot; y=&quot;5&quot; width=&quot;22&quot; height=&quot;28&quot; rx=&quot;3&quot; fill=&quot;var(--bg-deep)&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;1.6&quot;/&gt;
-            &lt;path d=&quot;M13,13 h12 M13,18 h12 M13,23 h7&quot; stroke=&quot;var(--text-dim)&quot; stroke-width=&quot;1.4&quot; stroke-linecap=&quot;round&quot;/&gt;
-            &lt;text x=&quot;24&quot; y=&quot;30&quot; text-anchor=&quot;middle&quot; font-family=&quot;Pretendard,sans-serif&quot; font-size=&quot;9&quot; font-weight=&quot;800&quot; fill=&quot;var(--accent)&quot;&gt;₩&lt;/text&gt;
-          &lt;/svg&gt;
-          &lt;div style=&quot;font-size:16px;font-weight:800;color:var(--text);&quot;&gt;견적서 작성&lt;/div&gt;
-          &lt;div class=&quot;small&quot;&gt;단가·수량·합계&lt;/div&gt;
-        &lt;/div&gt;
-
-        &lt;!-- 2. 거래명세서 --&gt;
-        &lt;div class=&quot;card hov-lift&quot; style=&quot;padding:18px 16px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:11px;height:150px;justify-content:center;&quot;&gt;
-          &lt;svg width=&quot;38&quot; height=&quot;38&quot; viewBox=&quot;0 0 38 38&quot; fill=&quot;none&quot;&gt;
-            &lt;rect x=&quot;6&quot; y=&quot;7&quot; width=&quot;26&quot; height=&quot;24&quot; rx=&quot;3&quot; fill=&quot;var(--bg-deep)&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;1.6&quot;/&gt;
-            &lt;path d=&quot;M6,14 h26 M15,14 V31 M6,22 h26&quot; stroke=&quot;var(--text-dim)&quot; stroke-width=&quot;1.3&quot;/&gt;
-            &lt;path d=&quot;M9,10.5 h3&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;1.6&quot; stroke-linecap=&quot;round&quot;/&gt;
-          &lt;/svg&gt;
-          &lt;div style=&quot;font-size:16px;font-weight:800;color:var(--text);&quot;&gt;거래명세서&lt;/div&gt;
-          &lt;div class=&quot;small&quot;&gt;발행·정리&lt;/div&gt;
-        &lt;/div&gt;
-
-        &lt;!-- 3. 원료 서류 정리 --&gt;
-        &lt;div class=&quot;card hov-lift&quot; style=&quot;padding:18px 16px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:11px;height:150px;justify-content:center;&quot;&gt;
-          &lt;svg width=&quot;38&quot; height=&quot;38&quot; viewBox=&quot;0 0 38 38&quot; fill=&quot;none&quot;&gt;
-            &lt;path d=&quot;M6,12 a2,2 0 0 1 2,-2 h8 l3,3 h10 a2,2 0 0 1 2,2 v13 a2,2 0 0 1 -2,2 H8 a2,2 0 0 1 -2,-2 Z&quot;
-                  fill=&quot;var(--bg-deep)&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;1.6&quot; stroke-linejoin=&quot;round&quot;/&gt;
-            &lt;path d=&quot;M11,17 h16 M11,21 h16 M11,25 h10&quot; stroke=&quot;var(--text-dim)&quot; stroke-width=&quot;1.3&quot; stroke-linecap=&quot;round&quot;/&gt;
-          &lt;/svg&gt;
-          &lt;div style=&quot;font-size:16px;font-weight:800;color:var(--text);&quot;&gt;원료 서류 정리&lt;/div&gt;
-          &lt;div class=&quot;small&quot;&gt;규격·성적서 분류&lt;/div&gt;
-        &lt;/div&gt;
-
-        &lt;!-- 4. 일정 관리 --&gt;
-        &lt;div class=&quot;card hov-lift&quot; style=&quot;padding:18px 16px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:11px;height:150px;justify-content:center;&quot;&gt;
-          &lt;svg width=&quot;38&quot; height=&quot;38&quot; viewBox=&quot;0 0 38 38&quot; fill=&quot;none&quot;&gt;
-            &lt;rect x=&quot;7&quot; y=&quot;8&quot; width=&quot;24&quot; height=&quot;23&quot; rx=&quot;3&quot; fill=&quot;var(--bg-deep)&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;1.6&quot;/&gt;
-            &lt;path d=&quot;M7,15 h24&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;1.4&quot;/&gt;
-            &lt;path d=&quot;M13,6 v5 M25,6 v5&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;1.6&quot; stroke-linecap=&quot;round&quot;/&gt;
-            &lt;circle cx=&quot;15&quot; cy=&quot;21&quot; r=&quot;1.8&quot; fill=&quot;var(--text-dim)&quot;/&gt;&lt;circle cx=&quot;21&quot; cy=&quot;21&quot; r=&quot;1.8&quot; fill=&quot;var(--accent)&quot;/&gt;&lt;circle cx=&quot;27&quot; cy=&quot;21&quot; r=&quot;1.8&quot; fill=&quot;var(--text-dim)&quot;/&gt;
-            &lt;circle cx=&quot;15&quot; cy=&quot;27&quot; r=&quot;1.8&quot; fill=&quot;var(--text-dim)&quot;/&gt;&lt;circle cx=&quot;21&quot; cy=&quot;27&quot; r=&quot;1.8&quot; fill=&quot;var(--text-dim)&quot;/&gt;
-          &lt;/svg&gt;
-          &lt;div style=&quot;font-size:16px;font-weight:800;color:var(--text);&quot;&gt;일정 관리&lt;/div&gt;
-          &lt;div class=&quot;small&quot;&gt;발주·납기 추적&lt;/div&gt;
-        &lt;/div&gt;
-
+      &lt;!-- 2. 승인 — 사람 게이트 (도장 모티프, 강조) --&gt;
+      &lt;div class=&quot;card hov-lift&quot; style=&quot;position:absolute;left:214px;top:250px;width:150px;height:96px;z-index:1;
+        padding:12px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;justify-content:center;
+        border:1px solid var(--accent);box-shadow:0 0 0 3px var(--accent-soft),0 14px 30px -16px var(--glow);&quot;&gt;
+        &lt;span style=&quot;position:absolute;top:-11px;left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:5px;
+          height:21px;padding:0 10px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-size:10.5px;font-weight:800;letter-spacing:.02em;z-index:2;&quot;&gt;
+          &lt;svg width=&quot;11&quot; height=&quot;11&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--accent-ink)&quot; stroke-width=&quot;2.2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;7.5&quot; r=&quot;3.4&quot;/&gt;&lt;path d=&quot;M5.5 20a6.5 6.5 0 0 1 13 0&quot;/&gt;&lt;/svg&gt;
+          사람
+        &lt;/span&gt;
+        &lt;svg width=&quot;30&quot; height=&quot;30&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;1.8&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;
+          &lt;circle cx=&quot;12&quot; cy=&quot;10&quot; r=&quot;6.4&quot;/&gt;&lt;path d=&quot;M9.2 10 11.3 12.1 14.8 8.2&quot;/&gt;&lt;path d=&quot;M6 18h12&quot;/&gt;&lt;path d=&quot;M12 16.4V18&quot;/&gt;&lt;/svg&gt;
+        &lt;div style=&quot;font-size:15px;font-weight:800;color:var(--accent);&quot;&gt;승인&lt;/div&gt;
+        &lt;div class=&quot;small&quot; style=&quot;font-size:11px;&quot;&gt;대표 도장 — 여기만 사람&lt;/div&gt;
       &lt;/div&gt;
+
+      &lt;!-- 3. 매입·매출 등록 --&gt;
+      &lt;div class=&quot;card hov-lift&quot; style=&quot;position:absolute;left:404px;top:250px;width:150px;height:96px;z-index:1;
+        padding:12px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:7px;justify-content:center;&quot;&gt;
+        &lt;svg width=&quot;28&quot; height=&quot;28&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;1.6&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;
+          &lt;rect x=&quot;3.5&quot; y=&quot;4.5&quot; width=&quot;17&quot; height=&quot;15&quot; rx=&quot;2&quot;/&gt;&lt;path d=&quot;M3.5 9.5h17M12 9.5V19.5&quot;/&gt;
+          &lt;path d=&quot;M6.6 14.6 7.9 13.3 9.2 14.6&quot; /&gt;&lt;path d=&quot;M15 13.4 16.3 14.7 17.6 13.4&quot;/&gt;&lt;/svg&gt;
+        &lt;div style=&quot;font-size:15px;font-weight:800;color:var(--text);&quot;&gt;매입·매출 등록&lt;/div&gt;
+        &lt;div class=&quot;small&quot; style=&quot;font-size:11px;&quot;&gt;장부 자동 반영&lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;!-- 동시 진행 라벨 (두 갈래 사이) --&gt;
+      &lt;div style=&quot;position:absolute;left:642px;top:284px;z-index:2;display:inline-flex;align-items:center;gap:6px;
+        height:28px;padding:0 13px;border-radius:999px;background:var(--surface2);border:1px solid var(--accent-line);
+        font-size:12px;font-weight:800;color:var(--accent);white-space:nowrap;&quot;&gt;
+        &lt;span style=&quot;font-size:14px;line-height:1;&quot;&gt;∥&lt;/span&gt; 동시 진행
+      &lt;/div&gt;
+
+      &lt;!-- 4a. 상단 갈래: 거래명세서 + 납품일 알림 --&gt;
+      &lt;div class=&quot;card hov-lift&quot; style=&quot;position:absolute;left:596px;top:150px;width:214px;height:96px;z-index:1;
+        padding:14px 16px;display:flex;flex-direction:column;justify-content:center;gap:9px;&quot;&gt;
+        &lt;div style=&quot;display:flex;align-items:center;gap:10px;&quot;&gt;
+          &lt;svg width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;1.7&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;flex:none;&quot;&gt;&lt;rect x=&quot;4&quot; y=&quot;5&quot; width=&quot;16&quot; height=&quot;14&quot; rx=&quot;2&quot;/&gt;&lt;path d=&quot;M4 10h16M10 5v14&quot;/&gt;&lt;/svg&gt;
+          &lt;span style=&quot;font-size:14.5px;font-weight:700;color:var(--text);&quot;&gt;거래명세서 작성&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div style=&quot;display:flex;align-items:center;gap:10px;&quot;&gt;
+          &lt;svg width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;1.7&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; style=&quot;flex:none;&quot;&gt;&lt;path d=&quot;M18 8a6 6 0 0 0-12 0c0 7-3 8-3 8h18s-3-1-3-8&quot;/&gt;&lt;path d=&quot;M10.5 20a1.8 1.8 0 0 0 3 0&quot;/&gt;&lt;/svg&gt;
+          &lt;span style=&quot;font-size:14.5px;font-weight:700;color:var(--text);&quot;&gt;납품일 알림&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;!-- 4b. 하단 갈래: 입고 서류 분류 --&gt;
+      &lt;div class=&quot;card hov-lift&quot; style=&quot;position:absolute;left:596px;top:350px;width:214px;height:96px;z-index:1;
+        padding:14px 16px;display:flex;align-items:center;gap:13px;&quot;&gt;
+        &lt;div style=&quot;width:44px;height:44px;flex:none;border-radius:12px;background:var(--surface2);border:1px solid var(--line);
+          display:flex;align-items:center;justify-content:center;&quot;&gt;
+          &lt;svg width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;1.6&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;
+            &lt;path d=&quot;M4 7a2 2 0 0 1 2-2h4l2 2h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z&quot;/&gt;&lt;path d=&quot;M4 11h16&quot;/&gt;&lt;/svg&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;div style=&quot;font-size:15px;font-weight:800;color:var(--text);&quot;&gt;입고 서류 분류&lt;/div&gt;
+          &lt;div class=&quot;small&quot; style=&quot;font-size:11px;&quot;&gt;규격·성적서 정리&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;!-- 5. 합류: 검수 후 업체 전송 (발광) --&gt;
+      &lt;div class=&quot;card card--glow hov-lift&quot; style=&quot;position:absolute;left:858px;top:250px;width:200px;height:96px;z-index:1;
+        padding:12px 14px;display:flex;align-items:center;gap:13px;&quot;&gt;
+        &lt;div style=&quot;width:48px;height:48px;flex:none;border-radius:13px;
+          background:linear-gradient(160deg,var(--surface2),var(--surface));border:1px solid var(--accent-line);
+          box-shadow:0 0 0 4px var(--accent-soft);display:flex;align-items:center;justify-content:center;&quot;&gt;
+          &lt;svg width=&quot;26&quot; height=&quot;26&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;1.8&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;
+            &lt;path d=&quot;M21 4 11 14&quot;/&gt;&lt;path d=&quot;M21 4 14.5 21 11 14 4 10.5 21 4Z&quot;/&gt;&lt;/svg&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;div style=&quot;font-size:15px;font-weight:800;color:var(--accent);&quot;&gt;검수 후 업체 전송&lt;/div&gt;
+          &lt;div class=&quot;small&quot; style=&quot;font-size:11px;color:var(--text-dim);&quot;&gt;사람 승인 건만 최종 발송&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
     &lt;/div&gt;
   &lt;/div&gt;
 
@@ -4714,8 +4760,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;17&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
 "></iframe></div></div>
-<div class="wrap"><p class="label">s18 · 헤르메스 실화면</p><p class="role">"제가 자는 동안 만들어진 견적서". ⚠️ 현재 목업 — 실제 녹화로 교체 예정.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s18 · 헤르메스 실화면 — 다크 터미널/브라우저 목업(견적서 생성 로그) / &quot;제가 자는 동안 만들어진 견적서입니다&quot; --&gt;
-&lt;!-- ※ 본문 목업은 발표 시 실제 스크린샷·녹화로 교체 예정. 아래 프레임을 그대로 두거나 이미지로 대체. --&gt;
+<div class="wrap"><p class="label">s18 · 에이전트 라이브 로그</p><p class="role">"이 루프는 제가 자리에 없어도 돕니다 — 승인 도장만 빼고." 로드 시 로그 한 줄씩 타이핑·호버 리플레이.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s18 · 에이전트 라이브 로그 — 다크 터미널 + s17 업무 루프 실행 로그가 로드 시 한 줄씩 타이핑(체크 점등·커서 깜빡임) / &quot;이 루프는 제가 자리에 없어도 돕니다 — 승인 도장만 빼고.&quot; --&gt;
+&lt;!-- ※ 결정론적 애니메이션(Math.random 없음): 로드 1회 재생 후 정지, 프레임 호버 시 리플레이(재생 가드). prefers-reduced-motion이면 전 줄 즉시 표시. 실제 녹화로 교체 가능. --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -4897,15 +4943,31 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;bg-grain&quot;&gt;&lt;/div&gt;
   &lt;div class=&quot;vignette&quot;&gt;&lt;/div&gt;
 
-  &lt;div class=&quot;kicker&quot;&gt;&lt;span class=&quot;no&quot;&gt;18&lt;/span&gt;&lt;span class=&quot;bar&quot;&gt;&lt;/span&gt;&lt;span class=&quot;nm&quot;&gt;Hermes · Live&lt;/span&gt;&lt;/div&gt;
+  &lt;div class=&quot;kicker&quot;&gt;&lt;span class=&quot;no&quot;&gt;18&lt;/span&gt;&lt;span class=&quot;bar&quot;&gt;&lt;/span&gt;&lt;span class=&quot;nm&quot;&gt;Agent · Live&lt;/span&gt;&lt;/div&gt;
   &lt;div style=&quot;position:absolute;top:44px;right:64px;text-align:right;z-index:6;&quot;&gt;
-    &lt;div class=&quot;label&quot; style=&quot;color:var(--text-dim)&quot;&gt;실제 화면&lt;/div&gt;
+    &lt;div class=&quot;label&quot; style=&quot;color:var(--text-dim)&quot;&gt;실행 로그&lt;/div&gt;
   &lt;/div&gt;
+
+  &lt;style&gt;
+    /* s18 라이브 로그 — 한 줄씩 좌→우 와이프(타이핑감) + 커서 깜빡임 */
+    #agentlog .logln{ opacity:0; }
+    #agentlog .logln.show{ opacity:1; animation: logwipe .34s cubic-bezier(.2,.7,.3,1) both; }
+    @keyframes logwipe{ from{ clip-path: inset(0 100% 0 0); } to{ clip-path: inset(0 0 0 0); } }
+    #agentlog .mk{ display:inline-block; width:22px; }
+    #agentlog .mk.a{ color:var(--accent); } #agentlog .mk.ok{ color:var(--cap-b); }
+    #agentlog .ok2{ color:var(--cap-b); font-weight:700; }
+    .logcursor{ display:inline-block; width:8px; height:16px; background:var(--accent); vertical-align:-2px;
+      margin-left:5px; box-shadow:0 0 8px var(--glow); animation: blink 1s steps(1) infinite; }
+    @keyframes blink{ 50%{ opacity:0; } }
+    @media (prefers-reduced-motion: reduce){
+      #agentlog .logln{ opacity:1; } #agentlog .logln.show{ animation:none; } .logcursor{ animation:none; }
+    }
+  &lt;/style&gt;
 
   &lt;div class=&quot;stage&quot; style=&quot;display:flex;flex-direction:column;justify-content:center;z-index:6;&quot;&gt;
 
-    &lt;!-- 브라우저/터미널 목업 프레임 (다크) --&gt;
-    &lt;div class=&quot;hov-lift&quot; style=&quot;border-radius:14px;overflow:hidden;border:1px solid var(--line);
+    &lt;!-- 터미널 프레임 (다크) --&gt;
+    &lt;div id=&quot;agentframe&quot; style=&quot;border-radius:14px;overflow:hidden;border:1px solid var(--line);
       background:var(--bg-deep);box-shadow:0 40px 80px -34px rgba(0,0,0,.85), 0 0 0 1px rgba(0,0,0,.4);&quot;&gt;
 
       &lt;!-- 타이틀바 --&gt;
@@ -4921,28 +4983,29 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
             background:var(--bg-deep);border:1px solid var(--line);
             font-size:13px;font-weight:600;color:var(--text-dim);letter-spacing:.02em;&quot;&gt;
             &lt;span style=&quot;width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--glow);&quot;&gt;&lt;/span&gt;
-            hermes — 견적서 자동 생성
+            agent — 발주 업무 루프
           &lt;/div&gt;
         &lt;/div&gt;
-        &lt;div class=&quot;label&quot; style=&quot;color:var(--text-dim);&quot;&gt;03:14 AM&lt;/div&gt;
+        &lt;div class=&quot;label&quot; style=&quot;display:inline-flex;align-items:center;gap:6px;color:var(--accent);&quot;&gt;
+          &lt;span style=&quot;width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--glow);&quot;&gt;&lt;/span&gt;LIVE
+        &lt;/div&gt;
       &lt;/div&gt;
 
-      &lt;!-- 본문 로그 (모노 느낌 · 견적서 생성 진행 로그) --&gt;
-      &lt;div style=&quot;padding:22px 26px;font-family:'Consolas','SFMono-Regular','Menlo',monospace;
-        font-size:14.5px;line-height:1.95;letter-spacing:.01em;&quot;&gt;
-        &lt;div style=&quot;color:var(--text-dim);&quot;&gt;&lt;span style=&quot;color:var(--accent);&quot;&gt;›&lt;/span&gt; 헤르메스 작업 시작 · 요청 #2261 &amp;nbsp;&lt;span style=&quot;color:var(--text-dim);opacity:.6;&quot;&gt;(vcbio15)&lt;/span&gt;&lt;/div&gt;
-        &lt;div style=&quot;color:var(--text);&quot;&gt;&lt;span style=&quot;color:var(--cap-c);&quot;&gt;✓&lt;/span&gt; 거래처 매칭 &amp;nbsp;—&amp;nbsp; &lt;span style=&quot;color:var(--text-dim);&quot;&gt;주식회사 세미콜로니&lt;/span&gt;&lt;/div&gt;
-        &lt;div style=&quot;color:var(--text);&quot;&gt;&lt;span style=&quot;color:var(--cap-c);&quot;&gt;✓&lt;/span&gt; 원료 3종 단가 조회 &amp;nbsp;—&amp;nbsp; &lt;span style=&quot;color:var(--text-dim);&quot;&gt;이카운트 매입가 기준&lt;/span&gt;&lt;/div&gt;
-        &lt;div style=&quot;color:var(--text);&quot;&gt;&lt;span style=&quot;color:var(--cap-c);&quot;&gt;✓&lt;/span&gt; 수량·마진 계산 &amp;nbsp;—&amp;nbsp; &lt;span style=&quot;color:var(--text-dim);&quot;&gt;합계 자동 산출&lt;/span&gt;&lt;/div&gt;
-        &lt;div style=&quot;color:var(--text);&quot;&gt;&lt;span style=&quot;color:var(--cap-c);&quot;&gt;✓&lt;/span&gt; 견적서 양식 채우기 &amp;nbsp;—&amp;nbsp; &lt;span style=&quot;color:var(--text-dim);&quot;&gt;회사 정본 템플릿&lt;/span&gt;&lt;/div&gt;
-        &lt;div style=&quot;color:var(--accent);&quot;&gt;&lt;span style=&quot;color:var(--accent);&quot;&gt;◆&lt;/span&gt; 파일 생성 &amp;nbsp;—&amp;nbsp; &lt;span class=&quot;w700&quot;&gt;견적서_세미콜로니_2261_260721.xlsx&lt;/span&gt; &lt;span style=&quot;color:var(--cap-c);&quot;&gt;완료&lt;/span&gt;&lt;/div&gt;
-        &lt;div style=&quot;margin-top:2px;color:var(--text-dim);&quot;&gt;&lt;span style=&quot;color:var(--accent);&quot;&gt;›&lt;/span&gt; 소요 4.2초 · 대표 확인 대기 &lt;span style=&quot;display:inline-block;width:8px;height:16px;background:var(--accent);vertical-align:middle;margin-left:4px;box-shadow:0 0 8px var(--glow);&quot;&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;!-- 본문 로그 (모노 · s17 루프 실행 로그, 가상 수치 없음) --&gt;
+      &lt;div id=&quot;agentlog&quot; style=&quot;padding:22px 26px;font-family:'Consolas','SFMono-Regular','Menlo',monospace;
+        font-size:15px;line-height:2.02;letter-spacing:.01em;&quot;&gt;
+        &lt;div class=&quot;logln&quot; style=&quot;color:var(--text-dim);&quot;&gt;&lt;span class=&quot;mk a&quot;&gt;›&lt;/span&gt;에이전트 작업 시작 &lt;span class=&quot;dim&quot;&gt;— 발주 건 접수&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;logln&quot; style=&quot;color:var(--text);&quot;&gt;&lt;span class=&quot;mk ok&quot;&gt;✓&lt;/span&gt;발주서 작성 &lt;span class=&quot;dim&quot;&gt;— 단가·수량 자동 채움&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;logln&quot; style=&quot;color:var(--text);&quot;&gt;&lt;span class=&quot;mk a&quot;&gt;▸&lt;/span&gt;승인 대기… &lt;span class=&quot;dim&quot;&gt;→&lt;/span&gt; &lt;span class=&quot;ok2&quot;&gt;✓ 대표 승인&lt;/span&gt; &lt;span class=&quot;dim&quot; style=&quot;font-size:12.5px;&quot;&gt;— 이 한 칸만 사람&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;logln&quot; style=&quot;color:var(--text);&quot;&gt;&lt;span class=&quot;mk ok&quot;&gt;✓&lt;/span&gt;매입·매출 등록 &lt;span class=&quot;dim&quot;&gt;— 장부 자동 반영&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;logln&quot; style=&quot;color:var(--text);&quot;&gt;&lt;span class=&quot;mk ok&quot;&gt;✓&lt;/span&gt;&lt;span class=&quot;ac w700&quot;&gt;(동시)&lt;/span&gt; 거래명세서 작성·납품일 알림 &lt;span class=&quot;dim&quot;&gt;∥&lt;/span&gt; 입고 서류 분류&lt;/div&gt;
+        &lt;div class=&quot;logln&quot; style=&quot;color:var(--accent);&quot;&gt;&lt;span class=&quot;mk ok&quot;&gt;✓&lt;/span&gt;검수 통과 &lt;span class=&quot;dim&quot;&gt;→&lt;/span&gt; &lt;span class=&quot;w700&quot;&gt;업체 전송 완료&lt;/span&gt;&lt;span class=&quot;logcursor&quot; id=&quot;logcursor&quot;&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
 
     &lt;!-- 캡션 한 줄 --&gt;
     &lt;div style=&quot;margin-top:26px;text-align:center;&quot;&gt;
-      &lt;span class=&quot;sub&quot; style=&quot;color:var(--text);&quot;&gt;제가 &lt;b class=&quot;w700&quot;&gt;자는 동안&lt;/b&gt; 만들어진 &lt;b class=&quot;w800 ac&quot;&gt;견적서&lt;/b&gt;입니다.&lt;/span&gt;
+      &lt;span class=&quot;sub&quot; style=&quot;color:var(--text);&quot;&gt;이 루프는 &lt;b class=&quot;w700&quot;&gt;제가 자리에 없어도&lt;/b&gt; 돕니다 — &lt;b class=&quot;w800 ac&quot;&gt;승인 도장&lt;/b&gt;만 빼고.&lt;/span&gt;
     &lt;/div&gt;
 
   &lt;/div&gt;
@@ -4950,6 +5013,47 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-brand&quot;&gt;&lt;span class=&quot;mark&quot;&gt;&lt;/span&gt;&lt;span class=&quot;wm&quot;&gt;Semicolony&lt;/span&gt;&lt;/div&gt;
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;18&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
+
+&lt;script&gt;
+/* 결정론적 라이브 로그: 로드 1회 재생 → 정지, 프레임 호버 리플레이(재생 가드, s04 문법). reduced-motion이면 즉시 전체 표시. */
+(function () {
+  var body = document.getElementById('agentlog');
+  var frame = document.getElementById('agentframe');
+  var cursor = document.getElementById('logcursor');
+  var lines = Array.prototype.slice.call(body.querySelectorAll('.logln'));
+  var reduce = window.matchMedia &amp;&amp; window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var DELAYS = [300, 620, 640, 900, 640, 720]; // 승인 줄(3번째) 앞 여유 = 사람 대기 뉘앙스
+  var timers = [];
+  var playing = false;
+
+  function clearAll() {
+    timers.forEach(clearTimeout); timers = [];
+    lines.forEach(function (l) { l.classList.remove('show'); });
+  }
+  function showAll() {
+    clearAll();
+    lines.forEach(function (l) { l.classList.add('show'); });
+    lines[lines.length - 1].appendChild(cursor);
+    playing = false;
+  }
+  function play() {
+    if (playing) return;
+    playing = true; clearAll();
+    var t = 0;
+    lines.forEach(function (l, i) {
+      t += DELAYS[i];
+      timers.push(setTimeout(function () {
+        l.classList.add('show');
+        l.appendChild(cursor);                 // 커서를 현재 줄 끝으로 이동
+        if (i === lines.length - 1) playing = false;
+      }, t));
+    });
+  }
+
+  if (reduce) showAll(); else play();
+  frame.addEventListener('mouseenter', function () { if (reduce) return; if (!playing) play(); });
+})();
+&lt;/script&gt;
 "></iframe></div></div>
 <div class="wrap"><p class="label">s19 · 검사 라인</p><p class="role">만드는 AI와 검사하는 AI를 분리. 최종 도장은 사람이 찍는다.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s19 · 검사 라인 — 만드는 AI → 검사하는 AI → 사람 도장 / 가로 흐름 다이어그램 --&gt;
 &lt;style&gt;
@@ -6387,9 +6491,9 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
         &lt;span style=&quot;width:6px;height:6px;border-radius:50%;background:var(--accent);&quot;&gt;&lt;/span&gt;대부분 여기서 멈춥니다
       &lt;/div&gt;
       &lt;div class=&quot;mk mk-herm&quot; style=&quot;left:930px;top:0;&quot;&gt;
-        &lt;span style=&quot;width:6px;height:6px;border-radius:50%;background:var(--accent-ink);&quot;&gt;&lt;/span&gt;아까 보신 헤르메스가 여기
+        &lt;span style=&quot;width:6px;height:6px;border-radius:50%;background:var(--accent-ink);&quot;&gt;&lt;/span&gt;아까 보신 에이전트가 여기
       &lt;/div&gt;
-      &lt;!-- 점선: Lv.3(멈춤) / Lv.7·8(헤르메스) 위로 잇기 --&gt;
+      &lt;!-- 점선: Lv.3(멈춤) / Lv.7·8(에이전트) 위로 잇기 --&gt;
       &lt;svg width=&quot;1152&quot; height=&quot;296&quot; style=&quot;position:absolute;inset:0;z-index:1;pointer-events:none;&quot;&gt;
         &lt;path d=&quot;M357,27 V132&quot; stroke=&quot;var(--accent-line)&quot; stroke-width=&quot;1.4&quot; stroke-dasharray=&quot;3 4&quot; fill=&quot;none&quot;/&gt;
         &lt;path d=&quot;M941,27 V60&quot; stroke=&quot;rgba(34,122,255,.55)&quot; stroke-width=&quot;1.4&quot; stroke-dasharray=&quot;3 4&quot; fill=&quot;none&quot;/&gt;
