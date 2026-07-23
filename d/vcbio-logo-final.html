@@ -60,7 +60,8 @@
   .cw-hex .ct2{color:#12B76A;}
 
   /* archive */
-  .arch{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .arch{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;}
+  .arch .at b{color:var(--ink-2);font-weight:700;}
   .arch .a{border:1px solid var(--line);border-radius:16px;padding:22px 14px 14px;display:flex;flex-direction:column;align-items:center;gap:10px;opacity:.68;}
   .arch .a:hover{opacity:1;}
   .arch .a .an{font-size:11px;font-weight:800;color:var(--muted);font-family:var(--mono);}
@@ -69,8 +70,8 @@
   .foot{margin-top:36px;font-size:11px;font-family:var(--mono);color:var(--muted);line-height:1.7;}
   @media(max-width:900px){.board{grid-template-columns:1fr;} .arch{grid-template-columns:1fr 1fr;} body{padding:40px 20px 64px;}}
 
-  /* mark fills driven by inherited CSS vars */
-  .mk .b{fill:var(--body);} .mk .d{fill:var(--dot);}
+  /* mark fills driven by inherited CSS vars (V2 orig = stroked V + filled dot) */
+  .mk .b{stroke:var(--body);fill:none;} .mk .d{fill:var(--dot);}
 </style>
 
 <!-- ══════════ SYMBOL LIBRARY ══════════ -->
@@ -83,22 +84,22 @@
   <linearGradient id="grad" x1="4" y1="4" x2="20" y2="20" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#1BCB84"/><stop offset="1" stop-color="#05A15C"/></linearGradient>
   <linearGradient id="gradTile" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#1BCB84"/><stop offset="1" stop-color="#07A860"/></linearGradient>
 
-  <!-- IMPROVED V2 mark · fills via CSS vars (class b/d) -->
+  <!-- ADOPTED ORIGINAL V2 mark · rounded-cap stroke V + separated round dot · fills via CSS vars -->
   <symbol id="mk" viewBox="0 0 24 24">
-    <path class="b" d="M3.595 8.561 L9.260 17.931 Q10.671 20.277 12.264 18.048 L18.588 9.216 L14.932 8.137 L10.925 13.740 L7.321 7.769 Z"/>
-    <ellipse class="d" cx="18.65" cy="5.8" rx="2.05" ry="1.75" transform="rotate(-54.4 18.65 5.8)"/>
+    <path d="M5.6 11.4 L10.2 17 L16.1 8.7" fill="none" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--body)"/>
+    <circle cx="19.25" cy="5.35" r="1.95" style="fill:var(--dot)"/>
   </symbol>
-  <!-- SMALL-corrected (16·32) -->
+  <!-- SMALL (16·32) · 둥근 캡·둥근 점 인상 보존, 획 증량·점 확대만 -->
   <symbol id="mk-sm" viewBox="0 0 24 24">
-    <path class="b" d="M3.579 8.921 L9.089 18.035 Q10.657 20.640 12.426 18.165 L18.575 9.577 L14.828 7.938 L10.939 13.372 L7.440 7.579 Z"/>
-    <circle class="d" cx="18.2" cy="6.1" r="2.5"/>
+    <path d="M5.6 11.4 L10.2 17 L16.1 8.7" fill="none" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--body)"/>
+    <circle cx="19.1" cy="5.5" r="2.4" style="fill:var(--dot)"/>
   </symbol>
   <!-- app tile · tile=var(--tile), mark=var(--tbody)/var(--tdot) -->
   <symbol id="mk-app" viewBox="0 0 24 24">
     <rect width="24" height="24" rx="5.28" style="fill:var(--tile)"/>
-    <g transform="translate(2.28 2.88) scale(0.80)">
-      <path d="M3.595 8.561 L9.260 17.931 Q10.671 20.277 12.264 18.048 L18.588 9.216 L14.932 8.137 L10.925 13.740 L7.321 7.769 Z" style="fill:var(--tbody)"/>
-      <ellipse cx="18.65" cy="5.8" rx="2.05" ry="1.75" transform="rotate(-54.4 18.65 5.8)" style="fill:var(--tdot)"/>
+    <g transform="translate(2.25 3.34) scale(0.78)">
+      <path d="M5.6 11.4 L10.2 17 L16.1 8.7" fill="none" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--tbody)"/>
+      <circle cx="19.25" cy="5.35" r="1.95" style="fill:var(--tdot)"/>
     </g>
   </symbol>
 
@@ -108,16 +109,21 @@
   <symbol id="v3-app" viewBox="0 0 24 24"><rect width="24" height="24" rx="5.28" fill="url(#gradTile)"/><path d="M6 11.6 L10.4 16.7 L18 7.1" fill="none" stroke="#fff" stroke-width="3.9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <mask id="mask4"><circle cx="12" cy="12" r="10.6" fill="#fff"/><path d="M5.6 11.4 L10.2 17 L18.4 6.6" fill="none" stroke="#000" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></mask>
   <symbol id="v4" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10.6" fill="url(#grad)" mask="url(#mask4)"/></symbol>
+  <!-- demoted: 골격 개선판(각도 세움·광학 끝단) — 폐기, 기록 보존용 -->
+  <symbol id="v2imp" viewBox="0 0 24 24">
+    <path fill="url(#grad)" d="M3.595 8.561 L9.260 17.931 Q10.671 20.277 12.264 18.048 L18.588 9.216 L14.932 8.137 L10.925 13.740 L7.321 7.769 Z"/>
+    <ellipse fill="url(#grad)" cx="18.65" cy="5.8" rx="2.05" ry="1.75" transform="rotate(-54.4 18.65 5.8)"/>
+  </symbol>
 </defs></svg>
 
 <div class="wrap">
   <div class="masthead">
-    <div class="kicker">VC Bio · Identity · Rev.3 · Colorway Board</div>
-    <h1>확정 형태 = V + 바이오 입자 · 색 심화 8종</h1>
-    <p>대표 채택 형태(V 골격 + 우상단 입자)에 <b>골격 개선</b>을 반영했습니다: 양팔 길이비 1.28:1로 V 우선·체크 잔존, 끝단은 원형 캡이 아닌 <b>진행방향 비대칭 광학 끝단</b>, 16·32px는 별도 보정판. 아래는 민트 그라디언트를 대체할 <b>컬러웨이 8종</b> — 각 라이트·다크·앱아이콘 3칸, 흰 배경 대비는 WCAG 실계산값입니다.</p>
+    <div class="kicker">VC Bio · Identity · Rev.4 · 채택 원형 유지 · 색만 변경</div>
+    <h1>채택 원형 V2 (V + 원형 점) · 색 심화 8종</h1>
+    <p>대표 채택 형태를 <b>그대로 복원</b>했습니다 — 두 획 라운드 V(왼획 짧고 오른획 긺)에 <b>완전 라운드 캡</b>, 오른획 끝이 분리된 <b>원형 점</b>. 골격 개선판(각도 세움·광학 끝단)은 폐기하고 하단 아카이브로 강등했습니다. 아래는 <b>형태는 고정, 색만 교체</b>한 컬러웨이 8종 — 각 라이트·다크·앱아이콘 3칸, 흰 배경 대비는 WCAG 실계산값입니다.</p>
   </div>
 
-  <!-- reference: improved skeleton + corrected size strip -->
+  <!-- reference: adopted original V2 + corrected size strip -->
   <div class="ref">
     <div class="big" style="--body:#1E3932;--dot:#2E7D5B">
       <svg class="mk" width="118" height="118" viewBox="0 0 24 24"><use href="#mk"/></svg>
@@ -127,7 +133,7 @@
       <div class="u"><svg class="mk" width="32" height="32" viewBox="0 0 24 24"><use href="#mk-sm"/></svg><span class="px">32 ·보정</span></div>
       <div class="u"><svg class="mk" width="16" height="16" viewBox="0 0 24 24"><use href="#mk-sm"/></svg><span class="px">16 ·보정</span></div>
     </div>
-    <div class="meta"><b>SKELETON</b> L(5.6,8.4)·X(10.8,17)·R(18.4,6.6) → 1.28:1<br>arm 3.6u · 광학 chiseled 끝단 · particle rx2.05 ry1.75 @−54.4°<br><b>SMALL</b> arm 4.0u · 점 r2.5 확대(16px 소실 방지)</div>
+    <div class="meta"><b>채택 원형 V2</b> path M5.6 11.4 → 10.2 17 → 16.1 8.7<br>arm 3.6u · <b>cap/join 완전 라운드</b> · 분리 점 cx19.25 cy5.35 r1.95<br><b>SMALL</b> 획 4.2u · 점 r2.4 (둥근 인상 보존·16px 소실 방지)</div>
   </div>
 
   <div class="sec">Colorway Board · 8종 (mint 대체)</div>
@@ -223,16 +229,17 @@
 
   </div>
 
-  <div class="sec">Archive · 초기 4변주 (탐색 기록 · 미채택)</div>
+  <div class="sec">Archive · 탐색 기록 (미채택 + 강등)</div>
   <div class="arch">
     <div class="a"><svg width="52" height="52" viewBox="0 0 24 24"><use href="#v1"/></svg><span class="an">V1</span><span class="at">두 획 라운드 V</span></div>
-    <div class="a"><svg width="52" height="52" viewBox="0 0 24 24"><use href="#v2o"/></svg><span class="an">V2 orig</span><span class="at">V + 원형 점 (채택 원형)</span></div>
+    <div class="a"><svg width="52" height="52" viewBox="0 0 24 24"><use href="#v2o"/></svg><span class="an">V2 orig</span><span class="at">V + 원형 점 · <b>= 상단 채택 원형</b></span></div>
     <div class="a"><svg width="52" height="52" viewBox="0 0 24 24"><use href="#v3-app"/></svg><span class="an">V3</span><span class="at">라운드 사각 앱아이콘</span></div>
     <div class="a"><svg width="52" height="52" viewBox="0 0 24 24"><use href="#v4"/></svg><span class="an">V4</span><span class="at">정원 안 네거티브 V</span></div>
+    <div class="a"><svg width="52" height="52" viewBox="0 0 24 24"><use href="#v2imp"/></svg><span class="an">V2 개선(강등)</span><span class="at">각도 세움·광학 끝단 — <b>폐기</b></span></div>
   </div>
 
   <div class="foot">
-    형태 = 개선 V2(V 골격 1.28:1 + 광학 끝단 + 바이오 입자) · grid 24×24 · MAIN arm 3.6u / SMALL arm 4.0u · Pretendard 700–800<br>
-    대비 = python WCAG(vs #FFFFFF) 실계산 · dark 칸 = white knockout + accent dot(색감 프리뷰) · app 칸 = tile fill 로 primary 색감 확인
+    형태 = 채택 원형 V2(라운드 캡 V + 분리 원형 점, 형태 고정) · grid 24×24 · arm 3.6u / SMALL 4.2u · Pretendard 700–800<br>
+    대비 = python WCAG(vs #FFFFFF) 실계산 · dark 칸 = white 반전 + accent dot · app 칸 = tile fill 로 primary 색감 확인
   </div>
 </div>
