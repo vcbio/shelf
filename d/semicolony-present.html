@@ -15,12 +15,18 @@
   #zoneL{left:0;} #zoneR{right:0;}
   #hint{position:fixed;left:16px;bottom:12px;z-index:12;font-size:11px;color:rgba(255,255,255,.28);
     letter-spacing:.02em;transition:opacity .4s ease;}
+  #fsbtn{position:fixed;right:66px;bottom:8px;z-index:13;width:26px;height:26px;padding:0;
+    border:0;border-radius:6px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.42);
+    font-size:14px;line-height:26px;text-align:center;cursor:pointer;-webkit-appearance:none;
+    transition:background .2s ease,color .2s ease;}
+  #fsbtn:hover{background:rgba(255,255,255,.22);color:rgba(255,255,255,.96);}
 </style></head><body>
   <div id="viewport"><div id="deck"></div></div>
   <div class="zone" id="zoneL" aria-label="이전"></div>
   <div class="zone" id="zoneR" aria-label="다음"></div>
+  <button id="fsbtn" type="button" aria-label="전체화면" title="전체화면 (F)">⛶</button>
   <div id="pageno"><b id="cur">1</b> / 24</div>
-  <div id="hint">→ / Space 다음 · ← 이전 · F 전체화면 · 좌우 클릭·스와이프</div>
+  <div id="hint">→ / Space 다음 · ← 이전 · F 또는 ⛶ 전체화면 · 좌우 클릭·스와이프</div>
 <script>
 var SLIDES = [
 {t:"doc",c:`<!-- s01 · 표지 — "AI, 뽑기에서 장비로" / 다트판 동심원 모티프 다크 풀블리드 -->
@@ -6830,37 +6836,59 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 ];
 var TOTAL = SLIDES.length;
 var deck = document.getElementById('deck');
-var frames = [], loaded = [];
+var frames = [], loaded = [], lastLoadAt = [];
 for (var i = 0; i < TOTAL; i++) {
   var f = document.createElement('iframe');
   f.className = 'fr'; f.setAttribute('scrolling', 'no'); f.setAttribute('title', 'slide ' + (i + 1));
-  deck.appendChild(f); frames.push(f); loaded.push(false);
+  f.addEventListener('load', function () { attachForwarder(this); });   // 재로드마다 키 포워더 재주입
+  deck.appendChild(f); frames.push(f); loaded.push(false); lastLoadAt.push(0);
 }
 var cur = -1;
+
+// 슬라이드 iframe(같은 출처: srcdoc·로컬 s04)이 포커스를 뺏어도 방향키가 죽지 않도록
+// contentWindow에 keydown 리스너를 주입해 부모 내비로 포워딩. 실패(교차출처 등)는 무해 처리.
+function attachForwarder(f) {
+  try {
+    var w = f && f.contentWindow;
+    if (!w) return;                       // contentWindow null 가드
+    w.addEventListener('keydown', handleKey, true);
+  } catch (err) { /* 교차출처 접근 차단 — 무시 */ }
+}
 
 function loadInto(i, force) {           // 결정론적 (재)로드 — 도착 시 s18 타이핑·s04 3D 재생
   if (i < 0 || i >= TOTAL) return;
   if (loaded[i] && !force) return;
+  var t = (window.performance && performance.now) ? performance.now() : 0;
+  if (force && t - lastLoadAt[i] < 300) return;   // 같은 슬라이드 재로드 연타 가드(s04 WebGL 컨텍스트 보호)
   var s = SLIDES[i], f = frames[i];
-  loaded[i] = true;
-  if (s.t === 'src') {
-    f.removeAttribute('srcdoc'); f.src = 'about:blank';
-    (function (fr, src) { requestAnimationFrame(function () { fr.src = src; }); })(f, s.c);
-  } else {
-    f.removeAttribute('src'); f.srcdoc = '';
-    (function (fr, html) { requestAnimationFrame(function () { fr.srcdoc = html; }); })(f, s.c);
-  }
+  loaded[i] = true; lastLoadAt[i] = t;
+  try {
+    if (s.t === 'src') {
+      f.removeAttribute('srcdoc'); f.src = 'about:blank';
+      (function (fr, src) { requestAnimationFrame(function () { fr.src = src; }); })(f, s.c);
+    } else {
+      f.removeAttribute('src'); f.srcdoc = '';
+      (function (fr, html) { requestAnimationFrame(function () { fr.srcdoc = html; }); })(f, s.c);
+    }
+  } catch (err) { /* 로드 실패 무해 처리 */ }
 }
 
+var navBusy = false;                     // 전환 중 재진입 가드
 function show(i) {
+  if (navBusy) return;
   i = Math.max(0, Math.min(TOTAL - 1, i));
   if (i === cur) return;
-  cur = i;
-  loadInto(i, true);            // 활성 = 재로드(연출 시작점 보장)
-  loadInto(i - 1, false);       // 이웃 선로드(성능)
-  loadInto(i + 1, false);
-  for (var k = 0; k < TOTAL; k++) frames[k].classList.toggle('active', k === i);
-  document.getElementById('cur').textContent = (i + 1);
+  navBusy = true;
+  try {
+    cur = i;
+    loadInto(i, true);            // 활성 = 재로드(연출 시작점 보장)
+    loadInto(i - 1, false);       // 이웃 선로드(성능)
+    loadInto(i + 1, false);
+    for (var k = 0; k < TOTAL; k++) frames[k].classList.toggle('active', k === i);
+    document.getElementById('cur').textContent = (i + 1);
+    try { window.focus(); } catch (err) { }   // 포커스를 부모로 회수 → 방향키 유지
+  } catch (err) { /* 전환 실패 무해 처리 */ }
+  navBusy = false;
 }
 function next() { show(cur + 1); }
 function prev() { show(cur - 1); }
@@ -6871,21 +6899,36 @@ function fit() {
 }
 window.addEventListener('resize', fit); fit();
 
-document.addEventListener('keydown', function (e) {
+// 부모 + 각 iframe(포워더)에서 공유하는 단일 키 핸들러
+function handleKey(e) {
   switch (e.key) {
-    case 'ArrowRight': case 'PageDown': case ' ': case 'Spacebar': e.preventDefault(); next(); break;
-    case 'ArrowLeft': case 'PageUp': e.preventDefault(); prev(); break;
-    case 'Home': e.preventDefault(); show(0); break;
-    case 'End': e.preventDefault(); show(TOTAL - 1); break;
-    case 'f': case 'F': e.preventDefault(); toggleFs(); break;
+    case 'ArrowRight': case 'PageDown': case ' ': case 'Spacebar': if (e.preventDefault) e.preventDefault(); next(); break;
+    case 'ArrowLeft': case 'PageUp': if (e.preventDefault) e.preventDefault(); prev(); break;
+    case 'Home': if (e.preventDefault) e.preventDefault(); show(0); break;
+    case 'End': if (e.preventDefault) e.preventDefault(); show(TOTAL - 1); break;
+    case 'f': case 'F': if (e.preventDefault) e.preventDefault(); toggleFs(); break;
   }
-});
+}
+document.addEventListener('keydown', handleKey);
 document.getElementById('zoneL').addEventListener('click', prev);
 document.getElementById('zoneR').addEventListener('click', next);
 function toggleFs() {
-  if (!document.fullscreenElement) { if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }
-  else { if (document.exitFullscreen) document.exitFullscreen(); }
+  try {
+    var d = document, el = d.documentElement;
+    var fsEl = d.fullscreenElement || d.webkitFullscreenElement;
+    if (!fsEl) {
+      if (el.requestFullscreen) el.requestFullscreen();
+      else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();   // Safari 폴백
+    } else {
+      if (d.exitFullscreen) d.exitFullscreen();
+      else if (d.webkitExitFullscreen) d.webkitExitFullscreen();
+    }
+  } catch (err) { /* 전체화면 차단 무해 처리 */ }
 }
+document.getElementById('fsbtn').addEventListener('click', function (e) {
+  e.stopPropagation(); toggleFs();
+  try { window.focus(); } catch (err) { }
+});
 var tsx = 0, tsy = 0;
 document.addEventListener('touchstart', function (e) { tsx = e.changedTouches[0].clientX; tsy = e.changedTouches[0].clientY; }, { passive: true });
 document.addEventListener('touchend', function (e) {
