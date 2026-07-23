@@ -2,82 +2,120 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>발표자 키워드 큐카드 · 24장</title>
 <style>
   :root{ --bg:#0D141C; --panel:#111A24; --line:#2A3849; --line-soft:#1C2733;
     --text:#EDF3FA; --dim:#8FA0B5; --accent:#227AFF; --amber:#F5A524; }
   *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+  html,body{margin:0; padding:0; height:100%; overflow:hidden; background:var(--bg); color:var(--text);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic",Roboto,Helvetica,Arial,sans-serif;
     line-height:1.5; word-break:keep-all; -webkit-text-size-adjust:100%;}
-  .wrap{max-width:840px; margin:0 auto; padding:22px 24px 96px;}
-  header.top{padding:6px 0 16px; margin-bottom:4px; border-bottom:1px solid var(--line-soft);}
-  header.top h1{font-size:22px; margin:0 0 6px; letter-spacing:-.01em; font-weight:800;}
-  header.top h1 .ac{color:var(--accent);}
-  .run{display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center; font-size:13.5px; color:var(--dim); font-weight:600;}
-  .run b{color:var(--text);}
-  .legend{margin-top:9px; font-size:12.5px; color:var(--dim); line-height:1.6;}
-  .legend .sw{display:inline-block; width:12px; height:12px; border-radius:4px; vertical-align:-1px; margin:0 3px 0 10px;}
-  .legend .sw.blue{background:rgba(34,122,255,.28); border:1px solid rgba(34,122,255,.55);}
-  .legend .sw.amber{background:rgba(245,165,36,.24); border:1px solid rgba(245,165,36,.6);}
-  .part{margin:34px 0 4px; padding-top:22px; border-top:2px solid var(--line);}
-  .part:first-of-type{border-top:0; padding-top:6px; margin-top:8px;}
-  .part-head{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;}
-  .part-head h2{font-size:19px; margin:0; font-weight:800; letter-spacing:-.01em;}
-  .part-time{font-size:14px; font-weight:800; color:var(--amber);}
-  .part-range{font-size:12.5px; font-weight:700; color:var(--dim); letter-spacing:.08em;
-    border:1px solid var(--line); border-radius:20px; padding:2px 10px;}
-  .part-desc{font-size:13.5px; color:var(--dim); margin:5px 0 4px;}
-  .blk{padding:20px 0 22px; border-bottom:1px solid var(--line-soft);}
-  .kw-bar{display:flex; flex-wrap:wrap; gap:11px; margin-bottom:14px;}
+
+  /* 가로 페이징 컨테이너 */
+  .deck{display:flex; height:100vh; height:100dvh; width:100vw;
+    overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scroll-behavior:smooth;
+    -webkit-overflow-scrolling:touch; scrollbar-width:none;}
+  .deck::-webkit-scrollbar{display:none;}
+  .card{flex:0 0 100vw; width:100vw; height:100vh; height:100dvh;
+    scroll-snap-align:center; scroll-snap-stop:always;
+    display:flex; flex-direction:column; gap:14px; overflow:hidden;
+    padding:clamp(16px,3.2vh,34px) clamp(20px,4.2vw,60px) clamp(20px,3.4vh,40px);}
+
+  /* 카드 헤드 */
+  .cardhead{flex:0 0 auto;}
+  .pbadge{display:inline-flex; align-items:center; gap:8px; font-size:14px; font-weight:800;
+    letter-spacing:.02em; color:var(--accent); background:rgba(34,122,255,.1);
+    border:1px solid rgba(34,122,255,.32); border-radius:20px; padding:4px 14px;}
+  .pbadge .pt{color:var(--amber);}
+  .ctitle{font-size:21px; font-weight:700; color:var(--text); margin:10px 0 0; letter-spacing:-.01em;}
+  .snum{display:inline-block; font-weight:800; color:var(--accent); background:rgba(34,122,255,.12);
+    border:1px solid rgba(34,122,255,.3); border-radius:7px; padding:1px 8px; margin-right:8px;
+    font-variant-numeric:tabular-nums; letter-spacing:.03em;}
+
+  /* 본문 (칩+힌트 / 축소판) */
+  .cardbody{flex:1 1 auto; min-height:0; display:flex; flex-direction:column; gap:14px;}
+  .kwzone{flex:0 0 auto; min-height:0;}
+  .kw-bar{display:flex; flex-wrap:wrap; gap:11px;}
   .kw{display:inline-flex; align-items:center; font-size:29px; font-weight:800; line-height:1.2;
     padding:9px 18px; border-radius:15px; letter-spacing:-.015em;
     background:rgba(34,122,255,.12); border:1px solid rgba(34,122,255,.34); color:var(--text);}
   .kw--demo{background:rgba(245,165,36,.13); border-color:rgba(245,165,36,.46); color:#FFDBA3;}
   .kw--demo .zap{margin-right:8px; font-size:.82em;}
-  .blk-body{display:flex; gap:22px; flex-wrap:wrap; align-items:flex-start;}
-  .blk-main{flex:1 1 320px; min-width:0;}
-  .meta{font-size:21px; color:var(--text); font-weight:700;}
-  .snum{display:inline-block; font-weight:800; color:var(--accent); background:rgba(34,122,255,.12);
-    border:1px solid rgba(34,122,255,.3); border-radius:7px; padding:1px 8px; margin-right:7px;
-    font-variant-numeric:tabular-nums; letter-spacing:.03em;}
-  .hint{font-style:italic; color:#c7d5ea; font-size:23px; line-height:1.55; margin:12px 0 0;}
-  .thumb-wrap{flex:0 0 auto;}
-  .thumb{width:512px; height:288px; overflow:hidden; border-radius:12px; border:1px solid var(--line);
-    background:#0A0E14; position:relative; box-shadow:0 14px 34px -18px rgba(0,0,0,.8);}
-  .thumb iframe{width:1280px; height:720px; border:0; transform:scale(.4); transform-origin:top left; pointer-events:none;}
-  @media (max-width:560px){
-    .kw{font-size:24px; padding:8px 14px;}
-    .thumb{width:100%; aspect-ratio:16/9; height:auto;}
-    .thumb iframe{transform:scale(calc(100%/1280*1)); }
+  .hint{font-style:italic; color:#c7d5ea; font-size:23px; line-height:1.5; margin:14px 0 0;}
+
+  /* 슬라이드 축소판 — 남은 공간에 맞춰 양방향 미클리핑 */
+  .thumb{flex:1 1 auto; min-height:0; position:relative; overflow:hidden;
+    border-radius:14px; border:1px solid var(--line); background:#0A0E14;
+    box-shadow:0 16px 42px -22px rgba(0,0,0,.85);}
+  .thumb iframe{position:absolute; top:50%; left:50%; width:1280px; height:720px; border:0;
+    transform:translate(-50%,-50%) scale(.3); transform-origin:center center; pointer-events:none;}
+
+  /* 가로(랜드스케이프): 칩·힌트 왼쪽, 축소판 오른쪽 */
+  @media (min-aspect-ratio: 1/1){
+    .cardbody{flex-direction:row; align-items:stretch; gap:24px;}
+    .kwzone{flex:1 1 45%; overflow-y:auto; padding-right:4px;}
+    .thumb{flex:1 1 55%;}
+    .kw{font-size:26px;}
+    .hint{font-size:21px;}
   }
+
+  /* 인트로 카드 */
+  .intro{align-items:center; justify-content:center; text-align:center;}
+  .intro-inner{max-width:620px; display:flex; flex-direction:column; align-items:center; gap:14px;}
+  .ibadge{font-size:13px; font-weight:700; letter-spacing:.22em; color:var(--dim);}
+  .intro h1{font-size:44px; font-weight:800; margin:2px 0 0; letter-spacing:-.02em;}
+  .intro h1 .ac{color:var(--accent);}
+  .isub{font-size:19px; color:var(--text); margin:0; font-weight:600;}
+  .run{font-size:15px; color:var(--dim); font-weight:600; margin-top:4px;}
+  .run b{color:var(--text);}
+  .legend{font-size:14.5px; color:var(--dim); line-height:1.7; max-width:560px; margin-top:6px;}
+  .legend .sw{display:inline-block; width:13px; height:13px; border-radius:4px; vertical-align:-2px; margin:0 4px 0 12px;}
+  .legend .sw.blue{background:rgba(34,122,255,.28); border:1px solid rgba(34,122,255,.55);}
+  .legend .sw.amber{background:rgba(245,165,36,.24); border:1px solid rgba(245,165,36,.6);}
+  .ihow{display:flex; flex-wrap:wrap; gap:10px 22px; justify-content:center; margin-top:12px;
+    font-size:15px; color:var(--dim); font-weight:600;}
+  .istart{margin-top:16px; font-size:17px; font-weight:800; color:var(--accent);
+    border:1px solid rgba(34,122,255,.4); border-radius:24px; padding:9px 22px;
+    background:rgba(34,122,255,.1);}
+
+  /* 진행 표시 */
+  .pbar-track{position:fixed; top:0; left:0; right:0; height:3px; background:rgba(255,255,255,.06); z-index:60;}
+  .pbar{height:100%; width:0; background:linear-gradient(90deg,var(--accent),#6AAEFF); transition:width .25s ease;}
+  .counter{position:fixed; right:16px; bottom:14px; z-index:60; font-size:15px; font-weight:800;
+    color:var(--text); background:rgba(13,20,28,.74); -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+    border:1px solid var(--line); border-radius:20px; padding:5px 15px; font-variant-numeric:tabular-nums; letter-spacing:.02em;}
+  .navhint{position:fixed; left:16px; bottom:14px; z-index:60; font-size:12.5px; font-weight:600; color:var(--dim);
+    background:rgba(13,20,28,.6); border:1px solid var(--line-soft); border-radius:20px; padding:5px 13px;}
+  @media (max-height:520px){ .navhint{display:none;} }
 </style>
 </head>
 <body>
-<div class="wrap">
-<header class="top">
-  <h1><span class="ac">발표자 큐카드</span> · 키워드 참고용 (24장)</h1>
-  <div class="run"><span>총 <b>50분</b></span><span>· <b>7파트</b> · 24장</span><span>· 발표 <b>김민식 · 세미콜로니</b></span></div>
-  <div class="legend">아이패드로 세로로 넘기며 보세요 — 각 장에서 <b style="color:var(--text)">파란 칩=입으로 말할 키워드</b>를 빠짐없이 말하면 됩니다.
-    <span class="sw blue"></span>말할 키워드 <span class="sw amber"></span>⚡시연 동작 · 축소판은 지금 어느 장인지 확인용(발표는 청중용 발표 모드로).</div>
-</header>
-<div class="part">
-  <div class="part-head">
-    <h2>파트 1 · 후킹</h2>
-    <span class="part-time">5분</span>
-    <span class="part-range">s01–s03</span>
+<div class="pbar-track"><div class="pbar" id="pbar"></div></div>
+<div class="deck" id="deck">
+<section class="card intro" id="cardintro">
+  <div class="intro-inner">
+    <div class="ibadge">SEMICOLONY · AI TALK</div>
+    <h1><span class="ac">발표자 큐카드</span></h1>
+    <p class="isub">키워드 참고용 · 24장 — 옆으로 한 장씩 넘겨 보세요</p>
+    <div class="run">총 <b>50분</b> · <b>7파트</b> · 24장 · 발표 <b>김민식 · 세미콜로니</b></div>
+    <div class="legend">각 장에서 <b>파란 칩 = 입으로 말할 키워드</b>를 빠짐없이 말하면 됩니다.
+      <span class="sw blue"></span>말할 키워드 <span class="sw amber"></span>⚡시연 동작 · 축소판은 지금 어느 장인지 확인용(발표는 청중용 발표 모드로).</div>
+    <div class="ihow"><span>👉 손가락으로 옆으로 스와이프</span><span>⌨️ 데스크톱은 ← → 키</span></div>
+    <div class="istart">시작하기 →</div>
   </div>
-  <p class="part-desc">실물부터 보여주고 신뢰를 확보</p>
-</div>
-<div class="blk" id="blk01">
-  <div class="kw-bar"><span class="kw">비개발자를 위한 AI 실전</span><span class="kw">AI를 뽑기가 아니라 장비로</span><span class="kw">오늘 딱 50분</span></div>
-  <div class="blk-body">
-    <div class="blk-main">
-      <div class="meta"><span class="snum">s01</span> 표지 · AI, 뽑기에서 장비로</div>
+</section>
+<section class="card" data-n="1" id="card01">
+  <div class="cardhead">
+    <div class="pbadge">파트 1 · 후킹 <span class="pt">5분</span></div>
+    <h2 class="ctitle"><span class="snum">s01</span> 표지 · AI, 뽑기에서 장비로</h2>
+  </div>
+  <div class="cardbody">
+    <div class="kwzone">
+      <div class="kw-bar"><span class="kw">비개발자를 위한 AI 실전</span><span class="kw">AI를 뽑기가 아니라 장비로</span><span class="kw">오늘 딱 50분</span></div>
       <p class="hint">“안녕하세요, 세미콜로니 김민식입니다. 오늘은 AI를 뽑기가 아니라 장비로 쓰는 법을 이야기하겠습니다.”</p>
     </div>
-    <div class="thumb-wrap"><div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s01 · 표지 — &quot;AI, 뽑기에서 장비로&quot; / 다트판 동심원 모티프 다크 풀블리드 --&gt;
+    <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s01 · 표지 — &quot;AI, 뽑기에서 장비로&quot; / 다트판 동심원 모티프 다크 풀블리드 --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -366,17 +404,20 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-brand&quot;&gt;&lt;span class=&quot;mark&quot;&gt;&lt;/span&gt;&lt;span class=&quot;wm&quot;&gt;Semicolony&lt;/span&gt;&lt;/div&gt;
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;01&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
-"></iframe></div></div>
+"></iframe></div>
   </div>
-</div>
-<div class="blk" id="blk02">
-  <div class="kw-bar"><span class="kw">저는 코딩 못 합니다</span><span class="kw">그런데 회사 문서 대부분은 AI가</span><span class="kw">연구원 → 대표 → AI 운영</span><span class="kw">연구실 습관을 그대로 AI에</span></div>
-  <div class="blk-body">
-    <div class="blk-main">
-      <div class="meta"><span class="snum">s02</span> 자기소개 · 저는 코딩 못 합니다</div>
+</section>
+<section class="card" data-n="2" id="card02">
+  <div class="cardhead">
+    <div class="pbadge">파트 1 · 후킹 <span class="pt">5분</span></div>
+    <h2 class="ctitle"><span class="snum">s02</span> 자기소개 · 저는 코딩 못 합니다</h2>
+  </div>
+  <div class="cardbody">
+    <div class="kwzone">
+      <div class="kw-bar"><span class="kw">저는 코딩 못 합니다</span><span class="kw">그런데 회사 문서 대부분은 AI가</span><span class="kw">연구원 → 대표 → AI 운영</span><span class="kw">연구실 습관을 그대로 AI에</span></div>
       <p class="hint">“먼저 제 소개를 짧게 드리겠습니다.”</p>
     </div>
-    <div class="thumb-wrap"><div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s02 · 자기소개 — 3단계 타임라인 + 중앙 큰 문구 &quot;저는 코딩 못 합니다&quot; --&gt;
+    <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s02 · 자기소개 — 3단계 타임라인 + 중앙 큰 문구 &quot;저는 코딩 못 합니다&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -641,17 +682,20 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-brand&quot;&gt;&lt;span class=&quot;mark&quot;&gt;&lt;/span&gt;&lt;span class=&quot;wm&quot;&gt;Semicolony&lt;/span&gt;&lt;/div&gt;
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;02&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
-"></iframe></div></div>
+"></iframe></div>
   </div>
-</div>
-<div class="blk" id="blk03">
-  <div class="kw-bar"><span class="kw">제안서·견적서·랜딩페이지 전부 AI</span><span class="kw">단, ‘딸깍’은 아니었다</span><span class="kw">비결은 오늘 보여드릴 일하는 방식</span><span class="kw kw--demo"><span class="zap">⚡</span>카드 클릭 → 실물 전체 보기</span></div>
-  <div class="blk-body">
-    <div class="blk-main">
-      <div class="meta"><span class="snum">s03</span> 실물 3분할 · 전부 AI가 만든 산출물</div>
+</section>
+<section class="card" data-n="3" id="card03">
+  <div class="cardhead">
+    <div class="pbadge">파트 1 · 후킹 <span class="pt">5분</span></div>
+    <h2 class="ctitle"><span class="snum">s03</span> 실물 3분할 · 전부 AI가 만든 산출물</h2>
+  </div>
+  <div class="cardbody">
+    <div class="kwzone">
+      <div class="kw-bar"><span class="kw">제안서·견적서·랜딩페이지 전부 AI</span><span class="kw">단, ‘딸깍’은 아니었다</span><span class="kw">비결은 오늘 보여드릴 일하는 방식</span><span class="kw kw--demo"><span class="zap">⚡</span>카드 클릭 → 실물 전체 보기</span></div>
       <p class="hint">“말로만 하면 안 믿기시죠. 실제 회사 산출물부터 보여드리겠습니다.”</p>
     </div>
-    <div class="thumb-wrap"><div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s03 · 실물 3분할 — 원료 제안서 덱 / 견적서(실물) / 영업 랜딩페이지 (실물 산출물) --&gt;
+    <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s03 · 실물 3분할 — 원료 제안서 덱 / 견적서(실물) / 영업 랜딩페이지 (실물 산출물) --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -920,35 +964,33 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-brand&quot;&gt;&lt;span class=&quot;mark&quot;&gt;&lt;/span&gt;&lt;span class=&quot;wm&quot;&gt;Semicolony&lt;/span&gt;&lt;/div&gt;
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;03&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
-"></iframe></div></div>
+"></iframe></div>
   </div>
-</div>
-<div class="part">
-  <div class="part-head">
-    <h2>파트 2 · 진단</h2>
-    <span class="part-time">6분</span>
-    <span class="part-range">s04–s07</span>
+</section>
+<section class="card" data-n="4" id="card04">
+  <div class="cardhead">
+    <div class="pbadge">파트 2 · 진단 <span class="pt">6분</span></div>
+    <h2 class="ctitle"><span class="snum">s04</span> 뽑기 진단 · 뽑기처럼 쓰고 계시죠?</h2>
   </div>
-  <p class="part-desc">AI를 뽑기처럼 쓰는 습관을 진단</p>
-</div>
-<div class="blk" id="blk04">
-  <div class="kw-bar"><span class="kw">AI를 뽑기처럼 쓰고 있진 않나요</span><span class="kw">한 줄 던지고, 나오는 대로</span><span class="kw">매번 다른 결과</span><span class="kw">오늘 목표 = 당첨 확률 높이기</span><span class="kw kw--demo"><span class="zap">⚡</span>3D 가챠 기계 — 뽑기 시연</span></div>
-  <div class="blk-body">
-    <div class="blk-main">
-      <div class="meta"><span class="snum">s04</span> 뽑기 진단 · 뽑기처럼 쓰고 계시죠?</div>
+  <div class="cardbody">
+    <div class="kwzone">
+      <div class="kw-bar"><span class="kw">AI를 뽑기처럼 쓰고 있진 않나요</span><span class="kw">한 줄 던지고, 나오는 대로</span><span class="kw">매번 다른 결과</span><span class="kw">오늘 목표 = 당첨 확률 높이기</span><span class="kw kw--demo"><span class="zap">⚡</span>3D 가챠 기계 — 뽑기 시연</span></div>
       <p class="hint">“혹시 지금 AI를 이렇게 쓰고 계시진 않나요?”</p>
     </div>
-    <div class="thumb-wrap"><div class="thumb"><iframe loading="lazy" src="./semicolony-s04-3d.html"></iframe></div></div>
+    <div class="thumb"><iframe loading="lazy" src="./semicolony-s04-3d.html"></iframe></div>
   </div>
-</div>
-<div class="blk" id="blk05">
-  <div class="kw-bar"><span class="kw">기대한 건 만능 직원(AGI)</span><span class="kw">AGI는 아직 세상에 없다</span><span class="kw">지금의 AI는 도구</span><span class="kw">기대를 버리지 말고 옮겨라 — 직원 아닌 장비</span></div>
-  <div class="blk-body">
-    <div class="blk-main">
-      <div class="meta"><span class="snum">s05</span> AI ≠ AGI · 기대와 현실</div>
+</section>
+<section class="card" data-n="5" id="card05">
+  <div class="cardhead">
+    <div class="pbadge">파트 2 · 진단 <span class="pt">6분</span></div>
+    <h2 class="ctitle"><span class="snum">s05</span> AI ≠ AGI · 기대와 현실</h2>
+  </div>
+  <div class="cardbody">
+    <div class="kwzone">
+      <div class="kw-bar"><span class="kw">기대한 건 만능 직원(AGI)</span><span class="kw">AGI는 아직 세상에 없다</span><span class="kw">지금의 AI는 도구</span><span class="kw">기대를 버리지 말고 옮겨라 — 직원 아닌 장비</span></div>
       <p class="hint">“왜 한 줄만 던지게 될까요. 기대가 어긋나서 그렇습니다.”</p>
     </div>
-    <div class="thumb-wrap"><div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s05 · AI ≠ AGI — 기대와 현실 / 기대한 '만능 직원'(AGI) vs 지금의 도구(AI) 좌우 비교 + 용어 미니정의 --&gt;
+    <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s05 · AI ≠ AGI — 기대와 현실 / 기대한 '만능 직원'(AGI) vs 지금의 도구(AI) 좌우 비교 + 용어 미니정의 --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -1238,17 +1280,20 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-brand&quot;&gt;&lt;span class=&quot;mark&quot;&gt;&lt;/span&gt;&lt;span class=&quot;wm&quot;&gt;Semicolony&lt;/span&gt;&lt;/div&gt;
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;05&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
-"></iframe></div></div>
+"></iframe></div>
   </div>
-</div>
-<div class="blk" id="blk06">
-  <div class="kw-bar"><span class="kw">정확성 — 과녁 중앙에 맞나</span><span class="kw">정밀성 — 같은 자리에 모이나</span><span class="kw">반복성 — 내가 다시 해도</span><span class="kw">재현성 — 남이 해도</span><span class="kw">이 순서로 강의가 간다</span></div>
-  <div class="blk-body">
-    <div class="blk-main">
-      <div class="meta"><span class="snum">s06</span> 네 단어 지도 · 오늘의 네 단어</div>
+</section>
+<section class="card" data-n="6" id="card06">
+  <div class="cardhead">
+    <div class="pbadge">파트 2 · 진단 <span class="pt">6분</span></div>
+    <h2 class="ctitle"><span class="snum">s06</span> 네 단어 지도 · 오늘의 네 단어</h2>
+  </div>
+  <div class="cardbody">
+    <div class="kwzone">
+      <div class="kw-bar"><span class="kw">정확성 — 과녁 중앙에 맞나</span><span class="kw">정밀성 — 같은 자리에 모이나</span><span class="kw">반복성 — 내가 다시 해도</span><span class="kw">재현성 — 남이 해도</span><span class="kw">이 순서로 강의가 간다</span></div>
       <p class="hint">“오늘 이 네 단어만 기억하시면 됩니다.”</p>
     </div>
-    <div class="thumb-wrap"><div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s06 · 네 단어 지도 — &quot;오늘의 네 단어&quot; / 정확성·정밀성·반복성·재현성 개관(지도) --&gt;
+    <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s06 · 네 단어 지도 — &quot;오늘의 네 단어&quot; / 정확성·정밀성·반복성·재현성 개관(지도) --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -1570,17 +1615,20 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-brand&quot;&gt;&lt;span class=&quot;mark&quot;&gt;&lt;/span&gt;&lt;span class=&quot;wm&quot;&gt;Semicolony&lt;/span&gt;&lt;/div&gt;
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;06&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
-"></iframe></div></div>
+"></iframe></div>
   </div>
-</div>
-<div class="blk" id="blk07">
-  <div class="kw-bar"><span class="kw">정확✕정밀 = 첫 경험, 복불복</span><span class="kw">우리가 갈 곳 = 정확하고 매번 똑같이</span><span class="kw">열쇠 셋 = 매뉴얼·자료·검증</span><span class="kw">목표는 ④에서 ①로</span></div>
-  <div class="blk-body">
-    <div class="blk-main">
-      <div class="meta"><span class="snum">s07</span> 다트판 2×2 · 지금 어느 판인가</div>
+</section>
+<section class="card" data-n="7" id="card07">
+  <div class="cardhead">
+    <div class="pbadge">파트 2 · 진단 <span class="pt">6분</span></div>
+    <h2 class="ctitle"><span class="snum">s07</span> 다트판 2×2 · 지금 어느 판인가</h2>
+  </div>
+  <div class="cardbody">
+    <div class="kwzone">
+      <div class="kw-bar"><span class="kw">정확✕정밀 = 첫 경험, 복불복</span><span class="kw">우리가 갈 곳 = 정확하고 매번 똑같이</span><span class="kw">열쇠 셋 = 매뉴얼·자료·검증</span><span class="kw">목표는 ④에서 ①로</span></div>
       <p class="hint">“정확성과 정밀성을 다트판으로 보겠습니다. 지금 어느 판에 계신가요?”</p>
     </div>
-    <div class="thumb-wrap"><div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s07 · 다트판 2×2 — 정확성·정밀성 매트릭스 / &quot;지금 어느 판인가요?&quot; --&gt;
+    <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s07 · 다트판 2×2 — 정확성·정밀성 매트릭스 / &quot;지금 어느 판인가요?&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -1922,25 +1970,20 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-brand&quot;&gt;&lt;span class=&quot;mark&quot;&gt;&lt;/span&gt;&lt;span class=&quot;wm&quot;&gt;Semicolony&lt;/span&gt;&lt;/div&gt;
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;07&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
-"></iframe></div></div>
+"></iframe></div>
   </div>
-</div>
-<div class="part">
-  <div class="part-head">
-    <h2>파트 3 · 연구실의 답</h2>
-    <span class="part-time">7분</span>
-    <span class="part-range">s08–s09</span>
+</section>
+<section class="card" data-n="8" id="card08">
+  <div class="cardhead">
+    <div class="pbadge">파트 3 · 연구실의 답 <span class="pt">7분</span></div>
+    <h2 class="ctitle"><span class="snum">s08</span> 반복성 × 재현성 · 계속 맞추는가</h2>
   </div>
-  <p class="part-desc">반복성·정밀성·재현성을 AI에 접목</p>
-</div>
-<div class="blk" id="blk08">
-  <div class="kw-bar"><span class="kw">한 번이 아니라 계속 맞추는가</span><span class="kw">반복성 = 다음 주에도</span><span class="kw">재현성 = 남이 해도</span></div>
-  <div class="blk-body">
-    <div class="blk-main">
-      <div class="meta"><span class="snum">s08</span> 반복성 × 재현성 · 계속 맞추는가</div>
+  <div class="cardbody">
+    <div class="kwzone">
+      <div class="kw-bar"><span class="kw">한 번이 아니라 계속 맞추는가</span><span class="kw">반복성 = 다음 주에도</span><span class="kw">재현성 = 남이 해도</span></div>
       <p class="hint">“한 번 맞춘 걸 계속 맞출 수 있는가를 봅니다.”</p>
     </div>
-    <div class="thumb-wrap"><div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s08 · 반복성·재현성 두 축 — 다트판 1개 + 시간축(가로)·조건축(세로) / &quot;다음 주에도, 남이 해도&quot; --&gt;
+    <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s08 · 반복성·재현성 두 축 — 다트판 1개 + 시간축(가로)·조건축(세로) / &quot;다음 주에도, 남이 해도&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -2246,17 +2289,20 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   });
 })();
 &lt;/script&gt;
-"></iframe></div></div>
+"></iframe></div>
   </div>
-</div>
-<div class="blk" id="blk09">
-  <div class="kw-bar"><span class="kw">연구실이 데이터를 믿는 이유</span><span class="kw">SOP = 지시문을 저장</span><span class="kw">실험노트 = 자료를 먹인다</span><span class="kw">QC = AI끼리 교차검사</span><span class="kw">우연이 아니라 시스템</span></div>
-  <div class="blk-body">
-    <div class="blk-main">
-      <div class="meta"><span class="snum">s09</span> 연구실 3종 세트 · 우연이 아니라 시스템</div>
+</section>
+<section class="card" data-n="9" id="card09">
+  <div class="cardhead">
+    <div class="pbadge">파트 3 · 연구실의 답 <span class="pt">7분</span></div>
+    <h2 class="ctitle"><span class="snum">s09</span> 연구실 3종 세트 · 우연이 아니라 시스템</h2>
+  </div>
+  <div class="cardbody">
+    <div class="kwzone">
+      <div class="kw-bar"><span class="kw">연구실이 데이터를 믿는 이유</span><span class="kw">SOP = 지시문을 저장</span><span class="kw">실험노트 = 자료를 먹인다</span><span class="kw">QC = AI끼리 교차검사</span><span class="kw">우연이 아니라 시스템</span></div>
       <p class="hint">“연구실은 어떻게 늘 같은 결과를 낼까요. 세 가지를 항상 갖춰 둡니다.”</p>
     </div>
-    <div class="thumb-wrap"><div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s09 · 연구실의 3종 세트 — SOP·실험노트·QC 카드 3개 / &quot;연구실이 데이터를 믿는 이유&quot; --&gt;
+    <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s09 · 연구실의 3종 세트 — SOP·실험노트·QC 카드 3개 / &quot;연구실이 데이터를 믿는 이유&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -2541,25 +2587,20 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-brand&quot;&gt;&lt;span class=&quot;mark&quot;&gt;&lt;/span&gt;&lt;span class=&quot;wm&quot;&gt;Semicolony&lt;/span&gt;&lt;/div&gt;
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;09&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
-"></iframe></div></div>
+"></iframe></div>
   </div>
-</div>
-<div class="part">
-  <div class="part-head">
-    <h2>파트 4 · 실천법</h2>
-    <span class="part-time">10분</span>
-    <span class="part-range">s10–s13</span>
+</section>
+<section class="card" data-n="10" id="card10">
+  <div class="cardhead">
+    <div class="pbadge">파트 4 · 실천법 <span class="pt">10분</span></div>
+    <h2 class="ctitle"><span class="snum">s10</span> 잘 시키는 법 · 같은 요청, 두 개의 운명</h2>
   </div>
-  <p class="part-desc">구체적으로 시켜라 · 저장하라 · 자료를 줘라</p>
-</div>
-<div class="blk" id="blk10">
-  <div class="kw-bar"><span class="kw">운명 A = 한 줄 뽑기 → 근거 없는 단가</span><span class="kw">운명 B = 네 단어를 갖춘 지시</span><span class="kw">네 단어 = 역할·재료·형태·예시</span><span class="kw">좋은 지시가 곧 결과 품질</span><span class="kw kw--demo"><span class="zap">⚡</span>양쪽 견적서 클릭 → 전체 보기</span></div>
-  <div class="blk-body">
-    <div class="blk-main">
-      <div class="meta"><span class="snum">s10</span> 잘 시키는 법 · 같은 요청, 두 개의 운명</div>
+  <div class="cardbody">
+    <div class="kwzone">
+      <div class="kw-bar"><span class="kw">운명 A = 한 줄 뽑기 → 근거 없는 단가</span><span class="kw">운명 B = 네 단어를 갖춘 지시</span><span class="kw">네 단어 = 역할·재료·형태·예시</span><span class="kw">좋은 지시가 곧 결과 품질</span><span class="kw kw--demo"><span class="zap">⚡</span>양쪽 견적서 클릭 → 전체 보기</span></div>
       <p class="hint">“똑같은 견적서 요청인데, 어떻게 시키느냐로 운명이 갈립니다.”</p>
     </div>
-    <div class="thumb-wrap"><div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s10 · 잘 시키는 법 — 같은 요청, 두 개의 운명 / 좌 나쁜 지시→엉성한 견적서 실물(생성, 단가 근거 없음·시연용 워터마크) vs 우 3번 장 실물 견적서 / 둘 다 클릭→전체 보기(s03 문법). 하단 4원칙 칩 --&gt;
+    <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s10 · 잘 시키는 법 — 같은 요청, 두 개의 운명 / 좌 나쁜 지시→엉성한 견적서 실물(생성, 단가 근거 없음·시연용 워터마크) vs 우 3번 장 실물 견적서 / 둘 다 클릭→전체 보기(s03 문법). 하단 4원칙 칩 --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -2853,17 +2894,20 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-brand&quot;&gt;&lt;span class=&quot;mark&quot;&gt;&lt;/span&gt;&lt;span class=&quot;wm&quot;&gt;Semicolony&lt;/span&gt;&lt;/div&gt;
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;10&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
-"></iframe></div></div>
+"></iframe></div>
   </div>
-</div>
-<div class="blk" id="blk11">
-  <div class="kw-bar"><span class="kw">아까 그 견적서, 이 지시문으로</span><span class="kw">역할 = 견적 담당자</span><span class="kw">재료 = 실제 값만, 없으면 ‘확인 필요’</span><span class="kw">형태 = 견적서 양식 + 검산</span><span class="kw">예시 = 기존 견적서 톤</span></div>
-  <div class="blk-body">
-    <div class="blk-main">
-      <div class="meta"><span class="snum">s11</span> 실제 지시문 목업 · 이 지시문으로 나왔다</div>
+</section>
+<section class="card" data-n="11" id="card11">
+  <div class="cardhead">
+    <div class="pbadge">파트 4 · 실천법 <span class="pt">10분</span></div>
+    <h2 class="ctitle"><span class="snum">s11</span> 실제 지시문 목업 · 이 지시문으로 나왔다</h2>
+  </div>
+  <div class="cardbody">
+    <div class="kwzone">
+      <div class="kw-bar"><span class="kw">아까 그 견적서, 이 지시문으로</span><span class="kw">역할 = 견적 담당자</span><span class="kw">재료 = 실제 값만, 없으면 ‘확인 필요’</span><span class="kw">형태 = 견적서 양식 + 검산</span><span class="kw">예시 = 기존 견적서 톤</span></div>
       <p class="hint">“말이 아니라 실물로 보여드리겠습니다. 3번 장 견적서를 만든 그 지시문입니다.”</p>
     </div>
-    <div class="thumb-wrap"><div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s11 · 실제 지시문 목업 — 다크 채팅/에디터 프레임 하나 크게 / &quot;아까 3번 장의 그 견적서, 이 지시문으로 나왔습니다&quot; (어니스트컴퍼니 콤부차 발포 분말스틱 건)
+    <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s11 · 실제 지시문 목업 — 다크 채팅/에디터 프레임 하나 크게 / &quot;아까 3번 장의 그 견적서, 이 지시문으로 나왔습니다&quot; (어니스트컴퍼니 콤부차 발포 분말스틱 건)
      ※ 이 목업 프레임(.mock-frame)은 나중에 대표님 실제 프롬프트 스크린샷 이미지로 교체 예정.
         교체 시 아래 &lt;div class=&quot;mock-frame&quot;&gt;…&lt;/div&gt; 통째를 &lt;img&gt;로 대체하면 됨. --&gt;
 &lt;style&gt;
@@ -3103,17 +3147,20 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-brand&quot;&gt;&lt;span class=&quot;mark&quot;&gt;&lt;/span&gt;&lt;span class=&quot;wm&quot;&gt;Semicolony&lt;/span&gt;&lt;/div&gt;
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;11&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
-"></iframe></div></div>
+"></iframe></div>
   </div>
-</div>
-<div class="blk" id="blk12">
-  <div class="kw-bar"><span class="kw">잘 된 지시문은 저장하라</span><span class="kw">매번 새로 치면 반복성은 죽는다</span><span class="kw">저장 → 월·화·수 같은 결과</span><span class="kw">운으로 잘 됐다면 레시피를 역으로 뽑아라</span><span class="kw">결과 옆에 지시문을 같이 저장</span></div>
-  <div class="blk-body">
-    <div class="blk-main">
-      <div class="meta"><span class="snum">s12</span> 저장하라 · 잘 된 지시문은 저장</div>
+</section>
+<section class="card" data-n="12" id="card12">
+  <div class="cardhead">
+    <div class="pbadge">파트 4 · 실천법 <span class="pt">10분</span></div>
+    <h2 class="ctitle"><span class="snum">s12</span> 저장하라 · 잘 된 지시문은 저장</h2>
+  </div>
+  <div class="cardbody">
+    <div class="kwzone">
+      <div class="kw-bar"><span class="kw">잘 된 지시문은 저장하라</span><span class="kw">매번 새로 치면 반복성은 죽는다</span><span class="kw">저장 → 월·화·수 같은 결과</span><span class="kw">운으로 잘 됐다면 레시피를 역으로 뽑아라</span><span class="kw">결과 옆에 지시문을 같이 저장</span></div>
       <p class="hint">“한 번 잘 만든 지시문, 그냥 두시겠어요? 저장하셔야 합니다.”</p>
     </div>
-    <div class="thumb-wrap"><div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s12 · 저장하라 — 저장된 지시문 1장 → 월·화·수 복제 → 같은 결과로 수렴 / &quot;잘 된 지시문은 저장하라&quot; --&gt;
+    <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s12 · 저장하라 — 저장된 지시문 1장 → 월·화·수 복제 → 같은 결과로 수렴 / &quot;잘 된 지시문은 저장하라&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -3477,17 +3524,20 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-brand&quot;&gt;&lt;span class=&quot;mark&quot;&gt;&lt;/span&gt;&lt;span class=&quot;wm&quot;&gt;Semicolony&lt;/span&gt;&lt;/div&gt;
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;12&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
-"></iframe></div></div>
+"></iframe></div>
   </div>
-</div>
-<div class="blk" id="blk13">
-  <div class="kw-bar"><span class="kw">설명하지 말고 자료를 줘라</span><span class="kw">자료 없이 = 추정·확인 필요</span><span class="kw">자료를 주면 = 실측값</span><span class="kw">지식 베이스(RAG) = 실험노트</span><span class="kw">자료만 같으면 다른 모델도 같은 값</span></div>
-  <div class="blk-body">
-    <div class="blk-main">
-      <div class="meta"><span class="snum">s13</span> 자료를 줘라 · 기억이 아니라 자료로</div>
+</section>
+<section class="card" data-n="13" id="card13">
+  <div class="cardhead">
+    <div class="pbadge">파트 4 · 실천법 <span class="pt">10분</span></div>
+    <h2 class="ctitle"><span class="snum">s13</span> 자료를 줘라 · 기억이 아니라 자료로</h2>
+  </div>
+  <div class="cardbody">
+    <div class="kwzone">
+      <div class="kw-bar"><span class="kw">설명하지 말고 자료를 줘라</span><span class="kw">자료 없이 = 추정·확인 필요</span><span class="kw">자료를 주면 = 실측값</span><span class="kw">지식 베이스(RAG) = 실험노트</span><span class="kw">자료만 같으면 다른 모델도 같은 값</span></div>
       <p class="hint">“지시를 잘 해도 재료가 없으면 AI는 추측합니다. 자료를 쥐여주세요.”</p>
     </div>
-    <div class="thumb-wrap"><div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s13 · 자료를 줘라 — 같은 지시, 자료 유무 대비 / 좌 &quot;자료 없이&quot;(추정·확인필요, dim/⚠) vs 우 &quot;단가표·기존 견적서를 주면&quot;(실측값, 발광/✓). 축 = 재료의 유무(s10=지시의 품질과 구분). 우측 결과값·업체명은 s16 실측과 정합(어니스트컴퍼니) --&gt;
+    <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s13 · 자료를 줘라 — 같은 지시, 자료 유무 대비 / 좌 &quot;자료 없이&quot;(추정·확인필요, dim/⚠) vs 우 &quot;단가표·기존 견적서를 주면&quot;(실측값, 발광/✓). 축 = 재료의 유무(s10=지시의 품질과 구분). 우측 결과값·업체명은 s16 실측과 정합(어니스트컴퍼니) --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -3786,25 +3836,20 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-brand&quot;&gt;&lt;span class=&quot;mark&quot;&gt;&lt;/span&gt;&lt;span class=&quot;wm&quot;&gt;Semicolony&lt;/span&gt;&lt;/div&gt;
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;13&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
-"></iframe></div></div>
+"></iframe></div>
   </div>
-</div>
-<div class="part">
-  <div class="part-head">
-    <h2>파트 5 · 라이브 데모</h2>
-    <span class="part-time">11분</span>
-    <span class="part-range">s14–s16</span>
+</section>
+<section class="card" data-n="14" id="card14">
+  <div class="cardhead">
+    <div class="pbadge">파트 5 · 라이브 데모 <span class="pt">11분</span></div>
+    <h2 class="ctitle"><span class="snum">s14</span> 실험 예고 · 지금부터 실험 2개</h2>
   </div>
-  <p class="part-desc">같은 요청 실험으로 반복성을 눈으로 증명</p>
-</div>
-<div class="blk" id="blk14">
-  <div class="kw-bar"><span class="kw">지금부터 라이브 실험 2개</span><span class="kw">실험 1 = 말만 시키면?</span><span class="kw">실험 2 = 매뉴얼+자료를 주면?</span><span class="kw">관전 포인트 = 반복 결과가 갈리나</span></div>
-  <div class="blk-body">
-    <div class="blk-main">
-      <div class="meta"><span class="snum">s14</span> 실험 예고 · 지금부터 실험 2개</div>
+  <div class="cardbody">
+    <div class="kwzone">
+      <div class="kw-bar"><span class="kw">지금부터 라이브 실험 2개</span><span class="kw">실험 1 = 말만 시키면?</span><span class="kw">실험 2 = 매뉴얼+자료를 주면?</span><span class="kw">관전 포인트 = 반복 결과가 갈리나</span></div>
       <p class="hint">“이제 직접 실험해 보겠습니다. 실험은 두 개입니다.”</p>
     </div>
-    <div class="thumb-wrap"><div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s14 · 실험 예고 — &quot;지금부터, 실험 2개&quot; 라이브 예고판 / 실험1(=s15) 말만 시키면? → 예상 &quot;?&quot;  vs  실험2(=s16) 매뉴얼+자료를 주면? → 예상 &quot;차이=0?&quot;. 다음 두 장의 예고편·긴장감. 플라스크/비커 모티프 유지, 중앙 밴드에 반복 세트 시각화 --&gt;
+    <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s14 · 실험 예고 — &quot;지금부터, 실험 2개&quot; 라이브 예고판 / 실험1(=s15) 말만 시키면? → 예상 &quot;?&quot;  vs  실험2(=s16) 매뉴얼+자료를 주면? → 예상 &quot;차이=0?&quot;. 다음 두 장의 예고편·긴장감. 플라스크/비커 모티프 유지, 중앙 밴드에 반복 세트 시각화 --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -4125,17 +4170,20 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-brand&quot;&gt;&lt;span class=&quot;mark&quot;&gt;&lt;/span&gt;&lt;span class=&quot;wm&quot;&gt;Semicolony&lt;/span&gt;&lt;/div&gt;
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;14&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
-"></iframe></div></div>
+"></iframe></div>
   </div>
-</div>
-<div class="blk" id="blk15">
-  <div class="kw-bar"><span class="kw">말만 시키면 매번 조금 다르다</span><span class="kw">같은 한 줄 × 3회</span><span class="kw">단가 1,500·1,800·2,200 — 다 다름</span><span class="kw">판정 = 제각각 ✗</span></div>
-  <div class="blk-body">
-    <div class="blk-main">
-      <div class="meta"><span class="snum">s15</span> 데모 1 · 말만 시키면 매번 다르다</div>
+</section>
+<section class="card" data-n="15" id="card15">
+  <div class="cardhead">
+    <div class="pbadge">파트 5 · 라이브 데모 <span class="pt">11분</span></div>
+    <h2 class="ctitle"><span class="snum">s15</span> 데모 1 · 말만 시키면 매번 다르다</h2>
+  </div>
+  <div class="cardbody">
+    <div class="kwzone">
+      <div class="kw-bar"><span class="kw">말만 시키면 매번 조금 다르다</span><span class="kw">같은 한 줄 × 3회</span><span class="kw">단가 1,500·1,800·2,200 — 다 다름</span><span class="kw">판정 = 제각각 ✗</span></div>
       <p class="hint">“먼저 실험 1. 대충 한 줄로, 그대로 세 번 시켜 보겠습니다.”</p>
     </div>
-    <div class="thumb-wrap"><div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s15 · 데모 1 — &quot;말만 시키면, 매번 조금 다르다&quot; / 같은 한 줄 지시 ×3회 → 결과 문서 3장(단가 1,500·1,800·2,200, 열 구성 상이) + 단가칸 하이라이트 + 판정 배지 &quot;제각각 ✗&quot;(s16 &quot;0건 ✓&quot;과 세로 배지 대구). 시연 태그·실존 업체명/사업자번호 없음 --&gt;
+    <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s15 · 데모 1 — &quot;말만 시키면, 매번 조금 다르다&quot; / 같은 한 줄 지시 ×3회 → 결과 문서 3장(단가 1,500·1,800·2,200, 열 구성 상이) + 단가칸 하이라이트 + 판정 배지 &quot;제각각 ✗&quot;(s16 &quot;0건 ✓&quot;과 세로 배지 대구). 시연 태그·실존 업체명/사업자번호 없음 --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -4421,17 +4469,20 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-brand&quot;&gt;&lt;span class=&quot;mark&quot;&gt;&lt;/span&gt;&lt;span class=&quot;wm&quot;&gt;Semicolony&lt;/span&gt;&lt;/div&gt;
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;15&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
-"></iframe></div></div>
+"></iframe></div>
   </div>
-</div>
-<div class="blk" id="blk16">
-  <div class="kw-bar"><span class="kw">저장한 지시문을 그대로 두 번</span><span class="kw">오늘 = 일주일 뒤</span><span class="kw">차이 0건 ✓</span><span class="kw">이게 반복성이다</span></div>
-  <div class="blk-body">
-    <div class="blk-main">
-      <div class="meta"><span class="snum">s16</span> 데모 2 · 다음 주에도 같은 견적서</div>
+</section>
+<section class="card" data-n="16" id="card16">
+  <div class="cardhead">
+    <div class="pbadge">파트 5 · 라이브 데모 <span class="pt">11분</span></div>
+    <h2 class="ctitle"><span class="snum">s16</span> 데모 2 · 다음 주에도 같은 견적서</h2>
+  </div>
+  <div class="cardbody">
+    <div class="kwzone">
+      <div class="kw-bar"><span class="kw">저장한 지시문을 그대로 두 번</span><span class="kw">오늘 = 일주일 뒤</span><span class="kw">차이 0건 ✓</span><span class="kw">이게 반복성이다</span></div>
       <p class="hint">“이번엔 실험 2. 저장한 지시문과 자료로 두 번 시켜 보겠습니다.”</p>
     </div>
-    <div class="thumb-wrap"><div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s16 · 반복성 데모 — &quot;다음 주에 다시 시켜도, 같은 견적서&quot; / 저장한 지시문(어니스트-견적-지시.txt)을 오늘/일주일 뒤 두 번 → 중앙 &quot;차이 0건&quot; 판정(발광) / 정직 가드: 양식·단가·구조 동일 수준. ※시간축 반복=반복성(s08 시간축·s12 저장→반복성 정본과 일치) --&gt;
+    <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s16 · 반복성 데모 — &quot;다음 주에 다시 시켜도, 같은 견적서&quot; / 저장한 지시문(어니스트-견적-지시.txt)을 오늘/일주일 뒤 두 번 → 중앙 &quot;차이 0건&quot; 판정(발광) / 정직 가드: 양식·단가·구조 동일 수준. ※시간축 반복=반복성(s08 시간축·s12 저장→반복성 정본과 일치) --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -4693,25 +4744,20 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-brand&quot;&gt;&lt;span class=&quot;mark&quot;&gt;&lt;/span&gt;&lt;span class=&quot;wm&quot;&gt;Semicolony&lt;/span&gt;&lt;/div&gt;
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;16&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
-"></iframe></div></div>
+"></iframe></div>
   </div>
-</div>
-<div class="part">
-  <div class="part-head">
-    <h2>파트 6 · 에이전트</h2>
-    <span class="part-time">6분</span>
-    <span class="part-range">s17–s20</span>
+</section>
+<section class="card" data-n="17" id="card17">
+  <div class="cardhead">
+    <div class="pbadge">파트 6 · 에이전트 <span class="pt">6분</span></div>
+    <h2 class="ctitle"><span class="snum">s17</span> 에이전트 업무 루프 · AI 직원을 고용</h2>
   </div>
-  <p class="part-desc">매뉴얼+기록+검사가 갖춰지면 AI 직원</p>
-</div>
-<div class="blk" id="blk17">
-  <div class="kw-bar"><span class="kw">AI 직원을 고용했다</span><span class="kw">한 번 시켜두면 스스로 도는 루프</span><span class="kw">발주서·매입매출·명세서 자동</span><span class="kw">사람은 승인 도장 한 칸만</span><span class="kw">가장 높은 단계 = 에이전트</span></div>
-  <div class="blk-body">
-    <div class="blk-main">
-      <div class="meta"><span class="snum">s17</span> 에이전트 업무 루프 · AI 직원을 고용</div>
+  <div class="cardbody">
+    <div class="kwzone">
+      <div class="kw-bar"><span class="kw">AI 직원을 고용했다</span><span class="kw">한 번 시켜두면 스스로 도는 루프</span><span class="kw">발주서·매입매출·명세서 자동</span><span class="kw">사람은 승인 도장 한 칸만</span><span class="kw">가장 높은 단계 = 에이전트</span></div>
       <p class="hint">“세 기둥이 갖춰지면 어디까지 갈까요. AI가 직원이 됩니다.”</p>
     </div>
-    <div class="thumb-wrap"><div class="thumb"><iframe loading="lazy" srcdoc="&lt;meta charset=&quot;UTF-8&quot;&gt;
+    <div class="thumb"><iframe loading="lazy" srcdoc="&lt;meta charset=&quot;UTF-8&quot;&gt;
 &lt;!-- s17 · 에이전트 업무 루프 — 발주서→승인(사람 게이트)→매입·매출 등록→분기(동시 진행)→합류(검수·전송) / &quot;AI 직원을 고용했습니다&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
@@ -5054,17 +5100,20 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-brand&quot;&gt;&lt;span class=&quot;mark&quot;&gt;&lt;/span&gt;&lt;span class=&quot;wm&quot;&gt;Semicolony&lt;/span&gt;&lt;/div&gt;
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;17&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
-"></iframe></div></div>
+"></iframe></div>
   </div>
-</div>
-<div class="blk" id="blk18">
-  <div class="kw-bar"><span class="kw">이 루프는 자리에 없어도 돈다</span><span class="kw">승인 도장만 사람</span><span class="kw">발주→등록→분류→전송 자동</span><span class="kw kw--demo"><span class="zap">⚡</span>로드 시 로그 자동 타이핑</span><span class="kw kw--demo"><span class="zap">⚡</span>호버 리플레이</span></div>
-  <div class="blk-body">
-    <div class="blk-main">
-      <div class="meta"><span class="snum">s18</span> 에이전트 라이브 로그 · 자리에 없어도 돈다</div>
+</section>
+<section class="card" data-n="18" id="card18">
+  <div class="cardhead">
+    <div class="pbadge">파트 6 · 에이전트 <span class="pt">6분</span></div>
+    <h2 class="ctitle"><span class="snum">s18</span> 에이전트 라이브 로그 · 자리에 없어도 돈다</h2>
+  </div>
+  <div class="cardbody">
+    <div class="kwzone">
+      <div class="kw-bar"><span class="kw">이 루프는 자리에 없어도 돈다</span><span class="kw">승인 도장만 사람</span><span class="kw">발주→등록→분류→전송 자동</span><span class="kw kw--demo"><span class="zap">⚡</span>로드 시 로그 자동 타이핑</span><span class="kw kw--demo"><span class="zap">⚡</span>호버 리플레이</span></div>
       <p class="hint">“이 루프가 실제로 도는 로그를 보여드리겠습니다 — 한 줄씩 지켜봐 주세요.”</p>
     </div>
-    <div class="thumb-wrap"><div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s18 · 에이전트 라이브 로그 — 다크 터미널 + s17 업무 루프 실행 로그가 로드 시 한 줄씩 타이핑(체크 점등·커서 깜빡임) / &quot;이 루프는 제가 자리에 없어도 돕니다 — 승인 도장만 빼고.&quot; --&gt;
+    <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s18 · 에이전트 라이브 로그 — 다크 터미널 + s17 업무 루프 실행 로그가 로드 시 한 줄씩 타이핑(체크 점등·커서 깜빡임) / &quot;이 루프는 제가 자리에 없어도 돕니다 — 승인 도장만 빼고.&quot; --&gt;
 &lt;!-- ※ 결정론적 애니메이션(Math.random 없음): 로드 1회 재생 후 정지, 프레임 호버 시 리플레이(재생 가드). prefers-reduced-motion이면 전 줄 즉시 표시. 실제 녹화로 교체 가능. --&gt;
 &lt;style&gt;
 /* ============================================================================
@@ -5368,17 +5417,20 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   frame.addEventListener('mouseenter', function () { if (reduce) return; if (!playing) play(); });
 })();
 &lt;/script&gt;
-"></iframe></div></div>
+"></iframe></div>
   </div>
-</div>
-<div class="blk" id="blk19">
-  <div class="kw-bar"><span class="kw">만드는 손·검사하는 손을 나눈다</span><span class="kw">만드는 AI → 검사하는 AI → 사람 도장</span><span class="kw">최종 도장은 사람</span><span class="kw">하네스/파이프라인 = QC</span></div>
-  <div class="blk-body">
-    <div class="blk-main">
-      <div class="meta"><span class="snum">s19</span> 검사 라인 · 만드는 손과 검사하는 손</div>
+</section>
+<section class="card" data-n="19" id="card19">
+  <div class="cardhead">
+    <div class="pbadge">파트 6 · 에이전트 <span class="pt">6분</span></div>
+    <h2 class="ctitle"><span class="snum">s19</span> 검사 라인 · 만드는 손과 검사하는 손</h2>
+  </div>
+  <div class="cardbody">
+    <div class="kwzone">
+      <div class="kw-bar"><span class="kw">만드는 손·검사하는 손을 나눈다</span><span class="kw">만드는 AI → 검사하는 AI → 사람 도장</span><span class="kw">최종 도장은 사람</span><span class="kw">하네스/파이프라인 = QC</span></div>
       <p class="hint">“AI를 믿으려면 검사를 붙여야 합니다. 만드는 놈과 검사하는 놈을 나눕니다.”</p>
     </div>
-    <div class="thumb-wrap"><div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s19 · 검사 라인 — 만드는 AI → 검사하는 AI → 사람 도장 / 가로 흐름 다이어그램 --&gt;
+    <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s19 · 검사 라인 — 만드는 AI → 검사하는 AI → 사람 도장 / 가로 흐름 다이어그램 --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -5674,17 +5726,20 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-brand&quot;&gt;&lt;span class=&quot;mark&quot;&gt;&lt;/span&gt;&lt;span class=&quot;wm&quot;&gt;Semicolony&lt;/span&gt;&lt;/div&gt;
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;19&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
-"></iframe></div></div>
+"></iframe></div>
   </div>
-</div>
-<div class="blk" id="blk20">
-  <div class="kw-bar"><span class="kw">이 강의 자료도 AI로 AI를 시켜</span><span class="kw">감독 AI → 실행 AI 여럿 → 검사원 AI(Codex)</span><span class="kw">사람은 방향 지시와 마지막 도장</span><span class="kw">작업지시 13 · 검수반려 5 · 교차검사 6</span></div>
-  <div class="blk-body">
-    <div class="blk-main">
-      <div class="meta"><span class="snum">s20</span> 제작 조직도 · AI에게 AI를 시켜 만들었다</div>
+</section>
+<section class="card" data-n="20" id="card20">
+  <div class="cardhead">
+    <div class="pbadge">파트 6 · 에이전트 <span class="pt">6분</span></div>
+    <h2 class="ctitle"><span class="snum">s20</span> 제작 조직도 · AI에게 AI를 시켜 만들었다</h2>
+  </div>
+  <div class="cardbody">
+    <div class="kwzone">
+      <div class="kw-bar"><span class="kw">이 강의 자료도 AI로 AI를 시켜</span><span class="kw">감독 AI → 실행 AI 여럿 → 검사원 AI(Codex)</span><span class="kw">사람은 방향 지시와 마지막 도장</span><span class="kw">작업지시 13 · 검수반려 5 · 교차검사 6</span></div>
       <p class="hint">“사실 이 덱 자체가 증거입니다. AI에게 AI를 시켜 만들었습니다.”</p>
     </div>
-    <div class="thumb-wrap"><div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s20 · AI 제작 조직도 — 감독 AI → 실행 AI 3 → 검사원 AI(Codex) → 사람 도장 / &quot;이 덱을 AI에게 AI를 시켜 만들었다&quot; --&gt;
+    <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s20 · AI 제작 조직도 — 감독 AI → 실행 AI 3 → 검사원 AI(Codex) → 사람 도장 / &quot;이 덱을 AI에게 AI를 시켜 만들었다&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -6045,25 +6100,20 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-brand&quot;&gt;&lt;span class=&quot;mark&quot;&gt;&lt;/span&gt;&lt;span class=&quot;wm&quot;&gt;Semicolony&lt;/span&gt;&lt;/div&gt;
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;20&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
-"></iframe></div></div>
+"></iframe></div>
   </div>
-</div>
-<div class="part">
-  <div class="part-head">
-    <h2>파트 7 · 마무리</h2>
-    <span class="part-time">5분</span>
-    <span class="part-range">s21–s24</span>
+</section>
+<section class="card" data-n="21" id="card21">
+  <div class="cardhead">
+    <div class="pbadge">파트 7 · 마무리 <span class="pt">5분</span></div>
+    <h2 class="ctitle"><span class="snum">s21</span> 환각 주의 · 확신 있게 틀린다</h2>
   </div>
-  <p class="part-desc">환각 주의 → 용어 → 레벨 → Q&amp;A</p>
-</div>
-<div class="blk" id="blk21">
-  <div class="kw-bar"><span class="kw">환각 = 확신 있게 틀린다</span><span class="kw">증상1 = 출처를 지어낸다</span><span class="kw">증상2 = 없는 사실을 단언한다</span><span class="kw">증상3 = 지적해도 우긴다</span><span class="kw">실화 = 가짜 판례로 제재(2023)</span><span class="kw">그래서 사람이 거른다</span></div>
-  <div class="blk-body">
-    <div class="blk-main">
-      <div class="meta"><span class="snum">s21</span> 환각 주의 · 확신 있게 틀린다</div>
+  <div class="cardbody">
+    <div class="kwzone">
+      <div class="kw-bar"><span class="kw">환각 = 확신 있게 틀린다</span><span class="kw">증상1 = 출처를 지어낸다</span><span class="kw">증상2 = 없는 사실을 단언한다</span><span class="kw">증상3 = 지적해도 우긴다</span><span class="kw">실화 = 가짜 판례로 제재(2023)</span><span class="kw">그래서 사람이 거른다</span></div>
       <p class="hint">“좋은 얘기만 드리면 안 되겠죠. AI의 직업병, 환각을 짚겠습니다.”</p>
     </div>
-    <div class="thumb-wrap"><div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s21 · 환각 = AI의 직업병 — 실제 증상 3카드(출처 지어냄·확신 있게 단언·지적해도 우김) + 실화 콜아웃 + 대응 수칙 스트립(출처확인·대조·발송, 증상 1:1) / 현상→대응 --&gt;
+    <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s21 · 환각 = AI의 직업병 — 실제 증상 3카드(출처 지어냄·확신 있게 단언·지적해도 우김) + 실화 콜아웃 + 대응 수칙 스트립(출처확인·대조·발송, 증상 1:1) / 현상→대응 --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -6365,17 +6415,20 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-brand&quot;&gt;&lt;span class=&quot;mark&quot;&gt;&lt;/span&gt;&lt;span class=&quot;wm&quot;&gt;Semicolony&lt;/span&gt;&lt;/div&gt;
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;21&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
-"></iframe></div></div>
+"></iframe></div>
   </div>
-</div>
-<div class="blk" id="blk22">
-  <div class="kw-bar"><span class="kw">이 장은 사진 찍으세요 📸</span><span class="kw">같은 개념, 세 가지 이름</span><span class="kw">오늘 쓴 말 → 연구실 용어 → AI 용어</span><span class="kw">검색은 오른쪽 단어로</span></div>
-  <div class="blk-body">
-    <div class="blk-main">
-      <div class="meta"><span class="snum">s22</span> 용어 사다리 · 같은 개념, 세 이름</div>
+</section>
+<section class="card" data-n="22" id="card22">
+  <div class="cardhead">
+    <div class="pbadge">파트 7 · 마무리 <span class="pt">5분</span></div>
+    <h2 class="ctitle"><span class="snum">s22</span> 용어 사다리 · 같은 개념, 세 이름</h2>
+  </div>
+  <div class="cardbody">
+    <div class="kwzone">
+      <div class="kw-bar"><span class="kw">이 장은 사진 찍으세요 📸</span><span class="kw">같은 개념, 세 가지 이름</span><span class="kw">오늘 쓴 말 → 연구실 용어 → AI 용어</span><span class="kw">검색은 오른쪽 단어로</span></div>
       <p class="hint">“이 장은 나중에 공부하실 때 지도입니다. 사진 한 장 찍어두세요.”</p>
     </div>
-    <div class="thumb-wrap"><div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s22 · 용어 사다리 — 오늘 쓴 말 / 연구실 용어 / AI 용어 3열 표 (사진 찍는 장표) --&gt;
+    <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s22 · 용어 사다리 — 오늘 쓴 말 / 연구실 용어 / AI 용어 3열 표 (사진 찍는 장표) --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -6639,17 +6692,20 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-brand&quot;&gt;&lt;span class=&quot;mark&quot;&gt;&lt;/span&gt;&lt;span class=&quot;wm&quot;&gt;Semicolony&lt;/span&gt;&lt;/div&gt;
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;22&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
-"></iframe></div></div>
+"></iframe></div>
   </div>
-</div>
-<div class="blk" id="blk23">
-  <div class="kw-bar"><span class="kw">나는 지금 몇 레벨?</span><span class="kw">오늘 강의 = Lv.2–5</span><span class="kw">대화형 → 작업형 → 운영형</span><span class="kw">대부분 Lv.4에서 멈춘다</span><span class="kw">오늘 과제 = 지시문 1개 저장 = Lv.5 첫발</span></div>
-  <div class="blk-body">
-    <div class="blk-main">
-      <div class="meta"><span class="snum">s23</span> 레벨 체크 · 나는 지금 몇 레벨?</div>
+</section>
+<section class="card" data-n="23" id="card23">
+  <div class="cardhead">
+    <div class="pbadge">파트 7 · 마무리 <span class="pt">5분</span></div>
+    <h2 class="ctitle"><span class="snum">s23</span> 레벨 체크 · 나는 지금 몇 레벨?</h2>
+  </div>
+  <div class="cardbody">
+    <div class="kwzone">
+      <div class="kw-bar"><span class="kw">나는 지금 몇 레벨?</span><span class="kw">오늘 강의 = Lv.2–5</span><span class="kw">대화형 → 작업형 → 운영형</span><span class="kw">대부분 Lv.4에서 멈춘다</span><span class="kw">오늘 과제 = 지시문 1개 저장 = Lv.5 첫발</span></div>
       <p class="hint">“마지막으로 지금 내 위치를 찾아보겠습니다. 나는 몇 레벨일까요?”</p>
     </div>
-    <div class="thumb-wrap"><div class="thumb"><iframe loading="lazy" srcdoc="&lt;meta charset=&quot;UTF-8&quot;&gt;
+    <div class="thumb"><iframe loading="lazy" srcdoc="&lt;meta charset=&quot;UTF-8&quot;&gt;
 &lt;!-- s23 · Level Check — 8단계 레벨 사다리(자가진단) + 오늘의 과제 통합 / &quot;나는 지금 몇 레벨?&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
@@ -6953,17 +7009,20 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-brand&quot;&gt;&lt;span class=&quot;mark&quot;&gt;&lt;/span&gt;&lt;span class=&quot;wm&quot;&gt;Semicolony&lt;/span&gt;&lt;/div&gt;
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;23&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
-"></iframe></div></div>
+"></iframe></div>
   </div>
-</div>
-<div class="blk" id="blk24">
-  <div class="kw-bar"><span class="kw">이제 여러분 차례</span><span class="kw">질문 환영합니다</span><span class="kw">오늘 세팅 킷 — QR 찍어가기</span><span class="kw">못 다룬 건 끝나고도 좋습니다</span></div>
-  <div class="blk-body">
-    <div class="blk-main">
-      <div class="meta"><span class="snum">s24</span> 클로징 · 질문 환영합니다</div>
+</section>
+<section class="card" data-n="24" id="card24">
+  <div class="cardhead">
+    <div class="pbadge">파트 7 · 마무리 <span class="pt">5분</span></div>
+    <h2 class="ctitle"><span class="snum">s24</span> 클로징 · 질문 환영합니다</h2>
+  </div>
+  <div class="cardbody">
+    <div class="kwzone">
+      <div class="kw-bar"><span class="kw">이제 여러분 차례</span><span class="kw">질문 환영합니다</span><span class="kw">오늘 세팅 킷 — QR 찍어가기</span><span class="kw">못 다룬 건 끝나고도 좋습니다</span></div>
       <p class="hint">“여기까지입니다. 이제 여러분 차례입니다 — 무엇이든 물어보세요.”</p>
     </div>
-    <div class="thumb-wrap"><div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s24 · 클로징 — 표지 수미상관 / 다트판 동심원 은은히 + &quot;질문 환영합니다&quot; --&gt;
+    <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s24 · 클로징 — 표지 수미상관 / 다트판 동심원 은은히 + &quot;질문 환영합니다&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -7239,9 +7298,55 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-brand&quot;&gt;&lt;span class=&quot;mark&quot;&gt;&lt;/span&gt;&lt;span class=&quot;wm&quot;&gt;Semicolony&lt;/span&gt;&lt;/div&gt;
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;24&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
-"></iframe></div></div>
+"></iframe></div>
   </div>
+</section>
 </div>
-</div>
+<div class="navhint">← → 키 또는 스와이프</div>
+<div class="counter" id="counter">안내</div>
+<script>
+(function(){
+  var deck=document.getElementById('deck');
+  var counter=document.getElementById('counter');
+  var pbar=document.getElementById('pbar');
+  var cards=Array.prototype.slice.call(deck.querySelectorAll('.card'));
+  var TOTAL=24;
+
+  function fit(thumb){
+    var f=thumb.querySelector('iframe'); if(!f) return;
+    var w=thumb.clientWidth, h=thumb.clientHeight;
+    if(!w||!h) return;
+    var s=Math.min(w/1280, h/720);
+    f.style.transform='translate(-50%,-50%) scale('+s+')';
+  }
+  function fitAll(){ deck.querySelectorAll('.thumb').forEach(fit); }
+  window.addEventListener('resize', fitAll);
+  window.addEventListener('load', fitAll);
+  document.addEventListener('DOMContentLoaded', fitAll);
+  setTimeout(fitAll,150); setTimeout(fitAll,600);
+
+  // 진행 표시 — 화면 중앙에 걸린 카드 기준
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting && e.intersectionRatio>=0.55){
+        var n=e.target.getAttribute('data-n');
+        if(n){ counter.textContent=n+' / '+TOTAL; pbar.style.width=(n/TOTAL*100)+'%'; }
+        else { counter.textContent='안내'; pbar.style.width='0%'; }
+      }
+    });
+  }, {root:deck, threshold:[0.55,0.8]});
+  cards.forEach(function(c){ io.observe(c); });
+
+  // 데스크톱 ← → 키 이동
+  window.addEventListener('keydown', function(ev){
+    if(ev.key!=='ArrowRight' && ev.key!=='ArrowLeft') return;
+    ev.preventDefault();
+    var cw=deck.clientWidth;
+    var idx=Math.round(deck.scrollLeft/cw);
+    var next=ev.key==='ArrowRight' ? Math.min(idx+1, cards.length-1) : Math.max(idx-1,0);
+    deck.scrollTo({left: next*cw, behavior:'smooth'});
+  });
+})();
+</script>
 </body>
 </html>
