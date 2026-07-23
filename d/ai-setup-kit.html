@@ -109,16 +109,92 @@
 
 <header class="page-head">
   <h1 class="title">AI 비서 세팅 킷</h1>
-  <p class="lede">Claude·GPT에 넣는 운영 규칙 템플릿 3종</p>
+  <p class="lede">강의에서 배운 네 단어로 바로 시작하고, 운영 규칙 템플릿 3종으로 굳히는 킷</p>
   <nav class="toc">
     <h2>목차</h2>
-    <ol>
-      <li><a href="#doc-guide">① 세팅 가이드 (세팅해주는 사람용)</a></li>
-      <li><a href="#doc-claude">② CLAUDE.md 템플릿 (Claude Code용)</a></li>
-      <li><a href="#doc-gpt">③ ChatGPT(GPT) 버전</a></li>
-    </ol>
+    <p style="font-size:0.82rem; color:var(--sub); margin:0 0 6px; font-weight:600;">먼저 — 오늘 배운 걸 바로 써보기</p>
+    <ul style="list-style:none; padding-left:0; margin:0 0 12px;">
+      <li style="margin-bottom:6px;"><a href="#kit-quickstart">강의에서 배운 것, 바로 쓰기 (네 단어 지시문)</a></li>
+      <li style="margin-bottom:6px;"><a href="#kit-web10">10분 시작 코스 (웹부터)</a></li>
+    </ul>
+    <p style="font-size:0.82rem; color:var(--sub); margin:0 0 6px; font-weight:600;">그다음 — 본격 운영 규칙 템플릿 3종</p>
+    <ul style="list-style:none; padding-left:0; margin:0;">
+      <li style="margin-bottom:6px;"><a href="#doc-guide">① 세팅 가이드 (세팅해주는 사람용)</a></li>
+      <li style="margin-bottom:6px;"><a href="#doc-claude">② CLAUDE.md 템플릿 (Claude Code용)</a></li>
+      <li style="margin-bottom:0;"><a href="#doc-gpt">③ ChatGPT(GPT) 버전</a></li>
+    </ul>
   </nav>
 </header>
+
+<!-- ============ 신규 A: 강의에서 배운 것, 바로 쓰기 ============ -->
+<section class="doc" id="kit-quickstart">
+<h1>강의에서 배운 것, 바로 쓰기</h1>
+
+<blockquote><p>강의 핵심은 하나였습니다 — <strong>AI는 뽑기 기계</strong>라, 잘 시키면 잘 나옵니다. 잘 시키는 법은 네 단어면 됩니다: <strong>역할 · 재료 · 형태 · 예시</strong>. 아래 빈칸만 채워 그대로 붙여넣으세요.</p></blockquote>
+
+<hr>
+
+<h2>네 단어 지시문 — 빈칸 채우기</h2>
+<p>[대괄호]만 내 상황으로 바꾸면 됩니다. 오른쪽 위 버튼으로 통째로 복사해 AI 창에 붙여넣으세요.</p>
+
+<div class="code-block">
+<button class="copy-btn" data-target="quickstart-template">전체 복사</button>
+<pre id="quickstart-template"><code>[역할] 너는 우리 회사의 [___] 담당자다.
+
+[재료] 아래 자료만 근거로 쓴다. 자료에 없는 값은 지어내지 말고 '확인 필요'라고 표기한다.
+
+[형태] [___] 형식으로 정리한다. 금액은 다시 계산해 검산한다.
+
+[예시] 기존 [___]와 같은 양식·톤으로 맞춘다.
+
+---
+[여기에 참고 자료를 붙여넣으세요]</code></pre>
+</div>
+
+<h3>채운 예시 (견적서를 시킬 때)</h3>
+<blockquote><p><strong>[역할]</strong> 너는 우리 회사의 <strong>견적</strong> 담당자다. <strong>[재료]</strong> 아래 자료만 근거로 쓴다. 없는 값은 '확인 필요'로 표기한다. <strong>[형태]</strong> <strong>표</strong> 형식으로. 금액은 다시 계산해 검산한다. <strong>[예시]</strong> 기존 <strong>3월 견적서</strong>와 같은 양식·톤으로.</p></blockquote>
+
+<hr>
+
+<h2>오늘의 과제</h2>
+<div class="summary">
+<p>📌 잘 나온 지시문 <strong>1개</strong>를, 파일로 저장해 두세요.</p>
+<p>다음에 또 씁니다 — 저장해 꺼내 쓰면 매번 같은 품질이 나옵니다(강의에서 말한 '반복성'). 이게 Lv.5로 가는 첫발입니다.</p>
+</div>
+
+<hr>
+
+<h2>딱 두 가지만 조심</h2>
+<ul>
+<li><strong>환각 — 숫자·출처는 원본과 대조.</strong> AI는 없는 것도 그럴듯하게 지어냅니다. 금액·날짜·출처는 반드시 원본과 맞춰본 뒤에 쓰세요.</li>
+<li><strong>기밀 — 회사 기밀은 넣지 않기.</strong> 단가·거래처명·마진 같은 건 AI 창에 붙여넣지 마세요.</li>
+</ul>
+</section>
+
+<!-- ============ 신규 B: 10분 시작 코스 ============ -->
+<section class="doc" id="kit-web10">
+<h1>10분 시작 코스 (웹부터)</h1>
+
+<blockquote><p>설치도 세팅도 필요 없습니다. 웹 브라우저만 있으면 지금 바로 됩니다. 딱 3단계, 10분입니다.</p></blockquote>
+
+<hr>
+
+<h2>1단계. 가입 (2분)</h2>
+<p><a href="https://claude.ai">claude.ai</a> 또는 <a href="https://chatgpt.com">chatgpt.com</a>에 들어가 가입합니다. 둘 중 아무거나 괜찮습니다. 폰 앱으로 해도 됩니다.</p>
+
+<h2>2단계. 첫 지시 쳐보기 (5분)</h2>
+<p>위 <a href="#kit-quickstart"><strong>네 단어 지시문</strong></a>의 [빈칸]을 채워 그대로 쳐봅니다. 참고할 자료가 있으면 아래에 붙여넣으세요. 결과가 마음에 안 들면 형태·예시를 조금 더 구체적으로 바꿔 다시 시킵니다.</p>
+
+<h2>3단계. 잘 나온 지시문 저장 (1분)</h2>
+<p>결과가 좋았던 지시문을 <strong>메모장에 복사해 저장</strong>합니다. 이게 오늘의 과제입니다 — 다음에 그대로 꺼내 쓰면 됩니다.</p>
+
+<hr>
+
+<div class="summary">
+<p>📌 더 본격적으로 쓰고 싶다면</p>
+<p>말투·저장 규칙까지 AI에 아예 박아두는 방법은 아래 <a href="#doc-guide">세팅 가이드(Claude Code)</a>에 있습니다. 웹으로 손에 익은 뒤에 넘어가세요.</p>
+</div>
+</section>
 
 <!-- ============ 문서 1: 세팅가이드 ============ -->
 <section class="doc" id="doc-guide">
