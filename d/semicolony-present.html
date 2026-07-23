@@ -11,8 +11,9 @@
   #pageno{position:fixed;right:16px;bottom:12px;z-index:12;font-size:13px;font-weight:600;
     color:rgba(255,255,255,.5);font-variant-numeric:tabular-nums;letter-spacing:.05em;}
   #pageno b{color:rgba(255,255,255,.92);font-weight:800;}
-  .zone{position:fixed;top:0;bottom:0;width:25%;z-index:10;cursor:pointer;}
-  #zoneL{left:0;} #zoneR{right:0;}
+  /* 슬라이드 위 클릭 넘김 = 좌우 최외곽 5% 얇은 띠만(카드·링크 위를 덮지 않음). 슬라이드 바깥 레터박스는 JS가 처리 */
+  .edge{position:absolute;top:0;bottom:0;width:5%;z-index:20;cursor:pointer;}
+  #edgeL{left:0;} #edgeR{right:0;}
   #hint{position:fixed;left:16px;bottom:12px;z-index:12;font-size:11px;color:rgba(255,255,255,.28);
     letter-spacing:.02em;transition:opacity .4s ease;}
   #fsbtn{position:fixed;right:66px;bottom:8px;z-index:13;width:26px;height:26px;padding:0;
@@ -21,9 +22,7 @@
     transition:background .2s ease,color .2s ease;}
   #fsbtn:hover{background:rgba(255,255,255,.22);color:rgba(255,255,255,.96);}
 </style></head><body>
-  <div id="viewport"><div id="deck"></div></div>
-  <div class="zone" id="zoneL" aria-label="이전"></div>
-  <div class="zone" id="zoneR" aria-label="다음"></div>
+  <div id="viewport"><div id="deck"><div class="edge" id="edgeL" aria-label="이전"></div><div class="edge" id="edgeR" aria-label="다음"></div></div></div>
   <button id="fsbtn" type="button" aria-label="전체화면" title="전체화면 (F)">⛶</button>
   <div id="pageno"><b id="cur">1</b> / 24</div>
   <div id="hint">→ / Space 다음 · ← 이전 · F 또는 ⛶ 전체화면 · 좌우 클릭·스와이프</div>
@@ -6910,8 +6909,16 @@ function handleKey(e) {
   }
 }
 document.addEventListener('keydown', handleKey);
-document.getElementById('zoneL').addEventListener('click', prev);
-document.getElementById('zoneR').addEventListener('click', next);
+// 슬라이드 위 클릭 넘김 = 최외곽 5% 띠만(카드/링크 클릭을 삼키지 않음)
+document.getElementById('edgeL').addEventListener('click', prev);
+document.getElementById('edgeR').addEventListener('click', next);
+// 슬라이드 사각형 바깥(검은 레터박스) 전체 = 넘김. 클릭 x가 왼쪽 절반이면 이전, 아니면 다음.
+// 슬라이드/띠/UI 클릭은 target이 viewport가 아니므로 제외(iframe 내부 클릭은 부모로 버블되지 않음).
+var viewportEl = document.getElementById('viewport');
+viewportEl.addEventListener('click', function (e) {
+  if (e.target !== viewportEl) return;
+  if (e.clientX < window.innerWidth / 2) prev(); else next();
+});
 function toggleFs() {
   try {
     var d = document, el = d.documentElement;
