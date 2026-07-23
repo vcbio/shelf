@@ -14,7 +14,7 @@ h1{text-align:center;font-size:19px;font-weight:700;margin:0 0 6px;}
 .ov-desc{color:#aaa;flex:1 1 100%;font-size:12.5px;}
 h2{max-width:1000px;margin:38px auto 4px;padding:0 16px;font-size:16px;color:#F5A524;font-weight:800;}
 .part-desc{max-width:1000px;margin:0 auto 14px;padding:0 16px;font-size:13px;color:#a89;color:#a9a29a;}
-.wrap{max-width:1000px;margin:0 auto 30px;padding:0 16px;}
+.wrap{max-width:1000px;margin:0 auto 30px;padding:0 16px;scroll-margin-top:24px;}
 .label{font-size:13.5px;color:#ddd;margin:0 0 2px 4px;font-weight:700;}
 .role{font-size:12.5px;color:#9c948a;margin:0 0 7px 4px;line-height:1.5;}
 .frame{position:relative;width:100%;aspect-ratio:16/9;border-radius:8px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.5);}
@@ -37,7 +37,7 @@ window.addEventListener('resize',fit);window.addEventListener('load',fit);
 </script>
 <h2>파트 1 · 후킹 — 5분</h2>
 <p class="part-desc">실물부터 보여주고 신뢰를 확보한다 — "저 코딩 못 하는데 이걸 만듭니다"</p>
-<div class="wrap"><p class="label">s01 · 표지</p><p class="role">오프닝 인사. 다트판 모티프가 강의 전체의 복선.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s01 · 표지 — &quot;AI, 뽑기에서 장비로&quot; / 다트판 동심원 모티프 다크 풀블리드 --&gt;
+<div class="wrap" id="s01"><p class="label">s01 · 표지</p><p class="role">오프닝 인사. 다트판 모티프가 강의 전체의 복선.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s01 · 표지 — &quot;AI, 뽑기에서 장비로&quot; / 다트판 동심원 모티프 다크 풀블리드 --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -327,7 +327,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;01&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
 "></iframe></div></div>
-<div class="wrap"><p class="label">s02 · 자기소개</p><p class="role">연구원→대표 타임라인. "저는 코딩 못 합니다" — 청중과 같은 편임을 선언.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s02 · 자기소개 — 3단계 타임라인 + 중앙 큰 문구 &quot;저는 코딩 못 합니다&quot; --&gt;
+<div class="wrap" id="s02"><p class="label">s02 · 자기소개</p><p class="role">연구원→대표 타임라인. "저는 코딩 못 합니다" — 청중과 같은 편임을 선언.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s02 · 자기소개 — 3단계 타임라인 + 중앙 큰 문구 &quot;저는 코딩 못 합니다&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -593,7 +593,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;02&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
 "></iframe></div></div>
-<div class="wrap"><p class="label">s03 · 실물 3분할</p><p class="role">제안서·견적서·랜딩페이지를 먼저 투척. "전부 AI가 만들었습니다"</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s03 · 실물 3분할 — 원료 제안서 덱 / 견적서(실물) / 영업 랜딩페이지 (실물 산출물) --&gt;
+<div class="wrap" id="s03"><p class="label">s03 · 실물 3분할</p><p class="role">제안서·견적서·랜딩페이지를 먼저 투척. "전부 AI가 만들었습니다"</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s03 · 실물 3분할 — 원료 제안서 덱 / 견적서(실물) / 영업 랜딩페이지 (실물 산출물) --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -865,8 +865,8 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 "></iframe></div></div>
 <h2>파트 2 · 진단 — 6분</h2>
 <p class="part-desc">청중의 실패 경험에 공감 — "AI를 뽑기처럼 쓰고 있어서 그렇습니다"</p>
-<div class="wrap"><p class="label">s04 · 뽑기 진단</p><p class="role">"한 줄 던지고 나오는 대로 받으면 매번 다른 게 당연합니다"</p><div class="frame"><iframe loading="lazy" src="./semicolony-s04-3d.html"></iframe></div></div>
-<div class="wrap"><p class="label">s05 · AI ≠ AGI</p><p class="role">기대 오차 진단 — 만능 직원(AGI)이 아니라 장비에게 기대하라</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s05 · AI ≠ AGI — 기대와 현실 / 기대한 '만능 직원'(AGI) vs 지금의 도구(AI) 좌우 비교 + 용어 미니정의 --&gt;
+<div class="wrap" id="s04"><p class="label">s04 · 뽑기 진단</p><p class="role">"한 줄 던지고 나오는 대로 받으면 매번 다른 게 당연합니다"</p><div class="frame"><iframe loading="lazy" src="./semicolony-s04-3d.html"></iframe></div></div>
+<div class="wrap" id="s05"><p class="label">s05 · AI ≠ AGI</p><p class="role">기대 오차 진단 — 만능 직원(AGI)이 아니라 장비에게 기대하라</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s05 · AI ≠ AGI — 기대와 현실 / 기대한 '만능 직원'(AGI) vs 지금의 도구(AI) 좌우 비교 + 용어 미니정의 --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -1157,7 +1157,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;05&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
 "></iframe></div></div>
-<div class="wrap"><p class="label">s06 · 오늘의 네 단어</p><p class="role">오늘 다룰 네 단어(정확성·정밀성·반복성·재현성)를 지도처럼 한 장에 펼쳐 예고 — 상세는 다음 장부터 하나씩.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s06 · 네 단어 지도 — &quot;오늘의 네 단어&quot; / 정확성·정밀성·반복성·재현성 개관(지도) --&gt;
+<div class="wrap" id="s06"><p class="label">s06 · 오늘의 네 단어</p><p class="role">오늘 다룰 네 단어(정확성·정밀성·반복성·재현성)를 지도처럼 한 장에 펼쳐 예고 — 상세는 다음 장부터 하나씩.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s06 · 네 단어 지도 — &quot;오늘의 네 단어&quot; / 정확성·정밀성·반복성·재현성 개관(지도) --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -1480,7 +1480,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;06&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
 "></iframe></div></div>
-<div class="wrap"><p class="label">s07 · 다트판 2×2</p><p class="role">정확성×정밀성 4분면. 청중에게 "지금 어느 판인가요?" 손들게 하기.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s07 · 다트판 2×2 — 정확성·정밀성 매트릭스 / &quot;지금 어느 판인가요?&quot; --&gt;
+<div class="wrap" id="s07"><p class="label">s07 · 다트판 2×2</p><p class="role">정확성×정밀성 4분면. 청중에게 "지금 어느 판인가요?" 손들게 하기.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s07 · 다트판 2×2 — 정확성·정밀성 매트릭스 / &quot;지금 어느 판인가요?&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -1825,7 +1825,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 "></iframe></div></div>
 <h2>파트 3 · 연구실의 답 — 7분</h2>
 <p class="part-desc">연구실 품질 개념(반복성·정밀성·재현성)을 AI에 접목하는 강의의 등뼈</p>
-<div class="wrap"><p class="label">s08 · 반복성·재현성 확장</p><p class="role">좋은 판을 한 번이 아니라 다음 주에도, 남이 해도 만드는 게 실력.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s08 · 반복성·재현성 두 축 — 다트판 1개 + 시간축(가로)·조건축(세로) / &quot;다음 주에도, 남이 해도&quot; --&gt;
+<div class="wrap" id="s08"><p class="label">s08 · 반복성·재현성 확장</p><p class="role">좋은 판을 한 번이 아니라 다음 주에도, 남이 해도 만드는 게 실력.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s08 · 반복성·재현성 두 축 — 다트판 1개 + 시간축(가로)·조건축(세로) / &quot;다음 주에도, 남이 해도&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -2132,7 +2132,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 })();
 &lt;/script&gt;
 "></iframe></div></div>
-<div class="wrap"><p class="label">s09 · 연구실의 3종 세트</p><p class="role">연구실이 데이터를 믿는 이유 = 매뉴얼(SOP)·기록(실험노트)·검사(QC).</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s09 · 연구실의 3종 세트 — SOP·실험노트·QC 카드 3개 / &quot;연구실이 데이터를 믿는 이유&quot; --&gt;
+<div class="wrap" id="s09"><p class="label">s09 · 연구실의 3종 세트</p><p class="role">연구실이 데이터를 믿는 이유 = 매뉴얼(SOP)·기록(실험노트)·검사(QC).</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s09 · 연구실의 3종 세트 — SOP·실험노트·QC 카드 3개 / &quot;연구실이 데이터를 믿는 이유&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -2420,7 +2420,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 "></iframe></div></div>
 <h2>파트 4 · 실천법 — 10분</h2>
 <p class="part-desc">기둥별 실천 3가지 — 구체적으로 시켜라 · 지시문을 저장하라 · 자료를 줘라</p>
-<div class="wrap"><p class="label">s10 · 잘 시키는 법 4원칙</p><p class="role">역할·재료·형태·예시. 나쁜 프롬프트 vs 좋은 프롬프트 대비.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s10 · 잘 시키는 법 — before/after 말풍선 + 4원칙 칩 / &quot;구체적으로 시켜라&quot; --&gt;
+<div class="wrap" id="s10"><p class="label">s10 · 잘 시키는 법 4원칙</p><p class="role">역할·재료·형태·예시. 나쁜 프롬프트 vs 좋은 프롬프트 대비.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s10 · 잘 시키는 법 — before/after 말풍선 + 4원칙 칩 / &quot;구체적으로 시켜라&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -2697,7 +2697,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;10&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
 "></iframe></div></div>
-<div class="wrap"><p class="label">s11 · 실제 지시문</p><p class="role">실무 지시문 실물 공개. ⚠️ 현재 목업 — 실제 스크린샷으로 교체 예정.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s11 · 실제 지시문 목업 — 다크 채팅/에디터 프레임 하나 크게 / &quot;제가 실제로 쓰는 지시문입니다&quot;
+<div class="wrap" id="s11"><p class="label">s11 · 실제 지시문</p><p class="role">실무 지시문 실물 공개. ⚠️ 현재 목업 — 실제 스크린샷으로 교체 예정.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s11 · 실제 지시문 목업 — 다크 채팅/에디터 프레임 하나 크게 / &quot;제가 실제로 쓰는 지시문입니다&quot;
      ※ 이 목업 프레임(.mock-frame)은 나중에 대표님 실제 프롬프트 스크린샷 이미지로 교체 예정.
         교체 시 아래 &lt;div class=&quot;mock-frame&quot;&gt;…&lt;/div&gt; 통째를 &lt;img&gt;로 대체하면 됨. --&gt;
 &lt;style&gt;
@@ -2938,7 +2938,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;11&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
 "></iframe></div></div>
-<div class="wrap"><p class="label">s12 · 지시문을 저장하라</p><p class="role">반복성의 핵심 — 매번 새로 치는 순간 반복성은 죽는다.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s12 · 저장하라 — 저장된 지시문 1장 → 월·화·수 복제 → 같은 결과로 수렴 / &quot;잘 된 지시문은 저장하라&quot; --&gt;
+<div class="wrap" id="s12"><p class="label">s12 · 지시문을 저장하라</p><p class="role">반복성의 핵심 — 매번 새로 치는 순간 반복성은 죽는다.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s12 · 저장하라 — 저장된 지시문 1장 → 월·화·수 복제 → 같은 결과로 수렴 / &quot;잘 된 지시문은 저장하라&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -3303,7 +3303,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;12&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
 "></iframe></div></div>
-<div class="wrap"><p class="label">s13 · 자료를 줘라</p><p class="role">재현성의 핵심 — 지시문(방법)에 자료(재료)를 더해야 새 세션·다른 모델도 같은 결과.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s13 · 자료를 줘라 — 파일 뭉치 → AI 노드 → 새 세션·다른 AI가 같은 결과로 / &quot;설명하지 말고, 자료를 줘라&quot; --&gt;
+<div class="wrap" id="s13"><p class="label">s13 · 자료를 줘라</p><p class="role">재현성의 핵심 — 지시문(방법)에 자료(재료)를 더해야 새 세션·다른 모델도 같은 결과.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s13 · 자료를 줘라 — 파일 뭉치 → AI 노드 → 새 세션·다른 AI가 같은 결과로 / &quot;설명하지 말고, 자료를 줘라&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -3607,7 +3607,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 "></iframe></div></div>
 <h2>파트 5 · 라이브 데모 — 11분</h2>
 <p class="part-desc">같은 요청 4번 실험 — 대충 한 줄×2 vs 매뉴얼+자료×2, 반복성을 눈으로 증명</p>
-<div class="wrap"><p class="label">s14 · 실험 예고</p><p class="role">데모 진입 장표. 같은 요청을 조건만 바꿔 4번 던지는 실험 설계.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s14 · 실험 예고 — 플라스크 + 2×2 실험 설계표(셀은 물음표) / &quot;같은 요청을 4번 던져보겠습니다&quot; --&gt;
+<div class="wrap" id="s14"><p class="label">s14 · 실험 예고</p><p class="role">데모 진입 장표. 같은 요청을 조건만 바꿔 4번 던지는 실험 설계.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s14 · 실험 예고 — 플라스크 + 2×2 실험 설계표(셀은 물음표) / &quot;같은 요청을 4번 던져보겠습니다&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -3898,7 +3898,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;14&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
 "></iframe></div></div>
-<div class="wrap"><p class="label">s15 · 데모 1 배경판</p><p class="role">🔴 라이브: 대충 한 줄 ×2회 → 결과가 매번 딴판임을 현장 확인.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s15 · 데모 1 배경판 — &quot;대충 한 줄 × 2회&quot; / 빈 결과 프레임 2개(점선) / &quot;결과가 매번 딴판입니다&quot; --&gt;
+<div class="wrap" id="s15"><p class="label">s15 · 데모 1 배경판</p><p class="role">🔴 라이브: 대충 한 줄 ×2회 → 결과가 매번 딴판임을 현장 확인.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s15 · 데모 1 배경판 — &quot;대충 한 줄 × 2회&quot; / 빈 결과 프레임 2개(점선) / &quot;결과가 매번 딴판입니다&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -4150,7 +4150,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;15&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
 "></iframe></div></div>
-<div class="wrap"><p class="label">s16 · 데모 2 배경판</p><p class="role">🔴 라이브: 매뉴얼+자료 ×2회 → 편차가 줄어드는 것을 현장 확인.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s16 · 데모 2 배경판 — &quot;매뉴얼 + 자료 × 2회&quot; / 빈 결과 프레임 2개(accent 보더) / &quot;편차가 줄었습니다 — 반복성&quot; --&gt;
+<div class="wrap" id="s16"><p class="label">s16 · 데모 2 배경판</p><p class="role">🔴 라이브: 매뉴얼+자료 ×2회 → 편차가 줄어드는 것을 현장 확인.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s16 · 데모 2 배경판 — &quot;매뉴얼 + 자료 × 2회&quot; / 빈 결과 프레임 2개(accent 보더) / &quot;편차가 줄었습니다 — 반복성&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -4416,7 +4416,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 "></iframe></div></div>
 <h2>파트 6 · 에이전트 — 6분</h2>
 <p class="part-desc">3기둥의 종착지 — 매뉴얼+기록+검사가 갖춰지면 AI 직원이 된다</p>
-<div class="wrap"><p class="label">s17 · 에이전트 업무 루프</p><p class="role">"AI 직원을 고용했습니다" — 발주서→승인(사람 게이트)→매입·매출→거래명세서·알림∥입고분류→검수·전송.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;meta charset=&quot;UTF-8&quot;&gt;
+<div class="wrap" id="s17"><p class="label">s17 · 에이전트 업무 루프</p><p class="role">"AI 직원을 고용했습니다" — 발주서→승인(사람 게이트)→매입·매출→거래명세서·알림∥입고분류→검수·전송.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;meta charset=&quot;UTF-8&quot;&gt;
 &lt;!-- s17 · 에이전트 업무 루프 — 발주서→승인(사람 게이트)→매입·매출 등록→분기(동시 진행)→합류(검수·전송) / &quot;AI 직원을 고용했습니다&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
@@ -4760,7 +4760,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;17&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
 "></iframe></div></div>
-<div class="wrap"><p class="label">s18 · 에이전트 라이브 로그</p><p class="role">"이 루프는 제가 자리에 없어도 돕니다 — 승인 도장만 빼고." 로드 시 로그 한 줄씩 타이핑·호버 리플레이.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s18 · 에이전트 라이브 로그 — 다크 터미널 + s17 업무 루프 실행 로그가 로드 시 한 줄씩 타이핑(체크 점등·커서 깜빡임) / &quot;이 루프는 제가 자리에 없어도 돕니다 — 승인 도장만 빼고.&quot; --&gt;
+<div class="wrap" id="s18"><p class="label">s18 · 에이전트 라이브 로그</p><p class="role">"이 루프는 제가 자리에 없어도 돕니다 — 승인 도장만 빼고." 로드 시 로그 한 줄씩 타이핑·호버 리플레이.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s18 · 에이전트 라이브 로그 — 다크 터미널 + s17 업무 루프 실행 로그가 로드 시 한 줄씩 타이핑(체크 점등·커서 깜빡임) / &quot;이 루프는 제가 자리에 없어도 돕니다 — 승인 도장만 빼고.&quot; --&gt;
 &lt;!-- ※ 결정론적 애니메이션(Math.random 없음): 로드 1회 재생 후 정지, 프레임 호버 시 리플레이(재생 가드). prefers-reduced-motion이면 전 줄 즉시 표시. 실제 녹화로 교체 가능. --&gt;
 &lt;style&gt;
 /* ============================================================================
@@ -5055,7 +5055,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 })();
 &lt;/script&gt;
 "></iframe></div></div>
-<div class="wrap"><p class="label">s19 · 검사 라인</p><p class="role">만드는 AI와 검사하는 AI를 분리. 최종 도장은 사람이 찍는다.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s19 · 검사 라인 — 만드는 AI → 검사하는 AI → 사람 도장 / 가로 흐름 다이어그램 --&gt;
+<div class="wrap" id="s19"><p class="label">s19 · 검사 라인</p><p class="role">만드는 AI와 검사하는 AI를 분리. 최종 도장은 사람이 찍는다.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s19 · 검사 라인 — 만드는 AI → 검사하는 AI → 사람 도장 / 가로 흐름 다이어그램 --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -5352,7 +5352,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;19&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
 "></iframe></div></div>
-<div class="wrap"><p class="label">s20 · AI 제작 조직도</p><p class="role">이 덱을 만든 감독-실행-교차검사 구조 — 실측 숫자 3개</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s20 · AI 제작 조직도 — 감독 AI → 실행 AI 3 → 검사원 AI(Codex) → 사람 도장 / &quot;이 덱을 AI에게 AI를 시켜 만들었다&quot; --&gt;
+<div class="wrap" id="s20"><p class="label">s20 · AI 제작 조직도</p><p class="role">이 덱을 만든 감독-실행-교차검사 구조 — 실측 숫자 3개</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s20 · AI 제작 조직도 — 감독 AI → 실행 AI 3 → 검사원 AI(Codex) → 사람 도장 / &quot;이 덱을 AI에게 AI를 시켜 만들었다&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -5716,7 +5716,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 "></iframe></div></div>
 <h2>파트 7 · 마무리 — 5분</h2>
 <p class="part-desc">주의사항 → 용어 사다리(사진) → 레벨 자가진단+과제 → Q&A</p>
-<div class="wrap"><p class="label">s21 · 주의 3종</p><p class="role">기밀 넣지 마라 · 숫자 검증해라 · 그대로 보내지 마라.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s21 · 환각 = AI의 직업병 — 실제 증상 3카드(출처 지어냄·확신 있게 단언·지적해도 우김) + 실화 콜아웃 + 대응 수칙 스트립(출처확인·대조·발송, 증상 1:1) / 현상→대응 --&gt;
+<div class="wrap" id="s21"><p class="label">s21 · 주의 3종</p><p class="role">기밀 넣지 마라 · 숫자 검증해라 · 그대로 보내지 마라.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s21 · 환각 = AI의 직업병 — 실제 증상 3카드(출처 지어냄·확신 있게 단언·지적해도 우김) + 실화 콜아웃 + 대응 수칙 스트립(출처확인·대조·발송, 증상 1:1) / 현상→대응 --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -6019,7 +6019,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;21&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
 "></iframe></div></div>
-<div class="wrap"><p class="label">s22 · 용어 사다리</p><p class="role">📸 청중이 사진 찍는 장표. 쉬운 말→연구실 용어→AI 용어 대응표.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s22 · 용어 사다리 — 오늘 쓴 말 / 연구실 용어 / AI 용어 3열 표 (사진 찍는 장표) --&gt;
+<div class="wrap" id="s22"><p class="label">s22 · 용어 사다리</p><p class="role">📸 청중이 사진 찍는 장표. 쉬운 말→연구실 용어→AI 용어 대응표.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s22 · 용어 사다리 — 오늘 쓴 말 / 연구실 용어 / AI 용어 3열 표 (사진 찍는 장표) --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -6284,7 +6284,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;22&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
 "></iframe></div></div>
-<div class="wrap"><p class="label">s23 · 나는 지금 몇 레벨? (자가진단+과제)</p><p class="role">7단계 레벨 사다리로 "나는 지금 몇 레벨?" 자가진단 + 오늘의 과제(지시문 1개 저장).</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;meta charset=&quot;UTF-8&quot;&gt;
+<div class="wrap" id="s23"><p class="label">s23 · 나는 지금 몇 레벨? (자가진단+과제)</p><p class="role">7단계 레벨 사다리로 "나는 지금 몇 레벨?" 자가진단 + 오늘의 과제(지시문 1개 저장).</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;meta charset=&quot;UTF-8&quot;&gt;
 &lt;!-- s23 · Level Check — 8단계 레벨 사다리(자가진단) + 오늘의 과제 통합 / &quot;나는 지금 몇 레벨?&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
@@ -6589,7 +6589,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;23&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
 "></iframe></div></div>
-<div class="wrap"><p class="label">s24 · 클로징</p><p class="role">표지와 수미상관. Q&A + 연락처.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s24 · 클로징 — 표지 수미상관 / 다트판 동심원 은은히 + &quot;질문 환영합니다&quot; --&gt;
+<div class="wrap" id="s24"><p class="label">s24 · 클로징</p><p class="role">표지와 수미상관. Q&A + 연락처.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s24 · 클로징 — 표지 수미상관 / 다트판 동심원 은은히 + &quot;질문 환영합니다&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
