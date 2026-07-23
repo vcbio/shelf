@@ -185,11 +185,6 @@
   "date": "2026-07-23"
  },
  {
-  "slug": "semicolony-present",
-  "title": "세미콜로니 강의 발표 모드 (24장)",
-  "date": "2026-07-23"
- },
- {
   "slug": "vcbio-logo-r2",
   "title": "VC Bio 로고 시안 2라운드 (5콘셉트)",
   "date": "2026-07-23"
@@ -197,6 +192,11 @@
  {
   "slug": "semicolony-ai-deck",
   "title": "세미콜로니 AI 강의덱 (24장)",
+  "date": "2026-07-23"
+ },
+ {
+  "slug": "semicolony-present",
+  "title": "세미콜로니 강의 발표 모드 (24장)",
   "date": "2026-07-23"
  }
 ]
