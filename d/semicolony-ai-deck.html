@@ -3321,7 +3321,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;12&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
 "></iframe></div></div>
-<div class="wrap" id="s13"><p class="label">s13 · 자료를 줘라</p><p class="role">재현성의 핵심 — 지시문(방법)에 자료(재료)를 더해야 새 세션·다른 모델도 같은 결과.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s13 · 자료를 줘라 — 파일 뭉치 → AI 노드 → 새 세션·다른 AI가 같은 결과로 / &quot;설명하지 말고, 자료를 줘라&quot; --&gt;
+<div class="wrap" id="s13"><p class="label">s13 · 자료를 줘라</p><p class="role">재현성의 핵심 — 지시문(방법)에 자료(재료)를 더해야 새 세션·다른 모델도 같은 결과.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s13 · 자료를 줘라 — 같은 지시, 자료 유무 대비 / 좌 &quot;자료 없이&quot;(추정·확인필요, dim/⚠) vs 우 &quot;단가표·기존 견적서를 주면&quot;(실측값, 발광/✓). 축 = 재료의 유무(s10=지시의 품질과 구분). 우측 결과값·업체명은 s16 실측과 정합(어니스트컴퍼니) --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -3499,19 +3499,9 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 &lt;div class=&quot;slide&quot;&gt;
 
   &lt;div class=&quot;bg-grad&quot;&gt;&lt;/div&gt;
-  &lt;div class=&quot;glow-orb&quot; style=&quot;width:440px;height:440px;left:44%;top:54%;transform:translate(-50%,-50%);opacity:.3;&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;glow-orb&quot; style=&quot;width:440px;height:440px;right:14%;top:58%;transform:translate(50%,-50%);opacity:.26;&quot;&gt;&lt;/div&gt;
   &lt;div class=&quot;bg-grain&quot;&gt;&lt;/div&gt;
   &lt;div class=&quot;vignette&quot;&gt;&lt;/div&gt;
-
-  &lt;!-- 공용 화살표 라인 그라디언트 (꼬리 → 머리 밝아짐) --&gt;
-  &lt;svg width=&quot;0&quot; height=&quot;0&quot; style=&quot;position:absolute&quot; aria-hidden=&quot;true&quot;&gt;&lt;defs&gt;
-    &lt;linearGradient id=&quot;arwG-h&quot; gradientUnits=&quot;userSpaceOnUse&quot; x1=&quot;0&quot; y1=&quot;10&quot; x2=&quot;66&quot; y2=&quot;10&quot;&gt;
-      &lt;stop offset=&quot;0&quot; stop-color=&quot;var(--accent)&quot; stop-opacity=&quot;.2&quot;/&gt;
-      &lt;stop offset=&quot;1&quot; stop-color=&quot;var(--accent)&quot; stop-opacity=&quot;.95&quot;/&gt;&lt;/linearGradient&gt;
-    &lt;linearGradient id=&quot;arwG-hd&quot; gradientUnits=&quot;userSpaceOnUse&quot; x1=&quot;0&quot; y1=&quot;8&quot; x2=&quot;26&quot; y2=&quot;8&quot;&gt;
-      &lt;stop offset=&quot;0&quot; stop-color=&quot;var(--text-dim)&quot; stop-opacity=&quot;.22&quot;/&gt;
-      &lt;stop offset=&quot;1&quot; stop-color=&quot;var(--text-dim)&quot; stop-opacity=&quot;.9&quot;/&gt;&lt;/linearGradient&gt;
-  &lt;/defs&gt;&lt;/svg&gt;
 
   &lt;div class=&quot;kicker&quot;&gt;&lt;span class=&quot;no&quot;&gt;13&lt;/span&gt;&lt;span class=&quot;bar&quot;&gt;&lt;/span&gt;&lt;span class=&quot;nm&quot;&gt;Give It Materials&lt;/span&gt;&lt;/div&gt;
   &lt;div style=&quot;position:absolute;top:44px;right:64px;text-align:right;z-index:6;&quot;&gt;
@@ -3521,99 +3511,107 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;stage&quot; style=&quot;display:flex;flex-direction:column;z-index:6;&quot;&gt;
 
     &lt;!-- 헤드라인 --&gt;
-    &lt;div&gt;
-      &lt;div class=&quot;title&quot; style=&quot;max-width:940px;&quot;&gt;
-        설명하지 말고, &lt;span class=&quot;ac&quot;&gt;자료를 줘라&lt;/span&gt;
-      &lt;/div&gt;
-      &lt;div class=&quot;sub&quot; style=&quot;margin-top:12px;color:var(--text-dim);max-width:760px;&quot;&gt;
-        지시문이 &lt;b class=&quot;w700&quot; style=&quot;color:var(--text)&quot;&gt;방법&lt;/b&gt;이라면, 자료는 &lt;b class=&quot;ac w700&quot;&gt;재료&lt;/b&gt; — 둘이 갖춰져야 &lt;b class=&quot;w700&quot; style=&quot;color:var(--text)&quot;&gt;누가 해도 같은 결과&lt;/b&gt;.
+    &lt;div style=&quot;flex:none;&quot;&gt;
+      &lt;div class=&quot;title&quot; style=&quot;font-size:38px;&quot;&gt;설명하지 말고, &lt;span class=&quot;ac&quot;&gt;자료를 줘라&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;sub&quot; style=&quot;margin-top:9px;color:var(--text-dim);max-width:900px;font-size:19px;&quot;&gt;
+        &lt;b class=&quot;w700&quot; style=&quot;color:var(--text)&quot;&gt;같은 지시&lt;/b&gt;라도 — 자료가 없으면 &lt;b class=&quot;w700&quot; style=&quot;color:var(--text)&quot;&gt;추정&lt;/b&gt;, 자료를 쥐여주면 &lt;b class=&quot;ac w700&quot;&gt;실측값&lt;/b&gt;.
       &lt;/div&gt;
     &lt;/div&gt;
 
-    &lt;!-- 흐름 다이어그램 --&gt;
-    &lt;div style=&quot;flex:1;display:flex;align-items:center;justify-content:center;gap:0;margin-top:6px;&quot;&gt;
+    &lt;!-- 두 운명 + 축 구분 (남은 공간 세로 중앙) --&gt;
+    &lt;div style=&quot;flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px;margin-top:12px;&quot;&gt;
 
-      &lt;!-- ① 파일 뭉치 (PDF·표·노트) --&gt;
-      &lt;div style=&quot;display:flex;flex-direction:column;gap:10px;flex:none;&quot;&gt;
-        &lt;!-- PDF --&gt;
-        &lt;div class=&quot;hov-lift&quot; style=&quot;display:flex;align-items:center;gap:11px;background:var(--surface);border:1px solid var(--line);
-          border-radius:11px;padding:10px 15px;width:186px;&quot;&gt;
-          &lt;svg width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--cap-b)&quot; stroke-width=&quot;1.7&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;
-            &lt;path d=&quot;M6 2h8l4 4v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z&quot;/&gt;&lt;path d=&quot;M14 2v4h4&quot;/&gt;&lt;/svg&gt;
-          &lt;span class=&quot;body&quot; style=&quot;font-size:16px;color:var(--text);&quot;&gt;제품 규격서 &lt;span class=&quot;dim&quot; style=&quot;font-size:13px;&quot;&gt;PDF&lt;/span&gt;&lt;/span&gt;
+    &lt;!-- 두 운명: 자료 없이 vs 자료를 주면 --&gt;
+    &lt;div style=&quot;display:grid;grid-template-columns:1fr 1.06fr;gap:22px;height:360px;align-items:stretch;&quot;&gt;
+
+      &lt;!-- 좌: 자료 없이 (추정) --&gt;
+      &lt;div class=&quot;depth hov-lift&quot; style=&quot;display:flex;flex-direction:column;background:var(--surface);
+        border:1px solid var(--line);border-radius:16px;padding:15px 17px;opacity:.95;&quot;&gt;
+        &lt;div style=&quot;display:flex;align-items:center;justify-content:space-between;&quot;&gt;
+          &lt;div class=&quot;label&quot; style=&quot;color:var(--cap-d);&quot;&gt;자료 없이&lt;/div&gt;
+          &lt;span style=&quot;font-size:11px;font-weight:700;color:var(--cap-d);padding:3px 9px;border-radius:999px;
+            background:var(--surface2);border:1px solid var(--line);&quot;&gt;첨부 0건&lt;/span&gt;
         &lt;/div&gt;
-        &lt;!-- 표 --&gt;
-        &lt;div class=&quot;hov-lift&quot; style=&quot;display:flex;align-items:center;gap:11px;background:var(--surface);border:1px solid var(--line);
-          border-radius:11px;padding:10px 15px;width:186px;&quot;&gt;
-          &lt;svg width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--cap-c)&quot; stroke-width=&quot;1.7&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;
-            &lt;rect x=&quot;3&quot; y=&quot;4&quot; width=&quot;18&quot; height=&quot;16&quot; rx=&quot;2&quot;/&gt;&lt;path d=&quot;M3 9h18M3 14h18M9 4v16M15 4v16&quot;/&gt;&lt;/svg&gt;
-          &lt;span class=&quot;body&quot; style=&quot;font-size:16px;color:var(--text);&quot;&gt;단가표 &lt;span class=&quot;dim&quot; style=&quot;font-size:13px;&quot;&gt;xlsx&lt;/span&gt;&lt;/span&gt;
+
+        &lt;!-- 지시 (양쪽 동일) --&gt;
+        &lt;div style=&quot;margin-top:11px;background:var(--bg-deep);border:1px solid var(--line);border-radius:12px 12px 12px 3px;padding:11px 14px;&quot;&gt;
+          &lt;div style=&quot;font-size:15.5px;font-weight:700;color:var(--text);letter-spacing:-.01em;&quot;&gt;“콤부차 스틱 견적서 만들어줘”&lt;/div&gt;
+          &lt;div class=&quot;small&quot; style=&quot;margin-top:4px;font-size:12.5px;&quot;&gt;&lt;span style=&quot;color:var(--cap-d);font-weight:800;&quot;&gt;⚠&lt;/span&gt; 단가·수량을 모른 채 — AI가 알아서 추측&lt;/div&gt;
         &lt;/div&gt;
-        &lt;!-- 노트 --&gt;
-        &lt;div class=&quot;hov-lift&quot; style=&quot;display:flex;align-items:center;gap:11px;background:var(--surface);border:1px solid var(--line);
-          border-radius:11px;padding:10px 15px;width:186px;&quot;&gt;
-          &lt;svg width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--cap-d)&quot; stroke-width=&quot;1.7&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;
-            &lt;path d=&quot;M6 3h11a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z&quot;/&gt;&lt;path d=&quot;M5 8H3M5 12H3M5 16H3&quot;/&gt;&lt;/svg&gt;
-          &lt;span class=&quot;body&quot; style=&quot;font-size:16px;color:var(--text);&quot;&gt;지난 회의 노트&lt;/span&gt;
-        &lt;/div&gt;
-      &lt;/div&gt;
 
-      &lt;!-- 화살표: 자료 주입 --&gt;
-      &lt;div style=&quot;flex:none;display:flex;flex-direction:column;align-items:center;margin:0 22px;&quot;&gt;
-        &lt;div class=&quot;small&quot; style=&quot;margin-bottom:6px;color:var(--accent);&quot;&gt;자료 주입&lt;/div&gt;
-        &lt;svg width=&quot;76&quot; height=&quot;20&quot; viewBox=&quot;0 0 76 20&quot; fill=&quot;none&quot;&gt;
-          &lt;line x1=&quot;0&quot; y1=&quot;10&quot; x2=&quot;66&quot; y2=&quot;10&quot; class=&quot;arw-line&quot; style=&quot;stroke:url(#arwG-h)&quot;/&gt;
-          &lt;polyline class=&quot;arw-head arw-glow&quot; points=&quot;66,4.5 74,10 66,15.5&quot;/&gt;
-        &lt;/svg&gt;
-      &lt;/div&gt;
+        &lt;div style=&quot;text-align:center;color:var(--text-dim);font-size:15px;line-height:1;margin:7px 0;&quot;&gt;↓&lt;/div&gt;
 
-      &lt;!-- ② AI 노드 --&gt;
-      &lt;div style=&quot;flex:none;display:flex;flex-direction:column;align-items:center;gap:10px;&quot;&gt;
-        &lt;div class=&quot;hov-lift&quot; style=&quot;width:104px;height:104px;border-radius:24px;
-          background:linear-gradient(160deg,var(--surface2),var(--surface));
-          border:1px solid var(--accent-line);box-shadow:0 0 0 5px var(--accent-soft),0 16px 34px -14px var(--glow);
-          display:flex;align-items:center;justify-content:center;&quot;&gt;
-          &lt;svg width=&quot;46&quot; height=&quot;46&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;1.7&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;
-            &lt;rect x=&quot;5&quot; y=&quot;7&quot; width=&quot;14&quot; height=&quot;12&quot; rx=&quot;3&quot;/&gt;&lt;path d=&quot;M12 7V4M9 4h6&quot;/&gt;
-            &lt;circle cx=&quot;9.5&quot; cy=&quot;13&quot; r=&quot;1.3&quot; fill=&quot;var(--accent)&quot; stroke=&quot;none&quot;/&gt;&lt;circle cx=&quot;14.5&quot; cy=&quot;13&quot; r=&quot;1.3&quot; fill=&quot;var(--accent)&quot; stroke=&quot;none&quot;/&gt;
-            &lt;path d=&quot;M2 12v3M22 12v3&quot;/&gt;&lt;/svg&gt;
-        &lt;/div&gt;
-        &lt;div style=&quot;font-size:15px;font-weight:800;color:var(--accent);letter-spacing:.02em;&quot;&gt;AI&lt;/div&gt;
-      &lt;/div&gt;
-
-      &lt;!-- 화살표: 분기 --&gt;
-      &lt;div style=&quot;flex:none;display:flex;flex-direction:column;align-items:center;margin:0 22px;&quot;&gt;
-        &lt;div class=&quot;small&quot; style=&quot;margin-bottom:6px;color:var(--text-dim);&quot;&gt;누가 해도&lt;/div&gt;
-        &lt;svg width=&quot;76&quot; height=&quot;20&quot; viewBox=&quot;0 0 76 20&quot; fill=&quot;none&quot;&gt;
-          &lt;line x1=&quot;0&quot; y1=&quot;10&quot; x2=&quot;66&quot; y2=&quot;10&quot; class=&quot;arw-line&quot; style=&quot;stroke:url(#arwG-h)&quot;/&gt;
-          &lt;polyline class=&quot;arw-head arw-glow&quot; points=&quot;66,4.5 74,10 66,15.5&quot;/&gt;
-        &lt;/svg&gt;
-      &lt;/div&gt;
-
-      &lt;!-- ③ 두 조건 → 같은 결과 --&gt;
-      &lt;div style=&quot;flex:none;display:flex;flex-direction:column;gap:18px;&quot;&gt;
-        &lt;!-- 새 세션 --&gt;
-        &lt;div style=&quot;display:flex;align-items:center;gap:14px;&quot;&gt;
-          &lt;span class=&quot;chip chip--ghost&quot; style=&quot;height:30px;font-size:14px;border-color:var(--accent-line);color:var(--accent);width:118px;justify-content:center;&quot;&gt;새 세션&lt;/span&gt;
-          &lt;svg width=&quot;34&quot; height=&quot;16&quot; viewBox=&quot;0 0 34 16&quot; fill=&quot;none&quot;&gt;&lt;line x1=&quot;0&quot; y1=&quot;8&quot; x2=&quot;26&quot; y2=&quot;8&quot; class=&quot;arw-line&quot; style=&quot;stroke:url(#arwG-hd)&quot;/&gt;&lt;polyline class=&quot;arw-head arw-head--dim&quot; points=&quot;26,4 32,8 26,12&quot;/&gt;&lt;/svg&gt;
-          &lt;div class=&quot;hov-lift&quot; style=&quot;width:64px;height:80px;border-radius:10px;background:var(--surface);border:1px solid var(--accent-line);
-            box-shadow:0 0 0 3px var(--accent-soft);display:flex;align-items:center;justify-content:center;&quot;&gt;
-            &lt;svg width=&quot;28&quot; height=&quot;28&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;1.8&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;9&quot;/&gt;&lt;path d=&quot;m8 12 2.6 2.6L16 9&quot;/&gt;&lt;/svg&gt;
+        &lt;!-- 결과: 추정 얼룩 --&gt;
+        &lt;div style=&quot;flex:1;background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:13px 15px;
+          display:flex;flex-direction:column;justify-content:center;gap:8px;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);&quot;&gt;
+          &lt;div style=&quot;font-size:12.5px;color:var(--cap-d);font-weight:800;margin-bottom:1px;&quot;&gt;견적서 (추정)&lt;/div&gt;
+          &lt;div style=&quot;display:flex;justify-content:space-between;font-size:12.5px;&quot;&gt;&lt;span class=&quot;dim&quot;&gt;규격&lt;/span&gt;&lt;span style=&quot;color:var(--text-dim);&quot;&gt;스틱 — 사양 미상&lt;/span&gt;&lt;/div&gt;
+          &lt;div style=&quot;display:flex;justify-content:space-between;font-size:12.5px;&quot;&gt;&lt;span class=&quot;dim&quot;&gt;단가&lt;/span&gt;&lt;span style=&quot;color:var(--cap-d);font-weight:700;&quot;&gt;추정 · 확인 필요&lt;/span&gt;&lt;/div&gt;
+          &lt;div style=&quot;display:flex;justify-content:space-between;font-size:12.5px;&quot;&gt;&lt;span class=&quot;dim&quot;&gt;총액&lt;/span&gt;&lt;span style=&quot;color:var(--cap-d);font-weight:700;&quot;&gt;추후 협의&lt;/span&gt;&lt;/div&gt;
+          &lt;div style=&quot;margin-top:5px;padding-top:8px;border-top:1px solid var(--line);font-size:11.5px;color:var(--cap-d);&quot;&gt;
+            &lt;span style=&quot;font-weight:800;&quot;&gt;⚠&lt;/span&gt; 그럴싸하지만 &lt;b style=&quot;color:var(--text-dim);&quot;&gt;근거가 없습니다&lt;/b&gt;
           &lt;/div&gt;
         &lt;/div&gt;
-        &lt;!-- 다른 AI 모델 --&gt;
-        &lt;div style=&quot;display:flex;align-items:center;gap:14px;&quot;&gt;
-          &lt;span class=&quot;chip chip--ghost&quot; style=&quot;height:30px;font-size:14px;border-color:var(--accent-line);color:var(--accent);width:118px;justify-content:center;&quot;&gt;다른 AI 모델&lt;/span&gt;
-          &lt;svg width=&quot;34&quot; height=&quot;16&quot; viewBox=&quot;0 0 34 16&quot; fill=&quot;none&quot;&gt;&lt;line x1=&quot;0&quot; y1=&quot;8&quot; x2=&quot;26&quot; y2=&quot;8&quot; class=&quot;arw-line&quot; style=&quot;stroke:url(#arwG-hd)&quot;/&gt;&lt;polyline class=&quot;arw-head arw-head--dim&quot; points=&quot;26,4 32,8 26,12&quot;/&gt;&lt;/svg&gt;
-          &lt;div class=&quot;hov-lift&quot; style=&quot;width:64px;height:80px;border-radius:10px;background:var(--surface);border:1px solid var(--accent-line);
-            box-shadow:0 0 0 3px var(--accent-soft);display:flex;align-items:center;justify-content:center;&quot;&gt;
-            &lt;svg width=&quot;28&quot; height=&quot;28&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;1.8&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;9&quot;/&gt;&lt;path d=&quot;m8 12 2.6 2.6L16 9&quot;/&gt;&lt;/svg&gt;
+      &lt;/div&gt;
+
+      &lt;!-- 우: 자료를 주면 (실측) --&gt;
+      &lt;div class=&quot;card card--glow hov-lift&quot; style=&quot;display:flex;flex-direction:column;border-radius:16px;padding:15px 17px;&quot;&gt;
+        &lt;div style=&quot;display:flex;align-items:center;justify-content:space-between;&quot;&gt;
+          &lt;div class=&quot;label&quot; style=&quot;color:var(--accent);&quot;&gt;단가표·기존 견적서를 주면&lt;/div&gt;
+          &lt;span style=&quot;font-size:11px;font-weight:800;color:var(--accent);padding:3px 9px;border-radius:999px;
+            background:var(--accent-soft);border:1px solid var(--accent-line);&quot;&gt;첨부 3건&lt;/span&gt;
+        &lt;/div&gt;
+
+        &lt;!-- 지시 (양쪽 동일) + 첨부 파일 카드 --&gt;
+        &lt;div style=&quot;margin-top:11px;background:var(--bg-deep);border:1px solid var(--accent-line);border-radius:12px 12px 3px 12px;padding:11px 14px;&quot;&gt;
+          &lt;div style=&quot;font-size:15.5px;font-weight:700;color:var(--text);letter-spacing:-.01em;&quot;&gt;“콤부차 스틱 견적서 만들어줘”&lt;/div&gt;
+          &lt;div style=&quot;margin-top:9px;display:flex;gap:8px;flex-wrap:wrap;&quot;&gt;
+            &lt;!-- 단가표 --&gt;
+            &lt;span style=&quot;display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:5px 9px;&quot;&gt;
+              &lt;svg width=&quot;15&quot; height=&quot;15&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--cap-c)&quot; stroke-width=&quot;1.8&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;&lt;rect x=&quot;3&quot; y=&quot;4&quot; width=&quot;18&quot; height=&quot;16&quot; rx=&quot;2&quot;/&gt;&lt;path d=&quot;M3 9h18M3 14h18M9 4v16M15 4v16&quot;/&gt;&lt;/svg&gt;
+              &lt;span style=&quot;font-size:12px;color:var(--text);&quot;&gt;이카운트 단가표&lt;span class=&quot;dim&quot; style=&quot;font-size:10.5px;&quot;&gt;.xlsx&lt;/span&gt;&lt;/span&gt;
+            &lt;/span&gt;
+            &lt;!-- 기존 견적서 --&gt;
+            &lt;span style=&quot;display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:5px 9px;&quot;&gt;
+              &lt;svg width=&quot;15&quot; height=&quot;15&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--cap-b)&quot; stroke-width=&quot;1.8&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;&lt;path d=&quot;M6 2h8l4 4v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z&quot;/&gt;&lt;path d=&quot;M14 2v4h4&quot;/&gt;&lt;/svg&gt;
+              &lt;span style=&quot;font-size:12px;color:var(--text);&quot;&gt;기존 견적서&lt;span class=&quot;dim&quot; style=&quot;font-size:10.5px;&quot;&gt;.pdf&lt;/span&gt;&lt;/span&gt;
+            &lt;/span&gt;
+            &lt;!-- 제품 규격서 --&gt;
+            &lt;span style=&quot;display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:5px 9px;&quot;&gt;
+              &lt;svg width=&quot;15&quot; height=&quot;15&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--accent2)&quot; stroke-width=&quot;1.8&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;&lt;path d=&quot;M6 3h11a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z&quot;/&gt;&lt;path d=&quot;M5 8H3M5 12H3M5 16H3&quot;/&gt;&lt;/svg&gt;
+              &lt;span style=&quot;font-size:12px;color:var(--text);&quot;&gt;제품 규격서&lt;span class=&quot;dim&quot; style=&quot;font-size:10.5px;&quot;&gt;.pdf&lt;/span&gt;&lt;/span&gt;
+            &lt;/span&gt;
           &lt;/div&gt;
         &lt;/div&gt;
-        &lt;div class=&quot;small&quot; style=&quot;text-align:right;color:var(--text-dim);margin-top:-4px;&quot;&gt;&lt;span class=&quot;tarrow&quot;&gt;→&lt;/span&gt; 같은 결과&lt;/div&gt;
+
+        &lt;div style=&quot;text-align:center;color:var(--accent);font-size:15px;line-height:1;margin:7px 0;&quot;&gt;↓&lt;/div&gt;
+
+        &lt;!-- 결과: 실측 견적 (s16 정합) --&gt;
+        &lt;div style=&quot;flex:1;background:var(--surface);border:1px solid var(--accent-line);border-radius:12px;padding:13px 15px;
+          display:flex;flex-direction:column;justify-content:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);&quot;&gt;
+          &lt;div style=&quot;font-size:12.5px;color:var(--accent);font-weight:800;margin-bottom:8px;&quot;&gt;견적서 · 어니스트컴퍼니&lt;/div&gt;
+          &lt;div style=&quot;display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px;&quot;&gt;&lt;span class=&quot;dim&quot;&gt;규격&lt;/span&gt;&lt;span style=&quot;color:var(--text);font-weight:700;&quot;&gt;콤부차 발포 분말스틱 5g×30포&lt;/span&gt;&lt;/div&gt;
+          &lt;div style=&quot;display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px;&quot;&gt;&lt;span class=&quot;dim&quot;&gt;발주수량&lt;/span&gt;&lt;span style=&quot;color:var(--text);font-weight:700;&quot;&gt;2,000박스 · 수율 98%&lt;/span&gt;&lt;/div&gt;
+          &lt;div style=&quot;margin-top:6px;padding-top:9px;border-top:1px solid var(--accent-line);display:flex;justify-content:space-between;align-items:baseline;&quot;&gt;
+            &lt;span style=&quot;font-size:12px;color:var(--text-dim);&quot;&gt;견적 단가 &lt;b style=&quot;color:var(--text);&quot;&gt;3,600원/박스&lt;/b&gt;&lt;/span&gt;
+            &lt;span style=&quot;font-size:16px;font-weight:800;color:var(--accent);&quot;&gt;7,200,000원 &lt;span style=&quot;font-size:10.5px;color:var(--text-dim);font-weight:600;&quot;&gt;(VAT 별도)&lt;/span&gt;&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div style=&quot;margin-top:7px;font-size:11.5px;color:var(--accent);&quot;&gt;&lt;span style=&quot;font-weight:800;&quot;&gt;✓&lt;/span&gt; 자료에서 나온 &lt;b&gt;근거 있는 실측값&lt;/b&gt;&lt;/div&gt;
+        &lt;/div&gt;
       &lt;/div&gt;
 
     &lt;/div&gt;
+
+    &lt;!-- 하단: 축 구분 (s10과 다름) --&gt;
+    &lt;div style=&quot;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;&quot;&gt;
+      &lt;span class=&quot;small&quot; style=&quot;color:var(--text-dim);font-size:13.5px;&quot;&gt;
+        &lt;b class=&quot;w700&quot; style=&quot;color:var(--text-dim);&quot;&gt;s10&lt;/b&gt;이 &lt;b class=&quot;w700&quot; style=&quot;color:var(--text)&quot;&gt;어떻게 시키나&lt;/b&gt;였다면 —
+        여기선 &lt;b class=&quot;ac w700&quot;&gt;무엇을 쥐여주나&lt;/b&gt;. 새 세션·다른 모델도 자료만 같으면 같은 값.
+      &lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;/div&gt;
+
   &lt;/div&gt;
 
   &lt;!-- 각주: 용어 병기 --&gt;
@@ -3625,7 +3623,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 "></iframe></div></div>
 <h2>파트 5 · 라이브 데모 — 11분</h2>
 <p class="part-desc">같은 요청 4번 실험 — 대충 한 줄×2 vs 매뉴얼+자료×2, 반복성을 눈으로 증명</p>
-<div class="wrap" id="s14"><p class="label">s14 · 실험 예고</p><p class="role">데모 진입 장표. 같은 요청을 조건만 바꿔 4번 던지는 실험 설계.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s14 · 실험 예고 — 플라스크 + 2×2 실험 설계표(셀은 물음표) / &quot;같은 요청을 4번 던져보겠습니다&quot; --&gt;
+<div class="wrap" id="s14"><p class="label">s14 · 실험 예고</p><p class="role">데모 진입 장표. 같은 요청을 조건만 바꿔 4번 던지는 실험 설계.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s14 · 실험 예고 — &quot;지금부터, 실험 2개&quot; 라이브 예고판 / 실험1(=s15) 말만 시키면? → 예상 &quot;?&quot;  vs  실험2(=s16) 매뉴얼+자료를 주면? → 예상 &quot;차이=0?&quot;. 다음 두 장의 예고편·긴장감. 플라스크/비커 모티프 유지, 중앙 밴드에 반복 세트 시각화 --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -3803,7 +3801,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 &lt;div class=&quot;slide&quot;&gt;
 
   &lt;div class=&quot;bg-grad&quot;&gt;&lt;/div&gt;
-  &lt;div class=&quot;glow-orb&quot; style=&quot;width:460px;height:460px;left:20%;top:38%;transform:translate(-50%,-50%);opacity:.3;&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;glow-orb&quot; style=&quot;width:460px;height:460px;left:50%;top:40%;transform:translate(-50%,-50%);opacity:.24;&quot;&gt;&lt;/div&gt;
   &lt;div class=&quot;bg-grain&quot;&gt;&lt;/div&gt;
   &lt;div class=&quot;vignette&quot;&gt;&lt;/div&gt;
 
@@ -3812,102 +3810,133 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
     &lt;div class=&quot;label&quot; style=&quot;color:var(--accent)&quot;&gt;지금부터 라이브&lt;/div&gt;
   &lt;/div&gt;
 
-  &lt;div class=&quot;stage&quot; style=&quot;display:flex;align-items:center;gap:52px;z-index:6;&quot;&gt;
+  &lt;div class=&quot;stage&quot; style=&quot;display:flex;flex-direction:column;z-index:6;&quot;&gt;
 
-    &lt;!-- 좌: 헤드라인 + 플라스크 --&gt;
-    &lt;div style=&quot;flex:0 0 486px;&quot;&gt;
-      &lt;div class=&quot;chip chip--ghost chip--dot&quot; style=&quot;margin-bottom:26px;&quot;&gt;실험 설계&lt;/div&gt;
-      &lt;div class=&quot;title&quot; style=&quot;font-size:44px;max-width:460px;&quot;&gt;
-        같은 요청을&lt;br&gt;&lt;span class=&quot;ac&quot;&gt;4번&lt;/span&gt; 던져보겠습니다
+    &lt;!-- 헤드라인 --&gt;
+    &lt;div style=&quot;flex:none;text-align:center;&quot;&gt;
+      &lt;div class=&quot;chip chip--ghost chip--dot&quot; style=&quot;margin-bottom:12px;&quot;&gt;실험 설계&lt;/div&gt;
+      &lt;div class=&quot;title&quot; style=&quot;font-size:40px;&quot;&gt;지금부터, &lt;span class=&quot;ac&quot;&gt;실험 2개&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;sub&quot; style=&quot;margin-top:8px;color:var(--text-dim);font-size:18px;&quot;&gt;
+        같은 &lt;b class=&quot;w700&quot; style=&quot;color:var(--text)&quot;&gt;콤부차 견적&lt;/b&gt;을 — 방식만 바꿔 던지고, 결과가 갈리는지 눈으로 봅니다.
       &lt;/div&gt;
-      &lt;div class=&quot;sub&quot; style=&quot;margin-top:20px;color:var(--text-dim);max-width:420px;&quot;&gt;
-        지시 방식 2가지 × 각 2회 반복 —&lt;br&gt;결과가 어떻게 달라지는지 눈으로 봅니다.
-      &lt;/div&gt;
-
-      &lt;!-- 관전 포인트 --&gt;
-      &lt;div style=&quot;margin-top:16px;display:inline-flex;align-items:center;gap:9px;padding:9px 15px;border-radius:11px;
-        background:var(--accent-soft);border:1px solid var(--accent-line);&quot;&gt;
-        &lt;span style=&quot;font-size:13px;font-weight:800;color:var(--accent);letter-spacing:.02em;&quot;&gt;관전 포인트&lt;/span&gt;
-        &lt;span style=&quot;font-size:15px;color:var(--text);&quot;&gt;두 결과가 &lt;b class=&quot;w700&quot;&gt;얼마나 다른지&lt;/b&gt;만 보세요&lt;/span&gt;
-      &lt;/div&gt;
-
-      &lt;!-- 플라스크 / 비커 SVG --&gt;
-      &lt;svg width=&quot;360&quot; height=&quot;128&quot; viewBox=&quot;0 0 360 128&quot; fill=&quot;none&quot; style=&quot;margin-top:34px;&quot;&gt;
-        &lt;!-- 삼각 플라스크 --&gt;
-        &lt;g transform=&quot;translate(66 8)&quot;&gt;
-          &lt;path d=&quot;M-20,0 h40 M-14,4 v34 L-40,104 a10,10 0 0 0 9,16 h62 a10,10 0 0 0 9,-16 L18,38 V4&quot;
-                fill=&quot;none&quot; stroke=&quot;var(--text-dim)&quot; stroke-width=&quot;2.4&quot; stroke-linejoin=&quot;round&quot; stroke-linecap=&quot;round&quot;/&gt;
-          &lt;!-- 액체 (하단 진함 → 표면 옅음 그라디언트 느낌: 바닥 음영) --&gt;
-          &lt;path d=&quot;M-31,84 L-14,58 v-18 h32 v18 L35,84 a10,10 0 0 1 -4,36 h-58 a10,10 0 0 1 -4,-36 Z&quot;
-                fill=&quot;var(--accent)&quot; fill-opacity=&quot;.22&quot;/&gt;
-          &lt;path d=&quot;M-27,112 a4,4 0 0 0 4,8 h46 a4,4 0 0 0 4,-8 Z&quot; fill=&quot;var(--accent)&quot; fill-opacity=&quot;.16&quot;/&gt;
-          &lt;!-- 액면(메니스커스): 기본 + 하이라이트 2톤 --&gt;
-          &lt;path d=&quot;M-31,84 h66&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;2&quot; stroke-opacity=&quot;.55&quot;/&gt;
-          &lt;path d=&quot;M-31,82.4 h66&quot; stroke=&quot;var(--accent2)&quot; stroke-width=&quot;1.1&quot; stroke-opacity=&quot;.7&quot; stroke-linecap=&quot;round&quot;/&gt;
-          &lt;!-- 유리 스페큘러 하이라이트 --&gt;
-          &lt;path d=&quot;M-30,90 L-14,60&quot; stroke=&quot;var(--text)&quot; stroke-opacity=&quot;.14&quot; stroke-width=&quot;2.4&quot; stroke-linecap=&quot;round&quot;/&gt;
-          &lt;!-- 기포 --&gt;
-          &lt;circle cx=&quot;-6&quot; cy=&quot;96&quot; r=&quot;3.4&quot; fill=&quot;var(--accent)&quot; fill-opacity=&quot;.55&quot;/&gt;
-          &lt;circle cx=&quot;10&quot; cy=&quot;104&quot; r=&quot;2.6&quot; fill=&quot;var(--accent)&quot; fill-opacity=&quot;.45&quot;/&gt;
-          &lt;circle cx=&quot;2&quot; cy=&quot;110&quot; r=&quot;2&quot; fill=&quot;var(--accent2)&quot; fill-opacity=&quot;.6&quot;/&gt;
-          &lt;circle cx=&quot;16&quot; cy=&quot;94&quot; r=&quot;1.6&quot; fill=&quot;var(--accent2)&quot; fill-opacity=&quot;.5&quot;/&gt;
-        &lt;/g&gt;
-        &lt;!-- 비커 --&gt;
-        &lt;g transform=&quot;translate(200 24)&quot;&gt;
-          &lt;path d=&quot;M-6,0 h64 M0,4 V90 a10,10 0 0 0 10,10 h34 a10,10 0 0 0 10,-10 V4&quot;
-                fill=&quot;none&quot; stroke=&quot;var(--text-dim)&quot; stroke-width=&quot;2.4&quot; stroke-linejoin=&quot;round&quot; stroke-linecap=&quot;round&quot;/&gt;
-          &lt;path d=&quot;M0,58 V90 a10,10 0 0 0 10,10 h34 a10,10 0 0 0 10,-10 V58 Z&quot; fill=&quot;var(--accent)&quot; fill-opacity=&quot;.16&quot;/&gt;
-          &lt;path d=&quot;M0,82 V90 a10,10 0 0 0 10,10 h34 a10,10 0 0 0 10,-10 V82 Z&quot; fill=&quot;var(--accent)&quot; fill-opacity=&quot;.12&quot;/&gt;
-          &lt;!-- 액면 2톤 + 유리 스페큘러 --&gt;
-          &lt;path d=&quot;M0,58 h54&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;2&quot; stroke-opacity=&quot;.45&quot;/&gt;
-          &lt;path d=&quot;M0,56.6 h54&quot; stroke=&quot;var(--accent2)&quot; stroke-width=&quot;1.1&quot; stroke-opacity=&quot;.6&quot; stroke-linecap=&quot;round&quot;/&gt;
-          &lt;path d=&quot;M3,64 L3,88&quot; stroke=&quot;var(--text)&quot; stroke-opacity=&quot;.13&quot; stroke-width=&quot;2.2&quot; stroke-linecap=&quot;round&quot;/&gt;
-          &lt;circle cx=&quot;30&quot; cy=&quot;78&quot; r=&quot;2&quot; fill=&quot;var(--accent2)&quot; fill-opacity=&quot;.5&quot;/&gt;
-          &lt;!-- 눈금 --&gt;
-          &lt;path d=&quot;M0,30 h9 M0,44 h9 M0,72 h9&quot; stroke=&quot;var(--text-dim)&quot; stroke-width=&quot;1.4&quot; stroke-opacity=&quot;.6&quot;/&gt;
-        &lt;/g&gt;
-        &lt;!-- A/B 라벨 (플라스크=지시A, 비커=지시B) --&gt;
-        &lt;g&gt;&lt;circle cx=&quot;92&quot; cy=&quot;24&quot; r=&quot;12&quot; fill=&quot;var(--accent-soft)&quot; stroke=&quot;var(--accent-line)&quot;/&gt;
-          &lt;text x=&quot;92&quot; y=&quot;29&quot; text-anchor=&quot;middle&quot; font-family=&quot;Pretendard,sans-serif&quot; font-size=&quot;14&quot; font-weight=&quot;800&quot; fill=&quot;var(--accent)&quot;&gt;A&lt;/text&gt;&lt;/g&gt;
-        &lt;g&gt;&lt;circle cx=&quot;272&quot; cy=&quot;40&quot; r=&quot;12&quot; fill=&quot;var(--surface2)&quot; stroke=&quot;var(--line)&quot;/&gt;
-          &lt;text x=&quot;272&quot; y=&quot;45&quot; text-anchor=&quot;middle&quot; font-family=&quot;Pretendard,sans-serif&quot; font-size=&quot;14&quot; font-weight=&quot;800&quot; fill=&quot;var(--text-dim)&quot;&gt;B&lt;/text&gt;&lt;/g&gt;
-      &lt;/svg&gt;
     &lt;/div&gt;
 
-    &lt;!-- 우: 2×2 실험 설계표 --&gt;
-    &lt;div style=&quot;flex:1;&quot;&gt;
-      &lt;div style=&quot;display:grid;grid-template-columns:150px 1fr 1fr;gap:12px;align-items:stretch;&quot;&gt;
+    &lt;!-- 두 실험 카드 --&gt;
+    &lt;div style=&quot;flex:1;display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:18px;align-items:stretch;&quot;&gt;
 
-        &lt;!-- 헤더 행 --&gt;
-        &lt;div&gt;&lt;/div&gt;
-        &lt;div class=&quot;label&quot; style=&quot;text-align:center;align-self:end;padding-bottom:6px;color:var(--text-dim);&quot;&gt;1회차&lt;/div&gt;
-        &lt;div class=&quot;label&quot; style=&quot;text-align:center;align-self:end;padding-bottom:6px;color:var(--text-dim);&quot;&gt;2회차&lt;/div&gt;
-
-        &lt;!-- 행 1: 대충 한 줄 --&gt;
-        &lt;div class=&quot;card card-lift hov-lift&quot; style=&quot;display:flex;flex-direction:column;justify-content:center;padding:14px 16px;&quot;&gt;
-          &lt;div style=&quot;font-size:16px;font-weight:800;color:var(--text);&quot;&gt;대충 한 줄&lt;/div&gt;
-          &lt;div class=&quot;small&quot; style=&quot;margin-top:2px;&quot;&gt;지시 A&lt;/div&gt;
-        &lt;/div&gt;
-        &lt;div class=&quot;card card-lift hov-lift&quot; style=&quot;display:flex;align-items:center;justify-content:center;height:96px;&quot;&gt;
-          &lt;span style=&quot;font-size:44px;font-weight:800;color:var(--text-dim);opacity:.5;&quot;&gt;?&lt;/span&gt;
-        &lt;/div&gt;
-        &lt;div class=&quot;card card-lift hov-lift&quot; style=&quot;display:flex;align-items:center;justify-content:center;height:96px;&quot;&gt;
-          &lt;span style=&quot;font-size:44px;font-weight:800;color:var(--text-dim);opacity:.5;&quot;&gt;?&lt;/span&gt;
+      &lt;!-- 실험 1 → s15 : 말만 시키면? (예상 ?) --&gt;
+      &lt;div class=&quot;hov-lift&quot; style=&quot;position:relative;display:flex;flex-direction:column;background:var(--surface);
+        border:1px solid var(--line);border-radius:18px;padding:20px 24px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 16px 38px -22px rgba(0,0,0,.66);&quot;&gt;
+        &lt;div style=&quot;display:flex;align-items:center;justify-content:space-between;&quot;&gt;
+          &lt;span class=&quot;label&quot; style=&quot;color:var(--cap-d);&quot;&gt;실험 1&lt;/span&gt;
+          &lt;span style=&quot;font-size:11px;font-weight:700;color:var(--text-dim);letter-spacing:.06em;&quot;&gt;→ 다음 장&lt;/span&gt;
         &lt;/div&gt;
 
-        &lt;!-- 행 2: 매뉴얼 + 자료 --&gt;
-        &lt;div class=&quot;card card--glow hov-lift&quot; style=&quot;display:flex;flex-direction:column;justify-content:center;padding:14px 16px;&quot;&gt;
-          &lt;div style=&quot;font-size:16px;font-weight:800;color:var(--accent);&quot;&gt;매뉴얼 + 자료&lt;/div&gt;
-          &lt;div class=&quot;small&quot; style=&quot;margin-top:2px;color:var(--text-dim);&quot;&gt;지시 B&lt;/div&gt;
-        &lt;/div&gt;
-        &lt;div class=&quot;card card-lift hov-lift&quot; style=&quot;display:flex;align-items:center;justify-content:center;height:96px;&quot;&gt;
-          &lt;span style=&quot;font-size:44px;font-weight:800;color:var(--text-dim);opacity:.5;&quot;&gt;?&lt;/span&gt;
-        &lt;/div&gt;
-        &lt;div class=&quot;card card-lift hov-lift&quot; style=&quot;display:flex;align-items:center;justify-content:center;height:96px;&quot;&gt;
-          &lt;span style=&quot;font-size:44px;font-weight:800;color:var(--text-dim);opacity:.5;&quot;&gt;?&lt;/span&gt;
+        &lt;div style=&quot;display:flex;align-items:center;gap:15px;margin-top:12px;&quot;&gt;
+          &lt;!-- 삼각 플라스크 --&gt;
+          &lt;svg width=&quot;62&quot; height=&quot;74&quot; viewBox=&quot;0 0 100 118&quot; fill=&quot;none&quot; style=&quot;flex:none;&quot;&gt;
+            &lt;g transform=&quot;translate(50 8)&quot;&gt;
+              &lt;path d=&quot;M-20,0 h40 M-14,4 v34 L-40,104 a10,10 0 0 0 9,16 h62 a10,10 0 0 0 9,-16 L18,38 V4&quot;
+                    fill=&quot;none&quot; stroke=&quot;var(--cap-d)&quot; stroke-width=&quot;2.4&quot; stroke-linejoin=&quot;round&quot; stroke-linecap=&quot;round&quot;/&gt;
+              &lt;path d=&quot;M-31,84 L-14,58 v-18 h32 v18 L35,84 a10,10 0 0 1 -4,36 h-58 a10,10 0 0 1 -4,-36 Z&quot; fill=&quot;var(--cap-d)&quot; fill-opacity=&quot;.16&quot;/&gt;
+              &lt;path d=&quot;M-31,84 h66&quot; stroke=&quot;var(--cap-d)&quot; stroke-width=&quot;2&quot; stroke-opacity=&quot;.5&quot;/&gt;
+              &lt;circle cx=&quot;-6&quot; cy=&quot;96&quot; r=&quot;3.4&quot; fill=&quot;var(--cap-d)&quot; fill-opacity=&quot;.5&quot;/&gt;
+              &lt;circle cx=&quot;10&quot; cy=&quot;104&quot; r=&quot;2.6&quot; fill=&quot;var(--cap-d)&quot; fill-opacity=&quot;.4&quot;/&gt;
+              &lt;circle cx=&quot;2&quot; cy=&quot;110&quot; r=&quot;2&quot; fill=&quot;var(--cap-d)&quot; fill-opacity=&quot;.55&quot;/&gt;
+            &lt;/g&gt;
+          &lt;/svg&gt;
+          &lt;div&gt;
+            &lt;div style=&quot;font-size:23px;font-weight:800;color:var(--text);letter-spacing:-.02em;&quot;&gt;말만 시키면?&lt;/div&gt;
+            &lt;div class=&quot;small&quot; style=&quot;margin-top:3px;font-size:13.5px;&quot;&gt;“콤부차 스틱 견적 뽑아줘” 한 줄&lt;/div&gt;
+          &lt;/div&gt;
         &lt;/div&gt;
 
+        &lt;!-- 중앙 밴드: 같은 한 줄을 3번 --&gt;
+        &lt;div style=&quot;flex:1;display:flex;flex-direction:column;justify-content:center;gap:10px;&quot;&gt;
+          &lt;div class=&quot;small&quot; style=&quot;font-size:12.5px;color:var(--text-dim);&quot;&gt;같은 한 줄을 &lt;b class=&quot;w700&quot; style=&quot;color:var(--text)&quot;&gt;3번&lt;/b&gt; 반복 —&lt;/div&gt;
+          &lt;div style=&quot;display:flex;gap:10px;&quot;&gt;
+            &lt;span style=&quot;flex:1;display:flex;align-items:center;gap:7px;background:var(--surface2);border:1px solid var(--line);border-radius:9px;padding:9px 11px;&quot;&gt;
+              &lt;svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--cap-d)&quot; stroke-width=&quot;1.7&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;&lt;path d=&quot;M6 3h8l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z&quot;/&gt;&lt;path d=&quot;M14 3v4h4&quot;/&gt;&lt;/svg&gt;
+              &lt;span style=&quot;font-size:12.5px;color:var(--text-dim);&quot;&gt;1회차&lt;/span&gt;&lt;/span&gt;
+            &lt;span style=&quot;flex:1;display:flex;align-items:center;gap:7px;background:var(--surface2);border:1px solid var(--line);border-radius:9px;padding:9px 11px;&quot;&gt;
+              &lt;svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--cap-d)&quot; stroke-width=&quot;1.7&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;&lt;path d=&quot;M6 3h8l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z&quot;/&gt;&lt;path d=&quot;M14 3v4h4&quot;/&gt;&lt;/svg&gt;
+              &lt;span style=&quot;font-size:12.5px;color:var(--text-dim);&quot;&gt;2회차&lt;/span&gt;&lt;/span&gt;
+            &lt;span style=&quot;flex:1;display:flex;align-items:center;gap:7px;background:var(--surface2);border:1px solid var(--line);border-radius:9px;padding:9px 11px;&quot;&gt;
+              &lt;svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--cap-d)&quot; stroke-width=&quot;1.7&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;&lt;path d=&quot;M6 3h8l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z&quot;/&gt;&lt;path d=&quot;M14 3v4h4&quot;/&gt;&lt;/svg&gt;
+              &lt;span style=&quot;font-size:12.5px;color:var(--text-dim);&quot;&gt;3회차&lt;/span&gt;&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- 예상 결과 힌트 --&gt;
+        &lt;div style=&quot;display:flex;align-items:center;gap:13px;margin-top:14px;&quot;&gt;
+          &lt;span class=&quot;small&quot; style=&quot;font-size:12.5px;color:var(--text-dim);flex:none;&quot;&gt;예상 결과&lt;/span&gt;
+          &lt;div style=&quot;flex:1;display:flex;align-items:center;justify-content:center;gap:12px;height:60px;border-radius:12px;
+            background:var(--surface2);border:1px dashed var(--line);&quot;&gt;
+            &lt;span style=&quot;font-size:36px;font-weight:800;color:var(--text-dim);opacity:.65;line-height:1;&quot;&gt;?&lt;/span&gt;
+            &lt;span class=&quot;small&quot; style=&quot;font-size:13px;color:var(--text-dim);line-height:1.35;&quot;&gt;매번 같을까,&lt;br&gt;제각각일까&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
       &lt;/div&gt;
+
+      &lt;!-- 실험 2 → s16 : 매뉴얼+자료를 주면? (예상 = 0) --&gt;
+      &lt;div class=&quot;card--glow hov-lift&quot; style=&quot;position:relative;display:flex;flex-direction:column;border-radius:18px;padding:20px 24px;&quot;&gt;
+        &lt;div style=&quot;display:flex;align-items:center;justify-content:space-between;&quot;&gt;
+          &lt;span class=&quot;label&quot; style=&quot;color:var(--accent);&quot;&gt;실험 2&lt;/span&gt;
+          &lt;span style=&quot;font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.06em;&quot;&gt;→ 두 장 뒤&lt;/span&gt;
+        &lt;/div&gt;
+
+        &lt;div style=&quot;display:flex;align-items:center;gap:15px;margin-top:12px;&quot;&gt;
+          &lt;!-- 비커 --&gt;
+          &lt;svg width=&quot;62&quot; height=&quot;74&quot; viewBox=&quot;0 0 78 118&quot; fill=&quot;none&quot; style=&quot;flex:none;&quot;&gt;
+            &lt;g transform=&quot;translate(10 14)&quot;&gt;
+              &lt;path d=&quot;M-6,0 h64 M0,4 V90 a10,10 0 0 0 10,10 h34 a10,10 0 0 0 10,-10 V4&quot;
+                    fill=&quot;none&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;2.4&quot; stroke-linejoin=&quot;round&quot; stroke-linecap=&quot;round&quot;/&gt;
+              &lt;path d=&quot;M0,52 V90 a10,10 0 0 0 10,10 h34 a10,10 0 0 0 10,-10 V52 Z&quot; fill=&quot;var(--accent)&quot; fill-opacity=&quot;.2&quot;/&gt;
+              &lt;path d=&quot;M0,52 h54&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;2&quot; stroke-opacity=&quot;.55&quot;/&gt;
+              &lt;path d=&quot;M0,50.6 h54&quot; stroke=&quot;var(--accent2)&quot; stroke-width=&quot;1.1&quot; stroke-opacity=&quot;.7&quot; stroke-linecap=&quot;round&quot;/&gt;
+              &lt;path d=&quot;M3,60 L3,86&quot; stroke=&quot;var(--text)&quot; stroke-opacity=&quot;.13&quot; stroke-width=&quot;2.2&quot; stroke-linecap=&quot;round&quot;/&gt;
+              &lt;path d=&quot;M0,26 h9 M0,40 h9 M0,68 h9&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;1.4&quot; stroke-opacity=&quot;.5&quot;/&gt;
+              &lt;circle cx=&quot;30&quot; cy=&quot;74&quot; r=&quot;2&quot; fill=&quot;var(--accent2)&quot; fill-opacity=&quot;.55&quot;/&gt;
+            &lt;/g&gt;
+          &lt;/svg&gt;
+          &lt;div&gt;
+            &lt;div style=&quot;font-size:23px;font-weight:800;color:var(--accent);letter-spacing:-.02em;&quot;&gt;매뉴얼 + 자료를 주면?&lt;/div&gt;
+            &lt;div class=&quot;small&quot; style=&quot;margin-top:3px;font-size:13.5px;color:var(--text-dim);&quot;&gt;저장한 지시문을 그대로 반복&lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- 중앙 밴드: 저장된 세트 (매뉴얼+자료) --&gt;
+        &lt;div style=&quot;flex:1;display:flex;flex-direction:column;justify-content:center;gap:10px;&quot;&gt;
+          &lt;div class=&quot;small&quot; style=&quot;font-size:12.5px;color:var(--accent);&quot;&gt;저장된 세트를 반복 —&lt;/div&gt;
+          &lt;div style=&quot;display:flex;gap:10px;&quot;&gt;
+            &lt;span style=&quot;flex:1;display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--accent-line);border-radius:9px;padding:9px 12px;&quot;&gt;
+              &lt;svg width=&quot;17&quot; height=&quot;17&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;1.7&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;&lt;path d=&quot;M6 3h8l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z&quot;/&gt;&lt;path d=&quot;M14 3v4h4&quot;/&gt;&lt;path d=&quot;M8.5 12h6M8.5 15.5h4&quot;/&gt;&lt;/svg&gt;
+              &lt;span style=&quot;font-size:12.5px;color:var(--text);&quot;&gt;매뉴얼 &lt;span class=&quot;dim&quot; style=&quot;font-size:11px;&quot;&gt;견적-지시.txt&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;span style=&quot;flex:1;display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--accent-line);border-radius:9px;padding:9px 12px;&quot;&gt;
+              &lt;svg width=&quot;17&quot; height=&quot;17&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;var(--accent)&quot; stroke-width=&quot;1.7&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;&lt;rect x=&quot;3&quot; y=&quot;4&quot; width=&quot;18&quot; height=&quot;16&quot; rx=&quot;2&quot;/&gt;&lt;path d=&quot;M3 9h18M3 14h18M9 4v16M15 4v16&quot;/&gt;&lt;/svg&gt;
+              &lt;span style=&quot;font-size:12.5px;color:var(--text);&quot;&gt;자료 &lt;span class=&quot;dim&quot; style=&quot;font-size:11px;&quot;&gt;단가표.xlsx&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- 예상 결과 힌트 --&gt;
+        &lt;div style=&quot;display:flex;align-items:center;gap:13px;margin-top:14px;&quot;&gt;
+          &lt;span class=&quot;small&quot; style=&quot;font-size:12.5px;color:var(--accent);flex:none;&quot;&gt;예상 결과&lt;/span&gt;
+          &lt;div style=&quot;flex:1;display:flex;align-items:center;justify-content:center;height:60px;border-radius:12px;
+            background:var(--accent-soft);border:1px solid var(--accent-line);&quot;&gt;
+            &lt;span style=&quot;font-size:32px;font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.02em;&quot;&gt;차이 = 0 ?&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+    &lt;/div&gt;
+
+    &lt;!-- 관전 포인트 --&gt;
+    &lt;div style=&quot;flex:none;margin-top:14px;text-align:center;&quot;&gt;
+      &lt;span style=&quot;display:inline-flex;align-items:center;gap:9px;padding:8px 16px;border-radius:11px;
+        background:var(--accent-soft);border:1px solid var(--accent-line);&quot;&gt;
+        &lt;span style=&quot;font-size:12.5px;font-weight:800;color:var(--accent);letter-spacing:.03em;&quot;&gt;관전 포인트&lt;/span&gt;
+        &lt;span style=&quot;font-size:14.5px;color:var(--text);&quot;&gt;두 실험의 &lt;b class=&quot;w700&quot;&gt;반복 결과가 얼마나 다른지&lt;/b&gt;만 보세요&lt;/span&gt;
+      &lt;/span&gt;
     &lt;/div&gt;
 
   &lt;/div&gt;
@@ -3916,7 +3945,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;foot-page&quot;&gt;&lt;b&gt;14&lt;/b&gt; / 24&lt;/div&gt;
 &lt;/div&gt;
 "></iframe></div></div>
-<div class="wrap" id="s15"><p class="label">s15 · 데모 1 배경판</p><p class="role">🔴 라이브: 대충 한 줄 ×2회 → 결과가 매번 딴판임을 현장 확인.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s15 · 데모 1 배경판 — &quot;대충 한 줄 × 2회&quot; / 빈 결과 프레임 2개(점선) / &quot;결과가 매번 딴판입니다&quot; --&gt;
+<div class="wrap" id="s15"><p class="label">s15 · 데모 1 배경판</p><p class="role">🔴 라이브: 대충 한 줄 ×2회 → 결과가 매번 딴판임을 현장 확인.</p><div class="frame"><iframe loading="lazy" srcdoc="&lt;!-- s15 · 데모 1 — &quot;말만 시키면, 매번 조금 다르다&quot; / 같은 한 줄 지시 ×3회 → 결과 문서 3장(단가 1,500·1,800·2,200, 열 구성 상이) + 단가칸 하이라이트 + 판정 배지 &quot;제각각 ✗&quot;(s16 &quot;0건 ✓&quot;과 세로 배지 대구). 시연 태그·실존 업체명/사업자번호 없음 --&gt;
 &lt;style&gt;
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -4094,7 +4123,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 &lt;div class=&quot;slide&quot;&gt;
 
   &lt;div class=&quot;bg-grad&quot;&gt;&lt;/div&gt;
-  &lt;div class=&quot;glow-orb&quot; style=&quot;width:400px;height:400px;left:50%;top:36%;transform:translate(-50%,-50%);opacity:.22;&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;glow-orb&quot; style=&quot;width:400px;height:400px;left:50%;top:34%;transform:translate(-50%,-50%);opacity:.2;&quot;&gt;&lt;/div&gt;
   &lt;div class=&quot;bg-grain&quot;&gt;&lt;/div&gt;
   &lt;div class=&quot;vignette&quot;&gt;&lt;/div&gt;
 
@@ -4106,60 +4135,95 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   &lt;div class=&quot;stage&quot; style=&quot;display:flex;flex-direction:column;z-index:6;&quot;&gt;
 
     &lt;!-- 헤드라인 --&gt;
-    &lt;div style=&quot;display:flex;align-items:baseline;gap:16px;&quot;&gt;
-      &lt;div class=&quot;title&quot; style=&quot;font-size:44px;&quot;&gt;대충 한 줄 &lt;span class=&quot;dim&quot; style=&quot;font-weight:400;&quot;&gt;×&lt;/span&gt; &lt;span class=&quot;ac&quot;&gt;2회&lt;/span&gt;&lt;/div&gt;
-    &lt;/div&gt;
-    &lt;div class=&quot;sub&quot; style=&quot;margin-top:12px;color:var(--text-dim);&quot;&gt;지시 A — 같은 요청을 두 번, 나오는 대로.&lt;/div&gt;
-
-    &lt;!-- 빈 결과 프레임 2개 (점선) --&gt;
-    &lt;div style=&quot;display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:30px;flex:1;&quot;&gt;
-
-      &lt;!-- 1회차: 장황한 인사말 + 빗나간 표 --&gt;
-      &lt;div class=&quot;hov-lift&quot; style=&quot;border:2px dashed var(--line);border-radius:16px;position:relative;overflow:hidden;
-        background:rgba(0,0,0,.12);display:flex;flex-direction:column;justify-content:center;padding:46px 18px 18px;&quot;&gt;
-        &lt;div class=&quot;label&quot; style=&quot;position:absolute;top:16px;left:18px;color:var(--text-dim);z-index:2;&quot;&gt;결과 · 1회차&lt;/div&gt;
-        &lt;div style=&quot;position:absolute;top:13px;right:14px;z-index:2;font-size:11px;font-weight:700;
-          padding:3px 10px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);
-          color:var(--text-dim);&quot;&gt;예시 · 현장 라이브&lt;/div&gt;
-        &lt;div style=&quot;filter:blur(.6px);background:var(--surface);border:1px solid var(--line);border-radius:12px;
-          padding:15px 15px;display:flex;flex-direction:column;gap:9px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05);&quot;&gt;
-          &lt;div style=&quot;font-size:14px;color:var(--text);line-height:1.5;&quot;&gt;안녕하세요! 요청하신 &lt;b&gt;견적서&lt;/b&gt;를 정리해 드리겠습니다 😊 먼저 몇 가지만 여쭤볼게요.&lt;/div&gt;
-          &lt;div style=&quot;border:1px solid var(--line);border-radius:8px;overflow:hidden;&quot;&gt;
-            &lt;div style=&quot;display:flex;background:var(--surface2);font-size:12px;color:var(--text-dim);&quot;&gt;
-              &lt;div style=&quot;flex:2;padding:6px 10px;&quot;&gt;항목&lt;/div&gt;&lt;div style=&quot;flex:1;padding:6px 10px;&quot;&gt;내용&lt;/div&gt;&lt;/div&gt;
-            &lt;div style=&quot;display:flex;font-size:12px;color:var(--text);border-top:1px solid var(--line);&quot;&gt;
-              &lt;div style=&quot;flex:2;padding:6px 10px;&quot;&gt;제품&lt;/div&gt;&lt;div style=&quot;flex:1;padding:6px 10px;&quot;&gt;여러 종류&lt;/div&gt;&lt;/div&gt;
-            &lt;div style=&quot;display:flex;font-size:12px;color:var(--text);border-top:1px solid var(--line);&quot;&gt;
-              &lt;div style=&quot;flex:2;padding:6px 10px;&quot;&gt;가격&lt;/div&gt;&lt;div style=&quot;flex:1;padding:6px 10px;&quot;&gt;추후 협의&lt;/div&gt;&lt;/div&gt;
-          &lt;/div&gt;
-          &lt;div style=&quot;font-size:12px;color:var(--text-dim);&quot;&gt;* 정확한 수량을 알려주시면 다시 계산해 드릴게요!&lt;/div&gt;
-        &lt;/div&gt;
-      &lt;/div&gt;
-
-      &lt;!-- 2회차: 아예 다른 형식(목록) --&gt;
-      &lt;div class=&quot;hov-lift&quot; style=&quot;border:2px dashed var(--line);border-radius:16px;position:relative;overflow:hidden;
-        background:rgba(0,0,0,.12);display:flex;flex-direction:column;justify-content:center;padding:46px 18px 18px;&quot;&gt;
-        &lt;div class=&quot;label&quot; style=&quot;position:absolute;top:16px;left:18px;color:var(--text-dim);z-index:2;&quot;&gt;결과 · 2회차&lt;/div&gt;
-        &lt;div style=&quot;position:absolute;top:13px;right:14px;z-index:2;font-size:11px;font-weight:700;
-          padding:3px 10px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);
-          color:var(--text-dim);&quot;&gt;예시 · 현장 라이브&lt;/div&gt;
-        &lt;div style=&quot;filter:blur(.6px);background:var(--surface);border:1px solid var(--line);border-radius:12px;
-          padding:15px 15px;display:flex;flex-direction:column;gap:9px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05);&quot;&gt;
-          &lt;div style=&quot;font-size:14px;color:var(--text);font-weight:700;&quot;&gt;■ 견적 요약 (예상)&lt;/div&gt;
-          &lt;div style=&quot;font-size:13px;color:var(--text);line-height:1.85;&quot;&gt;
-            · 비타민C 정제 — 약 120만 원 내외&lt;br&gt;
-            · 유산균 분말 — 수량 미정, 확인 필요&lt;br&gt;
-            · 배송비·부가세 — 별도 문의 바랍니다
-          &lt;/div&gt;
-          &lt;div style=&quot;font-size:12px;color:var(--text-dim);&quot;&gt;필요하시면 표로도 정리해 드릴까요?&lt;/div&gt;
-        &lt;/div&gt;
-      &lt;/div&gt;
-
+    &lt;div style=&quot;flex:none;display:flex;align-items:baseline;gap:15px;flex-wrap:wrap;&quot;&gt;
+      &lt;div class=&quot;title&quot; style=&quot;font-size:35px;&quot;&gt;말만 시키면, &lt;span class=&quot;ac&quot;&gt;매번 조금 다르다&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;sub&quot; style=&quot;color:var(--text-dim);font-size:16px;&quot;&gt;— “콤부차 스틱 견적 뽑아줘” 한 줄을, 그대로 &lt;b class=&quot;w700&quot; style=&quot;color:var(--text)&quot;&gt;3번&lt;/b&gt;.&lt;/div&gt;
     &lt;/div&gt;
 
-    &lt;!-- 하단 소문구 --&gt;
-    &lt;div style=&quot;margin-top:22px;text-align:center;&quot;&gt;
-      &lt;span class=&quot;sub&quot; style=&quot;color:var(--text);&quot;&gt;결과가 &lt;b class=&quot;w800 ac&quot;&gt;매번 딴판&lt;/b&gt;입니다.&lt;/span&gt;
+    &lt;!-- 결과 문서 3장 + 판정 배지 (남은 공간 세로 중앙) --&gt;
+    &lt;div style=&quot;flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px;margin-top:12px;&quot;&gt;
+
+    &lt;div style=&quot;display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;height:216px;align-items:stretch;&quot;&gt;
+
+      &lt;!-- 1회차: 인사말 + 표 --&gt;
+      &lt;div class=&quot;hov-lift&quot; style=&quot;display:flex;flex-direction:column;justify-content:center;border:1px solid var(--line);border-radius:14px;
+        background:var(--surface);padding:28px 15px 14px;position:relative;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);&quot;&gt;
+        &lt;div class=&quot;label&quot; style=&quot;position:absolute;top:14px;left:16px;color:var(--text-dim);font-size:12px;&quot;&gt;결과 · 1회차&lt;/div&gt;
+        &lt;span style=&quot;position:absolute;top:12px;right:14px;font-size:10px;font-weight:800;letter-spacing:.06em;
+          padding:2px 9px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);color:var(--text-dim);&quot;&gt;시연&lt;/span&gt;
+        &lt;div style=&quot;font-size:12.5px;color:var(--text);line-height:1.5;&quot;&gt;안녕하세요! 요청하신 &lt;b&gt;견적&lt;/b&gt;을 표로 정리했습니다 😊&lt;/div&gt;
+        &lt;div style=&quot;margin-top:11px;border:1px solid var(--line);border-radius:8px;overflow:hidden;&quot;&gt;
+          &lt;div style=&quot;display:flex;background:var(--surface2);font-size:11px;color:var(--text-dim);&quot;&gt;
+            &lt;div style=&quot;flex:1.3;padding:6px 10px;&quot;&gt;항목&lt;/div&gt;&lt;div style=&quot;flex:1;padding:6px 10px;&quot;&gt;내용&lt;/div&gt;&lt;/div&gt;
+          &lt;div style=&quot;display:flex;font-size:12px;color:var(--text);border-top:1px solid var(--line);&quot;&gt;
+            &lt;div style=&quot;flex:1.3;padding:6px 10px;&quot;&gt;제품&lt;/div&gt;&lt;div style=&quot;flex:1;padding:6px 10px;color:var(--text-dim);&quot;&gt;콤부차 스틱&lt;/div&gt;&lt;/div&gt;
+          &lt;div style=&quot;display:flex;font-size:12px;color:var(--text);border-top:1px solid var(--line);&quot;&gt;
+            &lt;div style=&quot;flex:1.3;padding:6px 10px;&quot;&gt;구성&lt;/div&gt;&lt;div style=&quot;flex:1;padding:6px 10px;color:var(--text-dim);&quot;&gt;30포&lt;/div&gt;&lt;/div&gt;
+          &lt;div style=&quot;display:flex;font-size:12px;border-top:1px solid var(--line);background:var(--accent-soft);&quot;&gt;
+            &lt;div style=&quot;flex:1.3;padding:6px 10px;color:var(--accent);font-weight:700;&quot;&gt;단가&lt;/div&gt;&lt;div style=&quot;flex:1;padding:6px 10px;color:var(--accent);font-weight:800;&quot;&gt;1,500원&lt;/div&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div style=&quot;margin-top:11px;font-size:11px;color:var(--text-dim);&quot;&gt;* 수량 알려주시면 다시 계산할게요&lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;!-- 2회차: 목록(불릿) --&gt;
+      &lt;div class=&quot;hov-lift&quot; style=&quot;display:flex;flex-direction:column;justify-content:center;border:1px solid var(--line);border-radius:14px;
+        background:var(--surface);padding:28px 15px 14px;position:relative;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);&quot;&gt;
+        &lt;div class=&quot;label&quot; style=&quot;position:absolute;top:14px;left:16px;color:var(--text-dim);font-size:12px;&quot;&gt;결과 · 2회차&lt;/div&gt;
+        &lt;span style=&quot;position:absolute;top:12px;right:14px;font-size:10px;font-weight:800;letter-spacing:.06em;
+          padding:2px 9px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);color:var(--text-dim);&quot;&gt;시연&lt;/span&gt;
+        &lt;div style=&quot;font-size:13px;color:var(--text);font-weight:700;margin-bottom:10px;&quot;&gt;■ 콤부차 스틱 견적(안)&lt;/div&gt;
+        &lt;div style=&quot;font-size:12.5px;color:var(--text);line-height:2;&quot;&gt;
+          · 제품 : 발포 분말스틱&lt;br&gt;
+          · 구성 : 30포 기준&lt;br&gt;
+          · 비고 : 소량도 가능&lt;br&gt;
+          · &lt;span style=&quot;color:var(--accent);font-weight:700;&quot;&gt;단가&lt;/span&gt; :
+            &lt;span style=&quot;background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:5px;padding:1px 8px;color:var(--accent);font-weight:800;&quot;&gt;1,800원&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div style=&quot;margin-top:12px;font-size:11px;color:var(--text-dim);&quot;&gt;표로도 정리해 드릴까요?&lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;!-- 3회차: 다른 열 구성(제품/수량/단가) --&gt;
+      &lt;div class=&quot;hov-lift&quot; style=&quot;display:flex;flex-direction:column;justify-content:center;border:1px solid var(--line);border-radius:14px;
+        background:var(--surface);padding:28px 15px 14px;position:relative;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);&quot;&gt;
+        &lt;div class=&quot;label&quot; style=&quot;position:absolute;top:14px;left:16px;color:var(--text-dim);font-size:12px;&quot;&gt;결과 · 3회차&lt;/div&gt;
+        &lt;span style=&quot;position:absolute;top:12px;right:14px;font-size:10px;font-weight:800;letter-spacing:.06em;
+          padding:2px 9px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);color:var(--text-dim);&quot;&gt;시연&lt;/span&gt;
+        &lt;div style=&quot;font-size:12.5px;color:var(--text);line-height:1.5;&quot;&gt;견적서를 아래와 같이 작성했습니다.&lt;/div&gt;
+        &lt;div style=&quot;margin-top:11px;border:1px solid var(--line);border-radius:8px;overflow:hidden;font-size:11px;&quot;&gt;
+          &lt;div style=&quot;display:flex;background:var(--surface2);color:var(--text-dim);&quot;&gt;
+            &lt;div style=&quot;flex:1.2;padding:6px 8px;&quot;&gt;제품&lt;/div&gt;&lt;div style=&quot;flex:.8;padding:6px 8px;&quot;&gt;수량&lt;/div&gt;&lt;div style=&quot;flex:1;padding:6px 8px;&quot;&gt;단가&lt;/div&gt;&lt;/div&gt;
+          &lt;div style=&quot;display:flex;color:var(--text);border-top:1px solid var(--line);align-items:center;&quot;&gt;
+            &lt;div style=&quot;flex:1.2;padding:6px 8px;color:var(--text-dim);&quot;&gt;콤부차&lt;/div&gt;&lt;div style=&quot;flex:.8;padding:6px 8px;color:var(--text-dim);&quot;&gt;1박스&lt;/div&gt;
+            &lt;div style=&quot;flex:1;padding:5px 8px;&quot;&gt;&lt;span style=&quot;background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:5px;padding:1px 7px;color:var(--accent);font-weight:800;&quot;&gt;2,200원&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
+          &lt;div style=&quot;display:flex;color:var(--text);border-top:1px solid var(--line);align-items:center;&quot;&gt;
+            &lt;div style=&quot;flex:1.2;padding:6px 8px;color:var(--text-dim);&quot;&gt;부자재&lt;/div&gt;&lt;div style=&quot;flex:.8;padding:6px 8px;color:var(--text-dim);&quot;&gt;1식&lt;/div&gt;
+            &lt;div style=&quot;flex:1;padding:6px 8px;color:var(--text-dim);&quot;&gt;별도&lt;/div&gt;&lt;/div&gt;
+          &lt;div style=&quot;display:flex;color:var(--text);border-top:1px solid var(--line);align-items:center;background:var(--surface2);&quot;&gt;
+            &lt;div style=&quot;flex:1.2;padding:6px 8px;color:var(--text-dim);&quot;&gt;합계&lt;/div&gt;&lt;div style=&quot;flex:.8;padding:6px 8px;color:var(--text-dim);&quot;&gt;1박스&lt;/div&gt;
+            &lt;div style=&quot;flex:1;padding:6px 8px;color:var(--text-dim);&quot;&gt;2,200원&lt;/div&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div style=&quot;margin-top:11px;font-size:11px;color:var(--text-dim);&quot;&gt;부가세는 별도로 계산됩니다&lt;/div&gt;
+      &lt;/div&gt;
+
+    &lt;/div&gt;
+
+    &lt;!-- 판정 배지 (s16 &quot;차이 0건 ✓&quot; 세로 배지의 대구: 제각각 ✗ / dim) --&gt;
+    &lt;div style=&quot;display:flex;justify-content:center;&quot;&gt;
+      &lt;div class=&quot;hov-lift&quot; style=&quot;display:flex;align-items:center;gap:22px;padding:11px 28px;border-radius:14px;
+        background:linear-gradient(180deg,var(--surface2),var(--surface));border:1px solid var(--line);
+        box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 14px 34px -22px rgba(0,0,0,.6);&quot;&gt;
+        &lt;div style=&quot;text-align:center;&quot;&gt;
+          &lt;div style=&quot;font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--text-dim);&quot;&gt;차이&lt;/div&gt;
+          &lt;div style=&quot;font-size:34px;font-weight:800;color:var(--text-dim);line-height:1.05;margin-top:1px;letter-spacing:-.02em;&quot;&gt;제각각&lt;/div&gt;
+          &lt;div style=&quot;margin-top:3px;font-size:11.5px;color:var(--cap-d);font-weight:700;&quot;&gt;✗ 양식·단가·구조 다름&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;span style=&quot;width:1px;height:46px;background:var(--line);flex:none;&quot;&gt;&lt;/span&gt;
+        &lt;div style=&quot;font-size:13.5px;color:var(--text);line-height:1.5;text-align:left;&quot;&gt;
+          단가만 봐도 &lt;b class=&quot;w800&quot; style=&quot;color:var(--text-dim);&quot;&gt;1,500 · 1,800 · 2,200원&lt;/b&gt; —&lt;br&gt;&lt;b class=&quot;w800&quot; style=&quot;color:var(--text)&quot;&gt;3번 다 다릅니다.&lt;/b&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
     &lt;/div&gt;
 
   &lt;/div&gt;
