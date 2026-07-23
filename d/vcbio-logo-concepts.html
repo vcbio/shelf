@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VC Bio — 로고 시안 보드 (SVG 실렌더)</title>
+<link rel="preconnect" href="https://fastly.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap">
+<style>
+  :root{
+    --c-green:#1E3932;
+    --c-gold:#B8954A;
+    --c-ink:#1C1C1A;
+    --cream:#F2F0EB;
+    --paper:#FFFFFF;
+    --line:#E4E1D9;
+    --muted:#6B6A64;
+    --safe:#2E7D5B;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    font-family:"Pretendard Variable",Pretendard,system-ui,-apple-system,sans-serif;
+    background:var(--cream);
+    color:var(--c-ink);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  .wrap{max-width:1040px;margin:0 auto;padding:64px 24px 96px}
+
+  /* ---- masthead ---- */
+  .mast{margin-bottom:56px}
+  .kicker{
+    font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--muted);margin:0 0 14px;
+  }
+  .mast h1{
+    font-size:clamp(28px,4.4vw,42px);line-height:1.08;letter-spacing:-.02em;
+    font-weight:700;margin:0 0 14px;color:var(--c-green);
+  }
+  .mast p{margin:0;max-width:60ch;color:#43423d;font-size:16px}
+
+  /* ---- concept card ---- */
+  .card{
+    background:var(--paper);border:1px solid var(--line);border-radius:18px;
+    padding:30px 32px 34px;margin-bottom:26px;
+    box-shadow:0 1px 2px rgba(28,28,26,.03),0 12px 30px -22px rgba(28,28,26,.20);
+  }
+  .card-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 14px;margin-bottom:4px}
+  .idx{
+    font-family:"Playfair Display",serif;font-size:22px;font-weight:600;
+    color:var(--c-gold);line-height:1;min-width:1.4em;
+  }
+  .card-head h2{font-size:22px;letter-spacing:-.01em;font-weight:700;margin:0}
+  .han{color:var(--muted);font-weight:500;font-size:15px}
+  .label{margin-left:auto;font-size:12px;font-weight:600;padding:4px 11px;border-radius:999px;white-space:nowrap}
+  .label.safe{background:rgba(46,125,91,.12);color:#276f50}
+  .label.bold{background:rgba(184,149,74,.16);color:#8a6d2c}
+  .meta{font-size:12.5px;letter-spacing:.04em;color:var(--muted);font-weight:600;text-transform:uppercase;margin:0 0 3px}
+  .desc{margin:2px 0 24px;color:#43423d;font-size:15px;max-width:64ch}
+
+  /* ---- mark rendering surfaces ---- */
+  .render-row{display:flex;flex-wrap:wrap;gap:20px;align-items:stretch}
+  .stage{
+    flex:1 1 200px;min-width:190px;border:1px solid var(--line);border-radius:14px;
+    background:var(--paper);display:flex;flex-direction:column;
+  }
+  .stage .canvas{flex:1;display:flex;align-items:center;justify-content:center;padding:26px}
+  .stage.cream .canvas{background:var(--cream);border-radius:14px 14px 0 0}
+  .stage .cap{
+    font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--muted);text-align:center;padding:9px;border-top:1px solid var(--line);
+  }
+
+  /* the shrink strip */
+  .strip{
+    flex:1 1 240px;min-width:230px;border:1px solid var(--line);border-radius:14px;
+    background:var(--paper);display:flex;flex-direction:column;
+  }
+  .strip .sizes{
+    flex:1;display:flex;align-items:center;justify-content:center;gap:26px;padding:24px 20px;
+  }
+  .sizes .unit{display:flex;flex-direction:column;align-items:center;gap:9px}
+  .sizes .px{font-size:10px;font-weight:600;color:var(--muted);letter-spacing:.04em}
+  .sizes .box{display:flex;align-items:center;justify-content:center}
+
+  .mark{display:block}
+  .mark--mono{--c-green:var(--c-ink);--c-gold:var(--c-ink);--c-sector:var(--c-ink)}
+
+  /* footer / scoring */
+  .foot{margin-top:56px}
+  .foot h2{font-size:19px;letter-spacing:-.01em;margin:0 0 4px}
+  .foot .sub{color:var(--muted);font-size:13px;margin:0 0 18px}
+  .tbl-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--paper)}
+  table{border-collapse:collapse;width:100%;min-width:560px;font-size:13.5px}
+  th,td{padding:11px 14px;text-align:center;border-bottom:1px solid var(--line)}
+  th{background:var(--cream);font-weight:600;color:#43423d;letter-spacing:.02em}
+  td:first-child,th:first-child{text-align:left;white-space:nowrap}
+  tr:last-child td{border-bottom:none}
+  tr.win td{background:rgba(46,125,91,.06)}
+  .tot{font-weight:700}
+  .est{color:var(--muted);font-style:italic}
+  .note{
+    margin:18px 0 0;padding:13px 16px;border-radius:12px;
+    background:rgba(184,149,74,.09);border:1px solid rgba(184,149,74,.25);
+    font-size:13px;color:#6a5526;
+  }
+  .note b{color:#5a4718}
+</style>
+</head>
+<body>
+
+<!-- ================= SVG SYMBOL DEFINITIONS (defined once, used at every size) ================= -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+
+    <!-- C1 정합 : V + C shared-stroke monogram, monoline -->
+    <symbol id="mk1" viewBox="0 0 120 120">
+      <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <!-- open caliper C (opening tilted to ~1–2 o'clock) -->
+        <path d="M 97.98 58.67 A 38 38 0 1 1 79.00 27.09" style="stroke:var(--c-green)" stroke-width="10"/>
+        <!-- V cradled inside, right arm reaching into the C's opening -->
+        <path d="M 40 44 L 60 86 L 84 52" style="stroke:var(--c-green)" stroke-width="10"/>
+      </g>
+    </symbol>
+
+    <!-- C2 온스펙 : reticle corner-brackets + center dot -->
+    <symbol id="mk2" viewBox="0 0 120 120">
+      <g fill="none" stroke-linecap="square" stroke-linejoin="miter" stroke-width="9" style="stroke:var(--c-green)">
+        <path d="M 18 44 L 18 18 L 44 18"/>
+        <path d="M 76 18 L 102 18 L 102 44"/>
+        <path d="M 18 76 L 18 102 L 44 102"/>
+        <path d="M 76 102 L 102 102 L 102 76"/>
+      </g>
+      <circle cx="60" cy="60" r="6.5" style="fill:var(--c-gold)"/>
+    </symbol>
+
+    <!-- C3 합제 : circle split into three 120° sectors (2 green + 1 gold), thin gaps -->
+    <symbol id="mk3" viewBox="0 0 120 120">
+      <path d="M 64.33 57.50 L 64.36 10.19 A 50 50 0 0 1 105.32 81.13 Z" style="fill:var(--c-gold)"/>
+      <path d="M 60.00 65.00 L 100.96 88.68 A 50 50 0 0 1 19.04 88.68 Z" style="fill:var(--c-green)"/>
+      <path d="M 55.67 57.50 L 14.68 81.13 A 50 50 0 0 1 55.64 10.19 Z" style="fill:var(--c-green)"/>
+    </symbol>
+
+    <!-- C4 각인 : high-contrast didone wordmark (Playfair Display) -->
+    <symbol id="mk4" viewBox="0 0 260 90">
+      <text x="130" y="63" text-anchor="middle"
+            style="fill:var(--c-green);font-family:'Playfair Display',serif;font-weight:600;font-size:56px;letter-spacing:9px">VCBIO</text>
+      <!-- custom detail: precise squared 'tittle' over the I (bio-precision signal) -->
+      <rect x="128.4" y="13.5" width="5" height="5" style="fill:var(--c-gold)"/>
+    </symbol>
+
+    <!-- C5 성립 : angular hexagon, negative-space V + checkmark (true cut-out via mask) -->
+    <symbol id="mk5" viewBox="0 0 120 120">
+      <mask id="m5">
+        <rect width="120" height="120" fill="black"/>
+        <path d="M 60.00 8.00 L 105.03 34.00 L 105.03 86.00 L 60.00 112.00 L 14.97 86.00 L 14.97 34.00 Z" fill="white"/>
+        <polyline points="40,44 57,79 87,31" fill="none" stroke="black" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+      </mask>
+      <path d="M 60.00 8.00 L 105.03 34.00 L 105.03 86.00 L 60.00 112.00 L 14.97 86.00 L 14.97 34.00 Z"
+            style="fill:var(--c-green)" mask="url(#m5)"/>
+    </symbol>
+
+  </defs>
+</svg>
+
+<div class="wrap">
+
+  <header class="mast">
+    <p class="kicker">VC Bio · 로고 콘셉트 실렌더 보드</p>
+    <h1>5개 콘셉트 · 프라이머리 · 단색 · 64/32/16 축소 검증</h1>
+    <p>콘셉트 보드(vcbio-board.md) 서술 그대로 순수 벡터(path·arc·mask)로 그린 5종. 각 콘셉트마다 컬러 프라이머리, 인쇄용 단색(잉크 #1C1C1A), 그리고 파비콘 크기(64·32·16px) 실렌더 스트립을 붙여 축소 판독성을 눈으로 확인한다.</p>
+  </header>
+
+  <!-- ===================== CONCEPT 1 ===================== -->
+  <section class="card">
+    <div class="card-head">
+      <span class="idx">1</span>
+      <h2>정합</h2><span class="han">整合 · Registration Mark</span>
+    </div>
+    <p class="meta">모노그램(레터마크) · 미니멀 기하</p>
+    <p class="desc">V와 C가 한 획을 공유하는 모노그램. C는 완결된 원이 아니라 정밀 캘리퍼처럼 살짝 열린 호(개구부 1–2시 방향)로 V를 품는다 — “규격대로 정확히”를 측정·정합의 시각 언어로.</p>
+    <div class="render-row">
+      <div class="stage cream">
+        <div class="canvas"><svg class="mark" width="150" height="150"><use href="#mk1"/></svg></div>
+        <div class="cap">프라이머리 · 딥그린</div>
+      </div>
+      <div class="stage">
+        <div class="canvas"><svg class="mark mark--mono" width="150" height="150"><use href="#mk1"/></svg></div>
+        <div class="cap">단색 · 잉크 #1C1C1A</div>
+      </div>
+      <div class="strip">
+        <div class="sizes">
+          <div class="unit"><span class="box"><svg class="mark" width="64" height="64"><use href="#mk1"/></svg></span><span class="px">64px</span></div>
+          <div class="unit"><span class="box"><svg class="mark" width="32" height="32"><use href="#mk1"/></svg></span><span class="px">32px</span></div>
+          <div class="unit"><span class="box"><svg class="mark" width="16" height="16"><use href="#mk1"/></svg></span><span class="px">16px</span></div>
+        </div>
+        <div class="cap">축소 실렌더</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONCEPT 2 ===================== -->
+  <section class="card">
+    <div class="card-head">
+      <span class="idx">2</span>
+      <h2>온스펙</h2><span class="han">On-Spec · 콤비네이션</span>
+      <span class="label safe">✅ Safe bet</span>
+    </div>
+    <p class="meta">콤비네이션 · 스위스/그로테스크 볼드</p>
+    <p class="desc">정밀 조준 레티클 — 네 모서리 코너 브래킷 + 정중앙에 정확히 놓인 점. 그 옆에 헤비 그로테스크 “VCBIO” 워드마크. 심볼이 파비콘용으로 그대로 분리된다. 중앙 점만 골드(5% 룰).</p>
+    <div class="render-row">
+      <div class="stage cream">
+        <div class="canvas" style="gap:16px">
+          <svg class="mark" width="96" height="96"><use href="#mk2"/></svg>
+          <span style="font-family:Pretendard,sans-serif;font-weight:800;font-size:38px;letter-spacing:1px;color:var(--c-ink)">VCBIO</span>
+        </div>
+        <div class="cap">프라이머리 락업</div>
+      </div>
+      <div class="stage">
+        <div class="canvas"><svg class="mark mark--mono" width="120" height="120"><use href="#mk2"/></svg></div>
+        <div class="cap">단색 심볼 · 잉크</div>
+      </div>
+      <div class="strip">
+        <div class="sizes">
+          <div class="unit"><span class="box"><svg class="mark" width="64" height="64"><use href="#mk2"/></svg></span><span class="px">64px</span></div>
+          <div class="unit"><span class="box"><svg class="mark" width="32" height="32"><use href="#mk2"/></svg></span><span class="px">32px</span></div>
+          <div class="unit"><span class="box"><svg class="mark" width="16" height="16"><use href="#mk2"/></svg></span><span class="px">16px</span></div>
+        </div>
+        <div class="cap">심볼 축소 실렌더</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONCEPT 3 ===================== -->
+  <section class="card">
+    <div class="card-head">
+      <span class="idx">3</span>
+      <h2>합제</h2><span class="han">合劑 · The Blend</span>
+    </div>
+    <p class="meta">추상형 · 미니멀 기하 · 키네틱</p>
+    <p class="desc">정원을 120° 세 부채꼴로 정밀 분할·결합한 추상 마크 — 여러 원료가 하나의 완성 규격으로. 두 섹터 딥그린, 한 섹터만 골드(마무리·완결 포인트). 회전 대칭이라 모션으로 그대로 돈다. 단색은 갭 라인으로만 3분할.</p>
+    <div class="render-row">
+      <div class="stage cream">
+        <div class="canvas"><svg class="mark" width="150" height="150"><use href="#mk3"/></svg></div>
+        <div class="cap">프라이머리 · 딥그린+골드</div>
+      </div>
+      <div class="stage">
+        <div class="canvas"><svg class="mark mark--mono" width="150" height="150"><use href="#mk3"/></svg></div>
+        <div class="cap">단색 · 갭 3분할</div>
+      </div>
+      <div class="strip">
+        <div class="sizes">
+          <div class="unit"><span class="box"><svg class="mark" width="64" height="64"><use href="#mk3"/></svg></span><span class="px">64px</span></div>
+          <div class="unit"><span class="box"><svg class="mark" width="32" height="32"><use href="#mk3"/></svg></span><span class="px">32px</span></div>
+          <div class="unit"><span class="box"><svg class="mark" width="16" height="16"><use href="#mk3"/></svg></span><span class="px">16px</span></div>
+        </div>
+        <div class="cap">축소 실렌더</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONCEPT 4 ===================== -->
+  <section class="card">
+    <div class="card-head">
+      <span class="idx">4</span>
+      <h2>각인</h2><span class="han">刻印 · Serif Wordmark</span>
+    </div>
+    <p class="meta">워드마크 · 클래식 세리프 럭셔리</p>
+    <p class="desc">“VCBIO”를 고대비 디도네 세리프(Playfair)로 세팅한 워드마크. 넓은 자간, 헤어라인 세리프, 절제된 우아함. 커스텀 디테일 — I 위의 티틀을 정밀한 사각 픽셀로 대체(바이오테크 정밀 신호). 파비콘엔 약하므로 콘셉트 1 모노그램을 폴백으로 페어링.</p>
+    <div class="render-row">
+      <div class="stage cream">
+        <div class="canvas"><svg class="mark" width="230" height="80"><use href="#mk4"/></svg></div>
+        <div class="cap">프라이머리 · 딥그린</div>
+      </div>
+      <div class="stage">
+        <div class="canvas"><svg class="mark mark--mono" width="230" height="80"><use href="#mk4"/></svg></div>
+        <div class="cap">단색 · 잉크</div>
+      </div>
+      <div class="strip">
+        <div class="sizes">
+          <div class="unit"><span class="box"><svg class="mark" width="150" height="52"><use href="#mk4"/></svg></span><span class="px">64px↓</span></div>
+          <div class="unit"><span class="box"><svg class="mark" width="92" height="32"><use href="#mk4"/></svg></span><span class="px">32px↓</span></div>
+          <div class="unit"><span class="box"><svg class="mark" width="46" height="16"><use href="#mk4"/></svg></span><span class="px">16px↓</span></div>
+        </div>
+        <div class="cap">워드마크 축소(16px 부적합 확인)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONCEPT 5 ===================== -->
+  <section class="card">
+    <div class="card-head">
+      <span class="idx">5</span>
+      <h2>성립</h2><span class="han">成立 · Negative-Space Check</span>
+      <span class="label bold">⚡ Bold swing</span>
+    </div>
+    <p class="meta">픽토리얼(네거티브 스페이스) · 네거티브 스페이스</p>
+    <p class="desc">각진 육각 솔리드 실루엣 안의 음각이 “V”와 체크마크를 동시에 새긴다 — V=이니셜, 체크=납품 완료·규격 충족. 하나의 음각이 두 의미로 읽히는 이중 판독. 육각형은 분자·정밀 뉘앙스. 실루엣이 곧 아이덴티티.</p>
+    <div class="render-row">
+      <div class="stage cream">
+        <div class="canvas"><svg class="mark" width="150" height="150"><use href="#mk5"/></svg></div>
+        <div class="cap">프라이머리 · 딥그린 필</div>
+      </div>
+      <div class="stage">
+        <div class="canvas"><svg class="mark mark--mono" width="150" height="150"><use href="#mk5"/></svg></div>
+        <div class="cap">단색 · 잉크 실루엣</div>
+      </div>
+      <div class="strip">
+        <div class="sizes">
+          <div class="unit"><span class="box"><svg class="mark" width="64" height="64"><use href="#mk5"/></svg></span><span class="px">64px</span></div>
+          <div class="unit"><span class="box"><svg class="mark" width="32" height="32"><use href="#mk5"/></svg></span><span class="px">32px</span></div>
+          <div class="unit"><span class="box"><svg class="mark" width="16" height="16"><use href="#mk5"/></svg></span><span class="px">16px</span></div>
+        </div>
+        <div class="cap">이중판독 축소 검증</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SCORING ===================== -->
+  <div class="foot">
+    <h2>자체 채점표 요약 (참고용)</h2>
+    <p class="sub">색 대비만 python WCAG 실계산으로 검증됨. 흑백·축소 점수는 자체 추정치이며, 위 스트립이 실렌더 확인 몫이다.</p>
+    <div class="tbl-scroll">
+      <table>
+        <thead>
+          <tr><th>콘셉트</th><th>기억성</th><th>독창성</th><th>타깃 적합</th><th>흑백 <span class="est">(추정)</span></th><th>축소16px <span class="est">(추정)</span></th><th>합계</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1 정합 (모노그램)</td><td>4</td><td>3</td><td>5</td><td>5</td><td>5</td><td class="tot">22</td></tr>
+          <tr class="win"><td>2 온스펙 (콤비) ✅</td><td>4</td><td>4</td><td>5</td><td>5</td><td>4</td><td class="tot">22</td></tr>
+          <tr><td>3 합제 (추상)</td><td>4</td><td>4</td><td>4</td><td>3</td><td>4</td><td class="tot">19</td></tr>
+          <tr><td>4 각인 (워드마크)</td><td>3</td><td>3</td><td>5</td><td>5</td><td>2 → 폴백</td><td class="tot">18</td></tr>
+          <tr><td>5 성립 (네거티브) ⚡</td><td>5</td><td>5</td><td>4</td><td>4</td><td>3</td><td class="tot">21</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note"><b>고지</b> · 선행 상표 미조사(채택 후 KIPRIS 등 별도 조사 필요) · 이 보드는 AI 자체 채점이 아니라 SVG 실렌더 축소 확인용입니다. 최종 흑백·16px 판정은 위 스트립을 눈으로 보고 대표님이 결정.</p>
+  </div>
+
+</div>
+</body>
+</html>
