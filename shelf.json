@@ -160,11 +160,6 @@
   "date": "2026-07-22"
  },
  {
-  "slug": "semicolony-proof-quote",
-  "title": "실물 · 견적서",
-  "date": "2026-07-23"
- },
- {
   "slug": "semicolony-proof-landing",
   "title": "실물 · 영업 랜딩페이지",
   "date": "2026-07-23"
@@ -182,6 +177,11 @@
  {
   "slug": "semicolony-proof-deck",
   "title": "실물 · 원료 제안서 (전체 19장)",
+  "date": "2026-07-23"
+ },
+ {
+  "slug": "semicolony-proof-quote",
+  "title": "실물 · 견적서",
   "date": "2026-07-23"
  }
 ]
