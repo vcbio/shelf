@@ -160,11 +160,6 @@
   "date": "2026-07-22"
  },
  {
-  "slug": "semicolony-present",
-  "title": "세미콜로니 강의 발표 모드 (24장)",
-  "date": "2026-07-23"
- },
- {
   "slug": "semicolony-ai-deck",
   "title": "세미콜로니 AI 강의덱 (24장)",
   "date": "2026-07-23"
@@ -182,6 +177,11 @@
  {
   "slug": "semicolony-proof-landing",
   "title": "실물 · 영업 랜딩페이지",
+  "date": "2026-07-23"
+ },
+ {
+  "slug": "semicolony-present",
+  "title": "세미콜로니 강의 발표 모드 (24장)",
   "date": "2026-07-23"
  }
 ]
