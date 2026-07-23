@@ -17,6 +17,7 @@
     overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scroll-behavior:smooth;
     -webkit-overflow-scrolling:touch; scrollbar-width:none;}
   .deck::-webkit-scrollbar{display:none;}
+  .deck:focus,.deck:focus-visible{outline:none;}
   .card{flex:0 0 100vw; width:100vw; height:100vh; height:100dvh;
     scroll-snap-align:center; scroll-snap-stop:always;
     display:flex; flex-direction:column; gap:14px; overflow:hidden;
@@ -33,31 +34,44 @@
     border:1px solid rgba(34,122,255,.3); border-radius:7px; padding:1px 8px; margin-right:8px;
     font-variant-numeric:tabular-nums; letter-spacing:.03em;}
 
-  /* 본문 (칩+힌트 / 축소판) */
-  .cardbody{flex:1 1 auto; min-height:0; display:flex; flex-direction:column; gap:14px;}
-  .kwzone{flex:0 0 auto; min-height:0;}
-  .kw-bar{display:flex; flex-wrap:wrap; gap:11px;}
-  .kw{display:inline-flex; align-items:center; font-size:29px; font-weight:800; line-height:1.2;
-    padding:9px 18px; border-radius:15px; letter-spacing:-.015em;
+  /* 상단 요약 칩 (작게) */
+  .kw-bar{display:flex; flex-wrap:wrap; gap:9px; margin-top:12px;}
+  .kw{display:inline-flex; align-items:center; font-size:22px; font-weight:800; line-height:1.18;
+    padding:6px 13px; border-radius:12px; letter-spacing:-.015em;
     background:rgba(34,122,255,.12); border:1px solid rgba(34,122,255,.34); color:var(--text);}
   .kw--demo{background:rgba(245,165,36,.13); border-color:rgba(245,165,36,.46); color:#FFDBA3;}
-  .kw--demo .zap{margin-right:8px; font-size:.82em;}
-  .hint{font-style:italic; color:#c7d5ea; font-size:23px; line-height:1.5; margin:14px 0 0;}
+  .kw--demo .zap{margin-right:7px; font-size:.82em;}
 
-  /* 슬라이드 축소판 — 남은 공간에 맞춰 양방향 미클리핑 */
-  .thumb{flex:1 1 auto; min-height:0; position:relative; overflow:hidden;
+  /* 본문: 발화 대본 + 축소판 (카드 내부 세로 스크롤 허용) */
+  .cardbody{flex:1 1 auto; min-height:0; display:flex; flex-direction:column; gap:16px;
+    overflow-y:auto; overflow-x:hidden; touch-action:pan-y; overscroll-behavior:contain;
+    padding-right:4px; margin-top:8px;}
+  .cardbody::-webkit-scrollbar{width:7px;}
+  .cardbody::-webkit-scrollbar-thumb{background:rgba(143,160,181,.35); border-radius:4px;}
+  .scripts{flex:0 0 auto; display:flex; flex-direction:column; gap:13px;}
+  .sblk{border-left:3px solid rgba(34,122,255,.5); padding:1px 0 1px 14px;}
+  .sblk--demo{border-left-color:rgba(245,165,36,.65);}
+  .slabel{display:inline-block; font-size:14px; font-weight:800; letter-spacing:-.01em;
+    color:var(--accent); margin-bottom:4px;}
+  .slabel--demo{color:var(--amber);}
+  .slabel .zap{margin-right:5px;}
+  .sline{margin:0; font-size:19px; line-height:1.62; color:#dbe5f2; font-weight:400;}
+  .sline.act{color:#FFCF8A; font-weight:700; font-size:18px;}
+
+  /* 슬라이드 축소판 — 세로: 대본 아래, 폭 100% 16:9 (미클리핑) */
+  .thumb{flex:0 0 auto; width:100%; aspect-ratio:16/9; position:relative; overflow:hidden;
     border-radius:14px; border:1px solid var(--line); background:#0A0E14;
     box-shadow:0 16px 42px -22px rgba(0,0,0,.85);}
   .thumb iframe{position:absolute; top:50%; left:50%; width:1280px; height:720px; border:0;
     transform:translate(-50%,-50%) scale(.3); transform-origin:center center; pointer-events:none;}
 
-  /* 가로(랜드스케이프): 칩·힌트 왼쪽, 축소판 오른쪽 */
+  /* 가로(랜드스케이프): 대본 왼쪽(스크롤)·축소판 오른쪽 */
   @media (min-aspect-ratio: 1/1){
-    .cardbody{flex-direction:row; align-items:stretch; gap:24px;}
-    .kwzone{flex:1 1 45%; overflow-y:auto; padding-right:4px;}
-    .thumb{flex:1 1 55%;}
-    .kw{font-size:26px;}
-    .hint{font-size:21px;}
+    .cardbody{flex-direction:row; align-items:stretch; gap:22px; overflow:hidden; touch-action:auto;}
+    .scripts{flex:1 1 50%; min-height:0; overflow-y:auto; touch-action:pan-y; overscroll-behavior:contain; padding-right:6px;}
+    .thumb{flex:1 1 50%; width:auto; aspect-ratio:auto; height:100%;}
+    .kw{font-size:20px;}
+    .sline{font-size:18px; line-height:1.58;}
   }
 
   /* 인트로 카드 */
@@ -92,7 +106,7 @@
 </head>
 <body>
 <div class="pbar-track"><div class="pbar" id="pbar"></div></div>
-<div class="deck" id="deck">
+<div class="deck" id="deck" tabindex="0">
 <section class="card intro" id="cardintro">
   <div class="intro-inner">
     <div class="ibadge">SEMICOLONY · AI TALK</div>
@@ -109,12 +123,19 @@
   <div class="cardhead">
     <div class="pbadge">파트 1 · 후킹 <span class="pt">5분</span></div>
     <h2 class="ctitle"><span class="snum">s01</span> 표지 · AI, 뽑기에서 장비로</h2>
+    <div class="kw-bar"><span class="kw">비개발자를 위한 AI 실전</span><span class="kw">AI를 뽑기가 아니라 장비로</span><span class="kw">오늘 딱 50분</span></div>
   </div>
   <div class="cardbody">
-    <div class="kwzone">
-      <div class="kw-bar"><span class="kw">비개발자를 위한 AI 실전</span><span class="kw">AI를 뽑기가 아니라 장비로</span><span class="kw">오늘 딱 50분</span></div>
-      <p class="hint">“안녕하세요, 세미콜로니 김민식입니다. 오늘은 AI를 뽑기가 아니라 장비로 쓰는 법을 이야기하겠습니다.”</p>
-    </div>
+    <div class="scripts"><div class="sblk">
+        <div class="slabel">비개발자를 위한 AI 실전</div>
+        <p class="sline">안녕하세요, 세미콜로니 김민식입니다. 저는 개발자가 아니라 사업하는 사람이고요. 오늘은 그런 제가 실제로 AI를 어떻게 쓰는지, 그 얘기를 해보려고 합니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">AI를 뽑기가 아니라 장비로</div>
+        <p class="sline">제목을 ‘뽑기에서 장비로’라고 붙였어요. AI를 운에 맡기는 뽑기처럼 쓰면 매번 다른 게 나오거든요. 오늘은 그걸 믿고 쓰는 장비로 바꾸는 법을 보실 겁니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">오늘 딱 50분</div>
+        <p class="sline">시간은 딱 50분이면 됩니다. 어려운 기술 얘기는 하나도 없어요. 개발은 몰라도 사업은 잘 아는 분들께 딱 맞는 얘기예요. 오늘 딱 네 단어만 들고 가셔도 충분합니다.</p>
+      </div></div>
     <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s01 · 표지 — &quot;AI, 뽑기에서 장비로&quot; / 다트판 동심원 모티프 다크 풀블리드 --&gt;
 &lt;style&gt;
 /* ============================================================================
@@ -411,12 +432,22 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="cardhead">
     <div class="pbadge">파트 1 · 후킹 <span class="pt">5분</span></div>
     <h2 class="ctitle"><span class="snum">s02</span> 자기소개 · 저는 코딩 못 합니다</h2>
+    <div class="kw-bar"><span class="kw">저는 코딩 못 합니다</span><span class="kw">그런데 회사 문서 대부분은 AI가</span><span class="kw">연구원 → 대표 → AI 운영</span><span class="kw">연구실 습관을 그대로 AI에</span></div>
   </div>
   <div class="cardbody">
-    <div class="kwzone">
-      <div class="kw-bar"><span class="kw">저는 코딩 못 합니다</span><span class="kw">그런데 회사 문서 대부분은 AI가</span><span class="kw">연구원 → 대표 → AI 운영</span><span class="kw">연구실 습관을 그대로 AI에</span></div>
-      <p class="hint">“먼저 제 소개를 짧게 드리겠습니다.”</p>
-    </div>
+    <div class="scripts"><div class="sblk">
+        <div class="slabel">저는 코딩 못 합니다</div>
+        <p class="sline">먼저 제 소개를 짧게 드릴게요. 솔직히 말씀드리면 저는 코딩 못 합니다. 프로그래밍이라곤 배운 적이 없어요.</p>
+      </div><div class="sblk">
+        <div class="slabel">그런데 회사 문서 대부분은 AI가</div>
+        <p class="sline">그런데 지금 저희 회사 문서 대부분은 AI가 만듭니다. 제안서도, 견적서도요. 코딩을 못 해도 이게 되더라고요.</p>
+      </div><div class="sblk">
+        <div class="slabel">연구원 → 대표 → AI 운영</div>
+        <p class="sline">제가 원래는 실험실 연구원이었고, 지금은 건강기능식품 회사 법인 대표예요. 연구원에서 대표로, 그리고 지금은 AI로 회사를 굴리는 사람이 됐습니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">연구실 습관을 그대로 AI에</div>
+        <p class="sline">비결이랄 게 따로 없어요. 실험실에서 몸에 밴 습관을 AI에 그대로 옮겼을 뿐이거든요. 그 습관이 오늘 얘기의 핵심입니다.</p>
+      </div></div>
     <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s02 · 자기소개 — 3단계 타임라인 + 중앙 큰 문구 &quot;저는 코딩 못 합니다&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
@@ -689,12 +720,22 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="cardhead">
     <div class="pbadge">파트 1 · 후킹 <span class="pt">5분</span></div>
     <h2 class="ctitle"><span class="snum">s03</span> 실물 3분할 · 전부 AI가 만든 산출물</h2>
+    <div class="kw-bar"><span class="kw">제안서·견적서·랜딩페이지 전부 AI</span><span class="kw">단, ‘딸깍’은 아니었다</span><span class="kw">비결은 오늘 보여드릴 일하는 방식</span><span class="kw kw--demo"><span class="zap">⚡</span>카드 클릭 → 실물 전체 보기</span></div>
   </div>
   <div class="cardbody">
-    <div class="kwzone">
-      <div class="kw-bar"><span class="kw">제안서·견적서·랜딩페이지 전부 AI</span><span class="kw">단, ‘딸깍’은 아니었다</span><span class="kw">비결은 오늘 보여드릴 일하는 방식</span><span class="kw kw--demo"><span class="zap">⚡</span>카드 클릭 → 실물 전체 보기</span></div>
-      <p class="hint">“말로만 하면 안 믿기시죠. 실제 회사 산출물부터 보여드리겠습니다.”</p>
-    </div>
+    <div class="scripts"><div class="sblk">
+        <div class="slabel">제안서·견적서·랜딩페이지 전부 AI</div>
+        <p class="sline">말로만 하면 안 믿기시죠. 그래서 실물부터 보여드릴게요. 여기 제안서, 견적서, 랜딩페이지 — 전부 AI가 만든 실제 회사 산출물입니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">단, ‘딸깍’은 아니었다</div>
+        <p class="sline">다만 오해는 마세요. 버튼 한 번 ‘딸깍’ 누르니 뚝딱 나온 건 절대 아니거든요.</p>
+      </div><div class="sblk">
+        <div class="slabel">비결은 오늘 보여드릴 일하는 방식</div>
+        <p class="sline">비결은 바로 오늘 보여드릴 일하는 방식에 있습니다. 그 방식만 알면 여러분도 똑같이 하실 수 있어요.</p>
+      </div><div class="sblk sblk--demo">
+        <div class="slabel slabel--demo"><span class="zap">⚡</span>카드 클릭 → 실물 전체 보기</div>
+        <p class="sline act">[행동] 여기서 견적서 카드를 직접 눌러, 실제 산출물을 전체 화면으로 띄운다.</p>
+      </div></div>
     <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s03 · 실물 3분할 — 원료 제안서 덱 / 견적서(실물) / 영업 랜딩페이지 (실물 산출물) --&gt;
 &lt;style&gt;
 /* ============================================================================
@@ -971,12 +1012,25 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="cardhead">
     <div class="pbadge">파트 2 · 진단 <span class="pt">6분</span></div>
     <h2 class="ctitle"><span class="snum">s04</span> 뽑기 진단 · 뽑기처럼 쓰고 계시죠?</h2>
+    <div class="kw-bar"><span class="kw">AI를 뽑기처럼 쓰고 있진 않나요</span><span class="kw">한 줄 던지고, 나오는 대로</span><span class="kw">매번 다른 결과</span><span class="kw">오늘 목표 = 당첨 확률 높이기</span><span class="kw kw--demo"><span class="zap">⚡</span>3D 가챠 기계 — 뽑기 시연</span></div>
   </div>
   <div class="cardbody">
-    <div class="kwzone">
-      <div class="kw-bar"><span class="kw">AI를 뽑기처럼 쓰고 있진 않나요</span><span class="kw">한 줄 던지고, 나오는 대로</span><span class="kw">매번 다른 결과</span><span class="kw">오늘 목표 = 당첨 확률 높이기</span><span class="kw kw--demo"><span class="zap">⚡</span>3D 가챠 기계 — 뽑기 시연</span></div>
-      <p class="hint">“혹시 지금 AI를 이렇게 쓰고 계시진 않나요?”</p>
-    </div>
+    <div class="scripts"><div class="sblk">
+        <div class="slabel">AI를 뽑기처럼 쓰고 있진 않나요</div>
+        <p class="sline">자, 그럼 왜 누구는 잘 뽑고 누구는 못 뽑을까요. 혹시 지금 AI를 이 뽑기 기계처럼 쓰고 계시진 않나요?</p>
+      </div><div class="sblk">
+        <div class="slabel">한 줄 던지고, 나오는 대로</div>
+        <p class="sline">한 줄 툭 던지고, 나오는 대로 받고. 마음에 안 들면 다시 돌리고요.</p>
+      </div><div class="sblk">
+        <div class="slabel">매번 다른 결과</div>
+        <p class="sline">그러니 매번 결과가 다를 수밖에 없어요. 운이 좋으면 잘 나오고, 아니면 마는 거죠.</p>
+      </div><div class="sblk">
+        <div class="slabel">오늘 목표 = 당첨 확률 높이기</div>
+        <p class="sline">오늘 목표는 딱 하나예요. 이 뽑기의 당첨 확률을 확 끌어올리는 겁니다.</p>
+      </div><div class="sblk sblk--demo">
+        <div class="slabel slabel--demo"><span class="zap">⚡</span>3D 가챠 기계 — 뽑기 시연</div>
+        <p class="sline act">[행동] 화면의 뽑기 기계를 돌려, 캡슐이 매번 다르게 나오는 걸 보여준다.</p>
+      </div></div>
     <div class="thumb"><iframe loading="lazy" src="./semicolony-s04-3d.html"></iframe></div>
   </div>
 </section>
@@ -984,12 +1038,22 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="cardhead">
     <div class="pbadge">파트 2 · 진단 <span class="pt">6분</span></div>
     <h2 class="ctitle"><span class="snum">s05</span> AI ≠ AGI · 기대와 현실</h2>
+    <div class="kw-bar"><span class="kw">기대한 건 만능 직원(AGI)</span><span class="kw">AGI는 아직 세상에 없다</span><span class="kw">지금의 AI는 도구</span><span class="kw">기대를 버리지 말고 옮겨라 — 직원 아닌 장비</span></div>
   </div>
   <div class="cardbody">
-    <div class="kwzone">
-      <div class="kw-bar"><span class="kw">기대한 건 만능 직원(AGI)</span><span class="kw">AGI는 아직 세상에 없다</span><span class="kw">지금의 AI는 도구</span><span class="kw">기대를 버리지 말고 옮겨라 — 직원 아닌 장비</span></div>
-      <p class="hint">“왜 한 줄만 던지게 될까요. 기대가 어긋나서 그렇습니다.”</p>
-    </div>
+    <div class="scripts"><div class="sblk">
+        <div class="slabel">기대한 건 만능 직원(AGI)</div>
+        <p class="sline">우리가 한 줄만 던지게 되는 이유가 있어요. 알아서 다 해주는 만능 직원, 그러니까 AGI를 기대했기 때문이거든요.</p>
+      </div><div class="sblk">
+        <div class="slabel">AGI는 아직 세상에 없다</div>
+        <p class="sline">그런데 그런 만능 AI는 아직 세상에 없습니다. 영화에나 나오는 거예요. 전문가들은 그걸 AGI라고 부르는데, 언제 나올지는 아무도 몰라요.</p>
+      </div><div class="sblk">
+        <div class="slabel">지금의 AI는 도구</div>
+        <p class="sline">지금의 AI는 그냥 도구예요. 시킨 만큼, 재료 준 만큼 일하는 장비죠.</p>
+      </div><div class="sblk">
+        <div class="slabel">기대를 버리지 말고 옮겨라 — 직원 아닌 장비</div>
+        <p class="sline">그래서 기대를 버리라는 게 아니라 옮기시라는 거예요. 알아서 하는 직원이 아니라, 잘 다루면 잘 뽑아주는 장비로요. 직원한테는 실망하지만, 장비는 잘 쓰면 늘 제 몫을 하잖아요.</p>
+      </div></div>
     <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s05 · AI ≠ AGI — 기대와 현실 / 기대한 '만능 직원'(AGI) vs 지금의 도구(AI) 좌우 비교 + 용어 미니정의 --&gt;
 &lt;style&gt;
 /* ============================================================================
@@ -1287,12 +1351,25 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="cardhead">
     <div class="pbadge">파트 2 · 진단 <span class="pt">6분</span></div>
     <h2 class="ctitle"><span class="snum">s06</span> 네 단어 지도 · 오늘의 네 단어</h2>
+    <div class="kw-bar"><span class="kw">정확성 — 과녁 중앙에 맞나</span><span class="kw">정밀성 — 같은 자리에 모이나</span><span class="kw">반복성 — 내가 다시 해도</span><span class="kw">재현성 — 남이 해도</span><span class="kw">이 순서로 강의가 간다</span></div>
   </div>
   <div class="cardbody">
-    <div class="kwzone">
-      <div class="kw-bar"><span class="kw">정확성 — 과녁 중앙에 맞나</span><span class="kw">정밀성 — 같은 자리에 모이나</span><span class="kw">반복성 — 내가 다시 해도</span><span class="kw">재현성 — 남이 해도</span><span class="kw">이 순서로 강의가 간다</span></div>
-      <p class="hint">“오늘 이 네 단어만 기억하시면 됩니다.”</p>
-    </div>
+    <div class="scripts"><div class="sblk">
+        <div class="slabel">정확성 — 과녁 중앙에 맞나</div>
+        <p class="sline">이제 오늘의 핵심, 네 단어를 드릴게요. 연구실이 품질을 재는 잣대인데요. 첫째, 정확성. 과녁 한가운데에 맞았느냐입니다. 아무리 그럴싸해도 과녁을 벗어나면 소용없죠.</p>
+      </div><div class="sblk">
+        <div class="slabel">정밀성 — 같은 자리에 모이나</div>
+        <p class="sline">둘째, 정밀성. 여러 번 쐈을 때 같은 자리에 모이느냐예요.</p>
+      </div><div class="sblk">
+        <div class="slabel">반복성 — 내가 다시 해도</div>
+        <p class="sline">셋째, 반복성. 내가 다시 해도 같은 결과가 나오느냐.</p>
+      </div><div class="sblk">
+        <div class="slabel">재현성 — 남이 해도</div>
+        <p class="sline">넷째, 재현성. 내가 아니라 남이 해도 같으냐입니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">이 순서로 강의가 간다</div>
+        <p class="sline">오늘 강의가 딱 이 네 단어 순서로 갑니다. 이것만 잡으면 돼요. 정확·정밀은 앞에서, 반복·재현은 뒤에서 하나씩 풀어드릴게요.</p>
+      </div></div>
     <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s06 · 네 단어 지도 — &quot;오늘의 네 단어&quot; / 정확성·정밀성·반복성·재현성 개관(지도) --&gt;
 &lt;style&gt;
 /* ============================================================================
@@ -1622,12 +1699,22 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="cardhead">
     <div class="pbadge">파트 2 · 진단 <span class="pt">6분</span></div>
     <h2 class="ctitle"><span class="snum">s07</span> 다트판 2×2 · 지금 어느 판인가</h2>
+    <div class="kw-bar"><span class="kw">정확✕정밀 = 첫 경험, 복불복</span><span class="kw">우리가 갈 곳 = 정확하고 매번 똑같이</span><span class="kw">열쇠 셋 = 매뉴얼·자료·검증</span><span class="kw">목표는 ④에서 ①로</span></div>
   </div>
   <div class="cardbody">
-    <div class="kwzone">
-      <div class="kw-bar"><span class="kw">정확✕정밀 = 첫 경험, 복불복</span><span class="kw">우리가 갈 곳 = 정확하고 매번 똑같이</span><span class="kw">열쇠 셋 = 매뉴얼·자료·검증</span><span class="kw">목표는 ④에서 ①로</span></div>
-      <p class="hint">“정확성과 정밀성을 다트판으로 보겠습니다. 지금 어느 판에 계신가요?”</p>
-    </div>
+    <div class="scripts"><div class="sblk">
+        <div class="slabel">정확✕정밀 = 첫 경험, 복불복</div>
+        <p class="sline">앞의 두 단어, 정확성과 정밀성을 다트판으로 보겠습니다. 대부분의 첫 경험은 여기, 정확도 정밀도 없는 복불복이에요. 어제는 잘 나왔는데 오늘은 엉망인, 딱 그 상태요.</p>
+      </div><div class="sblk">
+        <div class="slabel">우리가 갈 곳 = 정확하고 매번 똑같이</div>
+        <p class="sline">우리가 갈 곳은 반대쪽이죠. 정확하면서 매번 똑같이 나오는 판입니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">열쇠 셋 = 매뉴얼·자료·검증</div>
+        <p class="sline">그 판으로 가는 열쇠가 세 개예요. 매뉴얼, 자료, 그리고 검증. 사실 이 세 개가 오늘 강의 전부입니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">목표는 ④에서 ①로</div>
+        <p class="sline">그러니 오늘 목표는 이 대각선 이동이에요. 복불복 사분면에서 정확·정밀 사분면으로 옮겨가는 겁니다. 오늘 남은 시간이 사실상 이 이동 하나를 위한 거예요.</p>
+      </div></div>
     <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s07 · 다트판 2×2 — 정확성·정밀성 매트릭스 / &quot;지금 어느 판인가요?&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
@@ -1977,12 +2064,19 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="cardhead">
     <div class="pbadge">파트 3 · 연구실의 답 <span class="pt">7분</span></div>
     <h2 class="ctitle"><span class="snum">s08</span> 반복성 × 재현성 · 계속 맞추는가</h2>
+    <div class="kw-bar"><span class="kw">한 번이 아니라 계속 맞추는가</span><span class="kw">반복성 = 다음 주에도</span><span class="kw">재현성 = 남이 해도</span></div>
   </div>
   <div class="cardbody">
-    <div class="kwzone">
-      <div class="kw-bar"><span class="kw">한 번이 아니라 계속 맞추는가</span><span class="kw">반복성 = 다음 주에도</span><span class="kw">재현성 = 남이 해도</span></div>
-      <p class="hint">“한 번 맞춘 걸 계속 맞출 수 있는가를 봅니다.”</p>
-    </div>
+    <div class="scripts"><div class="sblk">
+        <div class="slabel">한 번이 아니라 계속 맞추는가</div>
+        <p class="sline">방금 다트판 기억나시죠. 이번엔 뒤의 두 단어입니다. 한 번 맞춘 게 아니라, 계속 맞출 수 있느냐예요. 진짜 실력은 여기서 갈립니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">반복성 = 다음 주에도</div>
+        <p class="sline">반복성은 시간 축이에요. 내가 다음 주에 다시 시켜도 같은 결과가 나오느냐. 오늘 됐다가 내일 안 되면 못 믿잖아요. 사업은 꾸준함이 생명이니까요.</p>
+      </div><div class="sblk">
+        <div class="slabel">재현성 = 남이 해도</div>
+        <p class="sline">재현성은 사람 축이고요. 내가 아니라 다른 직원이 해도 같은 결과가 나오느냐입니다. 나만 되면 회사 일이 안 되죠. 반복성과 재현성, 이 둘이 있어야 비로소 믿고 씁니다.</p>
+      </div></div>
     <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s08 · 반복성·재현성 두 축 — 다트판 1개 + 시간축(가로)·조건축(세로) / &quot;다음 주에도, 남이 해도&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
@@ -2296,12 +2390,25 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="cardhead">
     <div class="pbadge">파트 3 · 연구실의 답 <span class="pt">7분</span></div>
     <h2 class="ctitle"><span class="snum">s09</span> 연구실 3종 세트 · 우연이 아니라 시스템</h2>
+    <div class="kw-bar"><span class="kw">연구실이 데이터를 믿는 이유</span><span class="kw">SOP = 지시문을 저장</span><span class="kw">실험노트 = 자료를 먹인다</span><span class="kw">QC = AI끼리 교차검사</span><span class="kw">우연이 아니라 시스템</span></div>
   </div>
   <div class="cardbody">
-    <div class="kwzone">
-      <div class="kw-bar"><span class="kw">연구실이 데이터를 믿는 이유</span><span class="kw">SOP = 지시문을 저장</span><span class="kw">실험노트 = 자료를 먹인다</span><span class="kw">QC = AI끼리 교차검사</span><span class="kw">우연이 아니라 시스템</span></div>
-      <p class="hint">“연구실은 어떻게 늘 같은 결과를 낼까요. 세 가지를 항상 갖춰 둡니다.”</p>
-    </div>
+    <div class="scripts"><div class="sblk">
+        <div class="slabel">연구실이 데이터를 믿는 이유</div>
+        <p class="sline">그럼 연구실은 어떻게 늘 같은 결과를 낼까요. 우연이 아니라, 세 가지를 항상 갖춰두거든요.</p>
+      </div><div class="sblk">
+        <div class="slabel">SOP = 지시문을 저장</div>
+        <p class="sline">첫째가 SOP, 작업 매뉴얼이에요. AI로 치면 잘 된 지시문을 저장해 두는 거죠.</p>
+      </div><div class="sblk">
+        <div class="slabel">실험노트 = 자료를 먹인다</div>
+        <p class="sline">둘째가 실험노트, 기록입니다. AI한테는 자료와 대화를 남겨서 먹이는 거고요.</p>
+      </div><div class="sblk">
+        <div class="slabel">QC = AI끼리 교차검사</div>
+        <p class="sline">셋째가 QC, 품질검사예요. 딴 눈이 다시 보는 건데, AI끼리 교차로 검사시키면 됩니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">우연이 아니라 시스템</div>
+        <p class="sline">핵심은 이거예요. 잘 나온 게 우연이 아니라, 시스템이 되게 만드는 겁니다. 이 세 가지가 오늘 실천법의 뼈대이기도 하고요.</p>
+      </div></div>
     <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s09 · 연구실의 3종 세트 — SOP·실험노트·QC 카드 3개 / &quot;연구실이 데이터를 믿는 이유&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
@@ -2594,12 +2701,25 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="cardhead">
     <div class="pbadge">파트 4 · 실천법 <span class="pt">10분</span></div>
     <h2 class="ctitle"><span class="snum">s10</span> 잘 시키는 법 · 같은 요청, 두 개의 운명</h2>
+    <div class="kw-bar"><span class="kw">운명 A = 한 줄 뽑기 → 근거 없는 단가</span><span class="kw">운명 B = 네 단어를 갖춘 지시</span><span class="kw">네 단어 = 역할·재료·형태·예시</span><span class="kw">좋은 지시가 곧 결과 품질</span><span class="kw kw--demo"><span class="zap">⚡</span>양쪽 견적서 클릭 → 전체 보기</span></div>
   </div>
   <div class="cardbody">
-    <div class="kwzone">
-      <div class="kw-bar"><span class="kw">운명 A = 한 줄 뽑기 → 근거 없는 단가</span><span class="kw">운명 B = 네 단어를 갖춘 지시</span><span class="kw">네 단어 = 역할·재료·형태·예시</span><span class="kw">좋은 지시가 곧 결과 품질</span><span class="kw kw--demo"><span class="zap">⚡</span>양쪽 견적서 클릭 → 전체 보기</span></div>
-      <p class="hint">“똑같은 견적서 요청인데, 어떻게 시키느냐로 운명이 갈립니다.”</p>
-    </div>
+    <div class="scripts"><div class="sblk">
+        <div class="slabel">운명 A = 한 줄 뽑기 → 근거 없는 단가</div>
+        <p class="sline">이제 실천법이에요. 똑같은 견적서 요청인데 운명이 갈립니다. 왼쪽은 ‘견적서 하나 뽑아줘’ 한 줄. 그럴싸한데 단가에 근거가 없어요.</p>
+      </div><div class="sblk">
+        <div class="slabel">운명 B = 네 단어를 갖춘 지시</div>
+        <p class="sline">오른쪽은 같은 요청을 네 단어로 갖춰서 시킨 거예요. 결과가 3번 장에서 보신 그 실물 견적서로 나옵니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">네 단어 = 역할·재료·형태·예시</div>
+        <p class="sline">그 네 단어가 역할, 재료, 형태, 예시예요. 누구로서, 무슨 재료로, 어떤 형식으로, 무엇처럼.</p>
+      </div><div class="sblk">
+        <div class="slabel">좋은 지시가 곧 결과 품질</div>
+        <p class="sline">결국 어떻게 시키느냐가 결과 품질을 그대로 가릅니다.</p>
+      </div><div class="sblk sblk--demo">
+        <div class="slabel slabel--demo"><span class="zap">⚡</span>양쪽 견적서 클릭 → 전체 보기</div>
+        <p class="sline act">[행동] 양쪽 견적서를 차례로 눌러, 근거 없는 쪽과 실물 견적서를 나란히 띄운다.</p>
+      </div></div>
     <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s10 · 잘 시키는 법 — 같은 요청, 두 개의 운명 / 좌 나쁜 지시→엉성한 견적서 실물(생성, 단가 근거 없음·시연용 워터마크) vs 우 3번 장 실물 견적서 / 둘 다 클릭→전체 보기(s03 문법). 하단 4원칙 칩 --&gt;
 &lt;style&gt;
 /* ============================================================================
@@ -2901,12 +3021,25 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="cardhead">
     <div class="pbadge">파트 4 · 실천법 <span class="pt">10분</span></div>
     <h2 class="ctitle"><span class="snum">s11</span> 실제 지시문 목업 · 이 지시문으로 나왔다</h2>
+    <div class="kw-bar"><span class="kw">아까 그 견적서, 이 지시문으로</span><span class="kw">역할 = 견적 담당자</span><span class="kw">재료 = 실제 값만, 없으면 ‘확인 필요’</span><span class="kw">형태 = 견적서 양식 + 검산</span><span class="kw">예시 = 기존 견적서 톤</span></div>
   </div>
   <div class="cardbody">
-    <div class="kwzone">
-      <div class="kw-bar"><span class="kw">아까 그 견적서, 이 지시문으로</span><span class="kw">역할 = 견적 담당자</span><span class="kw">재료 = 실제 값만, 없으면 ‘확인 필요’</span><span class="kw">형태 = 견적서 양식 + 검산</span><span class="kw">예시 = 기존 견적서 톤</span></div>
-      <p class="hint">“말이 아니라 실물로 보여드리겠습니다. 3번 장 견적서를 만든 그 지시문입니다.”</p>
-    </div>
+    <div class="scripts"><div class="sblk">
+        <div class="slabel">아까 그 견적서, 이 지시문으로</div>
+        <p class="sline">말이 아니라 실물로 보여드릴게요. 아까 3번 장의 그 견적서가, 바로 이 지시문 하나로 나온 겁니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">역할 = 견적 담당자</div>
+        <p class="sline">보시면 역할부터 줬어요. ‘너는 우리 회사 견적 담당자다.’</p>
+      </div><div class="sblk">
+        <div class="slabel">재료 = 실제 값만, 없으면 ‘확인 필요’</div>
+        <p class="sline">재료는 실제 값만 쓰라고 못을 박았고요. 없는 값은 지어내지 말고 ‘확인 필요’로 표기하라고 했습니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">형태 = 견적서 양식 + 검산</div>
+        <p class="sline">형태는 회사 견적서 양식 그대로, 금액은 반드시 다시 계산해 검산하라고 했어요.</p>
+      </div><div class="sblk">
+        <div class="slabel">예시 = 기존 견적서 톤</div>
+        <p class="sline">마지막으로 기존 거래처 견적서와 같은 톤으로 맞추라고 예시를 줬습니다. 딱 네 단어죠. 특별한 기술이 아니라, 그냥 꼼꼼하게 시킨 것뿐이에요.</p>
+      </div></div>
     <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s11 · 실제 지시문 목업 — 다크 채팅/에디터 프레임 하나 크게 / &quot;아까 3번 장의 그 견적서, 이 지시문으로 나왔습니다&quot; (어니스트컴퍼니 콤부차 발포 분말스틱 건)
      ※ 이 목업 프레임(.mock-frame)은 나중에 대표님 실제 프롬프트 스크린샷 이미지로 교체 예정.
         교체 시 아래 &lt;div class=&quot;mock-frame&quot;&gt;…&lt;/div&gt; 통째를 &lt;img&gt;로 대체하면 됨. --&gt;
@@ -3154,12 +3287,25 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="cardhead">
     <div class="pbadge">파트 4 · 실천법 <span class="pt">10분</span></div>
     <h2 class="ctitle"><span class="snum">s12</span> 저장하라 · 잘 된 지시문은 저장</h2>
+    <div class="kw-bar"><span class="kw">잘 된 지시문은 저장하라</span><span class="kw">매번 새로 치면 반복성은 죽는다</span><span class="kw">저장 → 월·화·수 같은 결과</span><span class="kw">운으로 잘 됐다면 레시피를 역으로 뽑아라</span><span class="kw">결과 옆에 지시문을 같이 저장</span></div>
   </div>
   <div class="cardbody">
-    <div class="kwzone">
-      <div class="kw-bar"><span class="kw">잘 된 지시문은 저장하라</span><span class="kw">매번 새로 치면 반복성은 죽는다</span><span class="kw">저장 → 월·화·수 같은 결과</span><span class="kw">운으로 잘 됐다면 레시피를 역으로 뽑아라</span><span class="kw">결과 옆에 지시문을 같이 저장</span></div>
-      <p class="hint">“한 번 잘 만든 지시문, 그냥 두시겠어요? 저장하셔야 합니다.”</p>
-    </div>
+    <div class="scripts"><div class="sblk">
+        <div class="slabel">잘 된 지시문은 저장하라</div>
+        <p class="sline">여기서 제일 중요한 한마디. 잘 된 지시문은 반드시 저장하세요.</p>
+      </div><div class="sblk">
+        <div class="slabel">매번 새로 치면 반복성은 죽는다</div>
+        <p class="sline">매번 머릿속으로 새로 쳐서 시키는 순간, 아까 말한 반복성은 죽어버리거든요.</p>
+      </div><div class="sblk">
+        <div class="slabel">저장 → 월·화·수 같은 결과</div>
+        <p class="sline">저장해 두고 월요일, 화요일, 수요일 같은 걸 불러 쓰면 결과 품질이 일정해집니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">운으로 잘 됐다면 레시피를 역으로 뽑아라</div>
+        <p class="sline">혹시 운으로 잘 나왔다면요, 그 대화에서 ‘방금 그거 어떻게 만들었는지 지시문으로 정리해줘’ 하고 레시피를 거꾸로 뽑으세요.</p>
+      </div><div class="sblk">
+        <div class="slabel">결과 옆에 지시문을 같이 저장</div>
+        <p class="sline">원칙은 하나예요. 잘 나온 결과 옆에, 그때 쓴 지시문을 같이 저장해 두는 겁니다. 그래야 다음 주의 나도, 다른 직원도 똑같이 씁니다.</p>
+      </div></div>
     <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s12 · 저장하라 — 저장된 지시문 1장 → 월·화·수 복제 → 같은 결과로 수렴 / &quot;잘 된 지시문은 저장하라&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
@@ -3531,12 +3677,25 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="cardhead">
     <div class="pbadge">파트 4 · 실천법 <span class="pt">10분</span></div>
     <h2 class="ctitle"><span class="snum">s13</span> 자료를 줘라 · 기억이 아니라 자료로</h2>
+    <div class="kw-bar"><span class="kw">설명하지 말고 자료를 줘라</span><span class="kw">자료 없이 = 추정·확인 필요</span><span class="kw">자료를 주면 = 실측값</span><span class="kw">지식 베이스(RAG) = 실험노트</span><span class="kw">자료만 같으면 다른 모델도 같은 값</span></div>
   </div>
   <div class="cardbody">
-    <div class="kwzone">
-      <div class="kw-bar"><span class="kw">설명하지 말고 자료를 줘라</span><span class="kw">자료 없이 = 추정·확인 필요</span><span class="kw">자료를 주면 = 실측값</span><span class="kw">지식 베이스(RAG) = 실험노트</span><span class="kw">자료만 같으면 다른 모델도 같은 값</span></div>
-      <p class="hint">“지시를 잘 해도 재료가 없으면 AI는 추측합니다. 자료를 쥐여주세요.”</p>
-    </div>
+    <div class="scripts"><div class="sblk">
+        <div class="slabel">설명하지 말고 자료를 줘라</div>
+        <p class="sline">지시를 아무리 잘 해도 재료가 없으면 AI는 추측합니다. 그러니 말로 설명하지 마시고, 자료를 그냥 쥐여주세요.</p>
+      </div><div class="sblk">
+        <div class="slabel">자료 없이 = 추정·확인 필요</div>
+        <p class="sline">자료 없이 시키면 단가도 수량도 추정이에요. 그럴싸하지만 확인이 필요한 값이죠.</p>
+      </div><div class="sblk">
+        <div class="slabel">자료를 주면 = 실측값</div>
+        <p class="sline">반대로 단가표랑 기존 견적서를 주면, 자료에서 나온 근거 있는 실측값이 나옵니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">지식 베이스(RAG) = 실험노트</div>
+        <p class="sline">이걸 어려운 말로 지식 베이스, RAG라고 하는데요. 그냥 연구실 실험노트라고 생각하시면 돼요.</p>
+      </div><div class="sblk">
+        <div class="slabel">자료만 같으면 다른 모델도 같은 값</div>
+        <p class="sline">재밌는 건, 자료만 같으면 새 창을 켜도 다른 AI를 써도 같은 값이 나온다는 거예요.</p>
+      </div></div>
     <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s13 · 자료를 줘라 — 같은 지시, 자료 유무 대비 / 좌 &quot;자료 없이&quot;(추정·확인필요, dim/⚠) vs 우 &quot;단가표·기존 견적서를 주면&quot;(실측값, 발광/✓). 축 = 재료의 유무(s10=지시의 품질과 구분). 우측 결과값·업체명은 s16 실측과 정합(어니스트컴퍼니) --&gt;
 &lt;style&gt;
 /* ============================================================================
@@ -3843,12 +4002,22 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="cardhead">
     <div class="pbadge">파트 5 · 라이브 데모 <span class="pt">11분</span></div>
     <h2 class="ctitle"><span class="snum">s14</span> 실험 예고 · 지금부터 실험 2개</h2>
+    <div class="kw-bar"><span class="kw">지금부터 라이브 실험 2개</span><span class="kw">실험 1 = 말만 시키면?</span><span class="kw">실험 2 = 매뉴얼+자료를 주면?</span><span class="kw">관전 포인트 = 반복 결과가 갈리나</span></div>
   </div>
   <div class="cardbody">
-    <div class="kwzone">
-      <div class="kw-bar"><span class="kw">지금부터 라이브 실험 2개</span><span class="kw">실험 1 = 말만 시키면?</span><span class="kw">실험 2 = 매뉴얼+자료를 주면?</span><span class="kw">관전 포인트 = 반복 결과가 갈리나</span></div>
-      <p class="hint">“이제 직접 실험해 보겠습니다. 실험은 두 개입니다.”</p>
-    </div>
+    <div class="scripts"><div class="sblk">
+        <div class="slabel">지금부터 라이브 실험 2개</div>
+        <p class="sline">자, 이제 말로만 하지 말고 직접 실험해 볼게요. 실험은 두 개입니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">실험 1 = 말만 시키면?</div>
+        <p class="sline">실험 1은 말만 대충 시키면 어떻게 되나.</p>
+      </div><div class="sblk">
+        <div class="slabel">실험 2 = 매뉴얼+자료를 주면?</div>
+        <p class="sline">실험 2는 저장한 매뉴얼과 자료를 주면 어떻게 되나.</p>
+      </div><div class="sblk">
+        <div class="slabel">관전 포인트 = 반복 결과가 갈리나</div>
+        <p class="sline">관전 포인트는 딱 하나. 같은 걸 반복했을 때 결과가 갈리는지만 보세요.</p>
+      </div></div>
     <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s14 · 실험 예고 — &quot;지금부터, 실험 2개&quot; 라이브 예고판 / 실험1(=s15) 말만 시키면? → 예상 &quot;?&quot;  vs  실험2(=s16) 매뉴얼+자료를 주면? → 예상 &quot;차이=0?&quot;. 다음 두 장의 예고편·긴장감. 플라스크/비커 모티프 유지, 중앙 밴드에 반복 세트 시각화 --&gt;
 &lt;style&gt;
 /* ============================================================================
@@ -4177,12 +4346,22 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="cardhead">
     <div class="pbadge">파트 5 · 라이브 데모 <span class="pt">11분</span></div>
     <h2 class="ctitle"><span class="snum">s15</span> 데모 1 · 말만 시키면 매번 다르다</h2>
+    <div class="kw-bar"><span class="kw">말만 시키면 매번 조금 다르다</span><span class="kw">같은 한 줄 × 3회</span><span class="kw">단가 1,500·1,800·2,200 — 다 다름</span><span class="kw">판정 = 제각각 ✗</span></div>
   </div>
   <div class="cardbody">
-    <div class="kwzone">
-      <div class="kw-bar"><span class="kw">말만 시키면 매번 조금 다르다</span><span class="kw">같은 한 줄 × 3회</span><span class="kw">단가 1,500·1,800·2,200 — 다 다름</span><span class="kw">판정 = 제각각 ✗</span></div>
-      <p class="hint">“먼저 실험 1. 대충 한 줄로, 그대로 세 번 시켜 보겠습니다.”</p>
-    </div>
+    <div class="scripts"><div class="sblk">
+        <div class="slabel">말만 시키면 매번 조금 다르다</div>
+        <p class="sline">먼저 실험 1이에요. 말만 시키면 매번 조금씩 다르게 나옵니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">같은 한 줄 × 3회</div>
+        <p class="sline">‘콤부차 스틱 견적 뽑아줘’ 딱 이 한 줄을, 그대로 세 번 돌렸어요.</p>
+      </div><div class="sblk">
+        <div class="slabel">단가 1,500·1,800·2,200 — 다 다름</div>
+        <p class="sline">단가만 보시면 1,500원, 1,800원, 2,200원. 세 번 다 다릅니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">판정 = 제각각 ✗</div>
+        <p class="sline">양식도 구조도 제각각이에요. 이게 저장 안 한 뽑기의 결과입니다.</p>
+      </div></div>
     <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s15 · 데모 1 — &quot;말만 시키면, 매번 조금 다르다&quot; / 같은 한 줄 지시 ×3회 → 결과 문서 3장(단가 1,500·1,800·2,200, 열 구성 상이) + 단가칸 하이라이트 + 판정 배지 &quot;제각각 ✗&quot;(s16 &quot;0건 ✓&quot;과 세로 배지 대구). 시연 태그·실존 업체명/사업자번호 없음 --&gt;
 &lt;style&gt;
 /* ============================================================================
@@ -4476,12 +4655,22 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="cardhead">
     <div class="pbadge">파트 5 · 라이브 데모 <span class="pt">11분</span></div>
     <h2 class="ctitle"><span class="snum">s16</span> 데모 2 · 다음 주에도 같은 견적서</h2>
+    <div class="kw-bar"><span class="kw">저장한 지시문을 그대로 두 번</span><span class="kw">오늘 = 일주일 뒤</span><span class="kw">차이 0건 ✓</span><span class="kw">이게 반복성이다</span></div>
   </div>
   <div class="cardbody">
-    <div class="kwzone">
-      <div class="kw-bar"><span class="kw">저장한 지시문을 그대로 두 번</span><span class="kw">오늘 = 일주일 뒤</span><span class="kw">차이 0건 ✓</span><span class="kw">이게 반복성이다</span></div>
-      <p class="hint">“이번엔 실험 2. 저장한 지시문과 자료로 두 번 시켜 보겠습니다.”</p>
-    </div>
+    <div class="scripts"><div class="sblk">
+        <div class="slabel">저장한 지시문을 그대로 두 번</div>
+        <p class="sline">실험 2예요. 이번엔 저장해 둔 지시문을 그대로 두 번 돌립니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">오늘 = 일주일 뒤</div>
+        <p class="sline">오늘 한 번, 그리고 일주일 뒤에 한 번 시킨다고 보시면 돼요.</p>
+      </div><div class="sblk">
+        <div class="slabel">차이 0건 ✓</div>
+        <p class="sline">결과는 양식도 단가도 구조도 똑같아요. 차이 0건입니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">이게 반복성이다</div>
+        <p class="sline">자료와 지시문을 저장했으니까요. 이게 바로 반복성입니다.</p>
+      </div></div>
     <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s16 · 반복성 데모 — &quot;다음 주에 다시 시켜도, 같은 견적서&quot; / 저장한 지시문(어니스트-견적-지시.txt)을 오늘/일주일 뒤 두 번 → 중앙 &quot;차이 0건&quot; 판정(발광) / 정직 가드: 양식·단가·구조 동일 수준. ※시간축 반복=반복성(s08 시간축·s12 저장→반복성 정본과 일치) --&gt;
 &lt;style&gt;
 /* ============================================================================
@@ -4751,12 +4940,25 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="cardhead">
     <div class="pbadge">파트 6 · 에이전트 <span class="pt">6분</span></div>
     <h2 class="ctitle"><span class="snum">s17</span> 에이전트 업무 루프 · AI 직원을 고용</h2>
+    <div class="kw-bar"><span class="kw">AI 직원을 고용했다</span><span class="kw">한 번 시켜두면 스스로 도는 루프</span><span class="kw">발주서·매입매출·명세서 자동</span><span class="kw">사람은 승인 도장 한 칸만</span><span class="kw">가장 높은 단계 = 에이전트</span></div>
   </div>
   <div class="cardbody">
-    <div class="kwzone">
-      <div class="kw-bar"><span class="kw">AI 직원을 고용했다</span><span class="kw">한 번 시켜두면 스스로 도는 루프</span><span class="kw">발주서·매입매출·명세서 자동</span><span class="kw">사람은 승인 도장 한 칸만</span><span class="kw">가장 높은 단계 = 에이전트</span></div>
-      <p class="hint">“세 기둥이 갖춰지면 어디까지 갈까요. AI가 직원이 됩니다.”</p>
-    </div>
+    <div class="scripts"><div class="sblk">
+        <div class="slabel">AI 직원을 고용했다</div>
+        <p class="sline">세 기둥, 매뉴얼·자료·검사가 갖춰지면 어디까지 가느냐. AI를 직원처럼 고용하는 단계까지 갑니다. 지금까지가 도구였다면, 여기서부턴 직원이에요.</p>
+      </div><div class="sblk">
+        <div class="slabel">한 번 시켜두면 스스로 도는 루프</div>
+        <p class="sline">한 번 시켜두면 스스로 도는 업무 루프예요.</p>
+      </div><div class="sblk">
+        <div class="slabel">발주서·매입매출·명세서 자동</div>
+        <p class="sline">발주서 작성하고, 매입·매출 장부에 넣고, 거래명세서 쓰고 납품일 알림까지 자동으로 돕니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">사람은 승인 도장 한 칸만</div>
+        <p class="sline">사람이 하는 건 딱 한 칸, 대표 승인 도장이에요. 거기만 사람이 찍습니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">가장 높은 단계 = 에이전트</div>
+        <p class="sline">이렇게 스스로 일하는 AI를 에이전트라고 부르고요, 오늘 얘기의 가장 높은 단계입니다. 처음부터 하란 건 아니고, 손에 익으면 여기까지 옵니다.</p>
+      </div></div>
     <div class="thumb"><iframe loading="lazy" srcdoc="&lt;meta charset=&quot;UTF-8&quot;&gt;
 &lt;!-- s17 · 에이전트 업무 루프 — 발주서→승인(사람 게이트)→매입·매출 등록→분기(동시 진행)→합류(검수·전송) / &quot;AI 직원을 고용했습니다&quot; --&gt;
 &lt;style&gt;
@@ -5107,12 +5309,25 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="cardhead">
     <div class="pbadge">파트 6 · 에이전트 <span class="pt">6분</span></div>
     <h2 class="ctitle"><span class="snum">s18</span> 에이전트 라이브 로그 · 자리에 없어도 돈다</h2>
+    <div class="kw-bar"><span class="kw">이 루프는 자리에 없어도 돈다</span><span class="kw">승인 도장만 사람</span><span class="kw">발주→등록→분류→전송 자동</span><span class="kw kw--demo"><span class="zap">⚡</span>로드 시 로그 자동 타이핑</span><span class="kw kw--demo"><span class="zap">⚡</span>호버 리플레이</span></div>
   </div>
   <div class="cardbody">
-    <div class="kwzone">
-      <div class="kw-bar"><span class="kw">이 루프는 자리에 없어도 돈다</span><span class="kw">승인 도장만 사람</span><span class="kw">발주→등록→분류→전송 자동</span><span class="kw kw--demo"><span class="zap">⚡</span>로드 시 로그 자동 타이핑</span><span class="kw kw--demo"><span class="zap">⚡</span>호버 리플레이</span></div>
-      <p class="hint">“이 루프가 실제로 도는 로그를 보여드리겠습니다 — 한 줄씩 지켜봐 주세요.”</p>
-    </div>
+    <div class="scripts"><div class="sblk">
+        <div class="slabel">이 루프는 자리에 없어도 돈다</div>
+        <p class="sline">말로 하면 안 와닿으니 실제 로그로 보여드릴게요. 이 루프는 제가 자리에 없어도 알아서 돕니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">승인 도장만 사람</div>
+        <p class="sline">중간에 딱 한 줄, 승인 도장만 사람이 찍고요.</p>
+      </div><div class="sblk">
+        <div class="slabel">발주→등록→분류→전송 자동</div>
+        <p class="sline">발주서부터 장부 등록, 서류 분류, 업체 전송까지 한 줄씩 알아서 처리됩니다.</p>
+      </div><div class="sblk sblk--demo">
+        <div class="slabel slabel--demo"><span class="zap">⚡</span>로드 시 로그 자동 타이핑</div>
+        <p class="sline act">[행동] 로그가 한 줄씩 자동으로 타이핑되며 도는 걸 잠시 지켜본다.</p>
+      </div><div class="sblk sblk--demo">
+        <div class="slabel slabel--demo"><span class="zap">⚡</span>호버 리플레이</div>
+        <p class="sline act">[행동] 로그에 마우스를 올려, 처음부터 다시 재생해 보여준다.</p>
+      </div></div>
     <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s18 · 에이전트 라이브 로그 — 다크 터미널 + s17 업무 루프 실행 로그가 로드 시 한 줄씩 타이핑(체크 점등·커서 깜빡임) / &quot;이 루프는 제가 자리에 없어도 돕니다 — 승인 도장만 빼고.&quot; --&gt;
 &lt;!-- ※ 결정론적 애니메이션(Math.random 없음): 로드 1회 재생 후 정지, 프레임 호버 시 리플레이(재생 가드). prefers-reduced-motion이면 전 줄 즉시 표시. 실제 녹화로 교체 가능. --&gt;
 &lt;style&gt;
@@ -5424,12 +5639,22 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="cardhead">
     <div class="pbadge">파트 6 · 에이전트 <span class="pt">6분</span></div>
     <h2 class="ctitle"><span class="snum">s19</span> 검사 라인 · 만드는 손과 검사하는 손</h2>
+    <div class="kw-bar"><span class="kw">만드는 손·검사하는 손을 나눈다</span><span class="kw">만드는 AI → 검사하는 AI → 사람 도장</span><span class="kw">최종 도장은 사람</span><span class="kw">하네스/파이프라인 = QC</span></div>
   </div>
   <div class="cardbody">
-    <div class="kwzone">
-      <div class="kw-bar"><span class="kw">만드는 손·검사하는 손을 나눈다</span><span class="kw">만드는 AI → 검사하는 AI → 사람 도장</span><span class="kw">최종 도장은 사람</span><span class="kw">하네스/파이프라인 = QC</span></div>
-      <p class="hint">“AI를 믿으려면 검사를 붙여야 합니다. 만드는 놈과 검사하는 놈을 나눕니다.”</p>
-    </div>
+    <div class="scripts"><div class="sblk">
+        <div class="slabel">만드는 손·검사하는 손을 나눈다</div>
+        <p class="sline">그런데 AI를 믿으려면 한 가지가 더 필요해요. 만드는 손과 검사하는 손을 나누는 겁니다. 사람도 자기가 쓴 글은 오타를 잘 못 잡잖아요. AI도 똑같아요.</p>
+      </div><div class="sblk">
+        <div class="slabel">만드는 AI → 검사하는 AI → 사람 도장</div>
+        <p class="sline">만드는 AI가 초안을 뽑으면, 검사하는 AI가 틀린 곳을 잡아내요. 순서가 이렇게 흐릅니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">최종 도장은 사람</div>
+        <p class="sline">그래도 최종 도장은 반드시 사람이 찍습니다. 이건 양보 안 해요. 발송 버튼은 사람 몫이에요.</p>
+      </div><div class="sblk">
+        <div class="slabel">하네스/파이프라인 = QC</div>
+        <p class="sline">이 검사 라인을 하네스, 파이프라인이라고 부르는데요. 연구실 QC랑 똑같은 겁니다. 이 검사만 붙여도 실수가 확 줄어요.</p>
+      </div></div>
     <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s19 · 검사 라인 — 만드는 AI → 검사하는 AI → 사람 도장 / 가로 흐름 다이어그램 --&gt;
 &lt;style&gt;
 /* ============================================================================
@@ -5733,12 +5958,22 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="cardhead">
     <div class="pbadge">파트 6 · 에이전트 <span class="pt">6분</span></div>
     <h2 class="ctitle"><span class="snum">s20</span> 제작 조직도 · AI에게 AI를 시켜 만들었다</h2>
+    <div class="kw-bar"><span class="kw">이 강의 자료도 AI로 AI를 시켜</span><span class="kw">감독 AI → 실행 AI 여럿 → 검사원 AI(Codex)</span><span class="kw">사람은 방향 지시와 마지막 도장</span><span class="kw">작업지시 13 · 검수반려 5 · 교차검사 6</span></div>
   </div>
   <div class="cardbody">
-    <div class="kwzone">
-      <div class="kw-bar"><span class="kw">이 강의 자료도 AI로 AI를 시켜</span><span class="kw">감독 AI → 실행 AI 여럿 → 검사원 AI(Codex)</span><span class="kw">사람은 방향 지시와 마지막 도장</span><span class="kw">작업지시 13 · 검수반려 5 · 교차검사 6</span></div>
-      <p class="hint">“사실 이 덱 자체가 증거입니다. AI에게 AI를 시켜 만들었습니다.”</p>
-    </div>
+    <div class="scripts"><div class="sblk">
+        <div class="slabel">이 강의 자료도 AI로 AI를 시켜</div>
+        <p class="sline">사실 지금 보고 계신 이 강의 자료 자체가 증거예요. AI한테 AI를 시켜서 만들었거든요.</p>
+      </div><div class="sblk">
+        <div class="slabel">감독 AI → 실행 AI 여럿 → 검사원 AI(Codex)</div>
+        <p class="sline">감독 AI가 지시서를 쓰고, 실행 AI 여럿이 장표를 만들고, 검사원 AI가 교차로 검사했어요. 다른 회사 AI인 Codex한테요. 사람 여럿이 팀으로 하는 걸, AI로 그대로 옮긴 거예요.</p>
+      </div><div class="sblk">
+        <div class="slabel">사람은 방향 지시와 마지막 도장</div>
+        <p class="sline">제가 한 일은 방향을 정해주고, 마지막에 도장 찍은 것뿐이에요.</p>
+      </div><div class="sblk">
+        <div class="slabel">작업지시 13 · 검수반려 5 · 교차검사 6</div>
+        <p class="sline">이틀 동안 작업지시 13건, 검수 반려 5건, 교차검사 6번. 실제 기록이에요. 반려가 5건이나 됐다는 건, 검사가 진짜로 돌았다는 뜻이고요.</p>
+      </div></div>
     <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s20 · AI 제작 조직도 — 감독 AI → 실행 AI 3 → 검사원 AI(Codex) → 사람 도장 / &quot;이 덱을 AI에게 AI를 시켜 만들었다&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
@@ -6107,12 +6342,28 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="cardhead">
     <div class="pbadge">파트 7 · 마무리 <span class="pt">5분</span></div>
     <h2 class="ctitle"><span class="snum">s21</span> 환각 주의 · 확신 있게 틀린다</h2>
+    <div class="kw-bar"><span class="kw">환각 = 확신 있게 틀린다</span><span class="kw">증상1 = 출처를 지어낸다</span><span class="kw">증상2 = 없는 사실을 단언한다</span><span class="kw">증상3 = 지적해도 우긴다</span><span class="kw">실화 = 가짜 판례로 제재(2023)</span><span class="kw">그래서 사람이 거른다</span></div>
   </div>
   <div class="cardbody">
-    <div class="kwzone">
-      <div class="kw-bar"><span class="kw">환각 = 확신 있게 틀린다</span><span class="kw">증상1 = 출처를 지어낸다</span><span class="kw">증상2 = 없는 사실을 단언한다</span><span class="kw">증상3 = 지적해도 우긴다</span><span class="kw">실화 = 가짜 판례로 제재(2023)</span><span class="kw">그래서 사람이 거른다</span></div>
-      <p class="hint">“좋은 얘기만 드리면 안 되겠죠. AI의 직업병, 환각을 짚겠습니다.”</p>
-    </div>
+    <div class="scripts"><div class="sblk">
+        <div class="slabel">환각 = 확신 있게 틀린다</div>
+        <p class="sline">좋은 얘기만 드리면 안 되겠죠. AI한테는 직업병이 하나 있어요. 환각인데, 너무 확신 있게 틀린다는 겁니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">증상1 = 출처를 지어낸다</div>
+        <p class="sline">증상 첫째, 없는 출처를 지어내요. 그럴싸한 논문이나 링크를 만들어 붙입니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">증상2 = 없는 사실을 단언한다</div>
+        <p class="sline">둘째, 없는 사실을 아주 자신 있게 말해요. 수치나 규정을 매끄럽게 지어냅니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">증상3 = 지적해도 우긴다</div>
+        <p class="sline">셋째, 틀렸다고 지적해도 우기거나, 사과하고 또 틀려요.</p>
+      </div><div class="sblk">
+        <div class="slabel">실화 = 가짜 판례로 제재(2023)</div>
+        <p class="sline">실화도 있어요. 2023년에 미국 변호사가 AI가 지어낸 가짜 판례를 법원에 냈다가 제재를 받았습니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">그래서 사람이 거른다</div>
+        <p class="sline">그래서 결론은, 출처는 직접 열어보고 숫자는 원본과 대조한 다음에 내보내야 한다는 거예요.</p>
+      </div></div>
     <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s21 · 환각 = AI의 직업병 — 실제 증상 3카드(출처 지어냄·확신 있게 단언·지적해도 우김) + 실화 콜아웃 + 대응 수칙 스트립(출처확인·대조·발송, 증상 1:1) / 현상→대응 --&gt;
 &lt;style&gt;
 /* ============================================================================
@@ -6422,12 +6673,22 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="cardhead">
     <div class="pbadge">파트 7 · 마무리 <span class="pt">5분</span></div>
     <h2 class="ctitle"><span class="snum">s22</span> 용어 사다리 · 같은 개념, 세 이름</h2>
+    <div class="kw-bar"><span class="kw">이 장은 사진 찍으세요 📸</span><span class="kw">같은 개념, 세 가지 이름</span><span class="kw">오늘 쓴 말 → 연구실 용어 → AI 용어</span><span class="kw">검색은 오른쪽 단어로</span></div>
   </div>
   <div class="cardbody">
-    <div class="kwzone">
-      <div class="kw-bar"><span class="kw">이 장은 사진 찍으세요 📸</span><span class="kw">같은 개념, 세 가지 이름</span><span class="kw">오늘 쓴 말 → 연구실 용어 → AI 용어</span><span class="kw">검색은 오른쪽 단어로</span></div>
-      <p class="hint">“이 장은 나중에 공부하실 때 지도입니다. 사진 한 장 찍어두세요.”</p>
-    </div>
+    <div class="scripts"><div class="sblk">
+        <div class="slabel">이 장은 사진 찍으세요 📸</div>
+        <p class="sline">이 장은 설명보다, 사진 한 장 찍어두세요. 나중에 혼자 공부하실 때 쓸 지도거든요.</p>
+      </div><div class="sblk">
+        <div class="slabel">같은 개념, 세 가지 이름</div>
+        <p class="sline">오늘 나온 개념들이 사실 이름만 세 개예요. 같은 걸 쉬운 말로도, 연구실 말로도, AI 말로도 부를 뿐이에요.</p>
+      </div><div class="sblk">
+        <div class="slabel">오늘 쓴 말 → 연구실 용어 → AI 용어</div>
+        <p class="sline">왼쪽이 오늘 제가 쓴 쉬운 말, 가운데가 연구실 용어, 오른쪽이 진짜 AI 용어예요. 셋이 같은 걸 가리킵니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">검색은 오른쪽 단어로</div>
+        <p class="sline">그러니 나중에 더 공부하실 땐, 맨 오른쪽 단어로 검색하시면 됩니다. ‘스킬’, ‘지식 베이스’, ‘에이전트’ 이렇게요. 훨씬 정확한 자료가 나와요.</p>
+      </div></div>
     <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s22 · 용어 사다리 — 오늘 쓴 말 / 연구실 용어 / AI 용어 3열 표 (사진 찍는 장표) --&gt;
 &lt;style&gt;
 /* ============================================================================
@@ -6699,12 +6960,25 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="cardhead">
     <div class="pbadge">파트 7 · 마무리 <span class="pt">5분</span></div>
     <h2 class="ctitle"><span class="snum">s23</span> 레벨 체크 · 나는 지금 몇 레벨?</h2>
+    <div class="kw-bar"><span class="kw">나는 지금 몇 레벨?</span><span class="kw">오늘 강의 = Lv.2–5</span><span class="kw">대화형 → 작업형 → 운영형</span><span class="kw">대부분 Lv.4에서 멈춘다</span><span class="kw">오늘 과제 = 지시문 1개 저장 = Lv.5 첫발</span></div>
   </div>
   <div class="cardbody">
-    <div class="kwzone">
-      <div class="kw-bar"><span class="kw">나는 지금 몇 레벨?</span><span class="kw">오늘 강의 = Lv.2–5</span><span class="kw">대화형 → 작업형 → 운영형</span><span class="kw">대부분 Lv.4에서 멈춘다</span><span class="kw">오늘 과제 = 지시문 1개 저장 = Lv.5 첫발</span></div>
-      <p class="hint">“마지막으로 지금 내 위치를 찾아보겠습니다. 나는 몇 레벨일까요?”</p>
-    </div>
+    <div class="scripts"><div class="sblk">
+        <div class="slabel">나는 지금 몇 레벨?</div>
+        <p class="sline">마지막으로 지도 하나 드릴게요. 지금 내가 몇 레벨쯤인지 찾아보시는 겁니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">오늘 강의 = Lv.2–5</div>
+        <p class="sline">그냥 묻는 1단계부터 AI 팀을 굴리는 8단계까지 있는데, 오늘 강의가 2단계에서 5단계 사이예요. 위로는 아직 한참 남았다는 뜻이기도 하고요.</p>
+      </div><div class="sblk">
+        <div class="slabel">대화형 → 작업형 → 운영형</div>
+        <p class="sline">말로 시키는 대화형에서, 일을 맡기는 작업형, 시스템을 만드는 운영형으로 올라갑니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">대부분 Lv.4에서 멈춘다</div>
+        <p class="sline">대부분 4단계쯤에서 멈춰요. 아까 보신 에이전트가 그 위에 있고요.</p>
+      </div><div class="sblk">
+        <div class="slabel">오늘 과제 = 지시문 1개 저장 = Lv.5 첫발</div>
+        <p class="sline">그래서 오늘 과제는 딱 하나. 잘 된 지시문 1개를 저장해 보세요. 그게 5단계로 올라가는 첫발입니다. 그거 하나면 오늘 오신 값은 뽑으신 거예요.</p>
+      </div></div>
     <div class="thumb"><iframe loading="lazy" srcdoc="&lt;meta charset=&quot;UTF-8&quot;&gt;
 &lt;!-- s23 · Level Check — 8단계 레벨 사다리(자가진단) + 오늘의 과제 통합 / &quot;나는 지금 몇 레벨?&quot; --&gt;
 &lt;style&gt;
@@ -7016,12 +7290,22 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="cardhead">
     <div class="pbadge">파트 7 · 마무리 <span class="pt">5분</span></div>
     <h2 class="ctitle"><span class="snum">s24</span> 클로징 · 질문 환영합니다</h2>
+    <div class="kw-bar"><span class="kw">이제 여러분 차례</span><span class="kw">질문 환영합니다</span><span class="kw">오늘 세팅 킷 — QR 찍어가기</span><span class="kw">못 다룬 건 끝나고도 좋습니다</span></div>
   </div>
   <div class="cardbody">
-    <div class="kwzone">
-      <div class="kw-bar"><span class="kw">이제 여러분 차례</span><span class="kw">질문 환영합니다</span><span class="kw">오늘 세팅 킷 — QR 찍어가기</span><span class="kw">못 다룬 건 끝나고도 좋습니다</span></div>
-      <p class="hint">“여기까지입니다. 이제 여러분 차례입니다 — 무엇이든 물어보세요.”</p>
-    </div>
+    <div class="scripts"><div class="sblk">
+        <div class="slabel">이제 여러분 차례</div>
+        <p class="sline">여기까지입니다. 오늘 네 단어, 저장, 자료, 검사 — 이 네 가지만 기억하셔도 충분해요. 이제 여러분 차례예요.</p>
+      </div><div class="sblk">
+        <div class="slabel">질문 환영합니다</div>
+        <p class="sline">궁금한 거 뭐든 물어보세요. 어떤 질문이든 좋습니다. 질문 정말 환영합니다.</p>
+      </div><div class="sblk">
+        <div class="slabel">오늘 세팅 킷 — QR 찍어가기</div>
+        <p class="sline">그리고 화면 오른쪽 아래 QR 하나 띄워뒀어요. 오늘 얘기한 걸 바로 따라 하실 수 있는 세팅 킷인데, 지금 폰으로 찍어가세요. 지시문 템플릿이랑 예시까지 다 들어 있어요.</p>
+      </div><div class="sblk">
+        <div class="slabel">못 다룬 건 끝나고도 좋습니다</div>
+        <p class="sline">오늘 다 못 다룬 얘기는 끝나고 편하게 물어보셔도 좋습니다. 짧았지만 도움이 됐길 바랍니다. 고맙습니다.</p>
+      </div></div>
     <div class="thumb"><iframe loading="lazy" srcdoc="&lt;!-- s24 · 클로징 — 표지 수미상관 / 다트판 동심원 은은히 + &quot;질문 환영합니다&quot; --&gt;
 &lt;style&gt;
 /* ============================================================================
@@ -7324,11 +7608,14 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   window.addEventListener('load', fitAll);
   document.addEventListener('DOMContentLoaded', fitAll);
   setTimeout(fitAll,150); setTimeout(fitAll,600);
+  try{ deck.focus({preventScroll:true}); }catch(e){ deck.focus(); }
 
-  // 진행 표시 — 화면 중앙에 걸린 카드 기준
+  // 현재 카드 인덱스(전체 카드 중, 인트로=0) — 진행표시·키이동 공용
+  var cur=0;
   var io=new IntersectionObserver(function(entries){
     entries.forEach(function(e){
       if(e.isIntersecting && e.intersectionRatio>=0.55){
+        cur=cards.indexOf(e.target);
         var n=e.target.getAttribute('data-n');
         if(n){ counter.textContent=n+' / '+TOTAL; pbar.style.width=(n/TOTAL*100)+'%'; }
         else { counter.textContent='안내'; pbar.style.width='0%'; }
@@ -7337,14 +7624,12 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   }, {root:deck, threshold:[0.55,0.8]});
   cards.forEach(function(c){ io.observe(c); });
 
-  // 데스크톱 ← → 키 이동
+  // 데스크톱 ← → 키 이동 (추적 인덱스 기반 — 애니메이션 중에도 결정론적)
   window.addEventListener('keydown', function(ev){
     if(ev.key!=='ArrowRight' && ev.key!=='ArrowLeft') return;
     ev.preventDefault();
-    var cw=deck.clientWidth;
-    var idx=Math.round(deck.scrollLeft/cw);
-    var next=ev.key==='ArrowRight' ? Math.min(idx+1, cards.length-1) : Math.max(idx-1,0);
-    deck.scrollTo({left: next*cw, behavior:'smooth'});
+    cur = ev.key==='ArrowRight' ? Math.min(cur+1, cards.length-1) : Math.max(cur-1, 0);
+    deck.scrollTo({left: cur*deck.clientWidth, behavior:'smooth'});
   });
 })();
 </script>
