@@ -3306,7 +3306,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="foot-page"><b>12<\/b> / 24<\/div>
 <\/div>
 `},
-{t:"doc",c:`<!-- s13 · 자료를 줘라 — 파일 뭉치 → AI 노드 → 새 세션·다른 AI가 같은 결과로 / "설명하지 말고, 자료를 줘라" -->
+{t:"doc",c:`<!-- s13 · 자료를 줘라 — 같은 지시, 자료 유무 대비 / 좌 "자료 없이"(추정·확인필요, dim/⚠) vs 우 "단가표·기존 견적서를 주면"(실측값, 발광/✓). 축 = 재료의 유무(s10=지시의 품질과 구분). 우측 결과값·업체명은 s16 실측과 정합(어니스트컴퍼니) -->
 <style>
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -3484,19 +3484,9 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 <div class="slide">
 
   <div class="bg-grad"><\/div>
-  <div class="glow-orb" style="width:440px;height:440px;left:44%;top:54%;transform:translate(-50%,-50%);opacity:.3;"><\/div>
+  <div class="glow-orb" style="width:440px;height:440px;right:14%;top:58%;transform:translate(50%,-50%);opacity:.26;"><\/div>
   <div class="bg-grain"><\/div>
   <div class="vignette"><\/div>
-
-  <!-- 공용 화살표 라인 그라디언트 (꼬리 → 머리 밝아짐) -->
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-    <linearGradient id="arwG-h" gradientUnits="userSpaceOnUse" x1="0" y1="10" x2="66" y2="10">
-      <stop offset="0" stop-color="var(--accent)" stop-opacity=".2"/>
-      <stop offset="1" stop-color="var(--accent)" stop-opacity=".95"/><\/linearGradient>
-    <linearGradient id="arwG-hd" gradientUnits="userSpaceOnUse" x1="0" y1="8" x2="26" y2="8">
-      <stop offset="0" stop-color="var(--text-dim)" stop-opacity=".22"/>
-      <stop offset="1" stop-color="var(--text-dim)" stop-opacity=".9"/><\/linearGradient>
-  <\/defs><\/svg>
 
   <div class="kicker"><span class="no">13<\/span><span class="bar"><\/span><span class="nm">Give It Materials<\/span><\/div>
   <div style="position:absolute;top:44px;right:64px;text-align:right;z-index:6;">
@@ -3506,99 +3496,107 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="stage" style="display:flex;flex-direction:column;z-index:6;">
 
     <!-- 헤드라인 -->
-    <div>
-      <div class="title" style="max-width:940px;">
-        설명하지 말고, <span class="ac">자료를 줘라<\/span>
-      <\/div>
-      <div class="sub" style="margin-top:12px;color:var(--text-dim);max-width:760px;">
-        지시문이 <b class="w700" style="color:var(--text)">방법<\/b>이라면, 자료는 <b class="ac w700">재료<\/b> — 둘이 갖춰져야 <b class="w700" style="color:var(--text)">누가 해도 같은 결과<\/b>.
+    <div style="flex:none;">
+      <div class="title" style="font-size:38px;">설명하지 말고, <span class="ac">자료를 줘라<\/span><\/div>
+      <div class="sub" style="margin-top:9px;color:var(--text-dim);max-width:900px;font-size:19px;">
+        <b class="w700" style="color:var(--text)">같은 지시<\/b>라도 — 자료가 없으면 <b class="w700" style="color:var(--text)">추정<\/b>, 자료를 쥐여주면 <b class="ac w700">실측값<\/b>.
       <\/div>
     <\/div>
 
-    <!-- 흐름 다이어그램 -->
-    <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:0;margin-top:6px;">
+    <!-- 두 운명 + 축 구분 (남은 공간 세로 중앙) -->
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px;margin-top:12px;">
 
-      <!-- ① 파일 뭉치 (PDF·표·노트) -->
-      <div style="display:flex;flex-direction:column;gap:10px;flex:none;">
-        <!-- PDF -->
-        <div class="hov-lift" style="display:flex;align-items:center;gap:11px;background:var(--surface);border:1px solid var(--line);
-          border-radius:11px;padding:10px 15px;width:186px;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--cap-b)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 2h8l4 4v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z"/><path d="M14 2v4h4"/><\/svg>
-          <span class="body" style="font-size:16px;color:var(--text);">제품 규격서 <span class="dim" style="font-size:13px;">PDF<\/span><\/span>
+    <!-- 두 운명: 자료 없이 vs 자료를 주면 -->
+    <div style="display:grid;grid-template-columns:1fr 1.06fr;gap:22px;height:360px;align-items:stretch;">
+
+      <!-- 좌: 자료 없이 (추정) -->
+      <div class="depth hov-lift" style="display:flex;flex-direction:column;background:var(--surface);
+        border:1px solid var(--line);border-radius:16px;padding:15px 17px;opacity:.95;">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div class="label" style="color:var(--cap-d);">자료 없이<\/div>
+          <span style="font-size:11px;font-weight:700;color:var(--cap-d);padding:3px 9px;border-radius:999px;
+            background:var(--surface2);border:1px solid var(--line);">첨부 0건<\/span>
         <\/div>
-        <!-- 표 -->
-        <div class="hov-lift" style="display:flex;align-items:center;gap:11px;background:var(--surface);border:1px solid var(--line);
-          border-radius:11px;padding:10px 15px;width:186px;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--cap-c)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14h18M9 4v16M15 4v16"/><\/svg>
-          <span class="body" style="font-size:16px;color:var(--text);">단가표 <span class="dim" style="font-size:13px;">xlsx<\/span><\/span>
+
+        <!-- 지시 (양쪽 동일) -->
+        <div style="margin-top:11px;background:var(--bg-deep);border:1px solid var(--line);border-radius:12px 12px 12px 3px;padding:11px 14px;">
+          <div style="font-size:15.5px;font-weight:700;color:var(--text);letter-spacing:-.01em;">“콤부차 스틱 견적서 만들어줘”<\/div>
+          <div class="small" style="margin-top:4px;font-size:12.5px;"><span style="color:var(--cap-d);font-weight:800;">⚠<\/span> 단가·수량을 모른 채 — AI가 알아서 추측<\/div>
         <\/div>
-        <!-- 노트 -->
-        <div class="hov-lift" style="display:flex;align-items:center;gap:11px;background:var(--surface);border:1px solid var(--line);
-          border-radius:11px;padding:10px 15px;width:186px;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--cap-d)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 3h11a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M5 8H3M5 12H3M5 16H3"/><\/svg>
-          <span class="body" style="font-size:16px;color:var(--text);">지난 회의 노트<\/span>
-        <\/div>
-      <\/div>
 
-      <!-- 화살표: 자료 주입 -->
-      <div style="flex:none;display:flex;flex-direction:column;align-items:center;margin:0 22px;">
-        <div class="small" style="margin-bottom:6px;color:var(--accent);">자료 주입<\/div>
-        <svg width="76" height="20" viewBox="0 0 76 20" fill="none">
-          <line x1="0" y1="10" x2="66" y2="10" class="arw-line" style="stroke:url(#arwG-h)"/>
-          <polyline class="arw-head arw-glow" points="66,4.5 74,10 66,15.5"/>
-        <\/svg>
-      <\/div>
+        <div style="text-align:center;color:var(--text-dim);font-size:15px;line-height:1;margin:7px 0;">↓<\/div>
 
-      <!-- ② AI 노드 -->
-      <div style="flex:none;display:flex;flex-direction:column;align-items:center;gap:10px;">
-        <div class="hov-lift" style="width:104px;height:104px;border-radius:24px;
-          background:linear-gradient(160deg,var(--surface2),var(--surface));
-          border:1px solid var(--accent-line);box-shadow:0 0 0 5px var(--accent-soft),0 16px 34px -14px var(--glow);
-          display:flex;align-items:center;justify-content:center;">
-          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="5" y="7" width="14" height="12" rx="3"/><path d="M12 7V4M9 4h6"/>
-            <circle cx="9.5" cy="13" r="1.3" fill="var(--accent)" stroke="none"/><circle cx="14.5" cy="13" r="1.3" fill="var(--accent)" stroke="none"/>
-            <path d="M2 12v3M22 12v3"/><\/svg>
-        <\/div>
-        <div style="font-size:15px;font-weight:800;color:var(--accent);letter-spacing:.02em;">AI<\/div>
-      <\/div>
-
-      <!-- 화살표: 분기 -->
-      <div style="flex:none;display:flex;flex-direction:column;align-items:center;margin:0 22px;">
-        <div class="small" style="margin-bottom:6px;color:var(--text-dim);">누가 해도<\/div>
-        <svg width="76" height="20" viewBox="0 0 76 20" fill="none">
-          <line x1="0" y1="10" x2="66" y2="10" class="arw-line" style="stroke:url(#arwG-h)"/>
-          <polyline class="arw-head arw-glow" points="66,4.5 74,10 66,15.5"/>
-        <\/svg>
-      <\/div>
-
-      <!-- ③ 두 조건 → 같은 결과 -->
-      <div style="flex:none;display:flex;flex-direction:column;gap:18px;">
-        <!-- 새 세션 -->
-        <div style="display:flex;align-items:center;gap:14px;">
-          <span class="chip chip--ghost" style="height:30px;font-size:14px;border-color:var(--accent-line);color:var(--accent);width:118px;justify-content:center;">새 세션<\/span>
-          <svg width="34" height="16" viewBox="0 0 34 16" fill="none"><line x1="0" y1="8" x2="26" y2="8" class="arw-line" style="stroke:url(#arwG-hd)"/><polyline class="arw-head arw-head--dim" points="26,4 32,8 26,12"/><\/svg>
-          <div class="hov-lift" style="width:64px;height:80px;border-radius:10px;background:var(--surface);border:1px solid var(--accent-line);
-            box-shadow:0 0 0 3px var(--accent-soft);display:flex;align-items:center;justify-content:center;">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.6 2.6L16 9"/><\/svg>
+        <!-- 결과: 추정 얼룩 -->
+        <div style="flex:1;background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:13px 15px;
+          display:flex;flex-direction:column;justify-content:center;gap:8px;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);">
+          <div style="font-size:12.5px;color:var(--cap-d);font-weight:800;margin-bottom:1px;">견적서 (추정)<\/div>
+          <div style="display:flex;justify-content:space-between;font-size:12.5px;"><span class="dim">규격<\/span><span style="color:var(--text-dim);">스틱 — 사양 미상<\/span><\/div>
+          <div style="display:flex;justify-content:space-between;font-size:12.5px;"><span class="dim">단가<\/span><span style="color:var(--cap-d);font-weight:700;">추정 · 확인 필요<\/span><\/div>
+          <div style="display:flex;justify-content:space-between;font-size:12.5px;"><span class="dim">총액<\/span><span style="color:var(--cap-d);font-weight:700;">추후 협의<\/span><\/div>
+          <div style="margin-top:5px;padding-top:8px;border-top:1px solid var(--line);font-size:11.5px;color:var(--cap-d);">
+            <span style="font-weight:800;">⚠<\/span> 그럴싸하지만 <b style="color:var(--text-dim);">근거가 없습니다<\/b>
           <\/div>
         <\/div>
-        <!-- 다른 AI 모델 -->
-        <div style="display:flex;align-items:center;gap:14px;">
-          <span class="chip chip--ghost" style="height:30px;font-size:14px;border-color:var(--accent-line);color:var(--accent);width:118px;justify-content:center;">다른 AI 모델<\/span>
-          <svg width="34" height="16" viewBox="0 0 34 16" fill="none"><line x1="0" y1="8" x2="26" y2="8" class="arw-line" style="stroke:url(#arwG-hd)"/><polyline class="arw-head arw-head--dim" points="26,4 32,8 26,12"/><\/svg>
-          <div class="hov-lift" style="width:64px;height:80px;border-radius:10px;background:var(--surface);border:1px solid var(--accent-line);
-            box-shadow:0 0 0 3px var(--accent-soft);display:flex;align-items:center;justify-content:center;">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.6 2.6L16 9"/><\/svg>
+      <\/div>
+
+      <!-- 우: 자료를 주면 (실측) -->
+      <div class="card card--glow hov-lift" style="display:flex;flex-direction:column;border-radius:16px;padding:15px 17px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div class="label" style="color:var(--accent);">단가표·기존 견적서를 주면<\/div>
+          <span style="font-size:11px;font-weight:800;color:var(--accent);padding:3px 9px;border-radius:999px;
+            background:var(--accent-soft);border:1px solid var(--accent-line);">첨부 3건<\/span>
+        <\/div>
+
+        <!-- 지시 (양쪽 동일) + 첨부 파일 카드 -->
+        <div style="margin-top:11px;background:var(--bg-deep);border:1px solid var(--accent-line);border-radius:12px 12px 3px 12px;padding:11px 14px;">
+          <div style="font-size:15.5px;font-weight:700;color:var(--text);letter-spacing:-.01em;">“콤부차 스틱 견적서 만들어줘”<\/div>
+          <div style="margin-top:9px;display:flex;gap:8px;flex-wrap:wrap;">
+            <!-- 단가표 -->
+            <span style="display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:5px 9px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--cap-c)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14h18M9 4v16M15 4v16"/><\/svg>
+              <span style="font-size:12px;color:var(--text);">이카운트 단가표<span class="dim" style="font-size:10.5px;">.xlsx<\/span><\/span>
+            <\/span>
+            <!-- 기존 견적서 -->
+            <span style="display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:5px 9px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--cap-b)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h8l4 4v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z"/><path d="M14 2v4h4"/><\/svg>
+              <span style="font-size:12px;color:var(--text);">기존 견적서<span class="dim" style="font-size:10.5px;">.pdf<\/span><\/span>
+            <\/span>
+            <!-- 제품 규격서 -->
+            <span style="display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:5px 9px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h11a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M5 8H3M5 12H3M5 16H3"/><\/svg>
+              <span style="font-size:12px;color:var(--text);">제품 규격서<span class="dim" style="font-size:10.5px;">.pdf<\/span><\/span>
+            <\/span>
           <\/div>
         <\/div>
-        <div class="small" style="text-align:right;color:var(--text-dim);margin-top:-4px;"><span class="tarrow">→<\/span> 같은 결과<\/div>
+
+        <div style="text-align:center;color:var(--accent);font-size:15px;line-height:1;margin:7px 0;">↓<\/div>
+
+        <!-- 결과: 실측 견적 (s16 정합) -->
+        <div style="flex:1;background:var(--surface);border:1px solid var(--accent-line);border-radius:12px;padding:13px 15px;
+          display:flex;flex-direction:column;justify-content:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);">
+          <div style="font-size:12.5px;color:var(--accent);font-weight:800;margin-bottom:8px;">견적서 · 어니스트컴퍼니<\/div>
+          <div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px;"><span class="dim">규격<\/span><span style="color:var(--text);font-weight:700;">콤부차 발포 분말스틱 5g×30포<\/span><\/div>
+          <div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px;"><span class="dim">발주수량<\/span><span style="color:var(--text);font-weight:700;">2,000박스 · 수율 98%<\/span><\/div>
+          <div style="margin-top:6px;padding-top:9px;border-top:1px solid var(--accent-line);display:flex;justify-content:space-between;align-items:baseline;">
+            <span style="font-size:12px;color:var(--text-dim);">견적 단가 <b style="color:var(--text);">3,600원/박스<\/b><\/span>
+            <span style="font-size:16px;font-weight:800;color:var(--accent);">7,200,000원 <span style="font-size:10.5px;color:var(--text-dim);font-weight:600;">(VAT 별도)<\/span><\/span>
+          <\/div>
+          <div style="margin-top:7px;font-size:11.5px;color:var(--accent);"><span style="font-weight:800;">✓<\/span> 자료에서 나온 <b>근거 있는 실측값<\/b><\/div>
+        <\/div>
       <\/div>
 
     <\/div>
+
+    <!-- 하단: 축 구분 (s10과 다름) -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;">
+      <span class="small" style="color:var(--text-dim);font-size:13.5px;">
+        <b class="w700" style="color:var(--text-dim);">s10<\/b>이 <b class="w700" style="color:var(--text)">어떻게 시키나<\/b>였다면 —
+        여기선 <b class="ac w700">무엇을 쥐여주나<\/b>. 새 세션·다른 모델도 자료만 같으면 같은 값.
+      <\/span>
+    <\/div>
+
+    <\/div>
+
   <\/div>
 
   <!-- 각주: 용어 병기 -->
@@ -3608,7 +3606,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="foot-page"><b>13<\/b> / 24<\/div>
 <\/div>
 `},
-{t:"doc",c:`<!-- s14 · 실험 예고 — 플라스크 + 2×2 실험 설계표(셀은 물음표) / "같은 요청을 4번 던져보겠습니다" -->
+{t:"doc",c:`<!-- s14 · 실험 예고 — "지금부터, 실험 2개" 라이브 예고판 / 실험1(=s15) 말만 시키면? → 예상 "?"  vs  실험2(=s16) 매뉴얼+자료를 주면? → 예상 "차이=0?". 다음 두 장의 예고편·긴장감. 플라스크/비커 모티프 유지, 중앙 밴드에 반복 세트 시각화 -->
 <style>
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -3786,7 +3784,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 <div class="slide">
 
   <div class="bg-grad"><\/div>
-  <div class="glow-orb" style="width:460px;height:460px;left:20%;top:38%;transform:translate(-50%,-50%);opacity:.3;"><\/div>
+  <div class="glow-orb" style="width:460px;height:460px;left:50%;top:40%;transform:translate(-50%,-50%);opacity:.24;"><\/div>
   <div class="bg-grain"><\/div>
   <div class="vignette"><\/div>
 
@@ -3795,102 +3793,133 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
     <div class="label" style="color:var(--accent)">지금부터 라이브<\/div>
   <\/div>
 
-  <div class="stage" style="display:flex;align-items:center;gap:52px;z-index:6;">
+  <div class="stage" style="display:flex;flex-direction:column;z-index:6;">
 
-    <!-- 좌: 헤드라인 + 플라스크 -->
-    <div style="flex:0 0 486px;">
-      <div class="chip chip--ghost chip--dot" style="margin-bottom:26px;">실험 설계<\/div>
-      <div class="title" style="font-size:44px;max-width:460px;">
-        같은 요청을<br><span class="ac">4번<\/span> 던져보겠습니다
+    <!-- 헤드라인 -->
+    <div style="flex:none;text-align:center;">
+      <div class="chip chip--ghost chip--dot" style="margin-bottom:12px;">실험 설계<\/div>
+      <div class="title" style="font-size:40px;">지금부터, <span class="ac">실험 2개<\/span><\/div>
+      <div class="sub" style="margin-top:8px;color:var(--text-dim);font-size:18px;">
+        같은 <b class="w700" style="color:var(--text)">콤부차 견적<\/b>을 — 방식만 바꿔 던지고, 결과가 갈리는지 눈으로 봅니다.
       <\/div>
-      <div class="sub" style="margin-top:20px;color:var(--text-dim);max-width:420px;">
-        지시 방식 2가지 × 각 2회 반복 —<br>결과가 어떻게 달라지는지 눈으로 봅니다.
-      <\/div>
-
-      <!-- 관전 포인트 -->
-      <div style="margin-top:16px;display:inline-flex;align-items:center;gap:9px;padding:9px 15px;border-radius:11px;
-        background:var(--accent-soft);border:1px solid var(--accent-line);">
-        <span style="font-size:13px;font-weight:800;color:var(--accent);letter-spacing:.02em;">관전 포인트<\/span>
-        <span style="font-size:15px;color:var(--text);">두 결과가 <b class="w700">얼마나 다른지<\/b>만 보세요<\/span>
-      <\/div>
-
-      <!-- 플라스크 / 비커 SVG -->
-      <svg width="360" height="128" viewBox="0 0 360 128" fill="none" style="margin-top:34px;">
-        <!-- 삼각 플라스크 -->
-        <g transform="translate(66 8)">
-          <path d="M-20,0 h40 M-14,4 v34 L-40,104 a10,10 0 0 0 9,16 h62 a10,10 0 0 0 9,-16 L18,38 V4"
-                fill="none" stroke="var(--text-dim)" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
-          <!-- 액체 (하단 진함 → 표면 옅음 그라디언트 느낌: 바닥 음영) -->
-          <path d="M-31,84 L-14,58 v-18 h32 v18 L35,84 a10,10 0 0 1 -4,36 h-58 a10,10 0 0 1 -4,-36 Z"
-                fill="var(--accent)" fill-opacity=".22"/>
-          <path d="M-27,112 a4,4 0 0 0 4,8 h46 a4,4 0 0 0 4,-8 Z" fill="var(--accent)" fill-opacity=".16"/>
-          <!-- 액면(메니스커스): 기본 + 하이라이트 2톤 -->
-          <path d="M-31,84 h66" stroke="var(--accent)" stroke-width="2" stroke-opacity=".55"/>
-          <path d="M-31,82.4 h66" stroke="var(--accent2)" stroke-width="1.1" stroke-opacity=".7" stroke-linecap="round"/>
-          <!-- 유리 스페큘러 하이라이트 -->
-          <path d="M-30,90 L-14,60" stroke="var(--text)" stroke-opacity=".14" stroke-width="2.4" stroke-linecap="round"/>
-          <!-- 기포 -->
-          <circle cx="-6" cy="96" r="3.4" fill="var(--accent)" fill-opacity=".55"/>
-          <circle cx="10" cy="104" r="2.6" fill="var(--accent)" fill-opacity=".45"/>
-          <circle cx="2" cy="110" r="2" fill="var(--accent2)" fill-opacity=".6"/>
-          <circle cx="16" cy="94" r="1.6" fill="var(--accent2)" fill-opacity=".5"/>
-        <\/g>
-        <!-- 비커 -->
-        <g transform="translate(200 24)">
-          <path d="M-6,0 h64 M0,4 V90 a10,10 0 0 0 10,10 h34 a10,10 0 0 0 10,-10 V4"
-                fill="none" stroke="var(--text-dim)" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
-          <path d="M0,58 V90 a10,10 0 0 0 10,10 h34 a10,10 0 0 0 10,-10 V58 Z" fill="var(--accent)" fill-opacity=".16"/>
-          <path d="M0,82 V90 a10,10 0 0 0 10,10 h34 a10,10 0 0 0 10,-10 V82 Z" fill="var(--accent)" fill-opacity=".12"/>
-          <!-- 액면 2톤 + 유리 스페큘러 -->
-          <path d="M0,58 h54" stroke="var(--accent)" stroke-width="2" stroke-opacity=".45"/>
-          <path d="M0,56.6 h54" stroke="var(--accent2)" stroke-width="1.1" stroke-opacity=".6" stroke-linecap="round"/>
-          <path d="M3,64 L3,88" stroke="var(--text)" stroke-opacity=".13" stroke-width="2.2" stroke-linecap="round"/>
-          <circle cx="30" cy="78" r="2" fill="var(--accent2)" fill-opacity=".5"/>
-          <!-- 눈금 -->
-          <path d="M0,30 h9 M0,44 h9 M0,72 h9" stroke="var(--text-dim)" stroke-width="1.4" stroke-opacity=".6"/>
-        <\/g>
-        <!-- A/B 라벨 (플라스크=지시A, 비커=지시B) -->
-        <g><circle cx="92" cy="24" r="12" fill="var(--accent-soft)" stroke="var(--accent-line)"/>
-          <text x="92" y="29" text-anchor="middle" font-family="Pretendard,sans-serif" font-size="14" font-weight="800" fill="var(--accent)">A<\/text><\/g>
-        <g><circle cx="272" cy="40" r="12" fill="var(--surface2)" stroke="var(--line)"/>
-          <text x="272" y="45" text-anchor="middle" font-family="Pretendard,sans-serif" font-size="14" font-weight="800" fill="var(--text-dim)">B<\/text><\/g>
-      <\/svg>
     <\/div>
 
-    <!-- 우: 2×2 실험 설계표 -->
-    <div style="flex:1;">
-      <div style="display:grid;grid-template-columns:150px 1fr 1fr;gap:12px;align-items:stretch;">
+    <!-- 두 실험 카드 -->
+    <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:18px;align-items:stretch;">
 
-        <!-- 헤더 행 -->
-        <div><\/div>
-        <div class="label" style="text-align:center;align-self:end;padding-bottom:6px;color:var(--text-dim);">1회차<\/div>
-        <div class="label" style="text-align:center;align-self:end;padding-bottom:6px;color:var(--text-dim);">2회차<\/div>
-
-        <!-- 행 1: 대충 한 줄 -->
-        <div class="card card-lift hov-lift" style="display:flex;flex-direction:column;justify-content:center;padding:14px 16px;">
-          <div style="font-size:16px;font-weight:800;color:var(--text);">대충 한 줄<\/div>
-          <div class="small" style="margin-top:2px;">지시 A<\/div>
-        <\/div>
-        <div class="card card-lift hov-lift" style="display:flex;align-items:center;justify-content:center;height:96px;">
-          <span style="font-size:44px;font-weight:800;color:var(--text-dim);opacity:.5;">?<\/span>
-        <\/div>
-        <div class="card card-lift hov-lift" style="display:flex;align-items:center;justify-content:center;height:96px;">
-          <span style="font-size:44px;font-weight:800;color:var(--text-dim);opacity:.5;">?<\/span>
+      <!-- 실험 1 → s15 : 말만 시키면? (예상 ?) -->
+      <div class="hov-lift" style="position:relative;display:flex;flex-direction:column;background:var(--surface);
+        border:1px solid var(--line);border-radius:18px;padding:20px 24px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 16px 38px -22px rgba(0,0,0,.66);">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span class="label" style="color:var(--cap-d);">실험 1<\/span>
+          <span style="font-size:11px;font-weight:700;color:var(--text-dim);letter-spacing:.06em;">→ 다음 장<\/span>
         <\/div>
 
-        <!-- 행 2: 매뉴얼 + 자료 -->
-        <div class="card card--glow hov-lift" style="display:flex;flex-direction:column;justify-content:center;padding:14px 16px;">
-          <div style="font-size:16px;font-weight:800;color:var(--accent);">매뉴얼 + 자료<\/div>
-          <div class="small" style="margin-top:2px;color:var(--text-dim);">지시 B<\/div>
-        <\/div>
-        <div class="card card-lift hov-lift" style="display:flex;align-items:center;justify-content:center;height:96px;">
-          <span style="font-size:44px;font-weight:800;color:var(--text-dim);opacity:.5;">?<\/span>
-        <\/div>
-        <div class="card card-lift hov-lift" style="display:flex;align-items:center;justify-content:center;height:96px;">
-          <span style="font-size:44px;font-weight:800;color:var(--text-dim);opacity:.5;">?<\/span>
+        <div style="display:flex;align-items:center;gap:15px;margin-top:12px;">
+          <!-- 삼각 플라스크 -->
+          <svg width="62" height="74" viewBox="0 0 100 118" fill="none" style="flex:none;">
+            <g transform="translate(50 8)">
+              <path d="M-20,0 h40 M-14,4 v34 L-40,104 a10,10 0 0 0 9,16 h62 a10,10 0 0 0 9,-16 L18,38 V4"
+                    fill="none" stroke="var(--cap-d)" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+              <path d="M-31,84 L-14,58 v-18 h32 v18 L35,84 a10,10 0 0 1 -4,36 h-58 a10,10 0 0 1 -4,-36 Z" fill="var(--cap-d)" fill-opacity=".16"/>
+              <path d="M-31,84 h66" stroke="var(--cap-d)" stroke-width="2" stroke-opacity=".5"/>
+              <circle cx="-6" cy="96" r="3.4" fill="var(--cap-d)" fill-opacity=".5"/>
+              <circle cx="10" cy="104" r="2.6" fill="var(--cap-d)" fill-opacity=".4"/>
+              <circle cx="2" cy="110" r="2" fill="var(--cap-d)" fill-opacity=".55"/>
+            <\/g>
+          <\/svg>
+          <div>
+            <div style="font-size:23px;font-weight:800;color:var(--text);letter-spacing:-.02em;">말만 시키면?<\/div>
+            <div class="small" style="margin-top:3px;font-size:13.5px;">“콤부차 스틱 견적 뽑아줘” 한 줄<\/div>
+          <\/div>
         <\/div>
 
+        <!-- 중앙 밴드: 같은 한 줄을 3번 -->
+        <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:10px;">
+          <div class="small" style="font-size:12.5px;color:var(--text-dim);">같은 한 줄을 <b class="w700" style="color:var(--text)">3번<\/b> 반복 —<\/div>
+          <div style="display:flex;gap:10px;">
+            <span style="flex:1;display:flex;align-items:center;gap:7px;background:var(--surface2);border:1px solid var(--line);border-radius:9px;padding:9px 11px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--cap-d)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4h4"/><\/svg>
+              <span style="font-size:12.5px;color:var(--text-dim);">1회차<\/span><\/span>
+            <span style="flex:1;display:flex;align-items:center;gap:7px;background:var(--surface2);border:1px solid var(--line);border-radius:9px;padding:9px 11px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--cap-d)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4h4"/><\/svg>
+              <span style="font-size:12.5px;color:var(--text-dim);">2회차<\/span><\/span>
+            <span style="flex:1;display:flex;align-items:center;gap:7px;background:var(--surface2);border:1px solid var(--line);border-radius:9px;padding:9px 11px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--cap-d)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4h4"/><\/svg>
+              <span style="font-size:12.5px;color:var(--text-dim);">3회차<\/span><\/span>
+          <\/div>
+        <\/div>
+
+        <!-- 예상 결과 힌트 -->
+        <div style="display:flex;align-items:center;gap:13px;margin-top:14px;">
+          <span class="small" style="font-size:12.5px;color:var(--text-dim);flex:none;">예상 결과<\/span>
+          <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:12px;height:60px;border-radius:12px;
+            background:var(--surface2);border:1px dashed var(--line);">
+            <span style="font-size:36px;font-weight:800;color:var(--text-dim);opacity:.65;line-height:1;">?<\/span>
+            <span class="small" style="font-size:13px;color:var(--text-dim);line-height:1.35;">매번 같을까,<br>제각각일까<\/span>
+          <\/div>
+        <\/div>
       <\/div>
+
+      <!-- 실험 2 → s16 : 매뉴얼+자료를 주면? (예상 = 0) -->
+      <div class="card--glow hov-lift" style="position:relative;display:flex;flex-direction:column;border-radius:18px;padding:20px 24px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span class="label" style="color:var(--accent);">실험 2<\/span>
+          <span style="font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.06em;">→ 두 장 뒤<\/span>
+        <\/div>
+
+        <div style="display:flex;align-items:center;gap:15px;margin-top:12px;">
+          <!-- 비커 -->
+          <svg width="62" height="74" viewBox="0 0 78 118" fill="none" style="flex:none;">
+            <g transform="translate(10 14)">
+              <path d="M-6,0 h64 M0,4 V90 a10,10 0 0 0 10,10 h34 a10,10 0 0 0 10,-10 V4"
+                    fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+              <path d="M0,52 V90 a10,10 0 0 0 10,10 h34 a10,10 0 0 0 10,-10 V52 Z" fill="var(--accent)" fill-opacity=".2"/>
+              <path d="M0,52 h54" stroke="var(--accent)" stroke-width="2" stroke-opacity=".55"/>
+              <path d="M0,50.6 h54" stroke="var(--accent2)" stroke-width="1.1" stroke-opacity=".7" stroke-linecap="round"/>
+              <path d="M3,60 L3,86" stroke="var(--text)" stroke-opacity=".13" stroke-width="2.2" stroke-linecap="round"/>
+              <path d="M0,26 h9 M0,40 h9 M0,68 h9" stroke="var(--accent)" stroke-width="1.4" stroke-opacity=".5"/>
+              <circle cx="30" cy="74" r="2" fill="var(--accent2)" fill-opacity=".55"/>
+            <\/g>
+          <\/svg>
+          <div>
+            <div style="font-size:23px;font-weight:800;color:var(--accent);letter-spacing:-.02em;">매뉴얼 + 자료를 주면?<\/div>
+            <div class="small" style="margin-top:3px;font-size:13.5px;color:var(--text-dim);">저장한 지시문을 그대로 반복<\/div>
+          <\/div>
+        <\/div>
+
+        <!-- 중앙 밴드: 저장된 세트 (매뉴얼+자료) -->
+        <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:10px;">
+          <div class="small" style="font-size:12.5px;color:var(--accent);">저장된 세트를 반복 —<\/div>
+          <div style="display:flex;gap:10px;">
+            <span style="flex:1;display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--accent-line);border-radius:9px;padding:9px 12px;">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4h4"/><path d="M8.5 12h6M8.5 15.5h4"/><\/svg>
+              <span style="font-size:12.5px;color:var(--text);">매뉴얼 <span class="dim" style="font-size:11px;">견적-지시.txt<\/span><\/span><\/span>
+            <span style="flex:1;display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--accent-line);border-radius:9px;padding:9px 12px;">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14h18M9 4v16M15 4v16"/><\/svg>
+              <span style="font-size:12.5px;color:var(--text);">자료 <span class="dim" style="font-size:11px;">단가표.xlsx<\/span><\/span><\/span>
+          <\/div>
+        <\/div>
+
+        <!-- 예상 결과 힌트 -->
+        <div style="display:flex;align-items:center;gap:13px;margin-top:14px;">
+          <span class="small" style="font-size:12.5px;color:var(--accent);flex:none;">예상 결과<\/span>
+          <div style="flex:1;display:flex;align-items:center;justify-content:center;height:60px;border-radius:12px;
+            background:var(--accent-soft);border:1px solid var(--accent-line);">
+            <span style="font-size:32px;font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.02em;">차이 = 0 ?<\/span>
+          <\/div>
+        <\/div>
+      <\/div>
+
+    <\/div>
+
+    <!-- 관전 포인트 -->
+    <div style="flex:none;margin-top:14px;text-align:center;">
+      <span style="display:inline-flex;align-items:center;gap:9px;padding:8px 16px;border-radius:11px;
+        background:var(--accent-soft);border:1px solid var(--accent-line);">
+        <span style="font-size:12.5px;font-weight:800;color:var(--accent);letter-spacing:.03em;">관전 포인트<\/span>
+        <span style="font-size:14.5px;color:var(--text);">두 실험의 <b class="w700">반복 결과가 얼마나 다른지<\/b>만 보세요<\/span>
+      <\/span>
     <\/div>
 
   <\/div>
@@ -3899,7 +3928,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="foot-page"><b>14<\/b> / 24<\/div>
 <\/div>
 `},
-{t:"doc",c:`<!-- s15 · 데모 1 배경판 — "대충 한 줄 × 2회" / 빈 결과 프레임 2개(점선) / "결과가 매번 딴판입니다" -->
+{t:"doc",c:`<!-- s15 · 데모 1 — "말만 시키면, 매번 조금 다르다" / 같은 한 줄 지시 ×3회 → 결과 문서 3장(단가 1,500·1,800·2,200, 열 구성 상이) + 단가칸 하이라이트 + 판정 배지 "제각각 ✗"(s16 "0건 ✓"과 세로 배지 대구). 시연 태그·실존 업체명/사업자번호 없음 -->
 <style>
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -4077,7 +4106,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 <div class="slide">
 
   <div class="bg-grad"><\/div>
-  <div class="glow-orb" style="width:400px;height:400px;left:50%;top:36%;transform:translate(-50%,-50%);opacity:.22;"><\/div>
+  <div class="glow-orb" style="width:400px;height:400px;left:50%;top:34%;transform:translate(-50%,-50%);opacity:.2;"><\/div>
   <div class="bg-grain"><\/div>
   <div class="vignette"><\/div>
 
@@ -4089,60 +4118,95 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="stage" style="display:flex;flex-direction:column;z-index:6;">
 
     <!-- 헤드라인 -->
-    <div style="display:flex;align-items:baseline;gap:16px;">
-      <div class="title" style="font-size:44px;">대충 한 줄 <span class="dim" style="font-weight:400;">×<\/span> <span class="ac">2회<\/span><\/div>
-    <\/div>
-    <div class="sub" style="margin-top:12px;color:var(--text-dim);">지시 A — 같은 요청을 두 번, 나오는 대로.<\/div>
-
-    <!-- 빈 결과 프레임 2개 (점선) -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:30px;flex:1;">
-
-      <!-- 1회차: 장황한 인사말 + 빗나간 표 -->
-      <div class="hov-lift" style="border:2px dashed var(--line);border-radius:16px;position:relative;overflow:hidden;
-        background:rgba(0,0,0,.12);display:flex;flex-direction:column;justify-content:center;padding:46px 18px 18px;">
-        <div class="label" style="position:absolute;top:16px;left:18px;color:var(--text-dim);z-index:2;">결과 · 1회차<\/div>
-        <div style="position:absolute;top:13px;right:14px;z-index:2;font-size:11px;font-weight:700;
-          padding:3px 10px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);
-          color:var(--text-dim);">예시 · 현장 라이브<\/div>
-        <div style="filter:blur(.6px);background:var(--surface);border:1px solid var(--line);border-radius:12px;
-          padding:15px 15px;display:flex;flex-direction:column;gap:9px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05);">
-          <div style="font-size:14px;color:var(--text);line-height:1.5;">안녕하세요! 요청하신 <b>견적서<\/b>를 정리해 드리겠습니다 😊 먼저 몇 가지만 여쭤볼게요.<\/div>
-          <div style="border:1px solid var(--line);border-radius:8px;overflow:hidden;">
-            <div style="display:flex;background:var(--surface2);font-size:12px;color:var(--text-dim);">
-              <div style="flex:2;padding:6px 10px;">항목<\/div><div style="flex:1;padding:6px 10px;">내용<\/div><\/div>
-            <div style="display:flex;font-size:12px;color:var(--text);border-top:1px solid var(--line);">
-              <div style="flex:2;padding:6px 10px;">제품<\/div><div style="flex:1;padding:6px 10px;">여러 종류<\/div><\/div>
-            <div style="display:flex;font-size:12px;color:var(--text);border-top:1px solid var(--line);">
-              <div style="flex:2;padding:6px 10px;">가격<\/div><div style="flex:1;padding:6px 10px;">추후 협의<\/div><\/div>
-          <\/div>
-          <div style="font-size:12px;color:var(--text-dim);">* 정확한 수량을 알려주시면 다시 계산해 드릴게요!<\/div>
-        <\/div>
-      <\/div>
-
-      <!-- 2회차: 아예 다른 형식(목록) -->
-      <div class="hov-lift" style="border:2px dashed var(--line);border-radius:16px;position:relative;overflow:hidden;
-        background:rgba(0,0,0,.12);display:flex;flex-direction:column;justify-content:center;padding:46px 18px 18px;">
-        <div class="label" style="position:absolute;top:16px;left:18px;color:var(--text-dim);z-index:2;">결과 · 2회차<\/div>
-        <div style="position:absolute;top:13px;right:14px;z-index:2;font-size:11px;font-weight:700;
-          padding:3px 10px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);
-          color:var(--text-dim);">예시 · 현장 라이브<\/div>
-        <div style="filter:blur(.6px);background:var(--surface);border:1px solid var(--line);border-radius:12px;
-          padding:15px 15px;display:flex;flex-direction:column;gap:9px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05);">
-          <div style="font-size:14px;color:var(--text);font-weight:700;">■ 견적 요약 (예상)<\/div>
-          <div style="font-size:13px;color:var(--text);line-height:1.85;">
-            · 비타민C 정제 — 약 120만 원 내외<br>
-            · 유산균 분말 — 수량 미정, 확인 필요<br>
-            · 배송비·부가세 — 별도 문의 바랍니다
-          <\/div>
-          <div style="font-size:12px;color:var(--text-dim);">필요하시면 표로도 정리해 드릴까요?<\/div>
-        <\/div>
-      <\/div>
-
+    <div style="flex:none;display:flex;align-items:baseline;gap:15px;flex-wrap:wrap;">
+      <div class="title" style="font-size:35px;">말만 시키면, <span class="ac">매번 조금 다르다<\/span><\/div>
+      <div class="sub" style="color:var(--text-dim);font-size:16px;">— “콤부차 스틱 견적 뽑아줘” 한 줄을, 그대로 <b class="w700" style="color:var(--text)">3번<\/b>.<\/div>
     <\/div>
 
-    <!-- 하단 소문구 -->
-    <div style="margin-top:22px;text-align:center;">
-      <span class="sub" style="color:var(--text);">결과가 <b class="w800 ac">매번 딴판<\/b>입니다.<\/span>
+    <!-- 결과 문서 3장 + 판정 배지 (남은 공간 세로 중앙) -->
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px;margin-top:12px;">
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;height:216px;align-items:stretch;">
+
+      <!-- 1회차: 인사말 + 표 -->
+      <div class="hov-lift" style="display:flex;flex-direction:column;justify-content:center;border:1px solid var(--line);border-radius:14px;
+        background:var(--surface);padding:28px 15px 14px;position:relative;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);">
+        <div class="label" style="position:absolute;top:14px;left:16px;color:var(--text-dim);font-size:12px;">결과 · 1회차<\/div>
+        <span style="position:absolute;top:12px;right:14px;font-size:10px;font-weight:800;letter-spacing:.06em;
+          padding:2px 9px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);color:var(--text-dim);">시연<\/span>
+        <div style="font-size:12.5px;color:var(--text);line-height:1.5;">안녕하세요! 요청하신 <b>견적<\/b>을 표로 정리했습니다 😊<\/div>
+        <div style="margin-top:11px;border:1px solid var(--line);border-radius:8px;overflow:hidden;">
+          <div style="display:flex;background:var(--surface2);font-size:11px;color:var(--text-dim);">
+            <div style="flex:1.3;padding:6px 10px;">항목<\/div><div style="flex:1;padding:6px 10px;">내용<\/div><\/div>
+          <div style="display:flex;font-size:12px;color:var(--text);border-top:1px solid var(--line);">
+            <div style="flex:1.3;padding:6px 10px;">제품<\/div><div style="flex:1;padding:6px 10px;color:var(--text-dim);">콤부차 스틱<\/div><\/div>
+          <div style="display:flex;font-size:12px;color:var(--text);border-top:1px solid var(--line);">
+            <div style="flex:1.3;padding:6px 10px;">구성<\/div><div style="flex:1;padding:6px 10px;color:var(--text-dim);">30포<\/div><\/div>
+          <div style="display:flex;font-size:12px;border-top:1px solid var(--line);background:var(--accent-soft);">
+            <div style="flex:1.3;padding:6px 10px;color:var(--accent);font-weight:700;">단가<\/div><div style="flex:1;padding:6px 10px;color:var(--accent);font-weight:800;">1,500원<\/div><\/div>
+        <\/div>
+        <div style="margin-top:11px;font-size:11px;color:var(--text-dim);">* 수량 알려주시면 다시 계산할게요<\/div>
+      <\/div>
+
+      <!-- 2회차: 목록(불릿) -->
+      <div class="hov-lift" style="display:flex;flex-direction:column;justify-content:center;border:1px solid var(--line);border-radius:14px;
+        background:var(--surface);padding:28px 15px 14px;position:relative;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);">
+        <div class="label" style="position:absolute;top:14px;left:16px;color:var(--text-dim);font-size:12px;">결과 · 2회차<\/div>
+        <span style="position:absolute;top:12px;right:14px;font-size:10px;font-weight:800;letter-spacing:.06em;
+          padding:2px 9px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);color:var(--text-dim);">시연<\/span>
+        <div style="font-size:13px;color:var(--text);font-weight:700;margin-bottom:10px;">■ 콤부차 스틱 견적(안)<\/div>
+        <div style="font-size:12.5px;color:var(--text);line-height:2;">
+          · 제품 : 발포 분말스틱<br>
+          · 구성 : 30포 기준<br>
+          · 비고 : 소량도 가능<br>
+          · <span style="color:var(--accent);font-weight:700;">단가<\/span> :
+            <span style="background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:5px;padding:1px 8px;color:var(--accent);font-weight:800;">1,800원<\/span>
+        <\/div>
+        <div style="margin-top:12px;font-size:11px;color:var(--text-dim);">표로도 정리해 드릴까요?<\/div>
+      <\/div>
+
+      <!-- 3회차: 다른 열 구성(제품/수량/단가) -->
+      <div class="hov-lift" style="display:flex;flex-direction:column;justify-content:center;border:1px solid var(--line);border-radius:14px;
+        background:var(--surface);padding:28px 15px 14px;position:relative;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);">
+        <div class="label" style="position:absolute;top:14px;left:16px;color:var(--text-dim);font-size:12px;">결과 · 3회차<\/div>
+        <span style="position:absolute;top:12px;right:14px;font-size:10px;font-weight:800;letter-spacing:.06em;
+          padding:2px 9px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);color:var(--text-dim);">시연<\/span>
+        <div style="font-size:12.5px;color:var(--text);line-height:1.5;">견적서를 아래와 같이 작성했습니다.<\/div>
+        <div style="margin-top:11px;border:1px solid var(--line);border-radius:8px;overflow:hidden;font-size:11px;">
+          <div style="display:flex;background:var(--surface2);color:var(--text-dim);">
+            <div style="flex:1.2;padding:6px 8px;">제품<\/div><div style="flex:.8;padding:6px 8px;">수량<\/div><div style="flex:1;padding:6px 8px;">단가<\/div><\/div>
+          <div style="display:flex;color:var(--text);border-top:1px solid var(--line);align-items:center;">
+            <div style="flex:1.2;padding:6px 8px;color:var(--text-dim);">콤부차<\/div><div style="flex:.8;padding:6px 8px;color:var(--text-dim);">1박스<\/div>
+            <div style="flex:1;padding:5px 8px;"><span style="background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:5px;padding:1px 7px;color:var(--accent);font-weight:800;">2,200원<\/span><\/div><\/div>
+          <div style="display:flex;color:var(--text);border-top:1px solid var(--line);align-items:center;">
+            <div style="flex:1.2;padding:6px 8px;color:var(--text-dim);">부자재<\/div><div style="flex:.8;padding:6px 8px;color:var(--text-dim);">1식<\/div>
+            <div style="flex:1;padding:6px 8px;color:var(--text-dim);">별도<\/div><\/div>
+          <div style="display:flex;color:var(--text);border-top:1px solid var(--line);align-items:center;background:var(--surface2);">
+            <div style="flex:1.2;padding:6px 8px;color:var(--text-dim);">합계<\/div><div style="flex:.8;padding:6px 8px;color:var(--text-dim);">1박스<\/div>
+            <div style="flex:1;padding:6px 8px;color:var(--text-dim);">2,200원<\/div><\/div>
+        <\/div>
+        <div style="margin-top:11px;font-size:11px;color:var(--text-dim);">부가세는 별도로 계산됩니다<\/div>
+      <\/div>
+
+    <\/div>
+
+    <!-- 판정 배지 (s16 "차이 0건 ✓" 세로 배지의 대구: 제각각 ✗ / dim) -->
+    <div style="display:flex;justify-content:center;">
+      <div class="hov-lift" style="display:flex;align-items:center;gap:22px;padding:11px 28px;border-radius:14px;
+        background:linear-gradient(180deg,var(--surface2),var(--surface));border:1px solid var(--line);
+        box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 14px 34px -22px rgba(0,0,0,.6);">
+        <div style="text-align:center;">
+          <div style="font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--text-dim);">차이<\/div>
+          <div style="font-size:34px;font-weight:800;color:var(--text-dim);line-height:1.05;margin-top:1px;letter-spacing:-.02em;">제각각<\/div>
+          <div style="margin-top:3px;font-size:11.5px;color:var(--cap-d);font-weight:700;">✗ 양식·단가·구조 다름<\/div>
+        <\/div>
+        <span style="width:1px;height:46px;background:var(--line);flex:none;"><\/span>
+        <div style="font-size:13.5px;color:var(--text);line-height:1.5;text-align:left;">
+          단가만 봐도 <b class="w800" style="color:var(--text-dim);">1,500 · 1,800 · 2,200원<\/b> —<br><b class="w800" style="color:var(--text)">3번 다 다릅니다.<\/b>
+        <\/div>
+      <\/div>
+    <\/div>
+
     <\/div>
 
   <\/div>
