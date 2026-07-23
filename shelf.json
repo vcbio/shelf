@@ -120,11 +120,6 @@
   "date": "2026-07-20"
  },
  {
-  "slug": "ai-setup-kit",
-  "title": "AI 비서 세팅 킷 (CLAUDE.md·AGENTS.md·GPT 템플릿)",
-  "date": "2026-07-21"
- },
- {
   "slug": "saju-jonggook-jg93k2",
   "title": "박종국님 인생 분석 (사주·자미두수·베다·서양 4체계)",
   "date": "2026-07-21"
@@ -197,6 +192,11 @@
  {
   "slug": "semicolony-present",
   "title": "세미콜로니 강의 발표 모드 (24장)",
+  "date": "2026-07-23"
+ },
+ {
+  "slug": "ai-setup-kit",
+  "title": "AI 비서 세팅 킷 (강의 연계판)",
   "date": "2026-07-23"
  }
 ]
