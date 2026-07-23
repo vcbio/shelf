@@ -121,7 +121,7 @@
     <ul style="list-style:none; padding-left:0; margin:0;">
       <li style="margin-bottom:6px;"><a href="#doc-guide">① 세팅 가이드 (세팅해주는 사람용)</a></li>
       <li style="margin-bottom:6px;"><a href="#doc-claude">② CLAUDE.md 템플릿 (Claude Code용)</a></li>
-      <li style="margin-bottom:0;"><a href="#doc-gpt">③ ChatGPT(GPT) 버전</a></li>
+      <li style="margin-bottom:0;"><a href="#doc-codex">③ Codex CLI 버전 (Claude Code와 비슷한 터미널 도구)</a></li>
     </ul>
   </nav>
 </header>
@@ -180,7 +180,7 @@
 <hr>
 
 <h2>1단계. 가입 (2분)</h2>
-<p><a href="https://claude.ai">claude.ai</a> 또는 <a href="https://chatgpt.com">chatgpt.com</a>에 들어가 가입합니다. 둘 중 아무거나 괜찮습니다. 폰 앱으로 해도 됩니다.</p>
+<p><a href="https://claude.ai">claude.ai</a>에 들어가 가입합니다. 폰 앱으로 해도 됩니다.</p>
 
 <h2>2단계. 첫 지시 쳐보기 (5분)</h2>
 <p>위 <a href="#kit-quickstart"><strong>네 단어 지시문</strong></a>의 [빈칸]을 채워 그대로 쳐봅니다. 참고할 자료가 있으면 아래에 붙여넣으세요. 결과가 마음에 안 들면 형태·예시를 조금 더 구체적으로 바꿔 다시 시킵니다.</p>
@@ -191,8 +191,8 @@
 <hr>
 
 <div class="summary">
-<p>📌 더 본격적으로 쓰고 싶다면</p>
-<p>말투·저장 규칙까지 AI에 아예 박아두는 방법은 아래 <a href="#doc-guide">세팅 가이드(Claude Code)</a>에 있습니다. 웹으로 손에 익은 뒤에 넘어가세요.</p>
+<p>📌 웹 채팅은 맛보기입니다</p>
+<p>여기까지는 웹으로 손맛만 본 단계입니다. 말투·저장 규칙까지 AI에 아예 박아두는 본격 사용은 아래 <a href="#doc-guide">세팅 가이드(Claude Code·Codex)</a>로 넘어가세요. 웹으로 손에 익은 뒤에 옮겨가면 됩니다.</p>
 </div>
 </section>
 
@@ -242,7 +242,7 @@
     <li><strong>프로젝트 단위:</strong> 그 프로젝트 폴더의 루트에 <code>AGENTS.md</code>를 둡니다. 해당 폴더에서 도구를 실행할 때만 적용됩니다.</li>
   </ul>
 </li>
-<li><strong>주의(병행 시):</strong> Claude Code와 다른 도구를 같이 쓰면 두 파일 내용이 어긋나기 쉽습니다. <strong><code>CLAUDE.md</code> 하나를 정본으로 정해</strong> 규칙을 고칠 때마다 그 내용을 <code>AGENTS.md</code>로 복사해 동기화하세요(양쪽을 따로 고치면 도구마다 다르게 행동합니다).</li>
+<li><strong>주의(병행 시):</strong> Claude Code와 다른 도구를 같이 쓰면 두 파일 내용이 어긋나기 쉽습니다. <strong><code>CLAUDE.md</code> 하나를 정본으로 정해</strong> 규칙을 고칠 때마다 그 내용을 <code>AGENTS.md</code>로 복사해 동기화하세요(양쪽을 따로 고치면 도구마다 다르게 행동합니다). Codex CLI를 함께 쓸 거라면 설치·로그인부터 <code>AGENTS.md</code> 배치까지 이어지는 절차를 <a href="#doc-codex">③ Codex CLI 버전</a>에 따로 정리해 뒀습니다.</li>
 </ul>
 
 <hr>
@@ -459,68 +459,46 @@
 </div>
 </section>
 
-<!-- ============ 문서 3: GPT버전 ============ -->
-<section class="doc" id="doc-gpt">
-<h1>AI 비서 규칙 — ChatGPT(GPT) 버전</h1>
+<!-- ============ 문서 3: Codex CLI 버전 ============ -->
+<section class="doc" id="doc-codex">
+<h1>Codex CLI 버전 (Claude Code와 비슷한 터미널 도구)</h1>
 
-<blockquote><p>ChatGPT는 파일시스템·자동 기억이 없습니다(대화 밖으로 파일을 못 만들고, 기록 폴더도 없음). 그래서 이 버전은 <strong>소통 규칙 + 작업 원칙</strong>에 집중합니다. 아래 A를 "커스텀 인스트럭션"에, B를 필요하면 "프로젝트 지침"에 넣으세요.</p></blockquote>
+<blockquote><p>Claude Code 말고 다른 터미널 AI 도구도 같이 쓰고 싶을 때 보는 문서입니다. 규칙 파일은 이미 만든 것을 파일명만 바꿔 그대로 재활용하니, 설치와 로그인만 한 번 해두면 됩니다.</p></blockquote>
 
 <hr>
 
-<h2>A. 커스텀 인스트럭션용 (약 1,500자 제한 대응 — 압축본)</h2>
-<blockquote><p>ChatGPT 설정 → 개인 맞춤 설정(Custom Instructions)의 "ChatGPT가 어떻게 응답하면 좋겠어요?" 칸에 아래를 붙여넣고 [대괄호]만 채우세요. 두 칸으로 나뉘어 있으면 앞부분은 위 칸(나에 대해)에, 규칙은 아래 칸에 넣어도 됩니다.</p></blockquote>
+<h2>1. 뭔가요</h2>
+<p>Codex CLI는 OpenAI가 만든 터미널 AI 도구입니다. Claude Code와 같은 부류입니다 — 내 폴더 안의 파일을 직접 읽고, 만들고, 명령을 실행합니다. 웹 ChatGPT가 대화창 안에만 머무는 것과 달리, 이건 실제 파일을 손댄다는 점이 다릅니다. ChatGPT 계정으로 로그인해서 씁니다(이용 가능한 요금제 조건은 OpenAI 공식 안내를 확인하세요).</p>
+
+<h2>2. 설치</h2>
+<p>터미널에 아래 명령을 그대로 붙여 넣습니다(맥·윈도우 공통).</p>
 
 <div class="code-block">
-<button class="copy-btn" data-target="gpt-custom-instructions">전체 복사</button>
-<pre id="gpt-custom-instructions"><code>나는 [업종]에 종사하는 [직함]이고, 나를 "[호칭]"이라 불러줘. 주 업무는 [주 업무]다.
-
-[응답 규칙]
-1. 항상 [높임말/평어]로. 짧고 직접적으로. 선택지를 나열하지 말고 단일 권장안 하나를 제시하고, 필요할 때만 대안을 붙여.
-2. 동의하기 전에 약점부터 짚어. 근거 없는 칭찬·맞장구 금지. "좋은 질문입니다" 같은 빈 서두, 되묻기만 하고 미루기, 책임 회피성 마무리 금지.
-3. 답은 설명이 아니라 정확한 값 하나(수치·명칭·경로)로. 전문용어는 괄호로 한 줄 풀이.
-4. 수치·사실은 출처와 기준 시점을 붙여. 모르는 값은 지어내지 말고 "미확인"이라고 말해.
-5. "안 된다"로 끝내지 말고, 막히면 다른 방법 2개를 먼저 제시해. 정말 안 되면 시도한 방법과 내가 밟을 한 단계를 같이 줘.
-6. 시킨 범위만. 요청 안 한 확장·개선은 하지 말고 한 줄 제안으로만.
-7. 금액·수량 계산은 단계별로 계산식을 보여주고 검산해. 암산으로 답 던지지 마.
-8. 길거나 항목 많은 답은 끝에 "📌 3줄 요약"으로 닫아. 짧은 답엔 붙이지 마.
-9. 분석·조사는 처음부터 최대한 깊게. 시간이 걸려도 괜찮아.
-</code></pre>
+<button class="copy-btn" data-target="codex-install">전체 복사</button>
+<pre id="codex-install"><code>npm install -g @openai/codex</code></pre>
 </div>
 
-<hr>
+<p>설치가 끝나면 <code>codex</code>라고 쳐서 실행되는지 확인합니다. <code>npm</code> 명령이 없다는 오류가 나면 아직 Node.js가 안 깔린 것이니, <a href="https://nodejs.org">nodejs.org</a>에서 Node.js를 설치한 뒤 다시 시도하세요. 다른 설치 방법은 OpenAI 공식 안내를 참고하세요.</p>
 
-<h2>B. 프로젝트 지침용 (특정 프로젝트에 더 붙이는 규칙)</h2>
-<blockquote><p>ChatGPT의 "프로젝트" 기능을 쓸 때, 그 프로젝트 지침 칸에 A의 규칙에 더해 아래를 넣습니다. 프로젝트별로 대상·맥락을 고정하는 용도입니다.</p></blockquote>
+<h2>3. 로그인</h2>
+<p>처음 <code>codex</code>를 실행하면 로그인 창(브라우저)이 뜹니다. ChatGPT 계정으로 로그인하면 됩니다.</p>
+<blockquote><p>로그인은 <strong>본인이 직접</strong> 하시게 두세요(계정·비밀번호는 세팅해주는 사람이 만지지 않습니다). 어떤 요금제로 어디까지 쓸 수 있는지는 바뀔 수 있으니 OpenAI 공식 안내를 확인하세요.</p></blockquote>
 
-<div class="code-block">
-<button class="copy-btn" data-target="gpt-project-instructions">전체 복사</button>
-<pre id="gpt-project-instructions"><code>이 프로젝트는 [프로젝트/대상명] 관련이다. 배경: [한두 줄].
-
-[추가 규칙]
-- 이 프로젝트의 대상·거래처·제품은 항상 표준명 하나로만 불러: [표준명 목록].
-- 결과물 형식은 [원하는 형식: 표/보고서/이메일 등]으로. 파일이 필요하면 다운로드 가능한 형태로 만들어줘.
-- 문제를 서술하면 원인·평가·단일 권장안까지 보고하고 "바로 진행할까요?"로 닫아. 실행은 내가 승인한 뒤에.
-- 앞서 낸 결론이 틀린 걸로 드러나면, 조용히 바꾸지 말고 "이전 판단은 실격 — 사유: ○○"라고 밝히고 정정해.
-- [업종]에 규제·표현 제약이 있으면([업종] 규제 게이트), 외부로 나갈 문안은 규제에 걸릴 표현을 표시하고 내가 최종 확인하게 해.
-</code></pre>
-</div>
-
-<hr>
-
-<h2>Claude 버전과의 차이 (참고)</h2>
+<h2>4. 규칙 파일 = AGENTS.md</h2>
+<p>규칙은 새로 쓸 필요가 없습니다. <a href="#doc-claude">② CLAUDE.md 템플릿</a>의 <strong>내용을 그대로 두고 파일명만 <code>AGENTS.md</code>로 저장</strong>하면 됩니다. Codex CLI를 비롯한 여러 도구가 공통으로 읽는 사실상의 표준 파일명이 <code>AGENTS.md</code>입니다.</p>
 <ul>
-<li><strong>기억·파일 저장:</strong> Claude Code는 폴더에 파일을 만들고 작업이력을 쌓지만, 기본 ChatGPT는 못 합니다. 기록이 필요하면 대화를 복사해 직접 문서에 붙여넣거나, ChatGPT의 "메모리" 기능을 켜 핵심만 기억시키세요.</li>
-<li><strong>도구 실행:</strong> 파일 이동·코드 실행·자동 저장 같은 트리거 표("이렇게 말하면 이 도구")는 Claude 쪽에서 동작합니다. GPT에선 소통·판단 규칙 위주로만 기대하세요.</li>
-<li><strong>길이 제한:</strong> 커스텀 인스트럭션은 칸별 글자 수 제한이 있으니, 안 쓰는 규칙은 지워 압축하세요. 위 A는 그 제한을 염두에 둔 압축본입니다.</li>
+<li><strong>전역(모든 프로젝트 공통):</strong> <code>~/.codex/AGENTS.md</code> (윈도우는 <code>%USERPROFILE%\.codex\AGENTS.md</code>)</li>
+<li><strong>프로젝트 단위:</strong> 그 프로젝트 폴더의 루트에 <code>AGENTS.md</code>를 둡니다. 해당 폴더에서 Codex를 실행할 때만 적용됩니다.</li>
 </ul>
+<blockquote><p>Claude Code와 병행한다면 <code>CLAUDE.md</code> 하나를 정본으로 정해, 규칙을 고칠 때마다 그 내용을 <code>AGENTS.md</code>로 복사해 맞추세요. 이 원칙은 <a href="#doc-guide">① 세팅 가이드</a> 2-1단계와 같습니다.</p></blockquote>
 
 <hr>
 
+<h2>Claude Code와 뭐가 다른가요</h2>
 <div class="summary">
-<p>📌 3줄 요약</p>
-<p>- A(압축 규칙)는 커스텀 인스트럭션에, B(대상 고정)는 프로젝트 지침에 넣고 [대괄호]만 채운다.</p>
-<p>- GPT는 파일·기억이 약하므로 말투·판단·계산 규칙 중심으로 기대한다.</p>
-<p>- 기록이 필요하면 대화를 직접 문서에 옮기거나 메모리 기능으로 핵심만 남긴다.</p>
+<p>📌 하는 일은 거의 같고 계정만 다릅니다</p>
+<p>둘 다 터미널에서 내 파일을 읽고·만들고·명령을 실행하는 도구입니다. 다른 점은 로그인 계정이에요 — Claude Code는 Anthropic 계정, Codex CLI는 OpenAI(ChatGPT) 계정을 씁니다.</p>
+<p>둘을 같이 두면 한쪽이 만든 결과를 다른 쪽에 검사시킬 수 있습니다. 저희도 Claude가 만들고 Codex가 검사하는 식으로 씁니다.</p>
 </div>
 </section>
 
