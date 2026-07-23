@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VC Bio 로고 시안 보드 — 2라운드</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Space+Grotesk:wght@500;700&family=Cormorant+SC:wght@600;700&family=Cormorant+Garamond:wght@500;600&family=EB+Garamond:wght@500&family=Black+Han+Sans&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --graphite:#16181A; --signal:#00B368;
+    --deep:#1E3932; --ink:#1C1C1A; --cream:#F2F0EB; --gold:#B8954A; --accent-green:#2E7D5B;
+    --bio-teal:#0E7C6B; --bio-green:#1E9E5A; --bio-deep:#114A3C; --bio-hi:#38E0B0; --bio-solid:#12715C;
+    --clay:#A8542F; --terra:#C2673D;
+    --pg:#faf9f6; --card:#ffffff; --line:#e6e2d8; --txt:#1f2320; --mut:#6b6f69;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--pg);color:var(--txt);
+    font-family:"Pretendard",system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:40px 24px 80px}
+  header.top{border-bottom:2px solid var(--deep);padding-bottom:20px;margin-bottom:8px}
+  .eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--deep);font-weight:700}
+  h1{font-size:30px;margin:8px 0 6px;letter-spacing:-.01em}
+  .sub{color:var(--mut);font-size:14px;max-width:760px}
+  .note{background:#fff7ea;border:1px solid #f0dcae;border-radius:10px;padding:12px 16px;margin:22px 0;font-size:13px;color:#6b5a2e}
+  .concept{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px 26px 30px;margin:26px 0;
+    box-shadow:0 1px 2px rgba(0,0,0,.03)}
+  .chead{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:4px}
+  .cnum{font-family:"Space Grotesk",sans-serif;font-weight:700;color:var(--deep);font-size:15px}
+  .cname{font-size:22px;font-weight:800;letter-spacing:-.01em}
+  .label{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;letter-spacing:.02em}
+  .hot{background:#fdecec;color:#c0392b} .safe{background:#e9f1ec;color:#1f6b47} .plain{background:#eee;color:#555}
+  .meta{font-size:13px;color:var(--mut);margin-bottom:18px}
+  .meta b{color:var(--txt)}
+  .stage{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:14px 0 20px}
+  @media(max-width:640px){.stage{grid-template-columns:1fr}}
+  .box{border:1px solid var(--line);border-radius:12px;padding:22px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;min-height:170px;background:#fff;position:relative}
+  .box.dark{background:var(--ink)}
+  .box .tag{position:absolute;top:10px;left:12px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+  .box.dark .tag{color:#8f948d}
+  .strip{display:flex;align-items:flex-end;gap:26px;border:1px solid var(--line);border-radius:12px;
+    padding:18px 22px;background:#fff;flex-wrap:wrap}
+  .strip .cell{display:flex;flex-direction:column;align-items:center;gap:7px}
+  .strip .px{font-size:11px;color:var(--mut);font-family:"Space Grotesk",sans-serif}
+  .strip .frame{display:flex;align-items:center;justify-content:center}
+  .desc{font-size:14px;margin:6px 0 0;color:var(--txt)}
+  .swatches{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0}
+  .sw{display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:8px;padding:5px 9px;font-size:11px;color:var(--mut);font-family:"Space Grotesk",sans-serif}
+  .dot{width:14px;height:14px;border-radius:4px;border:1px solid rgba(0,0,0,.12)}
+  .pass{color:#1f6b47;font-weight:700} .fail{color:#c0392b;font-weight:700}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px;overflow:hidden;border-radius:10px}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:center}
+  th{background:#f3f1ea;font-weight:700} td.l,th.l{text-align:left}
+  section.blk{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin:26px 0}
+  section.blk h2{font-size:18px;margin:0 0 12px}
+  .wordmark-anton{font-family:"Anton",sans-serif}
+  footer{margin-top:36px;color:var(--mut);font-size:12px;border-top:1px solid var(--line);padding-top:18px}
+  .foot-list{font-size:14px;margin:6px 0 0;padding-left:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">VC BIO · LOGO CONCEPTS · ROUND 2</div>
+  <h1>VC Bio 로고 시안 보드 — 2라운드 (5콘셉트)</h1>
+  <p class="sub">1라운드 전량 기각("가는 선 기하 미니멀 + 딥그린 단색"으로 수렴·밋밋) 반영. 타입 5종·스타일 5종 전부 상이, 색 폭 개방(정본 2 + 새 팔레트 3). 각 콘셉트 = 프라이머리 SVG + 단색 잉크본 + 64/32/16px 실렌더 스트립. 스크립트 0.</p>
+</header>
+
+<div class="note">⚠️ <b>고지</b> — 선행 상표 <b>미조사</b>(상표·규제 판단은 대표님 영역). 채점표는 <b>자체 추정</b>이며, 흑백·축소는 아래 실렌더 스트립으로 실측 확인용. 색 대비(WCAG)만 python 실계산 검증됨. AI 이미지·SVG는 방향 확정용 시안.</div>
+
+<!-- ================= CONCEPT 1 : 각서 ================= -->
+<article class="concept">
+  <div class="chead"><span class="cnum">01</span><span class="cname">각서 (刻書)</span><span class="label hot">⚡ 화끈</span></div>
+  <div class="meta"><b>타입</b> 워드마크 · <b>스타일</b> 스위스 그로테스크 볼드 + 잉크트랩·코너 컷 · <b>색</b> 새 팔레트 A(그래파이트+시그널그린)</div>
+
+  <div class="stage">
+    <div class="box"><span class="tag">Primary</span>
+      <svg width="260" height="120" viewBox="0 0 260 120" role="img" aria-label="VCBIO 각서 워드마크">
+        <text x="130" y="72" text-anchor="middle" class="wordmark-anton" font-size="70" fill="#16181A" letter-spacing="1" style="font-family:Anton,Archivo Black,sans-serif">VCBIO</text>
+        <!-- ink traps (small notches under letters) -->
+        <rect x="86" y="42" width="6" height="6" fill="#faf9f6" transform="rotate(45 89 45)"/>
+        <rect x="150" y="42" width="6" height="6" fill="#faf9f6" transform="rotate(45 153 45)"/>
+        <!-- machined corner cut on the O with signal green edge -->
+        <path d="M214 66 L232 66 L232 48 Z" fill="#faf9f6"/>
+        <path d="M214 66 L232 48" stroke="#00B368" stroke-width="5"/>
+      </svg>
+    </div>
+    <div class="box dark"><span class="tag">Ink (단색)</span>
+      <svg width="260" height="120" viewBox="0 0 260 120" role="img" aria-label="VCBIO 단색 리버스">
+        <text x="130" y="72" text-anchor="middle" font-size="70" fill="#F2F0EB" letter-spacing="1" style="font-family:Anton,Archivo Black,sans-serif">VCBIO</text>
+        <path d="M214 66 L232 66 L232 48 Z" fill="#1C1C1A"/>
+        <path d="M214 66 L232 48" stroke="#F2F0EB" stroke-width="4"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="strip">
+    <span class="px" style="align-self:center;color:var(--txt);font-weight:700">파비콘 폴백<br>(그린컷 V타일)</span>
+    <div class="cell"><div class="frame"><svg width="64" height="64" viewBox="0 0 100 100">
+      <rect x="4" y="4" width="92" height="92" rx="24" fill="#16181A"/>
+      <path d="M28 30 L42 30 L50 60 L58 30 L72 30 L56 76 L44 76 Z" fill="#F2F0EB"/>
+      <path d="M64 82 L84 62" stroke="#00B368" stroke-width="9" stroke-linecap="round"/>
+    </svg></div><span class="px">64px</span></div>
+    <div class="cell"><div class="frame"><svg width="32" height="32" viewBox="0 0 100 100">
+      <rect x="4" y="4" width="92" height="92" rx="24" fill="#16181A"/>
+      <path d="M28 30 L42 30 L50 60 L58 30 L72 30 L56 76 L44 76 Z" fill="#F2F0EB"/>
+      <path d="M64 82 L84 62" stroke="#00B368" stroke-width="9" stroke-linecap="round"/>
+    </svg></div><span class="px">32px</span></div>
+    <div class="cell"><div class="frame"><svg width="16" height="16" viewBox="0 0 100 100">
+      <rect x="4" y="4" width="92" height="92" rx="24" fill="#16181A"/>
+      <path d="M28 30 L42 30 L50 60 L58 30 L72 30 L56 76 L44 76 Z" fill="#F2F0EB"/>
+      <path d="M64 82 L84 62" stroke="#00B368" stroke-width="11" stroke-linecap="round"/>
+    </svg></div><span class="px">16px</span></div>
+  </div>
+  <p class="desc">덩어리로 각인한 초헤비 워드마크 — "O" 우하단 기계 컷에 시그널 그린 절단면. 첫인상을 질량으로 뒤집는다.</p>
+  <div class="swatches">
+    <span class="sw"><span class="dot" style="background:#16181A"></span>그래파이트 #16181A · 흰 <span class="pass">17.80:1</span></span>
+    <span class="sw"><span class="dot" style="background:#00B368"></span>시그널그린 #00B368 · 흰 <span class="fail">2.75:1</span> 컷만</span>
+  </div>
+</article>
+
+<!-- ================= CONCEPT 2 : 검인 ================= -->
+<article class="concept">
+  <div class="chead"><span class="cnum">02</span><span class="cname">검인 (檢印)</span><span class="label safe">🛡 보수 검토자용</span></div>
+  <div class="meta"><b>타입</b> 엠블럼(원형 씰) · <b>스타일</b> 스탬프 & 씰(제조 인증 배지) · <b>색</b> 정본(딥그린/잉크)</div>
+
+  <div class="stage">
+    <div class="box"><span class="tag">Primary</span>
+      <svg width="180" height="180" viewBox="0 0 200 200" role="img" aria-label="VCBIO 검인 씰">
+        <defs>
+          <path id="topArc" d="M40,100 A60,60 0 0,1 160,100"/>
+          <path id="botArc" d="M44,104 A56,56 0 0,0 156,104"/>
+        </defs>
+        <circle cx="100" cy="100" r="92" fill="none" stroke="#1E3932" stroke-width="5"/>
+        <circle cx="100" cy="100" r="72" fill="none" stroke="#1E3932" stroke-width="2"/>
+        <g stroke="#1E3932" stroke-width="2.4">
+          <!-- 12 ticks -->
+          <line x1="100" y1="14" x2="100" y2="24"/><line x1="143" y1="25.5" x2="138" y2="34.2"/>
+          <line x1="174.5" y1="57" x2="165.8" y2="62"/><line x1="186" y1="100" x2="176" y2="100"/>
+          <line x1="174.5" y1="143" x2="165.8" y2="138"/><line x1="143" y1="174.5" x2="138" y2="165.8"/>
+          <line x1="100" y1="186" x2="100" y2="176"/><line x1="57" y1="174.5" x2="62" y2="165.8"/>
+          <line x1="25.5" y1="143" x2="34.2" y2="138"/><line x1="14" y1="100" x2="24" y2="100"/>
+          <line x1="25.5" y1="57" x2="34.2" y2="62"/><line x1="57" y1="25.5" x2="62" y2="34.2"/>
+        </g>
+        <text font-size="17" letter-spacing="4" fill="#1E3932" font-weight="700" style="font-family:'Cormorant SC',serif">
+          <textPath href="#topArc" startOffset="50%" text-anchor="middle">VCBIO</textPath></text>
+        <text font-size="12" letter-spacing="3" fill="#1E3932" font-weight="600" style="font-family:'Cormorant SC',serif">
+          <textPath href="#botArc" startOffset="50%" text-anchor="middle">OEM · ODM</textPath></text>
+        <text x="100" y="112" text-anchor="middle" font-size="42" fill="#1E3932" font-weight="700" style="font-family:'Cormorant SC',serif;letter-spacing:1px">VC</text>
+        <path d="M84 120 l6 6 l12 -13" fill="none" stroke="#1E3932" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="box dark"><span class="tag">Ink (단색 리버스)</span>
+      <svg width="180" height="180" viewBox="0 0 200 200" role="img" aria-label="검인 단색 리버스">
+        <defs><path id="topArc2" d="M40,100 A60,60 0 0,1 160,100"/></defs>
+        <circle cx="100" cy="100" r="92" fill="none" stroke="#F2F0EB" stroke-width="5"/>
+        <circle cx="100" cy="100" r="72" fill="none" stroke="#F2F0EB" stroke-width="2"/>
+        <text font-size="17" letter-spacing="4" fill="#F2F0EB" font-weight="700" style="font-family:'Cormorant SC',serif">
+          <textPath href="#topArc2" startOffset="50%" text-anchor="middle">VCBIO</textPath></text>
+        <text x="100" y="112" text-anchor="middle" font-size="42" fill="#F2F0EB" font-weight="700" style="font-family:'Cormorant SC',serif">VC</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="strip">
+    <span class="px" style="align-self:center;color:var(--txt);font-weight:700">축소 폴백<br>(VC 디스크)</span>
+    <div class="cell"><div class="frame"><svg width="64" height="64" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="46" fill="#1E3932"/>
+      <text x="50" y="64" text-anchor="middle" font-size="44" fill="#F2F0EB" font-weight="700" style="font-family:'Cormorant SC',serif">VC</text>
+    </svg></div><span class="px">64px</span></div>
+    <div class="cell"><div class="frame"><svg width="32" height="32" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="46" fill="#1E3932"/>
+      <text x="50" y="64" text-anchor="middle" font-size="44" fill="#F2F0EB" font-weight="700" style="font-family:'Cormorant SC',serif">VC</text>
+    </svg></div><span class="px">32px</span></div>
+    <div class="cell"><div class="frame"><svg width="16" height="16" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="46" fill="#1E3932"/>
+      <text x="50" y="66" text-anchor="middle" font-size="48" fill="#F2F0EB" font-weight="700" style="font-family:'Cormorant SC',serif">VC</text>
+    </svg></div><span class="px">16px</span></div>
+    <div class="cell" style="opacity:.85"><div class="frame"><svg width="32" height="32" viewBox="0 0 200 200">
+      <circle cx="100" cy="100" r="92" fill="none" stroke="#1E3932" stroke-width="5"/>
+      <text x="100" y="118" text-anchor="middle" font-size="60" fill="#1E3932" font-weight="700" style="font-family:'Cormorant SC',serif">VC</text>
+    </svg></div><span class="px">씰 32px<br>(텍스트 소실)</span></div>
+  </div>
+  <p class="desc">서류에 찍힌 검사 합격 도장 — 이중 링·12틱 다이얼·중앙 VC 각인. 보수적 검토자에게 "규격 검사 통과" 신뢰를 직역. 소형은 VC 디스크로 폴백.</p>
+  <div class="swatches">
+    <span class="sw"><span class="dot" style="background:#1E3932"></span>딥그린 #1E3932 · 흰 <span class="pass">12.45:1</span></span>
+    <span class="sw"><span class="dot" style="background:#1C1C1A"></span>잉크 #1C1C1A · 흰 <span class="pass">17.07:1</span></span>
+  </div>
+</article>
+
+<!-- ================= CONCEPT 3 : 본초 ================= -->
+<article class="concept">
+  <div class="chead"><span class="cnum">03</span><span class="cname">본초 (本草)</span><span class="label plain">원료 판화</span></div>
+  <div class="meta"><b>타입</b> 픽토리얼 · <b>스타일</b> 크래프트 라인아트/인그레이빙 · <b>색</b> 정본(잉크 세선/딥그린)</div>
+
+  <div class="stage">
+    <div class="box"><span class="tag">Primary</span>
+      <svg width="150" height="180" viewBox="0 0 120 150" role="img" aria-label="본초 원료 판화">
+        <g fill="none" stroke="#1C1C1A" stroke-width="1.6" stroke-linecap="round">
+          <!-- molecular node ring (top) -->
+          <circle cx="60" cy="24" r="6"/><circle cx="44" cy="34" r="6"/><circle cx="76" cy="34" r="6"/>
+          <line x1="55" y1="27" x2="49" y2="31"/><line x1="65" y1="27" x2="71" y2="31"/><line x1="50" y1="34" x2="70" y2="34"/>
+          <line x1="60" y1="30" x2="60" y2="52"/>
+          <!-- stem -->
+          <path d="M60 52 C60 80 60 100 60 138"/>
+          <!-- leaf pairs -->
+          <path d="M60 66 C44 60 34 66 30 80 C46 82 56 76 60 66 Z"/>
+          <path d="M60 66 C76 60 86 66 90 80 C74 82 64 76 60 66 Z"/>
+          <path d="M60 92 C46 88 38 94 34 106 C48 108 56 102 60 92 Z"/>
+          <path d="M60 92 C74 88 82 94 86 106 C72 108 64 102 60 92 Z"/>
+          <!-- veins -->
+          <path d="M60 68 L40 76"/><path d="M60 68 L80 76"/><path d="M60 94 L44 102"/><path d="M60 94 L76 102"/>
+        </g>
+      </svg>
+    </div>
+    <div class="box dark"><span class="tag">Ink (단색 리버스)</span>
+      <svg width="150" height="180" viewBox="0 0 120 150" role="img" aria-label="본초 리버스">
+        <g fill="none" stroke="#F2F0EB" stroke-width="1.6" stroke-linecap="round">
+          <circle cx="60" cy="24" r="6"/><circle cx="44" cy="34" r="6"/><circle cx="76" cy="34" r="6"/>
+          <line x1="55" y1="27" x2="49" y2="31"/><line x1="65" y1="27" x2="71" y2="31"/><line x1="50" y1="34" x2="70" y2="34"/>
+          <line x1="60" y1="30" x2="60" y2="52"/>
+          <path d="M60 52 C60 80 60 100 60 138"/>
+          <path d="M60 66 C44 60 34 66 30 80 C46 82 56 76 60 66 Z"/>
+          <path d="M60 66 C76 60 86 66 90 80 C74 82 64 76 60 66 Z"/>
+          <path d="M60 92 C46 88 38 94 34 106 C48 108 56 102 60 92 Z"/>
+          <path d="M60 92 C74 88 82 94 86 106 C72 108 64 102 60 92 Z"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <div class="strip">
+    <span class="px" style="align-self:center;color:var(--txt);font-weight:700">세필 원본<br>vs 솔리드 폴백</span>
+    <div class="cell"><div class="frame"><svg width="64" height="64" viewBox="0 0 120 150">
+      <g fill="none" stroke="#1C1C1A" stroke-width="1.6"><circle cx="60" cy="24" r="6"/><circle cx="44" cy="34" r="6"/><circle cx="76" cy="34" r="6"/><line x1="60" y1="30" x2="60" y2="52"/><path d="M60 52 C60 80 60 100 60 138"/><path d="M60 66 C44 60 34 66 30 80 C46 82 56 76 60 66 Z"/><path d="M60 66 C76 60 86 66 90 80 C74 82 64 76 60 66 Z"/><path d="M60 92 C46 88 38 94 34 106 C48 108 56 102 60 92 Z"/><path d="M60 92 C74 88 82 94 86 106 C72 108 64 102 60 92 Z"/></g>
+    </svg></div><span class="px">세필 64</span></div>
+    <div class="cell"><div class="frame"><svg width="16" height="20" viewBox="0 0 120 150">
+      <g fill="none" stroke="#1C1C1A" stroke-width="1.6"><circle cx="60" cy="24" r="6"/><circle cx="44" cy="34" r="6"/><circle cx="76" cy="34" r="6"/><path d="M60 30 L60 138"/><path d="M60 66 C44 60 34 66 30 80 C46 82 56 76 60 66 Z"/><path d="M60 66 C76 60 86 66 90 80 C74 82 64 76 60 66 Z"/></g>
+    </svg></div><span class="px">세필 16<br>(뭉갬)</span></div>
+    <!-- solid fallback -->
+    <div class="cell"><div class="frame"><svg width="64" height="64" viewBox="0 0 100 100">
+      <circle cx="50" cy="26" r="11" fill="#1E3932"/>
+      <path d="M50 40 C34 44 26 54 26 74 C48 74 52 60 50 40 Z" fill="#1E3932"/>
+    </svg></div><span class="px">폴백 64</span></div>
+    <div class="cell"><div class="frame"><svg width="32" height="32" viewBox="0 0 100 100">
+      <circle cx="50" cy="26" r="12" fill="#1E3932"/>
+      <path d="M50 40 C34 44 26 54 26 74 C48 74 52 60 50 40 Z" fill="#1E3932"/>
+    </svg></div><span class="px">폴백 32</span></div>
+    <div class="cell"><div class="frame"><svg width="16" height="16" viewBox="0 0 100 100">
+      <circle cx="50" cy="26" r="14" fill="#1E3932"/>
+      <path d="M50 42 C32 46 24 56 24 76 C48 76 54 60 50 42 Z" fill="#1E3932"/>
+    </svg></div><span class="px">폴백 16</span></div>
+  </div>
+  <p class="desc">원료(잎·곡립) 세필 판화 + 정점 육각 분자 노드 = 천연 원료 × 정밀 분석. 세필은 축소에 약해 잎+노드 <b>솔리드 폴백</b> 동봉.</p>
+  <div class="swatches">
+    <span class="sw"><span class="dot" style="background:#1C1C1A"></span>잉크 #1C1C1A · 흰 <span class="pass">17.07:1</span></span>
+    <span class="sw"><span class="dot" style="background:#1E3932"></span>딥그린 #1E3932 · 흰 <span class="pass">12.45:1</span></span>
+  </div>
+</article>
+
+<!-- ================= CONCEPT 4 : 심층 ================= -->
+<article class="concept">
+  <div class="chead"><span class="cnum">04</span><span class="cname">심층 (深層)</span><span class="label hot">⚡ 화끈</span></div>
+  <div class="meta"><b>타입</b> 추상형 · <b>스타일</b> 스무스 아트모스페릭 그라디언트(모던 바이오테크) · <b>색</b> 새 팔레트 B</div>
+
+  <div class="stage">
+    <div class="box"><span class="tag">Primary (그라디언트)</span>
+      <svg width="170" height="170" viewBox="0 0 200 200" role="img" aria-label="심층 그라디언트 추상 마크">
+        <defs>
+          <linearGradient id="bio" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#38E0B0"/><stop offset="35%" stop-color="#1E9E5A"/>
+            <stop offset="70%" stop-color="#0E7C6B"/><stop offset="100%" stop-color="#114A3C"/>
+          </linearGradient>
+        </defs>
+        <!-- back blade (shadow / depth) -->
+        <path d="M118 26 C150 70 150 120 108 176 C150 128 168 92 150 44 C142 30 130 26 118 26 Z" fill="#114A3C"/>
+        <!-- front blade (gradient) -->
+        <path d="M92 24 C40 78 40 132 96 178 C58 120 62 86 100 42 C112 30 104 24 92 24 Z" fill="url(#bio)"/>
+        <!-- highlight edge -->
+        <path d="M92 30 C50 80 52 128 92 168" fill="none" stroke="#38E0B0" stroke-width="2.5" opacity=".7" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="box dark"><span class="tag">단색 폴백 #12715C</span>
+      <svg width="170" height="170" viewBox="0 0 200 200" role="img" aria-label="심층 단색 폴백">
+        <path d="M118 26 C150 70 150 120 108 176 C150 128 168 92 150 44 C142 30 130 26 118 26 Z" fill="#12715C" opacity=".55"/>
+        <path d="M92 24 C40 78 40 132 96 178 C58 120 62 86 100 42 C112 30 104 24 92 24 Z" fill="#F2F0EB"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="strip">
+    <span class="px" style="align-self:center;color:var(--txt);font-weight:700">솔리드 폴백<br>#12715C</span>
+    <div class="cell"><div class="frame"><svg width="64" height="64" viewBox="0 0 200 200">
+      <rect width="200" height="200" rx="46" fill="#12715C"/>
+      <path d="M118 40 C146 78 146 122 110 168 C146 126 160 96 144 56 C137 44 128 40 118 40 Z" fill="#0d5947"/>
+      <path d="M94 38 C48 84 48 130 98 170 C64 118 68 90 102 52 C112 42 104 38 94 38 Z" fill="#F2F0EB"/>
+    </svg></div><span class="px">64px</span></div>
+    <div class="cell"><div class="frame"><svg width="32" height="32" viewBox="0 0 200 200">
+      <rect width="200" height="200" rx="46" fill="#12715C"/>
+      <path d="M94 38 C48 84 48 130 98 170 C64 118 68 90 102 52 C112 42 104 38 94 38 Z" fill="#F2F0EB"/>
+    </svg></div><span class="px">32px</span></div>
+    <div class="cell"><div class="frame"><svg width="16" height="16" viewBox="0 0 200 200">
+      <rect width="200" height="200" rx="46" fill="#12715C"/>
+      <path d="M94 38 C48 84 48 130 98 170 C64 118 68 90 102 52 C112 42 104 38 94 38 Z" fill="#F2F0EB"/>
+    </svg></div><span class="px">16px</span></div>
+  </div>
+  <p class="desc">겹친 두 곡면 블레이드가 상승 — 앞은 틸→그린→딥 그라디언트, 뒤는 딥그린 그림자로 깊이(V·성장 화살 암시). 트렌드 감쇠 대비 <b>솔리드 폴백</b> 내장.</p>
+  <div class="swatches">
+    <span class="sw"><span class="dot" style="background:#0E7C6B"></span>틸 #0E7C6B · 흰 <span class="pass">5.10:1</span></span>
+    <span class="sw"><span class="dot" style="background:#114A3C"></span>딥 #114A3C · 흰 <span class="pass">10.15:1</span></span>
+    <span class="sw"><span class="dot" style="background:#12715C"></span>폴백 #12715C · 흰 <span class="pass">5.93:1</span></span>
+    <span class="sw"><span class="dot" style="background:#38E0B0"></span>하이라이트 #38E0B0 · 흰 <span class="fail">1.69:1</span> 엣지만</span>
+  </div>
+</article>
+
+<!-- ================= CONCEPT 5 : 브이씨 ================= -->
+<article class="concept">
+  <div class="chead"><span class="cnum">05</span><span class="cname">브이씨 (Hangul)</span><span class="label plain">한글 조형</span></div>
+  <div class="meta"><b>타입</b> 레터마크(한글 조형) · <b>스타일</b> 한글 지오메트릭 타입 실험 · <b>색</b> 새 팔레트 C(딥그린+클레이)</div>
+
+  <div class="stage">
+    <div class="box"><span class="tag">Primary</span>
+      <svg width="240" height="120" viewBox="0 0 260 120" role="img" aria-label="브이씨 한글 워드마크">
+        <text x="130" y="82" text-anchor="middle" font-size="66" fill="#1E3932" style="font-family:'Black Han Sans',sans-serif;letter-spacing:2px">브이씨</text>
+        <!-- clay accent stroke under 브 -->
+        <rect x="52" y="92" width="42" height="7" rx="3.5" fill="#A8542F"/>
+      </svg>
+    </div>
+    <div class="box dark"><span class="tag">Ink (단색 리버스)</span>
+      <svg width="240" height="120" viewBox="0 0 260 120" role="img" aria-label="브이씨 리버스">
+        <text x="130" y="82" text-anchor="middle" font-size="66" fill="#F2F0EB" style="font-family:'Black Han Sans',sans-serif;letter-spacing:2px">브이씨</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="strip">
+    <span class="px" style="align-self:center;color:var(--txt);font-weight:700">파비콘 폴백<br>(ㅂ 타일)</span>
+    <div class="cell"><div class="frame"><svg width="64" height="64" viewBox="0 0 100 100">
+      <rect x="4" y="4" width="92" height="92" rx="22" fill="#1E3932"/>
+      <g fill="none" stroke="#C2673D" stroke-width="10" stroke-linecap="square">
+        <line x1="34" y1="26" x2="34" y2="76"/><line x1="66" y1="26" x2="66" y2="76"/>
+        <line x1="30" y1="52" x2="70" y2="52"/><line x1="30" y1="74" x2="70" y2="74"/>
+      </g>
+    </svg></div><span class="px">64px</span></div>
+    <div class="cell"><div class="frame"><svg width="32" height="32" viewBox="0 0 100 100">
+      <rect x="4" y="4" width="92" height="92" rx="22" fill="#1E3932"/>
+      <g fill="none" stroke="#C2673D" stroke-width="10" stroke-linecap="square">
+        <line x1="34" y1="26" x2="34" y2="76"/><line x1="66" y1="26" x2="66" y2="76"/>
+        <line x1="30" y1="52" x2="70" y2="52"/><line x1="30" y1="74" x2="70" y2="74"/>
+      </g>
+    </svg></div><span class="px">32px</span></div>
+    <div class="cell"><div class="frame"><svg width="16" height="16" viewBox="0 0 100 100">
+      <rect x="4" y="4" width="92" height="92" rx="22" fill="#1E3932"/>
+      <g fill="none" stroke="#C2673D" stroke-width="12" stroke-linecap="square">
+        <line x1="34" y1="26" x2="34" y2="76"/><line x1="66" y1="26" x2="66" y2="76"/>
+        <line x1="28" y1="52" x2="72" y2="52"/><line x1="28" y1="74" x2="72" y2="74"/>
+      </g>
+    </svg></div><span class="px">16px</span></div>
+  </div>
+  <p class="desc">한글 "브이씨" 초헤비 지오메트릭 — 파비콘은 자음 "ㅂ"(담는 그릇 = 규격을 담아 맞춘다). 로마자 일변도 경쟁사 사이 국문 아이덴티티로 정통성.</p>
+  <div class="swatches">
+    <span class="sw"><span class="dot" style="background:#1E3932"></span>딥그린 #1E3932 · 흰 <span class="pass">12.45:1</span></span>
+    <span class="sw"><span class="dot" style="background:#A8542F"></span>클레이딥 #A8542F · 흰 <span class="pass">5.28:1</span></span>
+    <span class="sw"><span class="dot" style="background:#C2673D"></span>테라코타 #C2673D · 흰 <span class="fail">3.96:1</span> 면만</span>
+  </div>
+</article>
+
+<!-- ================= SCORE ================= -->
+<section class="blk">
+  <h2>자체 채점표 <span style="font-size:12px;color:var(--mut);font-weight:400">(⚠️ 자체 추정 · 검증 아님 — 흑백·축소는 위 실렌더 스트립으로 확정)</span></h2>
+  <table>
+    <tr><th class="l">콘셉트</th><th>기억성</th><th>독창성</th><th>타깃적합</th><th>흑백*</th><th>축소16*</th><th>합계</th></tr>
+    <tr><td class="l">01 각서 (워드마크) ⚡</td><td>4</td><td>4</td><td>4</td><td>5</td><td>4</td><td><b>21</b></td></tr>
+    <tr><td class="l">02 검인 (엠블럼) 🛡</td><td>4</td><td>4</td><td>5</td><td>5</td><td>3</td><td><b>21</b></td></tr>
+    <tr><td class="l">03 본초 (픽토리얼)</td><td>5</td><td>5</td><td>4</td><td>4</td><td>3</td><td><b>21</b></td></tr>
+    <tr><td class="l">04 심층 (추상 그라디언트) ⚡</td><td>4</td><td>4</td><td>4</td><td>4</td><td>4</td><td><b>20</b></td></tr>
+    <tr><td class="l">05 브이씨 (한글 레터마크)</td><td>4</td><td>5</td><td>4</td><td>5</td><td>4</td><td><b>22</b></td></tr>
+  </table>
+  <p style="font-size:12px;color:var(--mut);margin-top:8px">* 흑백·축소는 자체 추정. 각 콘셉트에 소형 폴백(V타일·VC디스크·솔리드잎·솔리드실루엣·ㅂ타일)을 선반영해 ≤2 리스크 제거.</p>
+</section>
+
+<section class="blk">
+  <h2>컬러 대비 실측 (python WCAG — 검증됨)</h2>
+  <div style="overflow-x:auto">
+  <table>
+    <tr><th class="l">색</th><th class="l">HEX</th><th>vs 흰</th><th>vs 크림</th><th class="l">판정</th></tr>
+    <tr><td class="l">딥그린(정본)</td><td class="l">#1E3932</td><td class="pass">12.45</td><td>10.93</td><td class="l">AA 통과 · 주색</td></tr>
+    <tr><td class="l">잉크(정본)</td><td class="l">#1C1C1A</td><td class="pass">17.07</td><td>14.99</td><td class="l">AA 통과 · 단색 기본</td></tr>
+    <tr><td class="l">[새A] 그래파이트</td><td class="l">#16181A</td><td class="pass">17.80</td><td>15.63</td><td class="l">AA 통과 · C1 본체</td></tr>
+    <tr><td class="l">[새A] 시그널그린</td><td class="l">#00B368</td><td class="fail">2.75</td><td>2.41</td><td class="l">미달 · 컷 극소만</td></tr>
+    <tr><td class="l">[새B] 바이오틸</td><td class="l">#0E7C6B</td><td class="pass">5.10</td><td>4.48</td><td class="l">AA 통과</td></tr>
+    <tr><td class="l">[새B] 바이오그린</td><td class="l">#1E9E5A</td><td class="fail">3.45</td><td>3.03</td><td class="l">큰글자·면만</td></tr>
+    <tr><td class="l">[새B] 바이오딥</td><td class="l">#114A3C</td><td class="pass">10.15</td><td>8.91</td><td class="l">AA 통과 · C4 워드마크</td></tr>
+    <tr><td class="l">[새B] 하이라이트</td><td class="l">#38E0B0</td><td class="fail">1.69</td><td>1.48</td><td class="l">다크위·엣지만</td></tr>
+    <tr><td class="l">[새B] 단색폴백</td><td class="l">#12715C</td><td class="pass">5.93</td><td>5.21</td><td class="l">AA 통과 · C4 소형</td></tr>
+    <tr><td class="l">[새C] 클레이딥</td><td class="l">#A8542F</td><td class="pass">5.28</td><td>4.64</td><td class="l">AA 통과 · C5 텍스트</td></tr>
+    <tr><td class="l">[새C] 테라코타</td><td class="l">#C2673D</td><td class="fail">3.96</td><td>3.48</td><td class="l">큰글자·면만</td></tr>
+  </table>
+  </div>
+  <p style="font-size:13px;color:var(--mut);margin-top:10px">5콘셉트 모든 <b>본체 색은 흰 배경 AA 통과</b>. AA 미달 색(시그널그린·바이오그린·하이라이트·테라코타 밝은톤·골드)은 전부 극소 강조·면·다크위 한정 배치.</p>
+</section>
+
+<section class="blk">
+  <h2>최종 추천 (1개)</h2>
+  <p style="margin:0"><b>Concept 02 검인(보수 검토자용) + Concept 01 각서(화끈) 병행.</b> 검인은 견적서·시험성적서 헤더에 찍혀 "규격 검사 통과" 신뢰를 무료로 주고 전 사용처를 한 시스템으로 덮는다(파비콘은 VC 디스크 폴백). 임팩트가 필요한 표지·SNS는 각서(그린컷 워드마크)가 질량으로 첫인상을 잡는다. 독창성 최고점은 C3 본초·C5 브이씨 — 실렌더 축소 검증 후 판단.</p>
+</section>
+
+<section class="blk">
+  <h2>게이트·한계</h2>
+  <ul class="foot-list">
+    <li><b>선행 상표 미조사</b> — 상표·규제 판단은 대표님 영역. 채택 후 KIPRIS 별도 조사 필요.</li>
+    <li><b>흑백·축소 점수 = 자체 추정</b> — 위 64/32/16px 실렌더 스트립으로 눈 확인용.</li>
+    <li><b>컬러 대비만 검증</b> — python WCAG 실계산.</li>
+  </ul>
+</section>
+
+<footer>
+  design-logo 스킬 + references(logo-types·style-library·prompt-recipes) · 정본 색 = design-refs/DESIGN.md 토큰 · 새 팔레트 대비 = python WCAG 실계산 2026-07-23 · 2라운드(1라운드 전량 기각 반영) · 콘셉트 상세·AI 프롬프트 = vcbio-board-r2.md
+</footer>
+</div>
+</body>
+</html>
