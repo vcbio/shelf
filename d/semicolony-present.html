@@ -4930,18 +4930,26 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <\/div>
 
   <style>
-    /* s18 라이브 로그 — 한 줄씩 좌→우 와이프(타이핑감) + 커서 깜빡임 */
+    /* s18 라이브 로그 — 한 줄이 천천히 스며드는 와이프(완만한 이징 + 미세 페이드·안착) + ✓ 점등 + 커서 깜빡임 */
     #agentlog .logln{ opacity:0; }
-    #agentlog .logln.show{ opacity:1; animation: logwipe .34s cubic-bezier(.2,.7,.3,1) both; }
-    @keyframes logwipe{ from{ clip-path: inset(0 100% 0 0); } to{ clip-path: inset(0 0 0 0); } }
-    #agentlog .mk{ display:inline-block; width:22px; }
+    #agentlog .logln.show{ opacity:1; animation: logwipe .95s cubic-bezier(.25,.6,.3,1) both; }
+    @keyframes logwipe{
+      from{ clip-path: inset(0 100% 0 0); opacity:0; transform: translateY(3px); }
+      55% { opacity:1; }
+      to  { clip-path: inset(0 0 0 0);   opacity:1; transform: translateY(0); }
+    }
+    /* 마커(✓·›·▸)는 줄 텍스트가 다 그려진 뒤 0.2s 있다가 부드럽게 점등 */
+    #agentlog .mk{ display:inline-block; width:22px; opacity:0; }
+    #agentlog .logln.show .mk{ animation: mkglow .35s ease both; animation-delay: 1.15s; }
+    @keyframes mkglow{ from{ opacity:0; } to{ opacity:1; } }
     #agentlog .mk.a{ color:var(--accent); } #agentlog .mk.ok{ color:var(--cap-b); }
     #agentlog .ok2{ color:var(--cap-b); font-weight:700; }
     .logcursor{ display:inline-block; width:8px; height:16px; background:var(--accent); vertical-align:-2px;
       margin-left:5px; box-shadow:0 0 8px var(--glow); animation: blink 1s steps(1) infinite; }
     @keyframes blink{ 50%{ opacity:0; } }
     @media (prefers-reduced-motion: reduce){
-      #agentlog .logln{ opacity:1; } #agentlog .logln.show{ animation:none; } .logcursor{ animation:none; }
+      #agentlog .logln{ opacity:1; } #agentlog .logln.show{ animation:none; }
+      #agentlog .mk{ opacity:1; } #agentlog .logln.show .mk{ animation:none; } .logcursor{ animation:none; }
     }
   <\/style>
 
@@ -5003,7 +5011,9 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   var cursor = document.getElementById('logcursor');
   var lines = Array.prototype.slice.call(body.querySelectorAll('.logln'));
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var DELAYS = [300, 620, 640, 900, 640, 720]; // 승인 줄(3번째) 앞 여유 = 사람 대기 뉘앙스
+  // 각 줄 등장 시각 = 이전 값 누적. 와이프 .95s + 줄 사이 쉼 .6s → 증분 1.55s(정상), 승인 줄 앞은 1.8s(대기의 서사).
+  // 시작(ms): 300·1850·3650·5200·6750·8300 → 마지막 줄 텍스트 완료 ≈ 9.25s, 마커 점등 완료 ≈ 9.8s (10s 상한 이내)
+  var DELAYS = [300, 1550, 1800, 1550, 1550, 1550];
   var timers = [];
   var playing = false;
 
