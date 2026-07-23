@@ -185,11 +185,6 @@
   "date": "2026-07-23"
  },
  {
-  "slug": "ai-setup-kit",
-  "title": "AI 비서 세팅 킷 (강의 연계판)",
-  "date": "2026-07-23"
- },
- {
   "slug": "semicolony-ai-deck",
   "title": "세미콜로니 AI 강의덱 (24장)",
   "date": "2026-07-23"
@@ -222,6 +217,11 @@
  {
   "slug": "vcbio-logo-final",
   "title": "VC Bio 로고 — 채택 원형 V2 · 색 심화 8종",
+  "date": "2026-07-24"
+ },
+ {
+  "slug": "ai-setup-kit",
+  "title": "AI 비서 세팅 킷 (강의 연계판)",
   "date": "2026-07-24"
  }
 ]
