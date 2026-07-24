@@ -1131,6 +1131,21 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
         <\/div>
       <\/div>
 
+      <!-- 소신 스트립: 폰·웹 채팅 = 대화만 / 컴퓨터 = 파일·기억 -->
+      <div style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px 16px;
+        padding:12px 22px;background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:12px;">
+        <span class="label" style="color:var(--accent);flex:none;">그리고 하나 더<\/span>
+        <span style="display:inline-flex;align-items:center;gap:8px;font-size:15.5px;color:var(--text-dim);">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--cap-d)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18.5h2"/><\/svg>
+          폰·웹 채팅 AI는 <b class="w700" style="color:var(--text)">대화만<\/b>
+        <\/span>
+        <span style="color:var(--line);font-weight:700;">|<\/span>
+        <span style="display:inline-flex;align-items:center;gap:8px;font-size:15.5px;color:var(--text);">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/><\/svg>
+          파일·기억은 <b class="ac w700">컴퓨터의 AI<\/b>가
+        <\/span>
+      <\/div>
+
     <\/div>
 
     <!-- 펀치라인 (하단 고정) -->
@@ -6917,6 +6932,15 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
       <\/div>
       <div class="mk mk-herm" style="left:902px;top:0;">
         <span style="width:6px;height:6px;border-radius:50%;background:var(--accent-ink);"><\/span>아까 보신 에이전트가 여기
+      <\/div>
+      <!-- 폰·웹 채팅 경계 캡션 (대화형 LV.1–2 위) -->
+      <div style="position:absolute;left:0;top:96px;max-width:236px;z-index:4;
+        display:flex;align-items:center;gap:9px;padding:8px 12px;border-radius:11px;
+        background:var(--surface2);border:1px dashed var(--line);">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="flex:none;"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18.5h2"/><\/svg>
+        <span style="font-size:12px;color:var(--text-dim);line-height:1.35;">
+          폰·웹 채팅은 <b style="color:var(--text);">여기까지<\/b> — Lv.3부터는 <b class="ac">컴퓨터<\/b>
+        <\/span>
       <\/div>
       <!-- 점선: Lv.3(멈춤) / Lv.8·9(에이전트) 위로 잇기 -->
       <svg width="1152" height="296" style="position:absolute;inset:0;z-index:1;pointer-events:none;">
