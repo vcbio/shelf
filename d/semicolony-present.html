@@ -3306,7 +3306,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
   <div class="foot-page"><b>12<\/b> / 25<\/div>
 <\/div>
 `},
-{t:"doc",c:`<!-- s13 · 지식베이스가 뭔가요 — "AI에게 창고를 지어주세요" / 흩어진 자료(dim) → 한 폴더 "회사 자료"(발광) → AI가 읽고 근거 있는 답(✓). 킷 ④ 다이어그램 서사를 덱 문법으로. 다음 장(s14 자료를 줘라)이 "그 창고가 있으면 뭐가 달라지나"로 연결 -->
+{t:"doc",c:`<!-- s13 · 지식베이스가 뭔가요 — "AI에게 창고를 지어주세요"(기억 보관 프레임) / 흩어진 기억(dim, 대화 끝나면 사라짐) → AI의 기억 보관소(발광, 자료+작업 기록) → AI가 읽고 근거 있게 이어서 답(✓). 킷 ④ 서사를 덱 문법으로. 다음 장(s14 자료를 줘라)이 "그 창고가 있으면 뭐가 달라지나"로 연결 -->
 <style>
 /* ============================================================================
    세미콜로니 AI 강의 덱 — 공용 스타일 (deck.css)
@@ -3490,7 +3490,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
 
   <div class="kicker"><span class="no">13<\/span><span class="bar"><\/span><span class="nm">Knowledge Base<\/span><\/div>
   <div style="position:absolute;top:44px;right:64px;text-align:right;z-index:6;">
-    <div class="label" style="color:var(--text-dim)">AI가 읽을 자료 창고<\/div>
+    <div class="label" style="color:var(--text-dim)">AI의 기억 보관소<\/div>
   <\/div>
 
   <div class="stage" style="display:flex;flex-direction:column;z-index:6;">
@@ -3499,19 +3499,19 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
     <div style="flex:none;">
       <div class="title" style="font-size:39px;">AI에게 <span class="ac">창고<\/span>를 지어주세요<\/div>
       <div class="sub" style="margin-top:9px;color:var(--text-dim);max-width:920px;font-size:19px;">
-        AI는 <b class="w700" style="color:var(--text)">기억력<\/b>이 아니라 <b class="ac w700">자료<\/b>로 일합니다 — 매번 설명하지 말고, 읽을 자료를 한곳에 모아두세요.
+        AI는 <b class="w700" style="color:var(--text)">대화가 끝나면<\/b> 잊어버립니다 — 매번 다시 설명하지 말고, <b class="ac w700">기억<\/b>을 파일로 보관해 두세요.
       <\/div>
     <\/div>
 
-    <!-- 다이어그램: 흩어진 자료 → 한 폴더 → 근거 있는 답 (남은 공간 세로 중앙) -->
+    <!-- 다이어그램: 흩어진 기억 → 기억 보관소 → 근거 있는 답 (남은 공간 세로 중앙) -->
     <div style="flex:1;display:flex;align-items:center;justify-content:center;margin-top:8px;">
       <div style="display:grid;grid-template-columns:1fr 76px 1.02fr 76px 1fr;align-items:center;gap:0;width:100%;">
 
-        <!-- 좌: 흩어진 자료 (dim) -->
+        <!-- 좌: 흩어진 기억 (dim) -->
         <div class="hov-lift" style="position:relative;height:326px;display:flex;flex-direction:column;
           background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:15px 16px;opacity:.94;">
           <div style="display:flex;align-items:center;justify-content:space-between;">
-            <div class="label" style="color:var(--cap-d);">흩어진 자료<\/div>
+            <div class="label" style="color:var(--cap-d);">흩어진 기억<\/div>
             <span style="font-size:11px;font-weight:700;color:var(--cap-d);padding:3px 9px;border-radius:999px;
               background:var(--surface2);border:1px solid var(--line);">여기저기<\/span>
           <\/div>
@@ -3535,11 +3535,11 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
             <\/span>
           <\/div>
           <div class="small" style="font-size:11.5px;color:var(--cap-d);padding-top:9px;border-top:1px solid var(--line);">
-            <span style="font-weight:800;">⚠<\/span> AI는 이걸 <b style="color:var(--text-dim);">못 찾습니다<\/b>
+            <span style="font-weight:800;">⚠<\/span> 대화가 끝나면 <b style="color:var(--text-dim);">사라집니다<\/b>
           <\/div>
         <\/div>
 
-        <!-- 화살표 1: 모아서 -->
+        <!-- 화살표 1: 보관해서 -->
         <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;">
           <svg width="60" height="26" viewBox="0 0 60 26">
             <defs><linearGradient id="kbG1" gradientUnits="userSpaceOnUse" x1="4" y1="0" x2="52" y2="0">
@@ -3548,13 +3548,13 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
             <line class="arw-line" x1="4" y1="13" x2="50" y2="13" style="stroke:url(#kbG1)"/>
             <polyline class="arw-head arw-glow" points="50,7 58,13 50,19"/>
           <\/svg>
-          <span style="font-size:11.5px;font-weight:700;color:var(--accent);letter-spacing:.02em;">모아서<\/span>
+          <span style="font-size:11.5px;font-weight:700;color:var(--accent);letter-spacing:.02em;">보관해서<\/span>
         <\/div>
 
         <!-- 중: 한 폴더 = 회사 자료 (발광 focal) -->
         <div class="card card--glow hov-lift" style="position:relative;height:326px;display:flex;flex-direction:column;
           align-items:center;justify-content:center;border-radius:18px;padding:18px 16px;text-align:center;">
-          <div class="label" style="color:var(--accent);position:absolute;top:15px;left:0;right:0;">한 곳에 모은 창고<\/div>
+          <div class="label" style="color:var(--accent);position:absolute;top:15px;left:0;right:0;">AI의 기억 보관소<\/div>
           <!-- 폴더 아이콘 -->
           <div style="position:relative;width:118px;height:96px;margin-top:6px;">
             <div style="position:absolute;inset:0;border-radius:24px;background:radial-gradient(circle at 50% 55%,var(--glow),transparent 68%);filter:blur(6px);"><\/div>
@@ -3566,7 +3566,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
             <\/svg>
           <\/div>
           <div style="margin-top:14px;font-size:22px;font-weight:800;color:var(--text);letter-spacing:-.02em;">“회사 자료”<\/div>
-          <div class="small" style="margin-top:5px;font-size:13px;color:var(--text-dim);">단가표 · 견적서 · 규격서 · 매뉴얼<br>필요한 걸 <b class="ac w700">한 폴더<\/b>에<\/div>
+          <div class="small" style="margin-top:5px;font-size:13px;color:var(--text-dim);">단가표·규격서 · 회의 메모·작업이력<br>자료 + <b class="ac w700">작업 기록<\/b>을 한곳에<\/div>
         <\/div>
 
         <!-- 화살표 2: AI가 읽고 -->
@@ -3601,7 +3601,7 @@ body{ display:flex; align-items:center; justify-content:center; min-height:100vh
             <div style="display:flex;justify-content:space-between;font-size:12.5px;"><span class="dim">양식<\/span><span style="color:var(--text);font-weight:700;">회사 견적서 <span class="dim" style="font-weight:400;">← 매뉴얼<\/span><\/span><\/div>
           <\/div>
           <div class="small" style="font-size:11.5px;color:var(--accent);padding-top:9px;">
-            <span style="font-weight:800;">✓<\/span> 지어내지 않고 <b>자료에서<\/b> 답합니다
+            <span style="font-weight:800;">✓<\/span> 지어내지 않고 <b>자료에서<\/b> — 다음에도 이어서
           <\/div>
         <\/div>
 
