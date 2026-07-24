@@ -80,6 +80,11 @@
   .summary p{margin:0 0 6px; font-size:0.93rem;}
   .summary p:last-child{margin-bottom:0;}
   footer{text-align:center; color:var(--sub); font-size:0.82rem; margin-top:40px;}
+  .tree{background:var(--code-bg); border:1px solid var(--border); border-radius:8px; padding:14px 16px; margin:0 0 16px; font-size:0.92rem; line-height:1.95; overflow-x:auto;}
+  .tree .row{white-space:nowrap;}
+  .tree .root{font-weight:700; color:var(--accent);}
+  .tree .b{color:var(--accent); font-family:ui-monospace,SFMono-Regular,Consolas,"Courier New",monospace;}
+  .tree .note{color:var(--sub); font-size:0.85rem;}
 
   @media (prefers-color-scheme: dark){
     :root{
@@ -677,8 +682,53 @@
 
 <hr>
 
-<h2>3. 설치 지시문 3 · 지식베이스 깔기</h2>
-<p>아래를 복사해 Claude Code 채팅창에 붙여넣으세요. [대괄호]만 내 상황으로 바꾸면 됩니다. AI가 폴더를 만들거나 파일을 저장해도 되냐고 물으면 <strong>승인</strong>해 주세요.</p>
+<h2>3. 기본 파일 분류법</h2>
+<p>설치 지시문을 넣기 전에, 어떤 체계가 깔리는지 먼저 봅니다. 규칙은 셋뿐입니다 — <strong>이름 공식 · 종류 접두어 · 폴더 자리</strong>.</p>
+
+<h3>① 파일 이름 공식</h3>
+<p>이름은 <code>종류-대상-내용</code> 순서로 붙입니다. 열어보지 않아도 뭔지 알 수 있게요.</p>
+<ul>
+<li><code>견적-어니스트-콤부차0724</code></li>
+<li><code>회의-네릭-샘플일정</code></li>
+<li><code>제품-콤부차-규격서</code></li>
+</ul>
+
+<h3>② 종류 접두어</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>접두어</th><th>이럴 때 씁니다</th></tr></thead>
+<tbody>
+<tr><td><code>견적-</code></td><td>거래처에 낼 견적서</td></tr>
+<tr><td><code>발주-</code></td><td>원료·부자재 발주 내역</td></tr>
+<tr><td><code>회의-</code></td><td>미팅 메모·통화 내용</td></tr>
+<tr><td><code>제품-</code></td><td>제품 규격서·성분·스펙</td></tr>
+<tr><td><code>거래처-</code></td><td>거래처 기본 정보·담당자</td></tr>
+</tbody>
+</table>
+</div>
+<p style="color:var(--sub); font-size:0.9rem;">접두어는 우리 회사에 맞게 얼마든지 늘리면 됩니다.</p>
+
+<h3>③ 폴더 자리</h3>
+<div class="tree">
+<div class="row"><span class="root">회사자료/</span></div>
+<div class="row"><span class="b">├─</span> 거래처/ <span class="note">회사별 하위 폴더</span></div>
+<div class="row"><span class="b">├─</span> 제품/</div>
+<div class="row"><span class="b">├─</span> 견적·발주/</div>
+<div class="row"><span class="b">├─</span> 회의·메모/</div>
+<div class="row"><span class="b">└─</span> _받은자료/ <span class="note">임시 보관 — 애매하면 여기</span></div>
+</div>
+
+<h3>기억할 원칙 3가지</h3>
+<ul>
+<li><strong>이름만 봐도 알게</strong> — 종류·대상·내용이 이름에 다 들어가게 짓습니다.</li>
+<li><strong>거래처 중심으로 모으게</strong> — 한 거래처 자료는 <code>거래처/</code> 아래 회사별 폴더에 함께 둡니다.</li>
+<li><strong>애매하면 미루지 말고</strong> — <code>_받은자료/</code>에 넣고 AI에게 "분류해줘"라고 하면 됩니다.</li>
+</ul>
+
+<hr>
+
+<h2>4. 설치 지시문 3 · 지식베이스 깔기</h2>
+<p>위 분류법을 AI가 대신 깔아줍니다. 아래를 복사해 Claude Code 채팅창에 붙여넣으세요. [대괄호]만 내 상황으로 바꾸면 됩니다. AI가 폴더를 만들거나 파일을 저장해도 되냐고 물으면 <strong>승인</strong>해 주세요.</p>
 
 <div class="code-block">
 <button class="copy-btn" data-target="install-kb">전체 복사</button>
@@ -698,7 +748,7 @@
 
 <hr>
 
-<h2>4. 이후 쓰는 법</h2>
+<h2>5. 이후 쓰는 법</h2>
 <ul>
 <li>받은 파일은 <code>_받은자료/</code>에 던져두고 <strong>"AI야, 분류해줘"</strong>라고 하면 규칙대로 자리를 잡아 줍니다.</li>
 <li>견적서를 만들 땐 <strong>"볼트의 단가표 참고해서"</strong>라고 하면 흐릿한 기억이 아니라 실제 자료를 근거로 씁니다.</li>
