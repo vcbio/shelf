@@ -635,14 +635,14 @@
 <section class="doc" id="doc-kb">
 <h1>④ 지식베이스 만들기 — 옵시디언 (선택)</h1>
 
-<blockquote><p>AI는 기억력이 아니라 <strong>자료</strong>로 일합니다. 견적서·단가표·거래처 정보가 한 폴더에 모여 있으면, AI가 그걸 읽고 근거 있는 답을 냅니다. 그 자료 창고가 <strong>지식베이스</strong>입니다. 강의에서 '실험노트'라고 부른 그것입니다.</p></blockquote>
+<blockquote><p>AI는 대화가 끝나면 잊어버립니다. 그래서 <strong>기억</strong>을 파일로 보관해 둡니다 — 견적서·단가표 같은 자료는 물론, 회의 메모·작업 기록까지. 그게 한 폴더에 모여 있으면, AI가 그걸 읽고 근거 있는 답을 내고, 다음에 시켜도 이어서 일합니다. 그 <strong>기억 보관소</strong>가 <strong>지식베이스</strong>입니다. 강의에서 '실험노트'라고 부른 그것입니다.</p></blockquote>
 
 <div style="background:var(--code-bg); border:1px solid var(--border); border-radius:10px; padding:14px 12px; margin:0 0 4px;">
-<svg viewBox="0 0 720 250" role="img" aria-label="바탕화면·카톡·메일에 흩어진 자료가 한 폴더(볼트)로 모이고, AI가 그것을 읽어 근거 있는 답을 내는 흐름" style="width:100%; height:auto; display:block;">
+<svg viewBox="0 0 720 250" role="img" aria-label="바탕화면·카톡·메일에 흩어진 기억이 한 폴더(볼트)로 보관되고, AI가 그것을 읽어 근거 있는 답을 내는 흐름" style="width:100%; height:auto; display:block;">
   <defs>
     <marker id="kbAh" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="var(--accent)"/></marker>
   </defs>
-  <text x="108" y="22" text-anchor="middle" font-size="15" font-weight="700" fill="var(--text)">흩어진 자료</text>
+  <text x="108" y="22" text-anchor="middle" font-size="15" font-weight="700" fill="var(--text)">흩어진 기억</text>
   <g opacity="0.5">
     <g transform="rotate(-8 65 74)"><rect x="30" y="52" width="70" height="42" rx="6" fill="var(--card)" stroke="var(--border)" stroke-width="2"/><text x="65" y="78" text-anchor="middle" font-size="12" fill="var(--sub)">바탕화면</text></g>
     <g transform="rotate(7 152 100)"><rect x="117" y="80" width="66" height="42" rx="6" fill="var(--card)" stroke="var(--border)" stroke-width="2"/><text x="150" y="106" text-anchor="middle" font-size="12" fill="var(--sub)">카톡</text></g>
@@ -678,7 +678,7 @@
 <li><strong>옵시디언 앱 설치</strong> — obsidian.md에서 내려받아 여느 프로그램처럼 깝니다.</li>
 <li><strong>새 볼트(보관함) 만들기</strong> — 앱을 열고 "새 보관함(Create new vault)"을 눌러 이름을 정합니다(예: "회사자료"). 위치는 문서 폴더 정도가 무난합니다.</li>
 </ol>
-<p>여기까지가 사람 몫입니다. 안의 폴더 구조와 분류 규칙은 아래 지시문이 AI에게 시킵니다.</p>
+<p>여기까지가 사람 몫입니다. 안의 폴더 구조와 분류 규칙은 아래 지시문을 붙여넣으면 AI가 대신 만들어 줍니다.</p>
 
 <hr>
 
@@ -711,17 +711,22 @@
 <h3>③ 폴더 자리</h3>
 <div class="tree">
 <div class="row"><span class="root">회사자료/</span></div>
-<div class="row"><span class="b">├─</span> 거래처/ <span class="note">회사별 하위 폴더</span></div>
-<div class="row"><span class="b">├─</span> 제품/</div>
-<div class="row"><span class="b">├─</span> 견적·발주/</div>
-<div class="row"><span class="b">├─</span> 회의·메모/</div>
-<div class="row"><span class="b">└─</span> _받은자료/ <span class="note">임시 보관 — 애매하면 여기</span></div>
+<div class="row"><span class="b">├─</span> 기록/ <span class="note">AI가 쓰는 노트(.md)</span></div>
+<div class="row"><span class="b">│&nbsp;&nbsp;├─</span> 회의·메모/</div>
+<div class="row"><span class="b">│&nbsp;&nbsp;└─</span> 작업이력/</div>
+<div class="row"><span class="b">├─</span> 자료원본/ <span class="note">받은 원본 파일</span></div>
+<div class="row"><span class="b">│&nbsp;&nbsp;├─</span> 거래처/ <span class="note">회사별 하위 폴더</span></div>
+<div class="row"><span class="b">│&nbsp;&nbsp;├─</span> 제품/</div>
+<div class="row"><span class="b">│&nbsp;&nbsp;└─</span> 견적·발주/</div>
+<div class="row"><span class="b">└─</span> _받은자료/ <span class="note">임시 — 애매하면 여기</span></div>
 </div>
+<p style="color:var(--sub); font-size:0.9rem; margin:-8px 0 0;">핵심은 위·아래 두 칸입니다 — <strong>기록/</strong>(AI가 쓰는 노트)과 <strong>자료원본/</strong>(내가 받은 파일)을 <strong>섞지 않는 것</strong>.</p>
 
-<h3>기억할 원칙 3가지</h3>
+<h3>기억할 원칙 4가지</h3>
 <ul>
+<li><strong>기억과 원본은 섞지 않게</strong> — AI가 쓰는 노트(.md)는 <code>기록/</code>에, 내가 받은 원본 파일(엑셀·PDF·이미지)은 <code>자료원본/</code>에. 둘을 한 폴더에 섞지 않습니다.</li>
 <li><strong>이름만 봐도 알게</strong> — 종류·대상·내용이 이름에 다 들어가게 짓습니다.</li>
-<li><strong>거래처 중심으로 모으게</strong> — 한 거래처 자료는 <code>거래처/</code> 아래 회사별 폴더에 함께 둡니다.</li>
+<li><strong>거래처 중심으로 모으게</strong> — 한 거래처 자료는 <code>자료원본/거래처/</code> 아래 회사별 폴더에 함께 둡니다.</li>
 <li><strong>애매하면 미루지 말고</strong> — <code>_받은자료/</code>에 넣고 AI에게 "분류해줘"라고 하면 됩니다.</li>
 </ul>
 
@@ -734,12 +739,16 @@
 <button class="copy-btn" data-target="install-kb">전체 복사</button>
 <pre id="install-kb"><code>내 옵시디언 볼트 폴더는 [여기에 볼트 폴더 경로를 적으세요]다. 경로를 모르겠으면, 먼저 내 컴퓨터에서 옵시디언 볼트 폴더를 찾아서 나에게 맞는지 확인받고 진행해줘.
 
-그 볼트 안에 다음 폴더 5개를 만들어줘: 거래처, 제품, 견적·발주, 회의·메모, _받은자료.
+그 볼트 안에 다음 구조로 폴더를 만들어줘. 기억(내가 쓰라고 시키는 노트)과 원본 파일을 섞지 않게 두 갈래로 나눈다:
+- 기록 (그 아래에 회의·메모, 작업이력)
+- 자료원본 (그 아래에 거래처, 제품, 견적·발주)
+- _받은자료
 
-볼트 맨 위에 "시작-여기부터.md" 노트를 만들고, 아래 분류 규칙 3개를 그대로 적어줘.
-① 파일 이름은 종류-대상-내용 순서로 짓는다 (예: 견적-어니스트-콤부차0724)
-② 거래처 자료는 거래처 폴더 아래 회사별 폴더에 넣는다
-③ 어디 둘지 애매한 파일은 _받은자료에 넣고 나에게 물어본다
+볼트 맨 위에 "시작-여기부터.md" 노트를 만들고, 아래 분류 규칙 4개를 그대로 적어줘.
+① 기억(md 노트)은 기록 폴더에, 받은 원본 파일(엑셀·PDF·이미지)은 자료원본 폴더에 넣는다 — 둘을 섞지 않는다
+② 파일 이름은 종류-대상-내용 순서로 짓는다 (예: 견적-어니스트-콤부차0724)
+③ 거래처 자료는 자료원본/거래처 폴더 아래 회사별 폴더에 넣는다
+④ 어디 둘지 애매한 파일은 _받은자료에 넣고 나에게 물어본다
 
 마지막으로 내 전역 규칙 파일(~/.claude/CLAUDE.md) 맨 아래에 이 한 줄을 추가해줘: "작업 결과물과 거래처 자료는 옵시디언 볼트(위 경로)의 시작-여기부터.md 분류 규칙에 따라 저장한다."
 
@@ -756,7 +765,7 @@
 
 <div class="summary">
 <p>📌 3줄 요약</p>
-<p>- 지식베이스 = AI가 읽을 자료 창고. 옵시디언 볼트(잘 정리된 폴더 하나)가 그 창고가 된다.</p>
+<p>- 지식베이스 = AI가 읽을 기억 보관소(자료 + 작업 기록). 옵시디언 볼트(잘 정리된 폴더 하나)가 그 보관소가 된다. 기억(md 노트)과 원본 파일은 폴더를 섞지 않는다.</p>
 <p>- 사람은 앱 설치 + 볼트 만들기 2개만. 폴더·분류 규칙은 설치 지시문 3이 AI에게 시킨다.</p>
 <p>- 이후엔 "분류해줘" · "볼트 자료 참고해서"로 자료 기반 작업이 된다.</p>
 </div>
