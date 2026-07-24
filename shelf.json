@@ -205,11 +205,6 @@
   "date": "2026-07-24"
  },
  {
-  "slug": "semicolony-present",
-  "title": "세미콜로니 강의 발표 모드 (25장)",
-  "date": "2026-07-24"
- },
- {
   "slug": "semicolony-speaker",
   "title": "발표자 키워드 큐카드 (25장 · 아이패드용)",
   "date": "2026-07-24"
@@ -222,6 +217,11 @@
  {
   "slug": "semicolony-ai-deck",
   "title": "세미콜로니 AI 강의덱 (25장)",
+  "date": "2026-07-24"
+ },
+ {
+  "slug": "semicolony-present",
+  "title": "세미콜로니 강의 발표 모드 (25장)",
   "date": "2026-07-24"
  }
 ]
