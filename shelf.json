@@ -1,237 +1,192 @@
 [
- {
-  "slug": "test",
-  "title": "책장 테스트 문서",
-  "date": "2026-06-11"
- },
- {
-  "slug": "enzyme-moa-3d",
-  "title": "당효소복합물 작용기전 (3D)",
-  "date": "2026-06-11"
- },
- {
-  "slug": "dang-light",
-  "title": "당효소복합물 — 라이트 에디토리얼 시안(4장)",
-  "date": "2026-06-16"
- },
- {
-  "slug": "dang-deck",
-  "title": "당효소복합물 제안덱 (19장)",
-  "date": "2026-06-17"
- },
- {
-  "slug": "dang-v2",
-  "title": "당효소복합물 임팩트판 v2",
-  "date": "2026-06-18"
- },
- {
-  "slug": "saju-jinmo-vc26x7",
-  "title": "사주 · 양진모",
-  "date": "2026-06-26"
- },
- {
-  "slug": "saju-yujin-vc26x7",
-  "title": "사주 · 오유진",
-  "date": "2026-06-26"
- },
- {
-  "slug": "saju-sanha-vc26x7",
-  "title": "사주 · 박산하",
-  "date": "2026-06-26"
- },
- {
-  "slug": "saju-suyeon-vc26x7",
-  "title": "사주 · 장수연",
-  "date": "2026-06-26"
- },
- {
-  "slug": "saju-changseop-vc26x7",
-  "title": "사주 · 이창섭",
-  "date": "2026-06-26"
- },
- {
-  "slug": "saju-yurim-vc26x7",
-  "title": "사주 · 장유림",
-  "date": "2026-06-26"
- },
- {
-  "slug": "saju-hyeseon-vc26x7",
-  "title": "사주 · 혜선",
-  "date": "2026-06-26"
- },
- {
-  "slug": "saju-list-vc26x7",
-  "title": "사주 모음 (8명)",
-  "date": "2026-06-26"
- },
- {
-  "slug": "smbio-jup-arg-maca-int",
-  "title": "제이유피개발 견적초안(내부용·대외비)",
-  "date": "2026-06-29"
- },
- {
-  "slug": "design-extract-linear",
-  "title": "Linear 디자인 시스템 추출 (designlang 테스트)",
-  "date": "2026-06-30"
- },
- {
-  "slug": "saju-minsik-vc26x7",
-  "title": "사주 · 민식(본인)",
-  "date": "2026-07-05"
- },
- {
-  "slug": "raw-material-sales-match",
-  "title": "원료↔완제품 매칭 검증 (2024~2026)",
-  "date": "2026-07-10"
- },
- {
-  "slug": "purchase-sales-ledger",
-  "title": "매입·매출 거래원장 + 매칭 (2024~2026)",
-  "date": "2026-07-10"
- },
- {
-  "slug": "purchase-sales-mapping",
-  "title": "매입·매출 매칭 검증·등록 (2024~2026)",
-  "date": "2026-07-10"
- },
- {
-  "slug": "product-flow",
-  "title": "품목별 수불부 — 매입↔매출 흐름 (2024~2026)",
-  "date": "2026-07-10"
- },
- {
-  "slug": "smbio-abg-salgreen-int",
-  "title": "샐그린27 견적 약식(내부용·대외비)",
-  "date": "2026-07-14"
- },
- {
-  "slug": "smbio-abg-paradise-int",
-  "title": "파라다이스그레인 견적 약식(내부용·대외비)",
-  "date": "2026-07-14"
- },
- {
-  "slug": "skill-menu",
-  "title": "Claude 스킬 메뉴판 — 검증 조합 11 + 전체 471종",
-  "date": "2026-07-15"
- },
- {
-  "slug": "govgrant-monitor",
-  "title": "정부지원사업 모니터링 대시보드",
-  "date": "2026-07-20"
- },
- {
-  "slug": "saju-jonggook-jg93k2",
-  "title": "박종국님 인생 분석 (사주·자미두수·베다·서양 4체계)",
-  "date": "2026-07-21"
- },
- {
-  "slug": "saju-junyoung-jy92m7",
-  "title": "전준영님 인생 분석 (사주·자미두수·베다·서양 4체계)",
-  "date": "2026-07-22"
- },
- {
-  "slug": "ingredient-docs-skill",
-  "title": "원료서류-채널 SKILL.md (헤르메스)",
-  "date": "2026-07-22"
- },
- {
-  "slug": "label-doc-guide",
-  "title": "원료서류 분류 지침 (라벨크래프트 v1.1.0)",
-  "date": "2026-07-22"
- },
- {
-  "slug": "semicolony-proof-brochure",
-  "title": "실물 · 영업 브로셔 (전 6페이지)",
-  "date": "2026-07-22"
- },
- {
-  "slug": "semicolony-s04-3d",
-  "title": "세미콜로니 강의 s04 (3D 단독)",
-  "date": "2026-07-22"
- },
- {
-  "slug": "semicolony-proof-deck",
-  "title": "실물 · 원료 제안서 (전체 19장)",
-  "date": "2026-07-23"
- },
- {
-  "slug": "semicolony-proof-quote",
-  "title": "실물 · 견적서",
-  "date": "2026-07-23"
- },
- {
-  "slug": "semicolony-proof-landing",
-  "title": "실물 · 영업 랜딩페이지",
-  "date": "2026-07-23"
- },
- {
-  "slug": "colorboard",
-  "title": "VCBio 디자인 선택 보드 v3",
-  "date": "2026-07-23"
- },
- {
-  "slug": "vcbio-logo-concepts",
-  "title": "VC Bio 로고 시안 5종 (SVG 실렌더)",
-  "date": "2026-07-23"
- },
- {
-  "slug": "semicolony-proof-badquote",
-  "title": "시연 · 나쁜 지시의 견적서 (실물 아님)",
-  "date": "2026-07-23"
- },
- {
-  "slug": "vcbio-logo-r2",
-  "title": "VC Bio 로고 시안 2라운드 (5콘셉트)",
-  "date": "2026-07-23"
- },
- {
-  "slug": "vcbio-logo-r3",
-  "title": "VC Bio 로고 3라운드 — AI 이미지 18선",
-  "date": "2026-07-23"
- },
- {
-  "slug": "vcbio-logo-r4",
-  "title": "VC Bio 로고 4라운드 — 신박 컨셉 9종",
-  "date": "2026-07-24"
- },
- {
-  "slug": "vcbio-logo-r5",
-  "title": "VC Bio 로고 5라운드 — 정본 인격 직역",
-  "date": "2026-07-24"
- },
- {
-  "slug": "vcbio-logo-final",
-  "title": "VC Bio 로고 — 채택 원형 V2 · 색 심화 8종",
-  "date": "2026-07-24"
- },
- {
-  "slug": "ai-setup-kit",
-  "title": "AI 비서 세팅 킷 (강의 연계판)",
-  "date": "2026-07-24"
- },
- {
-  "slug": "semicolony-ai-deck",
-  "title": "세미콜로니 AI 강의덱 (25장)",
-  "date": "2026-07-24"
- },
- {
-  "slug": "semicolony-present",
-  "title": "세미콜로니 강의 발표 모드 (25장)",
-  "date": "2026-07-24"
- },
- {
-  "slug": "semicolony-speaker",
-  "title": "발표자 키워드 큐카드 (25장 · 아이패드용)",
-  "date": "2026-07-24"
- },
- {
-  "slug": "vcbio-design-kit",
-  "title": "브이씨바이오 디자인 킷 — 브랜드 규격 한 장",
-  "date": "2026-07-25"
- },
- {
-  "slug": "cosmetic-basic-science",
-  "title": "까먹은 중학교 과학으로 읽는 화장품",
-  "date": "2026-07-26"
- }
+  {
+    "slug": "test",
+    "title": "책장 테스트 문서",
+    "date": "2026-06-11"
+  },
+  {
+    "slug": "enzyme-moa-3d",
+    "title": "당효소복합물 작용기전 (3D)",
+    "date": "2026-06-11"
+  },
+  {
+    "slug": "dang-light",
+    "title": "당효소복합물 — 라이트 에디토리얼 시안(4장)",
+    "date": "2026-06-16"
+  },
+  {
+    "slug": "dang-deck",
+    "title": "당효소복합물 제안덱 (19장)",
+    "date": "2026-06-17"
+  },
+  {
+    "slug": "dang-v2",
+    "title": "당효소복합물 임팩트판 v2",
+    "date": "2026-06-18"
+  },
+  {
+    "slug": "saju-jinmo-vc26x7",
+    "title": "사주 · 양진모",
+    "date": "2026-06-26"
+  },
+  {
+    "slug": "saju-yujin-vc26x7",
+    "title": "사주 · 오유진",
+    "date": "2026-06-26"
+  },
+  {
+    "slug": "saju-sanha-vc26x7",
+    "title": "사주 · 박산하",
+    "date": "2026-06-26"
+  },
+  {
+    "slug": "saju-suyeon-vc26x7",
+    "title": "사주 · 장수연",
+    "date": "2026-06-26"
+  },
+  {
+    "slug": "saju-changseop-vc26x7",
+    "title": "사주 · 이창섭",
+    "date": "2026-06-26"
+  },
+  {
+    "slug": "saju-yurim-vc26x7",
+    "title": "사주 · 장유림",
+    "date": "2026-06-26"
+  },
+  {
+    "slug": "saju-hyeseon-vc26x7",
+    "title": "사주 · 혜선",
+    "date": "2026-06-26"
+  },
+  {
+    "slug": "saju-list-vc26x7",
+    "title": "사주 모음 (8명)",
+    "date": "2026-06-26"
+  },
+  {
+    "slug": "smbio-jup-arg-maca-int",
+    "title": "제이유피개발 견적초안(내부용·대외비)",
+    "date": "2026-06-29"
+  },
+  {
+    "slug": "design-extract-linear",
+    "title": "Linear 디자인 시스템 추출 (designlang 테스트)",
+    "date": "2026-06-30"
+  },
+  {
+    "slug": "saju-minsik-vc26x7",
+    "title": "사주 · 민식(본인)",
+    "date": "2026-07-05"
+  },
+  {
+    "slug": "raw-material-sales-match",
+    "title": "원료↔완제품 매칭 검증 (2024~2026)",
+    "date": "2026-07-10"
+  },
+  {
+    "slug": "purchase-sales-ledger",
+    "title": "매입·매출 거래원장 + 매칭 (2024~2026)",
+    "date": "2026-07-10"
+  },
+  {
+    "slug": "purchase-sales-mapping",
+    "title": "매입·매출 매칭 검증·등록 (2024~2026)",
+    "date": "2026-07-10"
+  },
+  {
+    "slug": "product-flow",
+    "title": "품목별 수불부 — 매입↔매출 흐름 (2024~2026)",
+    "date": "2026-07-10"
+  },
+  {
+    "slug": "smbio-abg-salgreen-int",
+    "title": "샐그린27 견적 약식(내부용·대외비)",
+    "date": "2026-07-14"
+  },
+  {
+    "slug": "smbio-abg-paradise-int",
+    "title": "파라다이스그레인 견적 약식(내부용·대외비)",
+    "date": "2026-07-14"
+  },
+  {
+    "slug": "skill-menu",
+    "title": "Claude 스킬 메뉴판 — 검증 조합 11 + 전체 471종",
+    "date": "2026-07-15"
+  },
+  {
+    "slug": "govgrant-monitor",
+    "title": "정부지원사업 모니터링 대시보드",
+    "date": "2026-07-20"
+  },
+  {
+    "slug": "saju-jonggook-jg93k2",
+    "title": "박종국님 인생 분석 (사주·자미두수·베다·서양 4체계)",
+    "date": "2026-07-21"
+  },
+  {
+    "slug": "saju-junyoung-jy92m7",
+    "title": "전준영님 인생 분석 (사주·자미두수·베다·서양 4체계)",
+    "date": "2026-07-22"
+  },
+  {
+    "slug": "ingredient-docs-skill",
+    "title": "원료서류-채널 SKILL.md (헤르메스)",
+    "date": "2026-07-22"
+  },
+  {
+    "slug": "label-doc-guide",
+    "title": "원료서류 분류 지침 (라벨크래프트 v1.1.0)",
+    "date": "2026-07-22"
+  },
+  {
+    "slug": "colorboard",
+    "title": "VCBio 디자인 선택 보드 v3",
+    "date": "2026-07-23"
+  },
+  {
+    "slug": "vcbio-logo-concepts",
+    "title": "VC Bio 로고 시안 5종 (SVG 실렌더)",
+    "date": "2026-07-23"
+  },
+  {
+    "slug": "vcbio-logo-r2",
+    "title": "VC Bio 로고 시안 2라운드 (5콘셉트)",
+    "date": "2026-07-23"
+  },
+  {
+    "slug": "vcbio-logo-r3",
+    "title": "VC Bio 로고 3라운드 — AI 이미지 18선",
+    "date": "2026-07-23"
+  },
+  {
+    "slug": "vcbio-logo-r4",
+    "title": "VC Bio 로고 4라운드 — 신박 컨셉 9종",
+    "date": "2026-07-24"
+  },
+  {
+    "slug": "vcbio-logo-r5",
+    "title": "VC Bio 로고 5라운드 — 정본 인격 직역",
+    "date": "2026-07-24"
+  },
+  {
+    "slug": "vcbio-logo-final",
+    "title": "VC Bio 로고 — 채택 원형 V2 · 색 심화 8종",
+    "date": "2026-07-24"
+  },
+  {
+    "slug": "ai-setup-kit",
+    "title": "AI 비서 세팅 킷 (강의 연계판)",
+    "date": "2026-07-24"
+  },
+  {
+    "slug": "vcbio-design-kit",
+    "title": "브이씨바이오 디자인 킷 — 브랜드 규격 한 장",
+    "date": "2026-07-25"
+  },
+  {
+    "slug": "cosmetic-basic-science",
+    "title": "까먹은 중학교 과학으로 읽는 화장품",
+    "date": "2026-07-26"
+  }
 ]
