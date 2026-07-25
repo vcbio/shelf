@@ -4,6 +4,8 @@
 <title>VCBio 디자인 선택 보드 v3 — 추천 조합·색감·스타일·스킬·홈페이지</title><style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{max-width:100%;overflow-x:clip} /* hidden→clip: hidden이 body를 스크롤컨테이너化해 .toolbar sticky를 깨는 함정(실측 확인) — clip은 sticky 유지 */
+html{scrollbar-gutter:stable} /* R16: 세로 스크롤바 등장·소멸이 폭을 15px 바꿔 격자를 재배치 → 무한 깜박임(대표 제보·2026-07-24 실측 재현). 자리를 항상 비워 진동 차단 */
+@supports not (scrollbar-gutter:stable){html{overflow-y:scroll}} /* 구형 브라우저 폴백 */
 body{font-family:'Pretendard','Apple SD Gothic Neo',-apple-system,sans-serif;background:#f4f3ef;color:#1f1e1c;padding:20px 16px 120px;line-height:1.5}
 .wrap{max-width:1240px;margin:0 auto}
 header{margin-bottom:14px}
@@ -468,7 +470,7 @@ html[data-theme="dark"] .psrc{color:#9d9788}
 <div class="tabpane" id="pane-pal" role="tabpanel" aria-labelledby="tabPal">
 <div class="section">🎨 색감 팔레트 <span class="secsub">45종 · 스와치 클릭=HEX 복사</span></div>
 <h3 class="grp">브랜드 정본 <span class="cnt">2</span></h3><div class="grid"><div class="card pcard" data-tags="건기식웰니스" data-name="브랜드 정본 VCBio 딥그린 정본 회사 공식 키컬러 — 딥그린+크림, 골드는 5% 제한 강조 브이씨바이오 명의 전 산출물(제안덱·IR·정부 발표덱) 건기식웰니스" data-combo="VCBio 딥그린 정본" data-hexes="#1E3932·#2E7D5B·#F2F0EB·#C9BCA4·#B8954A" data-rec="0">
-      <div class="thumbwrap"><img src="thumbs/121.jpg" loading="lazy" alt="VCBio 딥그린 정본 표지 예시"></div>
+      <div class="thumbwrap"><img src="thumbs/121.jpg" loading="lazy" width="456" height="257" alt="VCBio 딥그린 정본 표지 예시"></div>
       <div class="chd" onclick="selPal(this)"><h3 role="button" tabindex="0" aria-pressed="false">VCBio 딥그린 정본</h3><div class="hactions"><button class="copyall" data-hex="#1E3932 #2E7D5B #F2F0EB #C9BCA4 #B8954A" onclick="cpall(event,this)">전체 복사</button><span class="pickmark" aria-hidden="true">＋</span></div></div>
       
       <div class="tags"><span class="tg">건기식웰니스</span></div>
@@ -477,7 +479,7 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="use">🎯 브이씨바이오 명의 전 산출물(제안덱·IR·정부 발표덱)</p>
       <p class="role">🎨 키=딥그린 · 강조=액센트그린 · 배경=크림 · 보조=베이지 · 제한강조=골드 (출처: Vault 디자인-토큰-통합규격 §VCBio)</p>
     </div><div class="card pcard" data-tags="건기식웰니스" data-name="브랜드 정본 에스엠바이오 라임 정본 정제 영업 명의 — 메인그린+크림, 라임은 미세 강조만 에스엠바이오 명의 전 산출물(인쇄물·홈페이지·랜딩) 건기식웰니스" data-combo="에스엠바이오 라임 정본" data-hexes="#1F7A4D·#D7F06A·#FBFBF8·#1E211C·#C2A36B" data-rec="0">
-      <div class="thumbwrap"><img src="thumbs/122.jpg" loading="lazy" alt="에스엠바이오 라임 정본 표지 예시"></div>
+      <div class="thumbwrap"><img src="thumbs/122.jpg" loading="lazy" width="456" height="257" alt="에스엠바이오 라임 정본 표지 예시"></div>
       <div class="chd" onclick="selPal(this)"><h3 role="button" tabindex="0" aria-pressed="false">에스엠바이오 라임 정본</h3><div class="hactions"><button class="copyall" data-hex="#1F7A4D #D7F06A #FBFBF8 #1E211C #C2A36B" onclick="cpall(event,this)">전체 복사</button><span class="pickmark" aria-hidden="true">＋</span></div></div>
       
       <div class="tags"><span class="tg">건기식웰니스</span></div>
