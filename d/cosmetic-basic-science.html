@@ -275,20 +275,12 @@ body{
 .block.p{margin-bottom:var(--sp2)}
 .block.p.end{margin-bottom:var(--sp4)}
 
+/* 1024px+ — 1단 유지. 도해는 본문 흐름 안에서 본문 폭까지 키운다(안전 상태) */
 @media (min-width:1024px){
-  .lesson:not(.gloss) .wrap{max-width:70rem}
-  .flow{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);
-    column-gap:2.5rem;align-items:start}
-  .u{display:contents}
-  .u-text{grid-column:1;min-width:0}
-  .u-fig{grid-column:2;min-width:0}
-  .u-fig:empty{display:block}      /* 빈 칸도 자리를 지켜 행 정렬을 유지 */
-  .dia{margin:0 0 var(--sp3)}
+  .lesson:not(.gloss) .wrap{max-width:44rem}
   .dia svg{max-width:none}
 }
-@media (min-width:1440px){
-  .lesson:not(.gloss) .wrap{max-width:76rem}
-}
+
 
 @media (min-width:720px){
   body{font-size:18px}
@@ -303,6 +295,7 @@ body{
 </style>
 
 <div id="bar" aria-hidden="true"><i></i></div>
+
 <header class="cover">
   <div class="wrap">
     <span class="eyebrow">기초과학 14강</span>
@@ -715,7 +708,35 @@ body{
 <div class="u"><div class="u-text"><div class="block s-cosmetic p"><p>제조는 대개 따뜻하게 데운 상태에서 합니다. 그 온도에서는 다 녹아 맑습니다. 그 제품이 겨울 배송 트럭에 실리고 소비자 화장대에 놓이면 사정이 달라집니다. 온도가 내려가면 아까 녹였던 양을 더 이상 붙잡지 못해 넘치는 만큼 튀어나옵니다. 겨울 알갱이 문의가 몰리는 이유입니다.</p></div></div><div class="u-fig"></div></div>
 <div class="u"><div class="u-text"><div class="block s-cosmetic p"><p>원료 이름에 용액, 원액, ○○수라는 말이 붙어 있으면 그 원료가 이미 용액이라는 신호입니다. 통 안에 든 게 그 성분 하나만은 아니라는 뜻입니다. 이 사실이 함량 표기에서 어떤 착각을 만드는지는 10강에서 따로 다룹니다.</p></div></div><div class="u-fig"></div></div>
 <div class="u"><div class="u-text"><div class="block s-cosmetic p"><p>향료, 자외선차단 성분, 각질 관리에 쓰는 산 계열에서 특히 자주 봅니다. 상온에서 원래 고체인 원료를 한도 가까이 밀어 넣었다면 겨울에 결정이 올라올 확률이 높습니다.</p></div></div><div class="u-fig"></div></div>
-<div class="u"><div class="u-text"><div class="block s-cosmetic p end"><p>원료를 더 넣으면 더 좋은 제품이 될 것 같지만 용해 한계가 먼저 막습니다. 넣고 싶은 만큼이 아니라 그 처방이 붙잡을 수 있는 만큼까지만 들어갑니다. 안정성 시험에서 일부러 낮은 온도에 며칠 두었다 꺼내보는 것도 이걸 미리 잡아내려는 절차입니다.</p></div></div><div class="u-fig"></div></div>
+<div class="u"><div class="u-text"><div class="block s-cosmetic p end"><p>원료를 더 넣으면 더 좋은 제품이 될 것 같지만 용해 한계가 먼저 막습니다. 넣고 싶은 만큼이 아니라 그 처방이 붙잡을 수 있는 만큼까지만 들어갑니다. 안정성 시험에서 일부러 낮은 온도에 며칠 두었다 꺼내보는 것도 이걸 미리 잡아내려는 절차입니다.</p></div></div><div class="u-fig"><figure class="dia" data-place="2강 / 화장품에서는 이렇게 나타납니다 / 뒤">
+  <h4 class="dia-t">넣고 싶은 만큼 안 들어갑니다</h4>
+  <svg viewBox="0 0 320 200" role="img" aria-label="넣고 싶은 양은 높은 막대지만 실제로 녹는 양은 용해 한계선까지뿐이고 넘친 분량은 바닥에 알갱이로 남는 그림">
+    <rect x="0" y="0" width="320" height="200" rx="6" fill="#FBFAF7"/>
+    <text x="78" y="28" text-anchor="middle" font-family="Pretendard, system-ui, sans-serif" font-size="11" fill="#1A1A1A">이만큼 넣고 싶다</text>
+    <rect x="50" y="40" width="56" height="110" rx="6" fill="#C9BCA4" stroke="#1A1A1A" stroke-width="1.5"/>
+    <line x1="112" y1="40" x2="112" y2="104" stroke="#B8954A" stroke-width="1.5"/>
+    <line x1="108" y1="40" x2="112" y2="40" stroke="#B8954A" stroke-width="1.5"/>
+    <line x1="108" y1="104" x2="112" y2="104" stroke="#B8954A" stroke-width="1.5"/>
+    <text x="150" y="58" text-anchor="middle" font-family="Pretendard, system-ui, sans-serif" font-size="11" fill="#B8954A">넘치는 분량</text>
+    <line x1="200" y1="68" x2="252" y2="122" stroke="#B8954A" stroke-width="1.5"/>
+    <polygon points="256,126 253,118 248,123" fill="#B8954A"/>
+    <line x1="34" y1="104" x2="230" y2="104" stroke="#B8954A" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <text x="236" y="100" font-family="Pretendard, system-ui, sans-serif" font-size="11" fill="#B8954A">용해 한계</text>
+    <rect x="168" y="104" width="56" height="46" rx="6" fill="#1E3932" stroke="#1A1A1A" stroke-width="1.5"/>
+    <line x1="20" y1="150" x2="300" y2="150" stroke="#1A1A1A" stroke-width="1.5"/>
+    <circle cx="238" cy="145" r="5" fill="#C9BCA4" stroke="#1A1A1A" stroke-width="1.5"/>
+    <circle cx="250" cy="145" r="5" fill="#C9BCA4" stroke="#1A1A1A" stroke-width="1.5"/>
+    <circle cx="262" cy="145" r="5" fill="#C9BCA4" stroke="#1A1A1A" stroke-width="1.5"/>
+    <circle cx="274" cy="145" r="5" fill="#C9BCA4" stroke="#1A1A1A" stroke-width="1.5"/>
+    <circle cx="244" cy="135" r="5" fill="#C9BCA4" stroke="#1A1A1A" stroke-width="1.5"/>
+    <circle cx="256" cy="135" r="5" fill="#C9BCA4" stroke="#1A1A1A" stroke-width="1.5"/>
+    <circle cx="268" cy="135" r="5" fill="#C9BCA4" stroke="#1A1A1A" stroke-width="1.5"/>
+    <text x="78" y="168" text-anchor="middle" font-family="Pretendard, system-ui, sans-serif" font-size="11" fill="#1A1A1A">넣고 싶은 양</text>
+    <text x="196" y="168" text-anchor="middle" font-family="Pretendard, system-ui, sans-serif" font-size="11" fill="#1A1A1A">실제로 녹는 양</text>
+    <text x="160" y="190" text-anchor="middle" font-family="Pretendard, system-ui, sans-serif" font-size="11" fill="#1A1A1A">넘친 만큼은 알갱이로 남습니다</text>
+  </svg>
+  <figcaption>표기 함량은 올라가고 제품은 나빠집니다.</figcaption>
+</figure></div></div>
 <div class="u"><div class="u-text"><div class="block s-wrong"><h3>그래서 이 말은 틀렸습니다</h3><p>"알갱이가 생겼으니 상한 겁니다" — 석출은 변질과 다릅니다. 성분이 망가진 게 아니라 녹아 있던 것이 도로 나온 상태입니다. 다만 소비자는 구분하지 못하고 그대로 반품으로 옵니다. 안 상했다는 설명보다 안 생기게 만드는 쪽이 답입니다.</p>
 <p>"많이 넣을수록 좋습니다" — 한계를 넘기면 녹지 않고 알갱이로 남거나 시간이 지나 튀어나옵니다. 표기 함량은 올라가고 제품은 나빠집니다.</p>
 <p>"데우면 다시 녹으니 괜찮습니다" — 반은 맞습니다. 실제로 다시 녹기는 합니다. 그 일을 소비자가 해줄 리 없다는 게 문제입니다.</p></div></div><div class="u-fig"></div></div>
@@ -2520,6 +2541,7 @@ body{
     if(a)close();
   });
   addEventListener('keydown',function(e){if(e.key==='Escape'&&sheet.classList.contains('in'))close();});
+
 
   var top=document.getElementById('toTop');
   if(top)top.addEventListener('click',function(){
