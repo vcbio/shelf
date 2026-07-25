@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html lang="ko">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VCBio 디자인 킷 — 협업용 브랜드 규격</title>
+<meta name="description" content="브이씨바이오 브랜드 디자인 규격 한 장. 색·타이포·간격 토큰, 선택보드 사용법, 규격 파일 다운로드, 자가검수 체크리스트.">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+/* ─────────────────────────────────────────────
+   VCBio Design Kit — calm-charcoal 기반
+   라이트 = 크림 바탕 / 다크 = 잉크 바탕
+   ───────────────────────────────────────────── */
+:root{
+  /* 브랜드 토큰 (정본 HEX) */
+  --vc-deep-green:#1E3932; --vc-accent-green:#2E7D5B; --vc-gold:#B8954A;
+  --vc-cream:#F2F0EB; --vc-ink:#1C1C1A; --vc-ink-text:#1A1A1A;
+  --vc-beige:#C9BCA4; --vc-panel-dark:#262624; --vc-panel-raise:#2C332D;
+  --vc-tint-green:#E7EEE9; --vc-white-card:#FBFAF7;
+
+  /* 간격 리듬 8px */
+  --s1:8px; --s2:16px; --s3:24px; --s4:40px; --gutter:24px; --margin:64px;
+  --r-card:10px; --r-card-lg:14px; --r-pill:999px;
+
+  /* 페이지 표면 (라이트 기본) */
+  --bg:#F2F0EB; --bg-grad:#EAE7E0;
+  --fg:#1A1A1A; --fg-mute:#63635E; --fg-faint:#8D8D86;
+  --card:#FBFAF7; --card-2:#E7EEE9;
+  --line:#DAD9D6; --line-soft:#E5E3DF;
+  --key:#1E3932; --key-soft:#2E7D5B;
+  --shadow:0 1px 2px rgba(28,28,26,.05), 0 8px 24px -12px rgba(28,28,26,.18);
+  --shadow-lift:0 2px 4px rgba(28,28,26,.06), 0 18px 40px -18px rgba(28,28,26,.28);
+  --chrome:rgba(242,240,235,.72);
+  --ring:rgba(30,57,50,.32);
+}
+:root[data-theme="dark"]{
+  --bg:#1C1C1A; --bg-grad:#141413;
+  --fg:#F2F0EB; --fg-mute:#C9BCA4; --fg-faint:#8A857C;
+  --card:#262624; --card-2:#2C332D;
+  --line:#383835; --line-soft:#2E2E2B;
+  --key:#7FC9A6; --key-soft:#2E7D5B;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+  --shadow-lift:0 2px 14px rgba(0,0,0,.45), 0 24px 48px -22px rgba(0,0,0,.7);
+  --chrome:rgba(28,28,26,.68);
+  --ring:rgba(127,201,166,.4);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#1C1C1A; --bg-grad:#141413;
+    --fg:#F2F0EB; --fg-mute:#C9BCA4; --fg-faint:#8A857C;
+    --card:#262624; --card-2:#2C332D;
+    --line:#383835; --line-soft:#2E2E2B;
+    --key:#7FC9A6; --key-soft:#2E7D5B;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+    --shadow-lift:0 2px 14px rgba(0,0,0,.45), 0 24px 48px -22px rgba(0,0,0,.7);
+    --chrome:rgba(28,28,26,.68);
+    --ring:rgba(127,201,166,.4);
+  }
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%; scroll-behavior:smooth; scroll-padding-top:76px}
+body{
+  margin:0; background:var(--bg); color:var(--fg);
+  font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  font-size:16px; line-height:1.7; letter-spacing:-.005em;
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+}
+body::before{
+  content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background:radial-gradient(120% 80% at 50% -10%, var(--bg) 0%, var(--bg-grad) 100%);
+}
+img{max-width:100%; height:auto; display:block}
+a{color:inherit}
+::selection{background:var(--key); color:var(--bg)}
+
+/* ── 레이아웃 ── */
+.wrap{max-width:1080px; margin:0 auto; padding:0 clamp(20px,5vw,var(--margin))}
+section{padding:clamp(56px,9vw,104px) 0; border-top:1px solid var(--line-soft)}
+section:first-of-type{border-top:0}
+
+/* ── 타이포 위계 ── */
+.eyebrow{
+  font-size:.6875rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--key); margin:0 0 var(--s2);
+}
+.eyebrow.kr{letter-spacing:.09em}
+h1{
+  font-size:clamp(2.5rem,7.2vw,4.75rem); font-weight:800; line-height:1.02;
+  letter-spacing:-.035em; margin:0 0 var(--s3);
+}
+h1 .thin{font-weight:200; letter-spacing:-.02em}
+h2{
+  font-size:clamp(1.75rem,3.6vw,2.5rem); font-weight:700; line-height:1.15;
+  letter-spacing:-.028em; margin:0 0 var(--s2);
+}
+h3{font-size:1.25rem; font-weight:700; line-height:1.35; letter-spacing:-.018em; margin:0 0 var(--s1)}
+h4{font-size:.9375rem; font-weight:700; letter-spacing:-.01em; margin:0 0 6px}
+p{margin:0 0 var(--s2); max-width:66ch}
+.lede{font-size:clamp(1.0625rem,2vw,1.1875rem); color:var(--fg-mute); line-height:1.72; max-width:60ch}
+.small{font-size:.8125rem; color:var(--fg-faint); line-height:1.6}
+.sec-head{margin-bottom:clamp(32px,5vw,52px)}
+.num{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width:26px; height:26px; padding:0 8px; margin-right:10px;
+  border:1px solid var(--line); border-radius:var(--r-pill);
+  font-size:.75rem; font-weight:700; letter-spacing:.04em; color:var(--fg-mute);
+  vertical-align:middle;
+}
+code,kbd,.mono{
+  font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
+  font-size:.8125em; letter-spacing:0;
+}
+code{background:var(--card-2); padding:.12em .42em; border-radius:5px}
+
+/* ── 상단 크롬 (반투명) ── */
+.topbar{
+  position:sticky; top:0; z-index:50;
+  background:var(--chrome); backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid var(--line-soft);
+}
+.topbar .inner{
+  max-width:1080px; margin:0 auto; padding:10px clamp(20px,5vw,var(--margin));
+  display:flex; align-items:center; gap:var(--s2);
+}
+.brand{font-weight:800; letter-spacing:-.02em; font-size:.9375rem; white-space:nowrap}
+.brand span{color:var(--key)}
+.navlinks{
+  display:flex; gap:2px; margin-left:auto; overflow-x:auto; scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+.navlinks::-webkit-scrollbar{display:none}
+.navlinks a{
+  font-size:.8125rem; font-weight:600; color:var(--fg-mute); text-decoration:none;
+  padding:6px 10px; border-radius:var(--r-pill); white-space:nowrap;
+  transition:color .18s ease, background .18s ease;
+}
+.navlinks a:hover{color:var(--fg); background:var(--card)}
+.navlinks a:active{transform:scale(.97)}
+.themebtn{
+  flex:none; width:34px; height:34px; border-radius:var(--r-pill);
+  border:1px solid var(--line); background:var(--card); color:var(--fg-mute);
+  cursor:pointer; font-size:14px; line-height:1; display:grid; place-items:center;
+  transition:transform .12s ease, color .18s ease, border-color .18s ease;
+}
+.themebtn:hover{color:var(--fg); border-color:var(--ring)}
+.themebtn:active{transform:scale(.92)}
+@media (max-width:640px){ .navlinks{display:none} }
+
+/* ── 히어로 ── */
+.hero{padding-top:clamp(48px,8vw,88px); padding-bottom:clamp(48px,8vw,80px)}
+.hero .meta{
+  display:flex; flex-wrap:wrap; gap:var(--s1) var(--s3); margin-top:var(--s4);
+  padding-top:var(--s3); border-top:1px solid var(--line);
+}
+.hero .meta div{font-size:.8125rem; color:var(--fg-faint)}
+.hero .meta b{display:block; color:var(--fg); font-size:.9375rem; font-weight:700; letter-spacing:-.01em}
+.rule{height:3px; width:56px; background:var(--key); border-radius:2px; margin:0 0 var(--s3)}
+
+/* ── 카드 ── */
+.card{
+  background:var(--card); border:1px solid var(--line-soft); border-radius:var(--r-card-lg);
+  padding:clamp(20px,3vw,28px); box-shadow:var(--shadow);
+}
+.grid{display:grid; gap:var(--gutter)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+@media (max-width:860px){ .g3{grid-template-columns:1fr} .g2{grid-template-columns:1fr} }
+
+/* 3단계 스텝 */
+.step{position:relative; overflow:hidden}
+.step .stepno{
+  font-size:3.25rem; font-weight:800; line-height:1; letter-spacing:-.05em;
+  color:var(--line); margin-bottom:var(--s2);
+}
+.step h3{margin-bottom:6px}
+.step p{font-size:.9375rem; color:var(--fg-mute); margin:0}
+
+/* ── 선택보드 ── */
+.board{display:grid; grid-template-columns:200px 1fr; gap:clamp(24px,4vw,44px); align-items:start}
+@media (max-width:760px){ .board{grid-template-columns:1fr} }
+.qrbox{
+  background:#FFFFFF; border-radius:var(--r-card-lg); padding:14px;
+  border:1px solid var(--line-soft); box-shadow:var(--shadow); text-align:center;
+}
+.qrbox img{border-radius:4px}
+.qrbox .cap{font-size:.75rem; color:#63635E; margin-top:10px; font-weight:600; letter-spacing:-.01em}
+.tabs{list-style:none; margin:0 0 var(--s3); padding:0; border-top:1px solid var(--line-soft)}
+.tabs li{
+  display:grid; grid-template-columns:minmax(96px,150px) 1fr; gap:var(--s2);
+  padding:14px 0; border-bottom:1px solid var(--line-soft); align-items:baseline;
+}
+.tabs .t{font-weight:700; font-size:.9375rem; letter-spacing:-.015em}
+.tabs .d{font-size:.875rem; color:var(--fg-mute); line-height:1.6}
+@media (max-width:520px){ .tabs li{grid-template-columns:1fr; gap:2px} }
+.linkbtn{
+  display:inline-flex; width:fit-content; align-items:center; gap:8px; text-decoration:none;
+  background:var(--key); color:var(--bg); font-weight:700; font-size:.9375rem;
+  padding:12px 20px; border-radius:var(--r-pill); letter-spacing:-.015em;
+  transition:transform .12s ease, filter .18s ease; box-shadow:var(--shadow);
+}
+.linkbtn:hover{filter:brightness(1.08)}
+.linkbtn:active{transform:scale(.97)}
+.quote{
+  border-left:3px solid var(--key); padding:2px 0 2px var(--s2); margin:var(--s3) 0 0;
+  color:var(--fg-mute); font-size:.9375rem;
+}
+.quote .ex{
+  display:block; margin-top:8px; color:var(--fg); font-weight:600;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.8125rem;
+  background:var(--card-2); padding:10px 12px; border-radius:8px; letter-spacing:0;
+}
+
+/* ── 팔레트 ── */
+.preset{margin-bottom:clamp(28px,4vw,40px)}
+.preset-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:10px; margin-bottom:var(--s2)}
+.preset-head .name{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-weight:700;
+  font-size:1rem; letter-spacing:-.01em;
+}
+.preset-head .use{font-size:.8125rem; color:var(--fg-faint)}
+.badge{
+  font-size:.6875rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  border:1px solid var(--line); color:var(--fg-mute);
+  padding:3px 9px; border-radius:var(--r-pill);
+}
+.badge.on{border-color:var(--key); color:var(--key)}
+.swatches{display:grid; grid-template-columns:repeat(auto-fill,minmax(128px,1fr)); gap:10px}
+.sw{
+  border:0; padding:0; background:none; text-align:left; cursor:pointer; font:inherit;
+  border-radius:var(--r-card); overflow:hidden; transition:transform .14s ease;
+}
+.sw:active{transform:scale(.965)}
+.sw .chip{
+  display:block; height:64px; border-radius:var(--r-card);
+  border:1px solid rgba(128,128,128,.22);
+  box-shadow:inset 0 -1px 0 rgba(255,255,255,.06);
+}
+.sw .lbl{display:block; padding:8px 2px 0}
+.sw .tok{
+  font-size:.75rem; font-weight:700; letter-spacing:-.01em; color:var(--fg);
+  display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.sw .hex{
+  display:block; font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:.6875rem; color:var(--fg-faint); letter-spacing:.02em;
+}
+.sw .use{font-size:.6875rem; color:var(--fg-faint); display:block; margin-top:1px}
+
+/* ── 타이포 견본 ── */
+.typerow{
+  display:grid; grid-template-columns:1fr auto; gap:var(--s2);
+  align-items:baseline; padding:var(--s2) 0; border-bottom:1px solid var(--line-soft);
+}
+.typerow:last-child{border-bottom:0}
+.typerow .sample{overflow:hidden; white-space:nowrap; text-overflow:ellipsis; min-width:0}
+.typerow .spec{text-align:right; white-space:nowrap}
+.typerow .spec .tk{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.8125rem;
+  font-weight:700; color:var(--fg); display:block; letter-spacing:0;
+}
+.typerow .spec .v{font-size:.6875rem; color:var(--fg-faint); display:block; letter-spacing:0}
+@media (max-width:600px){
+  .typerow{grid-template-columns:1fr; gap:4px}
+  .typerow .spec{text-align:left}
+}
+.t-mega{font-size:clamp(3.5rem,13vw,7rem); font-weight:200; line-height:.92; letter-spacing:-.045em}
+.t-hero{font-size:clamp(2.75rem,9vw,4.5rem); font-weight:900; line-height:.98; letter-spacing:-.04em}
+.t-display{font-size:clamp(2.25rem,7vw,3.5rem); font-weight:700; line-height:1.04; letter-spacing:-.032em}
+.t-h1{font-size:1.9rem; font-weight:700; line-height:1.24; letter-spacing:-.024em}
+.t-h2{font-size:1.25rem; font-weight:700; line-height:1.4; letter-spacing:-.016em}
+.t-bodylg{font-size:1rem; font-weight:400; line-height:1.7}
+.t-body{font-size:.875rem; font-weight:400; line-height:1.75}
+.t-caption{font-size:.6875rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--fg-mute)}
+.scalednote{
+  font-size:.75rem; color:var(--fg-faint); margin:var(--s2) 0 0;
+  padding-top:var(--s2); border-top:1px dashed var(--line);
+}
+
+/* ── 간격·라운드 ── */
+.tokrow{display:flex; align-items:center; gap:var(--s2); padding:9px 0}
+.tokrow .bar{height:14px; background:var(--key); border-radius:3px; flex:none; opacity:.9}
+.tokrow .nm{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.8125rem;
+  font-weight:700; width:84px; flex:none; letter-spacing:0;
+}
+.tokrow .vv{font-size:.75rem; color:var(--fg-faint)}
+.radii{display:flex; gap:var(--s2); flex-wrap:wrap; margin-top:var(--s2)}
+.radii .rr{
+  width:88px; height:64px; background:var(--card-2); border:1px solid var(--line);
+  display:grid; place-items:center; font-size:.6875rem; font-weight:700; color:var(--fg-mute);
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace; text-align:center; padding:4px;
+}
+
+/* ── Do / Don't ── */
+.dd{list-style:none; margin:0; padding:0; display:grid; gap:12px}
+.dd li{
+  display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:start;
+  padding:14px 16px; border:1px solid var(--line-soft); border-radius:var(--r-card);
+  background:var(--card);
+}
+.dd .mark{
+  width:22px; height:22px; border-radius:var(--r-pill); display:grid; place-items:center;
+  font-size:.6875rem; font-weight:800; flex:none; margin-top:2px;
+  background:var(--key); color:var(--bg);
+}
+.dd .no{font-size:.875rem; color:var(--fg-mute); margin:4px 0 0; display:block}
+.dd .no b{color:var(--fg); font-weight:700}
+
+/* ── 다운로드 ── */
+.dl{display:grid; gap:var(--gutter); grid-template-columns:repeat(3,1fr)}
+@media (max-width:940px){ .dl{grid-template-columns:1fr} }
+.dl .card{display:flex; flex-direction:column}
+.dl .fname{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.875rem;
+  font-weight:700; color:var(--fg); word-break:break-all; letter-spacing:-.01em;
+}
+.dl .desc{font-size:.875rem; color:var(--fg-mute); margin:10px 0 var(--s3); flex:1}
+.btnrow{display:flex; gap:8px; flex-wrap:wrap}
+.btn{
+  font:inherit; font-size:.875rem; font-weight:700; letter-spacing:-.01em;
+  padding:10px 16px; border-radius:var(--r-pill); cursor:pointer;
+  border:1px solid var(--key); background:var(--key); color:var(--bg);
+  transition:transform .12s ease, filter .18s ease, background .18s ease;
+}
+.btn:hover{filter:brightness(1.08)}
+.btn:active{transform:scale(.96)}
+.btn.ghost{background:transparent; color:var(--fg); border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--ring); filter:none; background:var(--card-2)}
+.btn.done{background:var(--key-soft); border-color:var(--key-soft); color:#FFF}
+
+/* ── 체크리스트 ── */
+.progress{
+  display:flex; align-items:center; gap:var(--s2); margin-bottom:var(--s3);
+  padding:14px 18px; border-radius:var(--r-card); background:var(--card);
+  border:1px solid var(--line-soft); position:sticky; top:64px; z-index:20;
+  box-shadow:var(--shadow);
+}
+.progress .track{flex:1; height:6px; background:var(--line); border-radius:var(--r-pill); overflow:hidden}
+.progress .fill{
+  display:block; height:100%; width:0%; background:var(--key); border-radius:var(--r-pill);
+  transition:width .3s cubic-bezier(.32,.72,0,1);
+}
+.progress .cnt{font-size:.8125rem; font-weight:700; color:var(--fg-mute); white-space:nowrap; font-variant-numeric:tabular-nums}
+.chkgroup{margin-bottom:var(--s3)}
+.chkgroup > h4{
+  font-size:.75rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--fg-faint); margin:0 0 10px;
+}
+.chk{
+  display:flex; gap:12px; align-items:flex-start; padding:11px 14px;
+  border:1px solid var(--line-soft); border-radius:var(--r-card); background:var(--card);
+  margin-bottom:8px; cursor:pointer; transition:border-color .18s ease, background .18s ease, opacity .2s ease;
+}
+.chk:hover{border-color:var(--ring)}
+.chk:active{transform:scale(.995)}
+.chk input{
+  appearance:none; -webkit-appearance:none; flex:none; margin:3px 0 0;
+  width:19px; height:19px; border:1.5px solid var(--line); border-radius:6px;
+  background:transparent; cursor:pointer; display:grid; place-items:center;
+  transition:background .16s ease, border-color .16s ease, transform .12s ease;
+}
+.chk input:checked{background:var(--key); border-color:var(--key)}
+.chk input:checked::after{
+  content:"✓"; color:var(--bg); font-size:12px; font-weight:900; line-height:1;
+}
+.chk input:active{transform:scale(.88)}
+.chk input:focus-visible{outline:2px solid var(--ring); outline-offset:2px}
+.chk span{font-size:.9375rem; line-height:1.55}
+.chk.on{opacity:.5}
+.chk.on span{text-decoration:line-through; text-decoration-color:var(--fg-faint)}
+
+/* ── 토스트 ── */
+#toast{
+  position:fixed; left:50%; bottom:28px; transform:translate(-50%,16px);
+  background:var(--fg); color:var(--bg); font-size:.875rem; font-weight:600;
+  padding:11px 20px; border-radius:var(--r-pill); z-index:99;
+  opacity:0; pointer-events:none; transition:opacity .22s ease, transform .28s cubic-bezier(.32,.72,0,1);
+  box-shadow:var(--shadow-lift); max-width:88vw; text-align:center;
+}
+#toast.show{opacity:1; transform:translate(-50%,0)}
+
+footer{
+  padding:var(--s4) 0 clamp(48px,8vw,80px); border-top:1px solid var(--line-soft);
+  color:var(--fg-faint); font-size:.8125rem;
+}
+footer b{color:var(--fg-mute)}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important; transition-duration:.01ms !important}
+  html{scroll-behavior:auto}
+}
+@media (prefers-reduced-transparency:reduce){
+  .topbar{background:var(--bg); backdrop-filter:none; -webkit-backdrop-filter:none}
+}
+@media print{
+  .topbar,.themebtn,.btnrow,.progress{display:none}
+  body{background:#fff; color:#000}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="inner">
+    <div class="brand">VCBio <span>디자인 킷</span></div>
+    <nav class="navlinks">
+      <a href="#start">시작하기</a>
+      <a href="#board">선택보드</a>
+      <a href="#spec">브랜드 규격</a>
+      <a href="#files">다운로드</a>
+      <a href="#check">자가검수</a>
+    </nav>
+    <button class="themebtn" id="themeBtn" type="button" aria-label="밝게/어둡게 전환">◐</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ══════════ 1. 시작하기 ══════════ -->
+<section class="hero" id="start">
+  <p class="eyebrow">VCBIO · BRAND DESIGN KIT</p>
+  <h1><span class="thin">브이씨바이오</span><br>디자인 규격 한 장.</h1>
+  <p class="lede">
+    건강기능식품 B2B OEM/ODM 브이씨바이오의 브랜드 디자인 규격입니다.
+    색·글자·간격·레이아웃 규칙이 전부 이 한 장에 들어 있고, 작업에 바로 쓸 규격 파일도 여기서 받습니다.
+    외주 디자이너, 협력사, AI 제작 도구 어느 쪽이든 이 문서 하나만 보면 됩니다.
+  </p>
+  <div class="meta">
+    <div><b>딥그린 + 곡물톤</b>키컬러 하나에 크림·베이지 바탕</div>
+    <div><b>Pretendard 단독</b>위계는 크기·웨이트 차이로만</div>
+    <div><b>프리셋 4종</b>한 산출물에 하나만, 혼합 금지</div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <div class="rule"></div>
+    <h2><span class="num">30초</span>이렇게 시작하세요</h2>
+    <p class="lede">순서대로 세 단계면 됩니다. 색을 직접 고르거나 폰트를 새로 정할 필요는 없습니다.</p>
+  </div>
+  <div class="grid g3">
+    <article class="card step">
+      <div class="stepno">01</div>
+      <h3>선택보드에서 조합 확인</h3>
+      <p>이번 작업의 색감과 스타일 조합을 선택보드에서 받습니다. 이미 지정된 조합을 전달받았다면 그대로 쓰면 됩니다.</p>
+    </article>
+    <article class="card step">
+      <div class="stepno">02</div>
+      <h3>규격 파일 적용</h3>
+      <p>아래에서 규격 문서와 토큰 파일을 내려받아 작업에 붙입니다. HEX·크기·간격은 파일에 적힌 값을 그대로 씁니다.</p>
+    </article>
+    <article class="card step">
+      <div class="stepno">03</div>
+      <h3>체크리스트로 자가검수</h3>
+      <p>넘기기 전에 맨 아래 체크리스트를 훑습니다. 대부분의 반려는 여기 스무 줄 안에서 걸러집니다.</p>
+    </article>
+  </div>
+</section>
+
+<!-- ══════════ 2. 선택보드 ══════════ -->
+<section id="board">
+  <div class="sec-head">
+    <div class="rule"></div>
+    <h2><span class="num">01</span>선택보드 쓰는 법</h2>
+    <p class="lede">
+      색감·스타일·레이아웃 후보를 눈으로 고르는 웹 보드입니다.
+      카드를 골라 <b>조합 복사</b>를 누르면 한 줄짜리 작업 지시문이 클립보드에 담깁니다.
+    </p>
+  </div>
+
+  <div class="board">
+    <div>
+      <div class="qrbox">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA9QAAAPUCAIAAADDtubTAAAZuElEQVR4nO3Yy43DOKJAUdeD81AQ2jl/eOcgFIlfAtOYQnH60jTP2Ruk+JEv9PN+v28AAMC/7/+CMQAAAPENAAAd8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAkfttM8fjnD0F/ovr+Zo9hS3Mugsj+7vi/fW8330mR4w874rrPGK3593Ntdn/vi/fAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQuVcDfYPr+Zo9hWUcj/O205xHzsascUfsdhdWfN5ZZ3LFuz/Lbu+NFc/Gind/lhX3dxZfvgEAICK+AQAgIr4BACAivgEAICK+AQAgIr4BACAivgEAICK+AQAgIr4BACAivgEAICK+AQAgIr4BACAivgEAICK+AQAgIr4BACAivgEAICK+AQAgIr4BACAivgEAIHKvBtrd8Thvq7mer9lT2MLIOo+cq1njjpg15xXv7257NOt9NWvOK67zbv8pK743dtujWXz5BgCAiPgGAICI+AYAgIj4BgCAiPgGAICI+AYAgIj4BgCAiPgGAICI+AYAgIj4BgCAiPgGAICI+AYAgIj4BgCAiPgGAICI+AYAgIj4BgCAiPgGAICI+AYAgIj4BgCAyL0aCPjPjsf5599ez9eUcWmM7O+KZj3vrDsI7MmXbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiNyrgaBwPM6txh1xPV9Tnne3cWeZNeeRdR7h7jd2O1fwb/DlGwAAIuIbAAAi4hsAACLiGwAAIuIbAAAi4hsAACLiGwAAIuIbAAAi4hsAACLiGwAAIuIbAAAi4hsAACLiGwAAIuIbAAAi4hsAACLiGwAAIuIbAAAi4hsAACLiGwAAIvdqoN1dz9fsKWxhZJ2Px7ncuDRW3N9Zc551j9x9Po3/ff6JL98AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABC5VwN9g+Nxzp4C/+IeXc+XcfmP7G8z7orPO8uK67zif+iKc+bz+fINAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAACR+20z1/M1ewp8od3O1cjzHo9zq3FHOFf8E/fo88eFf+LLNwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARH7e73c11taOxzll3Ov52up5R+y2VrOed9ZajTyvPfr8PZplxXfdiBXv0YrPu+Jd4Pd8+QYAgIj4BgCAiPgGAICI+AYAgIj4BgCAiPgGAICI+AYAgIj4BgCAiPgGAICI+AYAgIj4BgCAiPgGAICI+AYAgIj4BgCAiPgGAICI+AYAgIj4BgCAiPgGAICI+AYAgMi9Goi/u56v22pmzfl4nFuNu5tZ52rFOzhyJld83lm8677bis+74pyvzd45vnwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEDkftvM8TinjHs9X7edjKzzyFqtuM4jcx5Z51l7NGvcEd4b3z3nWdzB7zbrvTGLs/F7vnwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEDkftvM9Xz9+bfH4/yfzuXTx521ziua9bwrrvOsO2iPPn+dZ73rdjuTs6z4X7aiWefKXfg9X74BACAivgEAICK+AQAgIr4BACAivgEAICK+AQAgIr4BACAivgEAICK+AQAgIr4BACAivgEAICK+AQAgIr4BACAivgEAICK+AQAgIr4BACAivgEAICK+AQAgIr4BACDy836/q7GWdzzO206u52vKWo2Mu5tZZ3LFPbJWfNr7asUzueJarXgHVzwb/J4v3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAELlXA+3uer7+/NvjcRo3sOJarbjOs8Zd0YprNXImd5vzrHFnva/47nV2rn7Pl28AAIiIbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIj8vN/vaiz+6HicU8a9nq8pcx4Zd4Q5f7dZa7Xi/R3hTDZ2O1cjrNXvWauGL98AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABD5eb/f1VjwK8fj/PNvr+frtpNZa7XiuCNWPFez1mrFdXauvnutVrwLu92ja8G7MMKXbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiNyrgb7B8Tj//Nvr+brtZGStZo274h6NzHnWWs06GyvOecRuzzvLiu+N3fZ31h6tuM4rznlFvnwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEDkftvM8Tj//Nvr+brNsOKcR8Zd8XlnzXlk3BXN2t8R9ve7n3fFOa/4nlzxHbvb+4rf8+UbAAAi4hsAACLiGwAAIuIbAAAi4hsAACLiGwAAIuIbAAAi4hsAACLiGwAAIuIbAAAi4hsAACLiGwAAIuIbAAAi4hsAACLiGwAAIuIbAAAi4hsAACLiGwAAIuIbAAAi92og5jge52011/O11VqNjLviWs2a84iRObuDn3+uZu3RinPe7XlnzXnF9yS/58s3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABE7tVArOd6vmZPYQuz1vl4nFPmvNu49vfz7bZHI2bt74pncrc9GnFt1hu+fAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEBEfAMAQOR+28z1fP35t8fjnDLuiFnjjqwVjRXvwm7jjtht3BX3aJZZ7+cV13nF88zn8+UbAAAi4hsAACLiGwAAIuIbAAAi4hsAACLiGwAAIuIbAAAi4hsAACLiGwAAIuIbAAAi4hsAACLiGwAAIuIbAAAi4hsAACLiGwAAIuIbAAAi4hsAACLiGwAAIuIbAAAi99tmjsf5599ez9dtNbOed+S3s+a829kYseLzjuzvrHFnnecRu52NFZ93lllncoSzwb/Bl28AAIiIbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIjcq4G+wfE4b6u5nq/l1mpkzsb97nO14h6tyJn8biuu1Yr/vyvOebdzNYsv3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAELnfNnM9X3/+7fE4lxt3xKzn3W1/Z7FWn2+3d85uZ2PW8664vyue5xG7nY3d+PINAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAACRn/f7fdvJ8Tj//Nvr+Vpu3BEjc17Rbvu74tnY7S44G59/f3d75+z2rluRs/H5fPkGAICI+AYAgIj4BgCAiPgGAICI+AYAgIj4BgCAiPgGAICI+AYAgIj4BgCAiPgGAICI+AYAgIj4BgCAiPgGAICI+AYAgIj4BgCAiPgGAICI+AYAgIj4BgCAiPgGAIDIz/v9rsZa3vE4//zb6/m6zWDOzbgr2m2tZp3nWVa8Ryu+c1a04t13Jr/btdn72ZdvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiIhvAACI3KuBdnc8zinjXs/Xcs87MucVx11xf1dcq93OBo0V37Ercn9/b7fnXZEv3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEPl5v9+3nRyP88+/vZ6v22pzHrHi847MedY6r7hHI+xvY7ezsSJ79PlWfOfMmvOK53kWX74BACAivgEAICK+AQAgIr4BACAivgEAICK+AQAgIr4BACAivgEAICK+AQAgIr4BACAivgEAICK+AQAgIr4BACAivgEAICK+AQAgIr4BACAivgEAICK+AQAgIr4BACDy836/q7GWdzzOP//2er5uOz3vLNb5u9fZWn3++8q4zbgr3qNZ6zxitzmPWPEuzOLLNwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARH7e73c11vKOxzll3Ov52mrOKxpZ5xX3d5ZZ52rW/o5Y8WysuFbedd+9vyN2Oxv8ni/fAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQud82czzOP//2er6mjDvy2xGznnfFcUd+O8usdR6x4v7OmjN80/t5lt3u/opzXpEv3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAELnfNnM9X8uNezzOrcYdseLzrjjuiBXnPGvcWXbboxWfdzez9mjF8zxixf+yFfnyDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAkZ/3+12Ntbzjcf75t9fzddvpeWdZcZ13M+tczTob3hufb2SdV3xe+DTXgu+6Eb58AwBARHwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBA5Of9fldjwb/ueJyzp7CM6/labo9G5jxr3BHW6vPvvnVuzHreEf6Pvnt/R/jyDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAEfENAAAR8Q0AABHxDQAAkfttM8fjnD0F/ovr+brtZOR5Z51n4zb7O+tsrDjuiqxzY7e1cq4+ny/fAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQuVcDfYPr+Zo9hWUcj3O5PZo15xG7Pe9uazUy7qzn3e09udu7bsV7tOKZnDXnFddqRb58AwBARHwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBARHwDAEBEfAMAQER8AwBA5F4NtLvjcd5Wcz1fs6ewhVlnY9b+ugvfbcXzvOKcd7Pie2PFtZp1j67N7oIv3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAELlXA0HheJxTxr2er+XmvNtarfi8K56rkTmPGHne3c7kiuu8ollnY7d1XpEv3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAEBHfAAAQEd8AABAR3wAAELlXA8E3Ox7n7CksY9ZaXc/XlDmP/HZkziO/3e1szNqjFe/Cius8YrezQcOXbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiIhvAACIiG8AAIiIbwAAiNyrgXZ3PV+zp7CFkXU+HudthhXPxm5rNetcjfx2xbswy6y1mnWeV5zziBXvkbPx3Xz5BgCAiPgGAICI+AYAgIj4BgCAiPgGAICI+AYAgIj4BgCAiPgGAICI+AYAgIj4BgCAiPgGAICI+AYAgIj4BgCAiPgGAICI+AYAgIj4BgCAiPgGAICI+AYAgIj4BgCAyL0a6Bscj3P2FPgXXc/XbaczOfK8K67VilZc51lzHrkL3u2/Z62++y7Q8OUbAAAi4hsAACLiGwAAIuIbAAAi4hsAACLiGwAAIuIbAAAi4hsAACLiGwAAIuIbAAAi4hsAACLiGwAAIuIbAAAi4hsAACLiGwAAIuIbAAAi4hsAACLiGwAAIuIbAAAiP+/3uxoLAAC25ss3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AABExDcAAETENwAARMQ3AADcGv8PatbK/TwYyQ0AAAAASUVORK5CYII=" width="180" height="180" alt="선택보드 주소 QR 코드">
+        <div class="cap">폰으로 바로 열기</div>
+      </div>
+      <p class="small" style="margin-top:14px">
+        주소<br>
+        <span class="mono" style="word-break:break-all">vcbio.github.io/shelf/d/colorboard.html</span>
+      </p>
+      <a class="linkbtn" style="margin-top:12px" href="https://vcbio.github.io/shelf/d/colorboard.html" target="_blank" rel="noopener noreferrer">선택보드 열기 →</a>
+    </div>
+
+    <div>
+      <h3>탭 구성</h3>
+      <ul class="tabs">
+        <li><span class="t">🎁 추천 조합</span><span class="d">완성품 종류별 프리셋 8종. 어떤 결과물이 필요한지만 고르면 색감·스타일이 한 번에 담깁니다. 헤매지 말고 여기서 시작하는 게 가장 빠릅니다.</span></li>
+        <li><span class="t">🎨 색감</span><span class="d">팔레트 후보. <b>색의 정본은 이 탭</b>입니다 — 다른 탭 썸네일에 보이는 색은 예시일 뿐입니다. 한 작업에 하나만 고릅니다.</span></li>
+        <li><span class="t">✨ 스타일</span><span class="d">무드와 레이아웃 문법만 담당합니다. 색과 폰트는 여기서 가져오지 않습니다. 한 작업에 하나만 고릅니다.</span></li>
+        <li><span class="t">🧰 제작 옵션</span><span class="d">공구함 아이콘이 붙은 네 번째 탭입니다. AI 도구로 만들 때 얹는 제작 옵션 목록이라, 사람이 직접 디자인한다면 건너뛰어도 됩니다. 여러 개 선택 가능.</span></li>
+        <li><span class="t">🌐 홈페이지</span><span class="d">웹 화면용 구성 요소(내비게이션·히어로·섹션 배치 등) 후보. 웹 작업일 때만 씁니다.</span></li>
+      </ul>
+
+      <h3 style="margin-top:var(--s4)">조합 복사</h3>
+      <p>
+        카드를 클릭해 고르면 화면 맨 아래 바에 선택 내역이 쌓입니다.
+        <b>조합 복사</b>를 누르면 고른 항목이 한 줄 문장으로 합쳐져 클립보드에 들어갑니다.
+        그 문장을 그대로 작업 지시나 AI 프롬프트 맨 앞에 붙이면 됩니다 — 옮겨 적으며 값이 어긋나는 사고를 막습니다.
+      </p>
+      <p class="small">색 스와치를 클릭하면 해당 HEX만 따로 복사됩니다.</p>
+      <div class="quote">
+        복사되는 문장은 이런 모양입니다.
+        <span class="ex">VCBio 딥그린 정본 + 에디토리얼 그리드 — 이 조합으로 진행</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 3. 브랜드 규격 ══════════ -->
+<section id="spec">
+  <div class="sec-head">
+    <div class="rule"></div>
+    <h2><span class="num">02</span>브랜드 규격</h2>
+    <p class="lede">
+      한 산출물은 프리셋 하나를 키로 잡습니다. 섞지 않습니다.
+      아래 HEX가 정본이고, 화면에 보이는 색면이 실제 색입니다. 칩을 누르면 HEX가 복사됩니다.
+    </p>
+  </div>
+
+  <!-- 팔레트 -->
+  <h3 style="margin-bottom:var(--s3)">팔레트 4프리셋</h3>
+
+  <div class="preset">
+    <div class="preset-head">
+      <span class="name">calm-charcoal</span>
+      <span class="badge on">기본값</span>
+      <span class="use">공식 제출·IR·규제 대응 톤 — 차분·신뢰·보수</span>
+    </div>
+    <div class="swatches">
+      <button class="sw" data-hex="#1E3932"><span class="chip" style="background:#1E3932"></span><span class="lbl"><span class="tok">deep-green</span><span class="hex">#1E3932</span><span class="use">키컬러</span></span></button>
+      <button class="sw" data-hex="#2E7D5B"><span class="chip" style="background:#2E7D5B"></span><span class="lbl"><span class="tok">accent-green</span><span class="hex">#2E7D5B</span><span class="use">룰선·배지</span></span></button>
+      <button class="sw" data-hex="#B8954A"><span class="chip" style="background:#B8954A"></span><span class="lbl"><span class="tok">gold</span><span class="hex">#B8954A</span><span class="use">제한 강조</span></span></button>
+      <button class="sw" data-hex="#F2F0EB"><span class="chip" style="background:#F2F0EB"></span><span class="lbl"><span class="tok">cream</span><span class="hex">#F2F0EB</span><span class="use">기본 배경</span></span></button>
+      <button class="sw" data-hex="#FBFAF7"><span class="chip" style="background:#FBFAF7"></span><span class="lbl"><span class="tok">white-card</span><span class="hex">#FBFAF7</span><span class="use">크림 위 흰 카드</span></span></button>
+      <button class="sw" data-hex="#E7EEE9"><span class="chip" style="background:#E7EEE9"></span><span class="lbl"><span class="tok">tint-green</span><span class="hex">#E7EEE9</span><span class="use">연초록 카드</span></span></button>
+      <button class="sw" data-hex="#1C1C1A"><span class="chip" style="background:#1C1C1A"></span><span class="lbl"><span class="tok">ink</span><span class="hex">#1C1C1A</span><span class="use">다크 배경</span></span></button>
+      <button class="sw" data-hex="#1A1A1A"><span class="chip" style="background:#1A1A1A"></span><span class="lbl"><span class="tok">ink-text</span><span class="hex">#1A1A1A</span><span class="use">크림 위 본문</span></span></button>
+      <button class="sw" data-hex="#262624"><span class="chip" style="background:#262624"></span><span class="lbl"><span class="tok">panel-dark</span><span class="hex">#262624</span><span class="use">다크 카드 면</span></span></button>
+      <button class="sw" data-hex="#2C332D"><span class="chip" style="background:#2C332D"></span><span class="lbl"><span class="tok">panel-raise</span><span class="hex">#2C332D</span><span class="use">들린 카드</span></span></button>
+      <button class="sw" data-hex="#C9BCA4"><span class="chip" style="background:#C9BCA4"></span><span class="lbl"><span class="tok">beige</span><span class="hex">#C9BCA4</span><span class="use">다크 위 보조 텍스트</span></span></button>
+    </div>
+  </div>
+
+  <div class="preset">
+    <div class="preset-head">
+      <span class="name">hot-lime</span>
+      <span class="use">임팩트·티저·SNS·랜딩 히어로 — 강렬·테크</span>
+    </div>
+    <div class="swatches">
+      <button class="sw" data-hex="#0A0A0A"><span class="chip" style="background:#0A0A0A"></span><span class="lbl"><span class="tok">lime-bg</span><span class="hex">#0A0A0A</span><span class="use">딥블랙 배경</span></span></button>
+      <button class="sw" data-hex="#C6FF2E"><span class="chip" style="background:#C6FF2E"></span><span class="lbl"><span class="tok">lime-key</span><span class="hex">#C6FF2E</span><span class="use">네온 라임 키</span></span></button>
+      <button class="sw" data-hex="#FFFFFF"><span class="chip" style="background:#FFFFFF"></span><span class="lbl"><span class="tok">lime-text</span><span class="hex">#FFFFFF</span><span class="use">메인 텍스트</span></span></button>
+      <button class="sw" data-hex="#8C8C8C"><span class="chip" style="background:#8C8C8C"></span><span class="lbl"><span class="tok">lime-sub</span><span class="hex">#8C8C8C</span><span class="use">보조 텍스트</span></span></button>
+    </div>
+  </div>
+
+  <div class="preset">
+    <div class="preset-head">
+      <span class="name">hot-orange</span>
+      <span class="use">캠페인·표지·발표 임팩트 — 대담·프리미엄</span>
+    </div>
+    <div class="swatches">
+      <button class="sw" data-hex="#15100C"><span class="chip" style="background:#15100C"></span><span class="lbl"><span class="tok">orange-bg</span><span class="hex">#15100C</span><span class="use">차콜 배경</span></span></button>
+      <button class="sw" data-hex="#FF6A2C"><span class="chip" style="background:#FF6A2C"></span><span class="lbl"><span class="tok">orange-key</span><span class="hex">#FF6A2C</span><span class="use">핫 오렌지 키</span></span></button>
+      <button class="sw" data-hex="#FFB14D"><span class="chip" style="background:#FFB14D"></span><span class="lbl"><span class="tok">orange-gold</span><span class="hex">#FFB14D</span><span class="use">보조 강조</span></span></button>
+      <button class="sw" data-hex="#FFF1E6"><span class="chip" style="background:#FFF1E6"></span><span class="lbl"><span class="tok">orange-text</span><span class="hex">#FFF1E6</span><span class="use">웜 화이트 본문</span></span></button>
+      <button class="sw" data-hex="#B5A595"><span class="chip" style="background:#B5A595"></span><span class="lbl"><span class="tok">orange-sub</span><span class="hex">#B5A595</span><span class="use">보조 텍스트</span></span></button>
+    </div>
+  </div>
+
+  <div class="preset">
+    <div class="preset-head">
+      <span class="name">electric-blue</span>
+      <span class="use">웹 대시보드·플랫폼·테크 제안 — 미래·데이터</span>
+    </div>
+    <div class="swatches">
+      <button class="sw" data-hex="#101720"><span class="chip" style="background:#101720"></span><span class="lbl"><span class="tok">eblue-bg</span><span class="hex">#101720</span><span class="use">푸른 다크 배경</span></span></button>
+      <button class="sw" data-hex="#227AFF"><span class="chip" style="background:#227AFF"></span><span class="lbl"><span class="tok">eblue-key</span><span class="hex">#227AFF</span><span class="use">테크 키컬러</span></span></button>
+      <button class="sw" data-hex="#2563EB"><span class="chip" style="background:#2563EB"></span><span class="lbl"><span class="tok">eblue-accent</span><span class="hex">#2563EB</span><span class="use">신뢰 강조</span></span></button>
+      <button class="sw" data-hex="#02348B"><span class="chip" style="background:#02348B"></span><span class="lbl"><span class="tok">eblue-deep</span><span class="hex">#02348B</span><span class="use">전문 톤·헤더 면</span></span></button>
+      <button class="sw" data-hex="#010163"><span class="chip" style="background:#010163"></span><span class="lbl"><span class="tok">eblue-navy</span><span class="hex">#010163</span><span class="use">묵직 네이비 표지면</span></span></button>
+      <button class="sw" data-hex="#BFDAF7"><span class="chip" style="background:#BFDAF7"></span><span class="lbl"><span class="tok">eblue-tint</span><span class="hex">#BFDAF7</span><span class="use">라이트 카드</span></span></button>
+      <button class="sw" data-hex="#FFFFFF"><span class="chip" style="background:#FFFFFF"></span><span class="lbl"><span class="tok">eblue-text</span><span class="hex">#FFFFFF</span><span class="use">다크 위 본문</span></span></button>
+    </div>
+  </div>
+
+  <div class="preset">
+    <div class="preset-head">
+      <span class="name">증감 색</span>
+      <span class="badge">전 프리셋 공통</span>
+      <span class="use">KPI·데이터 전용 — 면적 제한 밖(칩은 작게)</span>
+    </div>
+    <div class="swatches">
+      <button class="sw" data-hex="#3DDC84"><span class="chip" style="background:#3DDC84"></span><span class="lbl"><span class="tok">green-up</span><span class="hex">#3DDC84</span><span class="use">상승 ▲</span></span></button>
+      <button class="sw" data-hex="#E5484D"><span class="chip" style="background:#E5484D"></span><span class="lbl"><span class="tok">red-down</span><span class="hex">#E5484D</span><span class="use">하락 ▼</span></span></button>
+    </div>
+  </div>
+
+  <!-- 타이포 -->
+  <h3 style="margin:var(--s4) 0 var(--s2)">타이포 스케일</h3>
+  <p class="small" style="margin-bottom:var(--s2)">폰트는 Pretendard 하나입니다. 제목·본문·데이터·표지 전부 같은 폰트를 쓰고, 위계는 크기와 웨이트 차이로만 만듭니다.</p>
+  <div class="card">
+    <div class="typerow"><div class="sample t-mega">브이씨바이오</div><div class="spec"><span class="tk">mega</span><span class="v">12.5rem · Thin 100 · 표지·디바이더</span></div></div>
+    <div class="typerow"><div class="sample t-hero">원료 제안</div><div class="spec"><span class="tk">hero</span><span class="v">8.125rem · Black 900 · 대형 글리프·거대수치</span></div></div>
+    <div class="typerow"><div class="sample t-display">당을 다루는 기술</div><div class="spec"><span class="tk">display</span><span class="v">6rem · Bold 700 · 표지 타이틀</span></div></div>
+    <div class="typerow"><div class="sample t-h1">공정 개요와 규격</div><div class="spec"><span class="tk">h1</span><span class="v">1.9rem · Bold 700 · 슬라이드 제목</span></div></div>
+    <div class="typerow"><div class="sample t-h2">원료 스펙 카드</div><div class="spec"><span class="tk">h2</span><span class="v">1.25rem · Bold 700 · 부제목·카드 헤드</span></div></div>
+    <div class="typerow"><div class="sample t-bodylg">강조 본문은 한 단계 크게 둡니다.</div><div class="spec"><span class="tk">body-lg</span><span class="v">1rem · Regular 400 · 본문 강조</span></div></div>
+    <div class="typerow"><div class="sample t-body">기본 본문입니다. 설명·표 안 텍스트가 여기 해당합니다.</div><div class="spec"><span class="tk">body</span><span class="v">0.875rem · Regular 400 · 본문</span></div></div>
+    <div class="typerow"><div class="sample t-caption">VCBIO · INGREDIENT</div><div class="spec"><span class="tk">caption</span><span class="v">0.6875rem · Bold 700 · eyebrow·출처</span></div></div>
+    <p class="scalednote">
+      mega·hero·display 견본은 화면 폭에 맞춰 줄여 보여 줍니다 — 실제 작업에는 오른쪽에 적힌 값을 씁니다.
+      웨이트는 Thin 100 · Regular 400 · Bold 700 · Black 900 네 단계를 쓰고, 표지는 Thin과 Black의 극단 대비로 임팩트를 만듭니다.
+    </p>
+  </div>
+
+  <!-- 간격·라운드 -->
+  <div class="grid g2" style="margin-top:var(--s4)">
+    <div class="card">
+      <h3>간격 · 격자</h3>
+      <p class="small" style="margin-bottom:var(--s2)">수직 리듬은 8px 배수로 통일합니다.</p>
+      <div class="tokrow"><span class="nm">space-1</span><span class="bar" style="width:8px"></span><span class="vv">8px</span></div>
+      <div class="tokrow"><span class="nm">space-2</span><span class="bar" style="width:16px"></span><span class="vv">16px</span></div>
+      <div class="tokrow"><span class="nm">space-3</span><span class="bar" style="width:24px"></span><span class="vv">24px</span></div>
+      <div class="tokrow"><span class="nm">space-4</span><span class="bar" style="width:40px"></span><span class="vv">40px</span></div>
+      <div class="tokrow"><span class="nm">gutter</span><span class="bar" style="width:24px"></span><span class="vv">24px · 카드 사이</span></div>
+      <div class="tokrow"><span class="nm">margin</span><span class="bar" style="width:64px"></span><span class="vv">64px · 안전여백</span></div>
+      <div class="tokrow"><span class="nm">grid</span><span class="vv" style="margin-left:0">12컬럼 정렬 격자</span></div>
+    </div>
+    <div class="card">
+      <h3>모서리 · 그림자</h3>
+      <p class="small">카드는 10px, 큰 카드는 14px, 배지·알약은 완전 라운드입니다.</p>
+      <div class="radii">
+        <div class="rr" style="border-radius:10px">radius-card<br>10px</div>
+        <div class="rr" style="border-radius:14px">radius-card-lg<br>14px</div>
+        <div class="rr" style="border-radius:999px">radius-pill<br>999px</div>
+      </div>
+      <p class="small" style="margin-top:var(--s3)">
+        카드 입체는 <code>0 2px 14px rgba(0,0,0,.4)</code> 한 단계만 씁니다.
+        인쇄물에서는 그림자 대신 면 대비와 룰선으로 층을 만듭니다.
+      </p>
+      <p class="small" style="margin-top:var(--s2)">
+        16:9 덱 캔버스는 1280×720px, 안전여백 64px입니다.
+        레이아웃 리듬은 표지 → 디바이더 → 본문 → 마무리 4부로 갑니다.
+      </p>
+    </div>
+  </div>
+
+  <!-- Do / Don't -->
+  <h3 style="margin:var(--s4) 0 var(--s2)">Do &amp; Don&rsquo;t 8</h3>
+  <ul class="dd">
+    <li><span class="mark">1</span><div><b>프리셋은 하나만 잡는다.</b><span class="no"><b>Don&rsquo;t</b> 프리셋을 섞지 않는다. 그라디언트 스톱도 고른 프리셋 안에서만 고른다.</span></div></li>
+    <li><span class="mark">2</span><div><b>calm-charcoal에서 키컬러는 화면 5% 이하.</b> 룰선·단어 하나·배지·작은 면에만.<span class="no"><b>Don&rsquo;t</b> 공식 톤에서 넓은 면을 키컬러로 칠하지 않는다. 표지·디바이더와 hot 프리셋은 이 제한이 풀려 색면·발광을 대담하게 써도 되지만, 데이터·표·긴 텍스트 영역은 언제나 예외다.</span></div></li>
+    <li><span class="mark">3</span><div><b>폰트는 Pretendard 단독, 위계는 크기·웨이트로만.</b> 한 화면에 세 단계 이상.<span class="no"><b>Don&rsquo;t</b> 지정 없이 다른 서체를 섞지 않는다. 영문 고유명사도 같은 폰트로 간다.</span></div></li>
+    <li><span class="mark">4</span><div><b>자간은 caption 대문자에만.</b> 자간 트래킹 +1.5~3.0 수준.<span class="no"><b>Don&rsquo;t</b> 본문 자간을 넓히지 않는다. 큰 제목은 오히려 자간을 좁혀야 덩어리로 읽힌다.</span></div></li>
+    <li><span class="mark">5</span><div><b>8px 리듬 · 안전여백 64px · 12컬럼.</b> 페이지 가구(제목·페이지번호·로고·출처)는 전 장에서 같은 좌표에 둔다.<span class="no"><b>Don&rsquo;t</b> 장마다 눈대중으로 위치를 옮기지 않는다. 가구가 흔들리면 시스템이 없다는 신호로 읽힌다.</span></div></li>
+    <li><span class="mark">6</span><div><b>풀블리드 사진은 듀오톤 + 하단 다크 그라디언트.</b> 원본 최소 1920×1080.<span class="no"><b>Don&rsquo;t</b> 원색 사진을 그대로 깔지 않는다. 듀오톤은 30~40% 정도만 — 과하게 먹이면 사진이 안개처럼 죽는다. 풀블리드는 표지·디바이더·히어로 한정이고 본문은 도형·차트가 주인공이다.</span></div></li>
+    <li><span class="mark">7</span><div><b>차트 색은 정해진 스킴에서만 고른다.</b> 시리즈 하나면 키컬러, 둘 이상이면 범주 스킴 앞에서부터. 본문 대비·보더·카드면은 웜 그레이 12스텝을 역할별로 고정해 쓴다.<span class="no"><b>Don&rsquo;t</b> 차트 색을 즉흥으로 고르지 않는다. 색맹·흑백 인쇄에서 무너진다. HEX 목록은 규격 문서에 있다.</span></div></li>
+    <li><span class="mark">8</span><div><b>본문 대비 4.5:1 이상, 증감은 색으로 정직하게.</b> 나쁜 수치도 빨강으로 그대로 노출한다.<span class="no"><b>Don&rsquo;t</b> 무한반복·글리치·난수 기반 모션을 쓰지 않는다. 움직임은 등장 0.5초 한 번으로 절제하고, 나쁜 수치를 숨기지 않는다.</span></div></li>
+  </ul>
+</section>
+
+<!-- ══════════ 4. 다운로드 ══════════ -->
+<section id="files">
+  <div class="sec-head">
+    <div class="rule"></div>
+    <h2><span class="num">03</span>다운로드</h2>
+    <p class="lede">작업에 바로 붙이는 파일 세 개입니다. 브라우저에서 바로 만들어 내려받으므로 별도 로그인이나 서버가 필요 없습니다.</p>
+  </div>
+  <div class="dl">
+    <article class="card">
+      <div class="fname">VCBIO-DESIGN.md</div>
+      <p class="desc">브랜드 규격 전문. 색 HEX 전체, 타이포 스케일, 간격·모서리, 레이아웃, 이미지·모션 규칙, 산출물 포맷, Do &amp; Don&rsquo;t가 한 파일에 들어 있습니다. AI 도구에 첨부하면 규격을 통째로 읽힙니다.</p>
+      <div class="btnrow">
+        <button class="btn" data-dl="design-md">다운로드</button>
+        <button class="btn ghost" data-copy="design-md">복사</button>
+      </div>
+    </article>
+    <article class="card">
+      <div class="fname">vcbio-tokens.css</div>
+      <p class="desc">색·타이포·간격·모서리를 CSS 변수로 정의한 파일. 프리셋별로 묶여 있어 <code>data-preset</code> 하나만 바꾸면 톤이 통째로 교체됩니다. 웹·HTML 작업이면 이 파일부터 불러오세요.</p>
+      <div class="btnrow">
+        <button class="btn" data-dl="tokens-css">다운로드</button>
+        <button class="btn ghost" data-copy="tokens-css">복사</button>
+      </div>
+    </article>
+    <article class="card">
+      <div class="fname">AI-작업지시-템플릿.md</div>
+      <p class="desc">AI 제작 도구에 그대로 붙여넣는 프롬프트 양식. 브랜드 규격 요약과 조합 지정란, 금지사항이 채워져 있어 빈칸만 메우면 됩니다.</p>
+      <div class="btnrow">
+        <button class="btn" data-dl="ai-prompt">다운로드</button>
+        <button class="btn ghost" data-copy="ai-prompt">복사</button>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ══════════ 5. 자가검수 ══════════ -->
+<section id="check">
+  <div class="sec-head">
+    <div class="rule"></div>
+    <h2><span class="num">04</span>자가검수 체크리스트</h2>
+    <p class="lede">넘기기 전에 한 번 훑습니다. 체크 상태는 이 화면에서만 유지되고 어디에도 저장되지 않습니다.</p>
+  </div>
+
+  <div class="progress">
+    <span class="cnt" id="cnt">0 / 0</span>
+    <span class="track"><span class="fill" id="fill"></span></span>
+    <button class="btn ghost" id="resetChk" type="button" style="padding:6px 12px; font-size:.8125rem">초기화</button>
+  </div>
+
+  <div class="chkgroup">
+    <h4>폰트</h4>
+    <label class="chk"><input type="checkbox"><span>모든 텍스트가 Pretendard 하나다 — 영문 고유명사 포함, 다른 서체 0.</span></label>
+    <label class="chk"><input type="checkbox"><span>웹은 웹폰트를 실제로 불러오고, 넘기는 파일은 폰트가 임베딩되거나 아웃라인 처리됐다(받는 쪽 PC에서 대체 폰트로 깨지지 않는다).</span></label>
+  </div>
+
+  <div class="chkgroup">
+    <h4>색</h4>
+    <label class="chk"><input type="checkbox"><span>프리셋 하나만 썼다. 두 프리셋의 색이 섞여 있지 않다.</span></label>
+    <label class="chk"><input type="checkbox"><span>쓰인 색이 전부 규격 문서의 HEX 안에 있다 — 임의로 만든 색 0.</span></label>
+    <label class="chk"><input type="checkbox"><span>calm-charcoal이면 키컬러 면적이 화면 5% 이하다(표지·디바이더 제외).</span></label>
+  </div>
+
+  <div class="chkgroup">
+    <h4>타이포</h4>
+    <label class="chk"><input type="checkbox"><span>한 화면에 크기 위계가 세 단계 이상 보인다.</span></label>
+    <label class="chk"><input type="checkbox"><span>자간을 넓힌 곳은 caption 대문자뿐이다. 본문 자간은 건드리지 않았다.</span></label>
+    <label class="chk"><input type="checkbox"><span>글자가 상자 밖으로 잘리거나 말줄임으로 먹힌 곳이 없다.</span></label>
+  </div>
+
+  <div class="chkgroup">
+    <h4>레이아웃</h4>
+    <label class="chk"><input type="checkbox"><span>제목·부제·페이지번호·로고·출처가 전 장에서 같은 좌표에 있다.</span></label>
+    <label class="chk"><input type="checkbox"><span>내용이 카드·상자 밖으로 넘친 곳이 없다.</span></label>
+    <label class="chk"><input type="checkbox"><span>번호나 짧은 라벨이 두 줄로 쪼개진 곳이 없다(예: 01이 0과 1로).</span></label>
+    <label class="chk"><input type="checkbox"><span>텍스트·룰선·이미지가 의도 없이 겹친 곳이 없다(룰선이 제목을 관통하지 않는다).</span></label>
+    <label class="chk"><input type="checkbox"><span>안전여백 64px이 살아 있다.</span></label>
+    <label class="chk"><input type="checkbox"><span>같은 톤(다크 또는 라이트)이 세 장 연속되지 않는다.</span></label>
+  </div>
+
+  <div class="chkgroup">
+    <h4>데이터·차트</h4>
+    <label class="chk"><input type="checkbox"><span>모든 수치에 출처가 붙어 있고, 근거 없는 어림수가 없다.</span></label>
+    <label class="chk"><input type="checkbox"><span>축 숫자·범례·데이터 라벨이 서로 또는 막대와 겹치지 않는다.</span></label>
+    <label class="chk"><input type="checkbox"><span>원본이 그래프뿐인 값을 눈대중으로 숫자화하지 않았다.</span></label>
+  </div>
+
+  <div class="chkgroup">
+    <h4>완성도</h4>
+    <label class="chk"><input type="checkbox"><span>이미지나 그래픽이 최소 한 장 있다 — 텍스트와 표만으로 끝나지 않았다.</span></label>
+    <label class="chk"><input type="checkbox"><span>핵심 면(표지·디바이더·패널·막대) 중 최소 하나가 평면 단색이 아니다(그라디언트·발광·그림자).</span></label>
+    <label class="chk"><input type="checkbox"><span>표지에 큰 글자와 작은 글자의 강한 대비가 있다.</span></label>
+    <label class="chk"><input type="checkbox"><span>아이콘을 썼다면 한 세트로 통일했다 — 이모지·출처 불명 클립아트 0.</span></label>
+  </div>
+
+  <div class="chkgroup">
+    <h4>마감</h4>
+    <label class="chk"><input type="checkbox"><span>실제 렌더 결과(PNG·PDF·브라우저 화면)를 눈으로 확인했다. 코드가 통과했다는 것만으로 대신하지 않았다.</span></label>
+    <label class="chk"><input type="checkbox"><span>본문 텍스트 대비가 4.5:1 이상이다.</span></label>
+    <label class="chk"><input type="checkbox"><span>한국어가 들어간 HTML이면 맨 앞에 <code>&lt;meta charset="UTF-8"&gt;</code>이 있다.</span></label>
+    <label class="chk"><input type="checkbox"><span>모션이 있다면 무한반복·글리치·난수 움직임이 없고, 움직임을 줄이는 설정을 켠 환경에서도 읽힌다.</span></label>
+  </div>
+</section>
+
+<footer>
+  <b>VCBio 디자인 킷</b> · 주식회사 브이씨바이오 — 건강기능식품 B2B OEM/ODM<br>
+  이 문서의 색·글자·간격 값이 정본입니다. 값이 어긋나면 규격 문서를 기준으로 맞춰 주세요.
+</footer>
+
+</main>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<!-- ══════════ 다운로드 페이로드 ══════════ -->
+<script type="text/plain" id="src-design-md"># VCBio 디자인 규격
+
+브이씨바이오(VCBio) — 건강기능식품 B2B OEM/ODM
+협업용 배포판 · 이 문서의 값이 정본이다.
+
+---
+
+## 0. 톤 한 줄
+
+1970년대 대학 세미나 핸드아웃의 차분함에 현대 바이오테크의 정밀함을 얹은 톤.
+대형 식품·제약사에 원료를 제안하는 B2B 문서가 주 무대라 기본 인격은 **차분·신뢰·보수**다 —
+과장된 색면보다 절제, 장식보다 위계, 근거 중심.
+
+핵심 축은 **딥그린 키컬러 하나 + 곡물톤(크림·베이지) 바탕**이다.
+딥그린이 유일한 주인공 색이고 곡물톤이 바탕을 데운다. 흰색이 아니라 크림을 쓰는 이유는 유기적이고 따뜻한 인상 때문이다.
+
+이 문서는 웹앱 UI 가이드가 아니다. 산출물은 ①16:9 제안덱 ②A4 인쇄 브로셔 ③대시보드 ④세로·가로 모션클립이다.
+
+---
+
+## 1. 색
+
+### 1-1. 의미 별칭
+
+| 별칭 | HEX | 설명 |
+|---|---|---|
+| primary | #1E3932 | 브랜드 키컬러(딥그린) |
+| neutral | #F2F0EB | 기본 크림 배경 |
+
+### 1-2. 프리셋 — 한 산출물에 하나만
+
+한 산출물은 프리셋 하나를 키로 잡는다. 섞지 않는다. 그라디언트 스톱도 고른 프리셋 안에서만 고른다.
+
+| 프리셋 | 성격 | 언제 쓰나 |
+|---|---|---|
+| calm-charcoal | 차분·신뢰·보수 | 공식 제출·IR·규제 대응 톤 (기본값) |
+| hot-lime | 강렬·테크 | 임팩트물·티저·SNS·랜딩 히어로 |
+| hot-orange | 대담·프리미엄 | 캠페인·표지·발표 임팩트 |
+| electric-blue | 미래·데이터 | 웹 대시보드·플랫폼·테크 제안 |
+
+#### calm-charcoal
+
+| 토큰 | HEX | 용도 |
+|---|---|---|
+| deep-green | #1E3932 | 키컬러·딥그린 |
+| accent-green | #2E7D5B | 강조(다크 위 룰선·배지) |
+| gold | #B8954A | 제한 강조(5% 룰) |
+| cream | #F2F0EB | 크림 배경 |
+| white-card | #FBFAF7 | 크림 위 흰 카드 |
+| tint-green | #E7EEE9 | 크림 위 연초록 카드 |
+| ink | #1C1C1A | 다크 배경 |
+| ink-text | #1A1A1A | 크림 위 본문 텍스트 |
+| panel-dark | #262624 | 다크 카드 면 |
+| panel-raise | #2C332D | 들린 카드 |
+| beige | #C9BCA4 | 다크 위 보조 텍스트 |
+
+#### hot-lime
+
+| 토큰 | HEX | 용도 |
+|---|---|---|
+| lime-bg | #0A0A0A | 딥블랙 배경 |
+| lime-key | #C6FF2E | 네온 라임 키(룰·강조·eyebrow) |
+| lime-text | #FFFFFF | 메인 텍스트 |
+| lime-sub | #8C8C8C | 보조 텍스트 |
+
+#### hot-orange
+
+| 토큰 | HEX | 용도 |
+|---|---|---|
+| orange-bg | #15100C | 차콜 배경 |
+| orange-key | #FF6A2C | 핫 오렌지 키(블리드 면·룰) |
+| orange-gold | #FFB14D | 보조 강조(카피 emphasis) |
+| orange-text | #FFF1E6 | 메인 텍스트(웜 화이트) |
+| orange-sub | #B5A595 | 보조 텍스트 |
+
+#### electric-blue
+
+| 토큰 | HEX | 용도 |
+|---|---|---|
+| eblue-bg | #101720 | 푸른빛 다크 배경 |
+| eblue-key | #227AFF | 테크 키컬러(강조·CTA) |
+| eblue-accent | #2563EB | 신뢰 강조(룰선·배지) |
+| eblue-deep | #02348B | 전문 톤(본문 강조·헤더 면) |
+| eblue-navy | #010163 | 묵직한 네이비(표지 면) |
+| eblue-tint | #BFDAF7 | 시원한 배경·라이트 카드 |
+| eblue-text | #FFFFFF | 다크 위 메인 텍스트 |
+
+### 1-3. 증감 색 — 전 프리셋 공통
+
+| 토큰 | HEX | 용도 |
+|---|---|---|
+| green-up | #3DDC84 | 상승 증감칩 |
+| red-down | #E5484D | 하락 증감칩 |
+
+데이터 의미 전달용이라 아래 5% 면적 제한 밖이다. 다만 칩 자체는 작게 쓴다.
+나쁜 수치도 빨강으로 정직하게 노출한다 — 숨기면 더 의심받는다.
+
+### 1-4. 강조색 5% 룰
+
+calm-charcoal에서 키컬러(deep-green·accent-green·gold)는 **화면의 5% 이하**만 쓴다 —
+룰선, 단어 하나, 배지, 작은 면. 공식 문서에서 넓은 면을 키컬러로 칠하면 값싸 보인다.
+
+표지·섹션 디바이더·히어로, 그리고 hot 계열 프리셋은 이 제한이 풀린다.
+키컬러 면·발광 그라디언트·풀블리드 컬러블록을 의도적으로 대담하게 써도 된다.
+단 **본문 가독 영역**(데이터·표·긴 텍스트)은 프리셋과 무관하게 키컬러 대면적을 피한다.
+
+### 1-5. 그라디언트
+
+| 토큰 | 정의 | 용도 |
+|---|---|---|
+| grad-linear | 키컬러 → 어두운 변형, 90도 세로 | 면·막대·패널의 입체 채움 |
+| grad-glow | 다크 배경 → 키컬러 tint, 중심 발광(radial) | 표지·디바이더 다크 면의 발광 |
+| grad-mesh | 2~3색 다방향 메시 | 표지·히어로 풀면의 부드러운 색번짐 |
+
+스톱은 고른 프리셋 안에서만 고른다. 각도는 세로 90도가 기본, 사선 강조는 45~120도 범위.
+
+### 1-6. 차트 시리즈 색
+
+차트(막대·라인·누적·도넛)의 시리즈 색은 즉흥으로 고르지 않는다.
+색맹·흑백 인쇄 안전이 검증된 아래 스킴에서 고른다.
+시리즈가 하나면 브랜드 키컬러, 둘 이상이면 범주 스킴 앞에서부터 순서대로 쓴다.
+
+| 스킴 | 용도 | 색 (저 → 고 / 좌 → 우) |
+|---|---|---|
+| seq-green | 단일 증가량(딥그린 계열) | #edf8e9 · #bae4b3 · #74c476 · #31a354 · #006d2c |
+| seq-blue | 단일 증가량(블루 계열) | #eff3ff · #bdd7e7 · #6baed6 · #3182bd · #08519c |
+| div-brbg | 발산(증감, 중립 회백 기준) | #a6611a · #dfc27d · #f5f5f5 · #80cdc1 · #018571 |
+| div-rdylgn | 발산(나쁨↔좋음, 신호등) | #d7191c · #fdae61 · #ffffbf · #a6d96a · #1a9641 |
+| cat | 범주 3~8개(색맹 안전) | #66c2a5 · #fc8d62 · #8da0cb · #e78ac3 · #a6d854 · #ffd92f · #e5c494 · #b3b3b3 |
+
+### 1-7. 회색조 12스텝 — 역할 고정
+
+본문 대비·보더·구분선 톤이 들쭉날쭉해지지 않게 웜 그레이 12스텝을 역할로 고정해 쓴다.
+크림 위 본문은 11~12, 보더는 6~7, 카드 면은 3~4.
+
+| 스텝 | HEX | 역할 |
+|---|---|---|
+| 1–2 | #fdfdfc · #f9f9f8 | 앱·섹션 배경 |
+| 3–5 | #f1f0ef · #e9e8e6 · #e2e1de | 카드·컴포넌트 면(기본/hover/active) |
+| 6–8 | #dad9d6 · #cfceca · #bcbbb5 | 보더(은은/기본/강조)·구분선 |
+| 9–10 | #8d8d86 · #82827c | 솔리드 면·흐림 텍스트 상한 |
+| 11 | #63635e | 보조 텍스트 |
+| 12 | #21201c | 본문 텍스트(고대비) |
+
+---
+
+## 2. 타이포
+
+폰트는 **Pretendard 단독**이다. 제목·본문·데이터·표지 전부 Pretendard를 쓰고,
+위계는 **크기와 웨이트 차이로만** 만든다. 지정 없이 다른 서체를 섞지 않는다.
+예외는 모션클립 트랙 하나뿐이며 그 트랙은 GMarket Sans를 쓴다.
+
+Pretendard는 Thin(100)부터 Black(900)까지 9웨이트가 있고,
+**Thin 거대 글자 + Black 키워드**의 극단 대비가 표지 임팩트를 만든다.
+
+| 토큰 | 실사용 값 | 정본 범위(rem / 인쇄 pt) | 웨이트 | 용도 |
+|---|---|---|---|---|
+| mega | 12.5rem | 10–15rem / 160–240pt | Thin ↔ Black | 표지·디바이더 전용 초대형 |
+| hero | 8.125rem | 5.6–8.75rem / 90–140pt | Black·Bold | 디바이더 대형 글리프·거대수치 |
+| display | 6rem | 5.0–6.5rem / 80–104pt | Bold | 표지 초대형 타이틀 |
+| h1 | 1.9rem | 1.9–2.9rem / 30–46pt | Bold | 슬라이드 제목 |
+| h2 | 1.25rem | 1.25–1.5rem / 18–24pt | Bold | 부제목·카드 헤드 |
+| body-lg | 1rem | 0.95–1rem / 15–16pt | Regular | 본문 강조 |
+| body | 0.875rem | 0.8–0.9rem / 12–14pt | Regular | 본문 |
+| caption | 0.6875rem | 0.65–0.7rem / 10–11pt | Bold | eyebrow·출처 |
+
+웨이트 역할: Thin(100) = 표지 초대형 타이포, Regular(400) = 본문,
+Bold(700) = 제목·강조, Black(900) = 표지·디바이더 핵심어.
+
+자간(트래킹)은 caption 대문자에만 건다(+1.5~3.0 수준).
+큰 제목은 커질수록 자간을 좁혀야 한 덩어리로 읽히고, 본문 자간은 건드리지 않는다.
+행간은 큰 글자일수록 좁게, 본문일수록 넉넉하게 간다.
+
+---
+
+## 3. 간격 · 격자 · 모서리
+
+| 토큰 | 값 | 용도 |
+|---|---|---|
+| space-1 | 8px | 요소 간 수직 리듬 |
+| space-2 | 16px | 〃 |
+| space-3 | 24px | 〃 |
+| space-4 | 40px | 〃 |
+| gutter | 24px | 카드 사이 간격 |
+| margin | 64px | 안전여백(슬라이드·섹션) |
+| grid | 12컬럼 | 정렬 격자 |
+| radius-card | 10px (대형 14px) | 카드 모서리 |
+| radius-pill | 999px | 배지·알약 |
+| shadow-card | 0 2px 14px rgba(0,0,0,.4) | 카드 입체 |
+
+수직 간격은 8px 기본 리듬으로 통일한다.
+
+---
+
+## 4. 레이아웃
+
+웹의 "최대 폭 1200px" 전제는 쓰지 않는다. 대신 덱 세이프에어리어로 번역한다 —
+제안덱 슬라이드는 1280×720px(13.333"×7.5", 96dpi) 캔버스에 안전여백 64px을 지킨다.
+
+레이아웃 리듬은 **표지 → 디바이더 → 본문 → 마무리** 4부.
+calm-charcoal에서 다크와 크림 면은 최대 2연속까지, hot 계열은 다크 단색을 유지한다.
+
+페이지 가구(제목·부제·페이지번호·eyebrow·로고·출처)는 전 장에서 같은 좌표·같은 농도로 둔다.
+가구가 흔들리면 한 사람이 한 시스템으로 통제했다는 신호가 깨진다.
+
+---
+
+## 5. 이미지
+
+사진은 브랜드 톤에 강제로 동기화한다.
+
+- **풀블리드 사진은 듀오톤 의무.** 원색 금지. shadow는 ink(#1C1C1A), highlight는 beige(#C9BCA4), tint는 deep-green(#1E3932)이 기본이다. hot 프리셋이면 tint를 lime 또는 orange 키컬러로 교체한다.
+- **듀오톤은 적정하게.** 톤 30~40% 정도만 얹고 원본 형태를 살린다. 과하게 먹이면 사진이 안개처럼 죽는다.
+- **하단(+좌측) 다크 그라디언트 강제.** 텍스트 가독을 위해 ink 계열 그라디언트를 깐다.
+- **본문 남발 금지.** 풀블리드 이미지는 표지·디바이더·히어로 한정. 데이터·본문은 도형과 차트가 주인공이다.
+- **품질 하한.** 원본 최소 1920×1080. 업스케일로 흐려진 이미지는 쓰지 않는다.
+
+---
+
+## 6. 모션
+
+| 키 | 값 | 설명 |
+|---|---|---|
+| clipDuration | 2s–3s | 모션클립 한 컷의 러닝타임 |
+| transitionDuration | 0.5s | 요소 등장(아래에서 위로) |
+| easing | back.out | 등장 이징 |
+
+클립 러닝타임과 개별 전환은 다른 키다 — 섞으면 모든 움직임을 2~3초로 오해하게 된다.
+
+**금지:** 무한반복, 글리치, 난수 기반 움직임(재현성이 깨진다).
+움직임을 줄이는 사용자 설정이 켜진 환경에서는 전환을 최소화한다.
+덱 슬라이드 전환도 같은 원칙 — 절제된 등장, 과한 모션 금지.
+
+애니메이션을 쓴다면 transform과 opacity만 건드리고,
+클릭·터치에는 즉시 반응하는 피드백을 준다(눌린 순간 살짝 축소되는 정도).
+진행 중인 전환을 하드 리셋으로 끊지 않는다.
+
+---
+
+## 7. 산출물 포맷
+
+| 포맷 | 캔버스·규격 | 폰트 |
+|---|---|---|
+| 16:9 제안덱 | 1280×720px (13.333"×7.5", 96dpi), 안전여백 64px | Pretendard |
+| A4 인쇄 브로셔 | A4 | Pretendard |
+| 대시보드 | 화면 UI | Pretendard |
+| 모션클립 | 9:16 (1080×1920) 또는 16:9, 컷당 2~3초 | GMarket Sans |
+
+---
+
+## 8. Do &amp; Don't
+
+1. **Do** 한 산출물엔 프리셋 하나만. **Don't** 프리셋을 섞지 않는다.
+2. **Do** calm-charcoal에선 키컬러를 화면 5% 이하로. **Don't** 공식 톤에서 넓은 면을 키컬러로 칠하지 않는다.
+3. **Do** 표지·디바이더·히어로와 hot 프리셋에선 키컬러 면·발광·풀블리드를 대담하게. **Don't** 단, 데이터·표·긴 텍스트 영역엔 키컬러 대면적을 쓰지 않는다.
+4. **Do** 위계는 크기·웨이트 차이로만 만든다(한 화면 3단계 이상). **Don't** 지정 없이 다른 폰트를 섞지 않는다.
+5. **Do** 자간은 caption 대문자에만. **Don't** 본문 자간을 넓히지 않는다.
+6. **Do** 증감은 색으로 정직하게(상승 초록·하락 빨강). **Don't** 나쁜 수치를 숨기지 않는다.
+7. **Do** 차트 시리즈 색은 §1-6 스킴에서, 본문 대비·보더는 §1-7 역할 고정으로. **Don't** 차트 색을 즉흥으로 고르지 않는다.
+8. **Do** 풀블리드 사진은 듀오톤 + 하단 다크 그라디언트. **Don't** 원색 풀블리드 사진을 그대로 깔지 않는다.
+9. **Do** 본문 대비는 4.5:1 이상. **Don't** 무한반복·글리치·난수 모션을 쓰지 않는다.
+10. **Do** 한국어가 들어간 HTML은 맨 앞에 `&lt;meta charset="UTF-8"&gt;`을 넣는다. **Don't** charset 선언 없이 한국어 HTML을 넘기지 않는다(한글이 깨진다).
+
+---
+
+## 9. 넘기기 전 확인
+
+- 폰트가 Pretendard 하나이고, 받는 쪽에서 대체 폰트로 깨지지 않는다
+- 프리셋 하나만 썼고, 쓰인 색이 전부 이 문서의 HEX 안에 있다
+- 위계가 크기로 세 단계 이상 보이고, 잘린 글자가 없다
+- 페이지 가구가 전 장 같은 좌표에 있고, 안전여백 64px이 살아 있다
+- 수치에 출처가 붙었고, 축·라벨 겹침이 없다
+- 이미지·그래픽이 최소 한 장 있고, 핵심 면 하나 이상이 평면 단색이 아니다
+- 실제 렌더 결과를 눈으로 확인했다 — 코드 통과나 자기보고로 대신하지 않았다
+</script>
+
+<script type="text/plain" id="src-tokens-css">/* ==========================================================================
+   VCBio Design Tokens
+   브이씨바이오 브랜드 규격 — 색 · 타이포 · 간격 · 모서리
+   협업용 배포판. HEX·수치는 브랜드 규격 문서(VCBIO-DESIGN.md)와 동일하다.
+
+   사용법
+   1) 이 파일을 먼저 불러온다.
+   2) 프리셋은 <html> 또는 최상위 컨테이너에 data-preset 으로 지정한다.
+        <html data-preset="calm-charcoal">   기본값 — 생략 가능
+        <html data-preset="hot-lime">
+        <html data-preset="hot-orange">
+        <html data-preset="electric-blue">
+   3) 화면에서는 원색 토큰(--vc-deep-green 등)보다
+      역할 토큰(--vc-bg, --vc-fg, --vc-key 등)을 우선해 쓴다.
+      프리셋만 바꾸면 톤이 통째로 교체된다.
+   4) 한 산출물에 프리셋 하나. 섞지 않는다.
+   ========================================================================== */
+
+:root{
+
+  /* ── 폰트 ─────────────────────────────────────────── */
+  --vc-font-sans: "Pretendard Variable", Pretendard, -apple-system,
+                  BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", sans-serif;
+  /* 모션클립 트랙 전용 */
+  --vc-font-clip: "GMarket Sans", var(--vc-font-sans);
+
+  /* ── 의미 별칭 ────────────────────────────────────── */
+  --vc-primary:      #1E3932;   /* = deep-green */
+  --vc-neutral:      #F2F0EB;   /* = cream */
+
+  /* ── 프리셋: calm-charcoal (기본값) ───────────────── */
+  /* 공식 제출·IR·규제 대응 톤 — 차분·신뢰·보수 */
+  --vc-deep-green:   #1E3932;   /* 키컬러 */
+  --vc-accent-green: #2E7D5B;   /* 강조 — 다크 위 룰선·배지 */
+  --vc-gold:         #B8954A;   /* 제한 강조 (5% 룰) */
+  --vc-cream:        #F2F0EB;   /* 크림 배경 */
+  --vc-white-card:   #FBFAF7;   /* 크림 위 흰 카드 */
+  --vc-tint-green:   #E7EEE9;   /* 크림 위 연초록 카드 */
+  --vc-ink:          #1C1C1A;   /* 다크 배경 */
+  --vc-ink-text:     #1A1A1A;   /* 크림 위 본문 텍스트 */
+  --vc-panel-dark:   #262624;   /* 다크 카드 면 */
+  --vc-panel-raise:  #2C332D;   /* 들린 카드 */
+  --vc-beige:        #C9BCA4;   /* 다크 위 보조 텍스트 */
+
+  /* ── 프리셋: hot-lime ─────────────────────────────── */
+  /* 임팩트·티저·SNS·랜딩 히어로 — 강렬·테크 */
+  --vc-lime-bg:      #0A0A0A;
+  --vc-lime-key:     #C6FF2E;
+  --vc-lime-text:    #FFFFFF;
+  --vc-lime-sub:     #8C8C8C;
+
+  /* ── 프리셋: hot-orange ───────────────────────────── */
+  /* 캠페인·표지·발표 임팩트 — 대담·프리미엄 */
+  --vc-orange-bg:    #15100C;
+  --vc-orange-key:   #FF6A2C;
+  --vc-orange-gold:  #FFB14D;
+  --vc-orange-text:  #FFF1E6;
+  --vc-orange-sub:   #B5A595;
+
+  /* ── 프리셋: electric-blue ────────────────────────── */
+  /* 웹 대시보드·플랫폼·테크 제안 — 미래·데이터 */
+  --vc-eblue-bg:     #101720;
+  --vc-eblue-key:    #227AFF;
+  --vc-eblue-accent: #2563EB;
+  --vc-eblue-deep:   #02348B;
+  --vc-eblue-navy:   #010163;
+  --vc-eblue-tint:   #BFDAF7;
+  --vc-eblue-text:   #FFFFFF;
+
+  /* ── 증감 색 — 전 프리셋 공통 ─────────────────────── */
+  /* 데이터 의미 전달용. 면적 제한 밖이지만 칩은 작게. */
+  --vc-green-up:     #3DDC84;
+  --vc-red-down:     #E5484D;
+
+  /* ── 회색조 12스텝 (웜 그레이) — 역할 고정 ────────── */
+  /* 크림 위 본문 = 11~12 · 보더 = 6~7 · 카드 면 = 3~4 */
+  --vc-gray-1:  #fdfdfc;
+  --vc-gray-2:  #f9f9f8;
+  --vc-gray-3:  #f1f0ef;
+  --vc-gray-4:  #e9e8e6;
+  --vc-gray-5:  #e2e1de;
+  --vc-gray-6:  #dad9d6;
+  --vc-gray-7:  #cfceca;
+  --vc-gray-8:  #bcbbb5;
+  --vc-gray-9:  #8d8d86;
+  --vc-gray-10: #82827c;
+  --vc-gray-11: #63635e;
+  --vc-gray-12: #21201c;
+
+  /* ── 차트 시리즈 색 ───────────────────────────────── */
+  /* 색맹·흑백 인쇄 안전. 시리즈 1개 = 키컬러, 2개 이상 = cat 앞에서부터. */
+  --vc-chart-seq-green-1: #edf8e9;
+  --vc-chart-seq-green-2: #bae4b3;
+  --vc-chart-seq-green-3: #74c476;
+  --vc-chart-seq-green-4: #31a354;
+  --vc-chart-seq-green-5: #006d2c;
+
+  --vc-chart-seq-blue-1:  #eff3ff;
+  --vc-chart-seq-blue-2:  #bdd7e7;
+  --vc-chart-seq-blue-3:  #6baed6;
+  --vc-chart-seq-blue-4:  #3182bd;
+  --vc-chart-seq-blue-5:  #08519c;
+
+  --vc-chart-div-brbg-1:  #a6611a;
+  --vc-chart-div-brbg-2:  #dfc27d;
+  --vc-chart-div-brbg-3:  #f5f5f5;
+  --vc-chart-div-brbg-4:  #80cdc1;
+  --vc-chart-div-brbg-5:  #018571;
+
+  --vc-chart-div-rdylgn-1:#d7191c;
+  --vc-chart-div-rdylgn-2:#fdae61;
+  --vc-chart-div-rdylgn-3:#ffffbf;
+  --vc-chart-div-rdylgn-4:#a6d96a;
+  --vc-chart-div-rdylgn-5:#1a9641;
+
+  --vc-chart-cat-1: #66c2a5;
+  --vc-chart-cat-2: #fc8d62;
+  --vc-chart-cat-3: #8da0cb;
+  --vc-chart-cat-4: #e78ac3;
+  --vc-chart-cat-5: #a6d854;
+  --vc-chart-cat-6: #ffd92f;
+  --vc-chart-cat-7: #e5c494;
+  --vc-chart-cat-8: #b3b3b3;
+
+  /* ── 타이포 스케일 ────────────────────────────────── */
+  /* 인쇄(pt) 환산은 주석 참조. 1rem = 16px. */
+  --vc-text-mega:     12.5rem;    /* 160–240pt · 표지·디바이더 전용 */
+  --vc-text-hero:     8.125rem;   /*  90–140pt · 대형 글리프·거대수치 */
+  --vc-text-display:  6rem;       /*  80–104pt · 표지 타이틀 */
+  --vc-text-h1:       1.9rem;     /*   30–46pt · 슬라이드 제목 */
+  --vc-text-h2:       1.25rem;    /*   18–24pt · 부제목·카드 헤드 */
+  --vc-text-body-lg:  1rem;       /*   15–16pt · 본문 강조 */
+  --vc-text-body:     0.875rem;   /*   12–14pt · 본문 */
+  --vc-text-caption:  0.6875rem;  /*   10–11pt · eyebrow·출처 */
+
+  --vc-weight-thin:    100;   /* 표지 초대형 타이포 */
+  --vc-weight-regular: 400;   /* 본문 */
+  --vc-weight-bold:    700;   /* 제목·강조 */
+  --vc-weight-black:   900;   /* 표지·디바이더 핵심어 */
+
+  /* 행간 — 큰 글자일수록 좁게 */
+  --vc-leading-tight:  1.02;
+  --vc-leading-snug:   1.24;
+  --vc-leading-normal: 1.5;
+  --vc-leading-body:   1.7;
+
+  /* 자간 — 크기별로 다르게. 본문은 0 근처, 큰 제목은 음수 */
+  --vc-tracking-mega:    -0.045em;
+  --vc-tracking-display: -0.03em;
+  --vc-tracking-heading: -0.018em;
+  --vc-tracking-body:     0;
+  --vc-tracking-caption:  0.16em;   /* 대문자 eyebrow 전용 */
+
+  /* ── 간격 · 격자 ──────────────────────────────────── */
+  --vc-space-1: 8px;
+  --vc-space-2: 16px;
+  --vc-space-3: 24px;
+  --vc-space-4: 40px;
+  --vc-gutter:  24px;    /* 카드 사이 */
+  --vc-margin:  64px;    /* 안전여백(슬라이드·섹션) */
+  --vc-grid:    12;      /* 정렬 격자 컬럼 수 */
+
+  /* 덱 캔버스 */
+  --vc-deck-w: 1280px;
+  --vc-deck-h: 720px;
+
+  /* ── 모서리 · 그림자 ──────────────────────────────── */
+  --vc-radius-card:    10px;
+  --vc-radius-card-lg: 14px;
+  --vc-radius-pill:    999px;
+  --vc-shadow-card:    0 2px 14px rgba(0,0,0,.4);
+
+  /* ── 모션 ─────────────────────────────────────────── */
+  --vc-motion-enter:   0.5s;              /* 요소 등장 */
+  --vc-motion-ease:    cubic-bezier(.34,1.56,.64,1);  /* back.out 근사 */
+  --vc-motion-press:   0.12s;             /* 클릭·터치 피드백 */
+  /* 모션클립 한 컷 러닝타임 = 2~3초 (전환 시간과 다른 값) */
+
+  /* ── 역할 토큰 (기본 = calm-charcoal 다크 면) ─────── */
+  --vc-bg:      var(--vc-ink);
+  --vc-surface: var(--vc-panel-dark);
+  --vc-raise:   var(--vc-panel-raise);
+  --vc-fg:      var(--vc-cream);
+  --vc-fg-mute: var(--vc-beige);
+  --vc-key:     var(--vc-accent-green);
+  --vc-key-alt: var(--vc-gold);
+}
+
+/* calm-charcoal 라이트 면 (크림 바탕) */
+[data-preset="calm-charcoal"][data-surface="light"],
+[data-surface="light"]{
+  --vc-bg:      var(--vc-cream);
+  --vc-surface: var(--vc-white-card);
+  --vc-raise:   var(--vc-tint-green);
+  --vc-fg:      var(--vc-ink-text);
+  --vc-fg-mute: var(--vc-gray-11);
+  --vc-key:     var(--vc-deep-green);
+  --vc-key-alt: var(--vc-gold);
+}
+
+[data-preset="hot-lime"]{
+  --vc-bg:      var(--vc-lime-bg);
+  --vc-surface: #141414;
+  --vc-raise:   #1C1C1C;
+  --vc-fg:      var(--vc-lime-text);
+  --vc-fg-mute: var(--vc-lime-sub);
+  --vc-key:     var(--vc-lime-key);
+  --vc-key-alt: var(--vc-lime-key);
+}
+
+[data-preset="hot-orange"]{
+  --vc-bg:      var(--vc-orange-bg);
+  --vc-surface: #1E1712;
+  --vc-raise:   #261D16;
+  --vc-fg:      var(--vc-orange-text);
+  --vc-fg-mute: var(--vc-orange-sub);
+  --vc-key:     var(--vc-orange-key);
+  --vc-key-alt: var(--vc-orange-gold);
+}
+
+[data-preset="electric-blue"]{
+  --vc-bg:      var(--vc-eblue-bg);
+  --vc-surface: #16202C;
+  --vc-raise:   #1C2836;
+  --vc-fg:      var(--vc-eblue-text);
+  --vc-fg-mute: #9FB3C8;
+  --vc-key:     var(--vc-eblue-key);
+  --vc-key-alt: var(--vc-eblue-accent);
+}
+
+/* ── 최소 기본 적용 예시 ─────────────────────────────
+   필요한 만큼만 가져다 쓰세요. */
+
+.vc-body{
+  font-family: var(--vc-font-sans);
+  font-size: var(--vc-text-body-lg);
+  font-weight: var(--vc-weight-regular);
+  line-height: var(--vc-leading-body);
+  letter-spacing: var(--vc-tracking-body);
+  background: var(--vc-bg);
+  color: var(--vc-fg);
+}
+
+.vc-display{
+  font-size: var(--vc-text-display);
+  font-weight: var(--vc-weight-bold);
+  line-height: var(--vc-leading-tight);
+  letter-spacing: var(--vc-tracking-display);
+}
+
+.vc-h1{
+  font-size: var(--vc-text-h1);
+  font-weight: var(--vc-weight-bold);
+  line-height: var(--vc-leading-snug);
+  letter-spacing: var(--vc-tracking-heading);
+}
+
+.vc-caption{
+  font-size: var(--vc-text-caption);
+  font-weight: var(--vc-weight-bold);
+  letter-spacing: var(--vc-tracking-caption);
+  text-transform: uppercase;
+  color: var(--vc-key);
+}
+
+.vc-card{
+  background: var(--vc-surface);
+  border-radius: var(--vc-radius-card);
+  padding: var(--vc-space-3);
+  box-shadow: var(--vc-shadow-card);
+}
+
+.vc-pill{
+  border-radius: var(--vc-radius-pill);
+  padding: 4px 12px;
+  font-size: var(--vc-text-caption);
+  font-weight: var(--vc-weight-bold);
+}
+
+/* 클릭·터치는 눌린 즉시 반응한다 */
+.vc-pressable{ transition: transform var(--vc-motion-press) ease-out; }
+.vc-pressable:active{ transform: scale(0.97); }
+
+/* 움직임 최소화 설정 존중 */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+</script>
+
+<script type="text/plain" id="src-ai-prompt"># AI 작업지시 템플릿 — VCBio 디자인
+
+AI 제작 도구에 그대로 붙여넣는 양식이다.
+대괄호 부분만 채우고, 아래 규격은 손대지 않는다.
+가능하면 브랜드 규격 문서(VCBIO-DESIGN.md)와 토큰 파일(vcbio-tokens.css)을 함께 첨부한다.
+
+---
+
+## 붙여넣기 시작 ↓
+
+당신은 브이씨바이오(VCBio, 건강기능식품 B2B OEM/ODM)의 디자인 산출물을 만든다.
+아래 브랜드 규격을 벗어나지 말고, 값은 그대로 쓴다.
+
+### 1. 이번 작업
+
+- 만들 것: [예: 16:9 제안덱 12장 / A4 브로셔 4쪽 / 웹 랜딩 1페이지]
+- 주제·내용: [원료명·제품명·전달할 핵심 메시지]
+- 보는 사람: [예: 대형 식품사 구매 담당 / 내부 검토 / 전시회 방문객]
+- 톤: [공식 제출용(절제) 또는 임팩트용(대담)]
+- 분량·마감: [장수·쪽수]
+
+### 2. 조합 지정
+
+선택보드에서 복사한 조합 문장을 여기에 그대로 붙인다.
+(보드 주소: https://vcbio.github.io/shelf/d/colorboard.html)
+
+> [조합 복사한 문장을 여기 붙여넣기]
+
+조합을 따로 받지 못했다면 프리셋만 고른다 — 기본값은 calm-charcoal이다.
+
+- [ ] calm-charcoal — 공식 제출·IR·규제 대응 톤 (기본값)
+- [ ] hot-lime — 임팩트·티저·SNS·랜딩 히어로
+- [ ] hot-orange — 캠페인·표지·발표 임팩트
+- [ ] electric-blue — 웹 대시보드·플랫폼·테크 제안
+
+### 3. 브랜드 규격 (그대로 지킬 것)
+
+**색 — 고른 프리셋 하나만 쓴다. 섞지 않는다.**
+
+calm-charcoal
+: deep-green #1E3932 (키컬러) · accent-green #2E7D5B · gold #B8954A
+· cream #F2F0EB (배경) · white-card #FBFAF7 · tint-green #E7EEE9
+· ink #1C1C1A (다크 배경) · ink-text #1A1A1A · panel-dark #262624
+· panel-raise #2C332D · beige #C9BCA4
+
+hot-lime
+: lime-bg #0A0A0A · lime-key #C6FF2E · lime-text #FFFFFF · lime-sub #8C8C8C
+
+hot-orange
+: orange-bg #15100C · orange-key #FF6A2C · orange-gold #FFB14D
+· orange-text #FFF1E6 · orange-sub #B5A595
+
+electric-blue
+: eblue-bg #101720 · eblue-key #227AFF · eblue-accent #2563EB
+· eblue-deep #02348B · eblue-navy #010163 · eblue-tint #BFDAF7 · eblue-text #FFFFFF
+
+증감 색(전 프리셋 공통): 상승 #3DDC84 · 하락 #E5484D — 칩은 작게.
+
+calm-charcoal에서 키컬러는 화면 5% 이하로만 쓴다(룰선·단어 하나·배지·작은 면).
+표지·디바이더·히어로와 hot 계열은 이 제한이 풀려 색면·발광을 대담하게 써도 되지만,
+데이터·표·긴 텍스트 영역은 어느 프리셋이든 키컬러 대면적을 피한다.
+
+**글자 — Pretendard 단독. 위계는 크기·웨이트 차이로만.**
+
+mega 12.5rem(Thin 100, 표지 전용) · hero 8.125rem(Black 900) · display 6rem(Bold)
+· h1 1.9rem(Bold) · h2 1.25rem(Bold) · body-lg 1rem · body 0.875rem
+· caption 0.6875rem(Bold, 대문자 자간)
+
+한 화면에 크기 위계를 세 단계 이상 둔다.
+자간을 넓히는 곳은 caption 대문자뿐이고, 큰 제목은 오히려 자간을 좁힌다.
+
+**간격 — 8px 리듬.**
+
+space 8 / 16 / 24 / 40 · 카드 사이 24 · 안전여백 64 · 12컬럼 격자
+· 카드 모서리 10px(대형 14px) · 배지 999px
+
+**캔버스** — 16:9 덱은 1280×720px, 안전여백 64px.
+레이아웃 리듬은 표지 → 디바이더 → 본문 → 마무리 4부.
+
+**이미지** — 풀블리드 사진은 듀오톤(shadow #1C1C1A, highlight #C9BCA4,
+tint는 프리셋 키컬러) + 하단 다크 그라디언트. 톤은 30~40%만 얹어 원본 형태를 살린다.
+원본 최소 1920×1080. 풀블리드는 표지·디바이더·히어로 한정.
+
+**차트** — 시리즈 하나면 키컬러, 둘 이상이면 아래 범주 색을 앞에서부터.
+#66c2a5 · #fc8d62 · #8da0cb · #e78ac3 · #a6d854 · #ffd92f · #e5c494 · #b3b3b3
+증감 발산이면 #d7191c · #fdae61 · #ffffbf · #a6d96a · #1a9641.
+
+### 4. 금지사항
+
+- 프리셋 혼합 금지 — 두 프리셋의 색을 한 산출물에 섞지 않는다
+- 규격 밖 색 창작 금지 — 위 HEX에 없는 색을 임의로 만들지 않는다
+- 다른 폰트 혼용 금지 — 영문 고유명사도 Pretendard로 간다
+- 본문 자간 넓히기 금지
+- 원색 풀블리드 사진 금지, 저해상도 업스케일 이미지 금지
+- 차트 색 즉흥 선택 금지
+- 이모지 아이콘·출처 불명 클립아트 금지 — 아이콘은 한 세트로 통일
+- 무한반복·글리치·난수 기반 모션 금지
+- 본문 대비 4.5:1 미만 금지
+- 없는 수치·없는 시험·없는 인증을 지어내지 않는다. 수치에는 반드시 출처를 붙인다
+- 건강기능식품 특성상 질병 치료·예방·완치 단정, 인체 효능 단정 수치,
+  "100%·완벽·유일·최고" 같은 절대 표현은 쓰지 않는다
+- 한국어가 들어간 HTML은 맨 앞 줄에 &lt;meta charset="UTF-8"&gt;을 넣는다
+- 결과를 코드나 설명으로만 보고하지 말고, 실제 렌더 이미지로 확인한 뒤 넘긴다
+
+### 5. 넘길 때 함께 줄 것
+
+- 산출물 파일
+- 실제 렌더 결과 이미지(장별 또는 표지 1장)
+- 쓴 프리셋 이름과 벗어난 항목이 있으면 그 사유
+
+## 붙여넣기 끝 ↑
+</script>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ── 토스트 ─────────────────────────────── */
+  var toastEl = document.getElementById('toast');
+  var toastTimer = null;
+  function toast(msg){
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toastEl.classList.remove('show'); }, 1900);
+  }
+
+  /* ── 테마 토글 ──────────────────────────── */
+  var root = document.documentElement;
+  document.getElementById('themeBtn').addEventListener('click', function(){
+    var cur = root.getAttribute('data-theme');
+    if(!cur){
+      cur = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    root.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark');
+  });
+
+  /* ── 복사 유틸 ──────────────────────────── */
+  function copyText(text, okMsg){
+    function fallback(){
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly','');
+      ta.style.position = 'fixed';
+      ta.style.top = '-1000px';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try{ ok = document.execCommand('copy'); }catch(e){ ok = false; }
+      document.body.removeChild(ta);
+      toast(ok ? okMsg : '복사에 실패했습니다 — 직접 선택해 복사해 주세요');
+    }
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(text).then(function(){ toast(okMsg); }, fallback);
+    } else {
+      fallback();
+    }
+  }
+
+  /* ── 색 칩 복사 ─────────────────────────── */
+  Array.prototype.forEach.call(document.querySelectorAll('.sw'), function(b){
+    b.addEventListener('click', function(){
+      var hex = b.getAttribute('data-hex');
+      copyText(hex, hex + ' 복사됨');
+    });
+  });
+
+  /* ── 다운로드 파일 정의 ─────────────────── */
+  var FILES = {
+    'design-md':  { name:'VCBIO-DESIGN.md',        src:'src-design-md',  type:'text/markdown;charset=utf-8' },
+    'tokens-css': { name:'vcbio-tokens.css',       src:'src-tokens-css', type:'text/css;charset=utf-8' },
+    'ai-prompt':  { name:'AI-작업지시-템플릿.md',   src:'src-ai-prompt',  type:'text/markdown;charset=utf-8' }
+  };
+
+  function payload(key){
+    var f = FILES[key];
+    var el = document.getElementById(f.src);
+    if(!el) return null;
+    // 페이로드 안에 남은 HTML 엔티티를 실제 문자로 되돌린다
+    var t = document.createElement('textarea');
+    t.innerHTML = el.textContent;
+    return t.value;
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-dl]'), function(btn){
+    btn.addEventListener('click', function(){
+      var key = btn.getAttribute('data-dl');
+      var f = FILES[key];
+      var text = payload(key);
+      if(text === null){ toast('파일 내용을 찾지 못했습니다'); return; }
+      var blob = new Blob(['﻿' + text], { type: f.type });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = f.name;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+      toast(f.name + ' 내려받는 중');
+      btn.classList.add('done');
+      setTimeout(function(){ btn.classList.remove('done'); }, 1400);
+    });
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-copy]'), function(btn){
+    btn.addEventListener('click', function(){
+      var key = btn.getAttribute('data-copy');
+      var text = payload(key);
+      if(text === null){ toast('파일 내용을 찾지 못했습니다'); return; }
+      copyText(text, FILES[key].name + ' 전문이 클립보드에 복사됐습니다');
+    });
+  });
+
+  /* ── 체크리스트 ─────────────────────────── */
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('.chk input[type="checkbox"]'));
+  var cntEl = document.getElementById('cnt');
+  var fillEl = document.getElementById('fill');
+
+  function sync(){
+    var done = 0;
+    boxes.forEach(function(b){
+      if(b.checked) done++;
+      b.closest('.chk').classList.toggle('on', b.checked);
+    });
+    cntEl.textContent = done + ' / ' + boxes.length;
+    fillEl.style.width = (boxes.length ? (done / boxes.length * 100) : 0) + '%';
+  }
+  boxes.forEach(function(b){ b.addEventListener('change', sync); });
+  document.getElementById('resetChk').addEventListener('click', function(){
+    boxes.forEach(function(b){ b.checked = false; });
+    sync();
+    toast('체크리스트를 초기화했습니다');
+  });
+  sync();
+})();
+</script>
+</body>
+</html>
