@@ -276,6 +276,19 @@ html:not([data-theme="light"]) .psrc{color:#9d9788}
 .kitcopy:hover{background:#2E7D5B;color:#eafff3}
 .kitcode{background:#1f2d26;color:#dff3e8;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10.5px;line-height:1.55;padding:9px 11px;border-radius:8px;overflow-x:auto;white-space:pre;margin:0;-webkit-user-select:all;user-select:all}
 .kitwarn{margin-top:10px;background:#fdf3e0;border:1px solid #f0dcb4;color:#8a5d08;font-size:11.5px;font-weight:600;line-height:1.5;padding:8px 10px;border-radius:8px}
+.kitpit{margin-top:10px;background:#fdf3e0;border:1px solid #f0dcb4;border-radius:8px}
+.kitpit>summary{cursor:pointer;list-style:none;padding:8px 10px;font-size:11.5px;font-weight:800;color:#8a5d08;user-select:none}
+.kitpit>summary::-webkit-details-marker{display:none}
+.kitpit>summary::after{content:"펼치기 ▾";float:right;font-size:10.5px;font-weight:700;opacity:.75}
+.kitpit[open]>summary::after{content:"접기 ▴"}
+.pcnt{font-size:10.5px;font-weight:700;opacity:.7;margin-left:3px}
+.kitpit ul{margin:0;padding:0 11px 10px 27px}
+.kitpit li{color:#8a5d08;font-size:11.5px;line-height:1.6;margin:7px 0}
+.kitpit li.alert{font-weight:700}
+.kitpit code{font-family:ui-monospace,Menlo,monospace;font-size:10.5px;background:#f6e6c6;padding:1px 5px;border-radius:4px}
+.pbadge{display:inline-block;margin-left:5px;font-size:9.5px;font-weight:800;padding:1px 6px;border-radius:6px;vertical-align:1px;white-space:nowrap}
+.pbadge.meas{background:#1E3932;color:#eafff3}
+.pbadge.src{background:#efe3c8;color:#9b8354;font-weight:700}
 .kitrule{margin-top:9px;font-size:11.5px;color:#6b675f;line-height:1.5;font-weight:600}
 .kitfoot{margin-top:10px;font-size:10.5px;color:#9a958a;line-height:1.5}
 .kitfoot code{font-family:ui-monospace,Menlo,monospace;font-size:10px;background:#efece3;padding:1px 5px;border-radius:4px}
@@ -294,6 +307,11 @@ html:not([data-theme="light"]) .kmb.on{background:#2E7D5B;border-color:#2E7D5B;c
 html:not([data-theme="light"]) .kitcopy{background:#1b2b22;border-color:#2E7D5B;color:#7fd9a8}
 html:not([data-theme="light"]) .kitcode{background:#12100c;color:#cfe8db}
 html:not([data-theme="light"]) .kitwarn{background:#2a2317;border-color:#48401f;color:#e0bb70}
+html:not([data-theme="light"]) .kitpit{background:#2a2317;border-color:#48401f}
+html:not([data-theme="light"]) .kitpit>summary,html:not([data-theme="light"]) .kitpit li{color:#e0bb70}
+html:not([data-theme="light"]) .kitpit code{background:#3a301c;color:#f0d9a6}
+html:not([data-theme="light"]) .pbadge.meas{background:#7fd9a8;color:#12291f}
+html:not([data-theme="light"]) .pbadge.src{background:#3a301c;color:#c7ab74}
 html:not([data-theme="light"]) .kitrule{color:#a49d8d}
 html:not([data-theme="light"]) .kitfoot code{background:#2a2620;color:#c9c3b6}
 html:not([data-theme="light"]) .sknote .kit{background:#1e1b16}
@@ -354,6 +372,11 @@ html[data-theme="dark"] .kmb.on{background:#2E7D5B;border-color:#2E7D5B;color:#e
 html[data-theme="dark"] .kitcopy{background:#1b2b22;border-color:#2E7D5B;color:#7fd9a8}
 html[data-theme="dark"] .kitcode{background:#12100c;color:#cfe8db}
 html[data-theme="dark"] .kitwarn{background:#2a2317;border-color:#48401f;color:#e0bb70}
+html[data-theme="dark"] .kitpit{background:#2a2317;border-color:#48401f}
+html[data-theme="dark"] .kitpit>summary,html[data-theme="dark"] .kitpit li{color:#e0bb70}
+html[data-theme="dark"] .kitpit code{background:#3a301c;color:#f0d9a6}
+html[data-theme="dark"] .pbadge.meas{background:#7fd9a8;color:#12291f}
+html[data-theme="dark"] .pbadge.src{background:#3a301c;color:#c7ab74}
 html[data-theme="dark"] .kitrule{color:#a49d8d}
 html[data-theme="dark"] .kitfoot code{background:#2a2620;color:#c9c3b6}
 html[data-theme="dark"] .sknote .kit{background:#1e1b16}
@@ -950,7 +973,7 @@ h1{font-size:48px;font-weight:300;line-height:1.15;letter-spacing:-.02em;color:#
 .section{padding:96px 0}
 h1{font-size:48px;font-weight:300;line-height:1.15;letter-spacing:-.02em;color:#061B31}
 .card{border-radius:6px;box-shadow:rgba(50,50,93,.12) 0 16px 32px,rgba(23,23,23,.08) 0 15px 35px}
-.btn{border-radius:4px;background:#533AFD;color:#fff;transition:all .3s cubic-bezier(.25,1,.5,1)}</pre></div><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/stripe/</code></div></div></details>
+.btn{border-radius:4px;background:#533AFD;color:#fff;transition:all .3s cubic-bezier(.25,1,.5,1)}</pre></div><details class="kitpit"><summary>⚠️ 함정 <span class="pcnt">3</span></summary><ul><li>히어로가 <b>h1 두 겹 + <code>mix-blend-mode: hard-light</code></b> 구조라 스크린샷만 보고는 재현이 안 된다. 배경색이 애니메이션이라 캡처 시점마다 색도 다르다.<span class="pbadge meas">[실측]</span></li><li>회색조가 3계층뿐 — <b>위계를 색이 아니라 크기·여백으로</b> 만들어야 한다. 색을 늘리는 순간 미니멀이 아니게 된다.<span class="pbadge meas">[실측]</span></li><li><b>카피가 약하면 여백만 남아 미완성으로 보인다.</b> 이 스타일은 문장이 먼저 좋아야 성립한다.<span class="pbadge src">[출처]</span></li></ul></details><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/stripe/</code></div></div></details>
     </div><div class="card scard" data-tags="건기식웰니스" data-name="범용 스타일 뉴모피즘 Neumorphism 눌린 듯 도드라진 부드러운 소프트 3D 헬스·웰니스·명상·피트니스·최소 상호작용 UI 뉴모피즘 neumorphism soft ui, embossed, debossed, convex, concave, light source, subtle depth, rounded (12-16px), monochromatic health/wellness apps, meditation platforms, fitness trackers, minimal interaction uis neumorphism.io" data-combo="뉴모피즘" data-rec="1">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">뉴모피즘 <span class="en">Neumorphism</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/2.jpg" alt="뉴모피즘 표지 예시"><span class="famtag">뉴모피즘</span></div>
@@ -1003,7 +1026,7 @@ h1{font-size:48px;font-weight:300;line-height:1.15;letter-spacing:-.02em;color:#
   border: 0;
 }
 .nm-filled{background:linear-gradient(145deg,#f0f0f0,#cacaca)}   /* 채움은 145deg */
-.nm-pressed{box-shadow:inset 20px 20px 60px #bebebe,inset -20px -20px 60px #ffffff}</pre></div><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/neumorphism/</code></div></div></details>
+.nm-pressed{box-shadow:inset 20px 20px 60px #bebebe,inset -20px -20px 60px #ffffff}</pre></div><details class="kitpit"><summary>⚠️ 함정 <span class="pcnt">3</span></summary><ul><li>공식 값이 <code>20px 20px 60px #bebebe / -20px -20px 60px #ffffff</code> — <b>베이스색을 바꾸면 두 그림자색을 같이 다시 계산</b>해야 한다(밝게·어둡게 짝). 하나만 바꾸면 입체가 무너진다.<span class="pbadge meas">[실측]</span></li><li>배경과 요소가 같은 색이라 <b>경계가 그림자로만 존재</b> → <b>인쇄·흑백 복사에서 요소가 사라진다.</b> 우리는 인쇄물을 병행하므로 실사용 제약이 크다.<span class="pbadge meas">[실측]</span></li><li>대비가 구조적으로 낮아 <b>WCAG 본문 4.5:1·UI 3:1을 맞추기 어렵고</b>, 클릭 가능한 요소와 그냥 면이 구분되지 않는다. 스크린리더는 그림자를 전혀 못 읽는다.<span class="pbadge src">[출처]</span></li></ul></details><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/neumorphism/</code></div></div></details>
     </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 뷰티럭셔리" data-name="범용 스타일 글래스모피즘 Glassmorphism 뒤가 비치는 서리유리·블러·층감 모던 SaaS·금융 대시보드·고급 기업·모달 글래스 glassmorphism frosted glass, transparent, blurred background, layered, vibrant background, light source, depth, multi-layer modern saas, financial dashboards, high-end corporate, lifestyle apps, modal overlays, navigation authkit.com" data-combo="글래스모피즘" data-rec="1">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">글래스모피즘 <span class="en">Glassmorphism</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/3.jpg" alt="글래스모피즘 표지 예시"><span class="famtag">글래스</span></div>
@@ -1072,7 +1095,7 @@ h1{font-size:48px;font-weight:300;line-height:1.15;letter-spacing:-.02em;color:#
 .glass-btn{background:rgba(186,214,247,.06);backdrop-filter:blur(4px);
   box-shadow:rgba(199,211,234,.12) 0 0 0 1px inset}
 .topbar{backdrop-filter:blur(8px)}
-.glass,.glass-btn{transition:.2s cubic-bezier(.6,.6,0,1)}</pre></div><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/authkit/</code></div></div></details>
+.glass,.glass-btn{transition:.2s cubic-bezier(.6,.6,0,1)}</pre></div><details class="kitpit"><summary>⚠️ 함정 <span class="pcnt">4</span></summary><ul><li>유리감의 실체는 흐림이 아니라 <b>3중첩 그림자</b>(1px inset 하이라이트 + 24px 48px inset 내부광 + 외부 검정). <code>backdrop-filter</code>만 넣으면 싸구려로 보인다.<span class="pbadge meas">[실측]</span></li><li><b>뒤에 깔릴 배경이 없으면 효과가 0</b> — 단색 배경 위에서는 그냥 반투명 회색 상자다.<span class="pbadge meas">[실측]</span></li><li><b>여러 요소에 동시에 걸면 느려진다</b> — 표 셀마다 blur를 건 실사용 사례에서 심한 버벅임이 보고됐다(이후 수정). 카드 몇 장 수준으로 제한할 것.<span class="pbadge src">[출처]</span></li><li>지원율 94.6%(2026-06)이며 <b>Safari는 <code>-webkit-</code> 접두사 필요</b>, 구형 브라우저·Opera Mini는 미지원 — 폴백 배경색을 반드시 함께 준다.<span class="pbadge src">[출처]</span></li></ul></details><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/authkit/</code></div></div></details>
     </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 패션" data-name="범용 스타일 브루탈리즘 Brutalism 날것·거친·기본폰트·굵은 테두리·반디자인 디자인 포폴·예술·카운터컬처·에디토리얼 브루탈 brutalism raw, unpolished, stark, high contrast, plain text, default fonts, visible borders, asymmetric, anti-design design portfolios, artistic projects, counter-culture brands, editorial/media sites, tech blogs flowen.me" data-combo="브루탈리즘" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">브루탈리즘 <span class="en">Brutalism</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/4.jpg" alt="브루탈리즘 표지 예시"><span class="famtag">브루탈</span></div>
@@ -1133,7 +1156,7 @@ body{background:#161B1B;color:#FFFFFF;font-family:&quot;AzeretMono&quot;,ui-mono
 h1{font-size:8.25vw;font-weight:700;line-height:1.2;text-transform:uppercase}
 .wrap{max-width:1100px;padding:90px 0 135px}
 .blend{mix-blend-mode:difference}
-a,button{transition:.25s cubic-bezier(.165,.84,.44,1)}</pre></div><div class="kitwarn">⚠️ 통념과 달리 굵은 검정 보더형이 아닙니다 — 보더·라운드·그림자·그라디언트 전부 실측 0건. 장식을 완전히 빼고 거대 모노타입으로 세우세요.</div><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/flowen/</code></div></div></details>
+a,button{transition:.25s cubic-bezier(.165,.84,.44,1)}</pre></div><details class="kitpit"><summary>⚠️ 함정 <span class="pcnt">3</span></summary><ul><li>통념(굵은 검정 보더)과 다르다 — 실측은 <b>보더 0·라운드 0·그림자 0</b>. 정체는 거대 모노스페이스(8.25vw)와 ALL CAPS다.<span class="pbadge meas">[실측]</span></li><li><b>본문이 존재하지 않는 구조</b>(페이지 전체가 디스플레이 타이포) — 설명이 많은 B2B 문서엔 그대로 못 쓴다.<span class="pbadge meas">[실측]</span></li><li>날것의 미학 때문에 대비를 낮추기 쉬운데 <b>본문은 4.5:1을 지켜야</b> 하고, 내비게이션·키보드 흐름이 깨지기 쉽다.<span class="pbadge src">[출처]</span></li></ul></details><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/flowen/</code></div></div></details>
     </div><div class="card scard" data-tags="테크핀테크 뷰티럭셔리 스포츠" data-name="범용 스타일 3D·하이퍼리얼리즘 3D &amp; Hyperrealism 실사 질감·입체·몰입감 게이밍·제품 쇼케이스·고급 이커머스·VR/AR 3D·실사 3d &amp; hyperrealism depth, realistic textures, 3d models, spatial navigation, tactile, skeuomorphic elements, rich detail, immersive gaming, product showcase, immersive experiences, high-end e-commerce, architectural viz, vr/ar bruno-simon.com" data-combo="3D·하이퍼리얼리즘" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">3D·하이퍼리얼리즘 <span class="en">3D &amp; Hyperrealism</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/5.jpg" alt="3D·하이퍼리얼리즘 표지 예시"><span class="famtag">3D·실사</span></div>
@@ -1188,7 +1211,7 @@ canvas:active{cursor:grabbing}
 .btn{border:1px solid rgba(255,255,255,.8);border-radius:8px;box-shadow:none;background:none;color:#fff}
 .btn:hover{background:#fff;color:#1D1721}
 @media(max-width:520px){html{font-size:18px}}
-@media(max-width:440px){html{font-size:16px}}</pre></div><div class="kitwarn">⚠️ 원본은 총 전송 7.3MB — 3D 자산 로딩이 무거우면 그대로 이탈로 이어집니다. DOM 969개 중 보이는 건 13개뿐이라 UI 정체성은 캔버스와 커서로만 성립합니다.</div><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/brunosimon/</code></div></div></details>
+@media(max-width:440px){html{font-size:16px}}</pre></div><details class="kitpit"><summary>⚠️ 함정 <span class="pcnt">4</span></summary><ul><li>총 전송 <b>7.3MB</b>, 화면 전체가 캔버스 1장, DOM 969개 중 보이는 건 13개 — <b>텍스트가 DOM에 없어 검색·복사·스크린리더가 안 된다.</b><span class="pbadge meas">[실측]</span></li><li><code>position:fixed</code> + <code>overflow:hidden</code> 전면 구조라 <b>일반 페이지에 섞어 쓸 수 없다</b>(페이지 하나를 통째로 내줘야 함).<span class="pbadge meas">[실측]</span></li><li><b>Safari·Firefox는 활성 WebGL 컨텍스트 수에 상한</b>이 있어 여러 개를 띄우면 오래된 것부터 잃는다. iPadOS Safari에서 백그라운드 전환 시 컨텍스트 손실 버그도 보고됐다.<span class="pbadge src">[출처]</span></li><li>비개발자가 수정할 수 없다 — 한 번 만들면 <b>유지보수가 개발 의존</b>이다.<span class="pbadge src">[출처]</span></li></ul></details><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/brunosimon/</code></div></div></details>
     </div><div class="card scard" data-tags="테크핀테크 스포츠 키즈" data-name="범용 스타일 비비드·블록형 Vibrant &amp; Block-based 대담·활기·큰 블록·강한 색대비 스타트업·크리에이티브·게이밍·SNS·소비재 비비드블록 vibrant &amp; block-based bold, energetic, playful, block layout, geometric shapes, high color contrast, duotone, modern, energetic startups, creative agencies, gaming, social media, youth-focused, entertainment, consumer " data-combo="비비드·블록형" data-rec="1">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">비비드·블록형 <span class="en">Vibrant &amp; Block-based</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/6.jpg" alt="비비드·블록형 표지 예시"><span class="famtag">비비드블록</span></div>
@@ -1250,7 +1273,7 @@ a,button{transition:.15s cubic-bezier(.4,0,.2,1)}" onclick="cpk(event,this)">복
 h1{font-size:64px;font-weight:400;line-height:1;letter-spacing:-3.84px;color:#EDEDED}
 section+section{margin-top:208px}          /* padding 0 — 세로 리듬은 margin으로 */
 .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:20px}
-a,button{transition:.15s cubic-bezier(.4,0,.2,1)}</pre></div><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/vercel/</code></div></div></details>
+a,button{transition:.15s cubic-bezier(.4,0,.2,1)}</pre></div><details class="kitpit" open><summary>⚠️ 함정 <span class="pcnt">3</span></summary><ul><li>경계를 border가 아니라 <b>그림자 이중 링</b>(<code>0 0 0 1px #ffffff25, 0 0 0 1px #000</code>)으로 그린다. border로 따라하면 순수 검정 배경에서 면이 안 떠 보인다.<span class="pbadge meas">[실측]</span></li><li>세로 리듬이 padding이 아니라 <b>margin-top 208px/276px</b> — padding으로 옮기면 간격 체계가 어긋난다.<span class="pbadge meas">[실측]</span></li><li class="alert">⚠️ <b>인쇄하면 브라우저가 배경을 지우거나 색을 뒤집는다.</b> 인쇄물을 병행하는 우리 산출물엔 치명적 — <code>print-color-adjust: exact</code>로 강제하거나 <code>@media print</code>에서 라이트로 바꿔야 한다.<span class="pbadge src">[출처]</span></li></ul></details><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/vercel/</code></div></div></details>
     </div><div class="card scard" data-tags="건기식웰니스 의료 금융컨설팅 키즈" data-name="범용 스타일 접근성·윤리 디자인 Accessible &amp; Ethical 고대비·큰 글씨·키보드·스크린리더 WCAG 공공·헬스케어·교육·법규 준수 접근성 accessible &amp; ethical high contrast, large text (16px+), keyboard navigation, screen reader friendly, wcag compliant, focus state, semantic government, healthcare, education, inclusive products, large audience, legal compliance, public " data-combo="접근성·윤리 디자인" data-rec="1">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">접근성·윤리 디자인 <span class="en">Accessible &amp; Ethical</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/8.jpg" alt="접근성·윤리 디자인 표지 예시"><span class="famtag">접근성</span></div>
@@ -1469,7 +1492,7 @@ body{background:#F9F0E9;font-size:16px;letter-spacing:-1px}
 .btn{border:1px solid #000;border-radius:4px;
   box-shadow:0 1px 0 #000, inset 0 1px 0 #FFF;text-shadow:#FFF 0 1px 0}
 .btn:active{box-shadow:inset 1px 1px 0 #FFF, inset 0 0 0 1px rgba(0,0,0,.2)}
-.check{border-radius:2px}</pre></div><div class="kitwarn">⚠️ 형광 네온이 아니라 파스텔입니다(#F6D5D5·#AFE2E5·#F9F0E9). 큰 히어로 글자도 없습니다 — 페이지 최대 글자가 16px.</div><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/poolsuite/</code></div></div></details>
+.check{border-radius:2px}</pre></div><details class="kitpit"><summary>⚠️ 함정 <span class="pcnt">3</span></summary><ul><li>통념(형광)과 다르다 — 실측은 <b>파스텔</b>(#F6D5D5·#AFE2E5·#F9F0E9).<span class="pbadge meas">[실측]</span></li><li><b>페이지 최대 글자가 16px</b>(픽셀 폰트 8~16px·자간 -1px). 큰 제목을 쓰면 픽셀 폰트가 깨져 스타일이 무너진다. <code>image-rendering: pixelated</code>가 전역이라 사진·로고까지 계단이 진다.<span class="pbadge meas">[실측]</span></li><li><b>고해상도 화면(레티나)에서 픽셀 폰트가 보간돼 흐려진다</b> — 배수 크기로 고정하는 등 별도 처리가 필요하다.<span class="pbadge src">[출처]</span></li></ul></details><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/poolsuite/</code></div></div></details>
     </div><div class="card scard" data-tags="테크핀테크 스포츠" data-name="범용 스타일 사이버펑크 UI Cyberpunk UI 네온·다크·터미널·HUD·글리치 게이밍·테크·크립토·SF·개발자도구 HUD·SF cyberpunk ui neon, dark mode, terminal, hud, sci-fi, glitch, dystopian, futuristic, matrix, tech noir gaming platforms, tech products, crypto apps, sci-fi applications, developer tools, entertainment " data-combo="사이버펑크 UI" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">사이버펑크 UI <span class="en">Cyberpunk UI</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/41.jpg" alt="사이버펑크 UI 표지 예시"><span class="famtag">HUD·SF</span></div>
@@ -1656,7 +1679,7 @@ h1{font-size:56px;font-weight:600;letter-spacing:-.58px;color:#1D1D1F}
 .wide{grid-column:span 2}     /* 696×452 */
 /* 기본 단위 = .tall 1개 옆에 반칸(480×310) 2개 쌓기 */
 h1{font-size:56px;font-weight:600;letter-spacing:-.58px;color:#1D1D1F}
-.btn{border-radius:980px;background:#0071E3;color:#fff;transition:.28s cubic-bezier(.4,0,.6,1)}</pre></div><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/apple/</code></div></div></details>
+.btn{border-radius:980px;background:#0071E3;color:#fff;transition:.28s cubic-bezier(.4,0,.6,1)}</pre></div><details class="kitpit"><summary>⚠️ 함정 <span class="pcnt">3</span></summary><ul><li>정체는 <b>라운드 28px + 그림자 0 + gap 20px</b> 세 값의 반복. 그림자를 넣으면 즉시 벤토가 아니게 된다.<span class="pbadge meas">[실측]</span></li><li>카드 비율이 3종 고정(696×452·480×640·480×310)이고 <b>세로 1칸 옆 반칸 2개</b>가 기본 단위 — 임의 비율로 채우면 격자가 흐트러진다.<span class="pbadge meas">[실측]</span></li><li><b>콘텐츠가 부족하면 빈칸이 티난다.</b> 칸 크기는 분량이 아니라 <b>중요도</b>로 정해야 하고, 채울 것이 4개 미만이면 이 격자를 쓰지 않는 편이 낫다.<span class="pbadge src">[출처]</span></li></ul></details><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/apple/</code></div></div></details>
     </div><div class="card scard" data-tags="테크핀테크 뷰티럭셔리" data-name="범용 스타일 공간 UI(비전OS) Spatial UI (VisionOS) 유리·깊이·몰입·시선/제스처 공간 컴퓨팅·VR/AR·몰입 미디어 글래스 spatial ui (visionos) glass, depth, immersion, spatial, translucent, gaze, gesture, apple, vision-pro spatial computing apps, vr/ar interfaces, immersive media, futuristic dashboards " data-combo="공간 UI(비전OS)" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">공간 UI(비전OS) <span class="en">Spatial UI (VisionOS)</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/55.jpg" alt="공간 UI(비전OS) 표지 예시"><span class="famtag">글래스</span></div>
@@ -1835,7 +1858,7 @@ h1{font-size:56px;font-weight:600;letter-spacing:-.58px;color:#1D1D1F}
              0 6.4px 19px -1.9px rgba(0,0,0,.05),
              0 20px 60px -2.5px rgba(0,0,0,.05);}   /* 4겹 계단식 */
 .aqua{background:linear-gradient(130deg,#85DADC,#C0E2E2)}
-.cta{border-radius:4px}.pill{border-radius:30px}</pre></div><div class="kitwarn">⚠️ 원문 글과 달리 히어로의 &quot;메시&quot;는 CSS가 아니라 PNG 이미지입니다 — radial·conic·blur·mix-blend 전부 0건이라 CSS로는 그대로 재현되지 않습니다. 위 단순 linear 그라디언트를 쓰거나 다른 레퍼런스를 잡으세요.</div><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/partiful/</code></div></div></details>
+.cta{border-radius:4px}.pill{border-radius:30px}</pre></div><details class="kitpit" open><summary>⚠️ 함정 <span class="pcnt">3</span></summary><ul><li class="alert">⚠️ <b>이 레퍼런스의 &quot;메시&quot;는 CSS가 아니라 PNG 이미지다</b>(1425×800). CSS엔 단순 linear뿐이고 radial·conic·blur·mix-blend는 0건 — &quot;CSS로 메시 만들어줘&quot;는 이걸로 재현 불가.<span class="pbadge meas">[실측]</span></li><li>이미지로 만들면 <b>텍스트 위치를 바꿀 때마다 그라디언트를 다시 만들어야 한다.</b><span class="pbadge meas">[실측]</span></li><li><b>같은 그라디언트 안에서도 위치마다 대비가 달라진다</b> — 한쪽은 통과, 다른 쪽은 실패. 텍스트를 얹으려면 그 지점 대비를 따로 확인해야 한다.<span class="pbadge src">[출처]</span></li></ul></details><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/partiful/</code></div></div></details>
     </div><div class="card scard" data-tags="패션" data-name="범용 스타일 에디토리얼·매거진 Editorial Grid / Magazine 잡지 레이아웃·풀쿼트·드롭캡·컬럼 뉴스·블로그·매거진·롱폼·저널리즘 에디토리얼 editorial grid / magazine magazine layout, asymmetric grid, editorial typography, pull quotes, drop caps, column layout, print-inspired news sites, blogs, magazines, editorial content, long-form articles, journalism, publishing kinfolk.com" data-combo="에디토리얼·매거진" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">에디토리얼·매거진 <span class="en">Editorial Grid / Magazine</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/66.jpg" alt="에디토리얼·매거진 표지 예시"><span class="famtag">에디토리얼</span></div>
@@ -1890,7 +1913,7 @@ h1{font-family:serif;font-size:50px;font-weight:400;line-height:1.04;
 p{font-size:20px;line-height:1.5;max-width:39ch}      /* 본문 한 줄 39자 */
 .meta{font-family:system-ui,sans-serif;font-size:15px;line-height:1.33;letter-spacing:.15px}
 .grid{display:grid;grid-template-columns:repeat(24,1fr);gap:20px;max-width:none}
-.fade{transition:opacity .5s cubic-bezier(.25,1,.5,1)}</pre></div><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/kinfolk/</code></div></div></details>
+.fade{transition:opacity .5s cubic-bezier(.25,1,.5,1)}</pre></div><details class="kitpit"><summary>⚠️ 함정 <span class="pcnt">3</span></summary><ul><li><b>라운드 0·그림자 0·그라디언트 0·강조색 0</b> — 뺄 수 있는 걸 전부 뺀 스타일이라 하나라도 넣으면 톤이 무너진다.<span class="pbadge meas">[실측]</span></li><li>본문 measure가 <b>39자</b>, max-width 없이 풀블리드 24칼럼 — 우리 덱(1280×720 고정 캔버스)에 그대로 옮기면 줄바꿈이 완전히 달라진다.<span class="pbadge meas">[실측]</span></li><li><b>사진 품질이 곧 완성도</b>인데, 무료 스톡은 해상도·크롭 편차가 크다. 특히 <b>&quot;에디토리얼 라이선스&quot; 이미지는 상업적 홍보 사용이 금지된 경우가 많아</b> 회사 자료에 쓰면 라이선스 위반 소지가 있다.<span class="pbadge src">[출처]</span></li></ul></details><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/kinfolk/</code></div></div></details>
     </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 패션 스포츠" data-name="범용 스타일 색수차·RGB 분리 Chromatic Aberration / RGB Split RGB 분리·색번짐·VHS·왜곡 음악·게이밍·테크·나이트라이프·비디오 색수차 chromatic aberration / rgb split rgb split, color fringing, glitch, retro tech, vhs, analog error, distortion, lens effect music platforms, gaming, tech brands, creative portfolios, nightlife, entertainment, video platforms " data-combo="색수차·RGB 분리" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">색수차·RGB 분리 <span class="en">Chromatic Aberration / RGB Split</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/67.jpg" alt="색수차·RGB 분리 표지 예시"><span class="famtag">색수차</span></div>
