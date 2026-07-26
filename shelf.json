@@ -115,11 +115,6 @@
   "date": "2026-07-15"
  },
  {
-  "slug": "govgrant-monitor",
-  "title": "정부지원사업 모니터링 대시보드",
-  "date": "2026-07-20"
- },
- {
   "slug": "saju-jonggook-jg93k2",
   "title": "박종국님 인생 분석 (사주·자미두수·베다·서양 4체계)",
   "date": "2026-07-21"
@@ -188,5 +183,10 @@
   "slug": "colorboard",
   "title": "VCBio 디자인 선택 보드 v3",
   "date": "2026-07-26"
+ },
+ {
+  "slug": "govgrant-monitor",
+  "title": "정부지원사업 모니터링 대시보드",
+  "date": "2026-07-27"
  }
 ]
