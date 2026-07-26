@@ -66,6 +66,8 @@ h3.grp{font-size:15px;font-weight:800;margin:22px 0 11px;display:flex;align-item
 .sw .lb{font-size:9px;opacity:.8;margin-top:1px}
 .mood,.use,.role,.avoid{font-size:12px;color:#4a463e;margin-top:5px;line-height:1.45}
 .role{color:#6b675f}.avoid{color:#9a5a4a}
+.refsite{font-size:11px;color:#7d786d;margin-top:6px;line-height:1.4}
+.refsite a{color:#2E7D5B;text-decoration:underline;text-underline-offset:2px;font-weight:600}
 .clamp2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .badges,.scard .tags{margin-bottom:9px}
 .combobar{position:fixed;left:0;right:0;bottom:0;background:#1f2d26;color:#eafff3;z-index:30;padding:11px 18px;display:flex;align-items:center;gap:14px;box-shadow:0 -4px 20px rgba(0,0,0,.25);flex-wrap:wrap}
@@ -121,7 +123,9 @@ html:not([data-theme="light"]) .mood,html:not([data-theme="light"]) .use{color:#
 html:not([data-theme="light"]) .role{color:#a9a294}
 html:not([data-theme="light"]) .avoid{color:#d59d8c}
 html:not([data-theme="light"]) /* R6-2: 다크 카드 설명 대비 */
-  .grpnote{color:#a49d8d}
+  .refsite{color:#a9a294}
+html:not([data-theme="light"]) .refsite a{color:#7fcfa6}
+html:not([data-theme="light"]) .grpnote{color:#a49d8d}
 html:not([data-theme="light"]) .thumbwrap{background:#2a2620}
 html:not([data-theme="light"]) .section{border-color:#332f28}
 html:not([data-theme="light"]) .bd.era{background:#2a2c30;color:#a6adba}
@@ -254,6 +258,46 @@ html:not([data-theme="light"]) .promptcopy{background:#1b2b22;border-color:#2E7D
 html:not([data-theme="light"]) .promptcopy:hover{background:#2E7D5B;color:#eafff3}
 html:not([data-theme="light"]) .psrc{color:#9d9788}
 }
+/* ── 스타일 킷("이 스타일로 시작하기") ── */
+.kit{margin-top:10px;border:1px solid #ddd9cf;border-radius:10px;background:#faf9f5}
+.kit>summary{cursor:pointer;list-style:none;padding:8px 11px;font-size:12px;font-weight:800;color:#1f6b45;user-select:none}
+.kit>summary::-webkit-details-marker{display:none}
+.kit>summary::after{content:"펼치기 ▾";float:right;font-size:11px;font-weight:700;color:#9a958a}
+.kit[open]>summary::after{content:"접기 ▴"}
+.kitbody{padding:2px 11px 11px}
+.kitblk{margin-top:9px}
+.kith{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:5px}
+.kitt{font-size:11.5px;font-weight:800;color:#4a463e}
+.kitsub{font-size:10.5px;font-weight:600;color:#9a958a;margin-left:4px}
+.kmodes{display:inline-flex;gap:4px}
+.kmb{border:1px solid #cfcabb;background:#fff;color:#6e6a5e;font-size:10.5px;font-weight:700;padding:4px 9px;border-radius:7px;cursor:pointer;white-space:nowrap}
+.kmb.on{background:#2E7D5B;border-color:#2E7D5B;color:#eafff3}
+.kitcopy{margin-left:auto;border:1px solid #2E7D5B;background:#eaf3ee;color:#1f6b45;font-size:10.5px;font-weight:800;padding:4px 11px;border-radius:7px;cursor:pointer;white-space:nowrap}
+.kitcopy:hover{background:#2E7D5B;color:#eafff3}
+.kitcode{background:#1f2d26;color:#dff3e8;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10.5px;line-height:1.55;padding:9px 11px;border-radius:8px;overflow-x:auto;white-space:pre;margin:0;-webkit-user-select:all;user-select:all}
+.kitwarn{margin-top:10px;background:#fdf3e0;border:1px solid #f0dcb4;color:#8a5d08;font-size:11.5px;font-weight:600;line-height:1.5;padding:8px 10px;border-radius:8px}
+.kitrule{margin-top:9px;font-size:11.5px;color:#6b675f;line-height:1.5;font-weight:600}
+.kitfoot{margin-top:10px;font-size:10.5px;color:#9a958a;line-height:1.5}
+.kitfoot code{font-family:ui-monospace,Menlo,monospace;font-size:10px;background:#efece3;padding:1px 5px;border-radius:4px}
+.sknote .kit{background:#fff}
+@media(max-width:440px){
+  .kitcopy,.kmb{font-size:11px;padding:8px 11px}
+  .kitcode{font-size:10px}
+}
+@media(prefers-color-scheme:dark){
+html:not([data-theme="light"]) .kit{background:#1e1b16;border-color:#332f28}
+html:not([data-theme="light"]) .kit>summary{color:#7fd9a8}
+html:not([data-theme="light"]) .kitt{color:#d8d3c8}
+html:not([data-theme="light"]) .kitsub,html:not([data-theme="light"]) .kitfoot{color:#9d9788}
+html:not([data-theme="light"]) .kmb{background:#221f1a;border-color:#38342c;color:#a49d8d}
+html:not([data-theme="light"]) .kmb.on{background:#2E7D5B;border-color:#2E7D5B;color:#eafff3}
+html:not([data-theme="light"]) .kitcopy{background:#1b2b22;border-color:#2E7D5B;color:#7fd9a8}
+html:not([data-theme="light"]) .kitcode{background:#12100c;color:#cfe8db}
+html:not([data-theme="light"]) .kitwarn{background:#2a2317;border-color:#48401f;color:#e0bb70}
+html:not([data-theme="light"]) .kitrule{color:#a49d8d}
+html:not([data-theme="light"]) .kitfoot code{background:#2a2620;color:#c9c3b6}
+html:not([data-theme="light"]) .sknote .kit{background:#1e1b16}
+}
 
 /* R4-14: 수동 다크 오버라이드 */
 html[data-theme="dark"] body{background:#141310;color:#f0eee9}
@@ -272,7 +316,9 @@ html[data-theme="dark"] .mood,html[data-theme="dark"] .use{color:#c9c3b6}
 html[data-theme="dark"] .role{color:#a9a294}
 html[data-theme="dark"] .avoid{color:#d59d8c}
 html[data-theme="dark"] /* R6-2: 다크 카드 설명 대비 */
-  .grpnote{color:#a49d8d}
+  .refsite{color:#a9a294}
+html[data-theme="dark"] .refsite a{color:#7fcfa6}
+html[data-theme="dark"] .grpnote{color:#a49d8d}
 html[data-theme="dark"] .thumbwrap{background:#2a2620}
 html[data-theme="dark"] .section{border-color:#332f28}
 html[data-theme="dark"] .bd.era{background:#2a2c30;color:#a6adba}
@@ -299,6 +345,18 @@ html[data-theme="dark"] .promptrow{border-top-color:#332f28}
 html[data-theme="dark"] .promptcopy{background:#1b2b22;border-color:#2E7D5B;color:#7fd9a8}
 html[data-theme="dark"] .promptcopy:hover{background:#2E7D5B;color:#eafff3}
 html[data-theme="dark"] .psrc{color:#9d9788}
+html[data-theme="dark"] .kit{background:#1e1b16;border-color:#332f28}
+html[data-theme="dark"] .kit>summary{color:#7fd9a8}
+html[data-theme="dark"] .kitt{color:#d8d3c8}
+html[data-theme="dark"] .kitsub,html[data-theme="dark"] .kitfoot{color:#9d9788}
+html[data-theme="dark"] .kmb{background:#221f1a;border-color:#38342c;color:#a49d8d}
+html[data-theme="dark"] .kmb.on{background:#2E7D5B;border-color:#2E7D5B;color:#eafff3}
+html[data-theme="dark"] .kitcopy{background:#1b2b22;border-color:#2E7D5B;color:#7fd9a8}
+html[data-theme="dark"] .kitcode{background:#12100c;color:#cfe8db}
+html[data-theme="dark"] .kitwarn{background:#2a2317;border-color:#48401f;color:#e0bb70}
+html[data-theme="dark"] .kitrule{color:#a49d8d}
+html[data-theme="dark"] .kitfoot code{background:#2a2620;color:#c9c3b6}
+html[data-theme="dark"] .sknote .kit{background:#1e1b16}
 </style></head><body data-tab="pre"><div class="wrap">
 <header style="position:relative">
 <button id="themeToggle" onclick="toggleTheme()" aria-label="라이트/다크 전환" title="라이트/다크 전환">🌓</button>
@@ -838,7 +896,7 @@ html[data-theme="dark"] .psrc{color:#9d9788}
 
 <div class="tabpane" id="pane-sty" role="tabpanel" aria-labelledby="tabSty">
 <div class="section">🧩 디자인 스타일 <span class="secsub">스타일 92종 = 기본 84 + 2026 트렌드 8 · (🎬 덱 연출 3은 별도 부가 태그)</span></div>
-<h3 class="grp">범용 스타일 <span class="cnt">49</span></h3><div class="grid sgrid"><div class="card scard" data-tags="테크핀테크 금융컨설팅 뷰티럭셔리" data-name="범용 스타일 미니멀·스위스 스타일 Minimalism &amp; Swiss Style 여백·격자·고대비·기능 우선의 정갈함 기업앱·대시보드·문서·SaaS·전문도구 스위스·그리드 minimalism &amp; swiss style clean, simple, spacious, functional, white space, high contrast, geometric, sans-serif, grid-based, essential enterprise apps, dashboards, documentation sites, saas platforms, professional tools" data-combo="미니멀·스위스 스타일" data-rec="1">
+<h3 class="grp">범용 스타일 <span class="cnt">49</span></h3><div class="grid sgrid"><div class="card scard" data-tags="테크핀테크 금융컨설팅 뷰티럭셔리" data-name="범용 스타일 미니멀·스위스 스타일 Minimalism &amp; Swiss Style 여백·격자·고대비·기능 우선의 정갈함 기업앱·대시보드·문서·SaaS·전문도구 스위스·그리드 minimalism &amp; swiss style clean, simple, spacious, functional, white space, high contrast, geometric, sans-serif, grid-based, essential enterprise apps, dashboards, documentation sites, saas platforms, professional tools stripe.com" data-combo="미니멀·스위스 스타일" data-rec="1">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">미니멀·스위스 스타일 <span class="en">Minimalism &amp; Swiss Style</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/1.jpg" alt="미니멀·스위스 스타일 표지 예시"><span class="famtag">스위스·그리드</span></div>
       <div class="recbadge" tabindex="0" title="건기식 B2B 업종 룰이 지목 — 「B2B Service」 룰: Trust &amp; Authority + Minimalism / 「Medical Clinic」 룰: Accessible &amp; Ethical + Minimalism">🌿 건기식 B2B 추천<span class="rectip">건기식 B2B 업종 룰이 지목 — 「B2B Service」 룰: Trust &amp; Authority + Minimalism / 「Medical Clinic」 룰: Accessible &amp; Ethical + Minimalism</span></div>
@@ -847,7 +905,53 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="여백·격자·고대비·기능 우선의 정갈함">💡 여백·격자·고대비·기능 우선의 정갈함</p>
       <p class="use" title="추천: 기업앱·대시보드·문서·SaaS·전문도구">🎯 추천: 기업앱·대시보드·문서·SaaS·전문도구</p>
       <p class="avoid clamp2" title="피할 곳: 크리에이티브 포폴·엔터·놀이형 브랜드">🚫 피할 곳: 크리에이티브 포폴·엔터·놀이형 브랜드</p>
-    </div><div class="card scard" data-tags="건기식웰니스" data-name="범용 스타일 뉴모피즘 Neumorphism 눌린 듯 도드라진 부드러운 소프트 3D 헬스·웰니스·명상·피트니스·최소 상호작용 UI 뉴모피즘 neumorphism soft ui, embossed, debossed, convex, concave, light source, subtle depth, rounded (12-16px), monochromatic health/wellness apps, meditation platforms, fitness trackers, minimal interaction uis" data-combo="뉴모피즘" data-rec="1">
+      <p class="refsite">실물 예: <a href="https://stripe.com" target="_blank" rel="noopener" onclick="event.stopPropagation()">stripe.com</a></p>
+      <details class="kit"><summary>🧰 이 스타일로 시작하기</summary><div class="kitbody"><div class="kitblk"><div class="kith"><span class="kitt">1. AI 지시문 <span class="kitsub">붙여넣기용 1줄</span></span><button class="kitcopy" data-txt="미니멀·스위스 스타일로 — 12컬럼 88px 격자, 라운드는 버튼 4px·카드 6px 두 종만, 회색조 3계층(#061B31·#50617A·#64748D) 한 벌, 히어로 48px/두께 300/자간 -0.02em, 섹션 간격 96px, 전환 0.3s cubic-bezier(.25,1,.5,1)" onclick="cpk(event,this)">복사</button></div><pre class="kitcode">미니멀·스위스 스타일로 — 12컬럼 88px 격자, 라운드는 버튼 4px·카드 6px 두 종만, 회색조 3계층(#061B31·#50617A·#64748D) 한 벌, 히어로 48px/두께 300/자간 -0.02em, 섹션 간격 96px, 전환 0.3s cubic-bezier(.25,1,.5,1)</pre></div><div class="kitblk"><div class="kith"><span class="kitt">2. CSS 변수</span><span class="kmodes"><button type="button" class="kmb on" onclick="kitMode(event,this,'brand')">우리 브랜드</button><button type="button" class="kmb" onclick="kitMode(event,this,'orig')">원본 감각</button></span><button class="kitcopy" data-txt=":root{
+  --bg:#F2F0EB; --title:#1C1C1A; --body:rgba(28,28,26,.74); --muted:#55534E; --accent:#1E3932;   /* muted 6.75:1 */
+  --r-btn:4px; --r-card:6px;                       /* 라운드는 이 두 종뿐 */
+  --shadow-card:rgba(50,50,93,.12) 0 16px 32px;
+  --shadow-lift:rgba(23,23,23,.08) 0 15px 35px;
+  --cols:12; --col:88px; --gap:32px; --section-y:96px; --maxw:1266px;
+  --h1:48px; --h1-w:300; --h1-lh:1.15; --h1-ls:-.02em;
+  --text:16px; --text-lh:1.4;
+  --dur:.3s; --ease:cubic-bezier(.25,1,.5,1);
+}" onclick="cpk(event,this)">복사</button></div><pre class="kitcode kitvars" data-brand=":root{
+  --bg:#F2F0EB; --title:#1C1C1A; --body:rgba(28,28,26,.74); --muted:#55534E; --accent:#1E3932;   /* muted 6.75:1 */
+  --r-btn:4px; --r-card:6px;                       /* 라운드는 이 두 종뿐 */
+  --shadow-card:rgba(50,50,93,.12) 0 16px 32px;
+  --shadow-lift:rgba(23,23,23,.08) 0 15px 35px;
+  --cols:12; --col:88px; --gap:32px; --section-y:96px; --maxw:1266px;
+  --h1:48px; --h1-w:300; --h1-lh:1.15; --h1-ls:-.02em;
+  --text:16px; --text-lh:1.4;
+  --dur:.3s; --ease:cubic-bezier(.25,1,.5,1);
+}" data-orig=":root{
+  --bg:#FFFFFF; --title:#061B31; --body:#50617A; --muted:#64748D; --accent:#533AFD;
+  --r-btn:4px; --r-card:6px;                       /* 라운드는 이 두 종뿐 */
+  --shadow-card:rgba(50,50,93,.12) 0 16px 32px;
+  --shadow-lift:rgba(23,23,23,.08) 0 15px 35px;
+  --cols:12; --col:88px; --gap:32px; --section-y:96px; --maxw:1266px;
+  --h1:48px; --h1-w:300; --h1-lh:1.15; --h1-ls:-.02em;
+  --text:16px; --text-lh:1.4;
+  --dur:.3s; --ease:cubic-bezier(.25,1,.5,1);
+}">:root{
+  --bg:#F2F0EB; --title:#1C1C1A; --body:rgba(28,28,26,.74); --muted:#55534E; --accent:#1E3932;   /* muted 6.75:1 */
+  --r-btn:4px; --r-card:6px;                       /* 라운드는 이 두 종뿐 */
+  --shadow-card:rgba(50,50,93,.12) 0 16px 32px;
+  --shadow-lift:rgba(23,23,23,.08) 0 15px 35px;
+  --cols:12; --col:88px; --gap:32px; --section-y:96px; --maxw:1266px;
+  --h1:48px; --h1-w:300; --h1-lh:1.15; --h1-ls:-.02em;
+  --text:16px; --text-lh:1.4;
+  --dur:.3s; --ease:cubic-bezier(.25,1,.5,1);
+}</pre></div><div class="kitblk"><div class="kith"><span class="kitt">3. 핵심 스니펫 <span class="kitsub">이 스타일을 성립시키는 결정적 CSS</span></span><button class="kitcopy" data-txt=".wrap{max-width:1266px;display:grid;grid-template-columns:repeat(12,88px);gap:32px}
+.section{padding:96px 0}
+h1{font-size:48px;font-weight:300;line-height:1.15;letter-spacing:-.02em;color:#061B31}
+.card{border-radius:6px;box-shadow:rgba(50,50,93,.12) 0 16px 32px,rgba(23,23,23,.08) 0 15px 35px}
+.btn{border-radius:4px;background:#533AFD;color:#fff;transition:all .3s cubic-bezier(.25,1,.5,1)}" onclick="cpk(event,this)">복사</button></div><pre class="kitcode">.wrap{max-width:1266px;display:grid;grid-template-columns:repeat(12,88px);gap:32px}
+.section{padding:96px 0}
+h1{font-size:48px;font-weight:300;line-height:1.15;letter-spacing:-.02em;color:#061B31}
+.card{border-radius:6px;box-shadow:rgba(50,50,93,.12) 0 16px 32px,rgba(23,23,23,.08) 0 15px 35px}
+.btn{border-radius:4px;background:#533AFD;color:#fff;transition:all .3s cubic-bezier(.25,1,.5,1)}</pre></div><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/stripe/</code></div></div></details>
+    </div><div class="card scard" data-tags="건기식웰니스" data-name="범용 스타일 뉴모피즘 Neumorphism 눌린 듯 도드라진 부드러운 소프트 3D 헬스·웰니스·명상·피트니스·최소 상호작용 UI 뉴모피즘 neumorphism soft ui, embossed, debossed, convex, concave, light source, subtle depth, rounded (12-16px), monochromatic health/wellness apps, meditation platforms, fitness trackers, minimal interaction uis neumorphism.io" data-combo="뉴모피즘" data-rec="1">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">뉴모피즘 <span class="en">Neumorphism</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/2.jpg" alt="뉴모피즘 표지 예시"><span class="famtag">뉴모피즘</span></div>
       <div class="recbadge" tabindex="0" title="건기식 B2B 업종 룰이 지목 — 「Healthcare App」 룰: Neumorphism + Accessible &amp; Ethical / 「Mental Health App」 룰: Neumorphism + Accessible &amp; Ethical  ⚠️저대비 주의(CSV 접근성 경고: ⚠ Low contrast)">🌿 건기식 B2B 추천<span class="rectip">건기식 B2B 업종 룰이 지목 — 「Healthcare App」 룰: Neumorphism + Accessible &amp; Ethical / 「Mental Health App」 룰: Neumorphism + Accessible &amp; Ethical  ⚠️저대비 주의(CSV 접근성 경고: ⚠ Low contrast)</span></div>
@@ -856,7 +960,51 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="눌린 듯 도드라진 부드러운 소프트 3D">💡 눌린 듯 도드라진 부드러운 소프트 3D</p>
       <p class="use" title="추천: 헬스·웰니스·명상·피트니스·최소 상호작용 UI">🎯 추천: 헬스·웰니스·명상·피트니스·최소 상호작용 UI</p>
       <p class="avoid clamp2" title="피할 곳: 복잡한 앱·고대비 필요·데이터 대시보드">🚫 피할 곳: 복잡한 앱·고대비 필요·데이터 대시보드</p>
-    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 뷰티럭셔리" data-name="범용 스타일 글래스모피즘 Glassmorphism 뒤가 비치는 서리유리·블러·층감 모던 SaaS·금융 대시보드·고급 기업·모달 글래스 glassmorphism frosted glass, transparent, blurred background, layered, vibrant background, light source, depth, multi-layer modern saas, financial dashboards, high-end corporate, lifestyle apps, modal overlays, navigation" data-combo="글래스모피즘" data-rec="1">
+      <p class="refsite">실물 예: <a href="https://neumorphism.io" target="_blank" rel="noopener" onclick="event.stopPropagation()">neumorphism.io</a></p>
+      <details class="kit"><summary>🧰 이 스타일로 시작하기</summary><div class="kitbody"><div class="kitblk"><div class="kith"><span class="kitt">1. AI 지시문 <span class="kitsub">붙여넣기용 1줄</span></span><button class="kitcopy" data-txt="뉴모피즘 스타일로 — 배경과 카드를 같은 #E0E0E0 한 색으로, 라운드 50px, 그림자는 20px 20px 60px #BEBEBE와 -20px -20px 60px #FFFFFF 짝으로, 보더 0, 채움은 145도 그라디언트" onclick="cpk(event,this)">복사</button></div><pre class="kitcode">뉴모피즘 스타일로 — 배경과 카드를 같은 #E0E0E0 한 색으로, 라운드 50px, 그림자는 20px 20px 60px #BEBEBE와 -20px -20px 60px #FFFFFF 짝으로, 보더 0, 채움은 145도 그라디언트</pre></div><div class="kitblk"><div class="kith"><span class="kitt">2. CSS 변수</span><span class="kmodes"><button type="button" class="kmb on" onclick="kitMode(event,this,'brand')">우리 브랜드</button><button type="button" class="kmb" onclick="kitMode(event,this,'orig')">원본 감각</button></span><button class="kitcopy" data-txt=":root{
+  --nm-bg:#F2F0EB; --nm-dark:#CECCC8; --nm-light:#FFFFFF;   /* 크림 베이스 ×0.85 = 어두운 짝 */
+  --nm-text:#1E3932; --nm-text-shadow:rgba(0,0,0,.3) 0 1px 0;
+  --nm-radius:50px; --nm-radius-sm:30px;
+  --nm-offset:20px; --nm-blur:60px; --nm-angle:145deg; --nm-border:0;
+  --h1:35px; --h1-w:700; --h1-lh:1.5; --text:16px; --text-lh:1.5;
+}" onclick="cpk(event,this)">복사</button></div><pre class="kitcode kitvars" data-brand=":root{
+  --nm-bg:#F2F0EB; --nm-dark:#CECCC8; --nm-light:#FFFFFF;   /* 크림 베이스 ×0.85 = 어두운 짝 */
+  --nm-text:#1E3932; --nm-text-shadow:rgba(0,0,0,.3) 0 1px 0;
+  --nm-radius:50px; --nm-radius-sm:30px;
+  --nm-offset:20px; --nm-blur:60px; --nm-angle:145deg; --nm-border:0;
+  --h1:35px; --h1-w:700; --h1-lh:1.5; --text:16px; --text-lh:1.5;
+}" data-orig=":root{
+  --nm-bg:#E0E0E0; --nm-dark:#BEBEBE; --nm-light:#FFFFFF;   /* 베이스 1개에서 어둡게·밝게 짝 */
+  --nm-text:#001F3F; --nm-text-shadow:rgba(0,0,0,.3) 0 1px 0;
+  --nm-radius:50px; --nm-radius-sm:30px;
+  --nm-offset:20px; --nm-blur:60px; --nm-angle:145deg; --nm-border:0;
+  --h1:35px; --h1-w:700; --h1-lh:1.5; --text:16px; --text-lh:1.5;
+}">:root{
+  --nm-bg:#F2F0EB; --nm-dark:#CECCC8; --nm-light:#FFFFFF;   /* 크림 베이스 ×0.85 = 어두운 짝 */
+  --nm-text:#1E3932; --nm-text-shadow:rgba(0,0,0,.3) 0 1px 0;
+  --nm-radius:50px; --nm-radius-sm:30px;
+  --nm-offset:20px; --nm-blur:60px; --nm-angle:145deg; --nm-border:0;
+  --h1:35px; --h1-w:700; --h1-lh:1.5; --text:16px; --text-lh:1.5;
+}</pre></div><div class="kitblk"><div class="kith"><span class="kitt">3. 핵심 스니펫 <span class="kitsub">이 스타일을 성립시키는 결정적 CSS</span></span><button class="kitcopy" data-txt="/* neumorphism.io 공식 출력 그대로 */
+.nm{
+  border-radius: 50px;
+  background: #e0e0e0;
+  box-shadow: 20px 20px 60px #bebebe,
+             -20px -20px 60px #ffffff;
+  border: 0;
+}
+.nm-filled{background:linear-gradient(145deg,#f0f0f0,#cacaca)}   /* 채움은 145deg */
+.nm-pressed{box-shadow:inset 20px 20px 60px #bebebe,inset -20px -20px 60px #ffffff}" onclick="cpk(event,this)">복사</button></div><pre class="kitcode">/* neumorphism.io 공식 출력 그대로 */
+.nm{
+  border-radius: 50px;
+  background: #e0e0e0;
+  box-shadow: 20px 20px 60px #bebebe,
+             -20px -20px 60px #ffffff;
+  border: 0;
+}
+.nm-filled{background:linear-gradient(145deg,#f0f0f0,#cacaca)}   /* 채움은 145deg */
+.nm-pressed{box-shadow:inset 20px 20px 60px #bebebe,inset -20px -20px 60px #ffffff}</pre></div><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/neumorphism/</code></div></div></details>
+    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 뷰티럭셔리" data-name="범용 스타일 글래스모피즘 Glassmorphism 뒤가 비치는 서리유리·블러·층감 모던 SaaS·금융 대시보드·고급 기업·모달 글래스 glassmorphism frosted glass, transparent, blurred background, layered, vibrant background, light source, depth, multi-layer modern saas, financial dashboards, high-end corporate, lifestyle apps, modal overlays, navigation authkit.com" data-combo="글래스모피즘" data-rec="1">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">글래스모피즘 <span class="en">Glassmorphism</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/3.jpg" alt="글래스모피즘 표지 예시"><span class="famtag">글래스</span></div>
       <div class="recbadge" tabindex="0" title="건기식 B2B 업종 룰이 지목 — 「SaaS (General)」 룰: Glassmorphism + Flat Design / 「Biotech / Life Sciences」 룰: Glassmorphism + Clean Science  ⚠️저대비 주의(CSV 접근성 경고: ⚠ Ensure 4.5:1)">🌿 건기식 B2B 추천<span class="rectip">건기식 B2B 업종 룰이 지목 — 「SaaS (General)」 룰: Glassmorphism + Flat Design / 「Biotech / Life Sciences」 룰: Glassmorphism + Clean Science  ⚠️저대비 주의(CSV 접근성 경고: ⚠ Ensure 4.5:1)</span></div>
@@ -865,7 +1013,67 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="뒤가 비치는 서리유리·블러·층감">💡 뒤가 비치는 서리유리·블러·층감</p>
       <p class="use" title="추천: 모던 SaaS·금융 대시보드·고급 기업·모달">🎯 추천: 모던 SaaS·금융 대시보드·고급 기업·모달</p>
       <p class="avoid clamp2" title="피할 곳: 저대비 배경·성능 제약·접근성 최우선">🚫 피할 곳: 저대비 배경·성능 제약·접근성 최우선</p>
-    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 패션" data-name="범용 스타일 브루탈리즘 Brutalism 날것·거친·기본폰트·굵은 테두리·반디자인 디자인 포폴·예술·카운터컬처·에디토리얼 브루탈 brutalism raw, unpolished, stark, high contrast, plain text, default fonts, visible borders, asymmetric, anti-design design portfolios, artistic projects, counter-culture brands, editorial/media sites, tech blogs" data-combo="브루탈리즘" data-rec="0">
+      <p class="refsite">실물 예: <a href="https://authkit.com" target="_blank" rel="noopener" onclick="event.stopPropagation()">authkit.com</a></p>
+      <details class="kit"><summary>🧰 이 스타일로 시작하기</summary><div class="kitbody"><div class="kitblk"><div class="kith"><span class="kitt">1. AI 지시문 <span class="kitsub">붙여넣기용 1줄</span></span><button class="kitcopy" data-txt="글래스모피즘 스타일로 — 배경 #05060F 다크에 카드는 blur 4px + rgba(186,214,247,.03), 그림자는 안쪽 1px 하이라이트 + 안쪽 24/48 내부광 + 바깥 24/32 3중첩, 상단바만 blur 8px, 전환 0.2s" onclick="cpk(event,this)">복사</button></div><pre class="kitcode">글래스모피즘 스타일로 — 배경 #05060F 다크에 카드는 blur 4px + rgba(186,214,247,.03), 그림자는 안쪽 1px 하이라이트 + 안쪽 24/48 내부광 + 바깥 24/32 3중첩, 상단바만 blur 8px, 전환 0.2s</pre></div><div class="kitblk"><div class="kith"><span class="kitt">2. CSS 변수</span><span class="kmodes"><button type="button" class="kmb on" onclick="kitMode(event,this,'brand')">우리 브랜드</button><button type="button" class="kmb" onclick="kitMode(event,this,'orig')">원본 감각</button></span><button class="kitcopy" data-txt=":root{
+  --bg:#1C1C1A; --text:#F2F0EB; --text-2:rgba(242,240,235,.72); --accent:#2E7D5B; --glow:#F2F0EB;
+  --glass-bg:rgba(242,240,235,.03); --glass-btn-bg:rgba(242,240,235,.06);
+  --glass-blur:blur(4px); --bar-blur:blur(8px);
+  --glass-shadow:rgba(242,240,235,.12) 0 1px 1px inset,
+                 rgba(242,240,235,.05) 0 24px 48px inset,
+                 rgba(6,6,14,.7) 0 24px 32px;
+  --h1:48px; --h1-w:500; --text-size:16px; --text-lh:1.5;
+  --dur:.2s; --dur-slow:.45s; --ease:cubic-bezier(.6,.6,0,1);
+}" onclick="cpk(event,this)">복사</button></div><pre class="kitcode kitvars" data-brand=":root{
+  --bg:#1C1C1A; --text:#F2F0EB; --text-2:rgba(242,240,235,.72); --accent:#2E7D5B; --glow:#F2F0EB;
+  --glass-bg:rgba(242,240,235,.03); --glass-btn-bg:rgba(242,240,235,.06);
+  --glass-blur:blur(4px); --bar-blur:blur(8px);
+  --glass-shadow:rgba(242,240,235,.12) 0 1px 1px inset,
+                 rgba(242,240,235,.05) 0 24px 48px inset,
+                 rgba(6,6,14,.7) 0 24px 32px;
+  --h1:48px; --h1-w:500; --text-size:16px; --text-lh:1.5;
+  --dur:.2s; --dur-slow:.45s; --ease:cubic-bezier(.6,.6,0,1);
+}" data-orig=":root{
+  --bg:#05060F; --text:#FFFFFF; --text-2:#C7D3EA; --accent:#D8ECF8; --glow:#BAD6F7;
+  --glass-bg:rgba(186,214,247,.03); --glass-btn-bg:rgba(186,214,247,.06);
+  --glass-blur:blur(4px); --bar-blur:blur(8px);
+  --glass-shadow:rgba(199,211,234,.12) 0 1px 1px inset,
+                 rgba(199,211,234,.05) 0 24px 48px inset,
+                 rgba(6,6,14,.7) 0 24px 32px;
+  --h1:48px; --h1-w:500; --text-size:16px; --text-lh:1.5;
+  --dur:.2s; --dur-slow:.45s; --ease:cubic-bezier(.6,.6,0,1);
+}">:root{
+  --bg:#1C1C1A; --text:#F2F0EB; --text-2:rgba(242,240,235,.72); --accent:#2E7D5B; --glow:#F2F0EB;
+  --glass-bg:rgba(242,240,235,.03); --glass-btn-bg:rgba(242,240,235,.06);
+  --glass-blur:blur(4px); --bar-blur:blur(8px);
+  --glass-shadow:rgba(242,240,235,.12) 0 1px 1px inset,
+                 rgba(242,240,235,.05) 0 24px 48px inset,
+                 rgba(6,6,14,.7) 0 24px 32px;
+  --h1:48px; --h1-w:500; --text-size:16px; --text-lh:1.5;
+  --dur:.2s; --dur-slow:.45s; --ease:cubic-bezier(.6,.6,0,1);
+}</pre></div><div class="kitblk"><div class="kith"><span class="kitt">3. 핵심 스니펫 <span class="kitsub">이 스타일을 성립시키는 결정적 CSS</span></span><button class="kitcopy" data-txt="/* 유리감의 정체 = 흐림이 아니라 3중첩 그림자 */
+.glass{
+  background:rgba(186,214,247,.03);
+  -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px);
+  box-shadow:rgba(199,211,234,.12) 0 1px 1px inset,    /* 상단 1px 하이라이트 */
+             rgba(199,211,234,.05) 0 24px 48px inset,  /* 내부광 */
+             rgba(6,6,14,.7) 0 24px 32px;              /* 외부 그림자 */
+}
+.glass-btn{background:rgba(186,214,247,.06);backdrop-filter:blur(4px);
+  box-shadow:rgba(199,211,234,.12) 0 0 0 1px inset}
+.topbar{backdrop-filter:blur(8px)}
+.glass,.glass-btn{transition:.2s cubic-bezier(.6,.6,0,1)}" onclick="cpk(event,this)">복사</button></div><pre class="kitcode">/* 유리감의 정체 = 흐림이 아니라 3중첩 그림자 */
+.glass{
+  background:rgba(186,214,247,.03);
+  -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px);
+  box-shadow:rgba(199,211,234,.12) 0 1px 1px inset,    /* 상단 1px 하이라이트 */
+             rgba(199,211,234,.05) 0 24px 48px inset,  /* 내부광 */
+             rgba(6,6,14,.7) 0 24px 32px;              /* 외부 그림자 */
+}
+.glass-btn{background:rgba(186,214,247,.06);backdrop-filter:blur(4px);
+  box-shadow:rgba(199,211,234,.12) 0 0 0 1px inset}
+.topbar{backdrop-filter:blur(8px)}
+.glass,.glass-btn{transition:.2s cubic-bezier(.6,.6,0,1)}</pre></div><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/authkit/</code></div></div></details>
+    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 패션" data-name="범용 스타일 브루탈리즘 Brutalism 날것·거친·기본폰트·굵은 테두리·반디자인 디자인 포폴·예술·카운터컬처·에디토리얼 브루탈 brutalism raw, unpolished, stark, high contrast, plain text, default fonts, visible borders, asymmetric, anti-design design portfolios, artistic projects, counter-culture brands, editorial/media sites, tech blogs flowen.me" data-combo="브루탈리즘" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">브루탈리즘 <span class="en">Brutalism</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/4.jpg" alt="브루탈리즘 표지 예시"><span class="famtag">브루탈</span></div>
       
@@ -874,7 +1082,59 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="날것·거친·기본폰트·굵은 테두리·반디자인">💡 날것·거친·기본폰트·굵은 테두리·반디자인</p>
       <p class="use" title="추천: 디자인 포폴·예술·카운터컬처·에디토리얼">🎯 추천: 디자인 포폴·예술·카운터컬처·에디토리얼</p>
       <p class="avoid clamp2" title="피할 곳: 기업·보수 산업·고객대면 전문 서비스">🚫 피할 곳: 기업·보수 산업·고객대면 전문 서비스</p>
-    </div><div class="card scard" data-tags="테크핀테크 뷰티럭셔리 스포츠" data-name="범용 스타일 3D·하이퍼리얼리즘 3D &amp; Hyperrealism 실사 질감·입체·몰입감 게이밍·제품 쇼케이스·고급 이커머스·VR/AR 3D·실사 3d &amp; hyperrealism depth, realistic textures, 3d models, spatial navigation, tactile, skeuomorphic elements, rich detail, immersive gaming, product showcase, immersive experiences, high-end e-commerce, architectural viz, vr/ar" data-combo="3D·하이퍼리얼리즘" data-rec="0">
+      <p class="refsite">실물 예: <a href="https://flowen.me" target="_blank" rel="noopener" onclick="event.stopPropagation()">flowen.me</a></p>
+      <details class="kit"><summary>🧰 이 스타일로 시작하기</summary><div class="kitbody"><div class="kitblk"><div class="kith"><span class="kitt">1. AI 지시문 <span class="kitsub">붙여넣기용 1줄</span></span><button class="kitcopy" data-txt="브루탈리즘(flowen 계열)으로 — 보더·라운드·그림자·그라디언트 전부 0, 기본 폰트를 모노스페이스로, 히어로 8.25vw(약 100px) 대문자, 배경 #161B1B에 흰 글자, 효과는 mix-blend-mode difference 하나만" onclick="cpk(event,this)">복사</button></div><pre class="kitcode">브루탈리즘(flowen 계열)으로 — 보더·라운드·그림자·그라디언트 전부 0, 기본 폰트를 모노스페이스로, 히어로 8.25vw(약 100px) 대문자, 배경 #161B1B에 흰 글자, 효과는 mix-blend-mode difference 하나만</pre></div><div class="kitblk"><div class="kith"><span class="kitt">2. CSS 변수</span><span class="kmodes"><button type="button" class="kmb on" onclick="kitMode(event,this,'brand')">우리 브랜드</button><button type="button" class="kmb" onclick="kitMode(event,this,'orig')">원본 감각</button></span><button class="kitcopy" data-txt=":root{
+  --bg:#1C1C1A; --text:#F2F0EB; --alert:#B8954A;   /* 경고 슬롯 — 잉크 대비 6.04:1 */
+  --font:&quot;AzeretMono&quot;,ui-monospace,monospace;       /* 기본 폰트가 모노스페이스 */
+  --h1:8.25vw; --h1-px:100px; --h1-w:700; --h1-lh:1.2; --h1-tt:uppercase;
+  --radius:0; --border:0; --shadow:none; --gradient:none;
+  --blend:difference;                               /* 유일한 효과 */
+  --t-fast:.125s; --t:.25s; --t-slow:.5s; --t-xslow:1.5s;
+  --ease-out:cubic-bezier(.165,.84,.44,1);
+  --ease-bounce:cubic-bezier(.175,.885,.32,1.275);
+  --wrap-pad:90px 0 135px; --maxw:1100px;
+}" onclick="cpk(event,this)">복사</button></div><pre class="kitcode kitvars" data-brand=":root{
+  --bg:#1C1C1A; --text:#F2F0EB; --alert:#B8954A;   /* 경고 슬롯 — 잉크 대비 6.04:1 */
+  --font:&quot;AzeretMono&quot;,ui-monospace,monospace;       /* 기본 폰트가 모노스페이스 */
+  --h1:8.25vw; --h1-px:100px; --h1-w:700; --h1-lh:1.2; --h1-tt:uppercase;
+  --radius:0; --border:0; --shadow:none; --gradient:none;
+  --blend:difference;                               /* 유일한 효과 */
+  --t-fast:.125s; --t:.25s; --t-slow:.5s; --t-xslow:1.5s;
+  --ease-out:cubic-bezier(.165,.84,.44,1);
+  --ease-bounce:cubic-bezier(.175,.885,.32,1.275);
+  --wrap-pad:90px 0 135px; --maxw:1100px;
+}" data-orig=":root{
+  --bg:#161B1B; --text:#FFFFFF; --alert:#FF0000;    /* 실제 칠한 색 2개(+빨강) */
+  --font:&quot;AzeretMono&quot;,ui-monospace,monospace;       /* 기본 폰트가 모노스페이스 */
+  --h1:8.25vw; --h1-px:100px; --h1-w:700; --h1-lh:1.2; --h1-tt:uppercase;
+  --radius:0; --border:0; --shadow:none; --gradient:none;
+  --blend:difference;                               /* 유일한 효과 */
+  --t-fast:.125s; --t:.25s; --t-slow:.5s; --t-xslow:1.5s;
+  --ease-out:cubic-bezier(.165,.84,.44,1);
+  --ease-bounce:cubic-bezier(.175,.885,.32,1.275);
+  --wrap-pad:90px 0 135px; --maxw:1100px;
+}">:root{
+  --bg:#1C1C1A; --text:#F2F0EB; --alert:#B8954A;   /* 경고 슬롯 — 잉크 대비 6.04:1 */
+  --font:&quot;AzeretMono&quot;,ui-monospace,monospace;       /* 기본 폰트가 모노스페이스 */
+  --h1:8.25vw; --h1-px:100px; --h1-w:700; --h1-lh:1.2; --h1-tt:uppercase;
+  --radius:0; --border:0; --shadow:none; --gradient:none;
+  --blend:difference;                               /* 유일한 효과 */
+  --t-fast:.125s; --t:.25s; --t-slow:.5s; --t-xslow:1.5s;
+  --ease-out:cubic-bezier(.165,.84,.44,1);
+  --ease-bounce:cubic-bezier(.175,.885,.32,1.275);
+  --wrap-pad:90px 0 135px; --maxw:1100px;
+}</pre></div><div class="kitblk"><div class="kith"><span class="kitt">3. 핵심 스니펫 <span class="kitsub">이 스타일을 성립시키는 결정적 CSS</span></span><button class="kitcopy" data-txt="*{border:0;border-radius:0;box-shadow:none;background-image:none}
+body{background:#161B1B;color:#FFFFFF;font-family:&quot;AzeretMono&quot;,ui-monospace,monospace}
+h1{font-size:8.25vw;font-weight:700;line-height:1.2;text-transform:uppercase}
+.wrap{max-width:1100px;padding:90px 0 135px}
+.blend{mix-blend-mode:difference}
+a,button{transition:.25s cubic-bezier(.165,.84,.44,1)}" onclick="cpk(event,this)">복사</button></div><pre class="kitcode">*{border:0;border-radius:0;box-shadow:none;background-image:none}
+body{background:#161B1B;color:#FFFFFF;font-family:&quot;AzeretMono&quot;,ui-monospace,monospace}
+h1{font-size:8.25vw;font-weight:700;line-height:1.2;text-transform:uppercase}
+.wrap{max-width:1100px;padding:90px 0 135px}
+.blend{mix-blend-mode:difference}
+a,button{transition:.25s cubic-bezier(.165,.84,.44,1)}</pre></div><div class="kitwarn">⚠️ 통념과 달리 굵은 검정 보더형이 아닙니다 — 보더·라운드·그림자·그라디언트 전부 실측 0건. 장식을 완전히 빼고 거대 모노타입으로 세우세요.</div><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/flowen/</code></div></div></details>
+    </div><div class="card scard" data-tags="테크핀테크 뷰티럭셔리 스포츠" data-name="범용 스타일 3D·하이퍼리얼리즘 3D &amp; Hyperrealism 실사 질감·입체·몰입감 게이밍·제품 쇼케이스·고급 이커머스·VR/AR 3D·실사 3d &amp; hyperrealism depth, realistic textures, 3d models, spatial navigation, tactile, skeuomorphic elements, rich detail, immersive gaming, product showcase, immersive experiences, high-end e-commerce, architectural viz, vr/ar bruno-simon.com" data-combo="3D·하이퍼리얼리즘" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">3D·하이퍼리얼리즘 <span class="en">3D &amp; Hyperrealism</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/5.jpg" alt="3D·하이퍼리얼리즘 표지 예시"><span class="famtag">3D·실사</span></div>
       
@@ -883,7 +1143,53 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="실사 질감·입체·몰입감">💡 실사 질감·입체·몰입감</p>
       <p class="use" title="추천: 게이밍·제품 쇼케이스·고급 이커머스·VR/AR">🎯 추천: 게이밍·제품 쇼케이스·고급 이커머스·VR/AR</p>
       <p class="avoid clamp2" title="피할 곳: 저사양 모바일·성능 제약·데이터 폼">🚫 피할 곳: 저사양 모바일·성능 제약·데이터 폼</p>
-    </div><div class="card scard" data-tags="테크핀테크 스포츠 키즈" data-name="범용 스타일 비비드·블록형 Vibrant &amp; Block-based 대담·활기·큰 블록·강한 색대비 스타트업·크리에이티브·게이밍·SNS·소비재 비비드블록 vibrant &amp; block-based bold, energetic, playful, block layout, geometric shapes, high color contrast, duotone, modern, energetic startups, creative agencies, gaming, social media, youth-focused, entertainment, consumer" data-combo="비비드·블록형" data-rec="1">
+      <p class="refsite">실물 예: <a href="https://bruno-simon.com" target="_blank" rel="noopener" onclick="event.stopPropagation()">bruno-simon.com</a></p>
+      <details class="kit"><summary>🧰 이 스타일로 시작하기</summary><div class="kitbody"><div class="kitblk"><div class="kith"><span class="kitt">1. AI 지시문 <span class="kitsub">붙여넣기용 1줄</span></span><button class="kitcopy" data-txt="3D·인터랙티브로 — 화면 전체를 캔버스 한 장으로 덮고 배경은 좌상단 radial 그라디언트(#251F2B→#1D1721), 커서는 grab/누르면 grabbing, 기준 글자 20px, 버튼은 라운드 8px에 흰 반투명 보더만, 그림자 0" onclick="cpk(event,this)">복사</button></div><pre class="kitcode">3D·인터랙티브로 — 화면 전체를 캔버스 한 장으로 덮고 배경은 좌상단 radial 그라디언트(#251F2B→#1D1721), 커서는 grab/누르면 grabbing, 기준 글자 20px, 버튼은 라운드 8px에 흰 반투명 보더만, 그림자 0</pre></div><div class="kitblk"><div class="kith"><span class="kitt">2. CSS 변수</span><span class="kmodes"><button type="button" class="kmb on" onclick="kitMode(event,this,'brand')">우리 브랜드</button><button type="button" class="kmb" onclick="kitMode(event,this,'orig')">원본 감각</button></span><button class="kitcopy" data-txt=":root{
+  --bg:radial-gradient(farthest-side at 0 0,#1E3932,#1C1C1A);
+  --text:#F2F0EB; --p1:#F2F0EB; --p2:#2E7D5B; --p3:#B8954A;   /* 포인트 3색 — 잉크 대비 14.99·3.41·6.04:1 */
+  --root:20px; --root-sm:18px; --root-xs:16px;      /* ≤520px / ≤440px */
+  --font-title:&quot;Amatic SC&quot;,cursive; --font-body:&quot;Nunito&quot;,sans-serif; --title-w:700;
+  --r-btn:8px; --border:1px solid rgba(242,240,235,.8); --shadow:none;
+  --cursor:grab; --cursor-active:grabbing;
+}" onclick="cpk(event,this)">복사</button></div><pre class="kitcode kitvars" data-brand=":root{
+  --bg:radial-gradient(farthest-side at 0 0,#1E3932,#1C1C1A);
+  --text:#F2F0EB; --p1:#F2F0EB; --p2:#2E7D5B; --p3:#B8954A;   /* 포인트 3색 — 잉크 대비 14.99·3.41·6.04:1 */
+  --root:20px; --root-sm:18px; --root-xs:16px;      /* ≤520px / ≤440px */
+  --font-title:&quot;Amatic SC&quot;,cursive; --font-body:&quot;Nunito&quot;,sans-serif; --title-w:700;
+  --r-btn:8px; --border:1px solid rgba(242,240,235,.8); --shadow:none;
+  --cursor:grab; --cursor-active:grabbing;
+}" data-orig=":root{
+  --bg:radial-gradient(farthest-side at 0 0,#251F2B,#1D1721);
+  --text:#FFFFFF; --p1:#FFCECA; --p2:#D5FF95; --p3:#C21515;
+  --root:20px; --root-sm:18px; --root-xs:16px;      /* ≤520px / ≤440px */
+  --font-title:&quot;Amatic SC&quot;,cursive; --font-body:&quot;Nunito&quot;,sans-serif; --title-w:700;
+  --r-btn:8px; --border:1px solid rgba(255,255,255,.8); --shadow:none;
+  --cursor:grab; --cursor-active:grabbing;
+}">:root{
+  --bg:radial-gradient(farthest-side at 0 0,#1E3932,#1C1C1A);
+  --text:#F2F0EB; --p1:#F2F0EB; --p2:#2E7D5B; --p3:#B8954A;   /* 포인트 3색 — 잉크 대비 14.99·3.41·6.04:1 */
+  --root:20px; --root-sm:18px; --root-xs:16px;      /* ≤520px / ≤440px */
+  --font-title:&quot;Amatic SC&quot;,cursive; --font-body:&quot;Nunito&quot;,sans-serif; --title-w:700;
+  --r-btn:8px; --border:1px solid rgba(242,240,235,.8); --shadow:none;
+  --cursor:grab; --cursor-active:grabbing;
+}</pre></div><div class="kitblk"><div class="kith"><span class="kitt">3. 핵심 스니펫 <span class="kitsub">이 스타일을 성립시키는 결정적 CSS</span></span><button class="kitcopy" data-txt="html{font-size:20px}
+body{position:fixed;inset:0;overflow:hidden;
+  background:radial-gradient(farthest-side at 0 0,#251F2B,#1D1721);color:#fff}
+canvas{position:fixed;inset:0;width:100%;height:100%;cursor:grab;touch-action:none}
+canvas:active{cursor:grabbing}
+.btn{border:1px solid rgba(255,255,255,.8);border-radius:8px;box-shadow:none;background:none;color:#fff}
+.btn:hover{background:#fff;color:#1D1721}
+@media(max-width:520px){html{font-size:18px}}
+@media(max-width:440px){html{font-size:16px}}" onclick="cpk(event,this)">복사</button></div><pre class="kitcode">html{font-size:20px}
+body{position:fixed;inset:0;overflow:hidden;
+  background:radial-gradient(farthest-side at 0 0,#251F2B,#1D1721);color:#fff}
+canvas{position:fixed;inset:0;width:100%;height:100%;cursor:grab;touch-action:none}
+canvas:active{cursor:grabbing}
+.btn{border:1px solid rgba(255,255,255,.8);border-radius:8px;box-shadow:none;background:none;color:#fff}
+.btn:hover{background:#fff;color:#1D1721}
+@media(max-width:520px){html{font-size:18px}}
+@media(max-width:440px){html{font-size:16px}}</pre></div><div class="kitwarn">⚠️ 원본은 총 전송 7.3MB — 3D 자산 로딩이 무거우면 그대로 이탈로 이어집니다. DOM 969개 중 보이는 건 13개뿐이라 UI 정체성은 캔버스와 커서로만 성립합니다.</div><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/brunosimon/</code></div></div></details>
+    </div><div class="card scard" data-tags="테크핀테크 스포츠 키즈" data-name="범용 스타일 비비드·블록형 Vibrant &amp; Block-based 대담·활기·큰 블록·강한 색대비 스타트업·크리에이티브·게이밍·SNS·소비재 비비드블록 vibrant &amp; block-based bold, energetic, playful, block layout, geometric shapes, high color contrast, duotone, modern, energetic startups, creative agencies, gaming, social media, youth-focused, entertainment, consumer " data-combo="비비드·블록형" data-rec="1">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">비비드·블록형 <span class="en">Vibrant &amp; Block-based</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/6.jpg" alt="비비드·블록형 표지 예시"><span class="famtag">비비드블록</span></div>
       <div class="recbadge" tabindex="0" title="건기식 B2B 업종 룰이 지목 — 「Calorie &amp; Nutrition Counter」 룰: Flat Design + Vibrant &amp; Block-based">🌿 건기식 B2B 추천<span class="rectip">건기식 B2B 업종 룰이 지목 — 「Calorie &amp; Nutrition Counter」 룰: Flat Design + Vibrant &amp; Block-based</span></div>
@@ -892,7 +1198,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="대담·활기·큰 블록·강한 색대비">💡 대담·활기·큰 블록·강한 색대비</p>
       <p class="use" title="추천: 스타트업·크리에이티브·게이밍·SNS·소비재">🎯 추천: 스타트업·크리에이티브·게이밍·SNS·소비재</p>
       <p class="avoid clamp2" title="피할 곳: 금융·헬스케어·정부·보수 브랜드">🚫 피할 곳: 금융·헬스케어·정부·보수 브랜드</p>
-    </div><div class="card scard" data-tags="테크핀테크" data-name="범용 스타일 다크모드(OLED) Dark Mode (OLED) 딥블랙+네온 포인트·눈편함·전력 절약 야간앱·코딩·엔터·OLED 기기 다크 dark mode (oled) dark theme, low light, high contrast, deep black, midnight blue, eye-friendly, oled, night mode, power efficient night-mode apps, coding platforms, entertainment, eye-strain prevention, oled devices, low-light" data-combo="다크모드(OLED)" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크" data-name="범용 스타일 다크모드(OLED) Dark Mode (OLED) 딥블랙+네온 포인트·눈편함·전력 절약 야간앱·코딩·엔터·OLED 기기 다크 dark mode (oled) dark theme, low light, high contrast, deep black, midnight blue, eye-friendly, oled, night mode, power efficient night-mode apps, coding platforms, entertainment, eye-strain prevention, oled devices, low-light vercel.com" data-combo="다크모드(OLED)" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">다크모드(OLED) <span class="en">Dark Mode (OLED)</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/7.jpg" alt="다크모드(OLED) 표지 예시"><span class="famtag">다크</span></div>
       
@@ -901,7 +1209,49 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="딥블랙+네온 포인트·눈편함·전력 절약">💡 딥블랙+네온 포인트·눈편함·전력 절약</p>
       <p class="use" title="추천: 야간앱·코딩·엔터·OLED 기기">🎯 추천: 야간앱·코딩·엔터·OLED 기기</p>
       <p class="avoid clamp2" title="피할 곳: 인쇄물·야외 고휘도·색정확 중요">🚫 피할 곳: 인쇄물·야외 고휘도·색정확 중요</p>
-    </div><div class="card scard" data-tags="건기식웰니스 의료 금융컨설팅 키즈" data-name="범용 스타일 접근성·윤리 디자인 Accessible &amp; Ethical 고대비·큰 글씨·키보드·스크린리더 WCAG 공공·헬스케어·교육·법규 준수 접근성 accessible &amp; ethical high contrast, large text (16px+), keyboard navigation, screen reader friendly, wcag compliant, focus state, semantic government, healthcare, education, inclusive products, large audience, legal compliance, public" data-combo="접근성·윤리 디자인" data-rec="1">
+      <p class="refsite">실물 예: <a href="https://vercel.com" target="_blank" rel="noopener" onclick="event.stopPropagation()">vercel.com</a></p>
+      <details class="kit"><summary>🧰 이 스타일로 시작하기</summary><div class="kitbody"><div class="kitblk"><div class="kith"><span class="kitt">1. AI 지시문 <span class="kitsub">붙여넣기용 1줄</span></span><button class="kitcopy" data-txt="다크모드 UI로 — 배경 #000·표면 #0A0A0A, 보더는 쓰지 말고 0 0 0 1px #ffffff25 + 0 0 0 1px #000 이중 링으로 경계를 그리고, 히어로 64px 자간 -3.84px, 섹션 간격은 padding이 아니라 margin-top 208px, 전환 0.15s" onclick="cpk(event,this)">복사</button></div><pre class="kitcode">다크모드 UI로 — 배경 #000·표면 #0A0A0A, 보더는 쓰지 말고 0 0 0 1px #ffffff25 + 0 0 0 1px #000 이중 링으로 경계를 그리고, 히어로 64px 자간 -3.84px, 섹션 간격은 padding이 아니라 margin-top 208px, 전환 0.15s</pre></div><div class="kitblk"><div class="kith"><span class="kitt">2. CSS 변수</span><span class="kmodes"><button type="button" class="kmb on" onclick="kitMode(event,this,'brand')">우리 브랜드</button><button type="button" class="kmb" onclick="kitMode(event,this,'orig')">원본 감각</button></span><button class="kitcopy" data-txt=":root{
+  --bg:#1C1C1A; --surface:#1E3932; --text:#F2F0EB; --muted:rgba(242,240,235,.63); --accent:#F2F0EB;
+  --ring:0 0 0 1px rgba(242,240,235,.15), 0 0 0 1px #1C1C1A;   /* border 대신 이중 링만 */
+  --border:0;
+  --h1:64px; --h1-w:400; --h1-lh:1.0; --h1-ls:-3.84px;
+  --text-size:16px; --text-lh:1.5;
+  --rhythm:208px; --rhythm-lg:276px; --cols:12; --gap:20px;
+  --dur:.15s; --dur-fast:.1s; --ease:cubic-bezier(.4,0,.2,1);
+}" onclick="cpk(event,this)">복사</button></div><pre class="kitcode kitvars" data-brand=":root{
+  --bg:#1C1C1A; --surface:#1E3932; --text:#F2F0EB; --muted:rgba(242,240,235,.63); --accent:#F2F0EB;
+  --ring:0 0 0 1px rgba(242,240,235,.15), 0 0 0 1px #1C1C1A;   /* border 대신 이중 링만 */
+  --border:0;
+  --h1:64px; --h1-w:400; --h1-lh:1.0; --h1-ls:-3.84px;
+  --text-size:16px; --text-lh:1.5;
+  --rhythm:208px; --rhythm-lg:276px; --cols:12; --gap:20px;
+  --dur:.15s; --dur-fast:.1s; --ease:cubic-bezier(.4,0,.2,1);
+}" data-orig=":root{
+  --bg:#000000; --surface:#0A0A0A; --text:#EDEDED; --muted:#A1A1A1; --accent:#0072F5;
+  --ring:0 0 0 1px #ffffff25, 0 0 0 1px #000;   /* border 대신 이 이중 링만 */
+  --border:0;                                    /* 페이지 전체 border&gt;0 요소 0건 */
+  --h1:64px; --h1-w:400; --h1-lh:1.0; --h1-ls:-3.84px;
+  --text-size:16px; --text-lh:1.5;
+  --rhythm:208px; --rhythm-lg:276px; --cols:12; --gap:20px;
+  --dur:.15s; --dur-fast:.1s; --ease:cubic-bezier(.4,0,.2,1);
+}">:root{
+  --bg:#1C1C1A; --surface:#1E3932; --text:#F2F0EB; --muted:rgba(242,240,235,.63); --accent:#F2F0EB;
+  --ring:0 0 0 1px rgba(242,240,235,.15), 0 0 0 1px #1C1C1A;   /* border 대신 이중 링만 */
+  --border:0;
+  --h1:64px; --h1-w:400; --h1-lh:1.0; --h1-ls:-3.84px;
+  --text-size:16px; --text-lh:1.5;
+  --rhythm:208px; --rhythm-lg:276px; --cols:12; --gap:20px;
+  --dur:.15s; --dur-fast:.1s; --ease:cubic-bezier(.4,0,.2,1);
+}</pre></div><div class="kitblk"><div class="kith"><span class="kitt">3. 핵심 스니펫 <span class="kitsub">이 스타일을 성립시키는 결정적 CSS</span></span><button class="kitcopy" data-txt=".card{background:#0A0A0A;border:0;box-shadow:0 0 0 1px #ffffff25,0 0 0 1px #000}
+h1{font-size:64px;font-weight:400;line-height:1;letter-spacing:-3.84px;color:#EDEDED}
+section+section{margin-top:208px}          /* padding 0 — 세로 리듬은 margin으로 */
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:20px}
+a,button{transition:.15s cubic-bezier(.4,0,.2,1)}" onclick="cpk(event,this)">복사</button></div><pre class="kitcode">.card{background:#0A0A0A;border:0;box-shadow:0 0 0 1px #ffffff25,0 0 0 1px #000}
+h1{font-size:64px;font-weight:400;line-height:1;letter-spacing:-3.84px;color:#EDEDED}
+section+section{margin-top:208px}          /* padding 0 — 세로 리듬은 margin으로 */
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:20px}
+a,button{transition:.15s cubic-bezier(.4,0,.2,1)}</pre></div><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/vercel/</code></div></div></details>
+    </div><div class="card scard" data-tags="건기식웰니스 의료 금융컨설팅 키즈" data-name="범용 스타일 접근성·윤리 디자인 Accessible &amp; Ethical 고대비·큰 글씨·키보드·스크린리더 WCAG 공공·헬스케어·교육·법규 준수 접근성 accessible &amp; ethical high contrast, large text (16px+), keyboard navigation, screen reader friendly, wcag compliant, focus state, semantic government, healthcare, education, inclusive products, large audience, legal compliance, public " data-combo="접근성·윤리 디자인" data-rec="1">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">접근성·윤리 디자인 <span class="en">Accessible &amp; Ethical</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/8.jpg" alt="접근성·윤리 디자인 표지 예시"><span class="famtag">접근성</span></div>
       <div class="recbadge" tabindex="0" title="건기식 B2B 업종 룰이 지목 — 「Healthcare App」 룰: Neumorphism + Accessible &amp; Ethical / 「Mental Health App」 룰: Neumorphism + Accessible &amp; Ethical">🌿 건기식 B2B 추천<span class="rectip">건기식 B2B 업종 룰이 지목 — 「Healthcare App」 룰: Neumorphism + Accessible &amp; Ethical / 「Mental Health App」 룰: Neumorphism + Accessible &amp; Ethical</span></div>
@@ -910,7 +1260,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="고대비·큰 글씨·키보드·스크린리더 WCAG">💡 고대비·큰 글씨·키보드·스크린리더 WCAG</p>
       <p class="use" title="추천: 공공·헬스케어·교육·법규 준수">🎯 추천: 공공·헬스케어·교육·법규 준수</p>
       <p class="avoid clamp2" title="피할 곳: 제한 없음 — 보편 적용">🚫 피할 곳: 제한 없음 — 보편 적용</p>
-    </div><div class="card scard" data-tags="테크핀테크 스포츠 키즈" data-name="범용 스타일 클레이모피즘 Claymorphism 통통·장난감 같은 소프트 3D·두꺼운 테두리 교육·키즈·창의도구·온보딩 클레이 claymorphism soft 3d, chunky, playful, toy-like, bubbly, thick borders (3-4px), double shadows, rounded (16-24px) educational apps, children&#x27;s apps, saas platforms, creative tools, fun-focused, onboarding, casual games" data-combo="클레이모피즘" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 스포츠 키즈" data-name="범용 스타일 클레이모피즘 Claymorphism 통통·장난감 같은 소프트 3D·두꺼운 테두리 교육·키즈·창의도구·온보딩 클레이 claymorphism soft 3d, chunky, playful, toy-like, bubbly, thick borders (3-4px), double shadows, rounded (16-24px) educational apps, children&#x27;s apps, saas platforms, creative tools, fun-focused, onboarding, casual games " data-combo="클레이모피즘" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">클레이모피즘 <span class="en">Claymorphism</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/9.jpg" alt="클레이모피즘 표지 예시"><span class="famtag">클레이</span></div>
       
@@ -919,7 +1271,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="통통·장난감 같은 소프트 3D·두꺼운 테두리">💡 통통·장난감 같은 소프트 3D·두꺼운 테두리</p>
       <p class="use" title="추천: 교육·키즈·창의도구·온보딩">🎯 추천: 교육·키즈·창의도구·온보딩</p>
       <p class="avoid clamp2" title="피할 곳: 격식 기업·전문 서비스·의료·금융">🚫 피할 곳: 격식 기업·전문 서비스·의료·금융</p>
-    </div><div class="card scard" data-tags="테크핀테크 뷰티럭셔리" data-name="범용 스타일 오로라 UI Aurora UI 오로라빛 메시 그라데이션·몽환·발광 모던 SaaS·브랜딩·음악·프리미엄·히어로 오로라 aurora ui vibrant gradients, smooth blend, northern lights effect, mesh gradient, luminous, atmospheric, abstract modern saas, creative agencies, branding, music platforms, lifestyle, premium products, hero sections" data-combo="오로라 UI" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 뷰티럭셔리" data-name="범용 스타일 오로라 UI Aurora UI 오로라빛 메시 그라데이션·몽환·발광 모던 SaaS·브랜딩·음악·프리미엄·히어로 오로라 aurora ui vibrant gradients, smooth blend, northern lights effect, mesh gradient, luminous, atmospheric, abstract modern saas, creative agencies, branding, music platforms, lifestyle, premium products, hero sections " data-combo="오로라 UI" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">오로라 UI <span class="en">Aurora UI</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/10.jpg" alt="오로라 UI 표지 예시"><span class="famtag">오로라</span></div>
       
@@ -928,7 +1282,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="오로라빛 메시 그라데이션·몽환·발광">💡 오로라빛 메시 그라데이션·몽환·발광</p>
       <p class="use" title="추천: 모던 SaaS·브랜딩·음악·프리미엄·히어로">🎯 추천: 모던 SaaS·브랜딩·음악·프리미엄·히어로</p>
       <p class="avoid clamp2" title="피할 곳: 데이터 대시보드·접근성 최우선">🚫 피할 곳: 데이터 대시보드·접근성 최우선</p>
-    </div><div class="card scard" data-tags="테크핀테크 스포츠" data-name="범용 스타일 레트로퓨처리즘 Retro-Futurism 80년대 SF·네온글로우·스캔라인·글리치 게이밍·엔터·음악·테크·사이버펑크 레트로네온 retro-futurism vintage sci-fi, 80s aesthetic, neon glow, geometric patterns, crt scanlines, pixel art, cyberpunk, synthwave gaming, entertainment, music platforms, tech brands, artistic projects, nostalgic, cyberpunk" data-combo="레트로퓨처리즘" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 스포츠" data-name="범용 스타일 레트로퓨처리즘 Retro-Futurism 80년대 SF·네온글로우·스캔라인·글리치 게이밍·엔터·음악·테크·사이버펑크 레트로네온 retro-futurism vintage sci-fi, 80s aesthetic, neon glow, geometric patterns, crt scanlines, pixel art, cyberpunk, synthwave gaming, entertainment, music platforms, tech brands, artistic projects, nostalgic, cyberpunk " data-combo="레트로퓨처리즘" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">레트로퓨처리즘 <span class="en">Retro-Futurism</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/11.jpg" alt="레트로퓨처리즘 표지 예시"><span class="famtag">레트로네온</span></div>
       
@@ -937,7 +1293,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="80년대 SF·네온글로우·스캔라인·글리치">💡 80년대 SF·네온글로우·스캔라인·글리치</p>
       <p class="use" title="추천: 게이밍·엔터·음악·테크·사이버펑크">🎯 추천: 게이밍·엔터·음악·테크·사이버펑크</p>
       <p class="avoid clamp2" title="피할 곳: 보수 산업·전문/기업·고령층">🚫 피할 곳: 보수 산업·전문/기업·고령층</p>
-    </div><div class="card scard" data-tags="테크핀테크" data-name="범용 스타일 플랫 디자인 Flat Design 2D·그림자 없음·솔리드 컬러·아이콘 중심 웹/모바일앱·크로스플랫폼·SaaS·대시보드 플랫 flat design 2d, minimalist, bold colors, no shadows, clean lines, simple shapes, typography-focused, modern, icon-heavy web apps, mobile apps, cross-platform, startup mvps, user-friendly, saas, dashboards, corporate" data-combo="플랫 디자인" data-rec="1">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크" data-name="범용 스타일 플랫 디자인 Flat Design 2D·그림자 없음·솔리드 컬러·아이콘 중심 웹/모바일앱·크로스플랫폼·SaaS·대시보드 플랫 flat design 2d, minimalist, bold colors, no shadows, clean lines, simple shapes, typography-focused, modern, icon-heavy web apps, mobile apps, cross-platform, startup mvps, user-friendly, saas, dashboards, corporate " data-combo="플랫 디자인" data-rec="1">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">플랫 디자인 <span class="en">Flat Design</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/12.jpg" alt="플랫 디자인 표지 예시"><span class="famtag">플랫</span></div>
       <div class="recbadge" tabindex="0" title="건기식 B2B 업종 룰이 지목 — 「SaaS (General)」 룰: Glassmorphism + Flat Design / 「Pharmacy/Drug Store」 룰: Flat Design + Accessible &amp; Ethical">🌿 건기식 B2B 추천<span class="rectip">건기식 B2B 업종 룰이 지목 — 「SaaS (General)」 룰: Glassmorphism + Flat Design / 「Pharmacy/Drug Store」 룰: Flat Design + Accessible &amp; Ethical</span></div>
@@ -946,7 +1304,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="2D·그림자 없음·솔리드 컬러·아이콘 중심">💡 2D·그림자 없음·솔리드 컬러·아이콘 중심</p>
       <p class="use" title="추천: 웹/모바일앱·크로스플랫폼·SaaS·대시보드">🎯 추천: 웹/모바일앱·크로스플랫폼·SaaS·대시보드</p>
       <p class="avoid clamp2" title="피할 곳: 3D·프리미엄/럭셔리·몰입형">🚫 피할 곳: 3D·프리미엄/럭셔리·몰입형</p>
-    </div><div class="card scard" data-tags="테크핀테크 뷰티럭셔리 스포츠 키즈" data-name="범용 스타일 스큐어모피즘 Skeuomorphism 가죽·나무·금속 질감의 사실적 재현 레거시앱·게이밍·프리미엄·럭셔리 3D·실사 skeuomorphism realistic, texture, depth, 3d appearance, real-world metaphors, shadows, gradients, tactile, detailed, material legacy apps, gaming, immersive storytelling, premium products, luxury, realistic simulations, education" data-combo="스큐어모피즘" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 뷰티럭셔리 스포츠 키즈" data-name="범용 스타일 스큐어모피즘 Skeuomorphism 가죽·나무·금속 질감의 사실적 재현 레거시앱·게이밍·프리미엄·럭셔리 3D·실사 skeuomorphism realistic, texture, depth, 3d appearance, real-world metaphors, shadows, gradients, tactile, detailed, material legacy apps, gaming, immersive storytelling, premium products, luxury, realistic simulations, education " data-combo="스큐어모피즘" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">스큐어모피즘 <span class="en">Skeuomorphism</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/13.jpg" alt="스큐어모피즘 표지 예시"><span class="famtag">3D·실사</span></div>
       
@@ -955,7 +1315,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="가죽·나무·금속 질감의 사실적 재현">💡 가죽·나무·금속 질감의 사실적 재현</p>
       <p class="use" title="추천: 레거시앱·게이밍·프리미엄·럭셔리">🎯 추천: 레거시앱·게이밍·프리미엄·럭셔리</p>
       <p class="avoid clamp2" title="피할 곳: 모던 기업·저성능·웹(플랫 권장)">🚫 피할 곳: 모던 기업·저성능·웹(플랫 권장)</p>
-    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 뷰티럭셔리 패션" data-name="범용 스타일 리퀴드 글래스 Liquid Glass 흐르는 유리·모핑·홀로그램 색수차 프리미엄 SaaS·고급 이커머스·럭셔리 리퀴드글래스 liquid glass flowing glass, morphing, smooth transitions, fluid effects, translucent, animated blur, iridescent, chromatic aberration premium saas, high-end e-commerce, creative platforms, branding experiences, luxury portfolios" data-combo="리퀴드 글래스" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 뷰티럭셔리 패션" data-name="범용 스타일 리퀴드 글래스 Liquid Glass 흐르는 유리·모핑·홀로그램 색수차 프리미엄 SaaS·고급 이커머스·럭셔리 리퀴드글래스 liquid glass flowing glass, morphing, smooth transitions, fluid effects, translucent, animated blur, iridescent, chromatic aberration premium saas, high-end e-commerce, creative platforms, branding experiences, luxury portfolios " data-combo="리퀴드 글래스" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">리퀴드 글래스 <span class="en">Liquid Glass</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/14.jpg" alt="리퀴드 글래스 표지 예시"><span class="famtag">리퀴드글래스</span></div>
       
@@ -964,7 +1326,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="흐르는 유리·모핑·홀로그램 색수차">💡 흐르는 유리·모핑·홀로그램 색수차</p>
       <p class="use" title="추천: 프리미엄 SaaS·고급 이커머스·럭셔리">🎯 추천: 프리미엄 SaaS·고급 이커머스·럭셔리</p>
       <p class="avoid clamp2" title="피할 곳: 성능 제약·복잡 데이터·저예산">🚫 피할 곳: 성능 제약·복잡 데이터·저예산</p>
-    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 패션" data-name="범용 스타일 모션 중심 Motion-Driven 스크롤·마이크로인터랙션·시차 효과 포트폴리오·스토리텔링·인터랙티브 모션 motion-driven animation-heavy, microinteractions, smooth transitions, scroll effects, parallax, entrance anim, page transitions portfolio sites, storytelling platforms, interactive experiences, entertainment apps, creative, saas" data-combo="모션 중심" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 패션" data-name="범용 스타일 모션 중심 Motion-Driven 스크롤·마이크로인터랙션·시차 효과 포트폴리오·스토리텔링·인터랙티브 모션 motion-driven animation-heavy, microinteractions, smooth transitions, scroll effects, parallax, entrance anim, page transitions portfolio sites, storytelling platforms, interactive experiences, entertainment apps, creative, saas " data-combo="모션 중심" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">모션 중심 <span class="en">Motion-Driven</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/15.jpg" alt="모션 중심 표지 예시"><span class="famtag">모션</span></div>
       
@@ -973,7 +1337,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="스크롤·마이크로인터랙션·시차 효과">💡 스크롤·마이크로인터랙션·시차 효과</p>
       <p class="use" title="추천: 포트폴리오·스토리텔링·인터랙티브">🎯 추천: 포트폴리오·스토리텔링·인터랙티브</p>
       <p class="avoid clamp2" title="피할 곳: 데이터 대시보드·저전력·모션 민감">🚫 피할 곳: 데이터 대시보드·저전력·모션 민감</p>
-    </div><div class="card scard" data-tags="테크핀테크" data-name="범용 스타일 마이크로 인터랙션 Micro-interactions 작은 애니·제스처·촉각 피드백 모바일앱·터치 UI·생산성·소비재 모션 micro-interactions small animations, gesture-based, tactile feedback, subtle animations, contextual interactions, responsive mobile apps, touchscreen uis, productivity tools, user-friendly, consumer apps, interactive components" data-combo="마이크로 인터랙션" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크" data-name="범용 스타일 마이크로 인터랙션 Micro-interactions 작은 애니·제스처·촉각 피드백 모바일앱·터치 UI·생산성·소비재 모션 micro-interactions small animations, gesture-based, tactile feedback, subtle animations, contextual interactions, responsive mobile apps, touchscreen uis, productivity tools, user-friendly, consumer apps, interactive components " data-combo="마이크로 인터랙션" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">마이크로 인터랙션 <span class="en">Micro-interactions</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/16.jpg" alt="마이크로 인터랙션 표지 예시"><span class="famtag">모션</span></div>
       
@@ -982,7 +1348,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="작은 애니·제스처·촉각 피드백">💡 작은 애니·제스처·촉각 피드백</p>
       <p class="use" title="추천: 모바일앱·터치 UI·생산성·소비재">🎯 추천: 모바일앱·터치 UI·생산성·소비재</p>
       <p class="avoid clamp2" title="피할 곳: 데스크톱 전용·성능 최우선">🚫 피할 곳: 데스크톱 전용·성능 최우선</p>
-    </div><div class="card scard" data-tags="건기식웰니스 의료 금융컨설팅 키즈" data-name="범용 스타일 인클루시브 디자인 Inclusive Design 색맹 배려·고대비·햅틱·음성·WCAG AAA 공공·교육·헬스케어·금융·정부 접근성 inclusive design accessible, color-blind friendly, high contrast, haptic feedback, voice interaction, screen reader, wcag aaa, universal public services, education, healthcare, finance, government, accessible consumer, inclusive" data-combo="인클루시브 디자인" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="건기식웰니스 의료 금융컨설팅 키즈" data-name="범용 스타일 인클루시브 디자인 Inclusive Design 색맹 배려·고대비·햅틱·음성·WCAG AAA 공공·교육·헬스케어·금융·정부 접근성 inclusive design accessible, color-blind friendly, high contrast, haptic feedback, voice interaction, screen reader, wcag aaa, universal public services, education, healthcare, finance, government, accessible consumer, inclusive " data-combo="인클루시브 디자인" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">인클루시브 디자인 <span class="en">Inclusive Design</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/17.jpg" alt="인클루시브 디자인 표지 예시"><span class="famtag">접근성</span></div>
       
@@ -991,7 +1359,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="색맹 배려·고대비·햅틱·음성·WCAG AAA">💡 색맹 배려·고대비·햅틱·음성·WCAG AAA</p>
       <p class="use" title="추천: 공공·교육·헬스케어·금융·정부">🎯 추천: 공공·교육·헬스케어·금융·정부</p>
       <p class="avoid clamp2" title="피할 곳: 제한 없음 — 보편 적용">🚫 피할 곳: 제한 없음 — 보편 적용</p>
-    </div><div class="card scard" data-tags="테크핀테크" data-name="범용 스타일 제로 인터페이스 Zero Interface 음성 우선·제스처·AI·보이지 않는 컨트롤 음성비서·AI·스마트홈·앰비언트 AI·음성 zero interface minimal visible ui, voice-first, gesture-based, ai-driven, invisible controls, predictive, context-aware, ambient voice assistants, ai platforms, future-forward ux, smart home, contextual computing, ambient experiences" data-combo="제로 인터페이스" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크" data-name="범용 스타일 제로 인터페이스 Zero Interface 음성 우선·제스처·AI·보이지 않는 컨트롤 음성비서·AI·스마트홈·앰비언트 AI·음성 zero interface minimal visible ui, voice-first, gesture-based, ai-driven, invisible controls, predictive, context-aware, ambient voice assistants, ai platforms, future-forward ux, smart home, contextual computing, ambient experiences " data-combo="제로 인터페이스" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">제로 인터페이스 <span class="en">Zero Interface</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/18.jpg" alt="제로 인터페이스 표지 예시"><span class="famtag">AI·음성</span></div>
       
@@ -1000,7 +1370,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="음성 우선·제스처·AI·보이지 않는 컨트롤">💡 음성 우선·제스처·AI·보이지 않는 컨트롤</p>
       <p class="use" title="추천: 음성비서·AI·스마트홈·앰비언트">🎯 추천: 음성비서·AI·스마트홈·앰비언트</p>
       <p class="avoid clamp2" title="피할 곳: 복잡 워크플로·데이터 입력·레거시">🚫 피할 곳: 복잡 워크플로·데이터 입력·레거시</p>
-    </div><div class="card scard" data-tags="건기식웰니스 테크핀테크 금융컨설팅" data-name="범용 스타일 소프트 UI 진화 Soft UI Evolution 대비 개선된 뉴모피즘·모던·접근성 모던 기업앱·SaaS·헬스/웰니스 뉴모피즘 soft ui evolution evolved soft ui, better contrast, modern aesthetics, subtle depth, accessibility-focused, improved shadows, hybrid modern enterprise apps, saas platforms, health/wellness, modern business tools, professional, hybrid" data-combo="소프트 UI 진화" data-rec="1">
+      
+      
+    </div><div class="card scard" data-tags="건기식웰니스 테크핀테크 금융컨설팅" data-name="범용 스타일 소프트 UI 진화 Soft UI Evolution 대비 개선된 뉴모피즘·모던·접근성 모던 기업앱·SaaS·헬스/웰니스 뉴모피즘 soft ui evolution evolved soft ui, better contrast, modern aesthetics, subtle depth, accessibility-focused, improved shadows, hybrid modern enterprise apps, saas platforms, health/wellness, modern business tools, professional, hybrid " data-combo="소프트 UI 진화" data-rec="1">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">소프트 UI 진화 <span class="en">Soft UI Evolution</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/19.jpg" alt="소프트 UI 진화 표지 예시"><span class="famtag">뉴모피즘</span></div>
       <div class="recbadge" tabindex="0" title="건기식 B2B 업종 룰이 지목 — 「Beauty/Spa/Wellness Service」 룰: Soft UI Evolution + Neumorphism">🌿 건기식 B2B 추천<span class="rectip">건기식 B2B 업종 룰이 지목 — 「Beauty/Spa/Wellness Service」 룰: Soft UI Evolution + Neumorphism</span></div>
@@ -1009,7 +1381,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="대비 개선된 뉴모피즘·모던·접근성">💡 대비 개선된 뉴모피즘·모던·접근성</p>
       <p class="use" title="추천: 모던 기업앱·SaaS·헬스/웰니스">🎯 추천: 모던 기업앱·SaaS·헬스/웰니스</p>
       <p class="avoid clamp2" title="피할 곳: 극단 미니멀·성능 최우선">🚫 피할 곳: 극단 미니멀·성능 최우선</p>
-    </div><div class="card scard" data-tags="테크핀테크 키즈" data-name="범용 스타일 뉴브루탈리즘 Neubrutalism 검은 외곽선·원색·45° 두꺼운 그림자 Gen Z·스타트업·크리에이티브·Notion풍 브루탈 neubrutalism bold borders, black outlines, primary colors, thick shadows, no gradients, flat colors, 45° shadows, playful, gen z gen z brands, startups, creative agencies, figma-style apps, notion-style interfaces, tech blogs" data-combo="뉴브루탈리즘" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 키즈" data-name="범용 스타일 뉴브루탈리즘 Neubrutalism 검은 외곽선·원색·45° 두꺼운 그림자 Gen Z·스타트업·크리에이티브·Notion풍 브루탈 neubrutalism bold borders, black outlines, primary colors, thick shadows, no gradients, flat colors, 45° shadows, playful, gen z gen z brands, startups, creative agencies, figma-style apps, notion-style interfaces, tech blogs " data-combo="뉴브루탈리즘" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">뉴브루탈리즘 <span class="en">Neubrutalism</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/38.jpg" alt="뉴브루탈리즘 표지 예시"><span class="famtag">브루탈</span></div>
       
@@ -1018,7 +1392,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="검은 외곽선·원색·45° 두꺼운 그림자">💡 검은 외곽선·원색·45° 두꺼운 그림자</p>
       <p class="use" title="추천: Gen Z·스타트업·크리에이티브·Notion풍">🎯 추천: Gen Z·스타트업·크리에이티브·Notion풍</p>
       <p class="avoid clamp2" title="피할 곳: 럭셔리·금융·헬스케어·보수 산업">🚫 피할 곳: 럭셔리·금융·헬스케어·보수 산업</p>
-    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 뷰티럭셔리 패션" data-name="범용 스타일 벤토 박스 그리드 Bento Box Grid 모듈 카드·비대칭 그리드·애플풍 대시보드·제품 페이지·포폴·SaaS 벤토 bento box grid modular cards, asymmetric grid, varied sizes, apple-style, dashboard tiles, negative space, clean hierarchy, cards dashboards, product pages, portfolios, apple-style marketing, feature showcases, saas" data-combo="벤토 박스 그리드" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 뷰티럭셔리 패션" data-name="범용 스타일 벤토 박스 그리드 Bento Box Grid 모듈 카드·비대칭 그리드·애플풍 대시보드·제품 페이지·포폴·SaaS 벤토 bento box grid modular cards, asymmetric grid, varied sizes, apple-style, dashboard tiles, negative space, clean hierarchy, cards dashboards, product pages, portfolios, apple-style marketing, feature showcases, saas " data-combo="벤토 박스 그리드" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">벤토 박스 그리드 <span class="en">Bento Box Grid</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/39.jpg" alt="벤토 박스 그리드 표지 예시"><span class="famtag">벤토</span></div>
       
@@ -1027,7 +1403,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="모듈 카드·비대칭 그리드·애플풍">💡 모듈 카드·비대칭 그리드·애플풍</p>
       <p class="use" title="추천: 대시보드·제품 페이지·포폴·SaaS">🎯 추천: 대시보드·제품 페이지·포폴·SaaS</p>
       <p class="avoid clamp2" title="피할 곳: 밀집 데이터표·텍스트 과다·실시간">🚫 피할 곳: 밀집 데이터표·텍스트 과다·실시간</p>
-    </div><div class="card scard" data-tags="테크핀테크 뷰티럭셔리 패션" data-name="범용 스타일 Y2K 감성 Y2K Aesthetic 네온핑크·크롬·메탈릭·글로시 패션·음악·Gen Z·노스탤지어 마케팅 Y2K y2k aesthetic neon pink, chrome, metallic, bubblegum, iridescent, glossy, retro-futurism, 2000s, futuristic nostalgia fashion brands, music platforms, gen z brands, nostalgia marketing, entertainment, youth-focused" data-combo="Y2K 감성" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 뷰티럭셔리 패션" data-name="범용 스타일 Y2K 감성 Y2K Aesthetic 네온핑크·크롬·메탈릭·글로시 패션·음악·Gen Z·노스탤지어 마케팅 Y2K y2k aesthetic neon pink, chrome, metallic, bubblegum, iridescent, glossy, retro-futurism, 2000s, futuristic nostalgia fashion brands, music platforms, gen z brands, nostalgia marketing, entertainment, youth-focused poolsuite.net" data-combo="Y2K 감성" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">Y2K 감성 <span class="en">Y2K Aesthetic</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/40.jpg" alt="Y2K 감성 표지 예시"><span class="famtag">Y2K</span></div>
       
@@ -1036,7 +1414,63 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="네온핑크·크롬·메탈릭·글로시">💡 네온핑크·크롬·메탈릭·글로시</p>
       <p class="use" title="추천: 패션·음악·Gen Z·노스탤지어 마케팅">🎯 추천: 패션·음악·Gen Z·노스탤지어 마케팅</p>
       <p class="avoid clamp2" title="피할 곳: B2B·헬스케어·금융·보수 산업·고령층">🚫 피할 곳: B2B·헬스케어·금융·보수 산업·고령층</p>
-    </div><div class="card scard" data-tags="테크핀테크 스포츠" data-name="범용 스타일 사이버펑크 UI Cyberpunk UI 네온·다크·터미널·HUD·글리치 게이밍·테크·크립토·SF·개발자도구 HUD·SF cyberpunk ui neon, dark mode, terminal, hud, sci-fi, glitch, dystopian, futuristic, matrix, tech noir gaming platforms, tech products, crypto apps, sci-fi applications, developer tools, entertainment" data-combo="사이버펑크 UI" data-rec="0">
+      <p class="refsite">실물 예: <a href="https://poolsuite.net" target="_blank" rel="noopener" onclick="event.stopPropagation()">poolsuite.net</a></p>
+      <details class="kit"><summary>🧰 이 스타일로 시작하기</summary><div class="kitbody"><div class="kitblk"><div class="kith"><span class="kitt">1. AI 지시문 <span class="kitsub">붙여넣기용 1줄</span></span><button class="kitcopy" data-txt="Y2K 레트로로 — 파스텔(#F6D5D5 핑크·#AFE2E5 아쿠아·#F9F0E9 크림)에 모든 창을 1px 검정 헤어라인으로 두르고, 베벨 그림자(0 1px 0 #000 + inset 0 1px 0 #FFF), 픽셀 폰트 최대 16px에 자간 -1px, 전역 image-rendering pixelated" onclick="cpk(event,this)">복사</button></div><pre class="kitcode">Y2K 레트로로 — 파스텔(#F6D5D5 핑크·#AFE2E5 아쿠아·#F9F0E9 크림)에 모든 창을 1px 검정 헤어라인으로 두르고, 베벨 그림자(0 1px 0 #000 + inset 0 1px 0 #FFF), 픽셀 폰트 최대 16px에 자간 -1px, 전역 image-rendering pixelated</pre></div><div class="kitblk"><div class="kith"><span class="kitt">2. CSS 변수</span><span class="kmodes"><button type="button" class="kmb on" onclick="kitMode(event,this,'brand')">우리 브랜드</button><button type="button" class="kmb" onclick="kitMode(event,this,'orig')">원본 감각</button></span><button class="kitcopy" data-txt=":root{
+  --bg:#F2F0EB; --pink:#F2F0EB; --aqua:#1E3932; --line:#1C1C1A;
+  --hairline:1px solid #1C1C1A;                 /* 모든 창에 헤어라인 */
+  --bevel:0 1px 0 #1C1C1A, inset 0 1px 0 #FFF;
+  --pressed:inset 1px 1px 0 #FFF, inset 0 0 0 1px rgba(28,28,26,.2);
+  --drop:rgba(0,0,0,.3) 0 50px 80px -50px;
+  --text-shadow:#FFF 0 1px 0;
+  --r-win:6px; --r-btn:4px; --r-check:2px;
+  --size-max:16px; --tracking:-1px;             /* 페이지 최대 글자 16px */
+  --pixelate:pixelated;
+}" onclick="cpk(event,this)">복사</button></div><pre class="kitcode kitvars" data-brand=":root{
+  --bg:#F2F0EB; --pink:#F2F0EB; --aqua:#1E3932; --line:#1C1C1A;
+  --hairline:1px solid #1C1C1A;                 /* 모든 창에 헤어라인 */
+  --bevel:0 1px 0 #1C1C1A, inset 0 1px 0 #FFF;
+  --pressed:inset 1px 1px 0 #FFF, inset 0 0 0 1px rgba(28,28,26,.2);
+  --drop:rgba(0,0,0,.3) 0 50px 80px -50px;
+  --text-shadow:#FFF 0 1px 0;
+  --r-win:6px; --r-btn:4px; --r-check:2px;
+  --size-max:16px; --tracking:-1px;             /* 페이지 최대 글자 16px */
+  --pixelate:pixelated;
+}" data-orig=":root{
+  --bg:#F9F0E9; --pink:#F6D5D5; --aqua:#AFE2E5; --line:#000000;
+  --hairline:1px solid #000;                    /* 모든 창에 헤어라인 */
+  --bevel:0 1px 0 #000, inset 0 1px 0 #FFF;
+  --pressed:inset 1px 1px 0 #FFF, inset 0 0 0 1px rgba(0,0,0,.2);
+  --drop:rgba(0,0,0,.3) 0 50px 80px -50px;
+  --text-shadow:#FFF 0 1px 0;
+  --r-win:6px; --r-btn:4px; --r-check:2px;
+  --size-max:16px; --tracking:-1px;             /* 페이지 최대 글자 16px */
+  --pixelate:pixelated;
+}">:root{
+  --bg:#F2F0EB; --pink:#F2F0EB; --aqua:#1E3932; --line:#1C1C1A;
+  --hairline:1px solid #1C1C1A;                 /* 모든 창에 헤어라인 */
+  --bevel:0 1px 0 #1C1C1A, inset 0 1px 0 #FFF;
+  --pressed:inset 1px 1px 0 #FFF, inset 0 0 0 1px rgba(28,28,26,.2);
+  --drop:rgba(0,0,0,.3) 0 50px 80px -50px;
+  --text-shadow:#FFF 0 1px 0;
+  --r-win:6px; --r-btn:4px; --r-check:2px;
+  --size-max:16px; --tracking:-1px;             /* 페이지 최대 글자 16px */
+  --pixelate:pixelated;
+}</pre></div><div class="kitblk"><div class="kith"><span class="kitt">3. 핵심 스니펫 <span class="kitsub">이 스타일을 성립시키는 결정적 CSS</span></span><button class="kitcopy" data-txt="*{image-rendering:pixelated}
+body{background:#F9F0E9;font-size:16px;letter-spacing:-1px}
+.win{background:#F9F0E9;border:1px solid #000;border-radius:6px;
+  box-shadow:0 1px 0 #000, inset 0 1px 0 #FFF, rgba(0,0,0,.3) 0 50px 80px -50px}
+.btn{border:1px solid #000;border-radius:4px;
+  box-shadow:0 1px 0 #000, inset 0 1px 0 #FFF;text-shadow:#FFF 0 1px 0}
+.btn:active{box-shadow:inset 1px 1px 0 #FFF, inset 0 0 0 1px rgba(0,0,0,.2)}
+.check{border-radius:2px}" onclick="cpk(event,this)">복사</button></div><pre class="kitcode">*{image-rendering:pixelated}
+body{background:#F9F0E9;font-size:16px;letter-spacing:-1px}
+.win{background:#F9F0E9;border:1px solid #000;border-radius:6px;
+  box-shadow:0 1px 0 #000, inset 0 1px 0 #FFF, rgba(0,0,0,.3) 0 50px 80px -50px}
+.btn{border:1px solid #000;border-radius:4px;
+  box-shadow:0 1px 0 #000, inset 0 1px 0 #FFF;text-shadow:#FFF 0 1px 0}
+.btn:active{box-shadow:inset 1px 1px 0 #FFF, inset 0 0 0 1px rgba(0,0,0,.2)}
+.check{border-radius:2px}</pre></div><div class="kitwarn">⚠️ 형광 네온이 아니라 파스텔입니다(#F6D5D5·#AFE2E5·#F9F0E9). 큰 히어로 글자도 없습니다 — 페이지 최대 글자가 16px.</div><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/poolsuite/</code></div></div></details>
+    </div><div class="card scard" data-tags="테크핀테크 스포츠" data-name="범용 스타일 사이버펑크 UI Cyberpunk UI 네온·다크·터미널·HUD·글리치 게이밍·테크·크립토·SF·개발자도구 HUD·SF cyberpunk ui neon, dark mode, terminal, hud, sci-fi, glitch, dystopian, futuristic, matrix, tech noir gaming platforms, tech products, crypto apps, sci-fi applications, developer tools, entertainment " data-combo="사이버펑크 UI" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">사이버펑크 UI <span class="en">Cyberpunk UI</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/41.jpg" alt="사이버펑크 UI 표지 예시"><span class="famtag">HUD·SF</span></div>
       
@@ -1045,7 +1479,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="네온·다크·터미널·HUD·글리치">💡 네온·다크·터미널·HUD·글리치</p>
       <p class="use" title="추천: 게이밍·테크·크립토·SF·개발자도구">🎯 추천: 게이밍·테크·크립토·SF·개발자도구</p>
       <p class="avoid clamp2" title="피할 곳: 기업·헬스케어·가족앱·고령층">🚫 피할 곳: 기업·헬스케어·가족앱·고령층</p>
-    </div><div class="card scard" data-tags="건기식웰니스 식품FB 테크핀테크" data-name="범용 스타일 오가닉 바이오필릭 Organic Biophilic 자연·유기적 형태·그린·지속가능 웰니스·지속가능·에코·헬스·유기농 식품 오가닉 organic biophilic nature, organic shapes, green, sustainable, rounded, flowing, wellness, earthy, natural textures wellness apps, sustainability brands, eco products, health apps, meditation, organic food brands" data-combo="오가닉 바이오필릭" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="건기식웰니스 식품FB 테크핀테크" data-name="범용 스타일 오가닉 바이오필릭 Organic Biophilic 자연·유기적 형태·그린·지속가능 웰니스·지속가능·에코·헬스·유기농 식품 오가닉 organic biophilic nature, organic shapes, green, sustainable, rounded, flowing, wellness, earthy, natural textures wellness apps, sustainability brands, eco products, health apps, meditation, organic food brands " data-combo="오가닉 바이오필릭" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">오가닉 바이오필릭 <span class="en">Organic Biophilic</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/42.jpg" alt="오가닉 바이오필릭 표지 예시"><span class="famtag">오가닉</span></div>
       
@@ -1054,7 +1490,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="자연·유기적 형태·그린·지속가능">💡 자연·유기적 형태·그린·지속가능</p>
       <p class="use" title="추천: 웰니스·지속가능·에코·헬스·유기농 식품">🎯 추천: 웰니스·지속가능·에코·헬스·유기농 식품</p>
       <p class="avoid clamp2" title="피할 곳: 테크 제품·게이밍·산업·도시 브랜드">🚫 피할 곳: 테크 제품·게이밍·산업·도시 브랜드</p>
-    </div><div class="card scard" data-tags="테크핀테크" data-name="범용 스타일 AI 네이티브 UI AI-Native UI 챗봇·대화형·음성·스트리밍 텍스트 AI 제품·챗봇·음성비서·코파일럿 AI·음성 ai-native ui chatbot, conversational, voice, assistant, agentic, ambient, minimal chrome, streaming text, ai interactions ai products, chatbots, voice assistants, copilots, ai-powered tools, conversational interfaces" data-combo="AI 네이티브 UI" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크" data-name="범용 스타일 AI 네이티브 UI AI-Native UI 챗봇·대화형·음성·스트리밍 텍스트 AI 제품·챗봇·음성비서·코파일럿 AI·음성 ai-native ui chatbot, conversational, voice, assistant, agentic, ambient, minimal chrome, streaming text, ai interactions ai products, chatbots, voice assistants, copilots, ai-powered tools, conversational interfaces " data-combo="AI 네이티브 UI" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">AI 네이티브 UI <span class="en">AI-Native UI</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/43.jpg" alt="AI 네이티브 UI 표지 예시"><span class="famtag">AI·음성</span></div>
       
@@ -1063,7 +1501,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="챗봇·대화형·음성·스트리밍 텍스트">💡 챗봇·대화형·음성·스트리밍 텍스트</p>
       <p class="use" title="추천: AI 제품·챗봇·음성비서·코파일럿">🎯 추천: AI 제품·챗봇·음성비서·코파일럿</p>
       <p class="avoid clamp2" title="피할 곳: 전통 폼·데이터 대시·인쇄물">🚫 피할 곳: 전통 폼·데이터 대시·인쇄물</p>
-    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 패션 키즈" data-name="범용 스타일 멤피스 디자인 Memphis Design 80년대 기하·장난기·삐뚤 패턴·네온 크리에이티브·음악·청년·이벤트·예술 멤피스 memphis design 80s, geometric, playful, postmodern, shapes, patterns, squiggles, triangles, neon, abstract, bold creative agencies, music sites, youth brands, event promotion, artistic portfolios, entertainment" data-combo="멤피스 디자인" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 패션 키즈" data-name="범용 스타일 멤피스 디자인 Memphis Design 80년대 기하·장난기·삐뚤 패턴·네온 크리에이티브·음악·청년·이벤트·예술 멤피스 memphis design 80s, geometric, playful, postmodern, shapes, patterns, squiggles, triangles, neon, abstract, bold creative agencies, music sites, youth brands, event promotion, artistic portfolios, entertainment " data-combo="멤피스 디자인" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">멤피스 디자인 <span class="en">Memphis Design</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/44.jpg" alt="멤피스 디자인 표지 예시"><span class="famtag">멤피스</span></div>
       
@@ -1072,7 +1512,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="80년대 기하·장난기·삐뚤 패턴·네온">💡 80년대 기하·장난기·삐뚤 패턴·네온</p>
       <p class="use" title="추천: 크리에이티브·음악·청년·이벤트·예술">🎯 추천: 크리에이티브·음악·청년·이벤트·예술</p>
       <p class="avoid clamp2" title="피할 곳: 기업 금융·헬스케어·법무·고령층">🚫 피할 곳: 기업 금융·헬스케어·법무·고령층</p>
-    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 패션 스포츠" data-name="범용 스타일 베이퍼웨이브 Vaporwave 신스웨이브·석양 그라데·네온·몽환 음악·게이밍·크리에이티브·테크 스타트업 베이퍼웨이브 vaporwave synthwave, retro-futuristic, 80s-90s, neon, glitch, nostalgic, sunset gradient, dreamy, aesthetic music platforms, gaming, creative portfolios, tech startups, entertainment, artistic projects" data-combo="베이퍼웨이브" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 패션 스포츠" data-name="범용 스타일 베이퍼웨이브 Vaporwave 신스웨이브·석양 그라데·네온·몽환 음악·게이밍·크리에이티브·테크 스타트업 베이퍼웨이브 vaporwave synthwave, retro-futuristic, 80s-90s, neon, glitch, nostalgic, sunset gradient, dreamy, aesthetic music platforms, gaming, creative portfolios, tech startups, entertainment, artistic projects " data-combo="베이퍼웨이브" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">베이퍼웨이브 <span class="en">Vaporwave</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/45.jpg" alt="베이퍼웨이브 표지 예시"><span class="famtag">베이퍼웨이브</span></div>
       
@@ -1081,7 +1523,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="신스웨이브·석양 그라데·네온·몽환">💡 신스웨이브·석양 그라데·네온·몽환</p>
       <p class="use" title="추천: 음악·게이밍·크리에이티브·테크 스타트업">🎯 추천: 음악·게이밍·크리에이티브·테크 스타트업</p>
       <p class="avoid clamp2" title="피할 곳: 비즈니스·이커머스·교육·헬스케어">🚫 피할 곳: 비즈니스·이커머스·교육·헬스케어</p>
-    </div><div class="card scard" data-tags="테크핀테크 뷰티럭셔리" data-name="범용 스타일 입체 레이어링 Dimensional Layering 겹침·z축·그림자·부유 카드 대시보드·카드·모달·내비·SaaS 글래스 dimensional layering depth, overlapping, z-index, layers, 3d, shadows, elevation, floating, cards, spatial hierarchy dashboards, card layouts, modals, navigation, product showcases, saas interfaces" data-combo="입체 레이어링" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 뷰티럭셔리" data-name="범용 스타일 입체 레이어링 Dimensional Layering 겹침·z축·그림자·부유 카드 대시보드·카드·모달·내비·SaaS 글래스 dimensional layering depth, overlapping, z-index, layers, 3d, shadows, elevation, floating, cards, spatial hierarchy dashboards, card layouts, modals, navigation, product showcases, saas interfaces " data-combo="입체 레이어링" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">입체 레이어링 <span class="en">Dimensional Layering</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/46.jpg" alt="입체 레이어링 표지 예시"><span class="famtag">글래스</span></div>
       
@@ -1090,7 +1534,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="겹침·z축·그림자·부유 카드">💡 겹침·z축·그림자·부유 카드</p>
       <p class="use" title="추천: 대시보드·카드·모달·내비·SaaS">🎯 추천: 대시보드·카드·모달·내비·SaaS</p>
       <p class="avoid clamp2" title="피할 곳: 인쇄형·단순 블로그·저사양">🚫 피할 곳: 인쇄형·단순 블로그·저사양</p>
-    </div><div class="card scard" data-tags="금융컨설팅 뷰티럭셔리 패션" data-name="범용 스타일 과장된 미니멀 Exaggerated Minimalism 초대형 타이포·고대비·강한 여백 패션·건축·포폴·에이전시·럭셔리 초대형타이포 exaggerated minimalism bold minimalism, oversized typography, high contrast, negative space, loud minimal, statement design fashion, architecture, portfolios, agency landing pages, luxury brands, editorial" data-combo="과장된 미니멀" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="금융컨설팅 뷰티럭셔리 패션" data-name="범용 스타일 과장된 미니멀 Exaggerated Minimalism 초대형 타이포·고대비·강한 여백 패션·건축·포폴·에이전시·럭셔리 초대형타이포 exaggerated minimalism bold minimalism, oversized typography, high contrast, negative space, loud minimal, statement design fashion, architecture, portfolios, agency landing pages, luxury brands, editorial " data-combo="과장된 미니멀" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">과장된 미니멀 <span class="en">Exaggerated Minimalism</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/47.jpg" alt="과장된 미니멀 표지 예시"><span class="famtag">초대형타이포</span></div>
       
@@ -1099,7 +1545,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="초대형 타이포·고대비·강한 여백">💡 초대형 타이포·고대비·강한 여백</p>
       <p class="use" title="추천: 패션·건축·포폴·에이전시·럭셔리">🎯 추천: 패션·건축·포폴·에이전시·럭셔리</p>
       <p class="avoid clamp2" title="피할 곳: 이커머스 카탈로그·대시보드·폼">🚫 피할 곳: 이커머스 카탈로그·대시보드·폼</p>
-    </div><div class="card scard" data-tags="금융컨설팅 패션" data-name="범용 스타일 키네틱 타이포 Kinetic Typography 움직이는 글자·타이핑·모핑 히어로·마케팅·비디오·스토리텔링 키네틱 kinetic typography motion text, animated type, moving letters, dynamic, typing effect, morphing, scroll-triggered text hero sections, marketing sites, video platforms, storytelling, creative portfolios, landing pages" data-combo="키네틱 타이포" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="금융컨설팅 패션" data-name="범용 스타일 키네틱 타이포 Kinetic Typography 움직이는 글자·타이핑·모핑 히어로·마케팅·비디오·스토리텔링 키네틱 kinetic typography motion text, animated type, moving letters, dynamic, typing effect, morphing, scroll-triggered text hero sections, marketing sites, video platforms, storytelling, creative portfolios, landing pages " data-combo="키네틱 타이포" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">키네틱 타이포 <span class="en">Kinetic Typography</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/48.jpg" alt="키네틱 타이포 표지 예시"><span class="famtag">키네틱</span></div>
       
@@ -1108,7 +1556,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="움직이는 글자·타이핑·모핑">💡 움직이는 글자·타이핑·모핑</p>
       <p class="use" title="추천: 히어로·마케팅·비디오·스토리텔링">🎯 추천: 히어로·마케팅·비디오·스토리텔링</p>
       <p class="avoid clamp2" title="피할 곳: 롱폼·접근성 중요·데이터·폼">🚫 피할 곳: 롱폼·접근성 중요·데이터·폼</p>
-    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 패션" data-name="범용 스타일 시차 스토리텔링 Parallax Storytelling 스크롤 서사·층층 스크롤·시네마틱 브랜드 스토리·제품 출시·연차보고 히어로랜딩 parallax storytelling scroll-driven, narrative, layered scrolling, immersive, progressive disclosure, cinematic, scroll-triggered brand storytelling, product launches, case studies, portfolios, annual reports, marketing campaigns" data-combo="시차 스토리텔링" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 패션" data-name="범용 스타일 시차 스토리텔링 Parallax Storytelling 스크롤 서사·층층 스크롤·시네마틱 브랜드 스토리·제품 출시·연차보고 히어로랜딩 parallax storytelling scroll-driven, narrative, layered scrolling, immersive, progressive disclosure, cinematic, scroll-triggered brand storytelling, product launches, case studies, portfolios, annual reports, marketing campaigns " data-combo="시차 스토리텔링" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">시차 스토리텔링 <span class="en">Parallax Storytelling</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/49.jpg" alt="시차 스토리텔링 표지 예시"><span class="famtag">히어로랜딩</span></div>
       
@@ -1117,7 +1567,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="스크롤 서사·층층 스크롤·시네마틱">💡 스크롤 서사·층층 스크롤·시네마틱</p>
       <p class="use" title="추천: 브랜드 스토리·제품 출시·연차보고">🎯 추천: 브랜드 스토리·제품 출시·연차보고</p>
       <p class="avoid clamp2" title="피할 곳: 이커머스·대시보드·모바일 우선·SEO">🚫 피할 곳: 이커머스·대시보드·모바일 우선·SEO</p>
-    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 뷰티럭셔리 패션" data-name="범용 스타일 스위스 모더니즘 2.0 Swiss Modernism 2.0 그리드·헬베티카·수학적 여백·국제양식 기업·건축·에디토리얼·SaaS·전문서비스 스위스·그리드 swiss modernism 2.0 grid system, helvetica, modular, asymmetric, international style, rational, clean, mathematical spacing corporate sites, architecture, editorial, saas, museums, professional services, documentation" data-combo="스위스 모더니즘 2.0" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 뷰티럭셔리 패션" data-name="범용 스타일 스위스 모더니즘 2.0 Swiss Modernism 2.0 그리드·헬베티카·수학적 여백·국제양식 기업·건축·에디토리얼·SaaS·전문서비스 스위스·그리드 swiss modernism 2.0 grid system, helvetica, modular, asymmetric, international style, rational, clean, mathematical spacing corporate sites, architecture, editorial, saas, museums, professional services, documentation " data-combo="스위스 모더니즘 2.0" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">스위스 모더니즘 2.0 <span class="en">Swiss Modernism 2.0</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/50.jpg" alt="스위스 모더니즘 2.0 표지 예시"><span class="famtag">스위스·그리드</span></div>
       
@@ -1126,7 +1578,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="그리드·헬베티카·수학적 여백·국제양식">💡 그리드·헬베티카·수학적 여백·국제양식</p>
       <p class="use" title="추천: 기업·건축·에디토리얼·SaaS·전문서비스">🎯 추천: 기업·건축·에디토리얼·SaaS·전문서비스</p>
       <p class="avoid clamp2" title="피할 곳: 놀이형·키즈·엔터·게이밍">🚫 피할 곳: 놀이형·키즈·엔터·게이밍</p>
-    </div><div class="card scard" data-tags="테크핀테크 뷰티럭셔리 스포츠" data-name="범용 스타일 HUD·SF UI HUD / Sci-Fi FUI 와이어프레임·네온·데이터·아이언맨풍 SF 게임·우주 테크·보안·몰입 대시보드 HUD·SF hud / sci-fi fui futuristic, technical, wireframe, neon, data, transparency, iron man, sci-fi, interface sci-fi games, space tech, cybersecurity, movie props, immersive dashboards" data-combo="HUD·SF UI" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 뷰티럭셔리 스포츠" data-name="범용 스타일 HUD·SF UI HUD / Sci-Fi FUI 와이어프레임·네온·데이터·아이언맨풍 SF 게임·우주 테크·보안·몰입 대시보드 HUD·SF hud / sci-fi fui futuristic, technical, wireframe, neon, data, transparency, iron man, sci-fi, interface sci-fi games, space tech, cybersecurity, movie props, immersive dashboards " data-combo="HUD·SF UI" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">HUD·SF UI <span class="en">HUD / Sci-Fi FUI</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/51.jpg" alt="HUD·SF UI 표지 예시"><span class="famtag">HUD·SF</span></div>
       
@@ -1135,7 +1589,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="와이어프레임·네온·데이터·아이언맨풍">💡 와이어프레임·네온·데이터·아이언맨풍</p>
       <p class="use" title="추천: SF 게임·우주 테크·보안·몰입 대시보드">🎯 추천: SF 게임·우주 테크·보안·몰입 대시보드</p>
       <p class="avoid clamp2" title="피할 곳: 일반 기업·독서 콘텐츠·공공 서비스">🚫 피할 곳: 일반 기업·독서 콘텐츠·공공 서비스</p>
-    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 패션 스포츠" data-name="범용 스타일 픽셀아트 Pixel Art 8/16비트·블록·아케이드 향수 인디게임·레트로 툴·포폴·Web3/NFT 픽셀 pixel art retro, 8-bit, 16-bit, gaming, blocky, nostalgic, pixelated, arcade indie games, retro tools, creative portfolios, nostalgia marketing, web3/nft" data-combo="픽셀아트" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 패션 스포츠" data-name="범용 스타일 픽셀아트 Pixel Art 8/16비트·블록·아케이드 향수 인디게임·레트로 툴·포폴·Web3/NFT 픽셀 pixel art retro, 8-bit, 16-bit, gaming, blocky, nostalgic, pixelated, arcade indie games, retro tools, creative portfolios, nostalgia marketing, web3/nft " data-combo="픽셀아트" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">픽셀아트 <span class="en">Pixel Art</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/52.jpg" alt="픽셀아트 표지 예시"><span class="famtag">픽셀</span></div>
       
@@ -1144,7 +1600,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="8/16비트·블록·아케이드 향수">💡 8/16비트·블록·아케이드 향수</p>
       <p class="use" title="추천: 인디게임·레트로 툴·포폴·Web3/NFT">🎯 추천: 인디게임·레트로 툴·포폴·Web3/NFT</p>
       <p class="avoid clamp2" title="피할 곳: 전문 기업·모던 SaaS·고해상 사진">🚫 피할 곳: 전문 기업·모던 SaaS·고해상 사진</p>
-    </div><div class="card scard" data-tags="테크핀테크" data-name="범용 스타일 벤토 그리드 Bento Grids 애플풍 모듈 카드·라운드·정돈 제품 기능·대시보드·개인 사이트·갤러리 벤토 bento grids apple-style, modular, cards, organized, clean, hierarchy, grid, rounded, soft product features, dashboards, personal sites, marketing summaries, galleries" data-combo="벤토 그리드" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크" data-name="범용 스타일 벤토 그리드 Bento Grids 애플풍 모듈 카드·라운드·정돈 제품 기능·대시보드·개인 사이트·갤러리 벤토 bento grids apple-style, modular, cards, organized, clean, hierarchy, grid, rounded, soft product features, dashboards, personal sites, marketing summaries, galleries apple.com" data-combo="벤토 그리드" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">벤토 그리드 <span class="en">Bento Grids</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/53.jpg" alt="벤토 그리드 표지 예시"><span class="famtag">벤토</span></div>
       
@@ -1153,7 +1611,53 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="애플풍 모듈 카드·라운드·정돈">💡 애플풍 모듈 카드·라운드·정돈</p>
       <p class="use" title="추천: 제품 기능·대시보드·개인 사이트·갤러리">🎯 추천: 제품 기능·대시보드·개인 사이트·갤러리</p>
       <p class="avoid clamp2" title="피할 곳: 롱폼 독서·데이터표·복잡 폼">🚫 피할 곳: 롱폼 독서·데이터표·복잡 폼</p>
-    </div><div class="card scard" data-tags="테크핀테크 뷰티럭셔리" data-name="범용 스타일 공간 UI(비전OS) Spatial UI (VisionOS) 유리·깊이·몰입·시선/제스처 공간 컴퓨팅·VR/AR·몰입 미디어 글래스 spatial ui (visionos) glass, depth, immersion, spatial, translucent, gaze, gesture, apple, vision-pro spatial computing apps, vr/ar interfaces, immersive media, futuristic dashboards" data-combo="공간 UI(비전OS)" data-rec="0">
+      <p class="refsite">실물 예: <a href="https://apple.com" target="_blank" rel="noopener" onclick="event.stopPropagation()">apple.com</a></p>
+      <details class="kit"><summary>🧰 이 스타일로 시작하기</summary><div class="kitbody"><div class="kitblk"><div class="kith"><span class="kitt">1. AI 지시문 <span class="kitsub">붙여넣기용 1줄</span></span><button class="kitcopy" data-txt="벤토 그리드 스타일로 — 카드 라운드 28px, 그림자 없이, 카드 간격 20px, 세로 큰 칸 1개 옆에 반칸 2개 배치, 타일 배경 #F5F5F7, 버튼은 알약형(라운드 980px)" onclick="cpk(event,this)">복사</button></div><pre class="kitcode">벤토 그리드 스타일로 — 카드 라운드 28px, 그림자 없이, 카드 간격 20px, 세로 큰 칸 1개 옆에 반칸 2개 배치, 타일 배경 #F5F5F7, 버튼은 알약형(라운드 980px)</pre></div><div class="kitblk"><div class="kith"><span class="kitt">2. CSS 변수</span><span class="kmodes"><button type="button" class="kmb on" onclick="kitMode(event,this,'brand')">우리 브랜드</button><button type="button" class="kmb" onclick="kitMode(event,this,'orig')">원본 감각</button></span><button class="kitcopy" data-txt=":root{
+  --bg:#F2F0EB; --tile:#FFFFFF; --text:#1C1C1A; --text-2:#55534E; --accent:#1E3932;   /* text-2 6.75:1 */
+  --r-card:28px; --r-btn:980px;                  /* 이 셋의 반복이 전부 */
+  --shadow:none; --gap:20px;
+  --tile-wide:696/452; --tile-tall:480/640; --tile-half:480/310;
+  --h1:56px; --h1-max:64px; --h1-w:600; --h1-ls:-.58px;
+  --text-size:17px; --text-lh:1.47;
+  --dur:.28s; --ease:cubic-bezier(.4,0,.6,1);
+}" onclick="cpk(event,this)">복사</button></div><pre class="kitcode kitvars" data-brand=":root{
+  --bg:#F2F0EB; --tile:#FFFFFF; --text:#1C1C1A; --text-2:#55534E; --accent:#1E3932;   /* text-2 6.75:1 */
+  --r-card:28px; --r-btn:980px;                  /* 이 셋의 반복이 전부 */
+  --shadow:none; --gap:20px;
+  --tile-wide:696/452; --tile-tall:480/640; --tile-half:480/310;
+  --h1:56px; --h1-max:64px; --h1-w:600; --h1-ls:-.58px;
+  --text-size:17px; --text-lh:1.47;
+  --dur:.28s; --ease:cubic-bezier(.4,0,.6,1);
+}" data-orig=":root{
+  --bg:#FFFFFF; --tile:#F5F5F7; --text:#1D1D1F; --text-2:#6E6E73; --accent:#0071E3;
+  --r-card:28px; --r-btn:980px;                  /* 이 셋의 반복이 전부 */
+  --shadow:none; --gap:20px;
+  --tile-wide:696/452; --tile-tall:480/640; --tile-half:480/310;
+  --h1:56px; --h1-max:64px; --h1-w:600; --h1-ls:-.58px;
+  --text-size:17px; --text-lh:1.47;
+  --dur:.28s; --ease:cubic-bezier(.4,0,.6,1);
+}">:root{
+  --bg:#F2F0EB; --tile:#FFFFFF; --text:#1C1C1A; --text-2:#55534E; --accent:#1E3932;   /* text-2 6.75:1 */
+  --r-card:28px; --r-btn:980px;                  /* 이 셋의 반복이 전부 */
+  --shadow:none; --gap:20px;
+  --tile-wide:696/452; --tile-tall:480/640; --tile-half:480/310;
+  --h1:56px; --h1-max:64px; --h1-w:600; --h1-ls:-.58px;
+  --text-size:17px; --text-lh:1.47;
+  --dur:.28s; --ease:cubic-bezier(.4,0,.6,1);
+}</pre></div><div class="kitblk"><div class="kith"><span class="kitt">3. 핵심 스니펫 <span class="kitsub">이 스타일을 성립시키는 결정적 CSS</span></span><button class="kitcopy" data-txt=".bento{display:grid;gap:20px;grid-template-columns:repeat(4,1fr);grid-auto-rows:310px}
+.bento&gt;*{background:#F5F5F7;border-radius:28px;box-shadow:none;overflow:hidden}
+.tall{grid-row:span 2}        /* 480×640 세로칸 */
+.wide{grid-column:span 2}     /* 696×452 */
+/* 기본 단위 = .tall 1개 옆에 반칸(480×310) 2개 쌓기 */
+h1{font-size:56px;font-weight:600;letter-spacing:-.58px;color:#1D1D1F}
+.btn{border-radius:980px;background:#0071E3;color:#fff;transition:.28s cubic-bezier(.4,0,.6,1)}" onclick="cpk(event,this)">복사</button></div><pre class="kitcode">.bento{display:grid;gap:20px;grid-template-columns:repeat(4,1fr);grid-auto-rows:310px}
+.bento&gt;*{background:#F5F5F7;border-radius:28px;box-shadow:none;overflow:hidden}
+.tall{grid-row:span 2}        /* 480×640 세로칸 */
+.wide{grid-column:span 2}     /* 696×452 */
+/* 기본 단위 = .tall 1개 옆에 반칸(480×310) 2개 쌓기 */
+h1{font-size:56px;font-weight:600;letter-spacing:-.58px;color:#1D1D1F}
+.btn{border-radius:980px;background:#0071E3;color:#fff;transition:.28s cubic-bezier(.4,0,.6,1)}</pre></div><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/apple/</code></div></div></details>
+    </div><div class="card scard" data-tags="테크핀테크 뷰티럭셔리" data-name="범용 스타일 공간 UI(비전OS) Spatial UI (VisionOS) 유리·깊이·몰입·시선/제스처 공간 컴퓨팅·VR/AR·몰입 미디어 글래스 spatial ui (visionos) glass, depth, immersion, spatial, translucent, gaze, gesture, apple, vision-pro spatial computing apps, vr/ar interfaces, immersive media, futuristic dashboards " data-combo="공간 UI(비전OS)" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">공간 UI(비전OS) <span class="en">Spatial UI (VisionOS)</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/55.jpg" alt="공간 UI(비전OS) 표지 예시"><span class="famtag">글래스</span></div>
       
@@ -1162,7 +1666,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="유리·깊이·몰입·시선/제스처">💡 유리·깊이·몰입·시선/제스처</p>
       <p class="use" title="추천: 공간 컴퓨팅·VR/AR·몰입 미디어">🎯 추천: 공간 컴퓨팅·VR/AR·몰입 미디어</p>
       <p class="avoid clamp2" title="피할 곳: 텍스트 과다·고대비 필요·비3D 기기">🚫 피할 곳: 텍스트 과다·고대비 필요·비3D 기기</p>
-    </div><div class="card scard" data-tags="테크핀테크 뷰티럭셔리" data-name="범용 스타일 E-Ink·페이퍼 E-Ink / Paper 종이 같은 매트·고대비·차분·모노 독서앱·디지털 신문·집중 글쓰기 E-Ink e-ink / paper paper-like, matte, high contrast, texture, reading, calm, slow tech, monochrome reading apps, digital newspapers, minimal journals, distraction-free writing, slow-living brands" data-combo="E-Ink·페이퍼" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 뷰티럭셔리" data-name="범용 스타일 E-Ink·페이퍼 E-Ink / Paper 종이 같은 매트·고대비·차분·모노 독서앱·디지털 신문·집중 글쓰기 E-Ink e-ink / paper paper-like, matte, high contrast, texture, reading, calm, slow tech, monochrome reading apps, digital newspapers, minimal journals, distraction-free writing, slow-living brands " data-combo="E-Ink·페이퍼" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">E-Ink·페이퍼 <span class="en">E-Ink / Paper</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/56.jpg" alt="E-Ink·페이퍼 표지 예시"><span class="famtag">E-Ink</span></div>
       
@@ -1171,7 +1677,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="종이 같은 매트·고대비·차분·모노">💡 종이 같은 매트·고대비·차분·모노</p>
       <p class="use" title="추천: 독서앱·디지털 신문·집중 글쓰기">🎯 추천: 독서앱·디지털 신문·집중 글쓰기</p>
       <p class="avoid clamp2" title="피할 곳: 게이밍·비디오·고에너지 마케팅">🚫 피할 곳: 게이밍·비디오·고에너지 마케팅</p>
-    </div><div class="card scard" data-tags="금융컨설팅 뷰티럭셔리 패션" data-name="범용 스타일 Gen Z 카오스·맥시멀 Gen Z Chaos / Maximalism 혼돈·스티커·콜라주·인터넷 밈 Gen Z 라이프·뮤지션·바이럴·패션 맥시멀 gen z chaos / maximalism chaos, clutter, stickers, raw, collage, mixed media, loud, internet culture, ironic gen z lifestyle brands, music artists, creative portfolios, viral marketing, fashion" data-combo="Gen Z 카오스·맥시멀" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="금융컨설팅 뷰티럭셔리 패션" data-name="범용 스타일 Gen Z 카오스·맥시멀 Gen Z Chaos / Maximalism 혼돈·스티커·콜라주·인터넷 밈 Gen Z 라이프·뮤지션·바이럴·패션 맥시멀 gen z chaos / maximalism chaos, clutter, stickers, raw, collage, mixed media, loud, internet culture, ironic gen z lifestyle brands, music artists, creative portfolios, viral marketing, fashion " data-combo="Gen Z 카오스·맥시멀" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">Gen Z 카오스·맥시멀 <span class="en">Gen Z Chaos / Maximalism</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/57.jpg" alt="Gen Z 카오스·맥시멀 표지 예시"><span class="famtag">맥시멀</span></div>
       
@@ -1180,7 +1688,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="혼돈·스티커·콜라주·인터넷 밈">💡 혼돈·스티커·콜라주·인터넷 밈</p>
       <p class="use" title="추천: Gen Z 라이프·뮤지션·바이럴·패션">🎯 추천: Gen Z 라이프·뮤지션·바이럴·패션</p>
       <p class="avoid clamp2" title="피할 곳: 기업·정부·헬스케어·뱅킹">🚫 피할 곳: 기업·정부·헬스케어·뱅킹</p>
-    </div><div class="card scard" data-tags="건기식웰니스 의료 테크핀테크" data-name="범용 스타일 바이오미메틱 2.0 Biomimetic / Organic 2.0 세포·유체·숨쉬는·생성형 지속가능테크·바이오텍·고급 헬스·명상 오가닉 biomimetic / organic 2.0 nature-inspired, cellular, fluid, breathing, generative, algorithms, life-like sustainability tech, biotech, advanced health, meditation, generative art platforms" data-combo="바이오미메틱 2.0" data-rec="1">
+      
+      
+    </div><div class="card scard" data-tags="건기식웰니스 의료 테크핀테크" data-name="범용 스타일 바이오미메틱 2.0 Biomimetic / Organic 2.0 세포·유체·숨쉬는·생성형 지속가능테크·바이오텍·고급 헬스·명상 오가닉 biomimetic / organic 2.0 nature-inspired, cellular, fluid, breathing, generative, algorithms, life-like sustainability tech, biotech, advanced health, meditation, generative art platforms " data-combo="바이오미메틱 2.0" data-rec="1">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">바이오미메틱 2.0 <span class="en">Biomimetic / Organic 2.0</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/58.jpg" alt="바이오미메틱 2.0 표지 예시"><span class="famtag">오가닉</span></div>
       <div class="recbadge" tabindex="0" title="건기식 B2B 업종 룰이 지목 — 「Biohacking / Longevity App」 룰: Biomimetic/Organic 2.0 + Minimalism">🌿 건기식 B2B 추천<span class="rectip">건기식 B2B 업종 룰이 지목 — 「Biohacking / Longevity App」 룰: Biomimetic/Organic 2.0 + Minimalism</span></div>
@@ -1189,7 +1699,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="세포·유체·숨쉬는·생성형">💡 세포·유체·숨쉬는·생성형</p>
       <p class="use" title="추천: 지속가능테크·바이오텍·고급 헬스·명상">🎯 추천: 지속가능테크·바이오텍·고급 헬스·명상</p>
       <p class="avoid clamp2" title="피할 곳: 일반 SaaS·데이터 그리드·회계">🚫 피할 곳: 일반 SaaS·데이터 그리드·회계</p>
-    </div><div class="card scard" data-tags="금융컨설팅 패션" data-name="범용 스타일 안티폴리시·로우 Anti-Polish / Raw Aesthetic 손그림·콜라주·미완성·인간적 크리에이티브 포폴·아티스트·수제 브랜드 로우·스케치 anti-polish / raw aesthetic hand-drawn, collage, scanned textures, unfinished, imperfect, authentic, human, sketch, raw marks, creative process creative portfolios, artist sites, indie brands, handmade products, authentic storytelling, editorial" data-combo="안티폴리시·로우" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="금융컨설팅 패션" data-name="범용 스타일 안티폴리시·로우 Anti-Polish / Raw Aesthetic 손그림·콜라주·미완성·인간적 크리에이티브 포폴·아티스트·수제 브랜드 로우·스케치 anti-polish / raw aesthetic hand-drawn, collage, scanned textures, unfinished, imperfect, authentic, human, sketch, raw marks, creative process creative portfolios, artist sites, indie brands, handmade products, authentic storytelling, editorial " data-combo="안티폴리시·로우" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">안티폴리시·로우 <span class="en">Anti-Polish / Raw Aesthetic</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/59.jpg" alt="안티폴리시·로우 표지 예시"><span class="famtag">로우·스케치</span></div>
       
@@ -1198,7 +1710,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="손그림·콜라주·미완성·인간적">💡 손그림·콜라주·미완성·인간적</p>
       <p class="use" title="추천: 크리에이티브 포폴·아티스트·수제 브랜드">🎯 추천: 크리에이티브 포폴·아티스트·수제 브랜드</p>
       <p class="avoid clamp2" title="피할 곳: 기업·핀테크·헬스케어·정부·정제 SaaS">🚫 피할 곳: 기업·핀테크·헬스케어·정부·정제 SaaS</p>
-    </div><div class="card scard" data-tags="테크핀테크 스포츠 키즈" data-name="범용 스타일 촉각·변형 UI Tactile Digital / Deformable UI 젤리버튼·말랑·통통·물리 피드백 모던 모바일·놀이형·게이밍 UI·소비재 클레이 tactile digital / deformable ui jelly buttons, chrome, clay, squishy, deformable, bouncy, physical, tactile feedback, press response modern mobile apps, playful brands, entertainment, gaming ui, consumer products, interactive demos" data-combo="촉각·변형 UI" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 스포츠 키즈" data-name="범용 스타일 촉각·변형 UI Tactile Digital / Deformable UI 젤리버튼·말랑·통통·물리 피드백 모던 모바일·놀이형·게이밍 UI·소비재 클레이 tactile digital / deformable ui jelly buttons, chrome, clay, squishy, deformable, bouncy, physical, tactile feedback, press response modern mobile apps, playful brands, entertainment, gaming ui, consumer products, interactive demos " data-combo="촉각·변형 UI" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">촉각·변형 UI <span class="en">Tactile Digital / Deformable UI</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/60.jpg" alt="촉각·변형 UI 표지 예시"><span class="famtag">클레이</span></div>
       
@@ -1207,7 +1721,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="젤리버튼·말랑·통통·물리 피드백">💡 젤리버튼·말랑·통통·물리 피드백</p>
       <p class="use" title="추천: 모던 모바일·놀이형·게이밍 UI·소비재">🎯 추천: 모던 모바일·놀이형·게이밍 UI·소비재</p>
       <p class="avoid clamp2" title="피할 곳: 엔터프라이즈·데이터 대시·접근성 중요">🚫 피할 곳: 엔터프라이즈·데이터 대시·접근성 중요</p>
-    </div><div class="card scard" data-tags="건기식웰니스 식품FB 테크핀테크 뷰티럭셔리" data-name="범용 스타일 네이처 디스틸드 Nature Distilled 흙빛·테라코타·나무·모래의 수제 온기 웰니스·지속가능·아티산·유기농·스파 네이처 nature distilled muted earthy, skin tones, wood, soil, sand, terracotta, warmth, organic materials, handmade warmth wellness brands, sustainable products, artisan goods, organic food, spa/beauty, home decor" data-combo="네이처 디스틸드" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="건기식웰니스 식품FB 테크핀테크 뷰티럭셔리" data-name="범용 스타일 네이처 디스틸드 Nature Distilled 흙빛·테라코타·나무·모래의 수제 온기 웰니스·지속가능·아티산·유기농·스파 네이처 nature distilled muted earthy, skin tones, wood, soil, sand, terracotta, warmth, organic materials, handmade warmth wellness brands, sustainable products, artisan goods, organic food, spa/beauty, home decor " data-combo="네이처 디스틸드" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">네이처 디스틸드 <span class="en">Nature Distilled</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/61.jpg" alt="네이처 디스틸드 표지 예시"><span class="famtag">네이처</span></div>
       
@@ -1216,7 +1732,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="흙빛·테라코타·나무·모래의 수제 온기">💡 흙빛·테라코타·나무·모래의 수제 온기</p>
       <p class="use" title="추천: 웰니스·지속가능·아티산·유기농·스파">🎯 추천: 웰니스·지속가능·아티산·유기농·스파</p>
       <p class="avoid clamp2" title="피할 곳: 테크 스타트업·게이밍·나이트라이프·금융">🚫 피할 곳: 테크 스타트업·게이밍·나이트라이프·금융</p>
-    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 패션 스포츠" data-name="범용 스타일 인터랙티브 커서 Interactive Cursor Design 커스텀 커서·자석 효과·커서 궤적 크리에이티브 포폴·인터랙티브·에이전시 모션 interactive cursor design custom cursor, cursor as tool, hover effects, cursor feedback, pointer transformation, cursor trail, magnetic cursor creative portfolios, interactive experiences, agency sites, product showcases, gaming, entertainment" data-combo="인터랙티브 커서" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 패션 스포츠" data-name="범용 스타일 인터랙티브 커서 Interactive Cursor Design 커스텀 커서·자석 효과·커서 궤적 크리에이티브 포폴·인터랙티브·에이전시 모션 interactive cursor design custom cursor, cursor as tool, hover effects, cursor feedback, pointer transformation, cursor trail, magnetic cursor creative portfolios, interactive experiences, agency sites, product showcases, gaming, entertainment " data-combo="인터랙티브 커서" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">인터랙티브 커서 <span class="en">Interactive Cursor Design</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/62.jpg" alt="인터랙티브 커서 표지 예시"><span class="famtag">모션</span></div>
       
@@ -1225,7 +1743,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="커스텀 커서·자석 효과·커서 궤적">💡 커스텀 커서·자석 효과·커서 궤적</p>
       <p class="use" title="추천: 크리에이티브 포폴·인터랙티브·에이전시">🎯 추천: 크리에이티브 포폴·인터랙티브·에이전시</p>
       <p class="avoid clamp2" title="피할 곳: 모바일 우선·접근성 중요·데이터 대시">🚫 피할 곳: 모바일 우선·접근성 중요·데이터 대시</p>
-    </div><div class="card scard" data-tags="테크핀테크" data-name="범용 스타일 음성 우선 멀티모달 Voice-First Multimodal 음성 UI·오디오 피드백·핸즈프리 음성비서·접근성·스마트홈·자동차 AI·음성 voice-first multimodal voice ui, multimodal, audio feedback, conversational, hands-free, ambient, contextual, speech recognition voice assistants, accessibility apps, hands-free tools, smart home, automotive ui, cooking apps" data-combo="음성 우선 멀티모달" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크" data-name="범용 스타일 음성 우선 멀티모달 Voice-First Multimodal 음성 UI·오디오 피드백·핸즈프리 음성비서·접근성·스마트홈·자동차 AI·음성 voice-first multimodal voice ui, multimodal, audio feedback, conversational, hands-free, ambient, contextual, speech recognition voice assistants, accessibility apps, hands-free tools, smart home, automotive ui, cooking apps " data-combo="음성 우선 멀티모달" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">음성 우선 멀티모달 <span class="en">Voice-First Multimodal</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/63.jpg" alt="음성 우선 멀티모달 표지 예시"><span class="famtag">AI·음성</span></div>
       
@@ -1234,7 +1754,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="음성 UI·오디오 피드백·핸즈프리">💡 음성 UI·오디오 피드백·핸즈프리</p>
       <p class="use" title="추천: 음성비서·접근성·스마트홈·자동차">🎯 추천: 음성비서·접근성·스마트홈·자동차</p>
       <p class="avoid clamp2" title="피할 곳: 시각 과다·데이터 입력·소음 환경">🚫 피할 곳: 시각 과다·데이터 입력·소음 환경</p>
-    </div><div class="card scard" data-tags="뷰티럭셔리 패션" data-name="범용 스타일 3D 제품 프리뷰 3D Product Preview 360° 회전·줌·AR·컨피규레이터 이커머스·가구·패션·자동차·주얼리 3D·실사 3d product preview 360 product view, rotatable, zoomable, touch-to-spin, ar preview, product configurator, interactive 3d model e-commerce, furniture, fashion, automotive, electronics, jewelry, product configurators" data-combo="3D 제품 프리뷰" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="뷰티럭셔리 패션" data-name="범용 스타일 3D 제품 프리뷰 3D Product Preview 360° 회전·줌·AR·컨피규레이터 이커머스·가구·패션·자동차·주얼리 3D·실사 3d product preview 360 product view, rotatable, zoomable, touch-to-spin, ar preview, product configurator, interactive 3d model e-commerce, furniture, fashion, automotive, electronics, jewelry, product configurators " data-combo="3D 제품 프리뷰" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">3D 제품 프리뷰 <span class="en">3D Product Preview</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/64.jpg" alt="3D 제품 프리뷰 표지 예시"><span class="famtag">3D·실사</span></div>
       
@@ -1243,7 +1765,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="360° 회전·줌·AR·컨피규레이터">💡 360° 회전·줌·AR·컨피규레이터</p>
       <p class="use" title="추천: 이커머스·가구·패션·자동차·주얼리">🎯 추천: 이커머스·가구·패션·자동차·주얼리</p>
       <p class="avoid clamp2" title="피할 곳: 콘텐츠 과다·블로그·저대역·접근성 중요">🚫 피할 곳: 콘텐츠 과다·블로그·저대역·접근성 중요</p>
-    </div><div class="card scard" data-tags="뷰티럭셔리 패션" data-name="범용 스타일 그라데이션 메시 Gradient Mesh / Aurora Evolved 복합 메시·다색 블렌드·홀로그램 히어로·배경·크리에이티브·패션·프리미엄 오로라 gradient mesh / aurora evolved complex gradients, mesh gradients, multi-color blend, aurora effect, flowing colors, iridescent, holographic, prismatic hero sections, backgrounds, creative brands, music platforms, fashion, lifestyle, premium products" data-combo="그라데이션 메시" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="뷰티럭셔리 패션" data-name="범용 스타일 그라데이션 메시 Gradient Mesh / Aurora Evolved 복합 메시·다색 블렌드·홀로그램 히어로·배경·크리에이티브·패션·프리미엄 오로라 gradient mesh / aurora evolved complex gradients, mesh gradients, multi-color blend, aurora effect, flowing colors, iridescent, holographic, prismatic hero sections, backgrounds, creative brands, music platforms, fashion, lifestyle, premium products partiful.com" data-combo="그라데이션 메시" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">그라데이션 메시 <span class="en">Gradient Mesh / Aurora Evolved</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/65.jpg" alt="그라데이션 메시 표지 예시"><span class="famtag">오로라</span></div>
       
@@ -1252,7 +1776,67 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="복합 메시·다색 블렌드·홀로그램">💡 복합 메시·다색 블렌드·홀로그램</p>
       <p class="use" title="추천: 히어로·배경·크리에이티브·패션·프리미엄">🎯 추천: 히어로·배경·크리에이티브·패션·프리미엄</p>
       <p class="avoid clamp2" title="피할 곳: 데이터 UI·텍스트 과다·보수 브랜드">🚫 피할 곳: 데이터 UI·텍스트 과다·보수 브랜드</p>
-    </div><div class="card scard" data-tags="패션" data-name="범용 스타일 에디토리얼·매거진 Editorial Grid / Magazine 잡지 레이아웃·풀쿼트·드롭캡·컬럼 뉴스·블로그·매거진·롱폼·저널리즘 에디토리얼 editorial grid / magazine magazine layout, asymmetric grid, editorial typography, pull quotes, drop caps, column layout, print-inspired news sites, blogs, magazines, editorial content, long-form articles, journalism, publishing" data-combo="에디토리얼·매거진" data-rec="0">
+      <p class="refsite">실물 예: <a href="https://partiful.com" target="_blank" rel="noopener" onclick="event.stopPropagation()">partiful.com</a></p>
+      <details class="kit"><summary>🧰 이 스타일로 시작하기</summary><div class="kitbody"><div class="kitblk"><div class="kith"><span class="kitt">1. AI 지시문 <span class="kitsub">붙여넣기용 1줄</span></span><button class="kitcopy" data-txt="그라디언트 스타일로 — 히어로는 112px/두께 825/line-height 0.8/자간 -0.03em, 면은 단순 linear 그라디언트(#F8C4FF→#F0B6E0, 130deg #85DADC→#C0E2E2), 보더 0에 그림자는 4겹 계단식, 라운드는 CTA 4px·카드 12/16px·pill 30px" onclick="cpk(event,this)">복사</button></div><pre class="kitcode">그라디언트 스타일로 — 히어로는 112px/두께 825/line-height 0.8/자간 -0.03em, 면은 단순 linear 그라디언트(#F8C4FF→#F0B6E0, 130deg #85DADC→#C0E2E2), 보더 0에 그림자는 4겹 계단식, 라운드는 CTA 4px·카드 12/16px·pill 30px</pre></div><div class="kitblk"><div class="kith"><span class="kitt">2. CSS 변수</span><span class="kmodes"><button type="button" class="kmb on" onclick="kitMode(event,this,'brand')">우리 브랜드</button><button type="button" class="kmb" onclick="kitMode(event,this,'orig')">원본 감각</button></span><button class="kitcopy" data-txt=":root{
+  --grad-pink:linear-gradient(#F2F0EB,#E4E0D6);
+  --grad-aqua:linear-gradient(130deg,#1E3932,#2E7D5B);
+  --grad-veil:linear-gradient(rgba(30,57,50,.1),#F2F0EB);
+  --r-cta:4px; --r-card:12px; --r-card-lg:16px; --r-pill:30px; --border:0;
+  --shadow-stack:0 .8px 2.4px -.6px rgba(0,0,0,.05),
+                 0 2.4px 7.2px -1.25px rgba(0,0,0,.05),
+                 0 6.4px 19px -1.9px rgba(0,0,0,.05),
+                 0 20px 60px -2.5px rgba(0,0,0,.05);
+  --h1:112px; --h1-w:825; --h1-lh:.8; --h1-ls:-.03em;
+  --w-reg:400; --w-mid:550; --w-bold:700; --w-black:825;   /* 가변 웨이트 */
+}" onclick="cpk(event,this)">복사</button></div><pre class="kitcode kitvars" data-brand=":root{
+  --grad-pink:linear-gradient(#F2F0EB,#E4E0D6);
+  --grad-aqua:linear-gradient(130deg,#1E3932,#2E7D5B);
+  --grad-veil:linear-gradient(rgba(30,57,50,.1),#F2F0EB);
+  --r-cta:4px; --r-card:12px; --r-card-lg:16px; --r-pill:30px; --border:0;
+  --shadow-stack:0 .8px 2.4px -.6px rgba(0,0,0,.05),
+                 0 2.4px 7.2px -1.25px rgba(0,0,0,.05),
+                 0 6.4px 19px -1.9px rgba(0,0,0,.05),
+                 0 20px 60px -2.5px rgba(0,0,0,.05);
+  --h1:112px; --h1-w:825; --h1-lh:.8; --h1-ls:-.03em;
+  --w-reg:400; --w-mid:550; --w-bold:700; --w-black:825;   /* 가변 웨이트 */
+}" data-orig=":root{
+  --grad-pink:linear-gradient(#F8C4FF,#F0B6E0);
+  --grad-aqua:linear-gradient(130deg,#85DADC,#C0E2E2);
+  --grad-veil:linear-gradient(rgba(150,196,255,.1),#FFF);
+  --r-cta:4px; --r-card:12px; --r-card-lg:16px; --r-pill:30px; --border:0;
+  --shadow-stack:0 .8px 2.4px -.6px rgba(0,0,0,.05),
+                 0 2.4px 7.2px -1.25px rgba(0,0,0,.05),
+                 0 6.4px 19px -1.9px rgba(0,0,0,.05),
+                 0 20px 60px -2.5px rgba(0,0,0,.05);
+  --h1:112px; --h1-w:825; --h1-lh:.8; --h1-ls:-.03em;
+  --w-reg:400; --w-mid:550; --w-bold:700; --w-black:825;   /* 가변 웨이트 */
+}">:root{
+  --grad-pink:linear-gradient(#F2F0EB,#E4E0D6);
+  --grad-aqua:linear-gradient(130deg,#1E3932,#2E7D5B);
+  --grad-veil:linear-gradient(rgba(30,57,50,.1),#F2F0EB);
+  --r-cta:4px; --r-card:12px; --r-card-lg:16px; --r-pill:30px; --border:0;
+  --shadow-stack:0 .8px 2.4px -.6px rgba(0,0,0,.05),
+                 0 2.4px 7.2px -1.25px rgba(0,0,0,.05),
+                 0 6.4px 19px -1.9px rgba(0,0,0,.05),
+                 0 20px 60px -2.5px rgba(0,0,0,.05);
+  --h1:112px; --h1-w:825; --h1-lh:.8; --h1-ls:-.03em;
+  --w-reg:400; --w-mid:550; --w-bold:700; --w-black:825;   /* 가변 웨이트 */
+}</pre></div><div class="kitblk"><div class="kith"><span class="kitt">3. 핵심 스니펫 <span class="kitsub">이 스타일을 성립시키는 결정적 CSS</span></span><button class="kitcopy" data-txt="h1{font-size:112px;font-weight:825;line-height:.8;letter-spacing:-.03em}
+.card{border:0;border-radius:12px;background:linear-gradient(#F8C4FF,#F0B6E0);
+  box-shadow:0 .8px 2.4px -.6px rgba(0,0,0,.05),
+             0 2.4px 7.2px -1.25px rgba(0,0,0,.05),
+             0 6.4px 19px -1.9px rgba(0,0,0,.05),
+             0 20px 60px -2.5px rgba(0,0,0,.05);}   /* 4겹 계단식 */
+.aqua{background:linear-gradient(130deg,#85DADC,#C0E2E2)}
+.cta{border-radius:4px}.pill{border-radius:30px}" onclick="cpk(event,this)">복사</button></div><pre class="kitcode">h1{font-size:112px;font-weight:825;line-height:.8;letter-spacing:-.03em}
+.card{border:0;border-radius:12px;background:linear-gradient(#F8C4FF,#F0B6E0);
+  box-shadow:0 .8px 2.4px -.6px rgba(0,0,0,.05),
+             0 2.4px 7.2px -1.25px rgba(0,0,0,.05),
+             0 6.4px 19px -1.9px rgba(0,0,0,.05),
+             0 20px 60px -2.5px rgba(0,0,0,.05);}   /* 4겹 계단식 */
+.aqua{background:linear-gradient(130deg,#85DADC,#C0E2E2)}
+.cta{border-radius:4px}.pill{border-radius:30px}</pre></div><div class="kitwarn">⚠️ 원문 글과 달리 히어로의 &quot;메시&quot;는 CSS가 아니라 PNG 이미지입니다 — radial·conic·blur·mix-blend 전부 0건이라 CSS로는 그대로 재현되지 않습니다. 위 단순 linear 그라디언트를 쓰거나 다른 레퍼런스를 잡으세요.</div><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/partiful/</code></div></div></details>
+    </div><div class="card scard" data-tags="패션" data-name="범용 스타일 에디토리얼·매거진 Editorial Grid / Magazine 잡지 레이아웃·풀쿼트·드롭캡·컬럼 뉴스·블로그·매거진·롱폼·저널리즘 에디토리얼 editorial grid / magazine magazine layout, asymmetric grid, editorial typography, pull quotes, drop caps, column layout, print-inspired news sites, blogs, magazines, editorial content, long-form articles, journalism, publishing kinfolk.com" data-combo="에디토리얼·매거진" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">에디토리얼·매거진 <span class="en">Editorial Grid / Magazine</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/66.jpg" alt="에디토리얼·매거진 표지 예시"><span class="famtag">에디토리얼</span></div>
       
@@ -1261,7 +1845,53 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="잡지 레이아웃·풀쿼트·드롭캡·컬럼">💡 잡지 레이아웃·풀쿼트·드롭캡·컬럼</p>
       <p class="use" title="추천: 뉴스·블로그·매거진·롱폼·저널리즘">🎯 추천: 뉴스·블로그·매거진·롱폼·저널리즘</p>
       <p class="avoid clamp2" title="피할 곳: 대시보드·앱·이커머스·실시간 데이터">🚫 피할 곳: 대시보드·앱·이커머스·실시간 데이터</p>
-    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 패션 스포츠" data-name="범용 스타일 색수차·RGB 분리 Chromatic Aberration / RGB Split RGB 분리·색번짐·VHS·왜곡 음악·게이밍·테크·나이트라이프·비디오 색수차 chromatic aberration / rgb split rgb split, color fringing, glitch, retro tech, vhs, analog error, distortion, lens effect music platforms, gaming, tech brands, creative portfolios, nightlife, entertainment, video platforms" data-combo="색수차·RGB 분리" data-rec="0">
+      <p class="refsite">실물 예: <a href="https://kinfolk.com" target="_blank" rel="noopener" onclick="event.stopPropagation()">kinfolk.com</a></p>
+      <details class="kit"><summary>🧰 이 스타일로 시작하기</summary><div class="kitbody"><div class="kitblk"><div class="kith"><span class="kitt">1. AI 지시문 <span class="kitsub">붙여넣기용 1줄</span></span><button class="kitcopy" data-txt="에디토리얼·매거진 스타일로 — 라운드 0·그림자 0·그라디언트 0·강조색 0, 히어로 50px 세리프 대문자 자간 -0.01em, 본문 한 줄 39자, 24칼럼 거터 20px에 max-width 없이 풀블리드, 전환은 opacity 0.5s만" onclick="cpk(event,this)">복사</button></div><pre class="kitcode">에디토리얼·매거진 스타일로 — 라운드 0·그림자 0·그라디언트 0·강조색 0, 히어로 50px 세리프 대문자 자간 -0.01em, 본문 한 줄 39자, 24칼럼 거터 20px에 max-width 없이 풀블리드, 전환은 opacity 0.5s만</pre></div><div class="kitblk"><div class="kith"><span class="kitt">2. CSS 변수</span><span class="kmodes"><button type="button" class="kmb on" onclick="kitMode(event,this,'brand')">우리 브랜드</button><button type="button" class="kmb" onclick="kitMode(event,this,'orig')">원본 감각</button></span><button class="kitcopy" data-txt=":root{
+  --bg:#F2F0EB; --text:#1C1C1A; --sage:#DBDED5; --gray:#55534E;   /* gray 6.75:1 */
+  --radius:0; --shadow:none; --gradient:none; --accent:#1E3932;
+  --h1:50px; --h1-w:400; --h1-lh:1.04; --h1-ls:-.01em; --h1-tt:uppercase;
+  --meta:15px; --meta-lh:1.33; --meta-ls:.15px;
+  --text-size:20px; --text-lh:1.5; --measure:39ch;
+  --cols:24; --gutter:20px; --maxw:none;                       /* 풀블리드 */
+  --dur:.5s; --ease:cubic-bezier(.25,1,.5,1);
+}" onclick="cpk(event,this)">복사</button></div><pre class="kitcode kitvars" data-brand=":root{
+  --bg:#F2F0EB; --text:#1C1C1A; --sage:#DBDED5; --gray:#55534E;   /* gray 6.75:1 */
+  --radius:0; --shadow:none; --gradient:none; --accent:#1E3932;
+  --h1:50px; --h1-w:400; --h1-lh:1.04; --h1-ls:-.01em; --h1-tt:uppercase;
+  --meta:15px; --meta-lh:1.33; --meta-ls:.15px;
+  --text-size:20px; --text-lh:1.5; --measure:39ch;
+  --cols:24; --gutter:20px; --maxw:none;                       /* 풀블리드 */
+  --dur:.5s; --ease:cubic-bezier(.25,1,.5,1);
+}" data-orig=":root{
+  --bg:#FFFFFF; --text:#000000; --sage:#DBDED5; --gray:#898989;
+  --radius:0; --shadow:none; --gradient:none; --accent:none;   /* 뺄 수 있는 건 전부 뺌 */
+  --h1:50px; --h1-w:400; --h1-lh:1.04; --h1-ls:-.01em; --h1-tt:uppercase;
+  --meta:15px; --meta-lh:1.33; --meta-ls:.15px;
+  --text-size:20px; --text-lh:1.5; --measure:39ch;
+  --cols:24; --gutter:20px; --maxw:none;                       /* 풀블리드 */
+  --dur:.5s; --ease:cubic-bezier(.25,1,.5,1);
+}">:root{
+  --bg:#F2F0EB; --text:#1C1C1A; --sage:#DBDED5; --gray:#55534E;   /* gray 6.75:1 */
+  --radius:0; --shadow:none; --gradient:none; --accent:#1E3932;
+  --h1:50px; --h1-w:400; --h1-lh:1.04; --h1-ls:-.01em; --h1-tt:uppercase;
+  --meta:15px; --meta-lh:1.33; --meta-ls:.15px;
+  --text-size:20px; --text-lh:1.5; --measure:39ch;
+  --cols:24; --gutter:20px; --maxw:none;                       /* 풀블리드 */
+  --dur:.5s; --ease:cubic-bezier(.25,1,.5,1);
+}</pre></div><div class="kitblk"><div class="kith"><span class="kitt">3. 핵심 스니펫 <span class="kitsub">이 스타일을 성립시키는 결정적 CSS</span></span><button class="kitcopy" data-txt="*{border-radius:0;box-shadow:none;background-image:none}
+h1{font-family:serif;font-size:50px;font-weight:400;line-height:1.04;
+   letter-spacing:-.01em;text-transform:uppercase}
+p{font-size:20px;line-height:1.5;max-width:39ch}      /* 본문 한 줄 39자 */
+.meta{font-family:system-ui,sans-serif;font-size:15px;line-height:1.33;letter-spacing:.15px}
+.grid{display:grid;grid-template-columns:repeat(24,1fr);gap:20px;max-width:none}
+.fade{transition:opacity .5s cubic-bezier(.25,1,.5,1)}" onclick="cpk(event,this)">복사</button></div><pre class="kitcode">*{border-radius:0;box-shadow:none;background-image:none}
+h1{font-family:serif;font-size:50px;font-weight:400;line-height:1.04;
+   letter-spacing:-.01em;text-transform:uppercase}
+p{font-size:20px;line-height:1.5;max-width:39ch}      /* 본문 한 줄 39자 */
+.meta{font-family:system-ui,sans-serif;font-size:15px;line-height:1.33;letter-spacing:.15px}
+.grid{display:grid;grid-template-columns:repeat(24,1fr);gap:20px;max-width:none}
+.fade{transition:opacity .5s cubic-bezier(.25,1,.5,1)}</pre></div><div class="kitfoot">원본 추출물 전체(Tailwind config·shadcn 테마·모션 CSS 등 38종)는 design-extract 산출 폴더에 있음 — <code>~/design-extracts/kinfolk/</code></div></div></details>
+    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 패션 스포츠" data-name="범용 스타일 색수차·RGB 분리 Chromatic Aberration / RGB Split RGB 분리·색번짐·VHS·왜곡 음악·게이밍·테크·나이트라이프·비디오 색수차 chromatic aberration / rgb split rgb split, color fringing, glitch, retro tech, vhs, analog error, distortion, lens effect music platforms, gaming, tech brands, creative portfolios, nightlife, entertainment, video platforms " data-combo="색수차·RGB 분리" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">색수차·RGB 분리 <span class="en">Chromatic Aberration / RGB Split</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/67.jpg" alt="색수차·RGB 분리 표지 예시"><span class="famtag">색수차</span></div>
       
@@ -1270,7 +1900,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="RGB 분리·색번짐·VHS·왜곡">💡 RGB 분리·색번짐·VHS·왜곡</p>
       <p class="use" title="추천: 음악·게이밍·테크·나이트라이프·비디오">🎯 추천: 음악·게이밍·테크·나이트라이프·비디오</p>
       <p class="avoid clamp2" title="피할 곳: 기업·헬스케어·금융·접근성 중요">🚫 피할 곳: 기업·헬스케어·금융·접근성 중요</p>
-    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 뷰티럭셔리 패션" data-name="범용 스타일 빈티지 아날로그·필름 Vintage Analog / Retro Film 필름 그레인·VHS·폴라로이드·빛샘 사진 포폴·바이닐·빈티지 패션·노스탤지어 빈티지필름 vintage analog / retro film film grain, vhs, cassette tape, polaroid, analog warmth, faded colors, light leaks, vintage photography photography portfolios, music/vinyl brands, vintage fashion, nostalgia marketing, film industry, cafes" data-combo="빈티지 아날로그·필름" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 뷰티럭셔리 패션" data-name="범용 스타일 빈티지 아날로그·필름 Vintage Analog / Retro Film 필름 그레인·VHS·폴라로이드·빛샘 사진 포폴·바이닐·빈티지 패션·노스탤지어 빈티지필름 vintage analog / retro film film grain, vhs, cassette tape, polaroid, analog warmth, faded colors, light leaks, vintage photography photography portfolios, music/vinyl brands, vintage fashion, nostalgia marketing, film industry, cafes " data-combo="빈티지 아날로그·필름" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">빈티지 아날로그·필름 <span class="en">Vintage Analog / Retro Film</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/68.jpg" alt="빈티지 아날로그·필름 표지 예시"><span class="famtag">빈티지필름</span></div>
       
@@ -1279,7 +1911,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="필름 그레인·VHS·폴라로이드·빛샘">💡 필름 그레인·VHS·폴라로이드·빛샘</p>
       <p class="use" title="추천: 사진 포폴·바이닐·빈티지 패션·노스탤지어">🎯 추천: 사진 포폴·바이닐·빈티지 패션·노스탤지어</p>
       <p class="avoid clamp2" title="피할 곳: 모던 테크·SaaS·헬스케어·키즈">🚫 피할 곳: 모던 테크·SaaS·헬스케어·키즈</p>
-    </div></div><h3 class="grp">랜딩 페이지 <span class="cnt">8</span></h3><div class="grid sgrid"><div class="card scard" data-tags="테크핀테크" data-name="랜딩 페이지 히어로 중심 랜딩 Hero-Centric Design 큰 히어로·강한 헤드라인·고대비 CTA SaaS 랜딩·제품 출시·B2B 플랫폼 히어로랜딩 hero-centric design large hero section, compelling headline, high-contrast cta, product showcase, value proposition, hero image/video, dramatic visual saas landing pages, product launches, service landing pages, b2b platforms, tech companies" data-combo="히어로 중심 랜딩" data-rec="0">
+      
+      
+    </div></div><h3 class="grp">랜딩 페이지 <span class="cnt">8</span></h3><div class="grid sgrid"><div class="card scard" data-tags="테크핀테크" data-name="랜딩 페이지 히어로 중심 랜딩 Hero-Centric Design 큰 히어로·강한 헤드라인·고대비 CTA SaaS 랜딩·제품 출시·B2B 플랫폼 히어로랜딩 hero-centric design large hero section, compelling headline, high-contrast cta, product showcase, value proposition, hero image/video, dramatic visual saas landing pages, product launches, service landing pages, b2b platforms, tech companies " data-combo="히어로 중심 랜딩" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">히어로 중심 랜딩 <span class="en">Hero-Centric Design</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/20.jpg" alt="히어로 중심 랜딩 표지 예시"><span class="famtag">히어로랜딩</span></div>
       
@@ -1288,7 +1922,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="큰 히어로·강한 헤드라인·고대비 CTA">💡 큰 히어로·강한 헤드라인·고대비 CTA</p>
       <p class="use" title="추천: SaaS 랜딩·제품 출시·B2B 플랫폼">🎯 추천: SaaS 랜딩·제품 출시·B2B 플랫폼</p>
       <p class="avoid clamp2" title="피할 곳: 복잡 내비·다페이지·데이터 앱">🚫 피할 곳: 복잡 내비·다페이지·데이터 앱</p>
-    </div><div class="card scard" data-tags="테크핀테크 뷰티럭셔리" data-name="랜딩 페이지 전환 최적화 랜딩 Conversion-Optimized 폼 중심·단일 CTA·긴급·신뢰신호 이커머스·무료체험·리드생성·가격 페이지 히어로랜딩 conversion-optimized form-focused, minimalist design, single cta focus, high contrast, urgency elements, trust signals, social proof, clear value e-commerce product pages, free trial signups, lead generation, saas pricing pages, limited-time offers" data-combo="전환 최적화 랜딩" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 뷰티럭셔리" data-name="랜딩 페이지 전환 최적화 랜딩 Conversion-Optimized 폼 중심·단일 CTA·긴급·신뢰신호 이커머스·무료체험·리드생성·가격 페이지 히어로랜딩 conversion-optimized form-focused, minimalist design, single cta focus, high contrast, urgency elements, trust signals, social proof, clear value e-commerce product pages, free trial signups, lead generation, saas pricing pages, limited-time offers " data-combo="전환 최적화 랜딩" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">전환 최적화 랜딩 <span class="en">Conversion-Optimized</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/21.jpg" alt="전환 최적화 랜딩 표지 예시"><span class="famtag">히어로랜딩</span></div>
       
@@ -1297,7 +1933,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="폼 중심·단일 CTA·긴급·신뢰신호">💡 폼 중심·단일 CTA·긴급·신뢰신호</p>
       <p class="use" title="추천: 이커머스·무료체험·리드생성·가격 페이지">🎯 추천: 이커머스·무료체험·리드생성·가격 페이지</p>
       <p class="avoid clamp2" title="피할 곳: 복잡 기능 설명·다제품·기술 문서">🚫 피할 곳: 복잡 기능 설명·다제품·기술 문서</p>
-    </div><div class="card scard" data-tags="테크핀테크" data-name="랜딩 페이지 기능 쇼케이스 랜딩 Feature-Rich Showcase 다중 기능 섹션·그리드·혜택 카드 엔터프라이즈 SaaS·플랫폼·B2B 제품 히어로랜딩 feature-rich showcase multiple feature sections, grid layout, benefit cards, visual feature demonstrations, interactive elements, problem-solution pairs enterprise saas, software tools landing pages, platform services, complex product explanations, b2b products" data-combo="기능 쇼케이스 랜딩" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크" data-name="랜딩 페이지 기능 쇼케이스 랜딩 Feature-Rich Showcase 다중 기능 섹션·그리드·혜택 카드 엔터프라이즈 SaaS·플랫폼·B2B 제품 히어로랜딩 feature-rich showcase multiple feature sections, grid layout, benefit cards, visual feature demonstrations, interactive elements, problem-solution pairs enterprise saas, software tools landing pages, platform services, complex product explanations, b2b products " data-combo="기능 쇼케이스 랜딩" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">기능 쇼케이스 랜딩 <span class="en">Feature-Rich Showcase</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/22.jpg" alt="기능 쇼케이스 랜딩 표지 예시"><span class="famtag">히어로랜딩</span></div>
       
@@ -1306,7 +1944,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="다중 기능 섹션·그리드·혜택 카드">💡 다중 기능 섹션·그리드·혜택 카드</p>
       <p class="use" title="추천: 엔터프라이즈 SaaS·플랫폼·B2B 제품">🎯 추천: 엔터프라이즈 SaaS·플랫폼·B2B 제품</p>
       <p class="avoid clamp2" title="피할 곳: 단순 제품·초기 스타트업·엔터">🚫 피할 곳: 단순 제품·초기 스타트업·엔터</p>
-    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 뷰티럭셔리 패션" data-name="랜딩 페이지 미니멀·직설 랜딩 Minimal &amp; Direct 최소 텍스트·여백·단일 컬럼·빠른 로드 단순 서비스·컨설팅·마이크로 SaaS 초대형타이포 minimal &amp; direct minimal text, white space heavy, single column layout, direct messaging, clean typography, visual-centric, fast-loading simple service landing pages, indie products, consulting services, micro saas, freelancer portfolios" data-combo="미니멀·직설 랜딩" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 뷰티럭셔리 패션" data-name="랜딩 페이지 미니멀·직설 랜딩 Minimal &amp; Direct 최소 텍스트·여백·단일 컬럼·빠른 로드 단순 서비스·컨설팅·마이크로 SaaS 초대형타이포 minimal &amp; direct minimal text, white space heavy, single column layout, direct messaging, clean typography, visual-centric, fast-loading simple service landing pages, indie products, consulting services, micro saas, freelancer portfolios " data-combo="미니멀·직설 랜딩" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">미니멀·직설 랜딩 <span class="en">Minimal &amp; Direct</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/23.jpg" alt="미니멀·직설 랜딩 표지 예시"><span class="famtag">초대형타이포</span></div>
       
@@ -1315,7 +1955,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="최소 텍스트·여백·단일 컬럼·빠른 로드">💡 최소 텍스트·여백·단일 컬럼·빠른 로드</p>
       <p class="use" title="추천: 단순 서비스·컨설팅·마이크로 SaaS">🎯 추천: 단순 서비스·컨설팅·마이크로 SaaS</p>
       <p class="avoid clamp2" title="피할 곳: 기능 많은 제품·복잡 설명·다제품">🚫 피할 곳: 기능 많은 제품·복잡 설명·다제품</p>
-    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 뷰티럭셔리" data-name="랜딩 페이지 소셜프루프 랜딩 Social Proof-Focused 후기·로고·사례·평점 전면 배치 B2B SaaS·전문서비스·프리미엄·이커머스 히어로랜딩 social proof-focused testimonials prominent, client logos displayed, case studies sections, reviews/ratings, user avatars, success metrics, credibility markers b2b saas, professional services, premium products, e-commerce conversion pages, established brands" data-combo="소셜프루프 랜딩" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 뷰티럭셔리" data-name="랜딩 페이지 소셜프루프 랜딩 Social Proof-Focused 후기·로고·사례·평점 전면 배치 B2B SaaS·전문서비스·프리미엄·이커머스 히어로랜딩 social proof-focused testimonials prominent, client logos displayed, case studies sections, reviews/ratings, user avatars, success metrics, credibility markers b2b saas, professional services, premium products, e-commerce conversion pages, established brands " data-combo="소셜프루프 랜딩" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">소셜프루프 랜딩 <span class="en">Social Proof-Focused</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/24.jpg" alt="소셜프루프 랜딩 표지 예시"><span class="famtag">히어로랜딩</span></div>
       
@@ -1324,7 +1966,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="후기·로고·사례·평점 전면 배치">💡 후기·로고·사례·평점 전면 배치</p>
       <p class="use" title="추천: B2B SaaS·전문서비스·프리미엄·이커머스">🎯 추천: B2B SaaS·전문서비스·프리미엄·이커머스</p>
       <p class="avoid clamp2" title="피할 곳: 스타트업 MVP·유저 없는 제품">🚫 피할 곳: 스타트업 MVP·유저 없는 제품</p>
-    </div><div class="card scard" data-tags="테크핀테크" data-name="랜딩 페이지 인터랙티브 데모 랜딩 Interactive Product Demo 제품 목업·워크스루·호버 공개 SaaS·툴/소프트웨어·개발자도구 히어로랜딩 interactive product demo embedded product mockup/video, interactive elements, product walkthrough, step-by-step guides, hover-to-reveal features, embedded demos saas platforms, tool/software products, productivity apps landing pages, developer tools, productivity software" data-combo="인터랙티브 데모 랜딩" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크" data-name="랜딩 페이지 인터랙티브 데모 랜딩 Interactive Product Demo 제품 목업·워크스루·호버 공개 SaaS·툴/소프트웨어·개발자도구 히어로랜딩 interactive product demo embedded product mockup/video, interactive elements, product walkthrough, step-by-step guides, hover-to-reveal features, embedded demos saas platforms, tool/software products, productivity apps landing pages, developer tools, productivity software " data-combo="인터랙티브 데모 랜딩" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">인터랙티브 데모 랜딩 <span class="en">Interactive Product Demo</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/25.jpg" alt="인터랙티브 데모 랜딩 표지 예시"><span class="famtag">히어로랜딩</span></div>
       
@@ -1333,7 +1977,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="제품 목업·워크스루·호버 공개">💡 제품 목업·워크스루·호버 공개</p>
       <p class="use" title="추천: SaaS·툴/소프트웨어·개발자도구">🎯 추천: SaaS·툴/소프트웨어·개발자도구</p>
       <p class="avoid clamp2" title="피할 곳: 단순 서비스·비디지털·복잡 회피 고객">🚫 피할 곳: 단순 서비스·비디지털·복잡 회피 고객</p>
-    </div><div class="card scard" data-tags="건기식웰니스 의료 테크핀테크 금융컨설팅 뷰티럭셔리" data-name="랜딩 페이지 신뢰·권위 랜딩 Trust &amp; Authority 인증·자격·지표·보안 뱃지 전면 헬스케어/의료·금융·엔터프라이즈·프리미엄 히어로랜딩 trust &amp; authority certificates/badges displayed, expert credentials, case studies with metrics, before/after comparisons, industry recognition, security badges healthcare/medical landing pages, financial services, enterprise software, premium/luxury products, legal services" data-combo="신뢰·권위 랜딩" data-rec="1">
+      
+      
+    </div><div class="card scard" data-tags="건기식웰니스 의료 테크핀테크 금융컨설팅 뷰티럭셔리" data-name="랜딩 페이지 신뢰·권위 랜딩 Trust &amp; Authority 인증·자격·지표·보안 뱃지 전면 헬스케어/의료·금융·엔터프라이즈·프리미엄 히어로랜딩 trust &amp; authority certificates/badges displayed, expert credentials, case studies with metrics, before/after comparisons, industry recognition, security badges healthcare/medical landing pages, financial services, enterprise software, premium/luxury products, legal services " data-combo="신뢰·권위 랜딩" data-rec="1">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">신뢰·권위 랜딩 <span class="en">Trust &amp; Authority</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/26.jpg" alt="신뢰·권위 랜딩 표지 예시"><span class="famtag">히어로랜딩</span></div>
       <div class="recbadge" tabindex="0" title="건기식 B2B 업종 룰이 지목 — 「B2B Service」 룰: Trust &amp; Authority + Minimalism">🌿 건기식 B2B 추천<span class="rectip">건기식 B2B 업종 룰이 지목 — 「B2B Service」 룰: Trust &amp; Authority + Minimalism</span></div>
@@ -1342,7 +1988,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="인증·자격·지표·보안 뱃지 전면">💡 인증·자격·지표·보안 뱃지 전면</p>
       <p class="use" title="추천: 헬스케어/의료·금융·엔터프라이즈·프리미엄">🎯 추천: 헬스케어/의료·금융·엔터프라이즈·프리미엄</p>
       <p class="avoid clamp2" title="피할 곳: 캐주얼·엔터·바이럴 제품">🚫 피할 곳: 캐주얼·엔터·바이럴 제품</p>
-    </div><div class="card scard" data-tags="뷰티럭셔리 키즈" data-name="랜딩 페이지 스토리텔링 랜딩 Storytelling-Driven 서사 흐름·스크롤 공개·감성 메시지 브랜드/스타트업 스토리·미션·라이프스타일 히어로랜딩 storytelling-driven narrative flow, visual story progression, section transitions, consistent character/brand voice, emotional messaging, journey visualization brand/startup stories, mission-driven products, premium/lifestyle brands, documentary-style products, educational" data-combo="스토리텔링 랜딩" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="뷰티럭셔리 키즈" data-name="랜딩 페이지 스토리텔링 랜딩 Storytelling-Driven 서사 흐름·스크롤 공개·감성 메시지 브랜드/스타트업 스토리·미션·라이프스타일 히어로랜딩 storytelling-driven narrative flow, visual story progression, section transitions, consistent character/brand voice, emotional messaging, journey visualization brand/startup stories, mission-driven products, premium/lifestyle brands, documentary-style products, educational " data-combo="스토리텔링 랜딩" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">스토리텔링 랜딩 <span class="en">Storytelling-Driven</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/27.jpg" alt="스토리텔링 랜딩 표지 예시"><span class="famtag">히어로랜딩</span></div>
       
@@ -1351,7 +1999,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="서사 흐름·스크롤 공개·감성 메시지">💡 서사 흐름·스크롤 공개·감성 메시지</p>
       <p class="use" title="추천: 브랜드/스타트업 스토리·미션·라이프스타일">🎯 추천: 브랜드/스타트업 스토리·미션·라이프스타일</p>
       <p class="avoid clamp2" title="피할 곳: 기술 복잡 제품·전통 엔터프라이즈">🚫 피할 곳: 기술 복잡 제품·전통 엔터프라이즈</p>
-    </div></div><h3 class="grp">대시보드·BI <span class="cnt">10</span></h3><div class="grid sgrid"><div class="card scard" data-tags="테크핀테크 금융컨설팅 뷰티럭셔리" data-name="대시보드·BI 고밀도 대시보드 Data-Dense Dashboard 다중 차트·KPI 카드·최소 여백 BI·금융 분석·엔터프라이즈 리포팅 대시보드 data-dense dashboard multiple charts/widgets, data tables, kpi cards, minimal padding, grid layout, space-efficient, maximum data visibility business intelligence dashboards, financial analytics, enterprise reporting, operational dashboards, data warehousing" data-combo="고밀도 대시보드" data-rec="0">
+      
+      
+    </div></div><h3 class="grp">대시보드·BI <span class="cnt">10</span></h3><div class="grid sgrid"><div class="card scard" data-tags="테크핀테크 금융컨설팅 뷰티럭셔리" data-name="대시보드·BI 고밀도 대시보드 Data-Dense Dashboard 다중 차트·KPI 카드·최소 여백 BI·금융 분석·엔터프라이즈 리포팅 대시보드 data-dense dashboard multiple charts/widgets, data tables, kpi cards, minimal padding, grid layout, space-efficient, maximum data visibility business intelligence dashboards, financial analytics, enterprise reporting, operational dashboards, data warehousing " data-combo="고밀도 대시보드" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">고밀도 대시보드 <span class="en">Data-Dense Dashboard</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/28.jpg" alt="고밀도 대시보드 표지 예시"><span class="famtag">대시보드</span></div>
       
@@ -1360,7 +2010,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="다중 차트·KPI 카드·최소 여백">💡 다중 차트·KPI 카드·최소 여백</p>
       <p class="use" title="추천: BI·금융 분석·엔터프라이즈 리포팅">🎯 추천: BI·금융 분석·엔터프라이즈 리포팅</p>
       <p class="avoid clamp2" title="피할 곳: 마케팅 대시·소비자용·단순 리포팅">🚫 피할 곳: 마케팅 대시·소비자용·단순 리포팅</p>
-    </div><div class="card scard" data-tags="테크핀테크" data-name="대시보드·BI 히트맵 스타일 Heat Map &amp; Heatmap Style 색으로 강도 표현·매트릭스·지리 히트맵 지리 분석·성과 매트릭스·상관 분석 대시보드 heat map &amp; heatmap style color-coded grid/matrix, data intensity visualization, geographical heat maps, correlation matrices, cell-based representation, gradient coloring geographical analysis, performance matrices, correlation analysis, user behavior heatmaps, temperature/intensity data" data-combo="히트맵 스타일" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크" data-name="대시보드·BI 히트맵 스타일 Heat Map &amp; Heatmap Style 색으로 강도 표현·매트릭스·지리 히트맵 지리 분석·성과 매트릭스·상관 분석 대시보드 heat map &amp; heatmap style color-coded grid/matrix, data intensity visualization, geographical heat maps, correlation matrices, cell-based representation, gradient coloring geographical analysis, performance matrices, correlation analysis, user behavior heatmaps, temperature/intensity data " data-combo="히트맵 스타일" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">히트맵 스타일 <span class="en">Heat Map &amp; Heatmap Style</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/29.jpg" alt="히트맵 스타일 표지 예시"><span class="famtag">대시보드</span></div>
       
@@ -1369,7 +2021,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="색으로 강도 표현·매트릭스·지리 히트맵">💡 색으로 강도 표현·매트릭스·지리 히트맵</p>
       <p class="use" title="추천: 지리 분석·성과 매트릭스·상관 분석">🎯 추천: 지리 분석·성과 매트릭스·상관 분석</p>
       <p class="avoid clamp2" title="피할 곳: 선형 데이터·범주 비교·소규모 데이터">🚫 피할 곳: 선형 데이터·범주 비교·소규모 데이터</p>
-    </div><div class="card scard" data-tags="테크핀테크" data-name="대시보드·BI 임원 대시보드 Executive Dashboard 고수준 KPI·큰 지표·한눈 요약 C레벨·경영 요약·전략 기획 대시보드 executive dashboard high-level kpis, large key metrics, minimal detail, summary view, trend indicators, at-a-glance insights, executive summary c-suite dashboards, business summary reports, decision-maker dashboards, strategic planning views" data-combo="임원 대시보드" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크" data-name="대시보드·BI 임원 대시보드 Executive Dashboard 고수준 KPI·큰 지표·한눈 요약 C레벨·경영 요약·전략 기획 대시보드 executive dashboard high-level kpis, large key metrics, minimal detail, summary view, trend indicators, at-a-glance insights, executive summary c-suite dashboards, business summary reports, decision-maker dashboards, strategic planning views " data-combo="임원 대시보드" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">임원 대시보드 <span class="en">Executive Dashboard</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/30.jpg" alt="임원 대시보드 표지 예시"><span class="famtag">대시보드</span></div>
       
@@ -1378,7 +2032,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="고수준 KPI·큰 지표·한눈 요약">💡 고수준 KPI·큰 지표·한눈 요약</p>
       <p class="use" title="추천: C레벨·경영 요약·전략 기획">🎯 추천: C레벨·경영 요약·전략 기획</p>
       <p class="avoid clamp2" title="피할 곳: 상세 분석·기술 딥다이브·운영 모니터링">🚫 피할 곳: 상세 분석·기술 딥다이브·운영 모니터링</p>
-    </div><div class="card scard" data-tags="테크핀테크" data-name="대시보드·BI 실시간 모니터링 Real-Time Monitoring 라이브 데이터·상태·알림·스트리밍 시스템/DevOps·실시간 분석·주식 대시 대시보드 real-time monitoring live data updates, status indicators, alert notifications, streaming data visualization, active monitoring, streaming charts system monitoring dashboards, devops dashboards, real-time analytics, stock market dashboards, live event tracking" data-combo="실시간 모니터링" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크" data-name="대시보드·BI 실시간 모니터링 Real-Time Monitoring 라이브 데이터·상태·알림·스트리밍 시스템/DevOps·실시간 분석·주식 대시 대시보드 real-time monitoring live data updates, status indicators, alert notifications, streaming data visualization, active monitoring, streaming charts system monitoring dashboards, devops dashboards, real-time analytics, stock market dashboards, live event tracking " data-combo="실시간 모니터링" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">실시간 모니터링 <span class="en">Real-Time Monitoring</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/31.jpg" alt="실시간 모니터링 표지 예시"><span class="famtag">대시보드</span></div>
       
@@ -1387,7 +2043,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="라이브 데이터·상태·알림·스트리밍">💡 라이브 데이터·상태·알림·스트리밍</p>
       <p class="use" title="추천: 시스템/DevOps·실시간 분석·주식 대시">🎯 추천: 시스템/DevOps·실시간 분석·주식 대시</p>
       <p class="avoid clamp2" title="피할 곳: 과거 분석·장기 추세·아카이브">🚫 피할 곳: 과거 분석·장기 추세·아카이브</p>
-    </div><div class="card scard" data-tags="테크핀테크" data-name="대시보드·BI 드릴다운 분석 Drill-Down Analytics 계층 탐색·확장·요약→상세 흐름 세일즈·제품·퍼널·다차원 데이터 대시보드 drill-down analytics hierarchical data exploration, expandable sections, interactive drill-down paths, summary-to-detail flow, context preservation sales analytics, product analytics, funnel analysis, multi-dimensional data exploration, business intelligence" data-combo="드릴다운 분석" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크" data-name="대시보드·BI 드릴다운 분석 Drill-Down Analytics 계층 탐색·확장·요약→상세 흐름 세일즈·제품·퍼널·다차원 데이터 대시보드 drill-down analytics hierarchical data exploration, expandable sections, interactive drill-down paths, summary-to-detail flow, context preservation sales analytics, product analytics, funnel analysis, multi-dimensional data exploration, business intelligence " data-combo="드릴다운 분석" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">드릴다운 분석 <span class="en">Drill-Down Analytics</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/32.jpg" alt="드릴다운 분석 표지 예시"><span class="famtag">대시보드</span></div>
       
@@ -1396,7 +2054,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="계층 탐색·확장·요약→상세 흐름">💡 계층 탐색·확장·요약→상세 흐름</p>
       <p class="use" title="추천: 세일즈·제품·퍼널·다차원 데이터">🎯 추천: 세일즈·제품·퍼널·다차원 데이터</p>
       <p class="avoid clamp2" title="피할 곳: 단순 선형·단일 지표·실시간">🚫 피할 곳: 단순 선형·단일 지표·실시간</p>
-    </div><div class="card scard" data-tags="테크핀테크" data-name="대시보드·BI 비교 분석 대시보드 Comparative Analysis Dashboard 나란히 비교·기간대비·A/B 결과 기간대비 리포팅·A/B·시장/경쟁 비교 대시보드 comparative analysis dashboard side-by-side comparisons, period-over-period metrics, a/b test results, regional comparisons, performance benchmarks period-over-period reporting, a/b test dashboards, market comparison, competitive analysis, regional performance" data-combo="비교 분석 대시보드" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크" data-name="대시보드·BI 비교 분석 대시보드 Comparative Analysis Dashboard 나란히 비교·기간대비·A/B 결과 기간대비 리포팅·A/B·시장/경쟁 비교 대시보드 comparative analysis dashboard side-by-side comparisons, period-over-period metrics, a/b test results, regional comparisons, performance benchmarks period-over-period reporting, a/b test dashboards, market comparison, competitive analysis, regional performance " data-combo="비교 분석 대시보드" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">비교 분석 대시보드 <span class="en">Comparative Analysis Dashboard</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/33.jpg" alt="비교 분석 대시보드 표지 예시"><span class="famtag">대시보드</span></div>
       
@@ -1405,7 +2065,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="나란히 비교·기간대비·A/B 결과">💡 나란히 비교·기간대비·A/B 결과</p>
       <p class="use" title="추천: 기간대비 리포팅·A/B·시장/경쟁 비교">🎯 추천: 기간대비 리포팅·A/B·시장/경쟁 비교</p>
       <p class="avoid clamp2" title="피할 곳: 단일 지표·미래 예측·실시간">🚫 피할 곳: 단일 지표·미래 예측·실시간</p>
-    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅" data-name="대시보드·BI 예측 분석 Predictive Analytics 예측선·신뢰구간·시나리오·이상 탐지 예측 대시·이상 탐지·AI 인사이트 대시보드 predictive analytics forecast lines, confidence intervals, trend projections, scenario modeling, ai-driven insights, anomaly detection visualization forecasting dashboards, anomaly detection systems, trend prediction dashboards, ai-powered analytics, budget planning" data-combo="예측 분석" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅" data-name="대시보드·BI 예측 분석 Predictive Analytics 예측선·신뢰구간·시나리오·이상 탐지 예측 대시·이상 탐지·AI 인사이트 대시보드 predictive analytics forecast lines, confidence intervals, trend projections, scenario modeling, ai-driven insights, anomaly detection visualization forecasting dashboards, anomaly detection systems, trend prediction dashboards, ai-powered analytics, budget planning " data-combo="예측 분석" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">예측 분석 <span class="en">Predictive Analytics</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/34.jpg" alt="예측 분석 표지 예시"><span class="famtag">대시보드</span></div>
       
@@ -1414,7 +2076,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="예측선·신뢰구간·시나리오·이상 탐지">💡 예측선·신뢰구간·시나리오·이상 탐지</p>
       <p class="use" title="추천: 예측 대시·이상 탐지·AI 인사이트">🎯 추천: 예측 대시·이상 탐지·AI 인사이트</p>
       <p class="avoid clamp2" title="피할 곳: 과거 전용·단순 리포팅·실시간 운영">🚫 피할 곳: 과거 전용·단순 리포팅·실시간 운영</p>
-    </div><div class="card scard" data-tags="테크핀테크" data-name="대시보드·BI 사용자 행동 분석 User Behavior Analytics 퍼널·유저 플로우·전환·코호트 전환 퍼널·유저 여정·인게이지먼트 대시보드 user behavior analytics funnel visualization, user flow diagrams, conversion tracking, engagement metrics, user journey mapping, cohort analysis conversion funnel analysis, user journey tracking, engagement analytics, cohort analysis, retention tracking" data-combo="사용자 행동 분석" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크" data-name="대시보드·BI 사용자 행동 분석 User Behavior Analytics 퍼널·유저 플로우·전환·코호트 전환 퍼널·유저 여정·인게이지먼트 대시보드 user behavior analytics funnel visualization, user flow diagrams, conversion tracking, engagement metrics, user journey mapping, cohort analysis conversion funnel analysis, user journey tracking, engagement analytics, cohort analysis, retention tracking " data-combo="사용자 행동 분석" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">사용자 행동 분석 <span class="en">User Behavior Analytics</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/35.jpg" alt="사용자 행동 분석 표지 예시"><span class="famtag">대시보드</span></div>
       
@@ -1423,7 +2087,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="퍼널·유저 플로우·전환·코호트">💡 퍼널·유저 플로우·전환·코호트</p>
       <p class="use" title="추천: 전환 퍼널·유저 여정·인게이지먼트">🎯 추천: 전환 퍼널·유저 여정·인게이지먼트</p>
       <p class="avoid clamp2" title="피할 곳: 실시간 운영·시스템 모니터·금융거래">🚫 피할 곳: 실시간 운영·시스템 모니터·금융거래</p>
-    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 패션" data-name="대시보드·BI 금융 대시보드 Financial Dashboard 매출·손익·예산·재무비율 재무 리포팅·회계·포트폴리오·뱅킹 대시보드 financial dashboard revenue metrics, profit/loss visualization, budget tracking, financial ratios, portfolio performance, cash flow, audit trail financial reporting, accounting dashboards, portfolio tracking, budget monitoring, banking analytics" data-combo="금융 대시보드" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 패션" data-name="대시보드·BI 금융 대시보드 Financial Dashboard 매출·손익·예산·재무비율 재무 리포팅·회계·포트폴리오·뱅킹 대시보드 financial dashboard revenue metrics, profit/loss visualization, budget tracking, financial ratios, portfolio performance, cash flow, audit trail financial reporting, accounting dashboards, portfolio tracking, budget monitoring, banking analytics " data-combo="금융 대시보드" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">금융 대시보드 <span class="en">Financial Dashboard</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/36.jpg" alt="금융 대시보드 표지 예시"><span class="famtag">대시보드</span></div>
       
@@ -1432,7 +2098,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="매출·손익·예산·재무비율">💡 매출·손익·예산·재무비율</p>
       <p class="use" title="추천: 재무 리포팅·회계·포트폴리오·뱅킹">🎯 추천: 재무 리포팅·회계·포트폴리오·뱅킹</p>
       <p class="avoid clamp2" title="피할 곳: 단순 대시·엔터/소셜 지표·비재무">🚫 피할 곳: 단순 대시·엔터/소셜 지표·비재무</p>
-    </div><div class="card scard" data-tags="테크핀테크" data-name="대시보드·BI 세일즈 인텔리전스 Sales Intelligence Dashboard 딜 파이프라인·영업 지표·리더보드 CRM·영업 관리·기회 추적·쿼터 대시보드 sales intelligence dashboard deal pipeline, sales metrics, territory performance, sales rep leaderboard, win-loss analysis, quota tracking, forecast accuracy crm dashboards, sales management, opportunity tracking, performance management, quota planning" data-combo="세일즈 인텔리전스" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크" data-name="대시보드·BI 세일즈 인텔리전스 Sales Intelligence Dashboard 딜 파이프라인·영업 지표·리더보드 CRM·영업 관리·기회 추적·쿼터 대시보드 sales intelligence dashboard deal pipeline, sales metrics, territory performance, sales rep leaderboard, win-loss analysis, quota tracking, forecast accuracy crm dashboards, sales management, opportunity tracking, performance management, quota planning " data-combo="세일즈 인텔리전스" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">세일즈 인텔리전스 <span class="en">Sales Intelligence Dashboard</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/37.jpg" alt="세일즈 인텔리전스 표지 예시"><span class="famtag">대시보드</span></div>
       
@@ -1441,7 +2109,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="딜 파이프라인·영업 지표·리더보드">💡 딜 파이프라인·영업 지표·리더보드</p>
       <p class="use" title="추천: CRM·영업 관리·기회 추적·쿼터">🎯 추천: CRM·영업 관리·기회 추적·쿼터</p>
       <p class="avoid clamp2" title="피할 곳: 마케팅 분석·CS 지표·HR 대시">🚫 피할 곳: 마케팅 분석·CS 지표·HR 대시</p>
-    </div></div><h3 class="grp">모바일 특화 <span class="cnt">17</span></h3><div class="grid sgrid"><div class="card scard" data-tags="패션 키즈" data-name="모바일 특화 바우하우스 Bauhaus (包豪斯) 기하·구성주의·원색·하드 섀도·포스터 개성 강한 모바일앱·온보딩·브랜딩 화면 바우하우스 bauhaus (包豪斯) bauhaus, geometric, constructivist, primary colors, hard shadow, bold, tactile, functional, poster, mechanical, architectural mobile-first apps needing high personality, onboarding flows, branding-forward product screens, artisan/design brands, editorial mobile experiences" data-combo="바우하우스" data-rec="0">
+      
+      
+    </div></div><h3 class="grp">모바일 특화 <span class="cnt">17</span></h3><div class="grid sgrid"><div class="card scard" data-tags="패션 키즈" data-name="모바일 특화 바우하우스 Bauhaus (包豪斯) 기하·구성주의·원색·하드 섀도·포스터 개성 강한 모바일앱·온보딩·브랜딩 화면 바우하우스 bauhaus (包豪斯) bauhaus, geometric, constructivist, primary colors, hard shadow, bold, tactile, functional, poster, mechanical, architectural mobile-first apps needing high personality, onboarding flows, branding-forward product screens, artisan/design brands, editorial mobile experiences " data-combo="바우하우스" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">바우하우스 <span class="en">Bauhaus (包豪斯)</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/69.jpg" alt="바우하우스 표지 예시"><span class="famtag">바우하우스</span></div>
       
@@ -1450,7 +2120,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="기하·구성주의·원색·하드 섀도·포스터">💡 기하·구성주의·원색·하드 섀도·포스터</p>
       <p class="use" title="추천: 개성 강한 모바일앱·온보딩·브랜딩 화면">🎯 추천: 개성 강한 모바일앱·온보딩·브랜딩 화면</p>
       <p class="avoid clamp2" title="피할 곳: 엔터프라이즈 대시·접근성 중요 맥락">🚫 피할 곳: 엔터프라이즈 대시·접근성 중요 맥락</p>
-    </div><div class="card scard" data-tags="금융컨설팅 뷰티럭셔리 패션" data-name="모바일 특화 미니멀 모노크롬 Minimalist Monochrome 흑백·에디토리얼·제로 라운드·고대비 럭셔리 패션 이커머스·에디토리얼·하이엔드 포폴 모노크롬 minimalist monochrome monochrome, black white, editorial, austere, typographic, sharp, zero radius, high contrast, brutalist, pocket editorial, serif, mechanical luxury fashion e-commerce mobile, editorial publications, high-end portfolio apps, experimental/avant-garde brands, digital exhibitions" data-combo="미니멀 모노크롬" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="금융컨설팅 뷰티럭셔리 패션" data-name="모바일 특화 미니멀 모노크롬 Minimalist Monochrome 흑백·에디토리얼·제로 라운드·고대비 럭셔리 패션 이커머스·에디토리얼·하이엔드 포폴 모노크롬 minimalist monochrome monochrome, black white, editorial, austere, typographic, sharp, zero radius, high contrast, brutalist, pocket editorial, serif, mechanical luxury fashion e-commerce mobile, editorial publications, high-end portfolio apps, experimental/avant-garde brands, digital exhibitions " data-combo="미니멀 모노크롬" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">미니멀 모노크롬 <span class="en">Minimalist Monochrome</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/70.jpg" alt="미니멀 모노크롬 표지 예시"><span class="famtag">모노크롬</span></div>
       
@@ -1459,7 +2131,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="흑백·에디토리얼·제로 라운드·고대비">💡 흑백·에디토리얼·제로 라운드·고대비</p>
       <p class="use" title="추천: 럭셔리 패션 이커머스·에디토리얼·하이엔드 포폴">🎯 추천: 럭셔리 패션 이커머스·에디토리얼·하이엔드 포폴</p>
       <p class="avoid clamp2" title="피할 곳: 엔터·컬러풀 브랜드·친근 소비자앱">🚫 피할 곳: 엔터·컬러풀 브랜드·친근 소비자앱</p>
-    </div><div class="card scard" data-tags="테크핀테크 뷰티럭셔리 스포츠" data-name="모바일 특화 모던 다크(시네마) Modern Dark (Cinema Mobile) 다크·시네마틱·인디고·글로우·블러 개발자도구·프로 생산성·핀테크·미디어 다크 modern dark (cinema mobile) dark mode, cinematic, ambient light, glassmorphism, deep black, indigo, glow, blur, atmospheric, reanimated, haptic, premium, layered, frosted glass, linear gradient developer tools, pro productivity apps, fintech/trading dashboards, media/streaming platforms, ai tool interfaces, high-end gaming companion apps" data-combo="모던 다크(시네마)" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 뷰티럭셔리 스포츠" data-name="모바일 특화 모던 다크(시네마) Modern Dark (Cinema Mobile) 다크·시네마틱·인디고·글로우·블러 개발자도구·프로 생산성·핀테크·미디어 다크 modern dark (cinema mobile) dark mode, cinematic, ambient light, glassmorphism, deep black, indigo, glow, blur, atmospheric, reanimated, haptic, premium, layered, frosted glass, linear gradient developer tools, pro productivity apps, fintech/trading dashboards, media/streaming platforms, ai tool interfaces, high-end gaming companion apps " data-combo="모던 다크(시네마)" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">모던 다크(시네마) <span class="en">Modern Dark (Cinema Mobile)</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/71.jpg" alt="모던 다크(시네마) 표지 예시"><span class="famtag">다크</span></div>
       
@@ -1468,7 +2142,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="다크·시네마틱·인디고·글로우·블러">💡 다크·시네마틱·인디고·글로우·블러</p>
       <p class="use" title="추천: 개발자도구·프로 생산성·핀테크·미디어">🎯 추천: 개발자도구·프로 생산성·핀테크·미디어</p>
       <p class="avoid clamp2" title="피할 곳: 따뜻함 필요 소비자·키즈·의료">🚫 피할 곳: 따뜻함 필요 소비자·키즈·의료</p>
-    </div><div class="card scard" data-tags="테크핀테크 뷰티럭셔리" data-name="모바일 특화 SaaS 모바일 SaaS Mobile (High-Tech Boutique) 일렉트릭 블루·그라데·핀테크·프리미엄 B2B SaaS 모바일·핀테크·개발도구 글래스 saas mobile (high-tech boutique) saas, electric blue, gradient, fintech, spring animation, dual font, glassmorphism, boutique, premium, calistoga, inter, mono, tactile, haptic, bento b2b saas mobile dashboards, fintech apps, developer tool mobile companions, marketing analytics apps, hr/operations apps, modern business productivity" data-combo="SaaS 모바일" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 뷰티럭셔리" data-name="모바일 특화 SaaS 모바일 SaaS Mobile (High-Tech Boutique) 일렉트릭 블루·그라데·핀테크·프리미엄 B2B SaaS 모바일·핀테크·개발도구 글래스 saas mobile (high-tech boutique) saas, electric blue, gradient, fintech, spring animation, dual font, glassmorphism, boutique, premium, calistoga, inter, mono, tactile, haptic, bento b2b saas mobile dashboards, fintech apps, developer tool mobile companions, marketing analytics apps, hr/operations apps, modern business productivity " data-combo="SaaS 모바일" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">SaaS 모바일 <span class="en">SaaS Mobile (High-Tech Boutique)</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/72.jpg" alt="SaaS 모바일 표지 예시"><span class="famtag">글래스</span></div>
       
@@ -1477,7 +2153,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="일렉트릭 블루·그라데·핀테크·프리미엄">💡 일렉트릭 블루·그라데·핀테크·프리미엄</p>
       <p class="use" title="추천: B2B SaaS 모바일·핀테크·개발도구">🎯 추천: B2B SaaS 모바일·핀테크·개발도구</p>
       <p class="avoid clamp2" title="피할 곳: 순수 소비자 엔터·키즈·장식적 앱">🚫 피할 곳: 순수 소비자 엔터·키즈·장식적 앱</p>
-    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 뷰티럭셔리 패션 스포츠" data-name="모바일 특화 터미널 CLI Terminal CLI (Mobile) 매트릭스 그린·모노스페이스·해커·ASCII 개발자도구·Web3·긱컬처·SF 게임 터미널 terminal cli (mobile) terminal, cli, matrix green, monospace, hacker, ascii, command line, developer, web3, crypto, sci-fi, oled, retro-future, field operative developer tools, web3/blockchain apps, geek-culture apps, arg games, sci-fi/noir gaming companions, hacker/security tools, creative studio portfolios" data-combo="터미널 CLI" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅 뷰티럭셔리 패션 스포츠" data-name="모바일 특화 터미널 CLI Terminal CLI (Mobile) 매트릭스 그린·모노스페이스·해커·ASCII 개발자도구·Web3·긱컬처·SF 게임 터미널 terminal cli (mobile) terminal, cli, matrix green, monospace, hacker, ascii, command line, developer, web3, crypto, sci-fi, oled, retro-future, field operative developer tools, web3/blockchain apps, geek-culture apps, arg games, sci-fi/noir gaming companions, hacker/security tools, creative studio portfolios " data-combo="터미널 CLI" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">터미널 CLI <span class="en">Terminal CLI (Mobile)</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/73.jpg" alt="터미널 CLI 표지 예시"><span class="famtag">터미널</span></div>
       
@@ -1486,7 +2164,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="매트릭스 그린·모노스페이스·해커·ASCII">💡 매트릭스 그린·모노스페이스·해커·ASCII</p>
       <p class="use" title="추천: 개발자도구·Web3·긱컬처·SF 게임">🎯 추천: 개발자도구·Web3·긱컬처·SF 게임</p>
       <p class="avoid clamp2" title="피할 곳: 소비자·헬스앱·친근함 필요·키즈">🚫 피할 곳: 소비자·헬스앱·친근함 필요·키즈</p>
-    </div><div class="card scard" data-tags="테크핀테크 스포츠" data-name="모바일 특화 키네틱 브루탈리즘 Kinetic Brutalism (Mobile) 마퀴·애시드 옐로·대문자·공격적 타이포 몰입 스토리텔링·플래그십·음악/문화·스포츠 브루탈 kinetic brutalism (mobile) kinetic, brutalism, motion, marquee, acid yellow, uppercase, oversized, aggressive typography, street, zine, high contrast, scroll-driven, haptic, reanimated immersive storytelling apps, brand flagship mobile, music/culture platforms, sports apps, underground zines, limited-edition product drops, performance dashboards" data-combo="키네틱 브루탈리즘" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 스포츠" data-name="모바일 특화 키네틱 브루탈리즘 Kinetic Brutalism (Mobile) 마퀴·애시드 옐로·대문자·공격적 타이포 몰입 스토리텔링·플래그십·음악/문화·스포츠 브루탈 kinetic brutalism (mobile) kinetic, brutalism, motion, marquee, acid yellow, uppercase, oversized, aggressive typography, street, zine, high contrast, scroll-driven, haptic, reanimated immersive storytelling apps, brand flagship mobile, music/culture platforms, sports apps, underground zines, limited-edition product drops, performance dashboards " data-combo="키네틱 브루탈리즘" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">키네틱 브루탈리즘 <span class="en">Kinetic Brutalism (Mobile)</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/74.jpg" alt="키네틱 브루탈리즘 표지 예시"><span class="famtag">브루탈</span></div>
       
@@ -1495,7 +2175,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="마퀴·애시드 옐로·대문자·공격적 타이포">💡 마퀴·애시드 옐로·대문자·공격적 타이포</p>
       <p class="use" title="추천: 몰입 스토리텔링·플래그십·음악/문화·스포츠">🎯 추천: 몰입 스토리텔링·플래그십·음악/문화·스포츠</p>
       <p class="avoid clamp2" title="피할 곳: 차분 정보앱·헬스케어·금융 신뢰·키즈">🚫 피할 곳: 차분 정보앱·헬스케어·금융 신뢰·키즈</p>
-    </div><div class="card scard" data-tags="테크핀테크 키즈" data-name="모바일 특화 플랫 디자인 모바일 Flat Design Mobile (Touch-First) 무그림자·컬러블로킹·터치 우선 크로스플랫폼·정보 밀집 대시·시스템 UI 플랫 flat design mobile (touch-first) flat, 2d, no shadow, color blocking, geometric, bold, poster, icon, touch-first, minimal, clean, tailored, cross-platform cross-platform apps (ios+android parity), information-dense dashboards, system ui, brand illustration, onboarding flows, marketing pages, icon design" data-combo="플랫 디자인 모바일" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 키즈" data-name="모바일 특화 플랫 디자인 모바일 Flat Design Mobile (Touch-First) 무그림자·컬러블로킹·터치 우선 크로스플랫폼·정보 밀집 대시·시스템 UI 플랫 flat design mobile (touch-first) flat, 2d, no shadow, color blocking, geometric, bold, poster, icon, touch-first, minimal, clean, tailored, cross-platform cross-platform apps (ios+android parity), information-dense dashboards, system ui, brand illustration, onboarding flows, marketing pages, icon design " data-combo="플랫 디자인 모바일" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">플랫 디자인 모바일 <span class="en">Flat Design Mobile (Touch-First)</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/75.jpg" alt="플랫 디자인 모바일 표지 예시"><span class="famtag">플랫</span></div>
       
@@ -1504,7 +2186,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="무그림자·컬러블로킹·터치 우선">💡 무그림자·컬러블로킹·터치 우선</p>
       <p class="use" title="추천: 크로스플랫폼·정보 밀집 대시·시스템 UI">🎯 추천: 크로스플랫폼·정보 밀집 대시·시스템 UI</p>
       <p class="avoid clamp2" title="피할 곳: 초프리미엄 깊이 필요·다크 우선">🚫 피할 곳: 초프리미엄 깊이 필요·다크 우선</p>
-    </div><div class="card scard" data-tags="테크핀테크" data-name="모바일 특화 머티리얼 유(MD3) Material You (MD3 Mobile) 토널 표면·알약형·부드러운 곡선·안드로이드 안드로이드·크로스플랫폼 생산성·관리자 머티리얼 material you (md3 mobile) material design 3, md3, tonal surfaces, pills, soft curves, android, md3 easing, state layers, haptic, fab, google android ecosystem apps, cross-platform productivity tools, md3-based admin panels, data-heavy back-office ui with material ui" data-combo="머티리얼 유(MD3)" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크" data-name="모바일 특화 머티리얼 유(MD3) Material You (MD3 Mobile) 토널 표면·알약형·부드러운 곡선·안드로이드 안드로이드·크로스플랫폼 생산성·관리자 머티리얼 material you (md3 mobile) material design 3, md3, tonal surfaces, pills, soft curves, android, md3 easing, state layers, haptic, fab, google android ecosystem apps, cross-platform productivity tools, md3-based admin panels, data-heavy back-office ui with material ui " data-combo="머티리얼 유(MD3)" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">머티리얼 유(MD3) <span class="en">Material You (MD3 Mobile)</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/76.jpg" alt="머티리얼 유(MD3) 표지 예시"><span class="famtag">머티리얼</span></div>
       
@@ -1513,7 +2197,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="토널 표면·알약형·부드러운 곡선·안드로이드">💡 토널 표면·알약형·부드러운 곡선·안드로이드</p>
       <p class="use" title="추천: 안드로이드·크로스플랫폼 생산성·관리자">🎯 추천: 안드로이드·크로스플랫폼 생산성·관리자</p>
       <p class="avoid clamp2" title="피할 곳: 초미니멀 브루탈·터미널·모노 에디토리얼">🚫 피할 곳: 초미니멀 브루탈·터미널·모노 에디토리얼</p>
-    </div><div class="card scard" data-tags="금융컨설팅 뷰티럭셔리 패션" data-name="모바일 특화 네오 브루탈리즘 Neo Brutalism (Mobile) 팝아트·스티커·두꺼운 테두리·크림 배경 크리에이티브 툴·협업·Gen Z 마케팅·포폴 브루탈 neo brutalism (mobile) neo brutalism, pop art, stickers, thick borders, cream background, hot red, vivid yellow, soft violet, hard offset shadow, mechanical press, collage creative tools, collab platforms, gen z marketing &amp; e-commerce, portfolio sites, sticker-book style content apps" data-combo="네오 브루탈리즘" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="금융컨설팅 뷰티럭셔리 패션" data-name="모바일 특화 네오 브루탈리즘 Neo Brutalism (Mobile) 팝아트·스티커·두꺼운 테두리·크림 배경 크리에이티브 툴·협업·Gen Z 마케팅·포폴 브루탈 neo brutalism (mobile) neo brutalism, pop art, stickers, thick borders, cream background, hot red, vivid yellow, soft violet, hard offset shadow, mechanical press, collage creative tools, collab platforms, gen z marketing &amp; e-commerce, portfolio sites, sticker-book style content apps " data-combo="네오 브루탈리즘" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">네오 브루탈리즘 <span class="en">Neo Brutalism (Mobile)</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/77.jpg" alt="네오 브루탈리즘 표지 예시"><span class="famtag">브루탈</span></div>
       
@@ -1522,7 +2208,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="팝아트·스티커·두꺼운 테두리·크림 배경">💡 팝아트·스티커·두꺼운 테두리·크림 배경</p>
       <p class="use" title="추천: 크리에이티브 툴·협업·Gen Z 마케팅·포폴">🎯 추천: 크리에이티브 툴·협업·Gen Z 마케팅·포폴</p>
       <p class="avoid clamp2" title="피할 곳: 진지한 엔터프라이즈·보수·핀테크">🚫 피할 곳: 진지한 엔터프라이즈·보수·핀테크</p>
-    </div><div class="card scard" data-tags="뷰티럭셔리 패션" data-name="모바일 특화 볼드 타이포(포스터) Bold Typography (Mobile Poster) 에디토리얼·브로드시트·주홍·엣지투엣지 크리에이티브 히어로·독서앱·전시/이벤트 초대형타이포 bold typography (mobile poster) bold typography, editorial, poster, broadsheet, vermillion, negative space, edge-to-edge type, underline cta, near-black, warm white creative brand heroes, reading-focused apps, event/exhibition pages, editorial mobile experiences, landing hero sections" data-combo="볼드 타이포(포스터)" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="뷰티럭셔리 패션" data-name="모바일 특화 볼드 타이포(포스터) Bold Typography (Mobile Poster) 에디토리얼·브로드시트·주홍·엣지투엣지 크리에이티브 히어로·독서앱·전시/이벤트 초대형타이포 bold typography (mobile poster) bold typography, editorial, poster, broadsheet, vermillion, negative space, edge-to-edge type, underline cta, near-black, warm white creative brand heroes, reading-focused apps, event/exhibition pages, editorial mobile experiences, landing hero sections " data-combo="볼드 타이포(포스터)" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">볼드 타이포(포스터) <span class="en">Bold Typography (Mobile Poster)</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/78.jpg" alt="볼드 타이포(포스터) 표지 예시"><span class="famtag">초대형타이포</span></div>
       
@@ -1531,7 +2219,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="에디토리얼·브로드시트·주홍·엣지투엣지">💡 에디토리얼·브로드시트·주홍·엣지투엣지</p>
       <p class="use" title="추천: 크리에이티브 히어로·독서앱·전시/이벤트">🎯 추천: 크리에이티브 히어로·독서앱·전시/이벤트</p>
       <p class="avoid clamp2" title="피할 곳: 유틸 대시·키즈·놀이형 소비자">🚫 피할 곳: 유틸 대시·키즈·놀이형 소비자</p>
-    </div><div class="card scard" data-tags="테크핀테크" data-name="모바일 특화 아카데미아 Academia (Scholarly Mobile) 도서관·마호가니·양피지·세리프·드롭캡 지식관리앱·심층 독서·의례적 개인 브랜드 아카데미아 academia (scholarly mobile) academia, library, mahogany, parchment, brass, crimson, serif, drop cap, arch-top, vignette, leather, scholarly, tactile knowledge management apps, deep reading tools, ritual-heavy personal brands, lore-heavy rpg/roleplay apps, culture-specific community platforms" data-combo="아카데미아" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크" data-name="모바일 특화 아카데미아 Academia (Scholarly Mobile) 도서관·마호가니·양피지·세리프·드롭캡 지식관리앱·심층 독서·의례적 개인 브랜드 아카데미아 academia (scholarly mobile) academia, library, mahogany, parchment, brass, crimson, serif, drop cap, arch-top, vignette, leather, scholarly, tactile knowledge management apps, deep reading tools, ritual-heavy personal brands, lore-heavy rpg/roleplay apps, culture-specific community platforms " data-combo="아카데미아" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">아카데미아 <span class="en">Academia (Scholarly Mobile)</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/79.jpg" alt="아카데미아 표지 예시"><span class="famtag">아카데미아</span></div>
       
@@ -1540,7 +2230,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="도서관·마호가니·양피지·세리프·드롭캡">💡 도서관·마호가니·양피지·세리프·드롭캡</p>
       <p class="use" title="추천: 지식관리앱·심층 독서·의례적 개인 브랜드">🎯 추천: 지식관리앱·심층 독서·의례적 개인 브랜드</p>
       <p class="avoid clamp2" title="피할 곳: 초모던 대시·네온/글래스·Gen Z">🚫 피할 곳: 초모던 대시·네온/글래스·Gen Z</p>
-    </div><div class="card scard" data-tags="테크핀테크 스포츠" data-name="모바일 특화 사이버펑크 모바일 HUD Cyberpunk Mobile HUD 네온·글리치·챔퍼·스캔라인·HUD 게이밍 대시·크립토·SF 컴패니언·해커 스킨 HUD·SF cyberpunk mobile hud cyberpunk, neon, glitch, chamfered, orbitron, jetbrains, scanlines, crt, hud, matrix, military, decker gaming dashboards, crypto/cyberpunk apps, sci-fi companion tools, hacker os skins, data-heavy monitoring huds" data-combo="사이버펑크 모바일 HUD" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 스포츠" data-name="모바일 특화 사이버펑크 모바일 HUD Cyberpunk Mobile HUD 네온·글리치·챔퍼·스캔라인·HUD 게이밍 대시·크립토·SF 컴패니언·해커 스킨 HUD·SF cyberpunk mobile hud cyberpunk, neon, glitch, chamfered, orbitron, jetbrains, scanlines, crt, hud, matrix, military, decker gaming dashboards, crypto/cyberpunk apps, sci-fi companion tools, hacker os skins, data-heavy monitoring huds " data-combo="사이버펑크 모바일 HUD" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">사이버펑크 모바일 HUD <span class="en">Cyberpunk Mobile HUD</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/80.jpg" alt="사이버펑크 모바일 HUD 표지 예시"><span class="famtag">HUD·SF</span></div>
       
@@ -1549,7 +2241,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="네온·글리치·챔퍼·스캔라인·HUD">💡 네온·글리치·챔퍼·스캔라인·HUD</p>
       <p class="use" title="추천: 게이밍 대시·크립토·SF 컴패니언·해커 스킨">🎯 추천: 게이밍 대시·크립토·SF 컴패니언·해커 스킨</p>
       <p class="avoid clamp2" title="피할 곳: 진지 엔터프라이즈·헬스/금융 차분 신뢰">🚫 피할 곳: 진지 엔터프라이즈·헬스/금융 차분 신뢰</p>
-    </div><div class="card scard" data-tags="테크핀테크" data-name="모바일 특화 비트코인 DeFi Bitcoin DeFi (Mobile) Web3·디지털 골드·오렌지·글래스·홀로그램 DeFi 대시·지갑·NFT·Web3 소셜 리퀴드글래스 bitcoin defi (mobile) web3, bitcoin, defi, digital gold, fintech, wallet, orange, glassmorphism, gradient, blur, holographic, trust, precision defi dashboards, wallets, nft marketplaces, web3 social, metaverse utilities, high-tech fintech brands" data-combo="비트코인 DeFi" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크" data-name="모바일 특화 비트코인 DeFi Bitcoin DeFi (Mobile) Web3·디지털 골드·오렌지·글래스·홀로그램 DeFi 대시·지갑·NFT·Web3 소셜 리퀴드글래스 bitcoin defi (mobile) web3, bitcoin, defi, digital gold, fintech, wallet, orange, glassmorphism, gradient, blur, holographic, trust, precision defi dashboards, wallets, nft marketplaces, web3 social, metaverse utilities, high-tech fintech brands " data-combo="비트코인 DeFi" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">비트코인 DeFi <span class="en">Bitcoin DeFi (Mobile)</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/81.jpg" alt="비트코인 DeFi 표지 예시"><span class="famtag">리퀴드글래스</span></div>
       
@@ -1558,7 +2252,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="Web3·디지털 골드·오렌지·글래스·홀로그램">💡 Web3·디지털 골드·오렌지·글래스·홀로그램</p>
       <p class="use" title="추천: DeFi 대시·지갑·NFT·Web3 소셜">🎯 추천: DeFi 대시·지갑·NFT·Web3 소셜</p>
       <p class="avoid clamp2" title="피할 곳: 놀이형 캐주얼·로우테크·초미니멀">🚫 피할 곳: 놀이형 캐주얼·로우테크·초미니멀</p>
-    </div><div class="card scard" data-tags="테크핀테크 키즈" data-name="모바일 특화 클레이모피즘 모바일 Claymorphism (Mobile) 클레이·캔디·통통·말랑·햅틱 아동교육·틴 소셜·크립토 게이미피케이션 클레이 claymorphism (mobile) claymorphism, clay, 3d, soft, bubbly, candy, playful, rounded, squish, tactile, inflate, silicone, haptic, spring children education apps, teen social products, crypto gamification, creative tools, brand mascot-led apps" data-combo="클레이모피즘 모바일" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 키즈" data-name="모바일 특화 클레이모피즘 모바일 Claymorphism (Mobile) 클레이·캔디·통통·말랑·햅틱 아동교육·틴 소셜·크립토 게이미피케이션 클레이 claymorphism (mobile) claymorphism, clay, 3d, soft, bubbly, candy, playful, rounded, squish, tactile, inflate, silicone, haptic, spring children education apps, teen social products, crypto gamification, creative tools, brand mascot-led apps " data-combo="클레이모피즘 모바일" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">클레이모피즘 모바일 <span class="en">Claymorphism (Mobile)</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/82.jpg" alt="클레이모피즘 모바일 표지 예시"><span class="famtag">클레이</span></div>
       
@@ -1567,7 +2263,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="클레이·캔디·통통·말랑·햅틱">💡 클레이·캔디·통통·말랑·햅틱</p>
       <p class="use" title="추천: 아동교육·틴 소셜·크립토 게이미피케이션">🎯 추천: 아동교육·틴 소셜·크립토 게이미피케이션</p>
       <p class="avoid clamp2" title="피할 곳: 진지 엔터프라이즈·고밀도 데이터·핀테크">🚫 피할 곳: 진지 엔터프라이즈·고밀도 데이터·핀테크</p>
-    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅" data-name="모바일 특화 엔터프라이즈 SaaS Enterprise SaaS (Mobile) 인디고·바이올렛·그라데·신뢰·정갈 B2B 백엔드·생산성·정부/금융 모바일 글래스 enterprise saas (mobile) enterprise, saas, b2b, professional, indigo, violet, gradient, polished, trustworthy, clean, approachable, spring, haptic b2b backend management, productivity tools, government and finance mobile apps, saas companion apps, enterprise dashboards" data-combo="엔터프라이즈 SaaS" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="테크핀테크 금융컨설팅" data-name="모바일 특화 엔터프라이즈 SaaS Enterprise SaaS (Mobile) 인디고·바이올렛·그라데·신뢰·정갈 B2B 백엔드·생산성·정부/금융 모바일 글래스 enterprise saas (mobile) enterprise, saas, b2b, professional, indigo, violet, gradient, polished, trustworthy, clean, approachable, spring, haptic b2b backend management, productivity tools, government and finance mobile apps, saas companion apps, enterprise dashboards " data-combo="엔터프라이즈 SaaS" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">엔터프라이즈 SaaS <span class="en">Enterprise SaaS (Mobile)</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/83.jpg" alt="엔터프라이즈 SaaS 표지 예시"><span class="famtag">글래스</span></div>
       
@@ -1576,7 +2274,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="인디고·바이올렛·그라데·신뢰·정갈">💡 인디고·바이올렛·그라데·신뢰·정갈</p>
       <p class="use" title="추천: B2B 백엔드·생산성·정부/금융 모바일">🎯 추천: B2B 백엔드·생산성·정부/금융 모바일</p>
       <p class="avoid clamp2" title="피할 곳: 순수 소비자 엔터·Gen Z·게이밍">🚫 피할 곳: 순수 소비자 엔터·Gen Z·게이밍</p>
-    </div><div class="card scard" data-tags="건기식웰니스 키즈" data-name="모바일 특화 스케치 핸드드로 Sketch Hand-Drawn (Mobile) 손그림·삐뚤·종이·포스트잇·테이프 저해상 프로토·크리에이티브·아동/그림책·교육 로우·스케치 sketch hand-drawn (mobile) sketch, hand-drawn, handwriting, wobbly, imperfect, paper, kalam, organic, collage, post-it, tape, offset shadow, scribble low-fidelity prototyping, creative brands, children/picturebook apps, education tools, journaling apps, gamified puzzles" data-combo="스케치 핸드드로" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="건기식웰니스 키즈" data-name="모바일 특화 스케치 핸드드로 Sketch Hand-Drawn (Mobile) 손그림·삐뚤·종이·포스트잇·테이프 저해상 프로토·크리에이티브·아동/그림책·교육 로우·스케치 sketch hand-drawn (mobile) sketch, hand-drawn, handwriting, wobbly, imperfect, paper, kalam, organic, collage, post-it, tape, offset shadow, scribble low-fidelity prototyping, creative brands, children/picturebook apps, education tools, journaling apps, gamified puzzles " data-combo="스케치 핸드드로" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">스케치 핸드드로 <span class="en">Sketch Hand-Drawn (Mobile)</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/84.jpg" alt="스케치 핸드드로 표지 예시"><span class="famtag">로우·스케치</span></div>
       
@@ -1585,7 +2285,9 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="손그림·삐뚤·종이·포스트잇·테이프">💡 손그림·삐뚤·종이·포스트잇·테이프</p>
       <p class="use" title="추천: 저해상 프로토·크리에이티브·아동/그림책·교육">🎯 추천: 저해상 프로토·크리에이티브·아동/그림책·교육</p>
       <p class="avoid clamp2" title="피할 곳: 엔터프라이즈 대시·고밀도표·핀테크">🚫 피할 곳: 엔터프라이즈 대시·고밀도표·핀테크</p>
-    </div><div class="card scard" data-tags="건기식웰니스" data-name="모바일 특화 뉴모피즘 모바일 Neumorphism (Mobile) 듀얼 섀도·압출·인셋·세라믹·쿨그레이 미니멀 하드웨어 컨트롤·스마트홈·헬스모니터 뉴모피즘 neumorphism (mobile) neumorphism, soft ui, dual shadow, extruded, inset, clay surface, monochromatic, cool grey, haptic, ceramic, physical, depth minimal hardware controls, smart home apps, aesthetic utility tools, health monitors, brand showcase pages" data-combo="뉴모피즘 모바일" data-rec="0">
+      
+      
+    </div><div class="card scard" data-tags="건기식웰니스" data-name="모바일 특화 뉴모피즘 모바일 Neumorphism (Mobile) 듀얼 섀도·압출·인셋·세라믹·쿨그레이 미니멀 하드웨어 컨트롤·스마트홈·헬스모니터 뉴모피즘 neumorphism (mobile) neumorphism, soft ui, dual shadow, extruded, inset, clay surface, monochromatic, cool grey, haptic, ceramic, physical, depth minimal hardware controls, smart home apps, aesthetic utility tools, health monitors, brand showcase pages " data-combo="뉴모피즘 모바일" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">뉴모피즘 모바일 <span class="en">Neumorphism (Mobile)</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/85.jpg" alt="뉴모피즘 모바일 표지 예시"><span class="famtag">뉴모피즘</span></div>
       
@@ -1594,6 +2296,8 @@ html[data-theme="dark"] .psrc{color:#9d9788}
       <p class="mood" title="듀얼 섀도·압출·인셋·세라믹·쿨그레이">💡 듀얼 섀도·압출·인셋·세라믹·쿨그레이</p>
       <p class="use" title="추천: 미니멀 하드웨어 컨트롤·스마트홈·헬스모니터">🎯 추천: 미니멀 하드웨어 컨트롤·스마트홈·헬스모니터</p>
       <p class="avoid clamp2" title="피할 곳: 고밀도 데이터·다색·강한 위계">🚫 피할 곳: 고밀도 데이터·다색·강한 위계</p>
+      
+      
     </div></div><h3 class="grp">✨ 2026 트렌드 <span class="cnt">8</span></h3><div class="grid sgrid"><div class="card scard tcard" data-tags="뷰티럭셔리 패션 건기식웰니스" data-name="그레인 블러 grain blur 부드러운 가우시안 블러+고운 필름 그레인 — 몽환·헤이지·서정적 무드 무드 표지·감성 캠페인 히어로·향/티/캔들 등 정서 브랜딩 컷 2026 트렌드 뷰티럭셔리 패션 건기식웰니스" data-combo="그레인 블러" data-rec="0">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">그레인 블러 <span class="en">Grain Blur</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/86.jpg" alt="그레인 블러 표지 예시"><span class="famtag">2026 트렌드</span></div>
@@ -1695,6 +2399,33 @@ Everything else must remain professionally designed: clean Swiss editorial layou
       <p class="role">★ 66,793 · Apache-2.0 (2026-07-12 실측)</p>
     </div></div><div id="deckDim" style="display:none">🎬 건기식 추천 필터 적용 중 — 덱 연출은 추천 대상이 아니라 잠시 숨겼습니다.</div>
 <div class="noresult">조건에 맞는 항목이 없습니다 — 필터·검색을 풀어보세요.</div>
+<div class="sknote"><p>· 일부 카드에는 &#x27;실물 예&#x27; 링크와 &#x27;🧰 이 스타일로 시작하기&#x27; 킷이 붙어 있습니다 — 펼치면 AI 지시문·CSS 변수·핵심 스니펫을 그대로 복사해 쓸 수 있습니다.</p><p>· 아래 2026 흐름 2종은 카드가 아니라 페이지 구성 방식이라 어떤 스타일 위에도 얹을 수 있습니다 — 펼쳐서 코드를 복사해 쓰세요.</p><details class="kit flowkit"><summary>🧪 스크롤텔링 — 스크롤에 맞춰 순차 등장</summary><div class="kitbody"><div class="kitblk"><div class="kith"><span class="kitt">붙여 쓰는 코드</span><button class="kitcopy" data-txt="&lt;div class=&quot;reveal&quot;&gt;내용&lt;/div&gt;
+&lt;style&gt;
+.reveal{opacity:0;transform:translateY(16px);
+  transition:opacity .5s cubic-bezier(.25,1,.5,1),transform .5s cubic-bezier(.25,1,.5,1)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{transition:opacity .3s;transform:none}}
+&lt;/style&gt;
+&lt;script&gt;
+const io=new IntersectionObserver(es=&gt;es.forEach(e=&gt;{if(e.isIntersecting){e.target.classList.add(&#x27;in&#x27;);io.unobserve(e.target)}}),{threshold:.15,rootMargin:&#x27;0px 0px -10% 0px&#x27;});
+document.querySelectorAll(&#x27;.reveal&#x27;).forEach((el,i)=&gt;{el.style.transitionDelay=(i%6*60)+&#x27;ms&#x27;;io.observe(el)});
+&lt;/script&gt;" onclick="cpk(event,this)">복사</button></div><pre class="kitcode">&lt;div class=&quot;reveal&quot;&gt;내용&lt;/div&gt;
+&lt;style&gt;
+.reveal{opacity:0;transform:translateY(16px);
+  transition:opacity .5s cubic-bezier(.25,1,.5,1),transform .5s cubic-bezier(.25,1,.5,1)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{transition:opacity .3s;transform:none}}
+&lt;/style&gt;
+&lt;script&gt;
+const io=new IntersectionObserver(es=&gt;es.forEach(e=&gt;{if(e.isIntersecting){e.target.classList.add(&#x27;in&#x27;);io.unobserve(e.target)}}),{threshold:.15,rootMargin:&#x27;0px 0px -10% 0px&#x27;});
+document.querySelectorAll(&#x27;.reveal&#x27;).forEach((el,i)=&gt;{el.style.transitionDelay=(i%6*60)+&#x27;ms&#x27;;io.observe(el)});
+&lt;/script&gt;</pre></div><div class="kitrule">규칙: 한 번 보이면 관측 해제(재진입 시 다시 사라지지 않게) · stagger는 60ms×순번 · reduced-motion에서 이동 제거.</div></div></details><details class="kit flowkit"><summary>🧪 유동형 레이아웃 — 브레이크포인트 없이 흐르는 격자·타이포</summary><div class="kitbody"><div class="kitblk"><div class="kith"><span class="kitt">붙여 쓰는 코드</span><button class="kitcopy" data-txt=".fluid-grid{display:grid;gap:clamp(12px,2vw,24px);
+  grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))}
+.fluid-title{font-size:clamp(28px,5vw,64px);line-height:1.1;letter-spacing:-.02em}
+.fluid-section{padding:clamp(48px,8vw,120px) clamp(16px,4vw,64px)}" onclick="cpk(event,this)">복사</button></div><pre class="kitcode">.fluid-grid{display:grid;gap:clamp(12px,2vw,24px);
+  grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))}
+.fluid-title{font-size:clamp(28px,5vw,64px);line-height:1.1;letter-spacing:-.02em}
+.fluid-section{padding:clamp(48px,8vw,120px) clamp(16px,4vw,64px)}</pre></div><div class="kitrule">규칙: minmax(min(280px,100%),1fr)의 min()이 있어야 폰에서 가로 넘침이 안 난다 · 미디어쿼리 0개로 폰~데스크톱 소화.</div></div></details></div>
 <div class="jumpspacer" aria-hidden="true"></div>
 </div>
 
@@ -1953,6 +2684,15 @@ function copyText(s,okMsg){
 function cp(e,el){e.stopPropagation();copyText(el.dataset.hex,el.dataset.hex+' 복사됨');}
 function cpall(e,el){e.stopPropagation();copyText(el.dataset.hex,'전체 HEX 복사됨');}
 function cpp(e,el){e.stopPropagation();copyText(el.dataset.prompt,'프롬프트 복사됨 — 이미지 생성기에 붙여넣기');}
+function cpk(e,el){e.stopPropagation();var t=el.closest('.kitblk').querySelector('.kitt');copyText(el.dataset.txt,(t?t.textContent.trim():'킷')+' 복사됨');}
+function kitMode(e,el,m){
+  e.stopPropagation();
+  var blk=el.closest('.kitblk'), pre=blk.querySelector('.kitvars');
+  pre.textContent=pre.dataset[m];
+  var bs=blk.querySelectorAll('.kmb');for(var i=0;i<bs.length;i++){bs[i].classList.toggle('on',bs[i]===el);}
+  blk.querySelector('.kitcopy').dataset.txt=pre.dataset[m];
+  toast(m==='brand'?'우리 브랜드 색으로 전환(라운드·그림자·간격·모션은 원본 유지)':'원본 감각(추출값 그대로)으로 전환');
+}
 function selPal(hd){var c=hd.closest('.card');pick('pal',c);}
 function selSty(hd){var c=hd.closest('.card');pick('sty',c);}
 function pick(kind,c){
