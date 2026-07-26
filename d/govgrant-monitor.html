@@ -1,203 +1,244 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>정부지원사업 모니터링 대시보드</title>
 <style>
   :root{
-    --bg:#0f1411; --card:#1a201c; --line:#2c352e; --ink:#e8ede9; --mut:#9aa79d;
-    --green:#3fae6f; --amber:#d8a13a; --red:#c9685f; --slate:#6b7a72;
-    --greenbg:#16271d; --amberbg:#2a2415; --redbg:#2a1917; --slatebg:#1d231f;
+    --bg:#0f1216; --card:#171b21; --card2:#1c2128; --line:#272d36;
+    --text:#e7ebf0; --muted:#9aa4b2; --dim:#6b7482;
+    --green:#4ade80; --greenbg:#123524; --amber:#fbbf24; --amberbg:#3a2c07;
+    --red:#f87171; --redbg:#3a1414; --blue:#60a5fa; --bluebg:#0e2a44;
+    --gray:#94a3b8; --graybg:#20262e;
   }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;padding:0 0 48px}
-  .wrap{max-width:760px;margin:0 auto;padding:0 16px}
-  header{padding:28px 0 18px;border-bottom:1px solid var(--line)}
-  h1{font-size:21px;font-weight:700;letter-spacing:-.02em}
-  .sub{color:var(--mut);font-size:13px;margin-top:6px}
-  .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-  .pill{font-size:11.5px;color:var(--mut);background:var(--slatebg);border:1px solid var(--line);border-radius:99px;padding:3px 10px}
-  .profile{margin-top:14px;font-size:12.5px;color:var(--mut);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
-  .profile b{color:var(--ink);font-weight:600}
-  h2{font-size:13px;font-weight:600;color:var(--mut);text-transform:uppercase;letter-spacing:.06em;margin:26px 0 12px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px 15px 13px;margin-bottom:11px}
-  .card.top{border-color:var(--green)}
-  .card.new{border-color:var(--green);box-shadow:0 0 0 1px rgba(63,174,111,.25)}
-  .row1{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-  .name{font-size:15.5px;font-weight:650;letter-spacing:-.01em}
-  .tag-new{display:inline-block;font-size:10px;font-weight:700;color:#0f1411;background:var(--green);border-radius:5px;padding:1px 5px;margin-right:6px;vertical-align:2px;letter-spacing:.04em}
-  .agency{font-size:12px;color:var(--mut);margin-top:2px}
-  .badge{flex-shrink:0;font-size:11px;font-weight:600;border-radius:7px;padding:4px 9px;white-space:nowrap}
-  .b-green{color:var(--green);background:var(--greenbg);border:1px solid #244e36}
-  .b-amber{color:var(--amber);background:var(--amberbg);border:1px solid #4a3d1c}
-  .b-red{color:var(--red);background:var(--redbg);border:1px solid #4a2722}
-  .b-slate{color:#aab6ac;background:var(--slatebg);border:1px solid var(--line)}
-  .detail{font-size:13px;color:#cfd8d1;margin-top:10px}
-  .kv{display:flex;gap:7px;margin-top:7px;font-size:12.5px}
-  .kv .k{color:var(--mut);flex-shrink:0;width:52px}
-  .kv .v{color:#dfe6e0}
-  .note{font-size:12px;color:var(--mut);margin-top:9px;padding-top:9px;border-top:1px dashed var(--line)}
-  .note b{color:var(--amber);font-weight:600}
-  a.link{color:var(--green);font-size:12.5px;text-decoration:none;border-bottom:1px solid #2a4a37;display:inline-block;margin-top:9px}
-  footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);font-size:11.5px;color:var(--slate)}
-  footer b{color:var(--mut)}
-  .change{margin-top:14px;font-size:12.5px;color:#cfd8d1;background:var(--greenbg);border:1px solid #244e36;border-radius:10px;padding:10px 12px}
-  .change b{color:var(--green);font-weight:650}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard",
+    "Malgun Gothic",sans-serif;line-height:1.6;font-size:15px;
+    -webkit-text-size-adjust:100%;}
+  .wrap{max-width:760px;margin:0 auto;padding:20px 16px 60px;}
+  header h1{font-size:22px;margin:0 0 6px;font-weight:700;letter-spacing:-.02em;}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 16px;}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:12.5px;color:var(--dim);
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    padding:10px 0;margin-bottom:16px;}
+  .meta b{color:var(--muted);font-weight:600;}
+  .profile{background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:13px 15px;font-size:13px;color:var(--muted);margin-bottom:14px;}
+  .profile b{color:var(--text);}
+  .change{background:var(--card2);border:1px solid var(--line);border-left:3px solid var(--amber);
+    border-radius:10px;padding:13px 15px;font-size:13.5px;color:var(--text);margin-bottom:26px;}
+  .change b{color:var(--amber);}
+  h2{font-size:15px;margin:30px 0 12px;padding-bottom:7px;border-bottom:1px solid var(--line);
+    color:var(--text);font-weight:700;letter-spacing:-.01em;}
+  h2 .n{color:var(--dim);font-weight:500;font-size:12.5px;margin-left:6px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:13px;
+    padding:15px 16px;margin-bottom:12px;}
+  .ctop{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;
+    margin-bottom:3px;}
+  .cname{font-size:16px;font-weight:700;letter-spacing:-.01em;}
+  .corg{font-size:12px;color:var(--dim);margin-bottom:10px;}
+  .badge{flex-shrink:0;font-size:11.5px;font-weight:700;padding:4px 9px;border-radius:20px;
+    white-space:nowrap;}
+  .b-green{background:var(--greenbg);color:var(--green);}
+  .b-amber{background:var(--amberbg);color:var(--amber);}
+  .b-red{background:var(--redbg);color:var(--red);}
+  .b-blue{background:var(--bluebg);color:var(--blue);}
+  .b-gray{background:var(--graybg);color:var(--gray);}
+  .desc{font-size:13.5px;color:var(--text);margin:0 0 11px;}
+  .desc b,.tag b{color:var(--text);}
+  .tag{font-size:12.5px;color:var(--muted);margin:6px 0;padding:7px 10px;
+    background:var(--card2);border-radius:8px;}
+  .tag .k{color:var(--dim);font-weight:600;margin-right:6px;}
+  .note{font-size:12.5px;color:var(--muted);margin:9px 0 0;padding-top:9px;
+    border-top:1px dashed var(--line);}
+  .note b{color:var(--amber);}
+  a.link{display:inline-block;margin-top:10px;font-size:12.5px;color:var(--blue);
+    text-decoration:none;}
+  a.link:active{opacity:.6;}
+  footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);
+    font-size:12px;color:var(--dim);line-height:1.7;}
+  footer b{color:var(--muted);}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <h1>정부지원사업 모니터링 대시보드</h1>
-    <div class="sub">청창사 병행 가능 · 프로필 적합도 기준 선별</div>
+    <p class="sub">청창사 병행 가능 · 프로필 적합도 기준 선별</p>
     <div class="meta">
-      <span class="pill">최종 갱신 · 2026-07-20</span>
-      <span class="pill">갱신 주기 · 매주 월요일</span>
-      <span class="pill">상태 자동 점검 + Slack 알림</span>
-    </div>
-    <div class="profile">
-      <b>매칭 프로필</b> — 청년 창업기업 · 설립 2024.08(업력 3년 미만) · 매출 20억대 · 1인 법인 · 건기식 B2B(위탁생산·유통) · 청창사 16기 진행 중. <b>제조업 미등록</b>(OEM 위탁) · 투자 유치 실적 없음.
-    </div>
-    <div class="change">
-      <b>이번 주 변동</b> — 중기부 <b>수출바우처 3차 마감일이 7/22(수)로 확정</b>됐습니다(접수 7/8~7/22). 오늘 기준 <b>D-2, 마감 임박</b> — 신청 의사가 있으면 이번 주 안(늦어도 21일)에 착수해야 합니다. 올해 마지막 라운드. 나머지 항목은 실질 변동 없음(초기창업패키지·프리팁스 하반기 추가 공고 미확인, 창업도약패키지 하반기 미공고, 대전 IP나래 하반기 라운드 미확인).
+      <span><b>최종 갱신</b> · 2026-07-27</span>
+      <span><b>갱신 주기</b> · 매주 월요일 상태 자동 점검 + Slack 알림</span>
     </div>
   </header>
 
-  <h2>지금 움직일 만한 것</h2>
-
-  <div class="card new">
-    <div class="row1">
-      <div><div class="name">수출바우처 3차 (수출지원기반활용)</div><div class="agency">중기부·중진공 · exportvoucher.com</div></div>
-      <span class="badge b-red">마감 임박 · ~7/22(D-2)</span>
-    </div>
-    <div class="detail">접수 <b>7/8~7/22(수)</b> — 오늘 기준 D-2. <b>470억원 규모 · 약 1,200개사</b> 선정. 바우처로 마케팅·인증·전시회·지재권·해외규격 등 수출 서비스 구매. 고환율 피해기업 추가 한도 허용, <b>무역보험료 지원 한도 1,000만→2,000만원 한시 확대</b>. 중기부가 "올해 마지막 공고"로 못박은 라운드.</div>
-    <div class="kv"><span class="k">자격</span><span class="v">수출 실적 또는 구체적 수출 계획 필요 — 건기식 원료 수출·해외 브랜드사 거래 계획을 근거로 준비</span></div>
-    <div class="kv"><span class="k">신청</span><span class="v">exportvoucher.com 온라인 · 문의 055-752-8580</span></div>
-    <div class="note"><b>마감 7/22(수) 확정</b> 선착순·예산 소진 마감 가능성이 있어 마지막 날까지 미루지 말고 <b>21일 중 제출 권장</b>. 신청 전 공고 원문에서 세부 요건 최종 확인.</div>
-    <a class="link" href="https://www.exportvoucher.com/portal/board/boardList?bbs_id=1" target="_blank">공고 원문 확인 →</a>
+  <div class="profile">
+    <b>매칭 프로필</b> — 청년 창업기업 · 설립 2024.08(업력 3년 미만) · 매출 20억대 · 1인 법인 · 건기식 B2B(위탁생산·유통) · 청창사 16기 진행 중. <b>제조업 미등록</b>(OEM 위탁) · 투자 유치 실적 없음.
   </div>
 
-  <div class="card top">
-    <div class="row1">
-      <div><div class="name">청년일자리도약장려금</div><div class="agency">고용노동부 · 고용24</div></div>
+  <div class="change">
+    <b>이번 주 변동</b> — ① <b>수출바우처 3차가 7/22(수) 마감</b>돼 접수 창이 닫혔습니다. 중기부가 "올해 마지막"으로 못박은 라운드라 연내 추가 접수는 미확인 → '지금 움직일 만한 것'에서 내렸습니다. ② <b>프리팁스(Pre-TIPS) 2차 라운드가 개시</b>됐습니다(접수 7/10~8/10, 비수도권 3년 이내). 다만 투자기관 1천만원 이상 유치가 전제라 <b>투자 실적 없는 현 상태에선 신청 불가</b> — '투자 유치가 전제' 섹션에 반영. ③ IP나래 하반기 2차는 경기·충북(6/4)·강원서부(6/12) 등 타 지역이 모두 6월 마감으로 확인돼, 대전도 열렸다면 이미 마감했을 가능성이 큽니다 → 2027 상반기 라운드 대기.
+  </div>
+
+  <h2>지금 움직일 만한 것 <span class="n">신청 창 열림 · 프로필 적합</span></h2>
+
+  <div class="card">
+    <div class="ctop">
+      <div><div class="cname">청년일자리도약장려금</div></div>
       <span class="badge b-green">적합(조건부) · 상시</span>
     </div>
-    <div class="detail">청년(만 15~34) 정규직 신규 채용 + 6개월 고용유지 시 기업에 <b>1년 최대 720만원/인</b>. 2026년부터 수도권형/비수도권형 개편 — <b>비수도권(대전)은 청년 본인에게도 근속 인센티브</b>가 추가돼 채용 경쟁력에 유리.</div>
-    <div class="kv"><span class="k">자격</span><span class="v">청년 직원 신규 채용 계획이 있을 때만 의미 (대표 본인 제외)</span></div>
-    <div class="kv"><span class="k">신청</span><span class="v">work24.go.kr · 상시(2026.1.26~)</span></div>
-    <div class="note"><b>업데이트</b> 기본 요건은 '5인 이상 우선지원대상기업'이나, <b>벤처기업·청년창업기업·성장유망업종은 5인 미만도 예외 인정</b>된다는 안내가 확인됨. 다만 2차 자료 기준이라 신청 전 운영기관(고용24)에 확정 답변을 받는 것이 안전.</div>
-    <a class="link" href="https://www.moel.go.kr/news/notice/noticeView.do?bbs_seq=20260100030" target="_blank">공고 보기 →</a>
+    <div class="corg">고용노동부 · 고용24</div>
+    <p class="desc">청년(만 15~34) 정규직 신규 채용 + 6개월 고용유지 시 기업에 <b>1년 최대 720만원/인</b>. 2026년부터 수도권형/비수도권형 개편 — <b>비수도권(대전)은 청년 본인에게도 최대 720만원(2년) 근속 인센티브</b>가 추가돼 채용 경쟁력에 유리.</p>
+    <div class="tag"><span class="k">자격</span>청년 직원 신규 채용 계획이 있을 때만 의미 (대표 본인 제외)</div>
+    <div class="tag"><span class="k">신청</span>work24.go.kr · 상시(2026.1.26~) · 운영기관 통해 참여</div>
+    <p class="note"><b>참고</b> 기본 요건은 '5인 이상 우선지원대상기업'이나, 벤처기업·청년창업기업·성장유망업종은 5인 미만도 예외 인정된다는 안내가 확인됨. 신청 전 운영기관(고용24)에 확정 답변을 받는 것이 안전.</p>
+    <a class="link" href="https://www.moel.go.kr/news/notice/noticeView.do?bbs_seq=20260100030">공고 보기 →</a>
   </div>
 
-  <div class="card top">
-    <div class="row1">
-      <div><div class="name">중진공 정책자금 (청년전용창업자금)</div><div class="agency">중소벤처기업진흥공단 · 융자</div></div>
+  <div class="card">
+    <div class="ctop">
+      <div><div class="cname">중진공 정책자금 (청년전용창업자금)</div></div>
       <span class="badge b-green">적합 · 상시</span>
     </div>
-    <div class="detail">만 39세 이하 · <b>업력 3년 미만</b> · 최대 1억원(제조·중점분야 2억) · 직접대출 <b>연 2.5% 고정 · 6년</b>. 설립 2024.08(업력 약 1년 11개월) → 자격 충족. 수시 접수, 지역본지부 상담 일정에 따라 운영.</div>
-    <div class="kv"><span class="k">성격</span><span class="v">보조금 아님 — 상환 의무 있는 융자(빚)</span></div>
-    <div class="kv"><span class="k">신청</span><span class="v">중진공 누리집 · 지역본부 상담 일정 확인(선착순) · 1811-3655</span></div>
-    <div class="note"><b>참고</b> 청창사 연계 우대 가능. 운영자금 급할 때 1순위 카드. 업력 3년 상한(2027.08)까지 약 13개월. 단 청년전용창업자금은 <b>상반기에 예산이 조기 소진되는 경향</b>이라 하반기 신규 접수는 지역본부 잔여예산에 좌우됨 — 대전본부 상담 일정 선확인 필요.</div>
-    <a class="link" href="https://www.kosmes.or.kr/nsh/SH/SBI/SHSBI004M0.do" target="_blank">안내 보기 →</a>
+    <div class="corg">중소벤처기업진흥공단 · 융자</div>
+    <p class="desc">만 39세 이하 · <b>업력 3년 미만</b> · 최대 1억원(제조·중점분야 2억) · 직접대출 <b>연 2.5% 고정 · 6년</b>. 설립 2024.08(업력 약 1년 11개월) → 자격 충족. 수시 접수, 지역본지부 상담 일정에 따라 운영.</p>
+    <div class="tag"><span class="k">성격</span>보조금 아님 — 상환 의무 있는 융자(빚)</div>
+    <div class="tag"><span class="k">신청</span>중진공 누리집 · 지역본부 상담 일정 확인(선착순) · 1811-3655</div>
+    <p class="note"><b>참고</b> 청창사 연계 우대 가능. 운영자금 급할 때 1순위 카드. 업력 3년 상한(2027.08)까지 약 13개월. 단 청년전용창업자금은 상반기에 예산이 조기 소진되는 경향이라 하반기 신규 접수는 대전본부 잔여예산에 좌우됨 — 상담 일정 선확인 필요.</p>
+    <a class="link" href="https://www.kosmes.or.kr/nsh/SH/SBI/SHSBI004M0.do">안내 보기 →</a>
   </div>
 
-  <h2>다음 라운드 대기 (모니터링)</h2>
+  <h2>다음 라운드 대기 <span class="n">모니터링</span></h2>
 
   <div class="card">
-    <div class="row1">
-      <div><div class="name">IP나래 프로그램</div><div class="agency">지식재산처·지역지식재산센터 · pms.ripc.org</div></div>
-      <span class="badge b-slate">대전 라운드 대기</span>
+    <div class="ctop">
+      <div><div class="cname">수출바우처 (수출지원기반활용)</div></div>
+      <span class="badge b-gray">라운드 종료 · 대기</span>
     </div>
-    <div class="detail">특허 출원 1건 + IP경영 컨설팅. 지원 최대 1,500만원(자부담 40%, 청년기업은 현금분담 15%로 감면). 인천·충북 등 <b>일부 지역은 하반기 2차 공고가 열렸으나</b>(인천 5/6~6/4 마감 등), <b>대전지식재산센터 하반기 라운드는 이번 주 기준 미확인</b>.</div>
-    <div class="kv"><span class="k">자격</span><span class="v">업력 7년 이내 기술 보유 기업 · 청년창업기업 가점 2점</span></div>
-    <div class="note">대전 하반기 공고 여부·일정은 대전지식재산센터(042-932-0420)에 직접 문의 권장. 없으면 2027년 상반기 라운드 대기.</div>
-    <a class="link" href="https://pms.ripc.org/www/portal/notice/boardList.do" target="_blank">공고 목록 →</a>
+    <div class="corg">중기부·중진공 · exportvoucher.com</div>
+    <p class="desc">3차(접수 7/8~7/22)가 <b>7/22 마감</b>됐습니다. 중기부가 "올해 마지막 공고"로 못박은 라운드라, 추경·4차 편성이 없는 한 연내 추가 접수는 없을 가능성. 2026년 통합 규모 약 1,502억원. 다음 정규 라운드는 통상 연말(12월) 1차 통합공고.</p>
+    <div class="tag"><span class="k">자격</span>수출 실적 또는 구체적 수출 계획 필요 — 건기식 원료 수출·해외 브랜드사 거래 계획을 근거로 준비</div>
+    <p class="note"><b>액션</b> 추경 4차 편성 시 재개될 수 있어 계속 감시. 그 사이 수출계획서·바우처 활용 항목(인증·전시회·지재권 등)을 미리 정리해두면 다음 라운드 즉시 대응 가능.</p>
+    <a class="link" href="https://www.exportvoucher.com/portal/board/boardList?bbs_id=1">공고 원문 확인 →</a>
   </div>
 
   <div class="card">
-    <div class="row1">
-      <div><div class="name">식품기능성평가지원</div><div class="agency">농림축산식품부 · 한국식품연구원</div></div>
-      <span class="badge b-amber">연초 라운드 · 검토 가치</span>
+    <div class="ctop">
+      <div><div class="cname">IP나래 프로그램</div></div>
+      <span class="badge b-gray">하반기 2차 마감 · 대기</span>
     </div>
-    <div class="detail">국산 농축산물 유래 소재의 <b>기능성 규명·인체적용시험·기능성원료 등록</b>을 지원. 2026년 라운드는 신청 25.12.23~26.1.16으로 <b>이미 마감</b>. 건기식 원료 B2B와 결이 맞고, 공고상 <b>식품제조가공업 등록을 명시 요건으로 걸지 않는 것으로 보임</b> — 사실이라면 제조 미등록 상태에서도 노려볼 수 있는 드문 R&D 트랙.</div>
-    <div class="kv"><span class="k">대상</span><span class="v">식품사업자(대기업 제외)·농업법인·농업인</span></div>
-    <div class="kv"><span class="k">확인</span><span class="v">'식품사업자' 정의에 유통·위탁생산 법인이 포함되는지 미확인 — 한국식품연구원(063-219-9523)에 사전 문의 필요</span></div>
-    <div class="note"><b>액션</b> 2027년 초 공고(통상 12월 말)가 타깃. 그 전에 자격 여부와 대상 소재를 미리 정리해 두면 준비 기간을 벌 수 있음.</div>
-    <a class="link" href="https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000116944" target="_blank">2026년 공고 보기 →</a>
+    <div class="corg">지식재산처·지역지식재산센터 · pms.ripc.org</div>
+    <p class="desc">특허 출원 1건 + IP경영 컨설팅. 지원 최대 2,500만원(정부지원 1,500만원, 자부담 40%, 청년기업은 현금분담 15%로 감면). 하반기 2차 라운드는 <b>경기·충북(6/4)·강원서부(6/12) 등 타 지역이 모두 6월 마감</b>으로 확인됨.</p>
+    <div class="tag"><span class="k">자격</span>업력 7년 이내 기술 보유 기업 · 청년창업기업 가점 2점</div>
+    <p class="note"><b>확인</b> 대전지식재산센터 하반기 라운드 개별 개시 여부는 이번 주 기준 원문 미확인이나, 타 지역 정황상 이미 종료했을 가능성. 대전센터(042-932-0420)에 직접 문의 권장, 없으면 2027 상반기 라운드 대기.</p>
+    <a class="link" href="https://pms.ripc.org/www/portal/notice/boardList.do">공고 목록 →</a>
   </div>
 
-  <h2>투자 유치가 전제 (중장기)</h2>
+  <div class="card">
+    <div class="ctop">
+      <div><div class="cname">식품기능성평가지원</div></div>
+      <span class="badge b-blue">연초 라운드 · 검토 가치</span>
+    </div>
+    <div class="corg">농림축산식품부 · 한국식품연구원</div>
+    <p class="desc">국산 농축산물 유래 소재의 <b>기능성 규명·인체적용시험·기능성원료 등록</b>을 지원. 2026년 라운드는 신청 25.12.23~26.1.16으로 <b>이미 마감</b>. 건기식 원료 B2B와 결이 맞고, 공고상 식품제조가공업 등록을 명시 요건으로 걸지 않는 것으로 보임 — 사실이라면 제조 미등록 상태에서도 노려볼 수 있는 드문 R&D 트랙.</p>
+    <div class="tag"><span class="k">대상</span>식품사업자(대기업 제외)·농업법인·농업인</div>
+    <div class="tag"><span class="k">확인</span>'식품사업자' 정의에 유통·위탁생산 법인이 포함되는지 미확인 — 한국식품연구원(063-219-9523)에 사전 문의 필요</div>
+    <p class="note"><b>액션</b> 2027년 초 공고(통상 12월 말)가 타깃. 그 전에 자격 여부와 대상 소재를 미리 정리해 두면 준비 기간을 벌 수 있음.</p>
+    <a class="link" href="https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000116944">2026년 공고 보기 →</a>
+  </div>
+
+  <h2>투자 유치가 전제 <span class="n">중장기</span></h2>
 
   <div class="card">
-    <div class="row1">
-      <div><div class="name">팁스 (TIPS) · 프리팁스</div><div class="agency">중기부·창업진흥원 · 민간투자 주도</div></div>
+    <div class="ctop">
+      <div><div class="cname">프리팁스 (Pre-TIPS) 2차</div></div>
+      <span class="badge b-amber">라운드 개시 · 선결조건</span>
+    </div>
+    <div class="corg">중기부·창업진흥원 · 민간투자 주도</div>
+    <p class="desc"><b>2차 라운드 접수 중 — 2026.7.10~8.10</b>. 투자기관 1천만원 이상 투자를 받은 <b>비수도권·창업 3년 이내</b> 기업 대상, 사업화자금 평균 9천만원(최대 1억). 협약 2026.9~2027.4 예정, 30개사 내외 선정. 업력·비수도권(대전) 요건은 충족하나 <b>투자 유치 실적이 없어 이번 라운드 신청 불가</b>.</p>
+    <div class="tag"><span class="k">관문</span>투자기관 선투자(1천만원+)가 먼저. '그냥 신청' 불가</div>
+    <p class="note"><b>전략</b> 투자 실적이 생기면 즉시 적합. 단 업력 3년(2027.08) 상한이 있어 2027년 초 라운드가 사실상 마지막 기회. 그 전 라운드(이번 2차 등)를 노리려면 하반기 중 시드 투자 유치가 관건. K-Startup에서 접수.</p>
+    <a class="link" href="https://www.k-startup.go.kr">K-Startup →</a>
+  </div>
+
+  <div class="card">
+    <div class="ctop">
+      <div><div class="cname">팁스 (TIPS)</div></div>
       <span class="badge b-amber">중장기 · 선결조건</span>
     </div>
-    <div class="detail">민간 운영사(액셀러레이터)의 <b>선투자+추천</b>이 있어야 정부 R&D 최대 5억원(딥테크 더 큼) 연계. 프리팁스는 투자기관 1천만원 이상 투자를 받은 <b>비수도권·창업 3년 이내</b> 기업 대상 — 2026년 창업기업 모집(~4/20)은 마감, 하반기 추가 라운드 공고는 확인되지 않음.</div>
-    <div class="kv"><span class="k">적합</span><span class="v">업력·비수도권(대전)은 가능성 ↑ / 투자 실적 없음이 관문</span></div>
-    <div class="kv"><span class="k">관문</span><span class="v">운영사 투자 유치가 먼저. '그냥 신청' 불가</span></div>
-    <div class="note"><b>전략</b> 플랫폼에 기술성(AI 원료매칭 등) 입히고 운영사 투자 유치 후 2027년 프리팁스 라운드 도전. 단 업력 3년(2027.08) 상한이 있어 <b>2027년 초 라운드가 사실상 마지막 기회</b>.</div>
-    <a class="link" href="https://www.jointips.or.kr" target="_blank">팁스 안내 →</a>
+    <div class="corg">중기부·창업진흥원 · 민간투자 주도</div>
+    <p class="desc">민간 운영사(액셀러레이터)의 <b>선투자+추천</b>이 있어야 정부 R&D 최대 5억원(딥테크 더 큼) 연계. 프리팁스를 거쳐 예비 팁스로 육성되는 경로가 표준.</p>
+    <div class="tag"><span class="k">관문</span>운영사 투자 유치가 먼저. 투자 실적 없음이 현재 관문</div>
+    <p class="note"><b>전략</b> 플랫폼에 기술성(AI 원료매칭 등) 입히고 운영사 투자 유치 후 프리팁스→팁스 경로. 투자 실적 생기면 적합도 상향.</p>
+    <a class="link" href="https://www.jointips.or.kr">팁스 안내 →</a>
   </div>
 
   <div class="card">
-    <div class="row1">
-      <div><div class="name">립스 (LIPS) · 민간투자연계 매칭</div><div class="agency">중기부 · 소상공인 대상</div></div>
-      <span class="badge b-red">부적합 쪽</span>
+    <div class="ctop">
+      <div><div class="cname">립스 (LIPS)</div></div>
+      <span class="badge b-gray">부적합 쪽</span>
     </div>
-    <div class="detail">팁스의 <b>소상공인 버전</b>. 운영사 선투자 시 정부가 매칭(LIPSⅠ 융자 최대 5억 / LIPSⅡ 보조금 최대 2억).</div>
-    <div class="kv"><span class="k">결격</span><span class="v">매출 20억대라 소상공인 프레임에서 멀고, 운영사 선투자도 전제</span></div>
-    <div class="note">팁스보다 우선순위 낮음. 참고용.</div>
+    <div class="corg">중기부 · 소상공인 대상</div>
+    <p class="desc">팁스의 <b>소상공인 버전</b>. 운영사 선투자 시 정부가 매칭(LIPSⅠ 융자 최대 5억 / LIPSⅡ 보조금 최대 2억).</p>
+    <div class="tag"><span class="k">결격</span>매출 20억대라 소상공인 프레임에서 멀고, 운영사 선투자도 전제</div>
+    <p class="note">팁스보다 우선순위 낮음. 참고용.</p>
   </div>
 
-  <h2>청창사 종료 후 (창업사업화 · 중복 해제 시)</h2>
+  <h2>청창사 종료 후 <span class="n">창업사업화 · 중복 해제 시</span></h2>
 
   <div class="card">
-    <div class="row1">
-      <div><div class="name">초기창업패키지</div><div class="agency">중기부·창업진흥원</div></div>
-      <span class="badge b-amber">최우선 알림 · 2027년 초</span>
+    <div class="ctop">
+      <div><div class="cname">초기창업패키지</div></div>
+      <span class="badge b-red">최우선 알림 · 2027년 초</span>
     </div>
-    <div class="detail">업력 3년 이내 창업기업, 사업화자금 최대 1억(평균 0.5억). 일반형·딥테크 특화형·투자연계형 3개 유형(중복 신청 가능, 1개만 수행). <b>청창사와 중복 수혜 불가</b>. 청창사 종료(2026.10) 이후 + 업력 3년 이내(~2027.08)가 겹치는 <b>2027년 공고가 유일한 신청 창</b>.</div>
-    <div class="kv"><span class="k">일정</span><span class="v">2026년 공고는 1/23~2/13 접수였음 → <b>2027년 공고도 1월 하순 개시 가능성</b>. 12월부터 주 단위 감시.</span></div>
-    <div class="note"><b>준비</b> 연 1회뿐이라 놓치면 1년 대기가 아니라 <b>자격 자체가 소멸</b>(2027.08 업력 3년 도래). 12월 전에 사업계획서 초안을 만들어 두는 것이 안전.</div>
-  </div>
-
-  <div class="card">
-    <div class="row1">
-      <div><div class="name">창업도약패키지</div><div class="agency">중기부·창업진흥원</div></div>
-      <span class="badge b-slate">향후 · 업력 도래</span>
-    </div>
-    <div class="detail">업력 3~7년, 사업화자금 평균 1.2억(최대 2억). 2027.08(업력 3년)부터 자격 발생. 초기창업패키지를 놓치거나 끝난 뒤의 승계 후보.</div>
-    <div class="note">청창사 같은 '창업사업화' 사업은 진행 중 중복 불가라 제외했고, 종료 후 열리는 것만 여기 모음.</div>
-  </div>
-
-  <h2>현재 자격 미달 (참고용 · 제외)</h2>
-
-  <div class="card">
-    <div class="row1">
-      <div><div class="name">창업성장기술개발 디딤돌</div><div class="agency">중기부 · iris.go.kr</div></div>
-      <span class="badge b-red">자격 미달</span>
-    </div>
-    <div class="detail">R&D 자금. 1차 접수(6/8~6/30) 종료. <b>직전연도 매출 20억 미만</b> 요건 — 매출 20억 초과로 해당 없음.</div>
-    <div class="note">매출 상한 없는 R&D(중기부 기술혁신개발 등)는 정규 라운드(연초)·제조역량 증빙 필요 → 내년 초 준비 대상.</div>
+    <div class="corg">중기부·창업진흥원</div>
+    <p class="desc">업력 3년 이내 창업기업, 사업화자금 최대 1억(평균 0.5억). 일반형·딥테크 특화형·투자연계형 3개 유형. <b>청창사와 중복 수혜 불가</b>. 청창사 종료(2026.10) 이후 + 업력 3년 이내(~2027.08)가 겹치는 <b>2027년 공고가 유일한 신청 창</b>.</p>
+    <div class="tag"><span class="k">일정</span>2026년 공고는 1/23~2/13 접수였음 → 2027년 공고도 1~2월 개시 가능성(2027 미공고). 12월부터 주 단위 감시.</div>
+    <p class="note"><b>준비</b> 연 1회뿐이라 놓치면 1년 대기가 아니라 자격 자체가 소멸(2027.08 업력 3년 도래). 12월 전에 사업계획서 초안을 만들어 두는 것이 안전.</p>
+    <a class="link" href="https://www.kised.or.kr/menu.es?mid=a10205020000">사업 안내 →</a>
   </div>
 
   <div class="card">
-    <div class="row1">
-      <div><div class="name">식품진흥원 R&D·GMP 인증</div><div class="agency">한국식품산업클러스터진흥원</div></div>
-      <span class="badge b-red">자격 미달</span>
+    <div class="ctop">
+      <div><div class="cname">창업도약패키지</div></div>
+      <span class="badge b-gray">향후 · 업력 도래</span>
     </div>
-    <div class="detail">기능성 R&D 최대 1억, 건기식 GMP 인증 등. 다수 사업이 <b>식품제조가공업 등록/입주기업</b> 요건 — 위탁생산(미제조)이라 해당 없음.</div>
-    <div class="note">향후 자체 제조 전환 시 1순위 후보로 복귀. 7월 셋째 주 기준 건기식 분야에서 제조등록 없이 신청 가능한 신규 공고는 확인되지 않음(식품기업 인증 지원사업 등은 제조·입주 요건).</div>
+    <div class="corg">중기부·창업진흥원</div>
+    <p class="desc">업력 3~7년, 사업화자금 평균 1.2억(최대 2억). 2027.08(업력 3년)부터 자격 발생. 초기창업패키지를 놓치거나 끝난 뒤의 승계 후보.</p>
+    <p class="note">청창사 같은 '창업사업화' 사업은 진행 중 중복 불가라 제외했고, 종료 후 열리는 것만 여기 모음.</p>
+    <a class="link" href="https://www.kised.or.kr/menu.es?mid=a10205030000">사업 안내 →</a>
+  </div>
+
+  <h2>현재 자격 미달 <span class="n">참고용 · 제외</span></h2>
+
+  <div class="card">
+    <div class="ctop">
+      <div><div class="cname">창업성장기술개발 디딤돌</div></div>
+      <span class="badge b-gray">자격 미달</span>
+    </div>
+    <div class="corg">중기부 · iris.go.kr</div>
+    <p class="desc">R&D 자금. <b>직전연도 매출 20억 미만</b> 요건 — 매출 20억 초과로 해당 없음.</p>
+    <p class="note">매출 상한 없는 R&D(중기부 기술혁신개발 등)는 정규 라운드(연초)·제조역량 증빙 필요 → 내년 초 준비 대상.</p>
   </div>
 
   <div class="card">
-    <div class="row1">
-      <div><div class="name">소상공인 IP창출 종합패키지(브랜드&디자인)</div><div class="agency">대전지식재산센터 · pms.ripc.org</div></div>
-      <span class="badge b-red">부적합 · 마감</span>
+    <div class="ctop">
+      <div><div class="cname">식품진흥원 R&D·GMP 인증</div></div>
+      <span class="badge b-gray">자격 미달</span>
     </div>
-    <div class="detail">상표·디자인 출원, 브랜드·포장디자인 용역. 6/15 마감. 소상공인 대상 + B2C 브랜딩 성격이라 B2B 플랫폼과 결이 안 맞음.</div>
+    <div class="corg">한국식품산업클러스터진흥원</div>
+    <p class="desc">기능성 R&D 최대 1억, 건기식 GMP 인증 등. 다수 사업이 <b>식품제조가공업 등록/입주기업</b> 요건 — 위탁생산(미제조)이라 해당 없음.</p>
+    <p class="note">향후 자체 제조 전환 시 1순위 후보로 복귀. 이번 주 기준 건기식 분야에서 제조등록 없이 신청 가능한 신규 공고는 확인되지 않음(식품기업 인증 지원사업 등은 제조·입주 요건).</p>
+  </div>
+
+  <div class="card">
+    <div class="ctop">
+      <div><div class="cname">소상공인 IP창출 종합패키지</div></div>
+      <span class="badge b-gray">부적합 · 마감</span>
+    </div>
+    <div class="corg">대전지식재산센터 · pms.ripc.org</div>
+    <p class="desc">상표·디자인 출원, 브랜드·포장디자인 용역. 소상공인 대상 + B2C 브랜딩 성격이라 B2B 플랫폼과 결이 안 맞음.</p>
   </div>
 
   <footer>
