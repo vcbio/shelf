@@ -180,13 +180,13 @@
   "date": "2026-07-26"
  },
  {
-  "slug": "colorboard",
-  "title": "VCBio 디자인 선택 보드 v3",
-  "date": "2026-07-26"
- },
- {
   "slug": "govgrant-monitor",
   "title": "정부지원사업 모니터링 대시보드",
+  "date": "2026-07-27"
+ },
+ {
+  "slug": "colorboard",
+  "title": "디자인 선택보드 v3.2",
   "date": "2026-07-27"
  }
 ]
