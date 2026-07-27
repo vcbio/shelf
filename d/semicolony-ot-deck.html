@@ -219,6 +219,24 @@ h1{ font-size:6.4rem; line-height:1.2; font-weight:700; letter-spacing:-.01em; }
   border-bottom:.2rem solid var(--c-line-2); vertical-align:-.4rem;
 }
 
+/* ── QR 패널 (s15) ──────────────────────────────────
+   세로 여유가 없어 QR을 아래로 못 쌓는다 → 템플릿을 3단으로 넓혀 오른쪽에 세운다.
+   .tbox.span2 의 grid-row:1/span 2 를 그대로 두어야 3번 칸이 1행 높이를 밀지 않는다. */
+.tmpl.wq{ grid-template-columns:1fr 1fr 30rem; }
+/* 3번 칸과 QR 패널은 두 행을 채워 아랫변을 왼쪽 두 칸과 맞춘다(.tmpl 은 align-items:start) */
+.tmpl.wq > .tbox.span2, .tmpl.wq > .qr{ align-self:stretch; }
+.qr{
+  grid-column:3; grid-row:1 / span 2;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:2.4rem; background:var(--c-brand-tint); border-radius:2rem; padding:2.4rem 2rem;
+}
+/* 흰 바탕 + 여백 — 프로젝터에서 주변 색이 QR의 여백(quiet zone)을 먹지 않게 한다 */
+.qrimg{
+  display:block; width:26rem; height:26rem;
+  background:var(--c-surface); border-radius:1.2rem; padding:1.2rem;
+}
+.qr p{ font-size:2.4rem; line-height:1.4; font-weight:700; color:var(--c-brand); text-align:center; }
+
 /* ── 말풍선 (s16) ───────────────────────────────── */
 .talk{ display:flex; flex-direction:column; gap:2.4rem; }
 .bubble{
@@ -292,6 +310,7 @@ h1{ font-size:6.4rem; line-height:1.2; font-weight:700; letter-spacing:-.01em; }
   .anim .steps > .step,
   .anim .quotes > .quote,
   .anim .tmpl > .tbox,
+  .anim .tmpl > .qr,
   .anim .talk > .bubble,
   .anim .checks > .chk,
   .anim .row > .big-ok,
@@ -335,7 +354,8 @@ h1{ font-size:6.4rem; line-height:1.2; font-weight:700; letter-spacing:-.01em; }
   .anim .cards > *:nth-child(3), .anim .stack > *:nth-child(3),
   .anim .steps > *:nth-child(3), .anim .tmpl > *:nth-child(3),
   .anim .checks > *:nth-child(3), .anim .tbl tr:nth-child(3){ --ds:.12s; }
-  .anim .cards > *:nth-child(4), .anim .steps > *:nth-child(4){ --ds:.18s; }
+  .anim .cards > *:nth-child(4), .anim .steps > *:nth-child(4),
+  .anim .tmpl > *:nth-child(4){ --ds:.18s; }
 
   /* 강조 1개만 특별대우 — 대비 카드의 '되는 쪽'은 살짝 늦게 */
   .anim .cards > .card.hi{ --ds:.16s; }
@@ -697,7 +717,7 @@ body{ display:block; align-items:initial; justify-content:initial; }
   <h1>이 빈칸만 채우세요</h1>
   <p class="lead">세 칸만 채우면 됩니다.</p>
   <div class="body dense">
-    <div class="tmpl">
+    <div class="tmpl wq">
       <div class="tbox"><h4>1. 나는 누구인가</h4>
         <p>저는 <span class="blank"></span> 입니다.<br><span class="blank"></span> 에서 일합니다.</p></div>
       <div class="tbox"><h4>2. 내가 하는 일</h4>
@@ -709,6 +729,10 @@ body{ display:block; align-items:initial; justify-content:initial; }
           <li>어려운 말은 괄호 안에 한 줄로 풀어서.</li>
           <li>확실하지 않은 것은 그렇다고 표시해서.</li>
         </ul></div>
+      <div class="qr">
+        <img class="qrimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZoAAAGaAQMAAAAMyBcgAAAABlBMVEUaGhj///+4aU5zAAACE0lEQVR42u2cS27DMAxEifoAOpKvniP5AAJUm38lm7a7YsaLIP5wEz0Mh6QcWb8/XsIgBjGIQQxiEIMYFEHix7G2U7nvXvfnecX5qUFf8oeDQf8jyInQlV7X8TCSq6+nY/q3eo5EIBBxJQK3UIjcHBgbBsP1XHtukAhEImSDwe6SCFwi1pofakGNAPYRHYtggz4CkIisNQqB7YO1BhgRvR61NBGAVK5oj/DXQ8gaWlw4AvbN9GCsMBMkAkojVBRy9ZWDVIZ4bjJrIPmIY1WuUI2IdmWvP0gEjEZoA+KRB7tmncpExetQZg0kIlqzOp3liBuGxWD1CaYRZR39RnoLTxj0EUg+IhbeNOJVvYeYcCggzBpAtcaRlWYNMvqEwwpUEoGkEd7FtroiYBASgUnEuaeO5iKHTzj0GonAIaLSRHMUoRuuIEJnCVZruIvc2PB+BHuWeD7C3YNZiBX9Se9aWcIgEVAaUfulPtJJb2qTCDyNaMXo3OZg3EMF5yNWjr/PaGWbPLz2eSiJAKk1fPXLVBoHM5oS3B+BpBF9pLGVm1JTUGoElI8QdwrVj/DZZ+69zDe+SARE1mjdqCn1Bk+5B3ax0XyE9Lc0bK4xMonowawBSUT4iPm+laZ1tkkEmEaEHtSr4rm/jhqB5yPijb6ahm+mkhoBV2tIjrZqBh6lB50lYj+C/8fCIAYxiEEMYhCDfhr0DcsQ77s87PuzAAAAAElFTkSuQmCC" alt="안내문 전문 페이지로 가는 QR 코드" width="410" height="410">
+        <p>폰으로 찍으면<br>안내문이 나옵니다</p>
+      </div>
     </div>
     <p class="cap">예시 — 저는 김OO 팀장입니다. 자주 하는 일은 견적서 정리, 주간 보고 작성입니다.</p>
   </div>
