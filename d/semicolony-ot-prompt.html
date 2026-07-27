@@ -5,13 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
 <title>내 소개 안내문 &middot; 세미콜로니 AI 입문 0회차</title>
-<meta name="description" content="AI에게 나를 소개하는 안내문 템플릿 — 복사해서 빈칸을 채우고 앱 설정에 붙여넣으세요.">
+<meta name="description" content="AI에게 나를 소개하는 안내문 템플릿 — 복사해서 빈칸을 채우고 앱 설정에 붙여넣으세요. 직군별 예시와 채우는 요령까지.">
 <!--
   세미콜로니 AI 입문 0회차(OT) — s15 QR이 가리키는 지시문 전문 페이지.
   공개 주소: https://vcbio.github.io/shelf/d/semicolony-ot-prompt.html
   이 파일이 정본이다(_build/prompt-kit.html). 책장에 올릴 때 파일명만 바꿔 올린다.
-  ⚠️ 아래 템플릿 문안은 _build/slides.py 의 s15 세 칸과 같은 내용이다. 한쪽을 고치면
-     다른 쪽도 같이 고칠 것.
+  ⚠️ 1번의 기본 템플릿 문안은 _build/slides.py 의 s15 세 칸과 같은 내용이다.
+     한쪽을 고치면 다른 쪽도 같이 고칠 것. (2026-07-27 개정에서도 문안은 그대로 뒀다.)
+  ⚠️ 적용 범위·확인법은 덱 s13·s16과 같은 기준이다.
+     - Claude 전역 지침 = Cowork 세션에 적용, 데스크톱 앱에서 설정 (s13)
+     - 확인은 "Claude는 Cowork에서 새 세션, ChatGPT는 새 대화" (s16)
+     2026-07-27 개정 전 문안("모든 대화에 저절로 적용", "웹과 데스크톱 앱 기준",
+     "대화를 새로 열어서 확인 → 안 되면 3번 다시")은 Claude 쪽이 사실과 어긋나
+     현장에서 무한 루프를 만들 수 있어 교체했다. 근거 = 원료 E-md-scope.md §1·§3.
   제약(덱과 동일): 외부 리소스 0건 / 코드·터미널 모티프 0건 / 요금·플랜 0건 / 모델명 0건.
 -->
 <style>
@@ -32,7 +38,7 @@
   --shadow:0 2px 10px rgba(0,0,0,.05);
 }
 *{ box-sizing:border-box; margin:0; padding:0; }
-html{ -webkit-text-size-adjust:100%; }
+html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; }
 body{
   font-family:var(--font);
   background:var(--c-bg); color:var(--c-ink);
@@ -51,8 +57,16 @@ body{
 h1{ font-size:28px; line-height:1.3; font-weight:800; margin-top:16px; letter-spacing:-.01em; }
 .sub{ font-size:16px; color:var(--c-ink-2); margin-top:10px; }
 
+/* ── 목차 ── */
+.toc{ display:flex; flex-wrap:wrap; gap:8px; margin-top:20px; }
+.toc a{
+  font-size:14px; font-weight:700; line-height:1.2; color:var(--c-ink-2);
+  background:var(--c-surface); border:1px solid var(--c-line);
+  border-radius:99px; padding:9px 13px; text-decoration:none;
+}
+
 /* ── 단계 ── */
-section{ margin-top:36px; }
+section{ margin-top:36px; scroll-margin-top:14px; }
 h2{ font-size:19px; line-height:1.4; font-weight:700; display:flex; align-items:baseline; gap:10px; }
 h2 .n{
   flex:none; width:26px; height:26px; border-radius:99px;
@@ -60,7 +74,9 @@ h2 .n{
   font-size:14px; font-weight:800; line-height:26px; text-align:center;
   transform:translateY(3px);
 }
+h2 .n.g{ background:var(--c-support); }
 .note{ font-size:15px; color:var(--c-ink-2); margin-top:8px; }
+.note + .note{ margin-top:6px; }
 
 /* ── 템플릿 상자 ── */
 .tmpl{
@@ -71,6 +87,7 @@ h2 .n{
   -webkit-user-select:text; user-select:text;
 }
 .tmpl b{ color:var(--c-brand); font-weight:700; }
+.tmpl.sm{ font-size:16px; line-height:1.85; }
 
 .btn{
   display:block; width:100%; margin-top:14px;
@@ -82,6 +99,7 @@ h2 .n{
 }
 .btn:active{ transform:translateY(1px); }
 .btn.done{ background:var(--c-support); }
+.btn.sm{ font-size:16px; padding:14px 18px; }
 .hint{ font-size:14px; color:var(--c-ink-3); margin-top:10px; text-align:center; }
 
 /* ── 붙여넣는 곳 ── */
@@ -98,6 +116,7 @@ h2 .n{
   padding:7px 12px; border-radius:9px;
 }
 .where .item.b .path{ color:var(--c-support); background:var(--c-support-tint); }
+.where .item p{ font-size:14px; color:var(--c-ink-2); margin-top:9px; }
 
 /* ── 예시 ── */
 .ex{
@@ -106,15 +125,56 @@ h2 .n{
 }
 .ex .lbl{ font-size:13px; font-weight:700; letter-spacing:.04em; color:var(--c-brand); display:block; margin-bottom:8px; }
 
+/* ── 직군 카드 ── */
+.job{
+  margin-top:14px; background:var(--c-surface);
+  border:1px solid var(--c-line); border-radius:14px;
+  padding:18px; box-shadow:var(--shadow);
+}
+.job h3{
+  font-size:15px; font-weight:800; letter-spacing:.02em;
+  color:var(--c-support); background:var(--c-support-tint);
+  display:inline-block; padding:6px 11px; border-radius:99px;
+}
+.job .body{ margin-top:12px; font-size:16px; line-height:1.85; white-space:pre-wrap; -webkit-user-select:text; user-select:text; }
+.job .btn{ background:var(--c-support); }
+
+/* ── 항목 목록 ── */
+.list{ display:grid; gap:10px; margin-top:14px; }
+.list .it{
+  background:var(--c-surface); border:1px solid var(--c-line);
+  border-radius:12px; padding:14px 16px; box-shadow:var(--shadow);
+}
+.list .it b{ display:block; font-size:16px; font-weight:700; }
+.list .it span{ display:block; font-size:14px; color:var(--c-ink-2); margin-top:5px; }
+
+/* ── 좋은 예 / 아쉬운 예 ── */
+.cmp{ display:grid; gap:10px; margin-top:14px; }
+.cmp .c{ border-radius:12px; padding:14px 16px; font-size:16px; line-height:1.7; }
+.cmp .c.no{ background:var(--c-surface); border:1px solid var(--c-line); color:var(--c-ink-2); }
+.cmp .c.ok{ background:var(--c-support-tint); border:1px solid var(--c-support-tint); }
+.cmp .c .tag{ display:block; font-size:13px; font-weight:800; letter-spacing:.04em; margin-bottom:6px; }
+.cmp .c.no .tag{ color:var(--c-ink-3); }
+.cmp .c.ok .tag{ color:var(--c-support); }
+.pair + .pair{ margin-top:16px; }
+
 /* ── 확인 ── */
-.talk{ display:grid; gap:10px; margin-top:14px; }
+.talk{ display:grid; gap:10px; margin-top:12px; }
 .bubble{
   background:var(--c-surface); border:1px solid var(--c-line);
   border-radius:14px; padding:14px 16px; font-size:16px; box-shadow:var(--shadow);
 }
 .bubble.me{ background:var(--c-brand-tint); border-color:var(--c-brand-tint); font-weight:700; }
+.chk{
+  margin-top:14px; background:var(--c-surface);
+  border:1px solid var(--c-line); border-radius:14px;
+  padding:16px 18px; box-shadow:var(--shadow);
+}
+.chk h3{ font-size:16px; font-weight:700; }
+.chk ul{ margin-top:10px; padding-left:18px; font-size:15px; color:var(--c-ink-2); line-height:1.8; }
 
 footer{ margin-top:44px; padding-top:20px; border-top:1px solid var(--c-line); font-size:14px; color:var(--c-ink-3); }
+footer p + p{ margin-top:6px; }
 
 @media (min-width:560px){
   body{ font-size:18px; }
@@ -122,9 +182,12 @@ footer{ margin-top:44px; padding-top:20px; border-top:1px solid var(--c-line); f
   h1{ font-size:34px; }
   h2{ font-size:21px; }
   .where{ grid-template-columns:1fr 1fr; }
+  .cmp{ grid-template-columns:1fr 1fr; }
   .btn{ width:auto; min-width:280px; padding:18px 32px; }
+  .btn.sm{ min-width:220px; }
 }
 @media (prefers-reduced-motion:reduce){
+  html{ scroll-behavior:auto; }
   .btn{ transition:none; }
 }
 </style>
@@ -134,9 +197,20 @@ footer{ margin-top:44px; padding-top:20px; border-top:1px solid var(--c-line); f
 
   <span class="eyebrow">세미콜로니 &middot; AI 입문 0회차</span>
   <h1>AI에게 나를 소개하는 안내문</h1>
-  <p class="sub">아래 글을 복사해서 빈칸을 채우고, 쓰는 앱의 설정에 한 번만 붙여넣으면 됩니다. 그다음부터는 모든 대화에 저절로 적용됩니다.</p>
+  <p class="sub">아래 글을 복사해서 빈칸을 채우고, 쓰는 앱의 설정에 한 번만 붙여넣으면 됩니다. Claude는 Cowork에서 하는 일마다, ChatGPT는 대화마다 이 안내문을 먼저 읽습니다.</p>
 
-  <section>
+  <nav class="toc" aria-label="목차">
+    <a href="#s1">1. 복사</a>
+    <a href="#s2">2. 빈칸 채우기</a>
+    <a href="#s3">3. 직군별 예시</a>
+    <a href="#s4">4. 붙여넣는 곳</a>
+    <a href="#s5">5. 확인</a>
+    <a href="#s6">6. 더 넣을 것</a>
+    <a href="#s7">7. 좋은 예</a>
+    <a href="#s8">8. 알아두기</a>
+  </nav>
+
+  <section id="s1">
     <h2><span class="n">1</span>이 글을 복사하세요</h2>
     <p class="note">밑줄 친 자리가 채워 넣을 빈칸입니다.</p>
     <div class="tmpl" id="tmpl">저는 <b>______</b> 입니다. <b>______</b> 에서 일합니다.
@@ -147,11 +221,11 @@ footer{ margin-top:44px; padding-top:20px; border-top:1px solid var(--c-line); f
 - 한국어 존댓말로, 짧은 문장으로.
 - 어려운 말은 괄호 안에 한 줄로 풀어서.
 - 확실하지 않은 것은 그렇다고 표시해서.</div>
-    <button class="btn" id="copy" type="button">전체 복사하기</button>
-    <p class="hint" id="say" role="status" aria-live="polite">버튼이 안 되면 위 글을 길게 눌러 직접 복사하세요.</p>
+    <button class="btn" type="button" data-copy="tmpl">전체 복사하기</button>
+    <p class="hint" role="status" aria-live="polite">버튼이 안 되면 위 글을 길게 눌러 직접 복사하세요.</p>
   </section>
 
-  <section>
+  <section id="s2">
     <h2><span class="n">2</span>빈칸은 이렇게 채웁니다</h2>
     <p class="note">이름과 하는 일만 적으면 충분합니다. 길게 쓸수록 좋은 것은 아닙니다.</p>
     <div class="ex">
@@ -159,62 +233,179 @@ footer{ margin-top:44px; padding-top:20px; border-top:1px solid var(--c-line); f
       저는 김OO 팀장입니다. 세미콜로니에서 일합니다.<br>
       제가 자주 하는 일은 견적서 정리, 주간 보고 작성입니다.
     </div>
+    <p class="note">채울 때의 기준은 하나입니다. <b>오늘 처음 온 동료</b>에게 이 종이 한 장만 주고 일을 맡긴다고 생각해 보세요. 그 사람이 헷갈릴 문장이면 AI도 똑같이 헷갈립니다.</p>
   </section>
 
-  <section>
-    <h2><span class="n">3</span>여기에 붙여넣으세요</h2>
-    <p class="note">웹과 데스크톱 앱 기준입니다. 붙여넣고 나서 빈칸을 채워도 됩니다.</p>
+  <section id="s3">
+    <h2><span class="n">3</span>직군별 예시 — 가까운 것으로 골라 쓰세요</h2>
+    <p class="note">그대로 복사해서 이름과 회사만 바꿔도 됩니다.</p>
+
+    <div class="job">
+      <h3>사무 &middot; 총무</h3>
+      <div class="body" id="job-a">저는 김OO 대리입니다. OO에서 총무 일을 합니다.
+제가 자주 하는 일은 사내 공지 작성, 비용 정산표 정리입니다.
+
+답변은 이렇게 해주세요.
+- 결론을 먼저, 이유는 그다음에.
+- 한국어 존댓말로, 짧은 문장으로.
+- 사내 공지는 네 문장 안으로 정리해서.
+- 확실하지 않은 것은 그렇다고 표시해서.</div>
+      <button class="btn sm" type="button" data-copy="job-a">이 예시 복사하기</button>
+      <p class="hint" role="status" aria-live="polite">복사한 뒤 이름과 회사만 바꾸면 됩니다.</p>
+    </div>
+
+    <div class="job">
+      <h3>영업</h3>
+      <div class="body" id="job-b">저는 이OO 과장입니다. OO에서 거래처 영업을 합니다.
+제가 자주 하는 일은 거래처 메일 쓰기, 방문 일지 정리입니다.
+
+답변은 이렇게 해주세요.
+- 결론을 먼저, 이유는 그다음에.
+- 한국어 존댓말로, 짧은 문장으로.
+- 메일 초안은 인사 → 용건 → 다음에 할 일 순서로.
+- 숫자는 제가 준 자료에 있는 것만 쓰고, 없으면 비워 두고 물어봐 주세요.</div>
+      <button class="btn sm" type="button" data-copy="job-b">이 예시 복사하기</button>
+      <p class="hint" role="status" aria-live="polite">복사한 뒤 이름과 회사만 바꾸면 됩니다.</p>
+    </div>
+
+    <div class="job">
+      <h3>기획 &middot; 관리</h3>
+      <div class="body" id="job-c">저는 박OO 매니저입니다. OO에서 기획 일을 합니다.
+제가 자주 하는 일은 회의록 정리, 기획안 초안 쓰기입니다.
+
+답변은 이렇게 해주세요.
+- 결론 세 줄을 먼저, 근거는 그 아래에.
+- 한국어 존댓말로, 짧은 문장으로.
+- 비교할 것이 두 개 이상이면 표로 보여주세요.
+- 확실하지 않은 것은 그렇다고 표시해서.</div>
+      <button class="btn sm" type="button" data-copy="job-c">이 예시 복사하기</button>
+      <p class="hint" role="status" aria-live="polite">복사한 뒤 이름과 회사만 바꾸면 됩니다.</p>
+    </div>
+  </section>
+
+  <section id="s4">
+    <h2><span class="n">4</span>여기에 붙여넣으세요</h2>
+    <p class="note">붙여넣고 나서 빈칸을 채워도 됩니다.</p>
     <div class="where">
       <div class="item">
         <h3>Claude</h3>
         <span class="path">설정 &rarr; Cowork &rarr; 전역 지침</span>
+        <p>데스크톱 앱에서 설정합니다. Cowork에서 하는 모든 일에 적용됩니다.</p>
       </div>
       <div class="item b">
         <h3>ChatGPT</h3>
         <span class="path">설정 &rarr; 개인 맞춤 설정 &rarr; 맞춤형 지침</span>
+        <p>웹에서도 앱에서도 넣을 수 있고, 모든 대화에 적용됩니다.</p>
       </div>
     </div>
     <p class="note">항목 이름이 영어로 보일 수 있습니다. 두 칸의 역할은 같습니다. 다 적었으면 저장을 누르세요.</p>
   </section>
 
-  <section>
-    <h2><span class="n">4</span>들어갔는지 확인하세요</h2>
-    <p class="note">대화를 새로 하나 열어서 이렇게 물어보세요.</p>
+  <section id="s5">
+    <h2><span class="n">5</span>들어갔는지 확인하세요</h2>
+    <p class="note">쓰는 앱에 따라 <b>확인하는 자리가 다릅니다.</b> 아래 자리에서 물어보세요.</p>
+
+    <div class="where">
+      <div class="item">
+        <h3>Claude</h3>
+        <span class="path">Cowork에서 새 세션</span>
+        <p>전역 지침은 Cowork에서 하는 일에 적용됩니다. 그래서 확인도 Cowork에서 합니다.</p>
+      </div>
+      <div class="item b">
+        <h3>ChatGPT</h3>
+        <span class="path">새 대화 하나 열기</span>
+        <p>저장한 다음 새로 연 대화에서 확인하세요.</p>
+      </div>
+    </div>
+
     <div class="talk">
       <div class="bubble me">제가 누구고 무슨 일을 하는지 아세요?</div>
-      <div class="bubble">이름과 하는 일이 답에 나오면 성공입니다. 안 나오면 저장이 안 된 것이니 3번을 다시 해보세요.</div>
+      <div class="bubble">이름과 하는 일이 답에 나오면 성공입니다.</div>
+    </div>
+
+    <div class="chk">
+      <h3>이름이 안 나온다면</h3>
+      <ul>
+        <li>Claude &mdash; 일반 대화 말고 <b>Cowork</b> 자리에서 물어봤는지 보세요.</li>
+        <li>저장 버튼을 눌렀는지 다시 보세요.</li>
+        <li>붙여넣기 전에 열어 둔 대화라면, 새로 하나 열어서 물어보세요.</li>
+        <li>그래도 안 되면 강의 때 손 들어주세요. 화면을 같이 봅니다.</li>
+      </ul>
     </div>
   </section>
 
-  <footer>세미콜로니 AI 입문 0회차 &middot; 오늘 만든 안내문은 언제든 고칠 수 있습니다.</footer>
+  <section id="s6">
+    <h2><span class="n g">6</span>이런 것도 넣으면 좋습니다</h2>
+    <p class="note">한꺼번에 다 넣을 필요는 없습니다. 오늘은 한두 줄만 골라 더해 보세요.</p>
+    <div class="list">
+      <div class="it"><b>내가 자주 만드는 결과물</b><span>메일인지 보고서인지 표인지. 원하는 형식과 길이, 말투를 구체적으로 적을수록 답이 정확해집니다.</span></div>
+      <div class="it"><b>그렇게 해달라는 이유 한 줄</b><span>&ldquo;윗분들이 짧은 보고를 좋아해서&rdquo; 같은 배경을 덧붙이면 의도에 맞는 답이 나옵니다.</span></div>
+      <div class="it"><b>누구에게 보내는 글인지</b><span>거래처인지 사내인지에 따라 문장이 달라집니다. 상대를 적어두면 매번 설명하지 않아도 됩니다.</span></div>
+      <div class="it"><b>&ldquo;하지 마&rdquo; 대신 &ldquo;이렇게 해줘&rdquo;</b><span>금지 목록을 길게 쓰는 것보다, 원하는 모습을 한 줄로 적는 편이 잘 통합니다.</span></div>
+      <div class="it"><b>순서가 있는 일은 번호로</b><span>단계가 정해진 일이라면 1, 2, 3으로 적어 두세요. 순서가 뒤집히는 일이 줄어듭니다.</span></div>
+      <div class="it"><b>좋은 답 한 줄을 직접 보여주기</b><span>원하는 형식의 짧은 예시 한 줄이 설명 열 줄보다 잘 통합니다.</span></div>
+    </div>
+
+    <div class="job">
+      <h3>골라서 덧붙이는 문장</h3>
+      <div class="body" id="tmpl-plus">제가 자주 만드는 것은 ______ 입니다.
+- 메일 초안은 인사 → 용건 → 요청 순서로, 다섯 문장 안으로.
+- 보고는 결론 세 줄을 먼저, 근거는 그 아래에.
+- 표로 정리할 수 있으면 표로 보여주세요.
+- 숫자는 제가 준 자료에 있는 것만 쓰고, 없으면 비워 두고 물어봐 주세요.</div>
+      <button class="btn sm" type="button" data-copy="tmpl-plus">이 문장들 복사하기</button>
+      <p class="hint" role="status" aria-live="polite">필요한 줄만 남기고 지우면 됩니다.</p>
+    </div>
+  </section>
+
+  <section id="s7">
+    <h2><span class="n g">7</span>좋은 예 &middot; 아쉬운 예</h2>
+    <p class="note">같은 뜻이라도 이렇게 쓰면 결과가 달라집니다.</p>
+
+    <div class="cmp pair">
+      <div class="c no"><span class="tag">아쉬운 예</span>잘 좀 써줘.</div>
+      <div class="c ok"><span class="tag">좋은 예</span>메일 초안은 다섯 문장 안으로, 인사 → 용건 → 요청 순서로 써주세요.</div>
+    </div>
+    <div class="cmp pair">
+      <div class="c no"><span class="tag">아쉬운 예</span>어렵게 쓰지 마. 길게 쓰지 마. 딱딱하게 쓰지 마.</div>
+      <div class="c ok"><span class="tag">좋은 예</span>중학생도 알아들을 문장으로, 짧게 써주세요.</div>
+    </div>
+    <div class="cmp pair">
+      <div class="c no"><span class="tag">아쉬운 예</span>저는 2015년에 입사해서 여러 부서를 거쳐 지금은&hellip; (자기소개 열 줄)</div>
+      <div class="c ok"><span class="tag">좋은 예</span>자주 하는 일 두세 가지만. 나머지는 그때그때 말하면 됩니다.</div>
+    </div>
+    <div class="cmp pair">
+      <div class="c no"><span class="tag">아쉬운 예</span>알아서 잘 정리해줘.</div>
+      <div class="c ok"><span class="tag">좋은 예</span>비교할 것이 두 개 이상이면 표로 보여주세요.</div>
+    </div>
+  </section>
+
+  <section id="s8">
+    <h2><span class="n g">8</span>알아두면 좋은 것</h2>
+    <div class="list">
+      <div class="it"><b>고친 내용은 새로 여는 대화부터</b><span>이미 열어 둔 대화에는 늦게 반영될 수 있습니다. 고친 뒤에는 새로 하나 열어서 확인하세요.</span></div>
+      <div class="it"><b>글자 수에 한도가 있습니다</b><span>너무 길면 저장이 안 될 수 있습니다. 열 줄 안팎으로 짧게 유지하세요.</span></div>
+      <div class="it"><b>프로젝트에는 따로 적을 수 있습니다</b><span>두 앱 모두 프로젝트별 지침 칸이 따로 있고, 그 안에서는 프로젝트에 적은 내용이 우선입니다. 특정 업무 규칙은 거기에 적으세요.</span></div>
+      <div class="it"><b>비밀번호와 개인정보는 넣지 마세요</b><span>대화를 링크로 공유해도 이 안내문은 보이지 않습니다. 다만 넣은 내용이 서비스 개선에 쓰일 수 있으니, 남에게 보이면 곤란한 정보는 적지 않는 편이 안전합니다.</span></div>
+      <div class="it"><b>언제든 고치고 지울 수 있습니다</b><span>한 번에 완성하려 하지 말고, 답이 마음에 안 들 때마다 한 줄씩 고쳐 가면 됩니다.</span></div>
+    </div>
+    <p class="note">이 안내문의 쓸모는 간단합니다. 매번 붙여야 했던 말&mdash;&ldquo;저는 총무고요, 존댓말로, 짧게, 결론부터요&rdquo;&mdash;를 한 번만 적어 두는 것입니다.</p>
+  </section>
+
+  <footer>
+    <p>세미콜로니 AI 입문 0회차 &middot; 오늘 만든 안내문은 언제든 고칠 수 있습니다.</p>
+    <p>화면 이름과 적용 범위는 두 회사 공식 도움말을 따랐습니다 (2026-07-27 확인).</p>
+  </footer>
 
 </div>
 
 <script>
 (function () {
-  var box = document.getElementById('tmpl');
-  var btn = document.getElementById('copy');
-  var say = document.getElementById('say');
-  var label = btn.textContent;
-  var timer;
+  var btns = document.querySelectorAll('[data-copy]');
 
-  // 화면에 보이는 줄바꿈 그대로 복사한다(<b> 강조는 글자에 영향이 없다).
-  function text() {
+  function textOf(box) {
+    // 화면에 보이는 줄바꿈 그대로 복사한다(<b> 강조는 글자에 영향이 없다).
     return box.innerText.replace(/ /g, ' ').replace(/\r\n/g, '\n').trim();
-  }
-
-  function done(ok) {
-    clearTimeout(timer);
-    btn.textContent = ok ? '복사했습니다' : '복사하지 못했습니다';
-    btn.className = ok ? 'btn done' : 'btn';
-    say.textContent = ok
-      ? '이제 아래 3번의 자리에 붙여넣으세요.'
-      : '위 글을 길게 눌러 직접 복사하세요.';
-    timer = setTimeout(function () {
-      btn.textContent = label;
-      btn.className = 'btn';
-      say.textContent = '버튼이 안 되면 위 글을 길게 눌러 직접 복사하세요.';
-    }, 3000);
   }
 
   // 폴백 — 보안 컨텍스트가 아니거나 권한이 막힌 브라우저용
@@ -234,14 +425,40 @@ footer{ margin-top:44px; padding-top:20px; border-top:1px solid var(--c-line); f
     return ok;
   }
 
-  btn.addEventListener('click', function () {
-    var t = text();
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(t).then(function () { done(true); },
-        function () { done(legacy(t)); });
-    } else {
-      done(legacy(t));
+  Array.prototype.forEach.call(btns, function (btn) {
+    var box = document.getElementById(btn.getAttribute('data-copy'));
+    var say = btn.nextElementSibling;
+    var label = btn.textContent;
+    var base = btn.className;
+    var said = say ? say.textContent : '';
+    var timer;
+
+    function done(ok) {
+      clearTimeout(timer);
+      btn.textContent = ok ? '복사했습니다' : '복사하지 못했습니다';
+      btn.className = ok ? base + ' done' : base;
+      if (say) {
+        say.textContent = ok
+          ? '이제 4번의 자리에 붙여넣으세요.'
+          : '위 글을 길게 눌러 직접 복사하세요.';
+      }
+      timer = setTimeout(function () {
+        btn.textContent = label;
+        btn.className = base;
+        if (say) { say.textContent = said; }
+      }, 3000);
     }
+
+    btn.addEventListener('click', function () {
+      if (!box) { return; }
+      var t = textOf(box);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(t).then(function () { done(true); },
+          function () { done(legacy(t)); });
+      } else {
+        done(legacy(t));
+      }
+    });
   });
 })();
 </script>
