@@ -71,9 +71,13 @@ h1{ font-size:6.4rem; line-height:1.2; font-weight:700; letter-spacing:-.01em; }
 .body.dense{ gap:2.4rem; margin-top:2.4rem; }
 
 /* ── 표지 ───────────────────────────────────────── */
-.cover{ flex:1; display:flex; flex-direction:column; justify-content:center; }
+/* 좌: 제목 블록 / 우: 일러스트. 오른쪽 여백이 비어 있던 것을 채운다(2026-07-27). */
+.cover{ flex:1; display:flex; align-items:center; gap:6.4rem; }
+.cover .covertxt{ flex:1; min-width:0; }
 .cover h1{ font-size:9.6rem; line-height:1.15; font-weight:800; }
 .cover .sub{ font-size:3.6rem; line-height:1.45; font-weight:500; color:var(--c-ink-2); margin-top:4rem; }
+.cover .trio{ width:60rem; flex:none; }
+.trio-svg{ display:block; width:100%; height:auto; }
 .cover .foot{
   position:absolute; left:8rem; bottom:5.6rem;
   font-size:2.2rem; font-weight:700; line-height:1; letter-spacing:.04em; color:var(--c-ink-3);
@@ -101,7 +105,7 @@ h1{ font-size:6.4rem; line-height:1.2; font-weight:700; letter-spacing:-.01em; }
   color:var(--c-brand); margin-bottom:2.4rem;
 }
 .card .eyebrow{ font-size:2.2rem; font-weight:700; letter-spacing:.04em; color:var(--c-ink-3); margin-bottom:1.2rem; }
-/* 카드 머리줄 (s11) — 아이콘과 출처 회사 라벨을 한 줄에 놓아 높이를 아낀다 */
+/* 카드 머리줄 (s10) — 아이콘과 출처 회사 라벨을 한 줄에 놓아 높이를 아낀다 */
 .card .cardhd{ display:flex; align-items:center; gap:1.6rem; margin-bottom:2rem; }
 .card .cardhd .ic{ margin-bottom:0; }
 .card .cardhd .eyebrow{ margin-bottom:0; }
@@ -136,7 +140,7 @@ h1{ font-size:6.4rem; line-height:1.2; font-weight:700; letter-spacing:-.01em; }
 .tbl .rowh{ font-weight:700; text-align:left; padding-left:4rem; }
 .tbl .hi{ background:var(--c-brand-tint); color:var(--c-brand); font-weight:700; }
 
-/* ── 시연 프레임 (s07) ──────────────────────────── */
+/* ── 시연 프레임 — 구 s07(3사 시연) 삭제로 현재 미사용. 클래스만 남겨둔다 */
 .ask{
   display:flex; align-items:center; gap:3.2rem;
   background:var(--c-brand-tint); border-radius:2rem; padding:3.2rem 4rem;
@@ -157,7 +161,7 @@ h1{ font-size:6.4rem; line-height:1.2; font-weight:700; letter-spacing:-.01em; }
 .quote p{ font-size:2.8rem; line-height:1.6; }
 .quote .src{ font-size:2rem; color:var(--c-ink-3); margin-top:1.2rem; }
 
-/* ── 설치 스텝 (s12) ────────────────────────────── */
+/* ── 설치 스텝 (s11) ────────────────────────────── */
 .steps{ display:grid; grid-template-columns:repeat(4,1fr); gap:3.2rem; }
 .step{
   background:var(--c-surface); border:.1rem solid var(--c-line);
@@ -178,20 +182,24 @@ h1{ font-size:6.4rem; line-height:1.2; font-weight:700; letter-spacing:-.01em; }
 }
 .capture span{ font-size:2rem; color:var(--c-ink-3); }
 
-/* ── 체크 (s13) ─────────────────────────────────── */
+/* ── 체크 (s12) ─────────────────────────────────── */
 .checks{ display:flex; flex-direction:column; gap:2.4rem; }
 .chk{ display:flex; align-items:center; gap:2.4rem; font-size:3.2rem; line-height:1.3; font-weight:700; }
 .chk .ic{ color:var(--c-support); flex:none; }
 .big-ok{ display:flex; align-items:center; justify-content:center; }
 .big-ok .ic.big{ color:var(--c-support); opacity:.35; }
 
-/* ── 지침 경로 pill (s14) ───────────────────────── */
+/* ── 지침 경로 pill (s13 · s14) ─────────────────── */
 .pill{
   display:inline-block; font-size:2.8rem; line-height:1.4; font-weight:700;
   background:var(--c-brand-tint); color:var(--c-brand);
   padding:1.2rem 2.4rem; border-radius:1.2rem;
 }
 .pill.b{ background:var(--c-support-tint); color:var(--c-support); }
+/* .hi 카드(이미 brand-tint 바탕) 안에서는 pill 을 흰 바탕으로 — 대비 확보 */
+.pill.w{ background:var(--c-surface); color:var(--c-brand); }
+/* s14 — pill 두 개를 세로로 쌓는다(파일 이름도 본문 폰트 + pill 로만 표기) */
+.pills{ display:flex; flex-direction:column; align-items:flex-start; gap:1.2rem; margin-top:2.4rem; }
 
 /* ── 빈칸 템플릿 (s15) ──────────────────────────── */
 .tmpl{ display:grid; grid-template-columns:1fr 1fr; gap:3.2rem; align-items:start; }
@@ -300,6 +308,17 @@ h1{ font-size:6.4rem; line-height:1.2; font-weight:700; letter-spacing:-.01em; }
   .anim .cover .sub{ animation-delay:.20s; }
   .anim .cover .foot{ animation-delay:.38s; }
 
+  /* 표지 일러스트 — 제목·부제 다음에 셋이 차례로 등장한다(.32s → .48s).
+     SVG <g>의 scale 은 fill-box 기준이 아니면 원점이 뷰박스 좌상단이라 튄다. */
+  .anim .trio-svg .m{
+    transform-box:fill-box; transform-origin:50% 100%;
+    animation:pop .5s cubic-bezier(.34,1.4,.64,1) backwards;
+  }
+  .anim .trio-svg .m1{ animation-delay:.32s; }
+  .anim .trio-svg .m2{ animation-delay:.40s; }
+  .anim .trio-svg .m3{ animation-delay:.48s; }
+  .anim .trio-svg .m0{ animation-name:rise; animation-delay:.60s; }
+
   /* 본문 단(段) 순서 */
   .anim .body > *:nth-child(1){ --db:.24s; }
   .anim .body > *:nth-child(2){ --db:.52s; }
@@ -320,6 +339,8 @@ h1{ font-size:6.4rem; line-height:1.2; font-weight:700; letter-spacing:-.01em; }
 
   /* 강조 1개만 특별대우 — 대비 카드의 '되는 쪽'은 살짝 늦게 */
   .anim .cards > .card.hi{ --ds:.16s; }
+  /* .seq — 강조 카드가 '왼쪽'인 장(s14)에서는 위 특별대우를 끄고 좌→우 순서를 지킨다 */
+  .anim .cards.seq > .card.hi{ --ds:0s; }
 
   /* s06 표 — 행이 다 들어온 뒤 가운데 칸이 점등 */
   .anim .tbl .hi{
@@ -327,7 +348,7 @@ h1{ font-size:6.4rem; line-height:1.2; font-weight:700; letter-spacing:-.01em; }
     animation-delay:calc(var(--db) + .38s);
   }
 
-  /* s13 체크 — 체크 표시가 하나씩 켜지고, 큰 체크가 마지막에 */
+  /* s12 체크 — 체크 표시가 하나씩 켜지고, 큰 체크가 마지막에 */
   .anim .chk > .ic{
     animation:pop .4s cubic-bezier(.34,1.4,.64,1) backwards;
     animation-delay:calc(var(--db) + var(--ds) + .10s);
@@ -356,7 +377,7 @@ h1{ font-size:6.4rem; line-height:1.2; font-weight:700; letter-spacing:-.01em; }
 .preview .ph{ font-size:4rem; font-weight:800; margin-bottom:1.2rem; }
 .preview .psub{ font-size:2rem; color:var(--c-ink-2); margin-bottom:4rem; }
 /* 4열 × 32rem + gap 4rem×3 + 본문 좌우 여백 6.4rem×2 = 152.8rem(1528px)
-   → 1600px 화면에서 가로 스크롤 없이 17장이 모두 들어간다. */
+   → 1600px 화면에서 가로 스크롤 없이 17장이 모두 들어간다(5행). */
 .preview .grid{ display:grid; grid-template-columns:repeat(4,32rem); gap:4rem; }
 .thumb{ display:block; text-decoration:none; color:inherit; }
 .thumb .shot{
@@ -413,8 +434,57 @@ body{ display:block; align-items:initial; justify-content:initial; }
 <div class="grid">
 <div class="thumb" role="button" tabindex="0" data-idx="0" data-sid="s01" aria-label="s01 크게 보기"><div class="shot"><div class="slide" id="s01">
   <div class="cover">
-    <h1>AI, 어디서부터<br>시작하죠?</h1>
-    <p class="sub">지도를 그리고, 각자 노트북에 켜고 나갑니다</p>
+    <div class="covertxt">
+      <h1>AI, 어디서부터<br>시작하죠?</h1>
+      <p class="sub">지도를 그리고, 각자 노트북에 켜고 나갑니다</p>
+    </div>
+    <div class="trio"><svg viewBox="0 0 600 440" class="trio-svg" aria-hidden="true">
+    <!-- 말풍선 (셋이 대화 중이라는 신호) -->
+    <g class="m m0">
+      <path d="M154 52h92a18 18 0 0 1 18 18v40a18 18 0 0 1-18 18h-52l-22 22v-22h-18a18 18 0 0 1-18-18V70a18 18 0 0 1 18-18Z"
+            fill="var(--c-surface)" stroke="var(--c-line-2)" stroke-width="5"/>
+      <circle cx="178" cy="90" r="6" fill="var(--c-line-2)"/>
+      <circle cx="200" cy="90" r="6" fill="var(--c-line-2)"/>
+      <circle cx="222" cy="90" r="6" fill="var(--c-line-2)"/>
+    </g>
+    <!-- 1번 — 손 흔드는 친구 -->
+    <g class="m m1">
+      <path d="M86 182v-26" stroke="var(--c-brand)" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="86" cy="148" r="11" fill="var(--c-brand)"/>
+      <rect x="20" y="182" width="132" height="200" rx="64"
+            fill="var(--c-brand-tint)" stroke="var(--c-brand)" stroke-width="6"/>
+      <circle cx="62" cy="246" r="9" fill="var(--c-brand)"/>
+      <circle cx="110" cy="246" r="9" fill="var(--c-brand)"/>
+      <path d="M70 282q16 16 32 0" fill="none" stroke="var(--c-brand)" stroke-width="6" stroke-linecap="round"/>
+      <path d="M152 258 176 190" stroke="var(--c-brand)" stroke-width="8" stroke-linecap="round"/>
+      <circle cx="180" cy="180" r="12" fill="var(--c-brand)"/>
+    </g>
+    <!-- 2번 — 가운데서 이야기하는 친구 -->
+    <g class="m m2">
+      <rect x="214" y="130" width="152" height="252" rx="74"
+            fill="var(--c-support-tint)" stroke="var(--c-support)" stroke-width="6"/>
+      <circle cx="262" cy="206" r="9" fill="var(--c-support)"/>
+      <circle cx="318" cy="206" r="9" fill="var(--c-support)"/>
+      <path d="M268 244q22 20 44 0" fill="none" stroke="var(--c-support)" stroke-width="6" stroke-linecap="round"/>
+      <path d="M216 276q-20 12 -30 34" fill="none" stroke="var(--c-support)" stroke-width="8" stroke-linecap="round"/>
+      <circle cx="184" cy="314" r="10" fill="var(--c-support)"/>
+      <path d="M364 276q20 12 30 34" fill="none" stroke="var(--c-support)" stroke-width="8" stroke-linecap="round"/>
+      <circle cx="396" cy="314" r="10" fill="var(--c-support)"/>
+    </g>
+    <!-- 3번 — 옆에서 듣고 있는 친구 -->
+    <g class="m m3">
+      <g transform="rotate(-6 483 310)">
+        <rect x="420" y="236" width="126" height="146" rx="62"
+              fill="var(--c-surface)" stroke="var(--c-ink-3)" stroke-width="6"/>
+        <circle cx="452" cy="292" r="8" fill="var(--c-ink-3)"/>
+        <circle cx="488" cy="292" r="8" fill="var(--c-ink-3)"/>
+        <circle cx="470" cy="326" r="8" fill="none" stroke="var(--c-ink-3)" stroke-width="5"/>
+      </g>
+      <circle cx="470" cy="206" r="5" fill="var(--c-line-2)"/>
+      <circle cx="494" cy="188" r="7" fill="var(--c-line-2)"/>
+      <circle cx="520" cy="166" r="9" fill="var(--c-line-2)"/>
+    </g>
+  </svg></div>
     <p class="foot">세미콜로니 · AI 입문 0회차</p>
   </div>
 </div></div><div class="lbl">s01 &middot; 표지</div></div>
@@ -434,13 +504,13 @@ body{ display:block; align-items:initial; justify-content:initial; }
     <div class="cards c3">
       <div class="card"><span class="num">1</span>
         <h3>AI가 여러 개던데,<br>뭘 써야 하죠?</h3>
-        <p class="tag">파트 2 · 3</p></div>
+        <p class="tag">파트 2</p></div>
       <div class="card"><span class="num">2</span>
         <h3>폰에도 있는데 왜<br>노트북을 가져오라고 했죠?</h3>
-        <p class="tag">파트 4</p></div>
+        <p class="tag">파트 3</p></div>
       <div class="card"><span class="num">3</span>
         <h3>깔고 나면<br>그다음엔 뭘 하죠?</h3>
-        <p class="tag">파트 5 · 6</p></div>
+        <p class="tag">파트 4 · 5</p></div>
     </div>
   </div>
 </div></div><div class="lbl">s03 &middot; 파트 1</div></div>
@@ -467,11 +537,14 @@ body{ display:block; align-items:initial; justify-content:initial; }
   <div class="body">
     <div class="cards c3">
       <div class="card"><p class="eyebrow">Anthropic</p><h3>Claude</h3>
-        <p>Anthropic이 만든 AI입니다. 오늘 실습 트랙 중 하나입니다.</p></div>
+        <p>노트북 앱에 일 시키는 칸이 있습니다.</p>
+        <p class="tag">오늘 씁니다</p></div>
       <div class="card"><p class="eyebrow">OpenAI</p><h3>ChatGPT</h3>
-        <p>OpenAI가 만든 AI입니다. 오늘 실습 트랙 중 하나입니다.</p></div>
+        <p>노트북 앱에 일 시키는 칸이 있습니다.</p>
+        <p class="tag">오늘 씁니다</p></div>
       <div class="card mute"><p class="eyebrow">Google</p><h3>Gemini</h3>
-        <p>구글이 만든 AI입니다. 오늘은 이름만 알고 갑니다.</p></div>
+        <p>구글이 만든 AI입니다.</p>
+        <p class="tag">오늘은 이름만</p></div>
     </div>
   </div>
 </div></div><div class="lbl">s05 &middot; 파트 2</div></div>
@@ -489,21 +562,7 @@ body{ display:block; align-items:initial; justify-content:initial; }
   </div>
 </div></div><div class="lbl">s06 &middot; 파트 2</div></div>
 <div class="thumb" role="button" tabindex="0" data-idx="6" data-sid="s07" aria-label="s07 크게 보기"><div class="shot"><div class="slide" id="s07">
-  <div class="hd"><span class="chip">PART 3 &middot; 뭐가 다른가</span><span class="prog">07 / 17</span></div>
-  <h1>같은 질문을 세 곳에 던져 봅니다</h1>
-  <p class="lead">지금 화면에서 직접 해보겠습니다.</p>
-  <div class="body">
-    <div class="ask"><svg class="ic" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg><p>이번 주 토요일 모임 공지문을 세 줄로 써줘.</p></div>
-    <div class="cards c3">
-      <div class="frame"><span>Claude</span></div>
-      <div class="frame"><span>ChatGPT</span></div>
-      <div class="frame"><span>Gemini</span></div>
-    </div>
-    <p class="cap">성능 비교는 오늘의 주제가 아닙니다. 눈으로만 보고 갑니다.</p>
-  </div>
-</div></div><div class="lbl">s07 &middot; 파트 3</div></div>
-<div class="thumb" role="button" tabindex="0" data-idx="7" data-sid="s08" aria-label="s08 크게 보기"><div class="shot"><div class="slide" id="s08">
-  <div class="hd"><span class="chip">PART 3 &middot; 뭐가 다른가</span><span class="prog">08 / 17</span></div>
+  <div class="hd"><span class="chip">PART 2 &middot; AI 지도</span><span class="prog">07 / 17</span></div>
   <h1>진짜 차이는 여기 있습니다</h1>
   <p class="lead">두 칸의 차이는 여기서 갈립니다.</p>
   <div class="body">
@@ -515,9 +574,9 @@ body{ display:block; align-items:initial; justify-content:initial; }
     </div>
     <p class="punch">진짜 차이는 성능이 아니라 무엇을 만질 수 있느냐입니다.</p>
   </div>
-</div></div><div class="lbl">s08 &middot; 파트 3</div></div>
-<div class="thumb" role="button" tabindex="0" data-idx="8" data-sid="s09" aria-label="s09 크게 보기"><div class="shot"><div class="slide" id="s09">
-  <div class="hd"><span class="chip">PART 4 &middot; 왜 컴퓨터에서 해야 하나</span><span class="prog">09 / 17</span></div>
+</div></div><div class="lbl">s07 &middot; 파트 2</div></div>
+<div class="thumb" role="button" tabindex="0" data-idx="7" data-sid="s08" aria-label="s08 크게 보기"><div class="shot"><div class="slide" id="s08">
+  <div class="hd"><span class="chip">PART 3 &middot; 왜 컴퓨터에서 해야 하나</span><span class="prog">08 / 17</span></div>
   <h1>폰·웹으로는 내 파일에 닿지 못합니다</h1>
   <p class="lead">두 회사가 똑같이 말합니다.</p>
   <div class="body">
@@ -534,9 +593,9 @@ body{ display:block; align-items:initial; justify-content:initial; }
         <p class="src">ChatGPT 공식 도움말 (2026-07-27)</p></div>
     </div>
   </div>
-</div></div><div class="lbl">s09 &middot; 파트 4</div></div>
-<div class="thumb" role="button" tabindex="0" data-idx="9" data-sid="s10" aria-label="s10 크게 보기"><div class="shot"><div class="slide" id="s10">
-  <div class="hd"><span class="chip">PART 4 &middot; 왜 컴퓨터에서 해야 하나</span><span class="prog">10 / 17</span></div>
+</div></div><div class="lbl">s08 &middot; 파트 3</div></div>
+<div class="thumb" role="button" tabindex="0" data-idx="8" data-sid="s09" aria-label="s09 크게 보기"><div class="shot"><div class="slide" id="s09">
+  <div class="hd"><span class="chip">PART 3 &middot; 왜 컴퓨터에서 해야 하나</span><span class="prog">09 / 17</span></div>
   <h1>내 파일을 여는 일은<br>노트북에서 합니다</h1>
   <p class="lead">폰이 나쁜 게 아니라, 닿는 범위가 다릅니다.</p>
   <div class="body">
@@ -548,9 +607,9 @@ body{ display:block; align-items:initial; justify-content:initial; }
     </div>
     <p class="cap">그래서 오늘 노트북을 가져오시라고 했습니다.</p>
   </div>
-</div></div><div class="lbl">s10 &middot; 파트 4</div></div>
-<div class="thumb" role="button" tabindex="0" data-idx="10" data-sid="s11" aria-label="s11 크게 보기"><div class="shot"><div class="slide" id="s11">
-  <div class="hd"><span class="chip">PART 4 &middot; 왜 컴퓨터에서 해야 하나</span><span class="prog">11 / 17</span></div>
+</div></div><div class="lbl">s09 &middot; 파트 3</div></div>
+<div class="thumb" role="button" tabindex="0" data-idx="9" data-sid="s10" aria-label="s10 크게 보기"><div class="shot"><div class="slide" id="s10">
+  <div class="hd"><span class="chip">PART 3 &middot; 왜 컴퓨터에서 해야 하나</span><span class="prog">10 / 17</span></div>
   <h1>맡기면 이런 결과물이 나옵니다</h1>
   <p class="lead">두 회사 공식 안내에 실린 예입니다.</p>
   <div class="body">
@@ -565,9 +624,9 @@ body{ display:block; align-items:initial; justify-content:initial; }
         <p>문서 · 표 · 발표자료를 완성본으로 만듭니다.</p></div>
     </div>
   </div>
-</div></div><div class="lbl">s11 &middot; 파트 4</div></div>
-<div class="thumb" role="button" tabindex="0" data-idx="11" data-sid="s12" aria-label="s12 크게 보기"><div class="shot"><div class="slide" id="s12">
-  <div class="hd"><span class="chip">PART 5 &middot; 다 같이 깔기</span><span class="prog">12 / 17</span></div>
+</div></div><div class="lbl">s10 &middot; 파트 3</div></div>
+<div class="thumb" role="button" tabindex="0" data-idx="10" data-sid="s11" aria-label="s11 크게 보기"><div class="shot"><div class="slide" id="s11">
+  <div class="hd"><span class="chip">PART 4 &middot; 다 같이 깔기</span><span class="prog">11 / 17</span></div>
   <h1>네 단계면 끝납니다</h1>
   <p class="lead">트랙은 달라도 순서는 같습니다.</p>
   <div class="body dense">
@@ -576,14 +635,14 @@ body{ display:block; align-items:initial; justify-content:initial; }
         <p class="tag">claude.com / chatgpt.com</p></div>
       <div class="step"><span class="n">2</span><svg class="ic" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><p>내 계정으로 로그인합니다</p></div>
       <div class="step"><span class="n">3</span><svg class="ic" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="6" height="14" rx="1"/><rect x="9" y="5" width="6" height="14" rx="1"/><rect x="16" y="5" width="6" height="14" rx="1"/></svg><p>모드를 고릅니다</p>
-        <p class="tag">Claude: Cowork / ChatGPT: Work</p></div>
+        <p class="tag">Claude Cowork / ChatGPT Work</p></div>
       <div class="step"><span class="n">4</span><svg class="ic" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h4l2 3h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2Z"/></svg><p>일할 폴더를 지정합니다</p></div>
     </div>
     <p class="warn">ChatGPT는 &lsquo;Classic&rsquo;이 아니라 최신 앱을 받아주세요.<br>새 기능은 새 앱에서만 제공될 수 있습니다.</p>
   </div>
-</div></div><div class="lbl">s12 &middot; 파트 5</div></div>
-<div class="thumb" role="button" tabindex="0" data-idx="12" data-sid="s13" aria-label="s13 크게 보기"><div class="shot"><div class="slide" id="s13">
-  <div class="hd"><span class="chip">PART 5 &middot; 다 같이 깔기</span><span class="prog">13 / 17</span></div>
+</div></div><div class="lbl">s11 &middot; 파트 4</div></div>
+<div class="thumb" role="button" tabindex="0" data-idx="11" data-sid="s12" aria-label="s12 크게 보기"><div class="shot"><div class="slide" id="s12">
+  <div class="hd"><span class="chip">PART 4 &middot; 다 같이 깔기</span><span class="prog">12 / 17</span></div>
   <h1>여기까지 되면 성공입니다</h1>
   <p class="lead">세 가지만 확인하고 다음으로 갑니다.</p>
   <div class="body">
@@ -591,15 +650,15 @@ body{ display:block; align-items:initial; justify-content:initial; }
       <div class="checks">
         <div class="chk"><svg class="ic" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg><span>앱이 열렸다</span></div>
         <div class="chk"><svg class="ic" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg><span>내 계정으로 로그인됐다</span></div>
-        <div class="chk"><svg class="ic" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg><span>가운데 모드(Cowork · Work)가 눌린다</span></div>
+        <div class="chk"><svg class="ic" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg><span>모드가 눌린다</span></div>
       </div>
       <div class="big-ok"><svg class="ic big" width="160" height="160" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg></div>
     </div>
     <p class="cap">안 되면 손 들어주세요. 옆에서 같이 봅니다.</p>
   </div>
-</div></div><div class="lbl">s13 &middot; 파트 5</div></div>
-<div class="thumb" role="button" tabindex="0" data-idx="13" data-sid="s14" aria-label="s14 크게 보기"><div class="shot"><div class="slide" id="s14">
-  <div class="hd"><span class="chip">PART 6 &middot; AI에게 안내문 주기</span><span class="prog">14 / 17</span></div>
+</div></div><div class="lbl">s12 &middot; 파트 4</div></div>
+<div class="thumb" role="button" tabindex="0" data-idx="12" data-sid="s13" aria-label="s13 크게 보기"><div class="shot"><div class="slide" id="s13">
+  <div class="hd"><span class="chip">PART 5 &middot; AI에게 안내문 주기</span><span class="prog">13 / 17</span></div>
   <h1>AI에게 나를 소개하는 칸</h1>
   <p class="lead">앱 안에 상시 안내문을 넣는 칸이 있습니다.</p>
   <div class="body dense">
@@ -613,9 +672,28 @@ body{ display:block; align-items:initial; justify-content:initial; }
     </div>
     <p class="cap">항목 일부는 영어로 보일 수 있습니다. 두 칸의 역할은 같습니다.</p>
   </div>
-</div></div><div class="lbl">s14 &middot; 파트 6</div></div>
+</div></div><div class="lbl">s13 &middot; 파트 5</div></div>
+<div class="thumb" role="button" tabindex="0" data-idx="13" data-sid="s14" aria-label="s14 크게 보기"><div class="shot"><div class="slide" id="s14">
+  <div class="hd"><span class="chip">PART 5 &middot; AI에게 안내문 주기</span><span class="prog">14 / 17</span></div>
+  <h1>개발자용 도구는 파일로 합니다</h1>
+  <p class="lead">아까 표의 오른쪽 칸 이야기입니다.</p>
+  <div class="body dense">
+    <div class="cards c2 seq">
+      <div class="card hi"><h3>오늘 쓰는 방식</h3>
+        <p>앱 설정 화면의 칸에 적습니다.</p>
+        <p class="pills"><span class="pill">Claude &mdash; 전역 지침</span>
+          <span class="pill b">ChatGPT &mdash; 맞춤형 지침</span></p></div>
+      <div class="card"><h3>개발자용 도구의 방식</h3>
+        <p>같은 내용을 파일 하나에 적어 둡니다.</p>
+        <p class="pills"><span class="pill">Claude Code &mdash; CLAUDE.md</span>
+          <span class="pill b">Codex &mdash; AGENTS.md</span></p></div>
+    </div>
+    <p class="punch">칸이냐 파일이냐만 다릅니다. 하는 일은 같습니다.</p>
+    <p class="cap">이 파일은 개발자용 도구에서만 씁니다. 오늘 만들 필요 없고, 이름만 알고 가세요.</p>
+  </div>
+</div></div><div class="lbl">s14 &middot; 파트 5</div></div>
 <div class="thumb" role="button" tabindex="0" data-idx="14" data-sid="s15" aria-label="s15 크게 보기"><div class="shot"><div class="slide" id="s15">
-  <div class="hd"><span class="chip">PART 6 &middot; AI에게 안내문 주기</span><span class="prog">15 / 17</span></div>
+  <div class="hd"><span class="chip">PART 5 &middot; AI에게 안내문 주기</span><span class="prog">15 / 17</span></div>
   <h1>이 빈칸만 채우세요</h1>
   <p class="lead">세 칸만 채우면 됩니다.</p>
   <div class="body dense">
@@ -634,9 +712,9 @@ body{ display:block; align-items:initial; justify-content:initial; }
     </div>
     <p class="cap">예시 — 저는 김OO 팀장입니다. 자주 하는 일은 견적서 정리, 주간 보고 작성입니다.</p>
   </div>
-</div></div><div class="lbl">s15 &middot; 파트 6</div></div>
+</div></div><div class="lbl">s15 &middot; 파트 5</div></div>
 <div class="thumb" role="button" tabindex="0" data-idx="15" data-sid="s16" aria-label="s16 크게 보기"><div class="shot"><div class="slide" id="s16">
-  <div class="hd"><span class="chip">PART 6 &middot; AI에게 안내문 주기</span><span class="prog">16 / 17</span></div>
+  <div class="hd"><span class="chip">PART 5 &middot; AI에게 안내문 주기</span><span class="prog">16 / 17</span></div>
   <h1>들어갔는지 확인합니다</h1>
   <p class="lead">새 대화를 하나 새로 열어서 물어보세요.</p>
   <div class="body">
@@ -646,16 +724,16 @@ body{ display:block; align-items:initial; justify-content:initial; }
     </div>
     <p class="cap">Claude는 Cowork에서 새 세션, ChatGPT는 새 대화에서 확인합니다.</p>
   </div>
-</div></div><div class="lbl">s16 &middot; 파트 6</div></div>
+</div></div><div class="lbl">s16 &middot; 파트 5</div></div>
 <div class="thumb" role="button" tabindex="0" data-idx="16" data-sid="s17" aria-label="s17 크게 보기"><div class="shot"><div class="slide" id="s17">
-  <div class="hd"><span class="chip">PART 7 &middot; 마무리</span><span class="prog">17 / 17</span></div>
+  <div class="hd"><span class="chip">PART 6 &middot; 마무리</span><span class="prog">17 / 17</span></div>
   <h1>다음 주까지 이것 하나만</h1>
   <p class="lead">과제는 딱 하나입니다.</p>
   <div class="body">
     <div class="task"><svg class="ic" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg><p>이번 주에 한 번, 오늘 깐 앱을 열어<br>폴더를 지정하고 일 하나를 시켜보기.</p></div>
     <p class="punch">다음 주 1회차 — 시키는 법:<br>같은 요청을 매번 같은 품질로 받는 법.</p>
   </div>
-</div></div><div class="lbl">s17 &middot; 파트 7</div></div>
+</div></div><div class="lbl">s17 &middot; 파트 6</div></div>
 </div>
 </div>
 
