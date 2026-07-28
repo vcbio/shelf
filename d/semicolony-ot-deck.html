@@ -1,6 +1,8 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>세미콜로니 AI 입문 0회차 — 덱 17장</title>
+<title>세미콜로니 AI 입문 0회차 — 덱 20장</title>
 <style>
 /* 세미콜로니 AI 입문 0회차 덱 — build.py가 생성. 직접 수정 금지. */
 
@@ -268,11 +270,40 @@ h1{ font-size:6.4rem; line-height:1.2; font-weight:700; letter-spacing:-.01em; }
 }
 .qr p{ font-size:2.4rem; line-height:1.4; font-weight:700; color:var(--c-brand); text-align:center; }
 
-/* ── 말풍선 (s16) ───────────────────────────────── */
+/* ── 지침 8줄 (s16 · 2026-07-28 신설) ───────────────
+   붙여넣을 문안이라 한 글자도 줄일 수 없다 → 2단으로 나눠 한 장에 담는다.
+   긴 1번과 6번만 두 단 폭(.rule.wide)으로 눕히고 나머지는 좌우로 짝짓는다.
+   코드 블록 모티프는 금지라 본문 글꼴 그대로 쓰고,
+   '한 덩어리'라는 건 머리말(.blockhd)과 번호 배지로만 알린다. */
+.blockhd{ font-size:2.4rem; font-weight:700; letter-spacing:.02em; color:var(--c-brand); }
+.rules{ display:grid; grid-template-columns:1fr 1fr; gap:1.2rem 4rem; align-content:start; }
+/* 1번(끄는 목록)과 6번(3줄 요약)은 세 줄짜리라 두 단을 가로질러 눕힌다 */
+.rule.wide{ grid-column:1 / -1; }
+.rule{ display:flex; align-items:flex-start; gap:1.6rem; }
+/* '이럴 땐 계획 없이 그냥 해라' — 과발동을 끄는 줄이라 색으로 갈라 보인다 */
+.rule .off{ display:block; color:var(--c-support); font-weight:700; }
+.rule .n{
+  flex:none; width:3.6rem; height:3.6rem; border-radius:99rem;
+  background:var(--c-brand-tint); color:var(--c-brand);
+  font-size:2.2rem; font-weight:800; line-height:3.6rem; text-align:center;
+}
+.rule p{ font-size:2.2rem; line-height:1.5; }
+
+/* ── 해설표 (s17 · s18 · 2026-07-28 신설) ───────────
+   설명을 줄이지 않고(대표 지시) 4행씩 두 장으로 나눠 담는다.
+   .tbl 기본값(3rem / 3.2rem 패딩·가운데 정렬)보다 촘촘하고 왼쪽 정렬이다. */
+.tbl.gl th, .tbl.gl td{ font-size:2.4rem; line-height:1.5; padding:2rem 2.4rem; text-align:left; }
+.tbl.gl th:first-child, .tbl.gl td:first-child{ width:34rem; padding-left:3.2rem; }
+.tbl.gl .rowh{ padding-left:3.2rem; color:var(--c-ink); vertical-align:top; }
+.tbl.gl b{ font-weight:700; color:var(--c-brand); }
+/* 제목 뒤 회차 표시(1~4 / 5~8) — 제목과 같은 줄, 무게만 뺀다 */
+.hnum{ font-weight:400; color:var(--c-ink-3); }
+
+/* ── 말풍선 (s18) ───────────────────────────────── */
 .talk{ display:flex; flex-direction:column; gap:2.4rem; }
 .bubble{
   background:var(--c-surface); border:.1rem solid var(--c-line);
-  border-radius:2rem; padding:3.2rem 4rem; box-shadow:var(--shadow); max-width:110rem;
+  border-radius:2rem; padding:2.8rem 4rem; box-shadow:var(--shadow); max-width:110rem;
 }
 .bubble.me{ background:var(--c-brand-tint); border-color:var(--c-brand-tint); align-self:flex-start; }
 .bubble:not(.me){ align-self:flex-end; }
@@ -343,6 +374,7 @@ h1{ font-size:6.4rem; line-height:1.2; font-weight:700; letter-spacing:-.01em; }
   .anim .quotes > .quote,
   .anim .tmpl > .tbox,
   .anim .tmpl > .qr,
+  .anim .rules > .rule,
   .anim .talk > .bubble,
   .anim .checks > .chk,
   .anim .row > .big-ok,
@@ -387,16 +419,25 @@ h1{ font-size:6.4rem; line-height:1.2; font-weight:700; letter-spacing:-.01em; }
 
   /* 블록 안 항목 stagger */
   .anim .cards > *, .anim .stack > *, .anim .steps > *, .anim .quotes > *,
-  .anim .tmpl > *, .anim .talk > *, .anim .checks > *, .anim .tbl tr{ --ds:0s; }
+  .anim .tmpl > *, .anim .talk > *, .anim .checks > *, .anim .tbl tr,
+  .anim .rules > *{ --ds:0s; }
   .anim .cards > *:nth-child(2), .anim .stack > *:nth-child(2),
   .anim .steps > *:nth-child(2), .anim .quotes > *:nth-child(2),
   .anim .tmpl > *:nth-child(2), .anim .talk > *:nth-child(2),
-  .anim .checks > *:nth-child(2), .anim .tbl tr:nth-child(2){ --ds:.06s; }
+  .anim .checks > *:nth-child(2), .anim .tbl tr:nth-child(2),
+  .anim .rules > *:nth-child(2){ --ds:.06s; }
   .anim .cards > *:nth-child(3), .anim .stack > *:nth-child(3),
   .anim .steps > *:nth-child(3), .anim .tmpl > *:nth-child(3),
-  .anim .checks > *:nth-child(3), .anim .tbl tr:nth-child(3){ --ds:.12s; }
+  .anim .checks > *:nth-child(3), .anim .tbl tr:nth-child(3),
+  .anim .rules > *:nth-child(3){ --ds:.12s; }
   .anim .cards > *:nth-child(4), .anim .steps > *:nth-child(4),
-  .anim .tmpl > *:nth-child(4){ --ds:.18s; }
+  .anim .tmpl > *:nth-child(4), .anim .rules > *:nth-child(4){ --ds:.18s; }
+  /* 지침 8줄(s16)만 항목이 5개를 넘는다 → 5~8번까지 이어서 정의한다.
+     없으면 --ds 가 0으로 떨어져 5~8번이 2~4번보다 먼저 뜬다(2026-07-28 실측). */
+  .anim .rules > *:nth-child(5){ --ds:.24s; }
+  .anim .rules > *:nth-child(6){ --ds:.30s; }
+  .anim .rules > *:nth-child(7){ --ds:.36s; }
+  .anim .rules > *:nth-child(8){ --ds:.42s; }
 
   /* 강조 1개만 특별대우 — 대비 카드의 '되는 쪽'은 살짝 늦게 */
   .anim .cards > .card.hi{ --ds:.16s; }
@@ -434,7 +475,7 @@ h1{ font-size:6.4rem; line-height:1.2; font-weight:700; letter-spacing:-.01em; }
 }
 
 /* ── 전체 미리보기 (index.html) ─────────────────── */
-.preview{ display:block; padding:6.4rem; background:var(--c-shell); }
+body.preview{ display:block; padding:6.4rem; background:var(--c-shell); }
 .preview .ph{ font-size:4rem; font-weight:800; margin-bottom:1.2rem; }
 .preview .psub{ font-size:2rem; color:var(--c-ink-2); margin-bottom:4rem; }
 /* 4열 × 32rem + gap 4rem×3 + 본문 좌우 여백 6.4rem×2 = 152.8rem(1528px)
@@ -448,27 +489,7 @@ h1{ font-size:6.4rem; line-height:1.2; font-weight:700; letter-spacing:-.01em; }
 .thumb .shot .slide{ transform:scale(.2); transform-origin:0 0; }
 .thumb .lbl{ font-size:1.8rem; font-weight:700; color:var(--c-ink-2); margin-top:1.2rem; }
 
-
-/* ── 아티팩트 뷰어 껍데기 (원본 deck.css를 덮지 않는다) ───────── */
-body{ display:block; align-items:initial; justify-content:initial; }
-
-/* 원본 덱은 1600px 고정 설계다. 아티팩트는 어떤 폭에서도 열리므로
-   썸네일 그리드만 반응형으로 바꾼다(슬라이드 자체는 손대지 않는다). */
-.preview{ width:100%; padding:4.8rem 2.4rem; }
-.preview .grid{ grid-template-columns:repeat(auto-fill, 32rem); justify-content:center; gap:3.2rem; }
-@media (max-width:420px){
-  .preview{ padding:3.2rem 1.2rem; }
-  .preview .ph{ font-size:3.2rem; }
-  .preview .psub{ font-size:1.7rem; }
-}
-.thumb{ cursor:zoom-in; border:0; background:none; font:inherit; }
-.thumb:focus-visible{ outline:.3rem solid var(--c-brand); outline-offset:.6rem; border-radius:.4rem; }
-.thumb .shot{ transition:transform .18s ease, box-shadow .18s ease; }
-.thumb:hover .shot{ transform:translateY(-.4rem); box-shadow:0 1.2rem 2.4rem rgba(0,0,0,.10); }
-
-.vhint{ font-size:1.6rem; color:var(--c-ink-3); margin:-2.4rem 0 4rem; }
-
-/* 라이트박스 */
+/* ── 라이트박스 ─── */
 .lb{ position:fixed; inset:0; z-index:99; display:none;
      background:rgba(26,26,24,.86); padding:2vh 2vw; }
 .lb[data-open="1"]{ display:grid; place-items:center; }
@@ -482,16 +503,11 @@ body{ display:block; align-items:initial; justify-content:initial; }
 .lb-btn:hover{ background:#fff; }
 .lb-btn:focus-visible{ outline:.3rem solid var(--c-brand); outline-offset:.3rem; }
 .lb-count{ min-width:9rem; text-align:center; font-variant-numeric:tabular-nums; }
-
-@media (prefers-reduced-motion: reduce){
-  .thumb .shot{ transition:none; }
-  .thumb:hover .shot{ transform:none; }
-}
-
 </style>
-<div class="preview">
+</head>
+<body class="preview">
 <h1 class="ph">세미콜로니 · AI 입문 0회차</h1>
-<p class="psub">전체 17장 미리보기 — 장을 누르면 크게 열립니다. ← → 로 넘기고 Esc 로 닫습니다.</p>
+<p class="psub">전체 20장 미리보기 — 장을 누르면 크게 열립니다. ← → 로 넘기고 Esc 로 닫습니다.</p>
 <div class="grid">
 <div class="thumb" role="button" tabindex="0" data-idx="0" data-sid="s01" aria-label="s01 크게 보기"><div class="shot"><div class="slide" id="s01">
   <div class="cover">
@@ -537,7 +553,7 @@ body{ display:block; align-items:initial; justify-content:initial; }
   </div>
 </div></div><div class="lbl">s01 &middot; 표지</div></div>
 <div class="thumb" role="button" tabindex="0" data-idx="1" data-sid="s02" aria-label="s02 크게 보기"><div class="shot"><div class="slide" id="s02">
-  <div class="hd"><span class="chip">PART 1 &middot; 오늘은 딱 하나</span><span class="prog">02 / 17</span></div>
+  <div class="hd"><span class="chip">PART 1 &middot; 오늘은 딱 하나</span><span class="prog">02 / 20</span></div>
   <h1>안 써보신 게<br>이상한 게 아닙니다</h1>
   <div class="body">
     <p class="punch">AI를 한 번도 안 써보셨어도 괜찮습니다.<br>오늘 오신 분들 대부분이 그렇습니다.</p>
@@ -545,7 +561,7 @@ body{ display:block; align-items:initial; justify-content:initial; }
   </div>
 </div></div><div class="lbl">s02 &middot; 파트 1</div></div>
 <div class="thumb" role="button" tabindex="0" data-idx="2" data-sid="s03" aria-label="s03 크게 보기"><div class="shot"><div class="slide" id="s03">
-  <div class="hd"><span class="chip">PART 1 &middot; 오늘은 딱 하나</span><span class="prog">03 / 17</span></div>
+  <div class="hd"><span class="chip">PART 1 &middot; 오늘은 딱 하나</span><span class="prog">03 / 20</span></div>
   <h1>오늘 답할 질문 세 개</h1>
   <p class="lead">60분은 이 세 가지에만 씁니다.</p>
   <div class="body">
@@ -563,7 +579,7 @@ body{ display:block; align-items:initial; justify-content:initial; }
   </div>
 </div></div><div class="lbl">s03 &middot; 파트 1</div></div>
 <div class="thumb" role="button" tabindex="0" data-idx="3" data-sid="s04" aria-label="s04 크게 보기"><div class="shot"><div class="slide" id="s04">
-  <div class="hd"><span class="chip">PART 2 &middot; AI 지도</span><span class="prog">04 / 17</span></div>
+  <div class="hd"><span class="chip">PART 2 &middot; AI 지도</span><span class="prog">04 / 20</span></div>
   <h1>AI는 3층으로 되어 있습니다</h1>
   <p class="lead">회사 · 모델 · 도구 — 이 세 층만 구분하면 됩니다.</p>
   <div class="body">
@@ -579,7 +595,7 @@ body{ display:block; align-items:initial; justify-content:initial; }
   </div>
 </div></div><div class="lbl">s04 &middot; 파트 2</div></div>
 <div class="thumb" role="button" tabindex="0" data-idx="4" data-sid="s05" aria-label="s05 크게 보기"><div class="shot"><div class="slide" id="s05">
-  <div class="hd"><span class="chip">PART 2 &middot; AI 지도</span><span class="prog">05 / 17</span></div>
+  <div class="hd"><span class="chip">PART 2 &middot; AI 지도</span><span class="prog">05 / 20</span></div>
   <h1>만드는 곳은 세 군데</h1>
   <p class="lead">오늘 실습은 이 중 앞의 두 가지로 합니다.</p>
   <div class="body">
@@ -599,7 +615,7 @@ body{ display:block; align-items:initial; justify-content:initial; }
   </div>
 </div></div><div class="lbl">s05 &middot; 파트 2</div></div>
 <div class="thumb" role="button" tabindex="0" data-idx="5" data-sid="s06" aria-label="s06 크게 보기"><div class="shot"><div class="slide" id="s06">
-  <div class="hd"><span class="chip">PART 2 &middot; AI 지도</span><span class="prog">06 / 17</span></div>
+  <div class="hd"><span class="chip">PART 2 &middot; AI 지도</span><span class="prog">06 / 20</span></div>
   <h1>데스크톱 앱 안의 탭 세 개</h1>
   <p class="lead">같은 앱 안에서 세 칸으로 나뉩니다.</p>
   <div class="body">
@@ -612,7 +628,7 @@ body{ display:block; align-items:initial; justify-content:initial; }
   </div>
 </div></div><div class="lbl">s06 &middot; 파트 2</div></div>
 <div class="thumb" role="button" tabindex="0" data-idx="6" data-sid="s07" aria-label="s07 크게 보기"><div class="shot"><div class="slide" id="s07">
-  <div class="hd"><span class="chip">PART 2 &middot; AI 지도</span><span class="prog">07 / 17</span></div>
+  <div class="hd"><span class="chip">PART 2 &middot; AI 지도</span><span class="prog">07 / 20</span></div>
   <h1>진짜 차이는 여기 있습니다</h1>
   <p class="lead">두 칸의 차이는 여기서 갈립니다.</p>
   <div class="body">
@@ -626,7 +642,7 @@ body{ display:block; align-items:initial; justify-content:initial; }
   </div>
 </div></div><div class="lbl">s07 &middot; 파트 2</div></div>
 <div class="thumb" role="button" tabindex="0" data-idx="7" data-sid="s08" aria-label="s08 크게 보기"><div class="shot"><div class="slide" id="s08">
-  <div class="hd"><span class="chip">PART 3 &middot; 왜 컴퓨터에서 해야 하나</span><span class="prog">08 / 17</span></div>
+  <div class="hd"><span class="chip">PART 3 &middot; 왜 컴퓨터에서 해야 하나</span><span class="prog">08 / 20</span></div>
   <h1>폰·웹으로는 내 파일에 닿지 못합니다</h1>
   <p class="lead">두 회사가 똑같이 말합니다.</p>
   <div class="body">
@@ -645,7 +661,7 @@ body{ display:block; align-items:initial; justify-content:initial; }
   </div>
 </div></div><div class="lbl">s08 &middot; 파트 3</div></div>
 <div class="thumb" role="button" tabindex="0" data-idx="8" data-sid="s09" aria-label="s09 크게 보기"><div class="shot"><div class="slide" id="s09">
-  <div class="hd"><span class="chip">PART 3 &middot; 왜 컴퓨터에서 해야 하나</span><span class="prog">09 / 17</span></div>
+  <div class="hd"><span class="chip">PART 3 &middot; 왜 컴퓨터에서 해야 하나</span><span class="prog">09 / 20</span></div>
   <h1>내 파일을 여는 일은<br>노트북에서 합니다</h1>
   <p class="lead">폰이 나쁜 게 아니라, 닿는 범위가 다릅니다.</p>
   <div class="body">
@@ -659,7 +675,7 @@ body{ display:block; align-items:initial; justify-content:initial; }
   </div>
 </div></div><div class="lbl">s09 &middot; 파트 3</div></div>
 <div class="thumb" role="button" tabindex="0" data-idx="9" data-sid="s10" aria-label="s10 크게 보기"><div class="shot"><div class="slide" id="s10">
-  <div class="hd"><span class="chip">PART 3 &middot; 왜 컴퓨터에서 해야 하나</span><span class="prog">10 / 17</span></div>
+  <div class="hd"><span class="chip">PART 3 &middot; 왜 컴퓨터에서 해야 하나</span><span class="prog">10 / 20</span></div>
   <h1>맡기면 이런 결과물이 나옵니다</h1>
   <p class="lead">두 회사 공식 안내에 실린 예입니다.</p>
   <div class="body">
@@ -676,7 +692,7 @@ body{ display:block; align-items:initial; justify-content:initial; }
   </div>
 </div></div><div class="lbl">s10 &middot; 파트 3</div></div>
 <div class="thumb" role="button" tabindex="0" data-idx="10" data-sid="s11" aria-label="s11 크게 보기"><div class="shot"><div class="slide" id="s11">
-  <div class="hd"><span class="chip">PART 4 &middot; 다 같이 깔기</span><span class="prog">11 / 17</span></div>
+  <div class="hd"><span class="chip">PART 4 &middot; 다 같이 깔기</span><span class="prog">11 / 20</span></div>
   <h1>네 단계면 끝납니다</h1>
   <p class="lead">트랙은 달라도 순서는 같습니다.</p>
   <div class="body dense">
@@ -692,7 +708,7 @@ body{ display:block; align-items:initial; justify-content:initial; }
   </div>
 </div></div><div class="lbl">s11 &middot; 파트 4</div></div>
 <div class="thumb" role="button" tabindex="0" data-idx="11" data-sid="s12" aria-label="s12 크게 보기"><div class="shot"><div class="slide" id="s12">
-  <div class="hd"><span class="chip">PART 4 &middot; 다 같이 깔기</span><span class="prog">12 / 17</span></div>
+  <div class="hd"><span class="chip">PART 4 &middot; 다 같이 깔기</span><span class="prog">12 / 20</span></div>
   <h1>여기까지 되면 성공입니다</h1>
   <p class="lead">세 가지만 확인하고 다음으로 갑니다.</p>
   <div class="body">
@@ -708,7 +724,7 @@ body{ display:block; align-items:initial; justify-content:initial; }
   </div>
 </div></div><div class="lbl">s12 &middot; 파트 4</div></div>
 <div class="thumb" role="button" tabindex="0" data-idx="12" data-sid="s13" aria-label="s13 크게 보기"><div class="shot"><div class="slide" id="s13">
-  <div class="hd"><span class="chip">PART 5 &middot; AI에게 안내문 주기</span><span class="prog">13 / 17</span></div>
+  <div class="hd"><span class="chip">PART 5 &middot; AI에게 안내문 주기</span><span class="prog">13 / 20</span></div>
   <h1>AI에게 나를 소개하는 칸</h1>
   <p class="lead">앱 안에 상시 안내문을 넣는 칸이 있습니다.</p>
   <div class="body dense">
@@ -724,7 +740,7 @@ body{ display:block; align-items:initial; justify-content:initial; }
   </div>
 </div></div><div class="lbl">s13 &middot; 파트 5</div></div>
 <div class="thumb" role="button" tabindex="0" data-idx="13" data-sid="s14" aria-label="s14 크게 보기"><div class="shot"><div class="slide" id="s14">
-  <div class="hd"><span class="chip">PART 5 &middot; AI에게 안내문 주기</span><span class="prog">14 / 17</span></div>
+  <div class="hd"><span class="chip">PART 5 &middot; AI에게 안내문 주기</span><span class="prog">14 / 20</span></div>
   <h1>개발자용 도구는 파일로 합니다</h1>
   <p class="lead">아까 표의 오른쪽 칸 이야기입니다.</p>
   <div class="body dense">
@@ -743,7 +759,7 @@ body{ display:block; align-items:initial; justify-content:initial; }
   </div>
 </div></div><div class="lbl">s14 &middot; 파트 5</div></div>
 <div class="thumb" role="button" tabindex="0" data-idx="14" data-sid="s15" aria-label="s15 크게 보기"><div class="shot"><div class="slide" id="s15">
-  <div class="hd"><span class="chip">PART 5 &middot; AI에게 안내문 주기</span><span class="prog">15 / 17</span></div>
+  <div class="hd"><span class="chip">PART 5 &middot; AI에게 안내문 주기</span><span class="prog">15 / 20</span></div>
   <h1>이 빈칸만 채우세요</h1>
   <p class="lead">세 칸만 채우면 됩니다.</p>
   <div class="body dense">
@@ -768,28 +784,106 @@ body{ display:block; align-items:initial; justify-content:initial; }
   </div>
 </div></div><div class="lbl">s15 &middot; 파트 5</div></div>
 <div class="thumb" role="button" tabindex="0" data-idx="15" data-sid="s16" aria-label="s16 크게 보기"><div class="shot"><div class="slide" id="s16">
-  <div class="hd"><span class="chip">PART 5 &middot; AI에게 안내문 주기</span><span class="prog">16 / 17</span></div>
-  <h1>들어갔는지 확인합니다</h1>
-  <p class="lead">새 대화를 하나 새로 열어서 물어보세요.</p>
-  <div class="body">
-    <div class="talk">
-      <div class="bubble me"><p>제가 누구고 무슨 일을 하는지 아세요?</p></div>
-      <div class="bubble"><p>이름과 하는 일이 답에 나오면 성공입니다.</p></div>
+  <div class="hd"><span class="chip">PART 5 &middot; AI에게 안내문 주기</span><span class="prog">16 / 20</span></div>
+  <h1>이어서, 일하는 방식 여덟 줄</h1>
+  <p class="lead">소개 아래에 이대로 이어서 붙이세요.</p>
+  <div class="body dense">
+    <p class="blockhd">[일하는 방식]</p>
+    <div class="rules">
+      <div class="rule wide"><span class="n">1</span><p>파일을 만들거나 고치는 일, 여러 개를 한꺼번에 바꾸는 일은 바로 시작하지 마.
+        먼저 3~4줄로 보여줘 &mdash; &#9312;내가 부탁한 것(내 말 그대로) &#9313;어떤 순서로 할지
+        &#9314;다 된 걸 어떻게 확인하는지 &#9315;지우거나 보내는 것처럼 되돌릴 수 없는 부분.
+        내가 좋다고 하면 그때 시작해.
+        <span class="off">질문&middot;검색&middot;글 다듬기&middot;표 만들기&middot;아이디어 내기는 계획 없이 그냥 바로 해.</span></p></div>
+      <div class="rule"><span class="n">2</span><p>실제로 해본 것과 설명만 한 것을 구분해서 말해줘.
+        직접 확인하지 못한 건 &ldquo;확인 못 함&rdquo;이라고 적어.</p></div>
+      <div class="rule"><span class="n">3</span><p>모르는 건 지어내지 마. 모르면 &ldquo;모릅니다&rdquo;라고 해.
+        검색해서 확인한 게 아니면 &ldquo;확인 안 된 기억입니다&rdquo;라고 표시해줘.</p></div>
+      <div class="rule"><span class="n">4</span><p>지우기&middot;보내기&middot;설정 바꾸기처럼 되돌리기 어려운 일은 하기 전에 나한테 물어봐.</p></div>
+      <div class="rule"><span class="n">5</span><p>내가 부탁한 것만 해. 시키지 않은 것까지 고치지 마.
+        고치면 좋을 게 보이면 직접 하지 말고 한 줄로 알려줘.</p></div>
+      <div class="rule wide"><span class="n">6</span><p>어려운 말은 쓰지 말고 결론부터 말해줘.
+        전문용어를 써야 하면 괄호 안에 쉬운 말로 풀어줘.
+        답이 길어지면 끝에 3줄 요약을 붙여줘. 짧은 답에는 붙이지 마.</p></div>
+      <div class="rule"><span class="n">7</span><p>선택지를 여러 개 늘어놓지 말고, 제일 낫다고 보는 하나를 먼저 추천해줘.
+        그 선택의 약점도 한 줄로 같이 말해줘.</p></div>
+      <div class="rule"><span class="n">8</span><p>계약서&middot;주민번호&middot;통장&middot;비밀번호처럼 민감한 내용이 보이면,
+        쓰기 전에 먼저 나한테 알려줘.</p></div>
     </div>
-    <p class="cap">Claude는 Cowork에서 새 세션, ChatGPT는 새 대화에서 확인합니다.</p>
+    <p class="cap">앞 장의 QR로 들어가면 이 여덟 줄이 그대로 있습니다. 옮겨 적지 말고 복사해서 쓰세요.</p>
   </div>
 </div></div><div class="lbl">s16 &middot; 파트 5</div></div>
 <div class="thumb" role="button" tabindex="0" data-idx="16" data-sid="s17" aria-label="s17 크게 보기"><div class="shot"><div class="slide" id="s17">
-  <div class="hd"><span class="chip">PART 6 &middot; 마무리</span><span class="prog">17 / 17</span></div>
+  <div class="hd"><span class="chip">PART 5 &middot; AI에게 안내문 주기</span><span class="prog">17 / 20</span></div>
+  <h1>이 여덟 줄이 막는 것 <span class="hnum">1~4</span></h1>
+  <p class="lead">한 줄마다 막아주는 사고가 따로 있습니다.</p>
+  <div class="body dense">
+    <table class="tbl gl">
+      <tr><th>지침</th><th>이게 막는 사고</th></tr>
+      <tr><td class="rowh">1. 계획부터 보여줘</td>
+        <td>AI가 내 말을 다르게 알아듣고 엉뚱한 걸 만들어 놓습니다. 계획을 먼저 보면 시작 전에 잡을 수 있고, 일이 길어져도 지금 어디까지 왔는지 보입니다.</td></tr>
+      <tr><td class="rowh">2. 한 것과 말한 것을 구분</td>
+        <td>AI는 하지 않은 일도 했다고 말할 때가 있습니다. 구분해서 적게 하면 <b>어디를 내가 직접 확인해야 하는지</b>가 드러납니다.</td></tr>
+      <tr><td class="rowh">3. 모르면 모른다고</td>
+        <td>가장 위험한 건 틀린 답이 아니라 <b>그럴듯하게 틀린 답</b>입니다. 검색 없이 기억으로 답한 것과 확인한 것을 갈라 놓습니다.</td></tr>
+      <tr><td class="rowh">4. 하기 전에 물어봐</td>
+        <td>지운 파일과 보낸 메일은 되돌릴 수 없습니다. 한 번 묻게 만들어 <b>되돌릴 수 없는 일에 내가 개입할 틈</b>을 만듭니다.</td></tr>
+    </table>
+  </div>
+</div></div><div class="lbl">s17 &middot; 파트 5</div></div>
+<div class="thumb" role="button" tabindex="0" data-idx="17" data-sid="s18" aria-label="s18 크게 보기"><div class="shot"><div class="slide" id="s18">
+  <div class="hd"><span class="chip">PART 5 &middot; AI에게 안내문 주기</span><span class="prog">18 / 20</span></div>
+  <h1>이 여덟 줄이 막는 것 <span class="hnum">5~8</span></h1>
+  <p class="lead">나머지 네 줄입니다.</p>
+  <div class="body dense">
+    <table class="tbl gl">
+      <tr><th>지침</th><th>이게 막는 사고</th></tr>
+      <tr><td class="rowh">5. 시킨 것만</td>
+        <td>부탁하지 않은 것까지 손대면 뭐가 바뀐 건지 알 수 없게 됩니다. 나중에 문제가 생겨도 원인을 못 찾습니다.</td></tr>
+      <tr><td class="rowh">6. 쉬운 말&middot;결론 먼저&middot;3줄 요약</td>
+        <td>설명이 길면 결국 안 읽게 됩니다. 결론이 맨 앞에 있고 끝에 3줄 요약이 있으면, <b>바쁠 때 그 두 곳만 봐도</b> 됩니다.</td></tr>
+      <tr><td class="rowh">7. 하나 추천 + 약점</td>
+        <td>선택지 5개를 받으면 고르는 데 시간이 더 듭니다. 약점을 같이 들어야 <b>그냥 &ldquo;좋아요&rdquo;만 누르는 일</b>을 피합니다.</td></tr>
+      <tr><td class="rowh">8. 민감한 건 먼저 알려줘</td>
+        <td>계약서&middot;신분증을 무심코 올리는 일이 가장 흔합니다. 올리기 전에 한 번 멈추게 합니다.</td></tr>
+    </table>
+  </div>
+</div></div><div class="lbl">s18 &middot; 파트 5</div></div>
+<div class="thumb" role="button" tabindex="0" data-idx="18" data-sid="s19" aria-label="s19 크게 보기"><div class="shot"><div class="slide" id="s19">
+  <div class="hd"><span class="chip">PART 5 &middot; AI에게 안내문 주기</span><span class="prog">19 / 20</span></div>
+  <h1>들어갔는지 확인합니다</h1>
+  <p class="lead">새 대화를 하나 새로 열어서 물어보세요.</p>
+  <div class="body dense">
+    <div class="talk">
+      <div class="bubble me"><p>내 소개 한 장으로 만들어줘</p></div>
+      <div class="bubble">
+        <p>&#9312; 이름과 하는 일은 지침에 적어두신 걸 쓰겠습니다</p>
+        <p>&#9313; 소개 &rarr; 하는 일 &rarr; 연락처 순서로 구성합니다</p>
+        <p>&#9314; 한 장짜리 파일로 저장합니다. 진행할까요?</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="chk"><svg class="ic" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg><span>내 이름과 하는 일이 나온다
+        <span class="sm">&mdash; 소개가 들어갔다</span></span></div>
+      <div class="chk"><svg class="ic" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg><span>바로 만들지 않고 물어본다
+        <span class="sm">&mdash; 일하는 방식이 먹혔다</span></span></div>
+    </div>
+    <p class="punch">지침을 넣기 전에는 곧장 만들기 시작합니다. 넣은 뒤에는 계획을 먼저 내놓습니다.</p>
+    <p class="cap">Claude는 Cowork에서 새 세션, ChatGPT는 새 대화에서 확인합니다.</p>
+  </div>
+</div></div><div class="lbl">s19 &middot; 파트 5</div></div>
+<div class="thumb" role="button" tabindex="0" data-idx="19" data-sid="s20" aria-label="s20 크게 보기"><div class="shot"><div class="slide" id="s20">
+  <div class="hd"><span class="chip">PART 6 &middot; 마무리</span><span class="prog">20 / 20</span></div>
   <h1>다음 주까지 이것 하나만</h1>
   <p class="lead">과제는 딱 하나입니다.</p>
   <div class="body">
-    <div class="task"><svg class="ic" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg><p>이번 주에 한 번, 오늘 깐 앱을 열어<br>폴더를 지정하고 일 하나를 시켜보기.</p></div>
-    <p class="punch">다음 주 1회차 — 시키는 법:<br>같은 요청을 매번 같은 품질로 받는 법.</p>
+    <div class="task"><svg class="ic" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg><p>AI로 만들어보고 싶은 내 업무 파일 1~2개를<br>폴더 하나에 담아 오세요.</p></div>
+    <p class="punch">다음 주 1회차 &mdash; 내 자료로 일 시키기:<br>내 파일을 읽히고 그 위에서 지시하는 법.</p>
   </div>
-</div></div><div class="lbl">s17 &middot; 파트 6</div></div>
+</div></div><div class="lbl">s20 &middot; 파트 6</div></div>
 </div>
-</div>
+</body>
+</html>
 
 <div class="lb" id="lb">
   <div class="lb-stage" id="lb-stage"></div>
