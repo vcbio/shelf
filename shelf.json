@@ -190,11 +190,6 @@
   "date": "2026-07-27"
  },
  {
-  "slug": "semicolony-ot-deck",
-  "title": "세미콜로니 AI 입문 0회차 — 덱 20장",
-  "date": "2026-07-29"
- },
- {
   "slug": "semicolony-ot-prompt",
   "title": "세미콜로니 0회차 — 안내문 채워넣기",
   "date": "2026-07-29"
@@ -202,6 +197,11 @@
  {
   "slug": "dsfoodwell-profile",
   "title": "(주)디에스푸드웰 회사소개서",
+  "date": "2026-07-29"
+ },
+ {
+  "slug": "semicolony-ot-deck",
+  "title": "세미콜로니 AI 입문 0회차 — 덱 20장",
   "date": "2026-07-29"
  }
 ]
