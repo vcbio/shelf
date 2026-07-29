@@ -8,6 +8,9 @@
 <style>
 :root{
   --ds-green:#2A8A4A;
+  /* 소형(9~10.4pt) 라벨 전용 그린 — 크림 #FAFAF8 대비 7.68:1, 흰 배경 8.02:1.
+     큰 제목·배지·면·테두리에는 쓰지 않는다(--ds-green 유지). */
+  --ds-green-sm:#1A5C30;
   --ds-deep:#1E3F36;
   --ds-mint:#BCDCCB;
   --ds-sand:#E9E9C2;
@@ -53,7 +56,7 @@ table{border-collapse:collapse;width:100%}
   height:8mm;margin-bottom:7.5mm;
 }
 .phead .rule{flex:1;height:1.35px;background:var(--ds-line)}
-.phead .dot{width:3.2mm;height:3.2mm;border-radius:50%;border:1px solid var(--ds-green);flex:none}
+.phead .dot{width:3.2mm;height:3.2mm;border-radius:50%;border:2px solid var(--ds-green);flex:none}
 .phead .mark{
   font-size:9.2pt;font-weight:700;letter-spacing:.3em;
   color:var(--ds-sub);white-space:nowrap;padding-left:.42em;
@@ -101,7 +104,7 @@ table{border-collapse:collapse;width:100%}
 .tbl .k{width:32mm;color:var(--ds-sub);font-weight:600}
 .tbl .nw{white-space:nowrap}
 .note{font-size:10pt;color:var(--ds-sub);line-height:1.55;margin-top:3.4mm}
-.grn{color:var(--ds-green)}
+.grn{color:var(--ds-green-sm)}
 
 /* ── P1 표지 ──────────────────────────────── */
 .cover{padding:0;background:#fff}
@@ -147,8 +150,13 @@ table{border-collapse:collapse;width:100%}
   letter-spacing:.22em;color:var(--ds-sub);
 }
 .cv-tag{
-  position:absolute;left:20mm;bottom:22mm;z-index:3;
+  position:absolute;left:20mm;bottom:19.8mm;z-index:3;
   font-size:9.2pt;letter-spacing:.24em;font-weight:700;color:#fff;
+  /* 이 자리 사진은 중간 밝기 콘크리트(배경 L 0.31~0.67)라 흰 글자든 딥그린 글자든
+     4.5:1 을 못 넘긴다(각 1.46:1 / 3.97:1 실측). 표지 구성은 그대로 두고
+     라벨 뒤에만 딥그린 스크림을 깔아 대비 확보 — 흰 글자 vs #1E3F36 = 10.87:1. */
+  background:var(--ds-deep);
+  padding:2.2mm 4.4mm;border-radius:999px;
 }
 
 /* ── P2 회사개요 ──────────────────────────── */
@@ -252,7 +260,7 @@ table{border-collapse:collapse;width:100%}
   display:flex;align-items:center;justify-content:center;
 }
 .ccp .c .ic svg{width:6.6mm;height:6.6mm;stroke:var(--ds-green);fill:none;stroke-width:1.5}
-.ccp .c .t{font-size:9.2pt;font-weight:800;color:var(--ds-green);letter-spacing:.12em;margin-bottom:1mm}
+.ccp .c .t{font-size:9.2pt;font-weight:800;color:var(--ds-green-sm);letter-spacing:.12em;margin-bottom:1mm}
 .ccp .c b{display:block;font-size:11.5pt;color:var(--ds-deep);letter-spacing:-.015em}
 .ccp .c p{margin-top:1.4mm;font-size:10.4pt;color:var(--ds-sub);line-height:1.55}
 .ccp-note{margin-top:2.4mm;font-size:10pt;color:var(--ds-sub)}
@@ -264,7 +272,7 @@ table{border-collapse:collapse;width:100%}
   border-radius:12px;padding:8mm 6.5mm;min-height:50mm;
 }
 .oem .side h3{font-size:17.5pt;font-weight:800;color:var(--ds-deep);letter-spacing:.02em}
-.oem .side .t{font-size:9.6pt;font-weight:600;color:var(--ds-green);letter-spacing:.14em;margin-bottom:1.5mm}
+.oem .side .t{font-size:9.6pt;font-weight:600;color:var(--ds-green-sm);letter-spacing:.14em;margin-bottom:1.5mm}
 .oem .side p{margin-top:3mm;font-size:10.8pt;color:var(--ds-sub);line-height:1.7}
 .oem .mid{position:relative;display:flex;align-items:center;justify-content:center}
 .oem .mid .line{position:absolute;left:0;right:0;top:50%;height:1.35px;background:var(--ds-line)}
@@ -280,7 +288,7 @@ table{border-collapse:collapse;width:100%}
 .str{display:grid;grid-template-columns:repeat(2,1fr);gap:3.6mm;margin-top:5.5mm}
 .str .c{border:2px solid var(--ds-line);border-radius:10px;background:#fff;padding:7mm 6mm;position:relative}
 .str .c .n{
-  font-size:9.8pt;font-weight:800;color:var(--ds-green);letter-spacing:.1em;margin-bottom:2mm;
+  font-size:9.8pt;font-weight:800;color:var(--ds-green-sm);letter-spacing:.1em;margin-bottom:2mm;
   font-variant-numeric:tabular-nums;
 }
 .str .c b{display:block;font-size:12.5pt;color:var(--ds-deep);letter-spacing:-.01em}
@@ -291,7 +299,7 @@ table{border-collapse:collapse;width:100%}
 .rail .n{
   width:8.4mm;height:8.4mm;border-radius:50%;border:2px solid var(--ds-green);
   background:#fff;display:flex;align-items:center;justify-content:center;
-  font-size:9.4pt;font-weight:800;color:var(--ds-green);flex:none;
+  font-size:9.4pt;font-weight:800;color:var(--ds-green-sm);flex:none;
 }
 .rail .n.on{background:var(--ds-green);color:#fff}
 .rail .sg{flex:1;height:1.35px;background:var(--ds-line)}
@@ -305,7 +313,7 @@ table{border-collapse:collapse;width:100%}
   color:var(--mint-soft);line-height:1;letter-spacing:-.04em;
 }
 .steps .s .n{
-  position:relative;font-size:9.6pt;font-weight:800;color:var(--ds-green);
+  position:relative;font-size:9.6pt;font-weight:800;color:var(--ds-green-sm);
   letter-spacing:.12em;margin-bottom:2.4mm;
 }
 .steps .s b{position:relative;display:block;font-size:12.8pt;color:var(--ds-deep);letter-spacing:-.015em}
@@ -315,17 +323,24 @@ table{border-collapse:collapse;width:100%}
 
 /* ── P7 설비 ─────────────────────────────── */
 .eq{display:grid;grid-template-columns:repeat(4,1fr);gap:3.6mm}
-.eq .c{border:2px solid var(--ds-line);border-radius:9px;overflow:hidden;background:#fff}
-.eq .c .im{height:32.5mm;background:#fff;display:flex;align-items:center;justify-content:center;padding:2mm}
+/* 13번 카드는 같은 행의 .sum(3칸 스팬)에 끌려 늘어나고, 03·07·11번은 설비명이 2줄이라
+   행마다 높이가 달랐다. 카드를 늘어나지 않게 하고(align-self:start) 최소 높이를 2줄 라벨
+   기준으로 고정해 13장 전부 같은 높이로 맞춘다. 남는 세로 공간은 이미지 액자(.im)가 흡수. */
+.eq .c{
+  border:2px solid var(--ds-line);border-radius:9px;overflow:hidden;background:#fff;
+  align-self:start;display:flex;flex-direction:column;min-height:50.6mm;
+}
+.eq .c .im{height:32.5mm;flex:none;background:#fff;display:flex;align-items:center;justify-content:center;padding:2mm}
 .eq .c img{width:100%;height:100%;object-fit:contain}
 /* 원본 해상도가 낮은 사진 : 카드 크기는 유지하고 이미지만 작게(흰 여백이 액자 역할) */
 .eq .c img.sm{width:72%;height:76%;margin:0 auto}
 .eq .c .lb{
   border-top:2px solid var(--ds-line);padding:2.8mm 3mm;
   display:flex;gap:2mm;align-items:baseline;
+  margin-top:auto;   /* 카드 높이가 남아도 라벨은 항상 카드 바닥에 붙는다 */
 }
-.eq .c .lb i{font-style:normal;font-size:9.2pt;font-weight:800;color:var(--ds-green);font-variant-numeric:tabular-nums}
-.eq .c .lb span{font-size:10pt;font-weight:600;color:var(--ds-deep);line-height:1.32}
+.eq .c .lb i{font-style:normal;font-size:9.2pt;font-weight:800;color:var(--ds-green-sm);font-variant-numeric:tabular-nums}
+.eq .c .lb span{font-size:10pt;font-weight:600;color:var(--ds-deep);line-height:1.48}
 .eq .sum{
   grid-column:span 3;background:var(--ds-deep);color:#fff;border-radius:9px;
   padding:7mm 8mm;display:flex;flex-direction:column;justify-content:center;
@@ -356,8 +371,7 @@ table{border-collapse:collapse;width:100%}
 
 /* ── P9 CMD ─────────────────────────────── */
 .cmd-top{display:grid;grid-template-columns:1fr 42mm;gap:6mm;align-items:stretch;margin-bottom:4mm}
-.cmd-top .ph{border-radius:10px;overflow:hidden;position:relative;background:#EDEFEE}
-.cmd-top .ph{background:#fff}
+.cmd-top .ph{border-radius:10px;overflow:hidden;position:relative;background:#fff}
 .cmd-top .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 50%}
 .merit{display:grid;grid-template-columns:1fr 1fr;gap:1mm 6mm;margin-top:1mm}
 .merit li{
@@ -388,7 +402,7 @@ table{border-collapse:collapse;width:100%}
   display:grid;grid-template-columns:1fr 88mm;gap:7mm;align-items:center;
   background:var(--ds-mint);border-radius:12px;padding:6.5mm;margin-top:5.5mm;
 }
-.tabhero .t span{font-size:9.4pt;font-weight:800;letter-spacing:.16em;color:var(--ds-green)}
+.tabhero .t span{font-size:9.4pt;font-weight:800;letter-spacing:.16em;color:var(--ds-green-sm)}
 .tabhero .t b{display:block;margin-top:2.2mm;font-size:15.5pt;color:var(--ds-deep);letter-spacing:-.02em;line-height:1.3}
 .tabhero .t p{margin-top:2.6mm;font-size:10.8pt;color:var(--ds-deep);opacity:.88;line-height:1.62}
 .tabhero .ph{
@@ -401,7 +415,7 @@ table{border-collapse:collapse;width:100%}
   border:2px solid var(--ds-line);border-radius:999px;padding:2.2mm 5mm;
   font-size:10.4pt;color:var(--ds-deep);background:#fff;
 }
-.pill b{color:var(--ds-green)}
+.pill b{color:var(--ds-green-sm)}
 
 /* ── P11 파트너 ──────────────────────────── */
 .pt{display:grid;grid-template-columns:repeat(5,1fr);gap:8mm 5mm;margin-top:10mm}
@@ -418,13 +432,17 @@ table{border-collapse:collapse;width:100%}
 .close{
   background:var(--ds-deep);border-radius:12px;color:#fff;padding:13mm 8.5mm;
 }
-.close b{font-size:14.5pt;letter-spacing:-.015em}
+.close>b{font-size:14.5pt;letter-spacing:-.015em}
 .close>p{margin-top:2.6mm;font-size:10.8pt;color:rgba(255,255,255,.86);line-height:1.62;max-width:144mm}
 .close .kpis{
   display:grid;grid-template-columns:repeat(3,1fr);gap:6mm;margin-top:6mm;
   border-top:2px solid rgba(255,255,255,.28);padding-top:5.5mm;
 }
-.close .kpis div span{display:block;font-size:9.2pt;letter-spacing:.14em;color:var(--ds-mint);font-weight:700}
+.close .kpis div{display:flex;flex-direction:column}
+.close .kpis div span{
+  display:block;font-size:9.2pt;letter-spacing:.14em;color:var(--ds-mint);font-weight:700;
+  line-height:1.35;min-height:2.7em;
+}
 .close .kpis div strong{display:block;margin-top:1.6mm;font-size:18.5pt;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
 .close .kpis div p{margin-top:1mm;font-size:10pt;line-height:1.45;color:rgba(255,255,255,.82)}
 .pt-strip b{font-size:12.8pt;letter-spacing:-.01em}
@@ -603,7 +621,7 @@ table{border-collapse:collapse;width:100%}
     <div class="row"><div class="yr">2023<small>10</small></div><div class="dotwrap"><i class="dt"></i></div><div class="txt">식품안전관리인증기준(HACCP) 획득</div></div>
     <div class="row"><div class="yr">2024<small>04</small></div><div class="dotwrap"><i class="dt"></i></div><div class="txt">ISO 9001 품질경영시스템 인증<small>ISO 14001 환경경영시스템 인증</small></div></div>
     <div class="row"><div class="yr">2025<small>12</small></div><div class="dotwrap"><i class="dt"></i></div><div class="txt">화성 제조공장 확장 이전<small>경기도 화성시 장안면 석포로 232 (1, 2층)</small></div></div>
-    <div class="row hi"><div class="yr">2026<small>06</small></div><div class="dotwrap"><i class="dt"></i></div><div class="txt"><span class="gmp">GMP</span>건강기능식품전문제조업 영업허가 취득<small>제20260018055호 · 2026.06.29</small></div></div>
+    <div class="row hi"><div class="yr">2026<small>06</small></div><div class="dotwrap"><i class="dt"></i></div><div class="txt"><span class="gmp">GMP</span>건강기능식품전문제조업 영업허가 취득<small>영업허가 제20260018055호 · 2026.06.29</small></div></div>
   </div>
 
   <div class="grow"></div>
@@ -662,7 +680,7 @@ table{border-collapse:collapse;width:100%}
     <tbody>
       <tr><td>ISO 9001:2015</td><td>품질경영시스템</td><td class="num">QM-24066</td><td class="num nw">2024.04.17 ~ 2027.04.16</td></tr>
       <tr><td>ISO 14001:2015</td><td>환경경영시스템</td><td class="num">EM-24047</td><td class="num nw">2024.04.17 ~ 2027.04.16</td></tr>
-      <tr><td><b>건강기능식품 GMP</b></td><td>건강기능식품전문제조업 영업허가 <b>(GMP)</b></td><td class="num">제20260018055호</td><td class="num">2026.06.29 취득</td></tr>
+      <tr><td><b>건강기능식품 GMP</b></td><td>건강기능식품전문제조업 영업허가 <b>(GMP)</b></td><td class="num">영업허가 제20260018055호</td><td class="num">2026.06.29 취득</td></tr>
     </tbody>
   </table>
   <p class="note">인증범위 — 식품, 식품첨가물의 개발 및 도매, 소매 그에 따른 부대사업 일체 / 인증기관 시스템개발인증원(KAB 인정)</p>
