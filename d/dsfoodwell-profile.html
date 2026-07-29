@@ -154,7 +154,7 @@ table{border-collapse:collapse;width:100%}
   font-size:9.2pt;letter-spacing:.24em;font-weight:700;color:#fff;
   /* 이 자리 사진은 중간 밝기 콘크리트(배경 L 0.31~0.67)라 흰 글자든 딥그린 글자든
      4.5:1 을 못 넘긴다(각 1.46:1 / 3.97:1 실측). 표지 구성은 그대로 두고
-     라벨 뒤에만 딥그린 스크림을 깔아 대비 확보 — 흰 글자 vs #1E3F36 = 10.87:1. */
+     라벨 뒤에만 딥그린 스크림을 깔아 대비 확보 — 흰 글자 vs #1E3F36 = 11.54:1. */
   background:var(--ds-deep);
   padding:2.2mm 4.4mm;border-radius:999px;
 }
@@ -219,9 +219,12 @@ table{border-collapse:collapse;width:100%}
 }
 .tl .txt{font-size:12pt;font-weight:600;color:var(--ds-ink);padding-top:.2mm;line-height:1.45}
 .tl .txt small{display:block;font-size:10.2pt;font-weight:400;color:var(--ds-sub);margin-top:1mm;line-height:1.45}
-.tl .row.hi .dt{background:var(--ds-green);width:3.6mm;height:3.6mm;top:1.1mm;border-color:var(--ds-green)}
+.tl .row.hi .dt{background:var(--ds-green-sm);width:3.6mm;height:3.6mm;top:1.1mm;border-color:var(--ds-green-sm)}
+/* 하이라이트 면색은 --ds-green(#2A8A4A) 이면 흰 글자가 4.35:1, 소제목(10.2pt)은 3.44:1 로
+   본문 기준 4.5:1 을 못 넘긴다. 면을 --ds-green-sm(#1A5C30) 으로 낮춰
+   흰 본문 8.02:1 / 소제목 6.02:1 확보. 면적·배지·굵기는 그대로라 강조는 오히려 강해진다. */
 .tl .row.hi .txt{
-  background:var(--ds-green);color:#fff;border-radius:8px;
+  background:var(--ds-green-sm);color:#fff;border-radius:8px;
   padding:3.2mm 5mm;margin-top:-1.6mm;font-weight:700;
 }
 .tl .row.hi .txt small{color:rgba(255,255,255,.82)}
@@ -301,7 +304,8 @@ table{border-collapse:collapse;width:100%}
   background:#fff;display:flex;align-items:center;justify-content:center;
   font-size:9.4pt;font-weight:800;color:var(--ds-green-sm);flex:none;
 }
-.rail .n.on{background:var(--ds-green);color:#fff}
+/* 활성 번호도 P3 하이라이트와 같은 --ds-green-sm 을 쓴다(흰 글자 8.02:1, 9.4pt). */
+.rail .n.on{background:var(--ds-green-sm);border-color:var(--ds-green-sm);color:#fff}
 .rail .sg{flex:1;height:1.35px;background:var(--ds-line)}
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:4.5mm}
 .steps .s{
@@ -343,7 +347,10 @@ table{border-collapse:collapse;width:100%}
 .eq .c .lb span{font-size:10pt;font-weight:600;color:var(--ds-deep);line-height:1.48}
 .eq .sum{
   grid-column:span 3;background:var(--ds-deep);color:#fff;border-radius:9px;
-  padding:7mm 8mm;display:flex;flex-direction:column;justify-content:center;
+  /* 지면 하단 패딩을 8px(2.12mm) 침범하던 원인은 4행 높이를 결정하는 이 요약 패널(54.8mm)이다.
+     카드 min-height(50.6mm)를 건드리면 2줄 라벨 카드(03·07·11, 콘텐츠 실측 50.12mm)가
+     혼자 커져 13장 균일이 깨지므로, 카드는 그대로 두고 이 패널 상하 여백만 7mm→5.7mm 줄인다. */
+  padding:5.7mm 8mm;display:flex;flex-direction:column;justify-content:center;
 }
 .eq .sum b{font-size:12.8pt;letter-spacing:-.01em}
 .eq .sum p{margin-top:2.2mm;font-size:10.6pt;color:rgba(255,255,255,.85);line-height:1.62;max-width:122mm}
@@ -445,6 +452,9 @@ table{border-collapse:collapse;width:100%}
 }
 .close .kpis div strong{display:block;margin-top:1.6mm;font-size:18.5pt;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
 .close .kpis div p{margin-top:1mm;font-size:10pt;line-height:1.45;color:rgba(255,255,255,.82)}
+/* "건강기능식품 GMP 1" 이 '건강기능식품' / 'GMP 1' 로 끊겨 수치가 라벨과 갈라졌다.
+   이 묶음만 줄바꿈을 막아 한 줄로 붙인다(폰트 크기는 10pt 그대로). */
+.close .kpis div p .nb{white-space:nowrap}
 .pt-strip b{font-size:12.8pt;letter-spacing:-.01em}
 .pt-strip p{margin-top:1.8mm;font-size:10.6pt;color:rgba(255,255,255,.85);max-width:112mm;line-height:1.58}
 .pt-strip .n{text-align:right;flex:none}
@@ -680,7 +690,7 @@ table{border-collapse:collapse;width:100%}
     <tbody>
       <tr><td>ISO 9001:2015</td><td>품질경영시스템</td><td class="num">QM-24066</td><td class="num nw">2024.04.17 ~ 2027.04.16</td></tr>
       <tr><td>ISO 14001:2015</td><td>환경경영시스템</td><td class="num">EM-24047</td><td class="num nw">2024.04.17 ~ 2027.04.16</td></tr>
-      <tr><td><b>건강기능식품 GMP</b></td><td>건강기능식품전문제조업 영업허가 <b>(GMP)</b></td><td class="num">영업허가 제20260018055호</td><td class="num">2026.06.29 취득</td></tr>
+      <tr><td><b>건강기능식품 GMP</b></td><td>건강기능식품전문제조업 <b>(GMP)</b></td><td class="num">영업허가 제20260018055호</td><td class="num">2026.06.29 취득</td></tr>
     </tbody>
   </table>
   <p class="note">인증범위 — 식품, 식품첨가물의 개발 및 도매, 소매 그에 따른 부대사업 일체 / 인증기관 시스템개발인증원(KAB 인정)</p>
@@ -1023,7 +1033,7 @@ table{border-collapse:collapse;width:100%}
     <b>브랜드사의 이름으로 나가는 제품을 만듭니다</b>
     <p>기획 단계의 상담부터 품목 신고, 생산, 검수, 납품까지 한 창구에서 진행합니다. 초도 소량부터 상담해 주십시오.</p>
     <div class="kpis">
-      <div><span>CERTIFICATION &amp; LICENSE</span><strong>10</strong><p>HACCP 7 · ISO 2 · 건강기능식품 <b>GMP</b> 1</p></div>
+      <div><span>CERTIFICATION &amp; LICENSE</span><strong>10</strong><p>HACCP 7 · ISO 2 · <span class="nb">건강기능식품 <b>GMP</b> 1</span></p></div>
       <div><span>EQUIPMENT</span><strong>13종</strong><p>혼합 · 타정에서 박스 포장까지</p></div>
       <div><span>PROCESS</span><strong>12단계</strong><p>원료 계량에서 박스 포장까지</p></div>
     </div>
