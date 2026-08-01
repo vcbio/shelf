@@ -4,7 +4,7 @@
 <html lang="ko"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%A8%3C/text%3E%3C/svg%3E">
-<title>VCBio 디자인 선택 보드 v3 — 추천 조합·색감·스타일·스킬·홈페이지·덱 연출·브랜드 스펙</title><style>
+<title>VCBio 디자인 선택 보드 v3 — 추천 조합·색감·스타일·스킬·홈페이지·덱 연출·브랜드 스펙·화면 시안</title><style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{max-width:100%;overflow-x:clip} /* hidden→clip: hidden이 body를 스크롤컨테이너化해 .toolbar sticky를 깨는 함정(실측 확인) — clip은 sticky 유지 */
 html{scrollbar-gutter:stable} /* R16: 세로 스크롤바 등장·소멸이 폭을 15px 바꿔 격자를 재배치 → 무한 깜박임(대표 제보·2026-07-24 실측 재현). 자리를 항상 비워 진동 차단 */
@@ -176,6 +176,9 @@ body[data-tab="deck"] .chips{display:none}
 body[data-tab="deck"] #recToggle{display:none}
 body[data-tab="kr"] .chips{display:none}
 body[data-tab="kr"] #recToggle{display:none}
+/* 2026-08-01: 화면 시안 탭 — 참조 전용(.kcard)이라 업종 칩·건기식 토글 무효 → 숨김. 검색창은 작동하므로 유지 */
+body[data-tab="mock"] .chips{display:none}
+body[data-tab="mock"] #recToggle{display:none}
 .presub{font-size:13.5px;color:#6e6a5e;line-height:1.6;margin:2px 0 14px}
 /* R15: 프리셋 카드 = .prcard (팔레트 카드가 이미 .pcard를 사용 — R14 클래스 충돌을 개명으로 해소) */
 .prcard{background:#fff;border:1.5px solid #ddd8cb;border-radius:14px;padding:14px;display:flex;flex-direction:column}
@@ -295,6 +298,287 @@ html:not([data-theme="light"]) .bcopy{background:#1b2b22;border-color:#2E7D5B;co
 html:not([data-theme="light"]) .bcopy:hover{background:#2E7D5B;color:#eafff3}
 html:not([data-theme="light"]) .bcat{background:#2a2620;color:#b5af9f}
 }
+/* ══ 2026-08-01: 🧰 디자인 스킬 카드 예시(그룹 A·D=톤 타일 / B·C=Before·After) ══
+   기본 접힘 — 20장이 동시에 시끄러워지지 않게. 펼친 안쪽(.skxbody) 클릭은 카드 선택으로 번지지 않는다(JS 예외 목록). */
+.skx{margin-top:10px;border:1px solid #ddd9cf;border-radius:10px;background:#faf9f5}
+.skx>summary{cursor:pointer;list-style:none;padding:8px 11px;font-size:11.5px;font-weight:800;color:#1f6b45;user-select:none}
+.skx>summary::-webkit-details-marker{display:none}
+.skx>summary::after{content:"펼치기 ▾";float:right;font-size:10.5px;font-weight:700;color:#9a958a}
+.skx[open]>summary::after{content:"접기 ▴"}
+.skxbody{padding:2px 11px 11px;cursor:default}
+.skxsrc{margin-top:8px;font-size:10.5px;color:#9a958a;font-weight:600;line-height:1.5}
+.bacap{display:block;margin-top:5px;font-size:10.5px;color:#7d786d;font-weight:600;line-height:1.5}
+.skxbody .bacap b{color:#4a463e}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.bacol{min-width:0;background:#fff;border:1px solid #e4e0d4;border-radius:9px;padding:8px 9px}
+.bacol>em{display:block;font-style:normal;font-size:10px;font-weight:800;letter-spacing:-.01em;margin-bottom:6px;color:#9a958a}
+.bacol.b{border-color:#e6ded2}
+.bacol.a{border-color:#cfe3d7;background:#f7fbf9}
+.bacol.a>em{color:#1f6b45}
+.bacol svg{color:#2E7D5B}
+.bacol.b svg{color:#a09a8c}
+.tone{display:flex;gap:7px;flex-wrap:wrap}
+.tone .tt{flex:1 1 88px;min-width:88px;display:flex;flex-direction:column;gap:5px;border:1px solid #e4e0d4;border-radius:9px;padding:9px;font-size:10px;font-weight:700;line-height:1.3}
+.tone .tt b{font-size:14px;font-weight:800;line-height:1}
+.tone .tt i{display:block;height:6px;border-radius:3px;width:60%}
+.tt.dial,.tt.sw,.tt.fr,.lgt{background:#fff;color:#4a463e}
+.dg{display:grid;grid-template-columns:repeat(2,1fr);gap:3px;height:26px}
+.dg i{background:#cfe3d7;border-radius:2px}
+.dg.s8 i:nth-child(2){grid-row:span 2}.dg.s8 i:nth-child(4){display:none}
+.dg.s10 i:nth-child(1){transform:rotate(-4deg)}.dg.s10 i:nth-child(3){transform:translateY(3px) rotate(3deg)}
+.grid12{display:grid;grid-template-columns:repeat(12,1fr);gap:1px;height:22px}
+.grid12 i{background:#dfe7e2;border-radius:1px}
+.opa{display:flex;gap:3px;height:22px}
+.opa i{flex:1;background:#2E7D5B;border-radius:2px}
+.col60{display:flex;flex-direction:column;gap:3px;height:22px;justify-content:center}
+.col60 i{height:4px;width:74%;background:#dfe7e2;border-radius:2px}
+.frbar{display:block;height:8px;border-radius:4px;background:#eceadf}
+.frbar i{display:block;height:100%;border-radius:4px;background:#2E7D5B}
+.tybad,.tygood,.kr,.doc,.pathb,.patha{font-size:11px;line-height:1.6;color:#3f3b34;margin:0}
+.tybad{color:#8a8478}
+.tybad b,.kr b{font-weight:800;color:#a06a1a;background:#faf3e3;border-radius:3px;padding:0 2px}
+.doc b{font-weight:800}
+.cbox{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:700;margin:0}
+.cbad,.cgood{font-style:normal;font-size:10px;font-weight:800;border-radius:5px;padding:2px 6px;align-self:flex-start}
+.cbad{color:#8a5d08;background:#faf3e3}
+.cgood{color:#1f6b45;background:#eaf3ee}
+.btnbad,.btngood{display:inline-block;font-size:11px;font-weight:800;color:#fff;padding:7px 13px;border-radius:9px}
+.btnbad{background:linear-gradient(90deg,#7C4DD1,#B84FA8 60%,#4F86D9);box-shadow:0 0 12px rgba(140,80,200,.55)}
+.btngood{background:#2E7D5B;box-shadow:0 1px 2px rgba(15,23,42,.08)}
+.mini{display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;border:1px solid;border-radius:6px;padding:4px 6px;margin:0 3px 3px 0;color:#4a463e}
+.mini i{width:8px;height:8px;border-radius:2px}
+.matbox{display:block;height:38px;border-radius:8px;background:linear-gradient(120deg,#2E7D5B,#7aa8c9 60%,#c8b48a);padding:7px;position:relative}
+.matbox i{position:absolute;left:16%;right:16%;top:20%;bottom:20%;border-radius:6px;border:1px solid rgba(255,255,255,.5)}
+.matbox i.opq{background:#8f8f8f}
+.matbox i.tr{background:rgba(255,255,255,.42);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.stg{display:flex;flex-direction:column;gap:4px}
+.stg i{display:block;height:7px;border-radius:3px;background:#cfe3d7;margin-left:calc(var(--o) * 7px);opacity:calc(1 - var(--o) * .18)}
+.tok{display:flex;flex-wrap:wrap;gap:4px}
+.tok b{font-size:9.5px;font-weight:800;color:#8a8478;background:#f1efe8;border:1px solid #e4e0d4;border-radius:5px;padding:3px 6px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.tok.on b{color:#1f6b45;background:#eaf3ee;border-color:#cfe3d7}
+.judge{display:inline-block;font-size:11px;font-weight:800;border-radius:6px;padding:4px 9px}
+.judge.no{color:#8a5d08;background:#faf3e3}
+.judge.ok{color:#1f6b45;background:#eaf3ee}
+.pathb{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:9.5px;color:#8a8478;word-break:break-all}
+.patha{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:9.5px;color:#1f6b45;word-break:break-all;font-weight:700}
+.clips{display:flex;gap:4px}
+.clips i{flex:1;display:flex;flex-direction:column;gap:2px;font-style:normal;font-size:9px;font-weight:700;color:#1f6b45;background:#eaf3ee;border:1px solid #cfe3d7;border-radius:6px;padding:5px 4px;text-align:center}
+.clips i b{font-size:10px;font-weight:800}
+.lgt{flex:1 1 74px;min-width:74px;display:flex;flex-direction:column;align-items:center;gap:5px;border:1px solid #e4e0d4;border-radius:9px;padding:9px 5px;font-size:9.5px;font-weight:700;color:#6e6a5e}
+.lgt b{display:flex;align-items:center;justify-content:center;height:24px;color:#1f2d26}
+.lgw{font-size:13px;font-weight:800;letter-spacing:.14em}
+.lgm{font-size:19px;font-weight:800;border:2px solid #1f2d26;border-radius:50%;width:26px}
+.lgl{font-size:15px;font-weight:800;letter-spacing:-.04em;border-bottom:2px solid #1f2d26}
+.lga{background:#1f2d26;color:#eafff3;border-radius:7px;width:26px}
+@media(max-width:440px){.ba{grid-template-columns:1fr}.tone .tt{flex:1 1 100%}}
+@media(prefers-color-scheme:dark){
+html:not([data-theme="light"]) .skx{background:#1a1813;border-color:#332f28}
+html:not([data-theme="light"]) .skx>summary{color:#7fd9a8}
+html:not([data-theme="light"]) .skx>summary::after{color:#8a8478}
+html:not([data-theme="light"]) .skxsrc,html:not([data-theme="light"]) .bacap{color:#9d9788}
+html:not([data-theme="light"]) .skxbody .bacap b{color:#d8d3c8}
+html:not([data-theme="light"]) .bacol{background:#211e19;border-color:#38342c}
+html:not([data-theme="light"]) .bacol.a{background:#182420;border-color:#2a4234}
+html:not([data-theme="light"]) .bacol>em{color:#8a8478}
+html:not([data-theme="light"]) .bacol.a>em{color:#7fd9a8}
+html:not([data-theme="light"]) .tone .tt{border-color:#38342c}
+html:not([data-theme="light"]) .tt.dial,html:not([data-theme="light"]) .tt.sw,html:not([data-theme="light"]) .tt.fr,html:not([data-theme="light"]) .lgt{background:#211e19;color:#d8d3c8}
+html:not([data-theme="light"]) .lgt{border-color:#38342c;color:#a49d8d}
+html:not([data-theme="light"]) .lgt b{color:#e8e4da}
+html:not([data-theme="light"]) .lgm{border-color:#e8e4da}
+html:not([data-theme="light"]) .lgl{border-bottom-color:#e8e4da}
+html:not([data-theme="light"]) .lga{background:#e8e4da;color:#1f2d26}
+html:not([data-theme="light"]) .dg i,html:not([data-theme="light"]) .grid12 i,html:not([data-theme="light"]) .col60 i,html:not([data-theme="light"]) .stg i{background:#2b3830}
+html:not([data-theme="light"]) .frbar{background:#2a2620}
+html:not([data-theme="light"]) .tybad,html:not([data-theme="light"]) .tygood,html:not([data-theme="light"]) .kr,html:not([data-theme="light"]) .doc{color:#d8d3c8}
+html:not([data-theme="light"]) .tybad{color:#8a8478}
+html:not([data-theme="light"]) .tybad b,html:not([data-theme="light"]) .kr b{color:#d8b26a;background:#241d10}
+html:not([data-theme="light"]) .cbad{color:#d8b26a;background:#241d10}
+html:not([data-theme="light"]) .cgood{color:#7fd9a8;background:#1b2b22}
+html:not([data-theme="light"]) .tok b{color:#8a8478;background:#221f1a;border-color:#38342c}
+html:not([data-theme="light"]) .tok.on b{color:#7fd9a8;background:#1b2b22;border-color:#2a4234}
+html:not([data-theme="light"]) .judge.no{color:#d8b26a;background:#241d10}
+html:not([data-theme="light"]) .judge.ok{color:#7fd9a8;background:#1b2b22}
+html:not([data-theme="light"]) .mini{color:#d8d3c8}
+html:not([data-theme="light"]) .pathb{color:#8a8478}
+html:not([data-theme="light"]) .patha{color:#7fd9a8}
+html:not([data-theme="light"]) .clips i{color:#7fd9a8;background:#1b2b22;border-color:#2a4234}
+html:not([data-theme="light"]) .btngood{background:#2E7D5B}
+}
+/* ══ 2026-08-01: 🎬 덱 연출 카드 미니 프리뷰 — 외부 스크립트·이미지 0(CSS + 인라인 SVG만) ══
+   기본 정지(animation-play-state:paused) → hover·focus·.play(클릭·탭)에서만 재생. reduce 환경은 전면 정지. */
+.dfx{display:block;width:100%;margin:11px 0 3px;padding:0;border:1px solid #ddd9cf;border-radius:10px;background:#0F1418;overflow:hidden;cursor:pointer;text-align:left;position:relative}
+.dfx:hover{border-color:#2E7D5B}
+.dfxstage{position:relative;height:96px;overflow:hidden;--a1:#4FA97B;--a2:#E0B252;--a3:#6F9BD1;--a4:#C98BA8}
+.dfxcap{display:flex;align-items:center;gap:7px;padding:5px 9px;background:#151C21;color:#9db3a7;font-size:10.5px;font-weight:700;letter-spacing:-.01em}
+.dfxhint{margin-left:auto;font-style:normal;font-weight:600;color:#6f8579}
+.dfx:hover .dfxhint,.dfx.play .dfxhint{color:#7fd9a8}
+.dfx.play .dfxhint::after{content:" · 재생 중(누르면 정지)"}
+/* reveal.js — 슬라이드 가로 전환 */
+.rvtrack{display:flex;width:500%;height:100%}
+.rvs{width:20%;height:100%;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:0 16px;border-right:1px solid rgba(255,255,255,.06)}
+.rvt{display:block;width:38%;height:9px;border-radius:3px}
+.rvl{display:block;height:5px;border-radius:3px;background:rgba(255,255,255,.20)}
+.rvbar{display:block;height:6px;border-radius:3px;background:rgba(255,255,255,.10);margin-top:3px}
+.rvbar b{display:block;height:100%;border-radius:3px}
+.rvdots{position:absolute;left:0;right:0;bottom:7px;display:flex;justify-content:center;gap:7px}
+.rvdots i{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.22)}
+.rvcur{position:absolute;left:calc(50% - 23px);width:5px;height:5px;border-radius:50%;background:#7fd9a8}
+@keyframes rvx{0%,16%{transform:translateX(0)}25%,41%{transform:translateX(-20%)}50%,66%{transform:translateX(-40%)}75%,91%{transform:translateX(-60%)}100%{transform:translateX(-80%)}}
+@keyframes rvd{0%,16%{transform:translateX(0)}25%,41%{transform:translateX(12px)}50%,66%{transform:translateX(24px)}75%,91%{transform:translateX(36px)}100%{transform:translateX(36px)}}
+/* impress.js — 3D 줌·회전 전환 */
+.dfx-impress .dfxstage{perspective:420px}
+.ipcam{position:absolute;inset:0;transform-style:preserve-3d}
+.ipb{position:absolute;display:flex;flex-direction:column;justify-content:center;gap:4px;padding:7px 8px;border-radius:6px;background:#1B242B;border:1px solid rgba(127,217,168,.28)}
+.ipb i{display:block;height:4px;border-radius:2px;background:rgba(255,255,255,.24)}
+.ipb.b1{left:9%;top:20%;width:34%;height:44%}
+.ipb.b2{left:50%;top:14%;width:30%;height:34%;background:#22303a}
+.ipb.b3{left:38%;top:58%;width:38%;height:32%;background:#1e2a33}
+@keyframes ipcam{
+  0%,12%{transform:scale(1) rotate(0deg) translate(0,0)}
+  26%,40%{transform:scale(2.05) rotate(-11deg) translate(9%,7%)}
+  54%,68%{transform:scale(1.55) rotate(7deg) translate(-13%,-8%)}
+  82%,100%{transform:scale(1) rotate(0deg) translate(0,0)}}
+/* ECharts — 그릴 수 있는 차트 유형 4종(전환이 아니라 종류를 보여준다) */
+.dfx-echarts{background:#FBFAF6}
+.dfxstage.ec{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:1fr;gap:7px;padding:9px;height:96px;background:#FBFAF6}
+.ecc{display:flex;flex-direction:column;gap:3px;min-width:0;min-height:0;overflow:hidden;background:#fff;border:1px solid #e6e2d8;border-radius:7px;padding:5px}
+.ecc em{font-style:normal;font-size:9px;font-weight:800;color:#6e6a5e;letter-spacing:-.02em}
+.ecc svg{display:block;width:100%;height:auto;min-height:0;flex:1 1 0}
+.ecline{stroke-dasharray:120;stroke-dashoffset:0}
+.ecbar{transform-origin:50% 100%}
+.ecdonut{transform-origin:15px 15px;transform:rotate(-90deg)}
+.ecdot{}
+@keyframes ecdraw{0%{stroke-dashoffset:120}55%,100%{stroke-dashoffset:0}}
+@keyframes ecgrow{0%{transform:scaleY(.15)}55%,100%{transform:scaleY(1)}}
+@keyframes ecspin{0%{transform:rotate(-90deg)}100%{transform:rotate(270deg)}}
+@keyframes ecpop{0%{opacity:0;transform:translateY(4px)}45%,100%{opacity:1;transform:translateY(0)}}
+/* 재생 조건 — 애니메이션 자체를 활성 상태에서만 건다(정지 시엔 완성된 정지 화면이 그대로 보인다).
+   paused 방식은 0% 키프레임에 멈춰 선 그래프가 안 그려진 빈 칸으로 보였다(2026-08-01 실측 후 교체). */
+.dfx:hover .rvtrack,.dfx:focus-visible .rvtrack,.dfx.play .rvtrack{animation:rvx 8s infinite}
+.dfx:hover .rvcur,.dfx:focus-visible .rvcur,.dfx.play .rvcur{animation:rvd 8s infinite}
+.dfx:hover .ipcam,.dfx:focus-visible .ipcam,.dfx.play .ipcam{animation:ipcam 9s infinite}
+.dfx:hover .ecline,.dfx:focus-visible .ecline,.dfx.play .ecline{animation:ecdraw 2.6s ease-out infinite}
+.dfx:hover .ecbar,.dfx:focus-visible .ecbar,.dfx.play .ecbar{animation:ecgrow 2.6s ease-out infinite}
+.dfx:hover .ecdonut,.dfx:focus-visible .ecdonut,.dfx.play .ecdonut{animation:ecspin 3.4s linear infinite}
+.dfx:hover .ecdot,.dfx:focus-visible .ecdot,.dfx.play .ecdot{animation:ecpop 2.6s ease-out infinite}
+@media(prefers-reduced-motion:reduce){.dfx *{animation:none!important}}
+@media(prefers-color-scheme:dark){
+html:not([data-theme="light"]) .dfx{border-color:#332f28}
+html:not([data-theme="light"]) .dfx-echarts,html:not([data-theme="light"]) .dfxstage.ec{background:#14120e}
+html:not([data-theme="light"]) .ecc{background:#1c1a15;border-color:#332f28}
+html:not([data-theme="light"]) .ecc em{color:#a49d8d}
+}
+/* ══ 2026-08-01: 🖼️ 화면 시안 탭 — UI 스타일 10종 직접 구현 목업(참조 전용 .kcard) ══
+   목업은 전부 인라인 SVG·CSS(외부 라이브러리·이미지 0). 색·라운드·그림자는 .mk-<key>의 CSS 변수로만 갈린다. */
+.ucard .schd{cursor:default;flex-wrap:wrap}
+.reqb{font-size:10.5px;font-weight:800;color:#8a5d08;background:#fdf3e0;border:1px solid #f0dcb4;border-radius:6px;padding:2px 8px;white-space:nowrap}
+.uspec{display:flex;flex-direction:column;gap:3px;margin-top:9px;padding:9px 10px;background:#f1efe8;border:1px solid #e4e0d4;border-radius:9px}
+.uspec span{font-size:11.5px;color:#4a463e;line-height:1.45}
+.uspec b{display:inline-block;min-width:44px;font-weight:800;color:#6e6a5e}
+.uspec code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;font-weight:700;color:#1f6b45}
+.ucard .use{margin-top:8px}
+.unote{font-size:12.5px;color:#6e6a5e;line-height:1.6;margin:2px 0 14px}
+@media(prefers-color-scheme:dark){
+html:not([data-theme="light"]) .uspec{background:#221f1a;border-color:#38342c}
+html:not([data-theme="light"]) .uspec span{color:#d8d3c8}
+html:not([data-theme="light"]) .uspec b{color:#a49d8d}
+html:not([data-theme="light"]) .uspec code{color:#7fd9a8}
+html:not([data-theme="light"]) .reqb{color:#d8b26a;background:#241d10;border-color:#44361a}
+html:not([data-theme="light"]) .unote{color:#a49d8d}
+}
+/* 목업 공통 스켈레톤 */
+.mk{--rad:12px;--sh:none;--bd:rgba(0,0,0,.08);--soft:rgba(0,0,0,.12);margin:11px 0 2px;border:1px solid var(--bd);border-radius:12px;overflow:hidden;background:var(--bg);color:var(--ink);font-size:8.5px;line-height:1.25}
+.mktop{display:flex;align-items:center;gap:6px;padding:6px 8px;background:var(--top,var(--surf));border-bottom:1px solid var(--bd)}
+.mkdots{display:flex;gap:3px;flex:0 0 auto}
+.mkdots i{width:6px;height:6px;border-radius:50%;background:var(--dot,var(--soft))}
+.mkurl{flex:1;height:8px;border-radius:99px;background:var(--soft)}
+.mkpill{flex:0 0 26px;height:9px;border-radius:99px;background:var(--acc)}
+.mkwrap{display:flex}
+.mkside{flex:0 0 28px;display:flex;flex-direction:column;gap:7px;padding:9px 6px;background:var(--side,transparent);border-right:1px solid var(--bd)}
+.mkside i{height:6px;border-radius:3px;background:var(--sideitem,var(--soft))}
+.mkside i.on{background:var(--acc)}
+.mkmain{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;padding:8px}
+.mkkpi{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.mkrow{display:grid;grid-template-columns:1.55fr 1fr;gap:6px}
+.mk .tile{min-width:0;background:var(--surf);border:1px solid var(--bd);border-radius:var(--rad);box-shadow:var(--sh);padding:6px 7px}
+.mk .tile>span{display:block;font-size:7.5px;font-weight:700;color:var(--sub);letter-spacing:-.01em}
+.mk .tile>b{display:block;font-size:12px;font-weight:800;letter-spacing:-.03em;margin:1px 0 2px;font-variant-numeric:tabular-nums}
+.mk .dn{display:flex;align-items:center;gap:6px;margin-top:3px}
+.mk .lg{flex:1;display:flex;flex-direction:column;gap:3px}
+.mk .lg i{display:block;height:4px;border-radius:2px;background:var(--soft)}
+.mk .mats{display:flex;gap:4px;margin-top:4px}
+.mk .mats i{flex:1;height:15px;border-radius:5px;box-shadow:inset 0 -3px 5px rgba(0,0,0,.16),0 2px 3px rgba(0,0,0,.12)}
+.mk .ctls{display:flex;align-items:center;gap:7px;margin-top:5px}
+.mk .tg{flex:0 0 22px;height:11px;border-radius:99px;background:var(--soft);display:flex;align-items:center;padding:0 1px}
+.mk .tg i{width:9px;height:9px;border-radius:50%;background:#fff;box-shadow:1px 1px 2px rgba(0,0,0,.22)}
+.mk .tg.on{background:var(--acc);justify-content:flex-end}
+.mk .sl{flex:1;height:5px;border-radius:99px;background:var(--soft);position:relative}
+.mk .sl b{position:absolute;left:0;top:0;bottom:0;width:62%;border-radius:99px;background:var(--acc)}
+.mk .mkpix{display:flex;flex-wrap:wrap;gap:2px;margin-top:4px}
+.mk .mkpix i{width:6px;height:6px;background:var(--acc)}
+@media(max-width:440px){.mk .tile>b{font-size:11px}.mkside{flex:0 0 24px}}
+/* 01 글래스모피즘 */
+.mk-glass{--bg:linear-gradient(135deg,#e2e5ff,#eef1ff 45%,#e4ecff);--surf:rgba(255,255,255,.58);--soft:rgba(110,120,185,.24);--ink:#25294a;--sub:#6b7098;--acc:#6366F1;--acc2:#A78BFA;--bd:rgba(255,255,255,.7);--rad:12px;--sh:0 5px 16px rgba(70,80,160,.16)}
+.mk-glass .tile,.mk-glass .mktop{backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+.mk-glass .mktop{background:rgba(255,255,255,.5)}
+.mk-glass .mkside{background:rgba(255,255,255,.4)}
+/* 02 브루탈리즘 */
+.mk-brutal{--bg:#FFF8E6;--surf:#fff;--soft:#111;--ink:#111;--sub:#111;--acc:#1B4BFF;--acc2:#F4483B;--bd:#111;--rad:0px;--sh:3px 3px 0 #111;border-width:2px}
+.mk-brutal .mktop{background:#F0C808;border-bottom-width:2px}
+.mk-brutal .mkdots i{background:#111}
+.mk-brutal .mkside{background:#1B4BFF;border-right-width:2px;--sideitem:#fff}
+.mk-brutal .mkside i.on{background:#F0C808}  /* 순수 원색 노랑은 형광 판정(L*86.2·C*86.6)에 걸려 한 단계 낮춘 값을 쓴다 — is_neon.py 통과 */
+.mk-brutal .tile{border-width:2px}
+.mk-brutal .tile>span{font-weight:800;text-transform:uppercase}
+.mk-brutal .mkpill{border:2px solid #111;background:#F4483B;border-radius:0}
+/* 03 뉴모피즘 */
+.mk-neu{--bg:#E9EDF3;--surf:#E9EDF3;--soft:#d2d8e2;--ink:#394154;--sub:#8a92a6;--acc:#4A63E7;--acc2:#8B5CF6;--bd:transparent;--rad:13px;--sh:3px 3px 7px #c8ced9,-3px -3px 7px #ffffff;border-color:#dfe4ec}
+.mk-neu .mktop{background:#E9EDF3;border-bottom-color:#dfe4ec}
+.mk-neu .mkside{border-right-color:#dfe4ec;--sideitem:#E9EDF3}
+.mk-neu .mkside i{box-shadow:2px 2px 4px #c8ced9,-2px -2px 4px #fff}
+.mk-neu .mkurl{background:#E9EDF3;box-shadow:inset 2px 2px 4px #c8ced9,inset -2px -2px 4px #fff}
+/* 04 벤토 그리드 */
+.mk-bento{--bg:#F6F7FA;--surf:#fff;--soft:#e5e9f0;--ink:#0F172A;--sub:#7b8496;--acc:#2563EB;--acc2:#F97316;--bd:#e7eaf1;--rad:11px;--sh:0 1px 2px rgba(15,23,42,.06)}
+.mk-bento .mkside{background:#0F172A;border-right-color:#0F172A;--sideitem:#33405a}
+.mk-bento .mkkpi{grid-template-columns:1.7fr 1fr 1fr}
+.mk-bento .mkkpi .tile:nth-child(4){display:none}
+.mk-bento .mkkpi .tile:first-child{background:#0F172A;border-color:#0F172A;color:#fff}
+.mk-bento .mkkpi .tile:first-child>span{color:#93a2bd}
+.mk-bento .mkrow{grid-template-columns:1fr 1.35fr}
+/* 05 다크 모드 UI */
+.mk-dark{--bg:#0F1520;--surf:#151D2B;--soft:#27313f;--ink:#e6edf7;--sub:#7f8ca0;--acc:#3B82F6;--acc2:#34D399;--bd:#1E293B;--rad:10px;--sh:none}
+.mk-dark .mktop{background:#0B111A}
+.mk-dark .mkside{background:#0B111A;border-right-color:#1E293B}
+/* 06 3D · 이머시브 */
+.mk-d3{--bg:#EFE6DA;--surf:#F8F3EB;--soft:#ddd1c1;--ink:#3b3229;--sub:#8b7d6b;--acc:#C2643C;--acc2:#9A7B57;--bd:#e3d8c9;--rad:15px;--sh:0 6px 14px rgba(120,90,60,.18)}
+.mk-d3 .mktop{background:#F8F3EB}
+.mk-d3 .mkside{background:#3D352C;border-right-color:#3D352C;--sideitem:#6b6053}
+/* 07 미니멀리즘 */
+.mk-min{--bg:#F4F5F0;--surf:#FBFBF8;--soft:#e2e4db;--ink:#20231d;--sub:#8f938a;--acc:#7C8B6B;--acc2:#C3CBB4;--bd:#e5e7de;--rad:7px;--sh:none}
+.mk-min .mktop{background:#FBFBF8}
+.mk-min .mkside{background:#F0F1EB}
+/* 08 그라디언트 메시 (요청 시에만) */
+.mk-mesh{--surf:#fff;--soft:#e6e8f3;--ink:#1a1c2e;--sub:#767b96;--acc:#6D5BF6;--acc2:#F97389;--bd:rgba(255,255,255,.5);--rad:11px;--sh:0 6px 16px rgba(79,70,229,.16);padding:8px;border-color:rgba(255,255,255,.4);background:radial-gradient(60% 75% at 2% 4%,#FF7A7A 0%,transparent 58%),radial-gradient(65% 70% at 98% 2%,#5B4BF6 0%,transparent 60%),radial-gradient(75% 80% at 100% 100%,#2FC7E0 0%,transparent 58%),linear-gradient(135deg,#7C5CF0,#3B6FE0)}
+.mk-mesh .mktop{background:#141A2E;border-radius:9px 9px 0 0;border-bottom:none}
+.mk-mesh .mktop .mkurl{background:#2a3350}
+.mk-mesh .mkdots i{background:#4a5578}
+.mk-mesh .mkwrap{background:#fff;border-radius:0 0 9px 9px}
+.mk-mesh .mkside{border-right-color:#eceef6}
+/* 09 에디토리얼 */
+.mk-edit{--bg:#F7F4EE;--surf:#FCFAF5;--soft:#ded8cd;--ink:#191b24;--sub:#7a7466;--acc:#7B1E2B;--acc2:#1F3252;--bd:#e5dfd3;--rad:3px;--sh:none;font-family:Georgia,'Times New Roman',serif}
+.mk-edit .mktop{background:#FCFAF5}
+.mk-edit .mkside{background:#5E1622;border-right-color:#5E1622;--sideitem:rgba(255,255,255,.45)}
+.mk-edit .tile>b{letter-spacing:-.01em}
+.mk-edit .tile>span{font-family:'Pretendard',sans-serif;letter-spacing:.06em;text-transform:uppercase}
+/* 10 레트로 · Y2K (요청 시에만) */
+.mk-y2k{--bg:linear-gradient(165deg,#dbeafe,#f0d9fb 52%,#d2f2fb);--surf:linear-gradient(180deg,#ffffff,#e9f0fd);--soft:#c3d3f0;--ink:#2b2a5e;--sub:#7a79b8;--acc:#FF5FA2;--acc2:#7FB8FF;--bd:#ffffff;--rad:9px;--sh:inset 0 1px 0 #fff,0 3px 8px rgba(120,120,200,.28);border-color:#fff}
+.mk-y2k .mktop{background:linear-gradient(180deg,#ffffff,#cfdcf2 45%,#9fb4d4 55%,#eef4ff);border-bottom-color:#fff}
+.mk-y2k .mkdots i:nth-child(1){background:radial-gradient(circle at 30% 25%,#fff,#FF5FA2)}
+.mk-y2k .mkdots i:nth-child(2){background:radial-gradient(circle at 30% 25%,#fff,#9F7BFF)}
+.mk-y2k .mkdots i:nth-child(3){background:radial-gradient(circle at 30% 25%,#fff,#5FA8FF)}
+.mk-y2k .mkside{background:linear-gradient(180deg,#eaf2ff,#cfe0f7);--sideitem:#a9c4ea}
+.mk-y2k .mkurl{background:#fff;border:1px solid #9fb4d4}
 /* ── 스타일 킷("이 스타일로 시작하기") ── */
 .kit{margin-top:10px;border:1px solid #ddd9cf;border-radius:10px;background:#faf9f5}
 .kit>summary{cursor:pointer;list-style:none;padding:8px 11px;font-size:12px;font-weight:800;color:#1f6b45;user-select:none}
@@ -403,6 +687,48 @@ html[data-theme="dark"] .psrc{color:#9d9788}
 html[data-theme="dark"] .bcopy{background:#1b2b22;border-color:#2E7D5B;color:#7fd9a8}
 html[data-theme="dark"] .bcopy:hover{background:#2E7D5B;color:#eafff3}
 html[data-theme="dark"] .bcat{background:#2a2620;color:#b5af9f}
+html[data-theme="dark"] .skx{background:#1a1813;border-color:#332f28}
+html[data-theme="dark"] .skx>summary{color:#7fd9a8}
+html[data-theme="dark"] .skx>summary::after{color:#8a8478}
+html[data-theme="dark"] .skxsrc,html[data-theme="dark"] .bacap{color:#9d9788}
+html[data-theme="dark"] .skxbody .bacap b{color:#d8d3c8}
+html[data-theme="dark"] .bacol{background:#211e19;border-color:#38342c}
+html[data-theme="dark"] .bacol.a{background:#182420;border-color:#2a4234}
+html[data-theme="dark"] .bacol>em{color:#8a8478}
+html[data-theme="dark"] .bacol.a>em{color:#7fd9a8}
+html[data-theme="dark"] .tone .tt{border-color:#38342c}
+html[data-theme="dark"] .tt.dial,html[data-theme="dark"] .tt.sw,html[data-theme="dark"] .tt.fr,html[data-theme="dark"] .lgt{background:#211e19;color:#d8d3c8}
+html[data-theme="dark"] .lgt{border-color:#38342c;color:#a49d8d}
+html[data-theme="dark"] .lgt b{color:#e8e4da}
+html[data-theme="dark"] .lgm{border-color:#e8e4da}
+html[data-theme="dark"] .lgl{border-bottom-color:#e8e4da}
+html[data-theme="dark"] .lga{background:#e8e4da;color:#1f2d26}
+html[data-theme="dark"] .dg i,html[data-theme="dark"] .grid12 i,html[data-theme="dark"] .col60 i,html[data-theme="dark"] .stg i{background:#2b3830}
+html[data-theme="dark"] .frbar{background:#2a2620}
+html[data-theme="dark"] .tybad,html[data-theme="dark"] .tygood,html[data-theme="dark"] .kr,html[data-theme="dark"] .doc{color:#d8d3c8}
+html[data-theme="dark"] .tybad{color:#8a8478}
+html[data-theme="dark"] .tybad b,html[data-theme="dark"] .kr b{color:#d8b26a;background:#241d10}
+html[data-theme="dark"] .cbad{color:#d8b26a;background:#241d10}
+html[data-theme="dark"] .cgood{color:#7fd9a8;background:#1b2b22}
+html[data-theme="dark"] .tok b{color:#8a8478;background:#221f1a;border-color:#38342c}
+html[data-theme="dark"] .tok.on b{color:#7fd9a8;background:#1b2b22;border-color:#2a4234}
+html[data-theme="dark"] .judge.no{color:#d8b26a;background:#241d10}
+html[data-theme="dark"] .judge.ok{color:#7fd9a8;background:#1b2b22}
+html[data-theme="dark"] .mini{color:#d8d3c8}
+html[data-theme="dark"] .pathb{color:#8a8478}
+html[data-theme="dark"] .patha{color:#7fd9a8}
+html[data-theme="dark"] .clips i{color:#7fd9a8;background:#1b2b22;border-color:#2a4234}
+html[data-theme="dark"] .btngood{background:#2E7D5B}
+html[data-theme="dark"] .dfx{border-color:#332f28}
+html[data-theme="dark"] .dfx-echarts,html[data-theme="dark"] .dfxstage.ec{background:#14120e}
+html[data-theme="dark"] .ecc{background:#1c1a15;border-color:#332f28}
+html[data-theme="dark"] .ecc em{color:#a49d8d}
+html[data-theme="dark"] .uspec{background:#221f1a;border-color:#38342c}
+html[data-theme="dark"] .uspec span{color:#d8d3c8}
+html[data-theme="dark"] .uspec b{color:#a49d8d}
+html[data-theme="dark"] .uspec code{color:#7fd9a8}
+html[data-theme="dark"] .reqb{color:#d8b26a;background:#241d10;border-color:#44361a}
+html[data-theme="dark"] .unote{color:#a49d8d}
 html[data-theme="dark"] .kit{background:#1e1b16;border-color:#332f28}
 html[data-theme="dark"] .kit>summary{color:#7fd9a8}
 html[data-theme="dark"] .kitt{color:#d8d3c8}
@@ -449,6 +775,7 @@ html[data-theme="dark"] .sknote .kit{background:#1e1b16}
 <button class="tab" role="tab" aria-selected="false" tabindex="-1" aria-controls="pane-home" id="tabHome" onclick="showTab('home')"><span class="tlf">🌐 홈페이지</span><span class="tls">🌐 홈</span></button>
 <button class="tab" role="tab" aria-selected="false" tabindex="-1" aria-controls="pane-deck" id="tabDeck" onclick="showTab('deck')"><span class="tlf">🎬 덱 연출</span><span class="tls">🎬 연출</span></button>
 <button class="tab" role="tab" aria-selected="false" tabindex="-1" aria-controls="pane-kr" id="tabKr" onclick="showTab('kr')"><span class="tlf">🇰🇷 브랜드 스펙</span><span class="tls">🇰🇷 브랜드</span></button>
+<button class="tab" role="tab" aria-selected="false" tabindex="-1" aria-controls="pane-mock" id="tabMock" onclick="showTab('mock')"><span class="tlf">🖼️ 화면 시안</span><span class="tls">🖼️ 시안</span></button>
 </div>
 <div class="chips"><button class="chip on" aria-pressed="true" data-f="all" onclick="filt(this)">전체</button><button class="chip" aria-pressed="false" data-f="건기식웰니스" onclick="filt(this)">건기식·웰니스</button><button class="chip" aria-pressed="false" data-f="식품FB" onclick="filt(this)">식품·F&amp;B</button><button class="chip" aria-pressed="false" data-f="뷰티럭셔리" onclick="filt(this)">뷰티·럭셔리</button><button class="chip" aria-pressed="false" data-f="테크핀테크" onclick="filt(this)">테크·핀테크</button><button class="chip" aria-pressed="false" data-f="금융컨설팅" onclick="filt(this)">금융·컨설팅</button><button class="chip" aria-pressed="false" data-f="패션" onclick="filt(this)">패션</button><button class="chip" aria-pressed="false" data-f="의료" onclick="filt(this)">의료</button><button class="chip" aria-pressed="false" data-f="스포츠" onclick="filt(this)">스포츠</button><button class="chip" aria-pressed="false" data-f="키즈" onclick="filt(this)">키즈</button></div>
 <div class="searchrow"><span class="qwrap"><input id="q" aria-label="이름·무드·용도 검색" placeholder="검색: 이름·무드·용도 (예: 신뢰, 웰니스, 그라데이션)"><button id="qClear" aria-label="검색어 지우기" onclick="clearQ()">✕</button></span><button id="recToggle" aria-pressed="false" onclick="toggleRec()"><span class="rtf">🌿 건기식 추천만</span><span class="rts">🌿 건기식 추천</span></button></div>
@@ -2644,18 +2971,21 @@ document.querySelectorAll(&#x27;.reveal&#x27;).forEach((el,i)=&gt;{el.style.tran
 
 <div class="tabpane" id="pane-deck" role="tabpanel" aria-labelledby="tabDeck">
 <div class="section">🎬 덱 연출 <span class="secsub">3종 · 덱을 실제로 만드는 도구(엔진·차트) · 스타일과 별개 축 · 여러 개 선택 가능</span></div>
-<h3 class="grp">🎬 덱 연출 <span class="cnt">3</span><span class="grpnote">스타일 92종과 별개 부가 축 — 여러 개 선택 가능</span></h3><div class="grid kgrid"><div class="card kcard dcard" data-name="reveal.js 테마 reveal.js html 덱 표준 — 웹 프레젠테이션 프레임워크 html 덱 전반의 기본 엔진 덱 연출" data-combo="reveal.js" data-kname="reveal.js 테마">
+<div class="grid kgrid"><div class="card kcard dcard" data-name="reveal.js 테마 reveal.js html 덱 표준 — 웹 프레젠테이션 프레임워크 html 덱 전반의 기본 엔진 덱 연출" data-combo="reveal.js" data-kname="reveal.js 테마">
       <div class="schd" onclick="selDeck(this)"><h3 role="button" tabindex="0" aria-pressed="false">reveal.js 테마 <span class="en skcode">reveal.js</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
+      <button type="button" class="dfx dfx-reveal" onclick="dfxPlay(event,this)" aria-pressed="false" aria-label="reveal.js 슬라이드 가로 전환 미리보기 — 눌러서 재생/정지"><div class="dfxstage"><div class="rvtrack"><div class="rvs"><span class="rvt" style="background:var(--a1)"></span><span class="rvl" style="width:86%"></span><span class="rvl" style="width:62%"></span><span class="rvbar"><b style="width:34%;background:var(--a1)"></b></span></div><div class="rvs"><span class="rvt" style="background:var(--a2)"></span><span class="rvl" style="width:77%"></span><span class="rvl" style="width:56%"></span><span class="rvbar"><b style="width:48%;background:var(--a2)"></b></span></div><div class="rvs"><span class="rvt" style="background:var(--a3)"></span><span class="rvl" style="width:68%"></span><span class="rvl" style="width:50%"></span><span class="rvbar"><b style="width:62%;background:var(--a3)"></b></span></div><div class="rvs"><span class="rvt" style="background:var(--a4)"></span><span class="rvl" style="width:59%"></span><span class="rvl" style="width:44%"></span><span class="rvbar"><b style="width:76%;background:var(--a4)"></b></span></div><div class="rvs"><span class="rvt" style="background:var(--a1)"></span><span class="rvl" style="width:50%"></span><span class="rvl" style="width:38%"></span><span class="rvbar"><b style="width:90%;background:var(--a1)"></b></span></div></div><span class="rvdots"><i></i><i></i><i></i><i></i><b class="rvcur"></b></span></div><span class="dfxcap">슬라이드 가로 전환<em class="dfxhint">▶ 올리거나 눌러서 재생</em></span></button>
       <p class="mood">💡 HTML 덱 표준 — 웹 프레젠테이션 프레임워크</p>
       <p class="use">🎯 HTML 덱 전반의 기본 엔진</p>
       <p class="role">★ 71,911 · MIT (2026-07-12 실측)</p>
     </div><div class="card kcard dcard" data-name="impress.js 시네마틱 impress.js 3d 줌·회전 전환 — 임팩트 덱 한정 강한 인상이 필요한 특별 발표(과용 금지) 덱 연출" data-combo="impress.js" data-kname="impress.js 시네마틱">
       <div class="schd" onclick="selDeck(this)"><h3 role="button" tabindex="0" aria-pressed="false">impress.js 시네마틱 <span class="en skcode">impress.js</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
+      <button type="button" class="dfx dfx-impress" onclick="dfxPlay(event,this)" aria-pressed="false" aria-label="impress.js 3D 줌·회전 전환 미리보기 — 눌러서 재생/정지"><div class="dfxstage"><div class="ipcam"><span class="ipb b1"><i style="width:70%"></i><i style="width:44%"></i></span><span class="ipb b2"><i style="width:56%"></i><i style="width:80%"></i></span><span class="ipb b3"><i style="width:64%"></i><i style="width:38%"></i></span></div></div><span class="dfxcap">3D 줌·회전 전환<em class="dfxhint">▶ 올리거나 눌러서 재생</em></span></button>
       <p class="mood">💡 3D 줌·회전 전환 — 임팩트 덱 한정</p>
       <p class="use">🎯 강한 인상이 필요한 특별 발표(과용 금지)</p>
       <p class="role">★ 38,190 · MIT (2026-07-12 실측)</p>
     </div><div class="card kcard dcard" data-name="echarts 차트 echarts 데이터 슬라이드 200+ 차트 유형 수치·차트 비중 큰 데이터 슬라이드 덱 연출" data-combo="ECharts" data-kname="ECharts 차트">
       <div class="schd" onclick="selDeck(this)"><h3 role="button" tabindex="0" aria-pressed="false">ECharts 차트 <span class="en skcode">ECharts</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
+      <button type="button" class="dfx dfx-echarts" onclick="dfxPlay(event,this)" aria-pressed="false" aria-label="ECharts 그릴 수 있는 차트 유형 미리보기 — 눌러서 재생/정지"><div class="dfxstage ec"><span class="ecc"><em>꺾은선</em><svg viewBox="0 0 60 30" preserveAspectRatio="none" aria-hidden="true"><polyline class="ecline" points="0,26 10,18 20,21 30,11 40,14 50,6 60,3" fill="none" stroke="#2E7D5B" stroke-width="2" vector-effect="non-scaling-stroke"/></svg></span><span class="ecc"><em>막대</em><svg viewBox="0 0 60 30" preserveAspectRatio="none" aria-hidden="true"><rect class="ecbar" x="2" y="16" width="8" height="14" fill="#3E7BB6" style="animation-delay:0.00s"/><rect class="ecbar" x="14" y="8" width="8" height="22" fill="#3E7BB6" style="animation-delay:0.12s"/><rect class="ecbar" x="26" y="19" width="8" height="11" fill="#3E7BB6" style="animation-delay:0.24s"/><rect class="ecbar" x="38" y="4" width="8" height="26" fill="#3E7BB6" style="animation-delay:0.36s"/><rect class="ecbar" x="50" y="12" width="8" height="18" fill="#3E7BB6" style="animation-delay:0.48s"/></svg></span><span class="ecc"><em>도넛</em><svg viewBox="0 0 30 30" aria-hidden="true"><g class="ecdonut"><circle cx="15" cy="15" r="11" fill="none" stroke="#D8D3C6" stroke-width="7"/><circle cx="15" cy="15" r="11" fill="none" stroke="#2E7D5B" stroke-width="7" stroke-dasharray="41 28"/><circle cx="15" cy="15" r="11" fill="none" stroke="#C9832E" stroke-width="7" stroke-dasharray="15 54" stroke-dashoffset="-41"/></g></svg></span><span class="ecc"><em>산점</em><svg viewBox="0 0 60 30" aria-hidden="true"><circle class="ecdot" cx="8" cy="22" r="2.4" fill="#7A5CB0" style="animation-delay:0.00s"/><circle class="ecdot" cx="16" cy="15" r="2.4" fill="#7A5CB0" style="animation-delay:0.07s"/><circle class="ecdot" cx="22" cy="19" r="2.4" fill="#7A5CB0" style="animation-delay:0.14s"/><circle class="ecdot" cx="28" cy="9" r="2.4" fill="#7A5CB0" style="animation-delay:0.21s"/><circle class="ecdot" cx="34" cy="13" r="2.4" fill="#7A5CB0" style="animation-delay:0.28s"/><circle class="ecdot" cx="42" cy="7" r="2.4" fill="#7A5CB0" style="animation-delay:0.35s"/><circle class="ecdot" cx="50" cy="11" r="2.4" fill="#7A5CB0" style="animation-delay:0.42s"/><circle class="ecdot" cx="14" cy="26" r="2.4" fill="#7A5CB0" style="animation-delay:0.49s"/><circle class="ecdot" cx="38" cy="20" r="2.4" fill="#7A5CB0" style="animation-delay:0.56s"/><circle class="ecdot" cx="54" cy="17" r="2.4" fill="#7A5CB0" style="animation-delay:0.63s"/></svg></span></div><span class="dfxcap">그릴 수 있는 차트 유형<em class="dfxhint">▶ 올리거나 눌러서 재생</em></span></button>
       <p class="mood">💡 데이터 슬라이드 200+ 차트 유형</p>
       <p class="use">🎯 수치·차트 비중 큰 데이터 슬라이드</p>
       <p class="role">★ 66,793 · Apache-2.0 (2026-07-12 실측)</p>
@@ -2868,88 +3198,375 @@ document.querySelectorAll(&#x27;.reveal&#x27;).forEach((el,i)=&gt;{el.style.tran
 <div class="noresult">조건에 맞는 항목이 없습니다 — 필터·검색을 풀어보세요.</div>
 </div>
 
+<div class="tabpane" id="pane-mock" role="tabpanel" aria-labelledby="tabMock">
+<div class="section">🖼️ 화면 시안 <span class="secsub">10종 · 화면 한 벌을 각 스타일로 완성한 시안 · 시연·참고용(선택 대상 아님)</span></div>
+<p class="unote">아래 시안은 이미지가 아니라 <b>HTML·CSS·인라인 SVG로 직접 구현</b>한 목업입니다(숫자는 더미). 카드를 눌러도 선택되지 않습니다 — 핵심 값 4종과 용도를 보고 <b>📋 AI 지시문 1줄 복사</b>로 가져다 쓰세요.</p>
+<div class="grid kgrid"><div class="card kcard ucard" data-name="글래스모피즘 glassmorphism 반투명 표면 + 배경 블러 + 연보라 그라데이션 배경 — 표면이 떠 보이는 깊이감 제품 소개 랜딩·앱 ui 시안 — 배경 이미지 위에 정보를 얹을 때 유리 반투명 블러 보라 프로스티드 frosted ui 스타일 화면 시안 목업">
+      <div class="schd"><h3>글래스모피즘 <span class="en">Glassmorphism</span></h3><span class="bcat">01</span></div>
+      <div class="mk mk-glass" role="img" aria-label="glass 스타일 미니 대시보드 목업(더미 데이터)">
+  <div class="mktop"><span class="mkdots"><i></i><i></i><i></i></span><span class="mkurl"></span><span class="mkpill"></span></div>
+  <div class="mkwrap">
+    <div class="mkside"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="mkmain">
+      <div class="mkkpi"><div class="tile"><span>방문</span><b>12,540</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,10.4 8.6,8.0 17.1,9.2 25.7,5.6 34.3,6.8 42.9,3.2 51.4,4.4 60.0,0.8" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>가입</span><b>3,180</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,11.6 8.6,9.2 17.1,10.4 25.7,8.0 34.3,5.6 42.9,6.8 51.4,3.2 60.0,2.0" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>전환</span><b>23.8%</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,6.8 8.6,8.0 17.1,5.6 25.7,6.8 34.3,4.4 42.9,5.6 51.4,3.2 60.0,4.4" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>체류</span><b>4m 12s</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,9.2 8.6,6.8 17.1,8.0 25.7,4.4 34.3,5.6 42.9,3.2 51.4,0.8 60.0,2.0" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div></div>
+      <div class="mkrow">
+        <div class="tile"><span>주간 추이</span><svg viewBox="0 0 100 34" preserveAspectRatio="none" style="height:34px" aria-hidden="true"><path d="M0.0,28.0 L11.1,22.0 L22.2,25.0 L33.3,16.0 L44.4,19.0 L55.6,13.0 L66.7,16.0 L77.8,7.0 L88.9,10.0 L100.0,1.0 L100,34 L0,34 Z" style="fill:var(--acc);opacity:.16"/><path d="M0.0,28.0 L11.1,22.0 L22.2,25.0 L33.3,16.0 L44.4,19.0 L55.6,13.0 L66.7,16.0 L77.8,7.0 L88.9,10.0 L100.0,1.0" fill="none" style="stroke:var(--acc)" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg></div>
+        <div class="tile"><span>구성비</span><div class="dn"><svg viewBox="0 0 32 32" style="width:44px;height:44px;flex:0 0 44px" aria-hidden="true"><g transform="rotate(-90 16 16)"><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--acc)" stroke-width="5.5" stroke-dasharray="37.57 44.11" stroke-dashoffset="-0.00"/><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--acc2)" stroke-width="5.5" stroke-dasharray="24.50 57.18" stroke-dashoffset="-37.57"/><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--soft)" stroke-width="5.5" stroke-dasharray="19.60 62.08" stroke-dashoffset="-62.08"/></g></svg><div class="lg"><i style="width:80%"></i><i style="width:62%"></i><i style="width:45%"></i></div></div></div>
+      </div>
+      <div class="tile"><span>채널별</span><svg viewBox="0 0 100 30" preserveAspectRatio="none" style="height:30px" aria-hidden="true"><rect x="1.1" y="17.0" width="7.8" height="13.0" rx="1" style="fill:var(--acc2)"/><rect x="11.1" y="11.8" width="7.8" height="18.2" rx="1" style="fill:var(--acc)"/><rect x="21.1" y="19.6" width="7.8" height="10.4" rx="1" style="fill:var(--acc)"/><rect x="31.1" y="9.2" width="7.8" height="20.8" rx="1" style="fill:var(--acc2)"/><rect x="41.1" y="14.4" width="7.8" height="15.6" rx="1" style="fill:var(--acc)"/><rect x="51.1" y="6.6" width="7.8" height="23.4" rx="1" style="fill:var(--acc)"/><rect x="61.1" y="11.8" width="7.8" height="18.2" rx="1" style="fill:var(--acc2)"/><rect x="71.1" y="1.4" width="7.8" height="28.6" rx="1" style="fill:var(--acc)"/><rect x="81.1" y="9.2" width="7.8" height="20.8" rx="1" style="fill:var(--acc)"/><rect x="91.1" y="4.0" width="7.8" height="26.0" rx="1" style="fill:var(--acc2)"/></svg></div>
+      
+    </div>
+  </div>
+</div>
+      <p class="mood">💡 반투명 표면 + 배경 블러 + 연보라 그라데이션 배경 — 표면이 떠 보이는 깊이감</p>
+      <div class="uspec">
+        <span><b>주색</b> <code>#6366F1</code></span>
+        <span><b>라운드</b> 16~18px</span>
+        <span><b>그림자</b> 0 8px 32px rgba(31,38,135,.14) + 배경 블러 12px</span>
+        <span><b>폰트</b> 산세리프(Pretendard) · 굵기 대비 낮게 400/700</span>
+      </div>
+      <p class="use">🎯 제품 소개 랜딩·앱 UI 시안 — 배경 이미지 위에 정보를 얹을 때</p>
+      <div class="promptrow"><button class="bcopy" data-txt="글래스모피즘(Glassmorphism) 스타일로 만들어줘 — 주색 #6366F1, 라운드 16~18px, 그림자 0 8px 32px rgba(31,38,135,.14) + 배경 블러 12px, 폰트 산세리프(Pretendard) · 굵기 대비 낮게 400/700. 핵심: 반투명 표면 + 배경 블러 + 연보라 그라데이션 배경 — 표면이 떠 보이는 깊이감. (출처: 디자인 선택보드 🖼️ 화면 시안 탭 · 우리 브랜드 색이 걸린 산출물이면 주색만 정본 팔레트로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">직접 구현 목업</span></div>
+    </div><div class="card kcard ucard" data-name="브루탈리즘 brutalism 검정 2px 테두리 + 원색(파랑·노랑·빨강) 면 + 라운드 0 — 눈에 박히는 대비 이벤트·캠페인 페이지, 젊은 브랜드 — 튀어야 하는 단발 산출물 브루탈 네오브루탈 하드섀도 원색 테두리 neobrutalism ui 스타일 화면 시안 목업">
+      <div class="schd"><h3>브루탈리즘 <span class="en">Brutalism</span></h3><span class="bcat">02</span></div>
+      <div class="mk mk-brutal" role="img" aria-label="brutal 스타일 미니 대시보드 목업(더미 데이터)">
+  <div class="mktop"><span class="mkdots"><i></i><i></i><i></i></span><span class="mkurl"></span><span class="mkpill"></span></div>
+  <div class="mkwrap">
+    <div class="mkside"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="mkmain">
+      <div class="mkkpi"><div class="tile"><span>방문</span><b>12,540</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,10.4 8.6,8.0 17.1,9.2 25.7,5.6 34.3,6.8 42.9,3.2 51.4,4.4 60.0,0.8" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>가입</span><b>3,180</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,11.6 8.6,9.2 17.1,10.4 25.7,8.0 34.3,5.6 42.9,6.8 51.4,3.2 60.0,2.0" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>전환</span><b>23.8%</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,6.8 8.6,8.0 17.1,5.6 25.7,6.8 34.3,4.4 42.9,5.6 51.4,3.2 60.0,4.4" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>체류</span><b>4m 12s</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,9.2 8.6,6.8 17.1,8.0 25.7,4.4 34.3,5.6 42.9,3.2 51.4,0.8 60.0,2.0" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div></div>
+      <div class="mkrow">
+        <div class="tile"><span>주간 추이</span><svg viewBox="0 0 100 34" preserveAspectRatio="none" style="height:34px" aria-hidden="true"><path d="M0.0,28.0 L11.1,22.0 L22.2,25.0 L33.3,16.0 L44.4,19.0 L55.6,13.0 L66.7,16.0 L77.8,7.0 L88.9,10.0 L100.0,1.0 L100,34 L0,34 Z" style="fill:var(--acc);opacity:.16"/><path d="M0.0,28.0 L11.1,22.0 L22.2,25.0 L33.3,16.0 L44.4,19.0 L55.6,13.0 L66.7,16.0 L77.8,7.0 L88.9,10.0 L100.0,1.0" fill="none" style="stroke:var(--acc)" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg></div>
+        <div class="tile"><span>구성비</span><div class="dn"><svg viewBox="0 0 32 32" style="width:44px;height:44px;flex:0 0 44px" aria-hidden="true"><g transform="rotate(-90 16 16)"><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--acc)" stroke-width="5.5" stroke-dasharray="37.57 44.11" stroke-dashoffset="-0.00"/><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--acc2)" stroke-width="5.5" stroke-dasharray="24.50 57.18" stroke-dashoffset="-37.57"/><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--soft)" stroke-width="5.5" stroke-dasharray="19.60 62.08" stroke-dashoffset="-62.08"/></g></svg><div class="lg"><i style="width:80%"></i><i style="width:62%"></i><i style="width:45%"></i></div></div></div>
+      </div>
+      <div class="tile"><span>채널별</span><svg viewBox="0 0 100 30" preserveAspectRatio="none" style="height:30px" aria-hidden="true"><rect x="1.1" y="17.0" width="7.8" height="13.0" rx="1" style="fill:var(--acc2)"/><rect x="11.1" y="11.8" width="7.8" height="18.2" rx="1" style="fill:var(--acc)"/><rect x="21.1" y="19.6" width="7.8" height="10.4" rx="1" style="fill:var(--acc)"/><rect x="31.1" y="9.2" width="7.8" height="20.8" rx="1" style="fill:var(--acc2)"/><rect x="41.1" y="14.4" width="7.8" height="15.6" rx="1" style="fill:var(--acc)"/><rect x="51.1" y="6.6" width="7.8" height="23.4" rx="1" style="fill:var(--acc)"/><rect x="61.1" y="11.8" width="7.8" height="18.2" rx="1" style="fill:var(--acc2)"/><rect x="71.1" y="1.4" width="7.8" height="28.6" rx="1" style="fill:var(--acc)"/><rect x="81.1" y="9.2" width="7.8" height="20.8" rx="1" style="fill:var(--acc)"/><rect x="91.1" y="4.0" width="7.8" height="26.0" rx="1" style="fill:var(--acc2)"/></svg></div>
+      
+    </div>
+  </div>
+</div>
+      <p class="mood">💡 검정 2px 테두리 + 원색(파랑·노랑·빨강) 면 + 라운드 0 — 눈에 박히는 대비</p>
+      <div class="uspec">
+        <span><b>주색</b> <code>#1B4BFF</code></span>
+        <span><b>라운드</b> 0px</span>
+        <span><b>그림자</b> 3px 3px 0 #111111 (하드 섀도·번짐 없음)</span>
+        <span><b>폰트</b> 굵은 산세리프 800~900 · 대문자·좁은 자간</span>
+      </div>
+      <p class="use">🎯 이벤트·캠페인 페이지, 젊은 브랜드 — 튀어야 하는 단발 산출물</p>
+      <div class="promptrow"><button class="bcopy" data-txt="브루탈리즘(Brutalism) 스타일로 만들어줘 — 주색 #1B4BFF, 라운드 0px, 그림자 3px 3px 0 #111111 (하드 섀도·번짐 없음), 폰트 굵은 산세리프 800~900 · 대문자·좁은 자간. 핵심: 검정 2px 테두리 + 원색(파랑·노랑·빨강) 면 + 라운드 0 — 눈에 박히는 대비. (출처: 디자인 선택보드 🖼️ 화면 시안 탭 · 우리 브랜드 색이 걸린 산출물이면 주색만 정본 팔레트로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">직접 구현 목업</span></div>
+    </div><div class="card kcard ucard" data-name="뉴모피즘 neumorphism 배경과 같은 색 위에 밝은쪽·어두운쪽 이중 그림자로 눌린/솟은 표면을 만든다 설정·컨트롤 패널, 기기 제어 화면 — 버튼·슬라이더가 많은 ui 뉴모 소프트ui 엠보싱 이중그림자 soft ui ui 스타일 화면 시안 목업">
+      <div class="schd"><h3>뉴모피즘 <span class="en">Neumorphism</span></h3><span class="bcat">03</span></div>
+      <div class="mk mk-neu" role="img" aria-label="neu 스타일 미니 대시보드 목업(더미 데이터)">
+  <div class="mktop"><span class="mkdots"><i></i><i></i><i></i></span><span class="mkurl"></span><span class="mkpill"></span></div>
+  <div class="mkwrap">
+    <div class="mkside"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="mkmain">
+      <div class="mkkpi"><div class="tile"><span>방문</span><b>12,540</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,10.4 8.6,8.0 17.1,9.2 25.7,5.6 34.3,6.8 42.9,3.2 51.4,4.4 60.0,0.8" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>가입</span><b>3,180</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,11.6 8.6,9.2 17.1,10.4 25.7,8.0 34.3,5.6 42.9,6.8 51.4,3.2 60.0,2.0" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>전환</span><b>23.8%</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,6.8 8.6,8.0 17.1,5.6 25.7,6.8 34.3,4.4 42.9,5.6 51.4,3.2 60.0,4.4" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>체류</span><b>4m 12s</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,9.2 8.6,6.8 17.1,8.0 25.7,4.4 34.3,5.6 42.9,3.2 51.4,0.8 60.0,2.0" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div></div>
+      <div class="mkrow">
+        <div class="tile"><span>주간 추이</span><svg viewBox="0 0 100 34" preserveAspectRatio="none" style="height:34px" aria-hidden="true"><path d="M0.0,28.0 L11.1,22.0 L22.2,25.0 L33.3,16.0 L44.4,19.0 L55.6,13.0 L66.7,16.0 L77.8,7.0 L88.9,10.0 L100.0,1.0 L100,34 L0,34 Z" style="fill:var(--acc);opacity:.16"/><path d="M0.0,28.0 L11.1,22.0 L22.2,25.0 L33.3,16.0 L44.4,19.0 L55.6,13.0 L66.7,16.0 L77.8,7.0 L88.9,10.0 L100.0,1.0" fill="none" style="stroke:var(--acc)" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg></div>
+        <div class="tile"><span>구성비</span><div class="dn"><svg viewBox="0 0 32 32" style="width:44px;height:44px;flex:0 0 44px" aria-hidden="true"><g transform="rotate(-90 16 16)"><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--acc)" stroke-width="5.5" stroke-dasharray="37.57 44.11" stroke-dashoffset="-0.00"/><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--acc2)" stroke-width="5.5" stroke-dasharray="24.50 57.18" stroke-dashoffset="-37.57"/><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--soft)" stroke-width="5.5" stroke-dasharray="19.60 62.08" stroke-dashoffset="-62.08"/></g></svg><div class="lg"><i style="width:80%"></i><i style="width:62%"></i><i style="width:45%"></i></div></div></div>
+      </div>
+      <div class="tile"><span>채널별</span><svg viewBox="0 0 100 30" preserveAspectRatio="none" style="height:30px" aria-hidden="true"><rect x="1.1" y="17.0" width="7.8" height="13.0" rx="1" style="fill:var(--acc2)"/><rect x="11.1" y="11.8" width="7.8" height="18.2" rx="1" style="fill:var(--acc)"/><rect x="21.1" y="19.6" width="7.8" height="10.4" rx="1" style="fill:var(--acc)"/><rect x="31.1" y="9.2" width="7.8" height="20.8" rx="1" style="fill:var(--acc2)"/><rect x="41.1" y="14.4" width="7.8" height="15.6" rx="1" style="fill:var(--acc)"/><rect x="51.1" y="6.6" width="7.8" height="23.4" rx="1" style="fill:var(--acc)"/><rect x="61.1" y="11.8" width="7.8" height="18.2" rx="1" style="fill:var(--acc2)"/><rect x="71.1" y="1.4" width="7.8" height="28.6" rx="1" style="fill:var(--acc)"/><rect x="81.1" y="9.2" width="7.8" height="20.8" rx="1" style="fill:var(--acc)"/><rect x="91.1" y="4.0" width="7.8" height="26.0" rx="1" style="fill:var(--acc2)"/></svg></div>
+      <div class="tile mkctl"><span>제어</span><div class="ctls"><span class="tg on"><i></i></span><span class="sl"><b></b></span><span class="tg"><i></i></span></div></div>
+    </div>
+  </div>
+</div>
+      <p class="mood">💡 배경과 같은 색 위에 밝은쪽·어두운쪽 이중 그림자로 눌린/솟은 표면을 만든다</p>
+      <div class="uspec">
+        <span><b>주색</b> <code>#4A63E7</code></span>
+        <span><b>라운드</b> 14~16px</span>
+        <span><b>그림자</b> 4px 4px 9px #C7CDD8, -4px -4px 9px #FFFFFF (이중 음영)</span>
+        <span><b>폰트</b> 산세리프 중간 굵기 500~700 · 저대비</span>
+      </div>
+      <p class="use">🎯 설정·컨트롤 패널, 기기 제어 화면 — 버튼·슬라이더가 많은 UI</p>
+      <div class="promptrow"><button class="bcopy" data-txt="뉴모피즘(Neumorphism) 스타일로 만들어줘 — 주색 #4A63E7, 라운드 14~16px, 그림자 4px 4px 9px #C7CDD8, -4px -4px 9px #FFFFFF (이중 음영), 폰트 산세리프 중간 굵기 500~700 · 저대비. 핵심: 배경과 같은 색 위에 밝은쪽·어두운쪽 이중 그림자로 눌린/솟은 표면을 만든다. (출처: 디자인 선택보드 🖼️ 화면 시안 탭 · 우리 브랜드 색이 걸린 산출물이면 주색만 정본 팔레트로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">직접 구현 목업</span></div>
+    </div><div class="card kcard ucard" data-name="벤토 그리드 bento grid 크기 다른 타일을 도시락처럼 배치하고 한 칸만 짙은 색으로 강조 — 정보 밀도가 높아도 안 답답하다 회사 소개·대시보드·요약 한 장 — 항목이 많은 자료의 기본값 벤토 타일 그리드 카드배치 대시보드 bento ui 스타일 화면 시안 목업">
+      <div class="schd"><h3>벤토 그리드 <span class="en">Bento Grid</span></h3><span class="bcat">04</span></div>
+      <div class="mk mk-bento" role="img" aria-label="bento 스타일 미니 대시보드 목업(더미 데이터)">
+  <div class="mktop"><span class="mkdots"><i></i><i></i><i></i></span><span class="mkurl"></span><span class="mkpill"></span></div>
+  <div class="mkwrap">
+    <div class="mkside"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="mkmain">
+      <div class="mkkpi"><div class="tile"><span>방문</span><b>12,540</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,10.4 8.6,8.0 17.1,9.2 25.7,5.6 34.3,6.8 42.9,3.2 51.4,4.4 60.0,0.8" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>가입</span><b>3,180</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,11.6 8.6,9.2 17.1,10.4 25.7,8.0 34.3,5.6 42.9,6.8 51.4,3.2 60.0,2.0" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>전환</span><b>23.8%</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,6.8 8.6,8.0 17.1,5.6 25.7,6.8 34.3,4.4 42.9,5.6 51.4,3.2 60.0,4.4" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>체류</span><b>4m 12s</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,9.2 8.6,6.8 17.1,8.0 25.7,4.4 34.3,5.6 42.9,3.2 51.4,0.8 60.0,2.0" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div></div>
+      <div class="mkrow">
+        <div class="tile"><span>주간 추이</span><svg viewBox="0 0 100 34" preserveAspectRatio="none" style="height:34px" aria-hidden="true"><path d="M0.0,28.0 L11.1,22.0 L22.2,25.0 L33.3,16.0 L44.4,19.0 L55.6,13.0 L66.7,16.0 L77.8,7.0 L88.9,10.0 L100.0,1.0 L100,34 L0,34 Z" style="fill:var(--acc);opacity:.16"/><path d="M0.0,28.0 L11.1,22.0 L22.2,25.0 L33.3,16.0 L44.4,19.0 L55.6,13.0 L66.7,16.0 L77.8,7.0 L88.9,10.0 L100.0,1.0" fill="none" style="stroke:var(--acc)" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg></div>
+        <div class="tile"><span>구성비</span><div class="dn"><svg viewBox="0 0 32 32" style="width:44px;height:44px;flex:0 0 44px" aria-hidden="true"><g transform="rotate(-90 16 16)"><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--acc)" stroke-width="5.5" stroke-dasharray="37.57 44.11" stroke-dashoffset="-0.00"/><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--acc2)" stroke-width="5.5" stroke-dasharray="24.50 57.18" stroke-dashoffset="-37.57"/><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--soft)" stroke-width="5.5" stroke-dasharray="19.60 62.08" stroke-dashoffset="-62.08"/></g></svg><div class="lg"><i style="width:80%"></i><i style="width:62%"></i><i style="width:45%"></i></div></div></div>
+      </div>
+      <div class="tile"><span>채널별</span><svg viewBox="0 0 100 30" preserveAspectRatio="none" style="height:30px" aria-hidden="true"><rect x="1.1" y="17.0" width="7.8" height="13.0" rx="1" style="fill:var(--acc2)"/><rect x="11.1" y="11.8" width="7.8" height="18.2" rx="1" style="fill:var(--acc)"/><rect x="21.1" y="19.6" width="7.8" height="10.4" rx="1" style="fill:var(--acc)"/><rect x="31.1" y="9.2" width="7.8" height="20.8" rx="1" style="fill:var(--acc2)"/><rect x="41.1" y="14.4" width="7.8" height="15.6" rx="1" style="fill:var(--acc)"/><rect x="51.1" y="6.6" width="7.8" height="23.4" rx="1" style="fill:var(--acc)"/><rect x="61.1" y="11.8" width="7.8" height="18.2" rx="1" style="fill:var(--acc2)"/><rect x="71.1" y="1.4" width="7.8" height="28.6" rx="1" style="fill:var(--acc)"/><rect x="81.1" y="9.2" width="7.8" height="20.8" rx="1" style="fill:var(--acc)"/><rect x="91.1" y="4.0" width="7.8" height="26.0" rx="1" style="fill:var(--acc2)"/></svg></div>
+      
+    </div>
+  </div>
+</div>
+      <p class="mood">💡 크기 다른 타일을 도시락처럼 배치하고 한 칸만 짙은 색으로 강조 — 정보 밀도가 높아도 안 답답하다</p>
+      <div class="uspec">
+        <span><b>주색</b> <code>#2563EB</code></span>
+        <span><b>라운드</b> 12~14px</span>
+        <span><b>그림자</b> 0 1px 2px rgba(15,23,42,.06) (거의 평면)</span>
+        <span><b>폰트</b> 산세리프 700 제목 + 숫자 tabular</span>
+      </div>
+      <p class="use">🎯 회사 소개·대시보드·요약 한 장 — 항목이 많은 자료의 기본값</p>
+      <div class="promptrow"><button class="bcopy" data-txt="벤토 그리드(Bento Grid) 스타일로 만들어줘 — 주색 #2563EB, 라운드 12~14px, 그림자 0 1px 2px rgba(15,23,42,.06) (거의 평면), 폰트 산세리프 700 제목 + 숫자 tabular. 핵심: 크기 다른 타일을 도시락처럼 배치하고 한 칸만 짙은 색으로 강조 — 정보 밀도가 높아도 안 답답하다. (출처: 디자인 선택보드 🖼️ 화면 시안 탭 · 우리 브랜드 색이 걸린 산출물이면 주색만 정본 팔레트로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">직접 구현 목업</span></div>
+    </div><div class="card kcard ucard" data-name="다크 모드 ui dark mode ui 남색 계열 배경에 데이터만 발색 — 차트·수치가 스스로 빛나 보인다 모니터링·관제 대시보드, 개발자 대상 화면 — 장시간 보는 도구 다크 야간 남색 네이비 모니터링 dark ui 스타일 화면 시안 목업">
+      <div class="schd"><h3>다크 모드 UI <span class="en">Dark Mode UI</span></h3><span class="bcat">05</span></div>
+      <div class="mk mk-dark" role="img" aria-label="dark 스타일 미니 대시보드 목업(더미 데이터)">
+  <div class="mktop"><span class="mkdots"><i></i><i></i><i></i></span><span class="mkurl"></span><span class="mkpill"></span></div>
+  <div class="mkwrap">
+    <div class="mkside"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="mkmain">
+      <div class="mkkpi"><div class="tile"><span>방문</span><b>12,540</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,10.4 8.6,8.0 17.1,9.2 25.7,5.6 34.3,6.8 42.9,3.2 51.4,4.4 60.0,0.8" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>가입</span><b>3,180</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,11.6 8.6,9.2 17.1,10.4 25.7,8.0 34.3,5.6 42.9,6.8 51.4,3.2 60.0,2.0" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>전환</span><b>23.8%</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,6.8 8.6,8.0 17.1,5.6 25.7,6.8 34.3,4.4 42.9,5.6 51.4,3.2 60.0,4.4" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>체류</span><b>4m 12s</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,9.2 8.6,6.8 17.1,8.0 25.7,4.4 34.3,5.6 42.9,3.2 51.4,0.8 60.0,2.0" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div></div>
+      <div class="mkrow">
+        <div class="tile"><span>주간 추이</span><svg viewBox="0 0 100 34" preserveAspectRatio="none" style="height:34px" aria-hidden="true"><path d="M0.0,28.0 L11.1,22.0 L22.2,25.0 L33.3,16.0 L44.4,19.0 L55.6,13.0 L66.7,16.0 L77.8,7.0 L88.9,10.0 L100.0,1.0 L100,34 L0,34 Z" style="fill:var(--acc);opacity:.16"/><path d="M0.0,28.0 L11.1,22.0 L22.2,25.0 L33.3,16.0 L44.4,19.0 L55.6,13.0 L66.7,16.0 L77.8,7.0 L88.9,10.0 L100.0,1.0" fill="none" style="stroke:var(--acc)" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg></div>
+        <div class="tile"><span>구성비</span><div class="dn"><svg viewBox="0 0 32 32" style="width:44px;height:44px;flex:0 0 44px" aria-hidden="true"><g transform="rotate(-90 16 16)"><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--acc)" stroke-width="5.5" stroke-dasharray="37.57 44.11" stroke-dashoffset="-0.00"/><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--acc2)" stroke-width="5.5" stroke-dasharray="24.50 57.18" stroke-dashoffset="-37.57"/><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--soft)" stroke-width="5.5" stroke-dasharray="19.60 62.08" stroke-dashoffset="-62.08"/></g></svg><div class="lg"><i style="width:80%"></i><i style="width:62%"></i><i style="width:45%"></i></div></div></div>
+      </div>
+      <div class="tile"><span>채널별</span><svg viewBox="0 0 100 30" preserveAspectRatio="none" style="height:30px" aria-hidden="true"><rect x="1.1" y="17.0" width="7.8" height="13.0" rx="1" style="fill:var(--acc2)"/><rect x="11.1" y="11.8" width="7.8" height="18.2" rx="1" style="fill:var(--acc)"/><rect x="21.1" y="19.6" width="7.8" height="10.4" rx="1" style="fill:var(--acc)"/><rect x="31.1" y="9.2" width="7.8" height="20.8" rx="1" style="fill:var(--acc2)"/><rect x="41.1" y="14.4" width="7.8" height="15.6" rx="1" style="fill:var(--acc)"/><rect x="51.1" y="6.6" width="7.8" height="23.4" rx="1" style="fill:var(--acc)"/><rect x="61.1" y="11.8" width="7.8" height="18.2" rx="1" style="fill:var(--acc2)"/><rect x="71.1" y="1.4" width="7.8" height="28.6" rx="1" style="fill:var(--acc)"/><rect x="81.1" y="9.2" width="7.8" height="20.8" rx="1" style="fill:var(--acc)"/><rect x="91.1" y="4.0" width="7.8" height="26.0" rx="1" style="fill:var(--acc2)"/></svg></div>
+      
+    </div>
+  </div>
+</div>
+      <p class="mood">💡 남색 계열 배경에 데이터만 발색 — 차트·수치가 스스로 빛나 보인다</p>
+      <div class="uspec">
+        <span><b>주색</b> <code>#3B82F6</code></span>
+        <span><b>라운드</b> 10~12px</span>
+        <span><b>그림자</b> 그림자 없이 테두리 #1E293B로 층 구분</span>
+        <span><b>폰트</b> 산세리프 · 본문 굵기 한 단계 낮춰 번짐 방지</span>
+      </div>
+      <p class="use">🎯 모니터링·관제 대시보드, 개발자 대상 화면 — 장시간 보는 도구</p>
+      <div class="promptrow"><button class="bcopy" data-txt="다크 모드 UI(Dark Mode UI) 스타일로 만들어줘 — 주색 #3B82F6, 라운드 10~12px, 그림자 그림자 없이 테두리 #1E293B로 층 구분, 폰트 산세리프 · 본문 굵기 한 단계 낮춰 번짐 방지. 핵심: 남색 계열 배경에 데이터만 발색 — 차트·수치가 스스로 빛나 보인다. (출처: 디자인 선택보드 🖼️ 화면 시안 탭 · 우리 브랜드 색이 걸린 산출물이면 주색만 정본 팔레트로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">직접 구현 목업</span></div>
+    </div><div class="card kcard ucard" data-name="3d · 이머시브 3d &amp; immersive 테라코타·베이지 흙빛에 입체 오브젝트와 재질 스와치 — 물성이 느껴지는 화면 제품·소재 소개, 브랜드 무드 페이지 — 실물감이 설득 요소일 때 3d 입체 테라코타 재질 머티리얼 이머시브 immersive ui 스타일 화면 시안 목업">
+      <div class="schd"><h3>3D · 이머시브 <span class="en">3D &amp; Immersive</span></h3><span class="bcat">06</span></div>
+      <div class="mk mk-d3" role="img" aria-label="d3 스타일 미니 대시보드 목업(더미 데이터)">
+  <div class="mktop"><span class="mkdots"><i></i><i></i><i></i></span><span class="mkurl"></span><span class="mkpill"></span></div>
+  <div class="mkwrap">
+    <div class="mkside"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="mkmain">
+      <div class="mkkpi"><div class="tile"><span>방문</span><b>12,540</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,10.4 8.6,8.0 17.1,9.2 25.7,5.6 34.3,6.8 42.9,3.2 51.4,4.4 60.0,0.8" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>가입</span><b>3,180</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,11.6 8.6,9.2 17.1,10.4 25.7,8.0 34.3,5.6 42.9,6.8 51.4,3.2 60.0,2.0" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>전환</span><b>23.8%</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,6.8 8.6,8.0 17.1,5.6 25.7,6.8 34.3,4.4 42.9,5.6 51.4,3.2 60.0,4.4" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>체류</span><b>4m 12s</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,9.2 8.6,6.8 17.1,8.0 25.7,4.4 34.3,5.6 42.9,3.2 51.4,0.8 60.0,2.0" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div></div>
+      <div class="mkrow">
+        <div class="tile"><span>주간 추이</span><svg viewBox="0 0 100 34" preserveAspectRatio="none" style="height:34px" aria-hidden="true"><path d="M0.0,28.0 L11.1,22.0 L22.2,25.0 L33.3,16.0 L44.4,19.0 L55.6,13.0 L66.7,16.0 L77.8,7.0 L88.9,10.0 L100.0,1.0 L100,34 L0,34 Z" style="fill:var(--acc);opacity:.16"/><path d="M0.0,28.0 L11.1,22.0 L22.2,25.0 L33.3,16.0 L44.4,19.0 L55.6,13.0 L66.7,16.0 L77.8,7.0 L88.9,10.0 L100.0,1.0" fill="none" style="stroke:var(--acc)" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg></div>
+        <div class="tile"><span>구성비</span><div class="dn"><svg viewBox="0 0 32 32" style="width:44px;height:44px;flex:0 0 44px" aria-hidden="true"><g transform="rotate(-90 16 16)"><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--acc)" stroke-width="5.5" stroke-dasharray="37.57 44.11" stroke-dashoffset="-0.00"/><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--acc2)" stroke-width="5.5" stroke-dasharray="24.50 57.18" stroke-dashoffset="-37.57"/><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--soft)" stroke-width="5.5" stroke-dasharray="19.60 62.08" stroke-dashoffset="-62.08"/></g></svg><div class="lg"><i style="width:80%"></i><i style="width:62%"></i><i style="width:45%"></i></div></div></div>
+      </div>
+      <div class="tile"><span>채널별</span><svg viewBox="0 0 100 30" preserveAspectRatio="none" style="height:30px" aria-hidden="true"><rect x="1.1" y="17.0" width="7.8" height="13.0" rx="1" style="fill:var(--acc2)"/><rect x="11.1" y="11.8" width="7.8" height="18.2" rx="1" style="fill:var(--acc)"/><rect x="21.1" y="19.6" width="7.8" height="10.4" rx="1" style="fill:var(--acc)"/><rect x="31.1" y="9.2" width="7.8" height="20.8" rx="1" style="fill:var(--acc2)"/><rect x="41.1" y="14.4" width="7.8" height="15.6" rx="1" style="fill:var(--acc)"/><rect x="51.1" y="6.6" width="7.8" height="23.4" rx="1" style="fill:var(--acc)"/><rect x="61.1" y="11.8" width="7.8" height="18.2" rx="1" style="fill:var(--acc2)"/><rect x="71.1" y="1.4" width="7.8" height="28.6" rx="1" style="fill:var(--acc)"/><rect x="81.1" y="9.2" width="7.8" height="20.8" rx="1" style="fill:var(--acc)"/><rect x="91.1" y="4.0" width="7.8" height="26.0" rx="1" style="fill:var(--acc2)"/></svg></div>
+      <div class="tile mkmat"><span>재질</span><div class="mats"><i style="background:linear-gradient(145deg,#efe7db,#d8ccb8)"></i><i style="background:linear-gradient(145deg,#c9a984,#a8845c)"></i><i style="background:linear-gradient(145deg,#e08a5f,#C2643C)"></i><i style="background:linear-gradient(145deg,#6b6257,#443c33)"></i><i style="background:linear-gradient(145deg,#a97e4f,#7a5730)"></i></div></div>
+    </div>
+  </div>
+</div>
+      <p class="mood">💡 테라코타·베이지 흙빛에 입체 오브젝트와 재질 스와치 — 물성이 느껴지는 화면</p>
+      <div class="uspec">
+        <span><b>주색</b> <code>#C2643C</code></span>
+        <span><b>라운드</b> 16~20px</span>
+        <span><b>그림자</b> 0 8px 18px rgba(120,90,60,.16) + 재질 하이라이트</span>
+        <span><b>폰트</b> 산세리프 600~700 · 자간 넉넉히</span>
+      </div>
+      <p class="use">🎯 제품·소재 소개, 브랜드 무드 페이지 — 실물감이 설득 요소일 때</p>
+      <div class="promptrow"><button class="bcopy" data-txt="3D · 이머시브(3D &amp; Immersive) 스타일로 만들어줘 — 주색 #C2643C, 라운드 16~20px, 그림자 0 8px 18px rgba(120,90,60,.16) + 재질 하이라이트, 폰트 산세리프 600~700 · 자간 넉넉히. 핵심: 테라코타·베이지 흙빛에 입체 오브젝트와 재질 스와치 — 물성이 느껴지는 화면. (출처: 디자인 선택보드 🖼️ 화면 시안 탭 · 우리 브랜드 색이 걸린 산출물이면 주색만 정본 팔레트로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">직접 구현 목업</span></div>
+    </div><div class="card kcard ucard" data-name="미니멀리즘 minimalism 저채도 세이지그린 + 넓은 여백 + 얇은 선 — 내용이 주인공이 되는 조판 제안서·내부 대시보드·보고서 — 우리 기본값에 가장 가깝다 미니멀 여백 세이지 저채도 담백 minimal ui 스타일 화면 시안 목업">
+      <div class="schd"><h3>미니멀리즘 <span class="en">Minimalism</span></h3><span class="bcat">07</span></div>
+      <div class="mk mk-min" role="img" aria-label="min 스타일 미니 대시보드 목업(더미 데이터)">
+  <div class="mktop"><span class="mkdots"><i></i><i></i><i></i></span><span class="mkurl"></span><span class="mkpill"></span></div>
+  <div class="mkwrap">
+    <div class="mkside"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="mkmain">
+      <div class="mkkpi"><div class="tile"><span>방문</span><b>12,540</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,10.4 8.6,8.0 17.1,9.2 25.7,5.6 34.3,6.8 42.9,3.2 51.4,4.4 60.0,0.8" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>가입</span><b>3,180</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,11.6 8.6,9.2 17.1,10.4 25.7,8.0 34.3,5.6 42.9,6.8 51.4,3.2 60.0,2.0" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>전환</span><b>23.8%</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,6.8 8.6,8.0 17.1,5.6 25.7,6.8 34.3,4.4 42.9,5.6 51.4,3.2 60.0,4.4" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>체류</span><b>4m 12s</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,9.2 8.6,6.8 17.1,8.0 25.7,4.4 34.3,5.6 42.9,3.2 51.4,0.8 60.0,2.0" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div></div>
+      <div class="mkrow">
+        <div class="tile"><span>주간 추이</span><svg viewBox="0 0 100 34" preserveAspectRatio="none" style="height:34px" aria-hidden="true"><path d="M0.0,28.0 L11.1,22.0 L22.2,25.0 L33.3,16.0 L44.4,19.0 L55.6,13.0 L66.7,16.0 L77.8,7.0 L88.9,10.0 L100.0,1.0 L100,34 L0,34 Z" style="fill:var(--acc);opacity:.16"/><path d="M0.0,28.0 L11.1,22.0 L22.2,25.0 L33.3,16.0 L44.4,19.0 L55.6,13.0 L66.7,16.0 L77.8,7.0 L88.9,10.0 L100.0,1.0" fill="none" style="stroke:var(--acc)" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg></div>
+        <div class="tile"><span>구성비</span><div class="dn"><svg viewBox="0 0 32 32" style="width:44px;height:44px;flex:0 0 44px" aria-hidden="true"><g transform="rotate(-90 16 16)"><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--acc)" stroke-width="5.5" stroke-dasharray="37.57 44.11" stroke-dashoffset="-0.00"/><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--acc2)" stroke-width="5.5" stroke-dasharray="24.50 57.18" stroke-dashoffset="-37.57"/><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--soft)" stroke-width="5.5" stroke-dasharray="19.60 62.08" stroke-dashoffset="-62.08"/></g></svg><div class="lg"><i style="width:80%"></i><i style="width:62%"></i><i style="width:45%"></i></div></div></div>
+      </div>
+      <div class="tile"><span>채널별</span><svg viewBox="0 0 100 30" preserveAspectRatio="none" style="height:30px" aria-hidden="true"><rect x="1.1" y="17.0" width="7.8" height="13.0" rx="1" style="fill:var(--acc2)"/><rect x="11.1" y="11.8" width="7.8" height="18.2" rx="1" style="fill:var(--acc)"/><rect x="21.1" y="19.6" width="7.8" height="10.4" rx="1" style="fill:var(--acc)"/><rect x="31.1" y="9.2" width="7.8" height="20.8" rx="1" style="fill:var(--acc2)"/><rect x="41.1" y="14.4" width="7.8" height="15.6" rx="1" style="fill:var(--acc)"/><rect x="51.1" y="6.6" width="7.8" height="23.4" rx="1" style="fill:var(--acc)"/><rect x="61.1" y="11.8" width="7.8" height="18.2" rx="1" style="fill:var(--acc2)"/><rect x="71.1" y="1.4" width="7.8" height="28.6" rx="1" style="fill:var(--acc)"/><rect x="81.1" y="9.2" width="7.8" height="20.8" rx="1" style="fill:var(--acc)"/><rect x="91.1" y="4.0" width="7.8" height="26.0" rx="1" style="fill:var(--acc2)"/></svg></div>
+      
+    </div>
+  </div>
+</div>
+      <p class="mood">💡 저채도 세이지그린 + 넓은 여백 + 얇은 선 — 내용이 주인공이 되는 조판</p>
+      <div class="uspec">
+        <span><b>주색</b> <code>#7C8B6B</code></span>
+        <span><b>라운드</b> 6~8px</span>
+        <span><b>그림자</b> 그림자 없음 · 1px 얇은 선으로만 구분</span>
+        <span><b>폰트</b> 산세리프 400~600 · 여백 넉넉 · 행간 1.6</span>
+      </div>
+      <p class="use">🎯 제안서·내부 대시보드·보고서 — 우리 기본값에 가장 가깝다</p>
+      <div class="promptrow"><button class="bcopy" data-txt="미니멀리즘(Minimalism) 스타일로 만들어줘 — 주색 #7C8B6B, 라운드 6~8px, 그림자 그림자 없음 · 1px 얇은 선으로만 구분, 폰트 산세리프 400~600 · 여백 넉넉 · 행간 1.6. 핵심: 저채도 세이지그린 + 넓은 여백 + 얇은 선 — 내용이 주인공이 되는 조판. (출처: 디자인 선택보드 🖼️ 화면 시안 탭 · 우리 브랜드 색이 걸린 산출물이면 주색만 정본 팔레트로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">직접 구현 목업</span></div>
+    </div><div class="card kcard ucard" data-name="그라디언트 메시 gradient mesh 다색 그라디언트를 배경으로 깔고 ui는 흰 표면으로 띄운다 — 배경만으로 분위기를 만든다 saas 랜딩·신제품 티저 — 요청 있을 때만(우리 기본은 형광·고채도 금지) 그라디언트 메시 다색 배경 그라데이션 gradient mesh ui 스타일 화면 시안 목업">
+      <div class="schd"><h3>그라디언트 메시 <span class="en">Gradient Mesh</span></h3><span class="bcat">08</span><span class="reqb">⚠ 요청 시에만</span></div>
+      <div class="mk mk-mesh" role="img" aria-label="mesh 스타일 미니 대시보드 목업(더미 데이터)">
+  <div class="mktop"><span class="mkdots"><i></i><i></i><i></i></span><span class="mkurl"></span><span class="mkpill"></span></div>
+  <div class="mkwrap">
+    <div class="mkside"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="mkmain">
+      <div class="mkkpi"><div class="tile"><span>방문</span><b>12,540</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,10.4 8.6,8.0 17.1,9.2 25.7,5.6 34.3,6.8 42.9,3.2 51.4,4.4 60.0,0.8" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>가입</span><b>3,180</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,11.6 8.6,9.2 17.1,10.4 25.7,8.0 34.3,5.6 42.9,6.8 51.4,3.2 60.0,2.0" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>전환</span><b>23.8%</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,6.8 8.6,8.0 17.1,5.6 25.7,6.8 34.3,4.4 42.9,5.6 51.4,3.2 60.0,4.4" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>체류</span><b>4m 12s</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,9.2 8.6,6.8 17.1,8.0 25.7,4.4 34.3,5.6 42.9,3.2 51.4,0.8 60.0,2.0" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div></div>
+      <div class="mkrow">
+        <div class="tile"><span>주간 추이</span><svg viewBox="0 0 100 34" preserveAspectRatio="none" style="height:34px" aria-hidden="true"><path d="M0.0,28.0 L11.1,22.0 L22.2,25.0 L33.3,16.0 L44.4,19.0 L55.6,13.0 L66.7,16.0 L77.8,7.0 L88.9,10.0 L100.0,1.0 L100,34 L0,34 Z" style="fill:var(--acc);opacity:.16"/><path d="M0.0,28.0 L11.1,22.0 L22.2,25.0 L33.3,16.0 L44.4,19.0 L55.6,13.0 L66.7,16.0 L77.8,7.0 L88.9,10.0 L100.0,1.0" fill="none" style="stroke:var(--acc)" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg></div>
+        <div class="tile"><span>구성비</span><div class="dn"><svg viewBox="0 0 32 32" style="width:44px;height:44px;flex:0 0 44px" aria-hidden="true"><g transform="rotate(-90 16 16)"><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--acc)" stroke-width="5.5" stroke-dasharray="37.57 44.11" stroke-dashoffset="-0.00"/><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--acc2)" stroke-width="5.5" stroke-dasharray="24.50 57.18" stroke-dashoffset="-37.57"/><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--soft)" stroke-width="5.5" stroke-dasharray="19.60 62.08" stroke-dashoffset="-62.08"/></g></svg><div class="lg"><i style="width:80%"></i><i style="width:62%"></i><i style="width:45%"></i></div></div></div>
+      </div>
+      <div class="tile"><span>채널별</span><svg viewBox="0 0 100 30" preserveAspectRatio="none" style="height:30px" aria-hidden="true"><rect x="1.1" y="17.0" width="7.8" height="13.0" rx="1" style="fill:var(--acc2)"/><rect x="11.1" y="11.8" width="7.8" height="18.2" rx="1" style="fill:var(--acc)"/><rect x="21.1" y="19.6" width="7.8" height="10.4" rx="1" style="fill:var(--acc)"/><rect x="31.1" y="9.2" width="7.8" height="20.8" rx="1" style="fill:var(--acc2)"/><rect x="41.1" y="14.4" width="7.8" height="15.6" rx="1" style="fill:var(--acc)"/><rect x="51.1" y="6.6" width="7.8" height="23.4" rx="1" style="fill:var(--acc)"/><rect x="61.1" y="11.8" width="7.8" height="18.2" rx="1" style="fill:var(--acc2)"/><rect x="71.1" y="1.4" width="7.8" height="28.6" rx="1" style="fill:var(--acc)"/><rect x="81.1" y="9.2" width="7.8" height="20.8" rx="1" style="fill:var(--acc)"/><rect x="91.1" y="4.0" width="7.8" height="26.0" rx="1" style="fill:var(--acc2)"/></svg></div>
+      
+    </div>
+  </div>
+</div>
+      <p class="mood">💡 다색 그라디언트를 배경으로 깔고 UI는 흰 표면으로 띄운다 — 배경만으로 분위기를 만든다</p>
+      <div class="uspec">
+        <span><b>주색</b> <code>#6D5BF6</code></span>
+        <span><b>라운드</b> 14~16px</span>
+        <span><b>그림자</b> 0 12px 30px rgba(79,70,229,.18)</span>
+        <span><b>폰트</b> 산세리프 700 · 흰 표면 위 검정 본문</span>
+      </div>
+      <p class="use">🎯 SaaS 랜딩·신제품 티저 — 요청 있을 때만(우리 기본은 형광·고채도 금지)</p>
+      <div class="promptrow"><button class="bcopy" data-txt="그라디언트 메시(Gradient Mesh) 스타일로 만들어줘 — 주색 #6D5BF6, 라운드 14~16px, 그림자 0 12px 30px rgba(79,70,229,.18), 폰트 산세리프 700 · 흰 표면 위 검정 본문. 핵심: 다색 그라디언트를 배경으로 깔고 UI는 흰 표면으로 띄운다 — 배경만으로 분위기를 만든다. (형광·고채도 계열이라 요청받은 건에만 쓰고, 기본값으로 삼지 않는다.) (출처: 디자인 선택보드 🖼️ 화면 시안 탭 · 우리 브랜드 색이 걸린 산출물이면 주색만 정본 팔레트로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">직접 구현 목업</span></div>
+    </div><div class="card kcard ucard" data-name="에디토리얼 editorial 와인(버건디) + 네이비를 크림 배경에 얹은 잡지형 조판 — 격식과 무게 ir·제안덱·연차보고서 — 읽히는 문서로 보여야 할 때 에디토리얼 잡지 버건디 와인 네이비 세리프 editorial ui 스타일 화면 시안 목업">
+      <div class="schd"><h3>에디토리얼 <span class="en">Editorial</span></h3><span class="bcat">09</span></div>
+      <div class="mk mk-edit" role="img" aria-label="edit 스타일 미니 대시보드 목업(더미 데이터)">
+  <div class="mktop"><span class="mkdots"><i></i><i></i><i></i></span><span class="mkurl"></span><span class="mkpill"></span></div>
+  <div class="mkwrap">
+    <div class="mkside"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="mkmain">
+      <div class="mkkpi"><div class="tile"><span>방문</span><b>12,540</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,10.4 8.6,8.0 17.1,9.2 25.7,5.6 34.3,6.8 42.9,3.2 51.4,4.4 60.0,0.8" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>가입</span><b>3,180</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,11.6 8.6,9.2 17.1,10.4 25.7,8.0 34.3,5.6 42.9,6.8 51.4,3.2 60.0,2.0" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>전환</span><b>23.8%</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,6.8 8.6,8.0 17.1,5.6 25.7,6.8 34.3,4.4 42.9,5.6 51.4,3.2 60.0,4.4" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>체류</span><b>4m 12s</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,9.2 8.6,6.8 17.1,8.0 25.7,4.4 34.3,5.6 42.9,3.2 51.4,0.8 60.0,2.0" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div></div>
+      <div class="mkrow">
+        <div class="tile"><span>주간 추이</span><svg viewBox="0 0 100 34" preserveAspectRatio="none" style="height:34px" aria-hidden="true"><path d="M0.0,28.0 L11.1,22.0 L22.2,25.0 L33.3,16.0 L44.4,19.0 L55.6,13.0 L66.7,16.0 L77.8,7.0 L88.9,10.0 L100.0,1.0 L100,34 L0,34 Z" style="fill:var(--acc);opacity:.16"/><path d="M0.0,28.0 L11.1,22.0 L22.2,25.0 L33.3,16.0 L44.4,19.0 L55.6,13.0 L66.7,16.0 L77.8,7.0 L88.9,10.0 L100.0,1.0" fill="none" style="stroke:var(--acc)" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg></div>
+        <div class="tile"><span>구성비</span><div class="dn"><svg viewBox="0 0 32 32" style="width:44px;height:44px;flex:0 0 44px" aria-hidden="true"><g transform="rotate(-90 16 16)"><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--acc)" stroke-width="5.5" stroke-dasharray="37.57 44.11" stroke-dashoffset="-0.00"/><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--acc2)" stroke-width="5.5" stroke-dasharray="24.50 57.18" stroke-dashoffset="-37.57"/><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--soft)" stroke-width="5.5" stroke-dasharray="19.60 62.08" stroke-dashoffset="-62.08"/></g></svg><div class="lg"><i style="width:80%"></i><i style="width:62%"></i><i style="width:45%"></i></div></div></div>
+      </div>
+      <div class="tile"><span>채널별</span><svg viewBox="0 0 100 30" preserveAspectRatio="none" style="height:30px" aria-hidden="true"><rect x="1.1" y="17.0" width="7.8" height="13.0" rx="1" style="fill:var(--acc2)"/><rect x="11.1" y="11.8" width="7.8" height="18.2" rx="1" style="fill:var(--acc)"/><rect x="21.1" y="19.6" width="7.8" height="10.4" rx="1" style="fill:var(--acc)"/><rect x="31.1" y="9.2" width="7.8" height="20.8" rx="1" style="fill:var(--acc2)"/><rect x="41.1" y="14.4" width="7.8" height="15.6" rx="1" style="fill:var(--acc)"/><rect x="51.1" y="6.6" width="7.8" height="23.4" rx="1" style="fill:var(--acc)"/><rect x="61.1" y="11.8" width="7.8" height="18.2" rx="1" style="fill:var(--acc2)"/><rect x="71.1" y="1.4" width="7.8" height="28.6" rx="1" style="fill:var(--acc)"/><rect x="81.1" y="9.2" width="7.8" height="20.8" rx="1" style="fill:var(--acc)"/><rect x="91.1" y="4.0" width="7.8" height="26.0" rx="1" style="fill:var(--acc2)"/></svg></div>
+      
+    </div>
+  </div>
+</div>
+      <p class="mood">💡 와인(버건디) + 네이비를 크림 배경에 얹은 잡지형 조판 — 격식과 무게</p>
+      <div class="uspec">
+        <span><b>주색</b> <code>#7B1E2B</code></span>
+        <span><b>라운드</b> 2~4px</span>
+        <span><b>그림자</b> 그림자 없음 · 괘선과 여백으로 조판</span>
+        <span><b>폰트</b> 제목 세리프 + 본문 산세리프 · 큰 제목/작은 캡션 대비</span>
+      </div>
+      <p class="use">🎯 IR·제안덱·연차보고서 — 읽히는 문서로 보여야 할 때</p>
+      <div class="promptrow"><button class="bcopy" data-txt="에디토리얼(Editorial) 스타일로 만들어줘 — 주색 #7B1E2B, 라운드 2~4px, 그림자 그림자 없음 · 괘선과 여백으로 조판, 폰트 제목 세리프 + 본문 산세리프 · 큰 제목/작은 캡션 대비. 핵심: 와인(버건디) + 네이비를 크림 배경에 얹은 잡지형 조판 — 격식과 무게. (출처: 디자인 선택보드 🖼️ 화면 시안 탭 · 우리 브랜드 색이 걸린 산출물이면 주색만 정본 팔레트로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">직접 구현 목업</span></div>
+    </div><div class="card kcard ucard" data-name="레트로 · y2k retro / y2k 크롬 광택 + 핑크·하늘색 + 픽셀 블록 — 2000년대 초 소프트웨어 ui 재현 굿즈·팝업·sns 캠페인 — 요청 있을 때만(우리 기본 톤과 거리가 멀다) 레트로 y2k 크롬 픽셀 핑크 뉴트로 retro chrome ui 스타일 화면 시안 목업">
+      <div class="schd"><h3>레트로 · Y2K <span class="en">Retro / Y2K</span></h3><span class="bcat">10</span><span class="reqb">⚠ 요청 시에만</span></div>
+      <div class="mk mk-y2k" role="img" aria-label="y2k 스타일 미니 대시보드 목업(더미 데이터)">
+  <div class="mktop"><span class="mkdots"><i></i><i></i><i></i></span><span class="mkurl"></span><span class="mkpill"></span></div>
+  <div class="mkwrap">
+    <div class="mkside"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="mkmain">
+      <div class="mkkpi"><div class="tile"><span>방문</span><b>12,540</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,10.4 8.6,8.0 17.1,9.2 25.7,5.6 34.3,6.8 42.9,3.2 51.4,4.4 60.0,0.8" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>가입</span><b>3,180</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,11.6 8.6,9.2 17.1,10.4 25.7,8.0 34.3,5.6 42.9,6.8 51.4,3.2 60.0,2.0" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>전환</span><b>23.8%</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,6.8 8.6,8.0 17.1,5.6 25.7,6.8 34.3,4.4 42.9,5.6 51.4,3.2 60.0,4.4" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div><div class="tile"><span>체류</span><b>4m 12s</b><svg viewBox="0 0 60 14" preserveAspectRatio="none" style="height:14px" aria-hidden="true"><polyline points="0.0,9.2 8.6,6.8 17.1,8.0 25.7,4.4 34.3,5.6 42.9,3.2 51.4,0.8 60.0,2.0" fill="none" style="stroke:var(--acc)" stroke-width="1.4" vector-effect="non-scaling-stroke"/></svg></div></div>
+      <div class="mkrow">
+        <div class="tile"><span>주간 추이</span><svg viewBox="0 0 100 34" preserveAspectRatio="none" style="height:34px" aria-hidden="true"><path d="M0.0,28.0 L11.1,22.0 L22.2,25.0 L33.3,16.0 L44.4,19.0 L55.6,13.0 L66.7,16.0 L77.8,7.0 L88.9,10.0 L100.0,1.0 L100,34 L0,34 Z" style="fill:var(--acc);opacity:.16"/><path d="M0.0,28.0 L11.1,22.0 L22.2,25.0 L33.3,16.0 L44.4,19.0 L55.6,13.0 L66.7,16.0 L77.8,7.0 L88.9,10.0 L100.0,1.0" fill="none" style="stroke:var(--acc)" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg></div>
+        <div class="tile"><span>구성비</span><div class="dn"><svg viewBox="0 0 32 32" style="width:44px;height:44px;flex:0 0 44px" aria-hidden="true"><g transform="rotate(-90 16 16)"><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--acc)" stroke-width="5.5" stroke-dasharray="37.57 44.11" stroke-dashoffset="-0.00"/><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--acc2)" stroke-width="5.5" stroke-dasharray="24.50 57.18" stroke-dashoffset="-37.57"/><circle cx="16" cy="16" r="13" fill="none" style="stroke:var(--soft)" stroke-width="5.5" stroke-dasharray="19.60 62.08" stroke-dashoffset="-62.08"/></g></svg><div class="lg"><i style="width:80%"></i><i style="width:62%"></i><i style="width:45%"></i></div></div></div>
+      </div>
+      <div class="tile"><span>채널별</span><svg viewBox="0 0 100 30" preserveAspectRatio="none" style="height:30px" aria-hidden="true"><rect x="1.1" y="17.0" width="7.8" height="13.0" rx="1" style="fill:var(--acc2)"/><rect x="11.1" y="11.8" width="7.8" height="18.2" rx="1" style="fill:var(--acc)"/><rect x="21.1" y="19.6" width="7.8" height="10.4" rx="1" style="fill:var(--acc)"/><rect x="31.1" y="9.2" width="7.8" height="20.8" rx="1" style="fill:var(--acc2)"/><rect x="41.1" y="14.4" width="7.8" height="15.6" rx="1" style="fill:var(--acc)"/><rect x="51.1" y="6.6" width="7.8" height="23.4" rx="1" style="fill:var(--acc)"/><rect x="61.1" y="11.8" width="7.8" height="18.2" rx="1" style="fill:var(--acc2)"/><rect x="71.1" y="1.4" width="7.8" height="28.6" rx="1" style="fill:var(--acc)"/><rect x="81.1" y="9.2" width="7.8" height="20.8" rx="1" style="fill:var(--acc)"/><rect x="91.1" y="4.0" width="7.8" height="26.0" rx="1" style="fill:var(--acc2)"/></svg></div>
+      <div class="tile mkpixw"><span>픽셀</span><div class="mkpix"><i style="opacity:0.35"></i><i style="opacity:0.51"></i><i style="opacity:0.67"></i><i style="opacity:0.83"></i><i style="opacity:0.99"></i><i style="opacity:0.35"></i><i style="opacity:0.51"></i><i style="opacity:0.67"></i><i style="opacity:0.83"></i><i style="opacity:0.99"></i><i style="opacity:0.35"></i><i style="opacity:0.51"></i><i style="opacity:0.67"></i><i style="opacity:0.83"></i><i style="opacity:0.99"></i><i style="opacity:0.35"></i><i style="opacity:0.51"></i><i style="opacity:0.67"></i><i style="opacity:0.83"></i><i style="opacity:0.99"></i><i style="opacity:0.35"></i><i style="opacity:0.51"></i><i style="opacity:0.67"></i><i style="opacity:0.83"></i><i style="opacity:0.99"></i><i style="opacity:0.35"></i></div></div>
+    </div>
+  </div>
+</div>
+      <p class="mood">💡 크롬 광택 + 핑크·하늘색 + 픽셀 블록 — 2000년대 초 소프트웨어 UI 재현</p>
+      <div class="uspec">
+        <span><b>주색</b> <code>#FF5FA2</code></span>
+        <span><b>라운드</b> 8~10px</span>
+        <span><b>그림자</b> inset 0 1px 0 #FFFFFF, 0 4px 10px rgba(120,120,200,.25) (크롬 광택)</span>
+        <span><b>폰트</b> 산세리프 700 + 픽셀 폰트 포인트</span>
+      </div>
+      <p class="use">🎯 굿즈·팝업·SNS 캠페인 — 요청 있을 때만(우리 기본 톤과 거리가 멀다)</p>
+      <div class="promptrow"><button class="bcopy" data-txt="레트로 · Y2K(Retro / Y2K) 스타일로 만들어줘 — 주색 #FF5FA2, 라운드 8~10px, 그림자 inset 0 1px 0 #FFFFFF, 0 4px 10px rgba(120,120,200,.25) (크롬 광택), 폰트 산세리프 700 + 픽셀 폰트 포인트. 핵심: 크롬 광택 + 핑크·하늘색 + 픽셀 블록 — 2000년대 초 소프트웨어 UI 재현. (형광·고채도 계열이라 요청받은 건에만 쓰고, 기본값으로 삼지 않는다.) (출처: 디자인 선택보드 🖼️ 화면 시안 탭 · 우리 브랜드 색이 걸린 산출물이면 주색만 정본 팔레트로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">직접 구현 목업</span></div>
+    </div></div>
+<div class="noresult">조건에 맞는 항목이 없습니다 — 필터·검색을 풀어보세요.</div>
+</div>
+
 <div class="tabpane" id="pane-skill" role="tabpanel" aria-labelledby="tabSkill">
 <div class="section">🧰 디자인 스킬 <span class="secsub">20종 · 작업 방식 스킬 · 여러 개 선택 가능</span></div>
 <h3 class="grp">그룹 A. 방향·취향 (시작할 때 1개) <span class="cnt">5</span></h3><div class="grid kgrid"><div class="card kcard" data-name="그룹 a. 방향·취향 (시작할 때 1개) 미적 방향 선행 frontend-design anthropic 공식. 코드부터 짜지 않고 색·글꼴·여백·분위기 방향을 먼저 정하고 시작 새 페이지·덱을 &quot;뻔하지 않게&quot; 시작하고 싶을 때 스킬" data-combo="frontend-design" data-kname="미적 방향 선행">
       <div class="schd" onclick="selSkill(this)"><h3 role="button" tabindex="0" aria-pressed="false">미적 방향 선행 <span class="en skcode">frontend-design</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <p class="mood">💡 Anthropic 공식. 코드부터 짜지 않고 색·글꼴·여백·분위기 방향을 먼저 정하고 시작</p>
       <p class="use">🎯 이럴 때: 새 페이지·덱을 &quot;뻔하지 않게&quot; 시작하고 싶을 때</p>
+      <details class="skx"><summary>🔍 예시 — 톤 샘플 — 브리프마다 다른 토큰</summary><div class="skxbody"><div class="tone"><span class="tt" style="background:#F2EFE7;color:#23201B"><b style="font-family:Georgia,serif">Aa</b><i style="background:#7A5C3E"></i>브리프 A</span><span class="tt" style="background:#16181C;color:#E8E9EC"><b>Aa</b><i style="background:#4E7C8E"></i>브리프 B</span><span class="tt" style="background:#EDF0EE;color:#1F2A26"><b style="letter-spacing:-.06em">Aa</b><i style="background:#2E7D5B"></i>브리프 C</span></div><p class="bacap">색 4~6·타입 2역할·레이아웃·시그니처를 <b>코드 전에</b> 먼저 세우고, 기본값처럼 보이면 그 부분을 고쳐 쓴다.</p><p class="skxsrc">근거 · SKILL.md 〈Process〉 — compact token system (color/type/layout/signature) + 기본값 3종 회피</p></div></details>
     </div><div class="card kcard" data-name="그룹 a. 방향·취향 (시작할 때 1개) 안티슬롭 design-taste-frontend 템플릿 티(보라 그라데이션·알약 태그) 제거. 랜딩·포트폴리오·리디자인 특화 결과물이 &quot;어디서 본 듯&quot;할 때 스킬" data-combo="design-taste-frontend" data-kname="안티슬롭">
       <div class="schd" onclick="selSkill(this)"><h3 role="button" tabindex="0" aria-pressed="false">안티슬롭 <span class="en skcode">design-taste-frontend</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <p class="mood">💡 템플릿 티(보라 그라데이션·알약 태그) 제거. 랜딩·포트폴리오·리디자인 특화</p>
       <p class="use">🎯 이럴 때: 결과물이 &quot;어디서 본 듯&quot;할 때</p>
+      <details class="skx"><summary>🔍 예시 — 톤 샘플 — 3다이얼(기본 8/6/4)</summary><div class="skxbody"><div class="tone"><span class="tt dial"><b>변주 5</b><span class="dg s5"><i></i><i></i><i></i><i></i></span>정갈</span><span class="tt dial"><b>변주 8</b><span class="dg s8"><i></i><i></i><i></i><i></i></span>기본</span><span class="tt dial"><b>변주 10</b><span class="dg s10"><i></i><i></i><i></i><i></i></span>실험</span></div><p class="bacap">변주·모션·밀도 세 다이얼을 먼저 정해 레이아웃·모션·정보량을 한꺼번에 통제한다(규제·공공 톤이면 3~4로 내림).</p><p class="skxsrc">근거 · SKILL.md §1 THE THREE DIALS — DESIGN_VARIANCE 8 / MOTION_INTENSITY 6 / VISUAL_DENSITY 4</p></div></details>
     </div><div class="card kcard" data-name="그룹 a. 방향·취향 (시작할 때 1개) 하이엔드 에이전시 룩 high-end-visual-design 고급 에이전시 수준의 폰트·간격·그림자·카드 구조 정의 프리미엄 룩이 필요한 홈페이지·브로셔 스킬" data-combo="high-end-visual-design" data-kname="하이엔드 에이전시 룩">
       <div class="schd" onclick="selSkill(this)"><h3 role="button" tabindex="0" aria-pressed="false">하이엔드 에이전시 룩 <span class="en skcode">high-end-visual-design</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <p class="mood">💡 고급 에이전시 수준의 폰트·간격·그림자·카드 구조 정의</p>
       <p class="use">🎯 이럴 때: 프리미엄 룩이 필요한 홈페이지·브로셔</p>
+      <details class="skx"><summary>🔍 예시 — 톤 샘플 — 아키타입 3종</summary><div class="skxbody"><div class="tone"><span class="tt" style="background:#050505;color:#EDEDED"><b>글래스</b><i style="background:linear-gradient(90deg,#2b3a4a,#3d5566)"></i>Ethereal Glass</span><span class="tt" style="background:#FDFBF7;color:#2A2520"><b style="font-family:Georgia,serif">에디토리얼</b><i style="background:#6E5B44"></i>Editorial Luxury</span><span class="tt" style="background:#F4F5F6;color:#20242A;box-shadow:0 6px 16px rgba(30,40,60,.14)"><b>소프트</b><i style="background:#8C949E"></i>Soft Structuralism</span></div><p class="bacap">시작할 때 무드·텍스처 아키타입을 하나 골라 고정한다 — 같은 룩을 연속으로 내지 않기 위한 장치.</p><p class="skxsrc">근거 · SKILL.md §3.A Vibe &amp; Texture Archetypes (Ethereal Glass · Editorial Luxury · Soft Structuralism)</p></div></details>
     </div><div class="card kcard" data-name="그룹 a. 방향·취향 (시작할 때 1개) 스위스 편집 디자인 swiss-design 그리드·타이포 중심의 정갈한 편집 디자인 원칙 문서형·ir·리포트 톤 스킬" data-combo="swiss-design" data-kname="스위스 편집 디자인">
       <div class="schd" onclick="selSkill(this)"><h3 role="button" tabindex="0" aria-pressed="false">스위스 편집 디자인 <span class="en skcode">swiss-design</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <p class="mood">💡 그리드·타이포 중심의 정갈한 편집 디자인 원칙</p>
       <p class="use">🎯 이럴 때: 문서형·IR·리포트 톤</p>
+      <details class="skx"><summary>🔍 예시 — 톤 샘플 — 그리드·단일 accent</summary><div class="skxbody"><div class="tone"><span class="tt sw"><b>12칼럼</b><span class="grid12"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>8px 기준</span><span class="tt sw"><b>한 accent</b><span class="opa"><i style="opacity:1"></i><i style="opacity:.6"></i><i style="opacity:.35"></i><i style="opacity:.15"></i></span>불투명도로 위계</span><span class="tt sw"><b>60ch</b><span class="col60"><i></i><i></i><i></i></span>본문 폭 제한</span></div><p class="bacap">위계는 색을 늘려서가 아니라 <b>불투명도</b>로 만든다 — accent는 프로젝트당 하나.</p><p class="skxsrc">근거 · SKILL.md 〈Six Principles〉 1·4·5·6 (12칼럼·opacity 위계·one accent·max-w-60ch)</p></div></details>
     </div><div class="card kcard" data-name="그룹 a. 방향·취향 (시작할 때 1개) ui 디테일 폴리시 emil-design-eng emil kowalski 철학 — 소프트웨어가 &quot;좋게 느껴지는&quot; 보이지 않는 디테일 완성물 마감 품질을 끌어올릴 때 스킬" data-combo="emil-design-eng" data-kname="UI 디테일 폴리시">
       <div class="schd" onclick="selSkill(this)"><h3 role="button" tabindex="0" aria-pressed="false">UI 디테일 폴리시 <span class="en skcode">emil-design-eng</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <p class="mood">💡 Emil Kowalski 철학 — 소프트웨어가 &quot;좋게 느껴지는&quot; 보이지 않는 디테일</p>
       <p class="use">🎯 이럴 때: 완성물 마감 품질을 끌어올릴 때</p>
+      <details class="skx"><summary>🔍 예시 — 톤 샘플 — 빈도별 모션 예산</summary><div class="skxbody"><div class="tone"><span class="tt fr"><b>매일 100회+</b><span class="frbar"><i style="width:4%"></i></span>모션 없음</span><span class="tt fr"><b>가끔</b><span class="frbar"><i style="width:40%"></i></span>짧게 200ms</span><span class="tt fr"><b>드물게</b><span class="frbar"><i style="width:88%"></i></span>연출 허용</span></div><p class="bacap">"얼마나 자주 보는가"로 모션 예산을 정한다 — 키보드로 부르는 동작엔 애니메이션을 넣지 않는다.</p><p class="skxsrc">근거 · SKILL.md 〈The Animation Decision Framework〉 — 사용 빈도 기준 · Never animate keyboard-initiated actions</p></div></details>
     </div></div><h3 class="grp">그룹 B. 구성 요소 (필요한 것만) <span class="cnt">10</span></h3><div class="grid kgrid"><div class="card kcard" data-name="그룹 b. 구성 요소 (필요한 것만) 모션 교정 animate 싸구려 튕김 대신 짧고 절제된 모션(emil kowalski 강의 기반) 버튼·카드·전환에 움직임 넣을 때 스킬" data-combo="animate" data-kname="모션 교정">
       <div class="schd" onclick="selSkill(this)"><h3 role="button" tabindex="0" aria-pressed="false">모션 교정 <span class="en skcode">animate</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <p class="mood">💡 싸구려 튕김 대신 짧고 절제된 모션(Emil Kowalski 강의 기반)</p>
       <p class="use">🎯 이럴 때: 버튼·카드·전환에 움직임 넣을 때</p>
+      <details class="skx"><summary>🔍 예시 — 적용 전후 — 이징·시간</summary><div class="skxbody"><div class="ba"><div class="bacol b"><em>적용 전</em><svg viewBox="0 0 40 40" style="width:100%;height:38px" aria-hidden="true"><path d="M0,40 L40,40 M0,40 L0,0" stroke="rgba(128,128,128,.35)" stroke-width="1" fill="none"/><path d="M0,40 C16,40 24,0 40,0" fill="none" stroke="currentColor" stroke-width="2.2" vector-effect="non-scaling-stroke"/></svg><span class="bacap">600ms · ease-in-out</span></div><div class="bacol a"><em>적용 후</em><svg viewBox="0 0 40 40" style="width:100%;height:38px" aria-hidden="true"><path d="M0,40 L40,40 M0,40 L0,0" stroke="rgba(128,128,128,.35)" stroke-width="1" fill="none"/><path d="M0,40 C6,10 14,0 40,0" fill="none" stroke="currentColor" stroke-width="2.2" vector-effect="non-scaling-stroke"/></svg><span class="bacap">220ms · ease-out</span></div></div><p class="bacap">들어오는 요소는 <b>ease-out 200~300ms</b>, 나가는 것은 그 75%. transform·opacity만 움직인다.</p><p class="skxsrc">근거 · SKILL.md 〈Easing Cheat Sheet〉 + 〈Golden Rules〉 1·2·3</p></div></details>
     </div><div class="card kcard" data-name="그룹 b. 구성 요소 (필요한 것만) 타이포그래피 ui-typography 글자 크기·행간·위계 규격 텍스트 많은 화면·가독성 문제 스킬" data-combo="ui-typography" data-kname="타이포그래피">
       <div class="schd" onclick="selSkill(this)"><h3 role="button" tabindex="0" aria-pressed="false">타이포그래피 <span class="en skcode">ui-typography</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <p class="mood">💡 글자 크기·행간·위계 규격</p>
       <p class="use">🎯 이럴 때: 텍스트 많은 화면·가독성 문제</p>
+      <details class="skx"><summary>🔍 예시 — 적용 전후 — 문장부호·간격</summary><div class="skxbody"><div class="ba"><div class="bacol b"><em>적용 전</em><p class="tybad">"품질 검사"는 2026-2027년&nbsp; 진행. 놀랍습니다!!</p></div><div class="bacol a"><em>적용 후</em><p class="tygood">“품질 검사”는 2026–2027년 진행. 놀랍습니다.</p></div></div><p class="bacap">곧은 따옴표→굽은 따옴표, 하이픈→엔대시(범위), 문장 뒤 두 칸→한 칸, 느낌표는 문서당 하나.</p><p class="skxsrc">근거 · SKILL.md 〈Characters〉·〈Spacing〉 — 곧은/굽은 따옴표, 엔대시, 한 칸 규칙, 느낌표 예산</p></div></details>
     </div><div class="card kcard" data-name="그룹 b. 구성 요소 (필요한 것만) 색 전문 color-expert 색 이론·램프·그라데이션·접근성 대비 팔레트를 변형·확장할 때 (기본 색은 팔레트 탭이 정본) 스킬" data-combo="color-expert" data-kname="색 전문">
       <div class="schd" onclick="selSkill(this)"><h3 role="button" tabindex="0" aria-pressed="false">색 전문 <span class="en skcode">color-expert</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <p class="mood">💡 색 이론·램프·그라데이션·접근성 대비</p>
       <p class="use">🎯 이럴 때: 팔레트를 변형·확장할 때 (기본 색은 팔레트 탭이 정본)</p>
+      <details class="skx"><summary>🔍 예시 — 적용 전후 — 본문 대비</summary><div class="skxbody"><div class="ba"><div class="bacol b"><em>적용 전</em><p class="cbox"><span style="color:#B9B9B9">본문 텍스트 예시</span><em class="cbad">대비 1.96:1 — AA 미달</em></p></div><div class="bacol a"><em>적용 후</em><p class="cbox"><span style="color:#595959">본문 텍스트 예시</span><em class="cgood">대비 7.00:1 — AAA 통과</em></p></div></div><p class="bacap">본문은 WCAG 4.5:1이 최소선. 대비값은 눈대중이 아니라 계산해서 확인한다(라이트·다크 양쪽).</p><p class="skxsrc">근거 · SKILL.md 〈Accessibility — Key Numbers〉 WCAG 4.5:1(AA)·7:1(AAA) · 대비값은 python 실계산</p></div></details>
     </div><div class="card kcard" data-name="그룹 b. 구성 요소 (필요한 것만) 차트·데이터 시각화 dataviz 차트/대시보드 색·마크·범례 일관 규격 수치·차트 들어가는 자료 스킬" data-combo="dataviz" data-kname="차트·데이터 시각화">
       <div class="schd" onclick="selSkill(this)"><h3 role="button" tabindex="0" aria-pressed="false">차트·데이터 시각화 <span class="en skcode">dataviz</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <p class="mood">💡 차트/대시보드 색·마크·범례 일관 규격</p>
       <p class="use">🎯 이럴 때: 수치·차트 들어가는 자료</p>
+      <details class="skx"><summary>🔍 예시 — 적용 전후 — 계열 색·축</summary><div class="skxbody"><div class="ba"><div class="bacol b"><em>적용 전</em><svg viewBox="0 0 100 44" style="width:100%;height:48px" aria-hidden="true"><path d="M0,42 H100 M0,0 V42" stroke="#555" stroke-width="1.4" fill="none"/><path d="M0,10 H100 M0,20 H100 M0,31 H100" stroke="#999" stroke-width=".8"/><rect x="4" y="24" width="11" height="18" fill="#C0392B"/><rect x="20" y="14" width="11" height="28" fill="#E67E22"/><rect x="36" y="30" width="11" height="12" fill="#16A085"/><rect x="52" y="9" width="11" height="33" fill="#2980B9"/><rect x="68" y="20" width="11" height="22" fill="#8E44AD"/><rect x="84" y="16" width="11" height="26" fill="#D4AC0D"/></svg></div><div class="bacol a"><em>적용 후</em><svg viewBox="0 0 100 44" style="width:100%;height:48px" aria-hidden="true"><path d="M0,42 H100" stroke="#B9B4A8" stroke-width="1" fill="none"/><path d="M0,14 H100 M0,28 H100" stroke="#E3DFD5" stroke-width=".8"/><rect x="4" y="9" width="11" height="33" rx="1" fill="#1F5E45"/><rect x="20" y="14" width="11" height="28" rx="1" fill="#2E7D5B"/><rect x="36" y="16" width="11" height="26" rx="1" fill="#4E9B77"/><rect x="52" y="20" width="11" height="22" rx="1" fill="#79B79A"/><rect x="68" y="24" width="11" height="18" rx="1" fill="#A6D0BC"/><rect x="84" y="30" width="11" height="12" rx="1" fill="#CFE4D9"/></svg></div></div><p class="bacap">계열마다 다른 색을 뿌리지 않고 <b>한 계열 순차 팔레트</b>로 묶고, 정렬하고, 축·격자는 얇게 물린다.</p><p class="skxsrc">근거 · 스킬 description(번들 스킬 — 로컬 SKILL.md 없음): sequential palette·mark specs·one system</p></div></details>
     </div><div class="card kcard" data-name="그룹 b. 구성 요소 (필요한 것만) 빠른 ui 정리 baseline-ui 간격·위계·타이포 어긋남 신속 교정 이미 만든 화면이 어수선할 때 스킬" data-combo="baseline-ui" data-kname="빠른 UI 정리">
       <div class="schd" onclick="selSkill(this)"><h3 role="button" tabindex="0" aria-pressed="false">빠른 UI 정리 <span class="en skcode">baseline-ui</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <p class="mood">💡 간격·위계·타이포 어긋남 신속 교정</p>
       <p class="use">🎯 이럴 때: 이미 만든 화면이 어수선할 때</p>
+      <details class="skx"><summary>🔍 예시 — 적용 전후 — 장식 금지선</summary><div class="skxbody"><div class="ba"><div class="bacol b"><em>적용 전</em><span class="btnbad">저장하기</span><span class="bacap">보라·다색 그라디언트 + 글로우</span></div><div class="bacol a"><em>적용 후</em><span class="btngood">저장하기</span><span class="bacap">솔리드 1색 · 기본 그림자 스케일</span></div></div><p class="bacap">요청이 없으면 그라디언트·글로우를 쓰지 않는다. 강조색은 한 화면에 하나.</p><p class="skxsrc">근거 · SKILL.md 〈Design〉 — NEVER use gradients unless explicitly requested · no purple/multicolor · glow 금지 · accent 1개</p></div></details>
     </div><div class="card kcard" data-name="그룹 b. 구성 요소 (필요한 것만) 테마 일괄 적용 theme-factory 슬라이드·문서·랜딩에 프리셋 테마 통일 적용 여러 산출물 톤을 하나로 맞출 때 스킬" data-combo="theme-factory" data-kname="테마 일괄 적용">
       <div class="schd" onclick="selSkill(this)"><h3 role="button" tabindex="0" aria-pressed="false">테마 일괄 적용 <span class="en skcode">theme-factory</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <p class="mood">💡 슬라이드·문서·랜딩에 프리셋 테마 통일 적용</p>
       <p class="use">🎯 이럴 때: 여러 산출물 톤을 하나로 맞출 때</p>
+      <details class="skx"><summary>🔍 예시 — 적용 전후 — 산출물 톤 통일</summary><div class="skxbody"><div class="ba"><div class="bacol b"><em>적용 전</em><span class="mini" style="background:#EAF0F6;border-color:#B9CBDD"><i style="background:#2C6EA8"></i>덱</span><span class="mini" style="background:#F6EFE6;border-color:#DDCAB0"><i style="background:#B07C3A"></i>보고서</span><span class="mini" style="background:#EFEAF4;border-color:#CFC2DD"><i style="background:#6B4E8C"></i>랜딩</span></div><div class="bacol a"><em>적용 후</em><span class="mini" style="background:#EDF2EF;border-color:#C6D8CD"><i style="background:#2E7D5B"></i>덱</span><span class="mini" style="background:#EDF2EF;border-color:#C6D8CD"><i style="background:#2E7D5B"></i>보고서</span><span class="mini" style="background:#EDF2EF;border-color:#C6D8CD"><i style="background:#2E7D5B"></i>랜딩</span></div></div><p class="bacap">덱·문서·랜딩이 제각각인 상태를 프리셋 테마 하나(색+폰트 쌍)로 한 번에 맞춘다.</p><p class="skxsrc">근거 · SKILL.md 〈Purpose〉·〈Themes Available〉 — 10개 프리셋 테마를 산출물에 일괄 적용</p></div></details>
     </div><div class="card kcard" data-name="그룹 b. 구성 요소 (필요한 것만) 애플 유동 인터페이스 ★기본 apple-design wwdc 원칙의 웹 번역 — 타이포·깊이·절제 + 제스처·스프링·전환 (emil 스킬군). ★모든 디자인 산출물 기본 적용(대표 지시 2026-07-16) — 안 골라도 발동, 값은 토큰 정본 우선 전 산출물 자동 — 정적물엔 타이포·깊이·절제 절, 움직이면 모션 절까지 스킬" data-combo="apple-design" data-kname="애플 유동 인터페이스 ★기본">
       <div class="schd" onclick="selSkill(this)"><h3 role="button" tabindex="0" aria-pressed="false">애플 유동 인터페이스 ★기본 <span class="en skcode">apple-design</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <p class="mood">💡 WWDC 원칙의 웹 번역 — 타이포·깊이·절제 + 제스처·스프링·전환 (Emil 스킬군). ★모든 디자인 산출물 기본 적용(대표 지시 2026-07-16) — 안 골라도 발동, 값은 토큰 정본 우선</p>
       <p class="use">🎯 이럴 때: 전 산출물 자동 — 정적물엔 타이포·깊이·절제 절, 움직이면 모션 절까지</p>
+      <details class="skx"><summary>🔍 예시 — 적용 전후 — 재질과 깊이</summary><div class="skxbody"><div class="ba"><div class="bacol b"><em>적용 전</em><span class="matbox"><i class="opq"></i></span><span class="bacap">불투명 회색 패널 — 층이 안 보인다</span></div><div class="bacol a"><em>적용 후</em><span class="matbox"><i class="tr"></i></span><span class="bacap">반투명 재질 — 뒤가 비쳐 층이 읽힌다</span></div></div><p class="bacap">깊이는 그림자를 더 세게 주는 게 아니라 <b>재질(반투명)</b>로 만든다. 움직임은 스프링(감쇠 1.0)이 기본.</p><p class="skxsrc">근거 · SKILL.md §12 Materials &amp; depth — translucency conveys hierarchy · §4 damping 1.0 기본</p></div></details>
     </div><div class="card kcard" data-name="그룹 b. 구성 요소 (필요한 것만) 모션 넣을 곳 탐색 find-animation-opportunities 움직여야 할 곳만 골라 정확한 값으로 제안, 과한 모션은 거절 (읽기 전용) 완성 화면이 &quot;밋밋한데 뭘 움직일지&quot; 모를 때 스킬" data-combo="find-animation-opportunities" data-kname="모션 넣을 곳 탐색">
       <div class="schd" onclick="selSkill(this)"><h3 role="button" tabindex="0" aria-pressed="false">모션 넣을 곳 탐색 <span class="en skcode">find-animation-opportunities</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <p class="mood">💡 움직여야 할 곳만 골라 정확한 값으로 제안, 과한 모션은 거절 (읽기 전용)</p>
       <p class="use">🎯 이럴 때: 완성 화면이 &quot;밋밋한데 뭘 움직일지&quot; 모를 때</p>
+      <details class="skx"><summary>🔍 예시 — 적용 전후 — 등장 계단(stagger)</summary><div class="skxbody"><div class="ba"><div class="bacol b"><em>적용 전</em><span class="stg"><i style="--o:0"></i><i style="--o:0"></i><i style="--o:0"></i><i style="--o:0"></i></span><span class="bacap">4줄이 한꺼번에 등장(0ms)</span></div><div class="bacol a"><em>적용 후</em><span class="stg"><i style="--o:0"></i><i style="--o:1"></i><i style="--o:2"></i><i style="--o:3"></i></span><span class="bacap">30~80ms 계단으로 순차 등장</span></div></div><p class="bacap">움직일 곳을 찾아 <b>정확한 값</b>으로만 제안한다(장식적 stagger는 조작을 막지 않는 선에서).</p><p class="skxsrc">근거 · SKILL.md 〈Where to Hunt〉 — 30–80ms stagger · 등장은 scale(0.95~0.97)+opacity, ease-out</p></div></details>
     </div><div class="card kcard" data-name="그룹 b. 구성 요소 (필요한 것만) 모션 전수 감사 improve-animations 기존 모션 코드 전체 진단 → 우선순위 개선 계획 (읽기 전용) 이미 만든 덱·페이지의 움직임을 손볼 때 스킬" data-combo="improve-animations" data-kname="모션 전수 감사">
       <div class="schd" onclick="selSkill(this)"><h3 role="button" tabindex="0" aria-pressed="false">모션 전수 감사 <span class="en skcode">improve-animations</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <p class="mood">💡 기존 모션 코드 전체 진단 → 우선순위 개선 계획 (읽기 전용)</p>
       <p class="use">🎯 이럴 때: 이미 만든 덱·페이지의 움직임을 손볼 때</p>
+      <details class="skx"><summary>🔍 예시 — 적용 전후 — 시간 토큰 정리</summary><div class="skxbody"><div class="ba"><div class="bacol b"><em>적용 전</em><span class="tok"><b>120ms</b><b>380ms</b><b>650ms</b><b>240ms</b></span><span class="bacap">파일마다 제각각 · 기준 없음</span></div><div class="bacol a"><em>적용 후</em><span class="tok on"><b>--fast 150</b><b>--base 250</b><b>--slow 350</b></span><span class="bacap">기존 토큰 스케일로 수렴</span></div></div><p class="bacap">새 체계를 만들지 않고 <b>이미 있는 이징·시간 토큰을 확장</b>한다 — 자주 보는 요소부터 우선순위를 매긴다.</p><p class="skxsrc">근거 · SKILL.md 〈Workflow〉 — existing easing/duration tokens를 확장(병렬 체계 금지) · frequency map으로 심각도 판정</p></div></details>
     </div><div class="card kcard" data-name="그룹 b. 구성 요소 (필요한 것만) 모션 엄격 채점 review-animations 만든 모션을 기준 수치로 채점, 기본 불합격 편향 (명시 호출 전용) 모션 품질 게이트 — 출고 전 검수 스킬" data-combo="review-animations" data-kname="모션 엄격 채점">
       <div class="schd" onclick="selSkill(this)"><h3 role="button" tabindex="0" aria-pressed="false">모션 엄격 채점 <span class="en skcode">review-animations</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <p class="mood">💡 만든 모션을 기준 수치로 채점, 기본 불합격 편향 (명시 호출 전용)</p>
       <p class="use">🎯 이럴 때: 모션 품질 게이트 — 출고 전 검수</p>
+      <details class="skx"><summary>🔍 예시 — 적용 전후 — 채점 결과</summary><div class="skxbody"><div class="ba"><div class="bacol b"><em>적용 전</em><span class="judge no">✗ 불합격</span><span class="bacap">480ms · ease-in — UI에 ease-in은 즉시 지적</span></div><div class="bacol a"><em>적용 후</em><span class="judge ok">✓ 합격</span><span class="bacap">220ms · ease-out — 300ms 미만</span></div></div><p class="bacap">출고 전 게이트. 기본이 불합격 편향이라 "괜찮아 보인다"로는 통과하지 않는다.</p><p class="skxsrc">근거 · SKILL.md 〈The Ten Non-Negotiable Standards〉 3(ease-in 차단)·4(sub-300ms) · 〈Escalation Triggers〉</p></div></details>
     </div></div><h3 class="grp">그룹 D. 로고 (신설 2026-07-23) <span class="cnt">1</span></h3><div class="grid kgrid"><div class="card kcard" data-name="그룹 d. 로고 (신설 2026-07-23) 디자인_로고 (로고 파이프라인) design-logo 브랜드 브리프→서로 다른 타입 5콘셉트+ai 이미지 프롬프트+타입 선정 근거. 갭은 가정 명시 후 진행(질문 최소). ⚠️자체 채점은 참고용 — 색 대비 python 실계산·64/32/16px 실렌더·상표 판단은 대표 영역(vcbio 게이트) 로고·모노그램·워드마크·심볼·리브랜딩 — 신규 브랜드·제품 라인·자사 리뉴얼 전부 스킬" data-combo="design-logo" data-kname="디자인_로고 (로고 파이프라인)">
       <div class="schd" onclick="selSkill(this)"><h3 role="button" tabindex="0" aria-pressed="false">디자인_로고 (로고 파이프라인) <span class="en skcode">design-logo</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <p class="mood">💡 브랜드 브리프→서로 다른 타입 5콘셉트+AI 이미지 프롬프트+타입 선정 근거. 갭은 가정 명시 후 진행(질문 최소). ⚠️자체 채점은 참고용 — 색 대비 python 실계산·64/32/16px 실렌더·상표 판단은 대표 영역(VCBio 게이트)</p>
       <p class="use">🎯 이럴 때: 로고·모노그램·워드마크·심볼·리브랜딩 — 신규 브랜드·제품 라인·자사 리뉴얼 전부</p>
+      <details class="skx"><summary>🔍 예시 — 산출 예시 — 서로 다른 5타입</summary><div class="skxbody"><div class="tone"><span class="lgt"><b class="lgw">MARK</b>워드마크</span><span class="lgt"><b class="lgm">M</b>모노그램</span><span class="lgt"><b class="lgs"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3 L21 12 L12 21 L3 12 Z" fill="none" stroke="currentColor" stroke-width="2"/></svg></b>심볼+워드</span><span class="lgt"><b class="lgl">MK</b>레터마크</span><span class="lgt"><b class="lga"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2.4"/></svg></b>앱 아이콘</span></div><p class="bacap">한 번에 <b>타입이 서로 다른 5안</b>과 각 안의 근거·폰트/색 방향·AI 이미지 프롬프트가 나온다(자체 채점은 참고용).</p><p class="skxsrc">근거 · SKILL.md 〈Pipeline overview〉 3~5 — Type × Style mapping → 5 concepts → critique pass</p></div></details>
     </div></div><h3 class="grp">그룹 C. 우리 정본 (VCBio 전용) <span class="cnt">4</span></h3><div class="grid kgrid"><div class="card kcard" data-name="그룹 c. 우리 정본 (vcbio 전용) 원료 제안덱 ingredient-proposal-deck 우리 제안서 규격(구성·명의·수치 규칙) 정본 원료 영업 제안서는 무조건 이것 스킬" data-combo="ingredient-proposal-deck" data-kname="원료 제안덱">
       <div class="schd" onclick="selSkill(this)"><h3 role="button" tabindex="0" aria-pressed="false">원료 제안덱 <span class="en skcode">ingredient-proposal-deck</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <p class="mood">💡 우리 제안서 규격(구성·명의·수치 규칙) 정본</p>
       <p class="use">🎯 이럴 때: 원료 영업 제안서는 무조건 이것</p>
+      <details class="skx"><summary>🔍 예시 — 적용 전후 — 공급 조건 표기</summary><div class="skxbody"><div class="ba"><div class="bacol b"><em>적용 전</em><p class="doc"><b>공급 조건</b><br>MOQ 500kg · 단가 32,000원/kg<br>납기 21일</p><span class="bacap">숫자를 인쇄하면 협상 여지가 사라진다</span></div><div class="bacol a"><em>적용 후</em><p class="doc"><b>공급 조건</b><br>MOQ·단가·납기 <b>협의</b><br>(요청 시 별도 제시)</p><span class="bacap">덱에는 "협의", 숫자는 견적으로 따로</span></div></div><p class="bacap">수치는 출처 있는 것만, 공급 조건은 협의 표기 — 디자인 시스템(다크 차콜+곡물톤+딥그린)은 고정.</p><p class="skxsrc">근거 · SKILL.md 〈제작 우선순위 &amp; 대표 검토 항목〉 — 공급 조건 구체 숫자 인쇄 금지(협의 표기) · 수치 날조 금지</p></div></details>
     </div><div class="card kcard" data-name="그룹 c. 우리 정본 (vcbio 전용) 한국어 ai티 제거 humanize-korean 번역투·ai 관용구 윤문 (외부 산문엔 자동 적용 중) 카피·문안 비중이 클 때 명시 선택 스킬" data-combo="humanize-korean" data-kname="한국어 AI티 제거">
       <div class="schd" onclick="selSkill(this)"><h3 role="button" tabindex="0" aria-pressed="false">한국어 AI티 제거 <span class="en skcode">humanize-korean</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <p class="mood">💡 번역투·AI 관용구 윤문 (외부 산문엔 자동 적용 중)</p>
       <p class="use">🎯 이럴 때: 카피·문안 비중이 클 때 명시 선택</p>
+      <details class="skx"><summary>🔍 예시 — 적용 전후 — 번역투 제거</summary><div class="skxbody"><div class="ba"><div class="bacol b"><em>적용 전</em><p class="kr">본 원료<b>에 대한</b> 검토<b>를 진행하였습니다</b>. 경쟁력<b>을 가지고 있다</b>고 <b>판단되어집니다</b>.</p></div><div class="bacol a"><em>적용 후</em><p class="kr">이 원료를 검토했습니다. 경쟁력이 강하다고 봅니다.</p></div></div><p class="bacap">탐지된 구간만 수술적으로 고친다 — 수치·고유명사·인용은 100% 보존, 변경률 30% 초과면 경고.</p><p class="skxsrc">근거 · references/quick-rules.md A-1(~에 대한)·A-7(가지고 있다)·A-8(되어진다) · SKILL.md 4대 철칙</p></div></details>
     </div><div class="card kcard" data-name="그룹 c. 우리 정본 (vcbio 전용) 책장 배포 vcbio-shelf 완성물을 폰에서 보게 책장에 업로드 폰 열람·외부 공유가 목적일 때 스킬" data-combo="vcbio-shelf" data-kname="책장 배포">
       <div class="schd" onclick="selSkill(this)"><h3 role="button" tabindex="0" aria-pressed="false">책장 배포 <span class="en skcode">vcbio-shelf</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <p class="mood">💡 완성물을 폰에서 보게 책장에 업로드</p>
       <p class="use">🎯 이럴 때: 폰 열람·외부 공유가 목적일 때</p>
+      <details class="skx"><summary>🔍 예시 — 적용 전후 — 열람 수단</summary><div class="skxbody"><div class="ba"><div class="bacol b"><em>적용 전</em><p class="pathb">…/Vault-Files/디자인/_files/보고서.html</p><span class="bacap">맥에서만 열림 — 폰·외부 공유 불가</span></div><div class="bacol a"><em>적용 후</em><p class="patha">vcbio.github.io/shelf/…</p><span class="bacap">폰에서 바로 · 링크로 공유</span></div></div><p class="bacap">공개 사이트라 단가·거래처 실명 같은 민감 문서는 올리기 전에 대표 확인을 받는다.</p><p class="skxsrc">근거 · SKILL.md 〈주의 — 민감 문서 금지〉 · 목적(HTML을 vcbio.github.io/shelf 에 게시)</p></div></details>
     </div><div class="card kcard" data-name="그룹 c. 우리 정본 (vcbio 전용) 브랜드 화보(모션클립) vcbio-motion-clip 대본 문장→2~3초 무음 mp4 클립(hyperframes·자막 밑 배경 영상) 제품·브랜드를 영상 화보로 보여주고 싶을 때 — 영업 숏폼·원료 소개·ir 인트로 스킬" data-combo="vcbio-motion-clip" data-kname="브랜드 화보(모션클립)">
       <div class="schd" onclick="selSkill(this)"><h3 role="button" tabindex="0" aria-pressed="false">브랜드 화보(모션클립) <span class="en skcode">vcbio-motion-clip</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <p class="mood">💡 대본 문장→2~3초 무음 mp4 클립(HyperFrames·자막 밑 배경 영상)</p>
       <p class="use">🎯 이럴 때: 제품·브랜드를 영상 화보로 보여주고 싶을 때 — 영업 숏폼·원료 소개·IR 인트로</p>
+      <details class="skx"><summary>🔍 예시 — 적용 전후 — 대본을 클립 계획표로</summary><div class="skxbody"><div class="ba"><div class="bacol b"><em>적용 전</em><p class="kr">대본 한 덩어리 — 어디서 끊어 어떤 화면을 붙일지 정해지지 않음</p></div><div class="bacol a"><em>적용 후</em><span class="clips"><i><b>#1</b>2.4s</i><i><b>#2</b>2.8s</i><i><b>#3</b>3.0s</i></span><span class="bacap">문장별 컨셉·화면 텍스트·길이·캔버스</span></div></div><p class="bacap">문장마다 2~3초 무음 클립 1개(폴더 1개)로 쪼개 계획표를 먼저 만들고, lint→draft→high 순으로 렌더한다.</p><p class="skxsrc">근거 · SKILL.md §1 파이프라인 1(클립 계획표)·5(lint→draft→high 렌더)</p></div></details>
     </div></div>
 <div class="noresult">조건에 맞는 항목이 없습니다 — 필터·검색을 풀어보세요.</div>
 <div class="sknote"><p>· 로고(design-logo) = MOONGI logo-lab 원본+VCBio 게이트(2026-07-23 조건부 도입 — 샌드박스 실측·Codex 교차검증). 발산은 스킬, 검증은 우리 게이트</p><p>· 스타일 92종(기본 84+트렌드 8)의 원천(ui-ux-pro-max)과 보조 ui-skills ~150종은 스타일 탭에 이미 반영 — 여기는 &#x27;작업 방식&#x27; 스킬만</p><p>· 조합에 스킬이 포함되면 Claude가 해당 스킬을 실제 발동해 작업함</p><p>· 모션 4종(애플·탐색·감사·채점) = Emil Kowalski 스킬군(2026-07-15 설치·실측 합격). ★애플 유동 인터페이스는 모든 디자인 산출물에 기본 적용(대표 지시 2026-07-16 확대) — 정적물=타이포·깊이·절제 절, 동적물=모션 절까지. 값 충돌 시 토큰 정본 우선. 채점은 정적 심사라 최종 확인은 실렌더. 모션 용어는 말로 물어보면 됨(animation-vocabulary 자동)</p></div>
@@ -3125,6 +3742,7 @@ function cp(e,el){e.stopPropagation();copyText(el.dataset.hex,el.dataset.hex+' �
 function cpall(e,el){e.stopPropagation();copyText(el.dataset.hex,'전체 HEX 복사됨');}
 function cpp(e,el){e.stopPropagation();copyText(el.dataset.prompt,'프롬프트 복사됨 — 이미지 생성기에 붙여넣기');}
 function cpb(e,el){e.stopPropagation();copyText(el.dataset.txt,'AI 지시문 복사됨 — 그대로 붙여넣기');}
+function dfxPlay(e,el){e.stopPropagation();var on=!el.classList.contains('play');el.classList.toggle('play',on);el.setAttribute('aria-pressed',on?'true':'false');}  /* 2026-08-01: 덱 프리뷰 — 기본 정지, 클릭·탭으로 재생 고정(hover 재생은 CSS) */
 function cpk(e,el){e.stopPropagation();var t=el.closest('.kitblk').querySelector('.kitt');copyText(el.dataset.txt,(t?t.textContent.trim():'킷')+' 복사됨');}
 function kitMode(e,el,m){
   e.stopPropagation();
@@ -3179,12 +3797,12 @@ function eagerThumbs(k){  /* R4-9: 활성 페인 첫 6장 eager 로드 */
 }
 function showTab(k){
   document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('act');t.setAttribute('aria-selected','false');t.setAttribute('tabindex','-1');});
-  var ids={pre:'tabPre',pal:'tabPal',sty:'tabSty',skill:'tabSkill',home:'tabHome',deck:'tabDeck',kr:'tabKr'};  /* R14·R16-2 */
+  var ids={pre:'tabPre',pal:'tabPal',sty:'tabSty',skill:'tabSkill',home:'tabHome',deck:'tabDeck',kr:'tabKr',mock:'tabMock'};  /* R14·R16-2 */
   var tb=document.getElementById(ids[k]); tb.classList.add('act'); tb.setAttribute('aria-selected','true'); tb.setAttribute('tabindex','0');  /* R3-4·R4-2 roving */
   document.querySelectorAll('.tabpane').forEach(function(p){p.classList.remove('act');});
   document.getElementById('pane-'+k).classList.add('act');
   document.body.setAttribute('data-tab',k);
-  var ph={pre:'검색: 완성품 이름',pal:'검색: 이름·무드·용도 (예: 신뢰, 웰니스, 그라데이션)',sty:'검색: 이름·무드·용도 (예: 대시보드, 뉴모피즘, 트렌드)',skill:'검색: 이름·용도 (예: 모션, 타이포)',home:'검색: 이름·용도 (예: 히어로, shadcn)',deck:'검색: 이름·용도 (예: 차트, reveal)',kr:'검색: 브랜드·업종·폰트 (예: 토스, 배민, 핀테크)'};  /* R16-2 */  /* R14: pre는 검색줄 자체 숨김(placeholder는 방어값) */
+  var ph={pre:'검색: 완성품 이름',pal:'검색: 이름·무드·용도 (예: 신뢰, 웰니스, 그라데이션)',sty:'검색: 이름·무드·용도 (예: 대시보드, 뉴모피즘, 트렌드)',skill:'검색: 이름·용도 (예: 모션, 타이포)',home:'검색: 이름·용도 (예: 히어로, shadcn)',deck:'검색: 이름·용도 (예: 차트, reveal)',kr:'검색: 브랜드·업종·폰트 (예: 토스, 배민, 핀테크)',mock:'검색: 스타일 이름·영문·용도 (예: 브루탈리즘, editorial, IR)'};  /* R16-2 */  /* R14: pre는 검색줄 자체 숨김(placeholder는 방어값) */
   document.getElementById('q').placeholder=ph[k];  /* R6-7 */
   eagerThumbs(k);  /* R4-9 */
   var pane=document.getElementById('pane-'+k), pr=pane.getBoundingClientRect();  /* R5-7: 깊은 스크롤에서 전환 시 페인 상단으로 */
@@ -3220,7 +3838,7 @@ function tabLbl(full,short,badge){
   return '<span class="tlf" aria-hidden="'+(m?'true':'false')+'">'+full+'</span><span class="tls" aria-hidden="'+(m?'false':'true')+'">'+short+'</span>'+(badge||'');
 }
 function tabMatchCounts(){  /* R9-2: 페인별 현재 표시(검색·필터 반영) 카드 수 */
-  var map={pal:'pane-pal',sty:'pane-sty',skill:'pane-skill',home:'pane-home',deck:'pane-deck',kr:'pane-kr'}, r={};  /* R16-2 */
+  var map={pal:'pane-pal',sty:'pane-sty',skill:'pane-skill',home:'pane-home',deck:'pane-deck',kr:'pane-kr',mock:'pane-mock'}, r={};  /* R16-2 */
   for(var kk in map){
     var pane=document.getElementById(map[kk]);
     r[kk]=[].slice.call(pane.querySelectorAll('.card')).filter(function(c){return c.style.display!=='none';}).length;
@@ -3228,7 +3846,7 @@ function tabMatchCounts(){  /* R9-2: 페인별 현재 표시(검색·필터 반�
   return r;
 }
 function updateTabs(){
-  var p=document.getElementById('tabPal'), s=document.getElementById('tabSty'), k=document.getElementById('tabSkill'), h=document.getElementById('tabHome'), d=document.getElementById('tabDeck'), b=document.getElementById('tabKr');  /* R16-2 */
+  var p=document.getElementById('tabPal'), s=document.getElementById('tabSty'), k=document.getElementById('tabSkill'), h=document.getElementById('tabHome'), d=document.getElementById('tabDeck'), b=document.getElementById('tabKr'), u=document.getElementById('tabMock');  /* R16-2 */
   var q=(document.getElementById('q').value||'').trim();  /* R9-2: 검색 중엔 탭별 매치 수 배지, 비면 선택 배지 복귀 */
   if(q){
     var mc=tabMatchCounts();
@@ -3239,6 +3857,7 @@ function updateTabs(){
     h.innerHTML=tabLbl('🌐 홈페이지','🌐 홈',badge(mc.home));
     d.innerHTML=tabLbl('🎬 덱 연출','🎬 연출',badge(mc.deck));
     b.innerHTML=tabLbl('🇰🇷 브랜드 스펙','🇰🇷 브랜드',badge(mc.kr));
+    u.innerHTML=tabLbl('🖼️ 화면 시안','🖼️ 시안',badge(mc.mock));
     return;
   }
   var cut=function(t){t=t.trim();return t.length>4?t.slice(0,4)+'…':t;};  /* R3-6a·R7-4: 4자 컷 */
@@ -3248,6 +3867,7 @@ function updateTabs(){
   h.innerHTML=tabLbl('🌐 홈페이지','🌐 홈',hCount()?' <i class="tk">✓'+hCount()+'</i>':'');
   d.innerHTML=tabLbl('🎬 덱 연출','🎬 연출',DSEL.length?' <i class="tk">✓'+DSEL.length+'</i>':'');
   b.innerHTML=tabLbl('🇰🇷 브랜드 스펙','🇰🇷 브랜드','');  /* 참조 전용 — 선택 배지 없음 */
+  u.innerHTML=tabLbl('🖼️ 화면 시안','🖼️ 시안','');       /* 참조 전용 — 선택 배지 없음 */
 }
 function syncPad(){  /* 결함2: body 하단 여백을 combobar 실제 높이에 연동 */
   var cb=document.querySelector('.combobar');
@@ -3367,7 +3987,7 @@ function apply(){
     sec.style.display=vis?'':'none';
   });
   /* 결함3b: 탭(페인)별 빈 결과 안내 — R10-3: 타 탭 매치 안내 병기 */
-  var mc=tabMatchCounts(), TABKO={pal:'색감',sty:'스타일',skill:'스킬',home:'홈페이지',deck:'덱 연출',kr:'브랜드 스펙'};  /* R16-2 */
+  var mc=tabMatchCounts(), TABKO={pal:'색감',sty:'스타일',skill:'스킬',home:'홈페이지',deck:'덱 연출',kr:'브랜드 스펙',mock:'화면 시안'};  /* R16-2 */
   document.querySelectorAll('.tabpane').forEach(function(pane){
     var nr=pane.querySelector('.noresult');
     if(!nr)return;
@@ -3412,7 +4032,7 @@ document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('dxSlot').addEventListener('click',function(){jumpTo('deck','덱 연출');});  /* R16-2 */
   document.getElementById('btnSlot').addEventListener('click',function(){jumpTo('sty','버튼 3형');});
   document.addEventListener('click',function(e){  /* R6-1: 카드 전체 클릭=선택 (버튼·스와치·헤더 자체 제외) */
-    if(e.target.closest('button,a,summary,.sw,.recbadge,.rectip'))return;  /* R7-2 */
+    if(e.target.closest('button,a,summary,.sw,.recbadge,.rectip,.skxbody'))return;  /* R7-2 · 2026-08-01: 스킬 예시(.skxbody) 안쪽 클릭이 카드 선택으로 번지지 않게 */
     if(e.target.closest('.chd,.schd'))return;  /* 헤더 영역은 기존 onclick이 처리(이중 토글 방지) */
     var c=e.target.closest('.card');
     if(!c)return;
@@ -3424,7 +4044,7 @@ document.addEventListener('DOMContentLoaded',function(){
   });
   document.querySelector('.tabbar').addEventListener('keydown',function(e){  /* R4-2: 좌우 화살표 roving */
     if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;
-    var order=['pre','pal','sty','skill','home','deck','kr'];  /* R14·R16-2 */
+    var order=['pre','pal','sty','skill','home','deck','kr','mock'];  /* R14·R16-2 */
     var cur=document.body.getAttribute('data-tab');
     var i=order.indexOf(cur);
     var n=order[(i+(e.key==='ArrowRight'?1:order.length-1))%order.length];
