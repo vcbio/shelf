@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>VCBio Design System — DESIGN.md 읽기용</title>
+<style>
+:root{
+  --bg:#FBFAF7; --bg-2:#F2F0EB; --panel:#FFFFFF; --ink:#1A1A1A; --ink-2:#4A4A46;
+  --ink-3:#77776F; --line:#DEDBD2; --line-2:#EAE7DE; --accent:#1F7A4D; --accent-2:#0B3A2A;
+  --code-bg:#F1EFE8; --code-ink:#23342B; --mark:#E7EEE9; --mark-ink:#0B3A2A;
+  --shadow:0 1px 2px rgba(0,0,0,.05);
+}
+html[data-theme="dark"]{
+  --bg:#1C1C1A; --bg-2:#232321; --panel:#262624; --ink:#EDEBE4; --ink-2:#BDBAB1;
+  --ink-3:#8C8A82; --line:#3A3A36; --line-2:#302F2C; --accent:#7FB79A; --accent-2:#C9BCA4;
+  --code-bg:#2C2C29; --code-ink:#D8D5CC; --mark:#2C332D; --mark-ink:#E7EEE9;
+  --shadow:none;
+}
+@media (prefers-color-scheme: dark){
+  html[data-theme="auto"]{
+    --bg:#1C1C1A; --bg-2:#232321; --panel:#262624; --ink:#EDEBE4; --ink-2:#BDBAB1;
+    --ink-3:#8C8A82; --line:#3A3A36; --line-2:#302F2C; --accent:#7FB79A; --accent-2:#C9BCA4;
+    --code-bg:#2C2C29; --code-ink:#D8D5CC; --mark:#2C332D; --mark-ink:#E7EEE9;
+    --shadow:none;
+  }
+}
+*{box-sizing:border-box}
+html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; }
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:Pretendard,"Pretendard Variable",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI","Noto Sans KR","Malgun Gothic",sans-serif;
+  font-size:16px; line-height:1.72; letter-spacing:-.003em;
+  overflow-x:hidden; word-break:keep-all; overflow-wrap:anywhere;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit}
+/* ── 헤더 ── */
+header.top{
+  position:sticky; top:0; z-index:40; background:color-mix(in srgb,var(--bg) 88%, transparent);
+  backdrop-filter:saturate(1.4) blur(10px); -webkit-backdrop-filter:saturate(1.4) blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.top-in{max-width:1320px; margin:0 auto; padding:10px 18px; display:flex; gap:10px; align-items:center;}
+.brand{font-weight:800; font-size:14px; letter-spacing:.02em; white-space:nowrap;}
+.brand small{display:block; font-weight:500; font-size:11px; color:var(--ink-3); letter-spacing:.06em;}
+.grow{flex:1 1 auto; min-width:0}
+.search{position:relative; flex:1 1 auto; min-width:0; max-width:420px;}
+.search input{
+  width:100%; padding:9px 34px 9px 12px; font:inherit; font-size:14px; line-height:1.3;
+  color:var(--ink); background:var(--panel); border:1px solid var(--line); border-radius:4px;
+}
+.search input:focus{outline:2px solid var(--accent); outline-offset:1px;}
+.hits{position:absolute; right:8px; top:50%; transform:translateY(-50%); font-size:11px; color:var(--ink-3); font-variant-numeric:tabular-nums;}
+.btn{
+  flex:0 0 auto; font:inherit; font-size:13px; font-weight:700; color:var(--ink);
+  background:var(--panel); border:1px solid var(--line); border-radius:4px;
+  padding:8px 12px; cursor:pointer; box-shadow:none;
+}
+.btn:hover{opacity:.88}
+.btn:active{transform:none}
+#menuBtn{display:none}
+/* ── 레이아웃 ── */
+.wrap{max-width:1320px; margin:0 auto; display:flex; gap:34px; padding:0 18px;}
+nav.toc{
+  flex:0 0 268px; width:268px; align-self:flex-start; position:sticky; top:64px;
+  max-height:calc(100vh - 78px); overflow-y:auto; padding:22px 0 40px;
+}
+nav.toc h3{font-size:11px; letter-spacing:.12em; color:var(--ink-3); margin:0 0 10px; text-transform:uppercase;}
+nav.toc ul{list-style:none; margin:0; padding:0;}
+nav.toc li{margin:0}
+nav.toc a{
+  display:flex; gap:8px; align-items:baseline; text-decoration:none; color:var(--ink-2);
+  font-size:13.5px; line-height:1.45; padding:6px 10px 6px 8px; border-left:2px solid transparent; border-radius:0 3px 3px 0;
+}
+nav.toc a:hover{opacity:.88; background:var(--bg-2)}
+nav.toc a .num{font-size:10.5px; color:var(--ink-3); font-variant-numeric:tabular-nums; flex:0 0 auto; padding-top:1px;}
+nav.toc a.active{color:var(--accent); border-left-color:var(--accent); background:var(--bg-2); font-weight:700;}
+nav.toc a.active .num{color:var(--accent)}
+main{flex:1 1 auto; min-width:0; padding:26px 0 96px; max-width:820px;}
+/* ── 본문 타이포 ── */
+.doc-head{border-bottom:1px solid var(--line); padding-bottom:20px; margin-bottom:8px;}
+.doc-head h1{font-size:27px; line-height:1.3; margin:0 0 8px; letter-spacing:-.02em;}
+.doc-head p{margin:0; color:var(--ink-3); font-size:13.5px;}
+.meta{display:flex; flex-wrap:wrap; gap:6px; margin-top:12px;}
+.meta span{font-size:11.5px; color:var(--ink-2); background:var(--bg-2); border:1px solid var(--line-2); border-radius:999px; padding:3px 10px;}
+section{padding-top:30px; scroll-margin-top:66px;}
+h2{
+  font-size:20.5px; line-height:1.4; margin:0 0 14px; padding-bottom:9px; letter-spacing:-.015em;
+  border-bottom:1px solid var(--line);
+}
+p{margin:0 0 14px}
+ul{margin:0 0 14px; padding-left:20px}
+li{margin:0 0 7px}
+li>ul{margin:7px 0 0}
+strong{font-weight:700}
+blockquote{
+  margin:0 0 16px; padding:12px 16px; background:var(--bg-2);
+  border-left:3px solid var(--accent); border-radius:0 4px 4px 0; color:var(--ink-2); font-size:15px;
+}
+blockquote strong{color:var(--ink)}
+code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.86em;
+  background:var(--code-bg); color:var(--code-ink); border-radius:3px; padding:.12em .38em;
+  white-space:nowrap;
+}
+/* ── 색 칩 ── */
+.sw{
+  display:inline-block; width:.78em; height:.78em; margin:0 .1em 0 .28em; vertical-align:-.03em;
+  border-radius:2px; border:1px solid rgba(128,128,128,.5);
+}
+/* ── 표 ── */
+.tw{overflow-x:auto; -webkit-overflow-scrolling:touch; margin:0 0 18px; border:1px solid var(--line); border-radius:5px; background:var(--panel);}
+.tw:focus{outline:2px solid var(--accent); outline-offset:1px}
+table{border-collapse:collapse; width:100%; min-width:560px; font-size:14px;}
+th,td{padding:10px 13px; text-align:left; vertical-align:top; border-bottom:1px solid var(--line-2);}
+th{background:var(--bg-2); font-size:12.5px; font-weight:700; letter-spacing:.01em; white-space:nowrap;}
+tbody tr:last-child td{border-bottom:none}
+td code,th code{white-space:nowrap}
+th:first-child,td:first-child{white-space:nowrap}
+/* ── 프론트매터 코드 패널 ── */
+.pane{border:1px solid var(--line); border-radius:5px; background:var(--panel); overflow:hidden; margin-bottom:6px;}
+.pane-bar{display:flex; align-items:center; gap:10px; padding:8px 10px 8px 13px; background:var(--bg-2); border-bottom:1px solid var(--line);}
+.pane-bar b{font-size:12.5px; font-weight:700}
+.pane-bar .t{font-size:11px; color:var(--ink-3)}
+.pane pre{
+  margin:0; padding:14px; overflow-x:auto; -webkit-overflow-scrolling:touch;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:12.5px; line-height:1.62; color:var(--code-ink); white-space:pre; word-break:normal; overflow-wrap:normal;
+}
+.copy{font:inherit; font-size:11.5px; font-weight:700; padding:5px 10px; border-radius:3px; border:1px solid var(--line); background:var(--panel); color:var(--ink); cursor:pointer; box-shadow:none;}
+.copy:hover{opacity:.88}
+mark{background:var(--mark); color:var(--mark-ink); border-radius:2px; padding:0 1px;}
+mark.on{background:var(--accent); color:#FBFBF8;}
+footer{max-width:820px; margin:0; padding:24px 0 60px; color:var(--ink-3); font-size:12.5px; border-top:1px solid var(--line);}
+.mobile-toc{display:none}
+/* ── 모바일 ── */
+@media (max-width:1023px){
+  .wrap{display:block; padding:0 16px;}
+  main{max-width:none; padding:16px 0 80px;}
+  #menuBtn{display:inline-block}
+  nav.toc{
+    display:none; position:fixed; inset:52px 0 0 0; width:auto; max-height:none; height:calc(100% - 52px);
+    background:var(--bg); z-index:39; padding:14px 16px 40px; overflow-y:auto; border-top:1px solid var(--line);
+  }
+  nav.toc.open{display:block}
+  nav.toc a{padding:11px 10px; font-size:15px;}
+  h2{font-size:19px}
+  body{font-size:16px; line-height:1.7}
+  .doc-head h1{font-size:22px}
+  table{min-width:520px; font-size:13.5px}
+  .brand small{display:none}
+  .top-in{padding:8px 14px; gap:8px}
+}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{transition:none !important} }
+@media print{ header.top,nav.toc{display:none} .wrap{display:block} main{max-width:none} }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <div class="brand">VCBio Design System<small>DESIGN.md · v0.1.0</small></div>
+    <div class="grow"></div>
+    <div class="search">
+      <input id="q" type="search" placeholder="문서 내 검색" autocomplete="off" spellcheck="false" aria-label="문서 내 검색">
+      <span class="hits" id="hits"></span>
+    </div>
+    <button class="btn" id="themeBtn" type="button" title="라이트/다크 전환">◐</button>
+    <button class="btn" id="menuBtn" type="button" aria-expanded="false">목차</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav class="toc" id="toc" aria-label="목차">
+    <h3>목차</h3>
+    <ul>
+<li><a href="#fm" class="toc-fm"><span class="num">00</span>프론트매터 — 토큰 정의 (YAML)</a></li>
+<li><a href="#sec-1"><span class="num">01</span>⛔ 최상위 색 금지선 — 형광색 금지 (대표 강한 지시 2026-07-27, 2회 강조)</a></li>
+<li><a href="#sec-2"><span class="num">02</span>🚫 브랜드 색을 초록으로 고정하지 않는다 (대표 지시 2026-07-27)</a></li>
+<li><a href="#sec-3"><span class="num">03</span>🇰🇷 레퍼런스는 한국 자료 우선 (대표 지시 2026-07-27)</a></li>
+<li><a href="#sec-4"><span class="num">04</span>Overview (Brand &amp; Style)</a></li>
+<li><a href="#sec-5"><span class="num">05</span>Colors</a></li>
+<li><a href="#sec-6"><span class="num">06</span>Typography</a></li>
+<li><a href="#sec-7"><span class="num">07</span>Layout &amp; Spacing</a></li>
+<li><a href="#sec-8"><span class="num">08</span>Shapes &amp; Imagery</a></li>
+<li><a href="#sec-9"><span class="num">09</span>Buttons (버튼 3형 표준 — 한국 브랜드 22종 실측)</a></li>
+<li><a href="#sec-10"><span class="num">10</span>Motion</a></li>
+<li><a href="#sec-11"><span class="num">11</span>Output Formats</a></li>
+<li><a href="#sec-12"><span class="num">12</span>Production Workflow &amp; Resources (실무 정본 — CLAUDE.md 디자인 절 이관)</a></li>
+<li><a href="#sec-13"><span class="num">13</span>Reference Workflow (제작 전 필수)</a></li>
+<li><a href="#sec-14"><span class="num">14</span>Do's &amp; Don'ts</a></li>
+    </ul>
+  </nav>
+
+  <main id="content">
+    <div class="doc-head">
+      <h1>VCBio Design System — 디자인 규격 전문</h1>
+      <p>브이씨바이오(VCBio) B2B 건강기능식품 OEM/ODM 브랜드 규격 · 원문 <code>design-refs/DESIGN.md</code> 전문</p>
+      <div class="meta"><span>version 0.1.0</span><span>재생성 2026-07-27 (3차)</span><span>정본 = Vault 디자인/디자인-토큰-통합규격.md §1-A</span><span>섹션 14개</span></div>
+    </div>
+
+    <section id="fm">
+      <div class="pane">
+        <div class="pane-bar">
+          <b>프론트매터 — 토큰 정의 (YAML)</b>
+          <span class="t">원문 그대로 · 색 칩만 부가</span>
+          <div class="grow"></div>
+          <button class="copy" type="button" data-copy="fmpre">복사</button>
+        </div>
+        <pre id="fmpre"># ═══════════════════════════════════════════════════════════════════════
+# ⚠️  파생본(재생성 대상) — DO NOT HAND-EDIT
+# ───────────────────────────────────────────────────────────────────────
+# 이 파일에서 HEX·수치를 직접 고치지 말 것. 정본이 바뀌면 이 파일을
+# 반영한다. 수정 허용 — 단 토큰 값 변경은 정본 대조 필수 + 아래 변경 이력에 사유 1줄(결정록: Vault 디자인-결정-체계방향-2026-07-16). 값의 정본(출처별):
+# Reference/Production Workflow 절 정본 = 메모리 color-board-select-workflow + Vault 외부소스대장 소스 10 + CLAUDE.md 디자인 트리거 절
+#   · 색·타이포·간격  = Vault 디자인/디자인-토큰-통합규격.md
+#   · motion(클립 러닝타임·전환·이징) = Vault 디자인/레퍼런스/디자인-레퍼런스-모션클립워크플로.md
+#   · 트랙 폰트(모션클립=GMarket Sans) = CLAUDE.md·vcbio-motion-clip 스킬 가이드
+# 이 문서는 구글 DESIGN.md 규격(형식)에 정본 값을 옮겨 담은 그릇일 뿐이다.
+# ═══════════════════════════════════════════════════════════════════════
+# ⛔⛔ 최상위 색 금지선 — 형광색 금지 (대표 강한 지시 2026-07-27, 2회 강조)
+# ───────────────────────────────────────────────────────────────────────
+# 형광·네온 계열은 대표의 특별 요청이 없으면 일절 쓰지 않는다. 무채색이 기본값이다.
+# 이 금지선은 아래 프리셋 토큰 정의보다 **상위**다 — 토큰에 정의돼 있다는 이유로
+# 형광색을 쓰지 말 것. 상세·원문 인용은 프론트매터 아래 첫 절(⛔ 최상위 색 금지선) 참조.
+# 금지: #C6FF2E<span class="sw" style="background:#C6FF2E" title="#C6FF2E" aria-hidden="true"></span>, #D7F06A<span class="sw" style="background:#D7F06A" title="#D7F06A" aria-hidden="true"></span>, #37FFA9<span class="sw" style="background:#37FFA9" title="#37FFA9" aria-hidden="true"></span>, 네온 그린/옐로/시안/마젠타 등 형광 채도 전반.
+# 기계 판정 기준(2026-07-27 확정): CIELCh 에서 L* &gt;= 85 AND C* &gt;= 66 이면 형광.
+#   핵심은 채도가 아니라 밝기 — 어두운 고채도는 형광으로 읽히지 않는다.
+# ───────────────────────────────────────────────────────────────────────
+# 🚫 브랜드 색을 초록으로 고정하지 않는다 (대표 지시 2026-07-27)
+# "우리 브랜드 정본 초록색으로 하지마 그때그때마다 달라" — 딥그린은 검증된
+# 선택지 하나일 뿐 브랜드 고정색이 아니다. 색은 건별로 고르고 대표 낙점을 받는다.
+# 🇰🇷 레퍼런스는 한국 자료 우선 — 1순위 Vault 디자인/레퍼런스/브랜드스펙-*.md,
+# 서양 자료(Linear·Stripe·Vercel 등)는 보조·대조용. 상세는 아래 두 절 참조.
+# ───────────────────────────────────────────────────────────────────────
+# 정본 = Vault 디자인/디자인-토큰-통합규격.md §1-A (2026-07-27 3차 갱신).
+# 이 파일 재생성: 2026-07-27 (3차 — 정본 2026-07-27 3차판 기준: 형광 기계 판정식
+#   (L*&gt;=85 AND C*&gt;=66) 등재·orange-key/orange-gold 존치 확정·버튼 3형 표준 절 신설
+#   (정본 Vault 디자인/디자인-컴포넌트-버튼3형표준.md).
+#   2차 = 브랜드색 고정 해제·한국 자료 우선·#37FFA9<span class="sw" style="background:#37FFA9" title="#37FFA9" aria-hidden="true"></span> 금지 추가.
+#   1차 = 형광 금지선 신설·hot-lime 토큰 제거).
+# ═══════════════════════════════════════════════════════════════════════
+version: "0.1.0"
+name: VCBio Design System
+description: &gt;
+  (내부 별칭: vcbio-alpha)
+  브이씨바이오(VCBio)의 B2B 건강기능식품 OEM/ODM 브랜드 규격. 인격은 차분·신뢰·보수.
+  산출물은 웹앱이 아니라 ① 16:9 제안덱(HTML 네이티브) ② A4 인쇄 브로셔
+  ③ 내부 대시보드 ④ 9:16·16:9 모션클립이다.
+  색은 브랜드 고정이 아니라 건별 선택이다(대표 지시 2026-07-27 "브랜드 정본 초록색으로
+  하지마 그때그때마다 달라"). calm-charcoal(딥그린+곡물톤, 공식 제출·IR·식약처 톤,
+  검증됨)은 강제 기본값이 아니라 검증된 선택지 하나이며, 대담한 표현이면 hot-orange,
+  웹/테크면 electric-blue로 프리셋을 통째 교체한다(프리셋 혼합 금지 · 전 프리셋 형광 채도 금지).
+  형광·네온은 대표 특별 요청 없이 전면 금지이며 무채색이 기본값이다(위 금지선).
+  레퍼런스는 한국 자료 우선(Vault 디자인/레퍼런스/브랜드스펙-*), 서양 자료는 보조·대조용.
+  폰트는 Pretendard 단독이 정본, 모션클립 트랙만 GMarket Sans.
+
+colors:
+  # 의미 역할 별칭(구글 규격 {colors.primary} 호환 슬롯) — 브랜드 고정색 선언이 아니다.
+  # 다른 색 방향을 고른 건에서는 이 슬롯 값이 바뀐다(대표 지시 2026-07-27).
+  primary: "#1E3932<span class="sw" style="background:#1E3932" title="#1E3932" aria-hidden="true"></span>"        # = deep-green (calm-charcoal 프리셋의 키컬러)
+  neutral: "#F2F0EB<span class="sw" style="background:#F2F0EB" title="#F2F0EB" aria-hidden="true"></span>"        # = cream (calm-charcoal의 크림 배경)
+
+  # ── 프리셋 calm-charcoal (✅ 검증 · 공식 제출/IR/식약처 톤 · 강제 기본값 아님) ──
+  ink: "#1C1C1A<span class="sw" style="background:#1C1C1A" title="#1C1C1A" aria-hidden="true"></span>"            # 다크 배경 (코드 CHARCOAL)
+  ink-text: "#1A1A1A<span class="sw" style="background:#1A1A1A" title="#1A1A1A" aria-hidden="true"></span>"       # 크림 위 본문 텍스트 (코드 INK)
+  cream: "#F2F0EB<span class="sw" style="background:#F2F0EB" title="#F2F0EB" aria-hidden="true"></span>"          # 크림 배경
+  deep-green: "#1E3932<span class="sw" style="background:#1E3932" title="#1E3932" aria-hidden="true"></span>"     # 키컬러·딥그린
+  accent-green: "#2E7D5B<span class="sw" style="background:#2E7D5B" title="#2E7D5B" aria-hidden="true"></span>"   # 강조(다크 위 룰선·배지)
+  beige: "#C9BCA4<span class="sw" style="background:#C9BCA4" title="#C9BCA4" aria-hidden="true"></span>"          # 다크 위 보조 텍스트
+  gold: "#B8954A<span class="sw" style="background:#B8954A" title="#B8954A" aria-hidden="true"></span>"           # 제한 강조(5% 룰)
+  panel-dark: "#262624<span class="sw" style="background:#262624" title="#262624" aria-hidden="true"></span>"     # 다크 카드 면
+  panel-raise: "#2C332D<span class="sw" style="background:#2C332D" title="#2C332D" aria-hidden="true"></span>"    # 들린 카드(효소칸 등)
+  tint-green: "#E7EEE9<span class="sw" style="background:#E7EEE9" title="#E7EEE9" aria-hidden="true"></span>"     # 크림 위 연초록 카드
+  white-card: "#FBFAF7<span class="sw" style="background:#FBFAF7" title="#FBFAF7" aria-hidden="true"></span>"     # 크림 위 흰 카드
+
+  # ── 증감(델타) 색 — 전 프리셋 공통 (KPI·데이터, 면적 제한 밖) ──
+  green-up: "#3DDC84<span class="sw" style="background:#3DDC84" title="#3DDC84" aria-hidden="true"></span>"       # 상승 ▲ 증감칩 (GREEN_UP)
+  red-down: "#E5484D<span class="sw" style="background:#E5484D" title="#E5484D" aria-hidden="true"></span>"       # 하락 ▼ 증감칩 (RED_DOWN)
+
+  # ── 대체 프리셋: hot-orange (✅ 시안 · 캠페인/표지/발표 임팩트 · 형광 채도 금지) ──
+  # 존치 확정(2026-07-27): 기계 판정식(L*&gt;=85 AND C*&gt;=66)으로 재검산 결과 orange-key
+  # 63.1/80.7 · orange-gold 78.0/63.7 로 둘 다 형광 아님 — 계속 사용한다.
+  orange-bg: "#15100C<span class="sw" style="background:#15100C" title="#15100C" aria-hidden="true"></span>"      # 차콜 배경
+  orange-key: "#FF6A2C<span class="sw" style="background:#FF6A2C" title="#FF6A2C" aria-hidden="true"></span>"     # 핫 오렌지 키(블리드 면·룰) · L*63.1 C*80.7 → 형광 아님
+  orange-gold: "#FFB14D<span class="sw" style="background:#FFB14D" title="#FFB14D" aria-hidden="true"></span>"    # 보조 강조(카피 emphasis) · L*78.0 C*63.7 → 형광 아님
+  orange-text: "#FFF1E6<span class="sw" style="background:#FFF1E6" title="#FFF1E6" aria-hidden="true"></span>"    # 메인 텍스트(웜 화이트)
+  orange-sub: "#B5A595<span class="sw" style="background:#B5A595" title="#B5A595" aria-hidden="true"></span>"     # 보조 텍스트
+
+  # ── 대체 프리셋: electric-blue (✅ 정의 · 웹 대시보드/플랫폼/테크 제안 · 형광 시안 금지) ──
+  eblue-bg: "#101720<span class="sw" style="background:#101720" title="#101720" aria-hidden="true"></span>"       # 푸른빛 다크 배경 (별칭 dark-blue)
+  eblue-key: "#227AFF<span class="sw" style="background:#227AFF" title="#227AFF" aria-hidden="true"></span>"      # 테크 키컬러(강조·CTA)
+  eblue-accent: "#2563EB<span class="sw" style="background:#2563EB" title="#2563EB" aria-hidden="true"></span>"   # 신뢰 강조(룰선·배지)
+  eblue-deep: "#02348B<span class="sw" style="background:#02348B" title="#02348B" aria-hidden="true"></span>"     # 전문 톤(본문 강조·헤더 면)
+  eblue-navy: "#010163<span class="sw" style="background:#010163" title="#010163" aria-hidden="true"></span>"     # 럭셔리 묵직 네이비(표지 면)
+  eblue-tint: "#BFDAF7<span class="sw" style="background:#BFDAF7" title="#BFDAF7" aria-hidden="true"></span>"     # 시원한 배경·라이트 카드
+  eblue-text: "#FFFFFF<span class="sw" style="background:#FFFFFF" title="#FFFFFF" aria-hidden="true"></span>"     # 다크 위 메인 텍스트
+
+typography:
+  # 폰트 = Pretendard 단독(정본: 덱·인쇄·대시보드 트랙. 모션클립 트랙만 GMarket Sans — Output Formats 참조).
+  # 웨이트 스펙트럼 = Thin(100)~Black(900) 9웨이트, 표지는 Thin↔Black 극단 대비.
+  # fontSize: 정본은 "범위"로 규정 → 스키마 적합을 위해 범위 내 대표값 1개로 확정(값 창작 아님, 범위 내 선택).
+  # lineHeight/letterSpacing은 정본 미확정 → TODO.
+  mega:
+    fontFamily: Pretendard
+    fontSize: 12.5rem   # 정본 범위 10~15rem(PPT 160–240pt), 대표값(중앙 200pt) · 표지/디바이더 전용 초대형
+    fontWeight: 100     # Thin(거대) ↔ Black(핵심어) 극단 대비로 씀
+    # lineHeight: TODO(정본 미확정)
+  hero:
+    fontFamily: Pretendard
+    fontSize: 8.125rem  # 정본 범위 5.6~8.75rem(PPT 90–140pt), 대표값(split_title 글리프 실측 130pt) · 디바이더 대형 글리프·거대수치
+    fontWeight: 900
+    # lineHeight: TODO(정본 미확정)
+  display:
+    fontFamily: Pretendard
+    fontSize: 6rem      # 정본 범위 5.0~6.5rem(PPT 80–104pt), 대표값(dang_v2 실측 96pt) · 표지 초대형 타이틀
+    fontWeight: 700
+    # lineHeight: TODO(정본 미확정)
+  h1:
+    fontFamily: Pretendard
+    fontSize: 1.9rem    # 정본 범위 1.9~2.9rem(PPT 30–46pt), 대표값(header() 실측 30pt≈하한) · 슬라이드 제목
+    fontWeight: 700
+    # lineHeight: TODO(정본 미확정)
+  h2:
+    fontFamily: Pretendard
+    fontSize: 1.25rem   # 정본 범위 1.25~1.5rem(PPT 18–24pt), 대표값(하한) · 부제목·카드 헤드
+    fontWeight: 700
+    # lineHeight: TODO(정본 미확정)
+  body-lg:
+    fontFamily: Pretendard
+    fontSize: 1rem      # 정본 범위 0.95~1rem(PPT 15–16pt), 대표값(상한 16pt) · 본문 강조
+    fontWeight: 400
+    # lineHeight: TODO(정본 미확정)
+  body:
+    fontFamily: Pretendard
+    fontSize: 0.875rem  # 정본 범위 0.8~0.9rem(PPT 12–14pt), 대표값(14pt) · 본문
+    fontWeight: 400
+    # lineHeight: TODO(정본 미확정)
+  caption:
+    fontFamily: Pretendard
+    fontSize: 0.6875rem # 정본 범위 0.65~0.7rem(PPT 10–11pt), 대표값(11pt) · eyebrow/출처
+    fontWeight: 700
+    # letterSpacing: TODO(정본: 자간 트래킹 spc +1.5~3.0, rem 환산 미확정)
+    # lineHeight: TODO(정본 미확정)
+
+rounded:
+  card: 10px      # 정본 radius-card 기본 (코드 rounded_card 기본 10)
+  card-lg: 14px   # 정본 radius-card 대형
+  pill: 999px     # 정본 radius-pill (배지/알약)
+  # sm/md/lg/xl 세분 스케일: TODO(정본 미확정 — 정본은 card/card-lg/pill만 규정)
+
+spacing:
+  # 8px 기본 리듬 (1rem = 16px)
+  space-1: 8px    # 정본 space-1 · 요소 간 수직 리듬
+  space-2: 16px   # 정본 space-2
+  space-3: 24px   # 정본 space-3
+  space-4: 40px   # 정본 space-4
+  gutter: 24px    # 정본 gutter · 카드 사이 간격
+  margin: 64px    # 정본 margin · 안전여백(슬라이드·섹션)
+  grid: 12        # 정본 grid · 12col 정렬 격자 (unitless)
+
+motion:
+  # 클립 러닝타임(clipDuration)과 개별 전환(transition*)은 다른 키 — 섞으면 모든
+  # 애니메이션을 2~3초로 오독한다(확정안 §2).
+  clipDuration: "2s–3s"       # 정본(모션클립워크플로 §2·§3): 대본 문장별 클립 러닝타임
+  transitionDuration: "0.5s"  # 정본(§3): 요소 등장(아래서 위로)
+  easing: back.out            # 정본(§3): GSAP back.out (등장 이징)
+  stagger: TODO(정본 미확정)
+  # reduced-motion / 금지: 무한반복·글리치·Math.random 금지 (§3) — Do's &amp; Don'ts 참조
+# components 그룹: 아톰 토큰은 v1 미정의 — 덱/클립 아톰(슬라이드타이틀·KPI스탯·데이터표·차트·콜아웃·로고락업·클립 로워서드) 실규칙이 굳으면 추가(YAGNI, 확정안 §1).
+#   단 버튼은 규칙이 굳었으므로 본문 Buttons 절 참조(정본 Vault 디자인/디자인-컴포넌트-버튼3형표준.md) — 형태 실측 스펙이라 색 토큰으로 올리지 않는다.</pre>
+      </div>
+      <p style="font-size:13px;color:var(--ink-3);margin-top:10px">위 블록은 원문 파일 상단 프론트매터(<code>---</code> 사이) 전문이다. HEX 값의 기재처는 이 프론트매터 하나뿐이다.</p>
+    </section>
+
+<section id="sec-1"><h2>⛔ 최상위 색 금지선 — 형광색 금지 (대표 강한 지시 2026-07-27, 2회 강조)</h2>
+<blockquote><strong>형광·네온 계열은 대표의 특별 요청이 없으면 일절 쓰지 않는다. 무채색 계열이 기본값이다.</strong><br>대표 원문: "어지간하면 형광색은 쓰지마라 한국사람들 형광색 안좋아해 무채색 계열만 쓰자" / "나도 형광색 굉장히 싫어하니깐 우리 작업할때 내 특별한 요청 없으면 디자인 작업할때 형광색 계열은 사용하지마"</blockquote>
+<ul><li><strong>적용 범위</strong>: 제안덱·홈페이지·랜딩·대시보드·로고·차트·SNS·시안·내부물 <strong>전부</strong>. 내부물 예외 없음.</li><li><strong>금지 색</strong>: <code>#C6FF2E</code><span class="sw" style="background:#C6FF2E" title="#C6FF2E" aria-hidden="true"></span>(구 <code>lime-key</code>), <code>#D7F06A</code><span class="sw" style="background:#D7F06A" title="#D7F06A" aria-hidden="true"></span>(구 <code>--c-lime</code>), <code>#37FFA9</code><span class="sw" style="background:#37FFA9" title="#37FFA9" aria-hidden="true"></span>(네온 민트 — CIELCh C* 72.0로 <code>#D7F06A</code><span class="sw" style="background:#D7F06A" title="#D7F06A" aria-hidden="true"></span>보다 고채도, 2026-07-27 추가), 네온 그린/옐로/시안/마젠타 등 형광 채도 전반.</li><li><strong>기계 판정 기준(2026-07-27 확정)</strong>: 형광 여부를 감으로 가르지 않는다. CIELCh에서 <strong><code>L* ≥ 85 AND C* ≥ 66</code></strong> 이면 형광으로 본다.<ul><li>검산: 금지 대상 7색(<code>#D7F06A</code><span class="sw" style="background:#D7F06A" title="#D7F06A" aria-hidden="true"></span> 90.7/66.5 · <code>#C6FF2E</code><span class="sw" style="background:#C6FF2E" title="#C6FF2E" aria-hidden="true"></span> 93.3/94.4 · <code>#37FFA9</code><span class="sw" style="background:#37FFA9" title="#37FFA9" aria-hidden="true"></span> 89.5/72.0 · <code>#e2ff54</code><span class="sw" style="background:#e2ff54" title="#e2ff54" aria-hidden="true"></span> 95.3/81.0 · <code>#d4ff00</code><span class="sw" style="background:#d4ff00" title="#d4ff00" aria-hidden="true"></span> 94.1/98.8 · <code>#00ff19</code><span class="sw" style="background:#00ff19" title="#00ff19" aria-hidden="true"></span> 87.8/117.8 · <code>#00FF44</code><span class="sw" style="background:#00FF44" title="#00FF44" aria-hidden="true"></span> 87.9/109.4) <strong>전부 검출</strong>, <strong>오탐 0</strong>(고채도 원색 <code>#fe7902</code><span class="sw" style="background:#fe7902" title="#fe7902" aria-hidden="true"></span>·<code>#f6042e</code><span class="sw" style="background:#f6042e" title="#f6042e" aria-hidden="true"></span>·<code>#294aff</code><span class="sw" style="background:#294aff" title="#294aff" aria-hidden="true"></span>와 활성 토큰 <code>{colors.orange-key}</code> 63.1/80.7 · <code>{colors.orange-gold}</code> 78.0/63.7 · <code>{colors.gold}</code> · <code>#C0CEA6</code><span class="sw" style="background:#C0CEA6" title="#C0CEA6" aria-hidden="true"></span>는 통과).</li><li><strong>핵심은 채도가 아니라 밝기</strong> — 어두운 고채도는 형광으로 읽히지 않는다. 이 기준으로 <code>{colors.orange-key}</code>·<code>{colors.orange-gold}</code>는 <strong>존치 확정</strong>됐다(직전까지 "대표 확인 대기"였던 항목 해소).</li></ul></li><li><strong>대체 기본</strong>: 무채색(흰·크림·회색·차콜). 다크 그린 배경 위 주버튼 = <strong>크림 화이트 <code>#FBFBF8</code><span class="sw" style="background:#FBFBF8" title="#FBFBF8" aria-hidden="true"></span> + 딥그린 <code>#0B3A2A</code><span class="sw" style="background:#0B3A2A" title="#0B3A2A" aria-hidden="true"></span> 글자</strong>(대비 12.26:1 실측 검증 2026-07-27).</li><li>브랜드 그린(<code>#1F7A4D</code><span class="sw" style="background:#1F7A4D" title="#1F7A4D" aria-hidden="true"></span>·<code>#114A35</code><span class="sw" style="background:#114A35" title="#114A35" aria-hidden="true"></span>·<code>#0B3A2A</code><span class="sw" style="background:#0B3A2A" title="#0B3A2A" aria-hidden="true"></span>)·차콜·베이지는 형광이 아니므로 계속 사용한다.</li><li>강조는 채도를 올리지 말고 <strong>명도 대비·굵기·여백</strong>으로 만든다.</li><li><strong>이 금지선은 아래 프리셋 정의·토큰표보다 상위다</strong> — 토큰에 정의돼 있다는 이유로 형광색을 쓰지 말 것. <code>hot-orange</code>·<code>electric-blue</code>를 쓸 때도 형광 채도는 금지이며, 대담함은 면적·대비·타이포로 낸다.</li><li>조치 이력: <code>hot-lime</code> 프리셋(딥블랙+네온 라임)은 <strong>사용중지</strong>로 이 파일에서 토큰째 제거됐다. 구 규칙 "공식 제출 전 내부물은 hot-* 기본"도 폐기.</li></ul>
+<blockquote>위 HEX는 금지·대체 규칙의 <strong>인용값</strong>이라 예외적으로 본문에 적는다(정본 §1-A 인용). 사용 토큰의 HEX 기재처는 여전히 프론트매터 하나뿐이다. 정본 = Vault <code>디자인/디자인-토큰-통합규격.md</code> §1-A.</blockquote></section>
+
+<section id="sec-2"><h2>🚫 브랜드 색을 초록으로 고정하지 않는다 (대표 지시 2026-07-27)</h2>
+<blockquote>대표 원문: <strong>"우리 브랜드 정본 초록색으로 하지마 그때그때마다 달라"</strong></blockquote>
+<ul><li><strong>브랜드 "정본 색"은 없다.</strong> 딥그린 <code>{colors.deep-green}</code>을 브랜드 고정색으로 못박지 않는다. 색은 <strong>산출물·상대·목적에 따라 건별로 고른다.</strong></li><li><code>calm-charcoal</code>(딥그린 키)은 <strong>검증된 한 선택지일 뿐이며 강제 기본값이 아니다.</strong> 프론트매터의 <code>primary</code> 별칭은 구글 규격 호환용 슬롯이지 "브랜드 정본 색" 선언이 아니다.</li><li>디자인 착수 시 <strong>초록을 기본값으로 가정하지 않는다.</strong> 색 후보를 대표에게 올려 낙점받는다(선택보드 절차 — Reference/Production Workflow 절).</li><li>시안·테스트는 <strong>여러 색 위에서</strong> 보여준다. 한 색만 보여주면 비교가 안 된다(2026-07-27 대표 피드백: "초록색만 보니까 모르겠어").</li><li>단 <strong>위 형광 금지선은 어떤 색을 골라도 그대로 적용된다</strong> — 색 자유는 형광 허용이 아니다.</li></ul></section>
+
+<section id="sec-3"><h2>🇰🇷 레퍼런스는 한국 자료 우선 (대표 지시 2026-07-27)</h2>
+<blockquote>대표 원문: <strong>"어지간하면 한국 자료들 먼저 참고해라 서양 자료들은 촌스럽고 화려해서 못쓰겠다야"</strong></blockquote>
+<ul><li><strong>1순위</strong> = Vault <code>디자인/레퍼런스/브랜드스펙-*.md</code>(국내 브랜드 스펙 모음). 진입점 = <code>브랜드스펙-00-인덱스.md</code>. 수록 종수는 계속 늘어나므로 숫자를 외우지 말고 <strong>매번 <code>ls</code>로 실제 목록을 확인</strong>한다.</li><li><strong>2순위</strong> = Vault 디자인 정본 문서·수집 실물(<code>design-refs/수집본</code> 등).</li><li><strong>보조·대조용만</strong> = 서양 자료(Linear·Stripe·Raycast·Vercel·shadcn·깃허브 디자인 저장소). 출발점으로 삼지 않고, 한국 자료로 방향을 잡은 뒤 대조에만 쓴다. 아래 Reference 절의 해외 영감 사이트도 이 순서에 종속된다.</li></ul></section>
+
+<section id="sec-4"><h2>Overview (Brand &amp; Style)</h2>
+<p>VCBio 규격은 <strong>1970년대 대학 세미나 핸드아웃의 차분함에 현대 바이오테크의 정밀함을 얹은</strong> 톤이다. 대형 식품·제약 브랜드사에 원료를 제안하는 B2B 문서가 주 무대이므로, 기본 인격은 <strong>차분·신뢰·보수</strong>다 — 과장된 색면보다 절제, 장식보다 위계, 근거 중심.</p>
+<p><code>calm-charcoal</code>의 축은 <strong>딥그린 키컬러 <code>{colors.deep-green}</code> + 곡물톤(크림 <code>{colors.cream}</code>·베이지 <code>{colors.beige}</code>)</strong>이다. <strong>딥그린은 검증된 선택지 중 하나이며 브랜드 고정색이 아니다 — 색은 건별로 고른다</strong>(위 🚫 절). 이 프리셋을 골랐을 때 딥그린이 주역을 맡고 곡물톤이 바탕을 데우는 구조이며, 화이트가 아닌 크림을 바탕으로 쓰는 이유는 유기적·따뜻한 인상 때문이다.</p>
+<p>한 산출물은 <strong>프리셋 하나</strong>를 키로 잡는다. 공식 제출·IR·식약처 톤이면 <code>calm-charcoal</code>(검증됨), 캠페인·표지 임팩트면 <code>hot-orange</code>(형광 채도 금지), 웹 대시보드·테크 제안이면 <code>electric-blue</code>(형광 시안 금지)로 <strong>통째 교체</strong>한다. 프리셋을 섞지 않는다. 어느 것도 자동 기본값이 아니므로 <strong>착수 시 색 방향을 대표에게 올려 낙점받는다.</strong></p>
+<p>이 문서는 <strong>웹앱 UI 규격이 아니다.</strong> 소비 주체는 사람이 아니라 덱을 빌드하는 에이전트이고, 산출물은 제안덱·브로셔·대시보드·모션클립이다(→ Output Formats).</p></section>
+
+<section id="sec-5"><h2>Colors</h2>
+<p>아래 팔레트는 <strong><code>calm-charcoal</code> 프리셋</strong>의 것이다 — 딥그린 키컬러 + 고대비 곡물톤 중립. <strong>브랜드 고정색이 아니라 선택지 하나</strong>이며(위 🚫 절), 다른 색 방향이 그 건에 맞으면 대체 프리셋이나 별도 후보로 간다. 역할 분류:</p>
+<ul><li><strong>Brand(해당 프리셋 한정)</strong> — 딥그린 <code>{colors.deep-green}</code>(키컬러), 강조 그린 <code>{colors.accent-green}</code>(다크 위 룰선·배지), 골드 <code>{colors.gold}</code>(제한 강조).</li><li><strong>Surface</strong> — 크림 <code>{colors.cream}</code>(기본 배경), 잉크 <code>{colors.ink}</code>(다크 배경), 다크 카드 <code>{colors.panel-dark}</code>·들린 카드 <code>{colors.panel-raise}</code>, 크림 위 흰 카드 <code>{colors.white-card}</code>·연초록 카드 <code>{colors.tint-green}</code>.</li><li><strong>Text</strong> — 크림 위 본문 <code>{colors.ink-text}</code>, 다크 위 보조 텍스트 <code>{colors.beige}</code>.</li><li><strong>Semantic(증감)</strong> — 상승 <code>{colors.green-up}</code>, 하락 <code>{colors.red-down}</code>. 나쁜 수치도 빨강으로 정직하게 노출한다(숨기면 더 의심받음). 데이터 의미 전달용이라 면적 제한 밖(단 칩 크기는 작게).</li></ul>
+<p>의미 역할 별칭(구글 규격 호환 슬롯 — 브랜드 고정색 선언이 아니다): <code>{colors.primary}</code> = 딥그린, <code>{colors.neutral}</code> = 크림. 다른 색을 고른 건에서는 이 슬롯의 값이 바뀐다. 모든 토큰은 <code>{colors.&lt;이름&gt;}</code>로 참조한다 — HEX는 프론트매터가 유일한 기재처다.</p>
+<p><strong>대체 프리셋(기본 calm-charcoal을 통째 교체):</strong></p>
+<ul><li><code>hot-orange</code> — 차콜 <code>{colors.orange-bg}</code> + 핫 오렌지 키 <code>{colors.orange-key}</code> + 보조 골드 <code>{colors.orange-gold}</code>. <strong>형광(네온) 오렌지 금지.</strong> 단 <code>{colors.orange-key}</code>(63.1/80.7)·<code>{colors.orange-gold}</code>(78.0/63.7)는 기계 판정식(<code>L* ≥ 85 AND C* ≥ 66</code>)에 걸리지 않아 <strong>존치 확정</strong>(2026-07-27).</li><li><code>electric-blue</code> — 푸른 다크 <code>{colors.eblue-bg}</code> + 테크 키 <code>{colors.eblue-key}</code>, 신뢰 강조 <code>{colors.eblue-accent}</code>, 네이비 표지면 <code>{colors.eblue-navy}</code>. <strong>형광 시안 금지 — 차분한 블루만.</strong></li></ul>
+<blockquote>차트 시리즈 색은 즉흥이 아니라 ColorBrewer 학술 스킴(seq-green/blue·div-BrBG/RdYlGn·cat-Set2)에서 고른다 — 색맹·흑백인쇄 안전. 본문 대비·보더는 Radix sand 12스텝(본문 11~12·보더 6~7·카드면 3~4)을 역할 고정으로 쓴다. 값 정본은 통합규격 §1-K·§1-L.</blockquote>
+<blockquote><strong>편입 범위(의식적 제외):</strong> 이 파일은 프리셋 3종(calm-charcoal·hot-orange·electric-blue) + 증감 델타 + 의미 별칭, 합계 토큰 27개(고유 HEX 25종)만 담는다. 정본의 나머지 색(다크 베이스 톤 라이브러리 §1-J, 차트 스킴 HEX §1-K, 회색조 12스텝 §1-L, 내부도구 UI 분기색 등)은 파생본을 무한정 키우지 않기 위해 <strong>의도적으로 제외</strong> — 필요 시 정본 해당 절을 직접 참조한다.</blockquote></section>
+
+<section id="sec-6"><h2>Typography</h2>
+<p>폰트는 <strong>Pretendard 단독</strong>(정본)이다 — 제목·본문·데이터·표지 전부 Pretendard, <strong>위계는 크기·웨이트 차이로만</strong> 만든다. 다른 폰트는 대표 명시 요청 시에만 옵션 풀에서 꺼낸다. 모션클립 트랙만 예외로 <strong>GMarket Sans</strong>(→ Output Formats).</p>
+<p>Pretendard는 Thin(100)~Black(900) 9웨이트가 있고, <strong>극단 대비(Thin 거대 + Black 키워드)가 표지 임팩트</strong>를 만든다. 정본 웨이트 역할: w-thin(100)=표지 mega 얇은 거대 타이포, w-regular(400)=본문, w-bold(700)=제목·강조, w-black(900)=표지·디바이더 핵심어.</p>
+<p>정본은 각 레벨을 <strong>크기 범위</strong>로 규정한다(프론트매터에는 범위 내 대표값 1개를 확정 기재):</p>
+<blockquote>아래 표의 범위 수치는 <strong>정본 인용(참고)</strong>이다 — 실사용 값은 프론트매터 <code>typography</code>가 유일.</blockquote>
+<div class="tw" tabindex="0"><table><thead><tr><th>토큰</th><th>정본 범위(rem / PPT pt)</th><th>웨이트</th><th>용도</th></tr></thead><tbody><tr><td><code>{typography.mega}</code></td><td>10–15rem / 160–240pt</td><td>Thin↔Black</td><td>표지·디바이더 전용 초대형(화면 압도)</td></tr><tr><td><code>{typography.hero}</code></td><td>5.6–8.75rem / 90–140pt</td><td>Black/Bold</td><td>디바이더 대형 글리프·거대수치</td></tr><tr><td><code>{typography.display}</code></td><td>5.0–6.5rem / 80–104pt</td><td>Bold</td><td>표지 초대형 타이틀</td></tr><tr><td><code>{typography.h1}</code></td><td>1.9–2.9rem / 30–46pt</td><td>Bold</td><td>슬라이드 제목</td></tr><tr><td><code>{typography.h2}</code></td><td>1.25–1.5rem / 18–24pt</td><td>Bold</td><td>부제목·카드 헤드</td></tr><tr><td><code>{typography.body-lg}</code></td><td>0.95–1rem / 15–16pt</td><td>Regular</td><td>본문 강조</td></tr><tr><td><code>{typography.body}</code></td><td>0.8–0.9rem / 12–14pt</td><td>Regular</td><td>본문</td></tr><tr><td><code>{typography.caption}</code></td><td>0.65–0.7rem / 10–11pt</td><td>Bold</td><td>eyebrow·출처(자간 트래킹)</td></tr></tbody></table></div>
+<blockquote><strong>실임베딩 한계:</strong> 직접 PPT 빌드 팩은 Regular(400)+Bold(700) 2슬롯뿐이라 중간 웨이트(Thin/Black)는 700 기준 근사된다. <strong>9웨이트 무손실은 HTML 하이브리드</strong>(표지·디바이더) 경로. 자간 트래킹(letterSpacing)은 <code>caption</code> ALL-CAPS에만 — 정본이 rem 환산값을 아직 안 박았으므로 토큰은 <code>TODO(정본 미확정)</code>. lineHeight도 정본 미확정.</blockquote></section>
+
+<section id="sec-7"><h2>Layout &amp; Spacing</h2>
+<p><strong>8px 기본 리듬</strong>으로 수직 간격을 통일한다: <code>{spacing.space-1}</code>(8) → <code>{spacing.space-2}</code>(16) → <code>{spacing.space-3}</code>(24) → <code>{spacing.space-4}</code>(40). 카드 사이는 <code>{spacing.gutter}</code>(24px), 슬라이드·섹션 안전여백은 <code>{spacing.margin}</code>(64px), 정렬 격자는 <code>{spacing.grid}</code>(12col).</p>
+<p>웹의 "1200px max-width" 전제는 쓰지 않는다. 대신 <strong>덱 세이프에어리어</strong>로 번역한다 — 제안덱 슬라이드는 1280×720px(13.333"×7.5", 96dpi) 캔버스에 <code>margin</code> 64px 안전여백을 지킨다. 레이아웃 리듬은 <strong>표지 → 디바이더 → 본문 → 마무리</strong> 4부. 다크/크림 교차는 최대 2연속(<code>calm-charcoal</code>), <code>hot-*</code>는 다크 단색을 유지한다.</p></section>
+
+<section id="sec-8"><h2>Shapes &amp; Imagery</h2>
+<p><strong>모서리 반경</strong>: 카드 <code>{rounded.card}</code>(10px 기본)·<code>{rounded.card-lg}</code>(14px 대형), 배지/알약 <code>{rounded.pill}</code>(999px). 세분 sm/md/lg/xl 스케일은 <code>TODO(정본 미확정)</code> — 정본은 카드·필만 규정한다.</p>
+<p><strong>카드 입체</strong>(shadow-card): 웹 <code>0 2px 14px rgba(0,0,0,.4)</code>, PPT <code>outerShdw 18000</code>. 배경 그레인·그라디언트(<code>grad-glow</code> 중심 발광·<code>grad-linear</code> 세로 입체)는 표지·디바이더 다크 면에만 한 줄로 얹는다.</p>
+<p><strong>이미지·듀오톤 정책</strong>(사진은 브랜드 톤에 강제 동기화):</p>
+<ul><li><strong>풀블리드 사진은 듀오톤 의무</strong> — 원색 금지. shadow=<code>{colors.ink}</code>, highlight=<code>{colors.beige}</code>, tint=<code>{colors.deep-green}</code> 기본. hot 프리셋이면 tint를 orange로 교체(형광 tint 금지 — 금지선 참조).</li><li><strong>하단(+좌측) 다크 그라디언트 강제</strong> — 텍스트 가독을 위해 <code>{colors.ink}</code> 그라디언트를 깐다.</li><li><strong>본문 남발 금지</strong> — 풀블리드 이미지는 표지·디바이더·히어로 한정. 데이터·본문은 도형·차트가 주인공.</li><li><strong>품질 하한</strong> — 최소 1920×1080(업스케일 흐림 방지).</li></ul></section>
+
+<section id="sec-9"><h2>Buttons (버튼 3형 표준 — 한국 브랜드 22종 실측)</h2>
+<p>버튼은 <strong>새로 그리지 않는다. A·B·C 세 형 중 하나를 고른다.</strong> 값은 한국 브랜드 스펙 실측에서 가져온 것이라 임의로 바꾸지 않는다. 정본 = Vault <code>디자인/디자인-컴포넌트-버튼3형표준.md</code>(형태·상태·접근성), 색 토큰·금지선 정본은 통합규격이다.</p>
+<p><strong>공통 규칙(가장 중요): 주버튼에 <code>box-shadow</code>를 쓰지 않는다.</strong></p>
+<ul><li>근거 — 한국 브랜드 22종 실측에서 필드형 주버튼에 알파 그림자를 쓴 곳이 <strong>0곳</strong>이다(삼성·현대자동차·토스는 "없음" 명시, 29CM·현대카드는 <code>box-shadow: none</code> 명시).</li><li><strong>hover도 이동·그림자 변화 없이</strong> <code>opacity: .88</code> + 배경 미세 변화만 준다. 한국 실측에 <strong>이동형(translate) hover는 없다.</strong></li></ul>
+<div class="tw" tabindex="0"><table><thead><tr><th>형</th><th>출처 톤</th><th>형태 값</th><th>쓸 자리</th></tr></thead><tbody><tr><td><strong>A형</strong></td><td>29CM식(에디토리얼 — 각지고 굵게)</td><td><code>border-radius: 4px</code> · <code>font-size: 14px</code> · <code>font-weight: 700</code> · <code>letter-spacing: 0</code> · <code>padding: 16px 20px</code> · <code>box-shadow: none</code></td><td>제안덱 표지 · 브로셔 · 섹션 도입(임팩트)</td></tr><tr><td><strong>B형</strong></td><td>현대카드식(미니멀 — 얇은 선·가는 글자)</td><td><code>border-radius: 3px</code> · <code>font-size: 16px</code> · <code>font-weight: 400</code> · <code>letter-spacing: 0</code> · <code>padding: 0 29px</code> · <code>height: 48px</code> · <code>box-shadow: none</code></td><td>공식 제출물 · IR · 다크 히어로(절제·고급)</td></tr><tr><td><strong>C형</strong></td><td>토스식(B2B 솔리드 — 둥글되 그림자 없음)</td><td><code>border-radius: 16px</code> · <code>font-size: 17px</code> · <code>font-weight: 600</code> · <code>letter-spacing: 0</code> · <code>padding: 0 20px</code> · <code>height: 56px</code> · <code>box-shadow: none</code></td><td>홈페이지 CTA · 견적 보드 · 폼(눌러야 하는 자리)</td></tr></tbody></table></div>
+<p><strong>배경별 배색(실측 원값 — 정본 인용):</strong></p>
+<div class="tw" tabindex="0"><table><thead><tr><th>형</th><th>배경</th><th>주버튼</th><th>보조버튼</th></tr></thead><tbody><tr><td>A</td><td>다크</td><td>배경 <code>#FBFBF8</code><span class="sw" style="background:#FBFBF8" title="#FBFBF8" aria-hidden="true"></span> / 글자 <code>#1C1C1A</code><span class="sw" style="background:#1C1C1A" title="#1C1C1A" aria-hidden="true"></span> / 테두리 없음</td><td>투명 / 글자 <code>#FBFBF8</code><span class="sw" style="background:#FBFBF8" title="#FBFBF8" aria-hidden="true"></span> / <code>1px solid rgba(255,255,255,.36)</code></td></tr><tr><td>A</td><td>라이트</td><td>배경 <code>#1C1C1A</code><span class="sw" style="background:#1C1C1A" title="#1C1C1A" aria-hidden="true"></span> / 글자 <code>#FBFBF8</code><span class="sw" style="background:#FBFBF8" title="#FBFBF8" aria-hidden="true"></span></td><td><code>#FFFFFF</code><span class="sw" style="background:#FFFFFF" title="#FFFFFF" aria-hidden="true"></span> / 글자 <code>#1C1C1A</code><span class="sw" style="background:#1C1C1A" title="#1C1C1A" aria-hidden="true"></span> / <code>1px solid rgba(0,0,0,.44)</code></td></tr><tr><td>B</td><td>다크</td><td>투명 / 글자 <code>#FBFBF8</code><span class="sw" style="background:#FBFBF8" title="#FBFBF8" aria-hidden="true"></span> / <code>1px solid rgba(255,255,255,.60)</code></td><td><code>1px solid rgba(255,255,255,.36)</code></td></tr><tr><td>B</td><td>라이트</td><td>투명 / 글자 <code>#1C1C1A</code><span class="sw" style="background:#1C1C1A" title="#1C1C1A" aria-hidden="true"></span> / <code>1px solid rgba(0,0,0,.60)</code></td><td><code>1px solid rgba(0,0,0,.44)</code></td></tr><tr><td>C</td><td>다크</td><td>배경 <code>#FBFBF8</code><span class="sw" style="background:#FBFBF8" title="#FBFBF8" aria-hidden="true"></span> / 글자 <code>#1C1C1A</code><span class="sw" style="background:#1C1C1A" title="#1C1C1A" aria-hidden="true"></span> / 테두리 없음</td><td><code>rgba(255,255,255,.10)</code> / 글자 <code>#FBFBF8</code><span class="sw" style="background:#FBFBF8" title="#FBFBF8" aria-hidden="true"></span> / <code>1px solid rgba(255,255,255,.36)</code></td></tr><tr><td>C</td><td>라이트</td><td>배경 <code>#1C1C1A</code><span class="sw" style="background:#1C1C1A" title="#1C1C1A" aria-hidden="true"></span> / 글자 <code>#FBFBF8</code><span class="sw" style="background:#FBFBF8" title="#FBFBF8" aria-hidden="true"></span> / 테두리 없음</td><td><code>#EFEFEC</code><span class="sw" style="background:#EFEFEC" title="#EFEFEC" aria-hidden="true"></span> / 글자 <code>#1C1C1A</code><span class="sw" style="background:#1C1C1A" title="#1C1C1A" aria-hidden="true"></span> / <code>1px solid rgba(0,0,0,.44)</code></td></tr></tbody></table></div>
+<blockquote>위 알파는 <strong>근흑색 다크(<code>#1C1C1A</code><span class="sw" style="background:#1C1C1A" title="#1C1C1A" aria-hidden="true"></span>)·흰 라이트 기준 예시값</strong>이다. 배경이 바뀌면 그 배경에서 3:1을 만족하는 최솟값을 다시 계산한다 — 배경 명시 없는 대비값은 쓰지 않는다.</blockquote>
+<p><strong>접근성 실측</strong>: 글자 대비는 전 항목 4.5:1 통과(최저 12.26:1). 보조버튼 테두리 알파는 한국 실측 원값(<code>.25~.28</code>·<code>#DDDDDD</code><span class="sw" style="background:#DDDDDD" title="#DDDDDD" aria-hidden="true"></span>)이 경계 대 배경 대비 <strong>1.12~2.53:1</strong>로 3:1에 미달이라 다크 <code>.36</code>(근흑색 배경 3.33:1)·라이트 <code>.44</code>(<code>#FFFFFF</code><span class="sw" style="background:#FFFFFF" title="#FFFFFF" aria-hidden="true"></span> 3.24:1 / <code>#FBFBF8</code><span class="sw" style="background:#FBFBF8" title="#FBFBF8" aria-hidden="true"></span> 3.22:1)로 <strong>올려서 통과</strong>시켰다 — 형태·굵기·라운드는 실측 그대로이고 올린 것은 테두리 알파뿐이다(기준 WCAG 1.4.11 비텍스트 대비 3:1, 테두리는 <strong>바깥 배경과 버튼 면 양쪽</strong>에 대해 본다).</p>
+<p><strong>배경별 재계산 필수 구간</strong>: 딥그린 배경에서는 <code>.36</code>이 미달이다(<code>#0B3A2A</code><span class="sw" style="background:#0B3A2A" title="#0B3A2A" aria-hidden="true"></span> 2.98 / <code>#114A35</code><span class="sw" style="background:#114A35" title="#114A35" aria-hidden="true"></span> 2.71 — 배경 기준). 또한 <strong>C형 보조버튼은 면에 <code>rgba(255,255,255,.10)</code> 틴트가 깔려</strong> 테두리 대 <strong>면</strong> 기준을 함께 봐야 하며, <code>#114A35</code><span class="sw" style="background:#114A35" title="#114A35" aria-hidden="true"></span>에서는 <code>.36</code>=2.40 / <code>.45</code>=<strong>2.92(미달)</strong> / <code>.55</code>=3.57 ✅ 이므로 <strong><code>.55</code> 이상</strong>을 쓴다.</p>
+<p><strong>폐기 — 유리(글래스) 버튼</strong>: 배경 11색 <strong>전부</strong> 경계 대비가 3:1에 미달했다 — 경계 대 버튼면 실측 <strong>1.37~1.91:1</strong>(최고 <strong>1.91</strong> = 무채색 단색 <code>#1C1C1A</code><span class="sw" style="background:#1C1C1A" title="#1C1C1A" aria-hidden="true"></span>류, 딥그린 <code>#114A35</code><span class="sw" style="background:#114A35" title="#114A35" aria-hidden="true"></span>는 <strong>1.69</strong>, 라이트 배경은 1.37대), 버튼면 대 배경은 <strong>1.12~1.24:1</strong> — "버튼으로 안 보인다". 유리는 <strong>표면(네비바·카드)에만</strong> 쓰고 <strong>누르는 컨트롤에는 쓰지 않는다.</strong> 실측 근거 = work-staging <code>2026-07-27_glass-button-test</code>.</p>
+<blockquote>위 HEX·CSS 값은 버튼 정본 노트의 <strong>인용값</strong>이라 예외적으로 본문에 적는다(색 토큰의 HEX 기재처는 여전히 프론트매터 하나뿐이며, 버튼 값은 <code>colors</code> 토큰이 아니라 컴포넌트 실측 스펙이다).</blockquote></section>
+
+<section id="sec-10"><h2>Motion</h2>
+<p>모션클립은 <strong>대본 문장마다 <code>{motion.clipDuration}</code> 길이의 무음 클립</strong>이 기본 단위다. 화면에는 자막 문장을 그대로 쓰지 않고, 판정 단어·숫자·브랜드명 1~3개만 새로 띄운다.</p>
+<p><strong>모든 디자인 산출물에 apple-design 스킬을 기본 발동한다</strong>(대표 지시 2026-07-16 — 따로 선택 안 해도 적용). 정적물(인쇄 덱·A4)엔 타이포(옵티컬 사이징·자간·행간)·깊이·절제 절이, 움직이는 산출물엔 모션 절(스프링·중단 가능 전환)까지 적용된다. <strong>값 충돌 시 이 파일의 토큰 정본(Pretendard·HEX)이 우선</strong> — apple-design은 값이 아니라 공예 기준이다. 모션 출고 전 검수는 review-animations(명시 호출), 최종 확인은 실렌더.</p>
+<p>개별 전환은 러닝타임과 다른 키로 관리한다 — 요소 등장은 아래에서 위로 <code>{motion.transitionDuration}</code>, 이징은 <code>{motion.easing}</code>. 이웃 클립은 서로 다른 워시(배경 무드)를 써서 단조로움을 피한다. stagger 값은 <code>TODO(정본 미확정)</code>.</p>
+<p><strong>금지</strong>: 무한반복·글리치·<code>Math.random</code>(재현성 파괴). reduced-motion 상황은 전환을 최소화한다. 덱 슬라이드 전환도 같은 원칙 — 절제된 등장, 과한 모션 금지.</p></section>
+
+<section id="sec-11"><h2>Output Formats</h2>
+<p>웹 "Responsive breakpoint" 대신 <strong>산출물 포맷 4종</strong>으로 규격을 번역한다.</p>
+<div class="tw" tabindex="0"><table><thead><tr><th>포맷</th><th>캔버스/규격</th><th>폰트</th><th>비고</th></tr></thead><tbody><tr><td><strong>16:9 제안덱</strong></td><td>1280×720px (13.333"×7.5", 96dpi), 안전여백 <code>margin</code> 64px</td><td>Pretendard</td><td>HTML 네이티브 덱 파이프라인</td></tr><tr><td><strong>A4 인쇄 브로셔</strong></td><td>A4 (수치 <code>TODO(정본 미확정)</code>)</td><td>Pretendard</td><td>인쇄물</td></tr><tr><td><strong>대시보드</strong></td><td>내부 도구 UI (수치 <code>TODO(정본 미확정)</code>)</td><td>Pretendard</td><td>내부 도구 톤 기준</td></tr><tr><td><strong>모션클립</strong></td><td>9:16 (1080×1920) / 16:9, 클립당 <code>{motion.clipDuration}</code></td><td><strong>GMarket Sans</strong></td><td>무음 mp4, HTML+GSAP → HyperFrames 렌더</td></tr></tbody></table></div>
+<blockquote>모션클립 트랙 폰트 = <strong>GMarket Sans</strong>(정본 확인·파일럿 검증 2026-07-12). 나머지 트랙은 Pretendard 단독. A4·대시보드 세부 수치는 정본에 아직 없어 빈칸으로 둔다(임의 확정 금지).</blockquote></section>
+
+<section id="sec-12"><h2>Production Workflow &amp; Resources (실무 정본 — CLAUDE.md 디자인 절 이관)</h2>
+<p><strong>이 파일이 디자인 작업의 실무 정본이다</strong> (대표 지시 2026-07-15). 디자인 작업(덱·브로셔·랜딩·대시보드·모션클립)은 이 파일을 첨부·준수하고, 여기 없는 세부만 아래 참조처를 연다.</p>
+<ul><li><strong>제작 기조</strong>: 전문성·멋이 1순위. 규제 안전선은 외부 제출 직전 대표가 검토하는 체크리스트이지 제작을 막는 게이트가 아니다(내부물·시안은 멋 최우선).</li><li><strong>선제안 기본값</strong>: Claude가 선택보드 v3.2에서 조합 1개 선정 → "조합 + 이유 1줄(핵심 위험 1개 포함)" 제시 → 대표 승인 한마디. 대표가 '조합 복사' 사양을 직접 주면 그게 최우선.</li><li><strong>디자인 자원은 전부 동등 — 자유 선택·조합</strong>: 우리 규격(Vault 디자인-00-인덱스, 레퍼런스 141장) · ui-skills ~150종 · ui-ux-pro-max(스타일 84·팔레트 161·폰트 73) · ckm-* · Emil 모션 스킬군(emil-design-eng 등). 폰트·색 강제 없음 — 단 이 파일의 토큰이 기본값.</li><li><strong>제작 시스템</strong>: HTML 네이티브(정본 = Vault 디자인-플레이북-HTML네이티브덱). 제안덱이면 ingredient-proposal-deck 스킬 병행. 외부로 나가는 한국어 카피는 humanize-korean quick-rules 자동 적용.</li><li><strong>정제(타블렛) 타깃 영업물 명의 = 에스엠바이오.</strong></li></ul></section>
+
+<section id="sec-13"><h2>Reference Workflow (제작 전 필수)</h2>
+<p>제작 착수 전 <strong>영감 사이트 3~5분 스캔</strong>(정본 = Vault 외부소스대장 소스 10): 다크 덱 → dark.design, 라이트↔다크 전환 → darkmodedesign.com, CTA·버튼·폼 → cta.gallery. 가져오는 건 구도·무드·패턴만 — 색·타이포는 이 파일의 토큰이 유일 기준. 외부 레퍼런스의 카피·효능 표현·인증 표시는 참고 금지.</p>
+<p><strong>승격 패턴 우선 참조</strong>: Vault <code>디자인/_files/무드보드/</code>의 '승격됨' 표시분과 선택보드·플레이북에 편입된 패턴은 검증 완료 자산이다 — 새 탐색보다 먼저 확인한다. 실전 사용+대표 승인된 패턴은 즉시 정본 편입(규칙 정본 = 메모리 color-board-select-workflow 2026-07-15 절).</p></section>
+
+<section id="sec-14"><h2>Do's &amp; Don'ts</h2>
+<ul><li><strong>Do(필수·대표 강한 지시 2026-07-21)</strong> 모든 디자인 산출물에 <strong>apple-design 공예 기준</strong>을 적용한다 — 대표가 특히 지목한 세심한 포인트: ①터치·클릭 즉각 피드백(<code>:active</code> scale) ②중단 가능 전환(하드 리셋 금지) ③트리거에서 자라나는 transform-origin ④<code>prefers-reduced-motion</code>/<code>reduced-transparency</code> 대응 ⑤transform·opacity만 애니메이트. <strong>Don't</strong> 이 디테일을 "장식"으로 취급해 생략하지 않는다. 값(색·폰트·크기)은 이 파일 토큰이 우선, apple-design은 다듬는 법이다. 모션 있는 산출물은 출고 전 review-animations 검수.</li><li><strong>Do</strong> 로고·모노그램·워드마크·리브랜딩 작업은 <strong>design-logo 스킬(한글명 디자인_로고)</strong>로 시작한다 — 5콘셉트 발산·타입 선정·이미지 프롬프트까지 스킬이 담당. <strong>Don't</strong> 스킬의 자체 채점(색 대비·16px·독창성)을 검증으로 취급하지 않는다 — 출고 전 대비는 python 실계산, 축소는 64/32/16px 실렌더 스트립, 상표 판단은 대표 영역(스킬 내 VCBio 게이트 절 참조, 조건부 도입 2026-07-23).</li><li><strong>Do(대표 강한 지시 2026-07-27)</strong> 형광·네온 색은 대표 특별 요청 없이 <strong>일절 쓰지 않는다</strong> — 무채색이 기본값이고, 강조는 명도 대비·굵기·여백으로 만든다. <strong>Don't</strong> 토큰·프리셋에 있다는 이유로 형광 채도를 쓰지 않는다(상세 = 맨 위 ⛔ 금지선 절).</li><li><strong>Do(2026-07-27)</strong> 형광 판정은 감이 아니라 기계 기준으로 한다 — CIELCh <code>L* ≥ 85 AND C* ≥ 66</code>이면 형광이다(핵심은 채도가 아니라 밝기). <strong>Don't</strong> 채도가 높다는 이유만으로 어두운 원색을 형광으로 오판해 배제하지 않는다(<code>{colors.orange-key}</code>·<code>{colors.orange-gold}</code>는 통과·존치).</li><li><strong>Do(2026-07-27)</strong> 버튼은 A·B·C 3형(→ Buttons 절) 중 하나를 골라 쓰고, 주버튼엔 <strong><code>box-shadow: none</code></strong>, hover는 이동·그림자 없이 <code>opacity:.88</code>만 준다(한국 브랜드 22종 실측 주버튼 그림자 0곳). <strong>Don't</strong> 버튼을 새로 그리거나 알파 그림자·translate hover를 붙이지 않는다.</li><li><strong>Don't(폐기 2026-07-27)</strong> <strong>유리(글래스) 버튼을 쓰지 않는다</strong> — 배경 11색 전부 경계 대비 3:1 미달(경계 대 버튼면 1.37~1.91:1 — 최고 1.91)로 버튼으로 안 보인다. <strong>Do</strong> 유리는 표면(네비바·카드)에만 쓴다.</li><li><strong>Do</strong> 한 산출물엔 프리셋 <strong>하나만</strong> 잡는다(calm-charcoal / hot-orange / electric-blue). <strong>Don't</strong> 프리셋을 섞지 않는다(그라디언트 스톱도 프리셋 안에서만).</li><li><strong>Do</strong> <code>calm-charcoal</code>에선 키컬러(딥그린·강조그린·골드)를 <strong>화면 5% 이하</strong>(룰선·단어·배지·작은 면)로만 쓴다. <strong>Don't</strong> calm에서 면적을 키컬러로 칠하지 않는다(보수 검토자에게 싸 보인다).</li><li><strong>Do</strong> <code>hot-*</code>·표지·디바이더·히어로에선 키컬러 면·발광 그라디언트·풀블리드를 대담하게 쓴다(5% 룰 해제 — 단 형광 채도는 여전히 금지). <strong>Don't</strong> 단, 본문 가독 영역(데이터·표·긴 텍스트)엔 키컬러 대면적을 피한다.</li><li><strong>Do</strong> 위계는 <strong>크기·웨이트 차이로만</strong> 만든다(같은 화면 3단계 이상). <strong>Don't</strong> 명시 요청 없이 Pretendard에 다른 폰트를 섞지 않는다.</li><li><strong>Do</strong> 자간 트래킹은 <code>caption</code> ALL-CAPS에만. <strong>Don't</strong> 본문에 자간을 넓히지 않는다.</li><li><strong>Do</strong> 증감은 색으로 정직하게(상승 초록·하락 빨강), 나쁜 수치도 노출한다. <strong>Don't</strong> 나쁜 수치를 숨기지 않는다.</li><li><strong>Do</strong> 차트 시리즈 색은 ColorBrewer 스킴, 본문 대비·보더는 Radix sand 역할 고정. <strong>Don't</strong> 차트 색을 즉흥으로 고르지 않는다.</li><li><strong>Do</strong> 풀블리드 사진은 듀오톤 + 하단 다크 그라디언트. <strong>Don't</strong> 원색 풀블리드 사진을 그대로 깔지 않는다.</li><li><strong>Do</strong> 본문 대비는 WCAG 기준(≥4.5:1)을 지킨다. <strong>Don't</strong> 무한반복·글리치·랜덤 모션을 쓰지 않는다.</li><li><strong>Do</strong> HTML 산출물은 항상 첫 줄에 <code>&lt;meta charset="UTF-8"&gt;</code>을 포함한다(한국어 텍스트 mojibake 방지 — head 태그가 없는 조각형 HTML이어도 맨 앞에). <strong>Don't</strong> charset 선언 없이 한국어 HTML을 출고하지 않는다(생성 에이전트 연속 누락으로 한글 깨짐 실증, 2026-07-15).</li></ul></section>
+
+    <footer>
+      원문: <code>OneDrive-개인/Mac Pro/design-refs/DESIGN.md</code> · 이 문서는 읽기용 렌더본이며 값의 정본은 Vault <code>디자인/디자인-토큰-통합규격.md</code>다. 파생본이므로 이 HTML에서 값을 고치지 말 것.
+    </footer>
+  </main>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var root=document.documentElement;
+  // ── 테마 ──
+  try{ var saved=localStorage.getItem("vcbio-design-theme"); if(saved){ root.setAttribute("data-theme",saved); } }catch(e){}
+  document.getElementById("themeBtn").addEventListener("click",function(){
+    var cur=root.getAttribute("data-theme");
+    var isDark = cur==="dark" || (cur!=="light" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    var next = isDark ? "light" : "dark";
+    root.setAttribute("data-theme",next);
+    try{ localStorage.setItem("vcbio-design-theme",next); }catch(e){}
+  });
+  // ── 모바일 목차 ──
+  var toc=document.getElementById("toc"), menuBtn=document.getElementById("menuBtn");
+  menuBtn.addEventListener("click",function(){
+    var open=toc.classList.toggle("open");
+    menuBtn.setAttribute("aria-expanded", open?"true":"false");
+  });
+  toc.addEventListener("click",function(e){
+    var a=e.target.closest("a"); if(!a) return;
+    toc.classList.remove("open"); menuBtn.setAttribute("aria-expanded","false");
+  });
+  // ── 현재 위치 표시 ──
+  var links={}, secs=[].slice.call(document.querySelectorAll("main section"));
+  [].forEach.call(toc.querySelectorAll("a"),function(a){ links[a.getAttribute("href").slice(1)]=a; });
+  function setActive(id){
+    for(var k in links){ links[k].classList.toggle("active", k===id); }
+  }
+  if("IntersectionObserver" in window){
+    var visible={};
+    var io=new IntersectionObserver(function(ents){
+      ents.forEach(function(en){ visible[en.target.id]=en.isIntersecting; });
+      for(var i=0;i<secs.length;i++){ if(visible[secs[i].id]){ setActive(secs[i].id); return; } }
+    },{rootMargin:"-64px 0px -70% 0px", threshold:0});
+    secs.forEach(function(s){ io.observe(s); });
+  }
+  // ── 복사 ──
+  document.addEventListener("click",function(e){
+    var b=e.target.closest("[data-copy]"); if(!b) return;
+    var el=document.getElementById(b.getAttribute("data-copy"));
+    var txt=el.innerText;
+    var done=function(){ var o=b.textContent; b.textContent="복사됨"; setTimeout(function(){ b.textContent=o; },1400); };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(done,function(){ fallback(txt,done); });
+    }else{ fallback(txt,done); }
+  });
+  function fallback(txt,done){
+    var ta=document.createElement("textarea"); ta.value=txt; ta.setAttribute("readonly","");
+    ta.style.position="fixed"; ta.style.opacity="0"; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand("copy"); done(); }catch(e){} document.body.removeChild(ta);
+  }
+  // ── 검색 (하이라이트 + 이동) ──
+  var content=document.getElementById("content");
+  var q=document.getElementById("q"), hits=document.getElementById("hits");
+  var marks=[], pos=-1, timer=null;
+  function clearMarks(){
+    marks.forEach(function(m){
+      var p=m.parentNode; if(!p) return;
+      p.replaceChild(document.createTextNode(m.textContent), m); p.normalize();
+    });
+    marks=[]; pos=-1;
+  }
+  function run(term){
+    clearMarks();
+    if(!term || term.length<1){ hits.textContent=""; return; }
+    var low=term.toLowerCase();
+    var walker=document.createTreeWalker(content, NodeFilter.SHOW_TEXT, {
+      acceptNode:function(n){
+        if(!n.nodeValue || n.nodeValue.toLowerCase().indexOf(low)===-1) return NodeFilter.FILTER_REJECT;
+        var p=n.parentNode;
+        if(p && (p.nodeName==="MARK"||p.nodeName==="SCRIPT"||p.nodeName==="STYLE"||p.nodeName==="BUTTON")) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var targets=[], n;
+    while((n=walker.nextNode())) targets.push(n);
+    targets.forEach(function(node){
+      var text=node.nodeValue, lowText=text.toLowerCase(), idx=0, frag=document.createDocumentFragment(), last=0, at;
+      while((at=lowText.indexOf(low,idx))!==-1){
+        if(at>last) frag.appendChild(document.createTextNode(text.slice(last,at)));
+        var mk=document.createElement("mark"); mk.textContent=text.slice(at,at+term.length);
+        frag.appendChild(mk); marks.push(mk);
+        idx=at+term.length; last=idx;
+      }
+      if(last<text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+      node.parentNode.replaceChild(frag,node);
+    });
+    hits.textContent = marks.length ? ("1/"+marks.length) : "0";
+    if(marks.length){ pos=0; focusMark(); }
+  }
+  function focusMark(){
+    marks.forEach(function(m){ m.classList.remove("on"); });
+    var m=marks[pos]; if(!m) return;
+    m.classList.add("on");
+    m.scrollIntoView({block:"center", behavior:"smooth"});
+    hits.textContent=(pos+1)+"/"+marks.length;
+  }
+  q.addEventListener("input",function(){
+    clearTimeout(timer); var v=q.value.trim();
+    timer=setTimeout(function(){ run(v); },180);
+  });
+  q.addEventListener("keydown",function(e){
+    if(e.key==="Enter" && marks.length){
+      e.preventDefault();
+      pos = e.shiftKey ? (pos-1+marks.length)%marks.length : (pos+1)%marks.length;
+      focusMark();
+    }
+    if(e.key==="Escape"){ q.value=""; clearMarks(); hits.textContent=""; }
+  });
+})();
+</script>
+</body>
+</html>
