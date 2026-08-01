@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VCBio 시장 트렌드 대시보드</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<style>
+body{font-family:-apple-system,'Apple SD Gothic Neo',sans-serif;margin:0;padding:16px;background:#16181d;color:#e8e6e1}
+h1{font-size:1.25rem} h2{font-size:1rem;margin-top:28px;color:#c9b88a}
+.card{background:#1f232b;border-radius:12px;padding:12px;margin:12px 0}
+canvas{max-height:320px}
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+td,th{padding:6px 8px;border-bottom:1px solid #333;text-align:left}
+.meta{color:#888;font-size:.78rem}
+</style></head><body>
+<h1>시장 트렌드 대시보드</h1>
+<p class="meta">갱신: 2026-08-01 16:07 KST · 주차 데이터 6개 (2026-24 ~ 2026-31) · 출처: 네이버 검색광고·데이터랩, 홈쇼핑모아, 식약처</p>
+
+<h2>키워드 검색량 추이 (월간 검색수, 최신 주 Top 8)</h2>
+<div class="card"><canvas id="kwChart"></canvas></div>
+
+<h2>홈쇼핑 건기식 편성 — 주간 총 방송수</h2>
+<div class="card"><canvas id="hsTotalChart"></canvas></div>
+
+<h2>홈쇼핑 원료별 편성 추이 (최신 주 Top 6)</h2>
+<div class="card"><canvas id="hsKwChart"></canvas></div>
+
+<h2>식약처 신규 기능성 원료 (수집 기간 누적)</h2>
+<div class="card"><table>
+<tr><th>인정일</th><th>원료명</th><th>업체</th><th>인정번호</th></tr>
+<tr><td colspan="4">수집 기간 내 신규 없음</td></tr>
+</table></div>
+
+<script>
+const PALETTE=['#e3b34c','#6fb3e0','#8fce8f','#e08f8f','#b598e6','#7fd4c1','#e6a8d0','#a8b8e6'];
+function lines(id,labels,series,type='line'){
+  new Chart(document.getElementById(id),{type:type,
+    data:{labels:labels,datasets:series.map((s,i)=>({...s,borderColor:PALETTE[i%8],backgroundColor:PALETTE[i%8],tension:.25,spanGaps:true}))},
+    options:{plugins:{legend:{labels:{color:'#ccc',boxWidth:12,font:{size:10}}}},
+      scales:{x:{ticks:{color:'#999'}},y:{ticks:{color:'#999'}}}}});
+}
+lines('kwChart',["2026-24", "2026-25", "2026-27", "2026-28", "2026-29", "2026-31"],[{"label": "오메가3", "data": [194800, 200300, 207900, 210300, 202200, 192300]}, {"label": "멜라토닌", "data": [144800, 143700, 137400, 132700, 128600, 134200]}, {"label": "크레아틴", "data": [54390, 56440, 70100, 74000, 81100, 108000]}, {"label": "유산균", "data": [108400, 109000, 110800, 112700, 111600, 107400]}, {"label": "마그네슘", "data": [100200, 101100, 104800, 108400, 106900, 102400]}, {"label": "콘드로이친", "data": [105700, 107900, 103100, 105100, 101300, 97100]}, {"label": "비타민D", "data": [98100, 99100, 100600, 102500, 100800, 96200]}, {"label": "베르베린", "data": [76100, 76400, 75350, 78900, 83800, 89200]}]);
+lines('hsTotalChart',["2026-24", "2026-25", "2026-27", "2026-28", "2026-29", "2026-30", "2026-31"],[{"label":"주간 방송수","data":[583, 551, 522, 530, 550, 600, 556]}],'bar');
+lines('hsKwChart',["2026-24", "2026-25", "2026-27", "2026-28", "2026-29", "2026-30", "2026-31"],[{"label": "유산균", "data": [55, 65, 52, 53, 55, 61, 55]}, {"label": "콘드로이친", "data": [44, 45, 51, 38, 38, null, 42]}, {"label": "효소", "data": [33, 35, 37, 40, 42, null, 37]}, {"label": "콜라겐", "data": [18, 25, 33, 36, 35, 31, 37]}, {"label": "루테인", "data": [31, 35, 29, 31, 23, null, 34]}, {"label": "오메가", "data": [25, 20, 17, 26, 25, 22, 28]}]);
+</script>
+</body></html>
