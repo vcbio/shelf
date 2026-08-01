@@ -4,7 +4,7 @@
 <html lang="ko"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%A8%3C/text%3E%3C/svg%3E">
-<title>VCBio 디자인 선택 보드 v3 — 추천 조합·색감·스타일·스킬·홈페이지</title><style>
+<title>VCBio 디자인 선택 보드 v3 — 추천 조합·색감·스타일·스킬·홈페이지·덱 연출·브랜드 스펙</title><style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{max-width:100%;overflow-x:clip} /* hidden→clip: hidden이 body를 스크롤컨테이너化해 .toolbar sticky를 깨는 함정(실측 확인) — clip은 sticky 유지 */
 html{scrollbar-gutter:stable} /* R16: 세로 스크롤바 등장·소멸이 폭을 15px 바꿔 격자를 재배치 → 무한 깜박임(대표 제보·2026-07-24 실측 재현). 자리를 항상 비워 진동 차단 */
@@ -50,6 +50,7 @@ h3.grp{font-size:15px;font-weight:800;margin:22px 0 11px;display:flex;align-item
 .pickmark{width:24px;height:24px;border-radius:7px;border:1.5px solid #cfcabb;color:#6e6a5e;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
 .card.picked .pickmark{background:#2E7D5B;border-color:#2E7D5B;color:#fff;transform:rotate(45deg)}
 .copyall{border:1px solid #cfcabb;background:#faf9f5;color:#4a463e;font-size:11px;font-weight:700;padding:6px 11px;border-radius:7px;cursor:pointer;white-space:nowrap} /* R6-10 */
+.copyall:disabled{cursor:not-allowed;opacity:.55;background:#f0eee8;color:#6b6659;border-color:#d8d3c8} /* 형광 차단 카드 — 복사 자체를 막는다 */
 .thumbwrap{position:relative;border-radius:10px;overflow:hidden;margin-bottom:9px;aspect-ratio:16/9;background:#e9e6de}
 .thumbwrap img{width:100%;height:100%;object-fit:cover;display:block}
 .famtag{position:absolute;left:8px;bottom:8px;background:rgba(0,0,0,.6);color:#fff;font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:6px;backdrop-filter:blur(4px)}
@@ -170,6 +171,11 @@ body[data-tab="home"] .chips{display:none}
 body[data-tab="home"] #recToggle{display:none}
 body[data-tab="pre"] .chips{display:none} /* R14: 추천 탭 — 프리셋 6개뿐, 검색·필터 비표시 */
 body[data-tab="pre"] .searchrow{display:none}
+/* R16-3: 덱·브랜드 탭 — 카드가 .kcard라 업종 칩·건기식 토글이 무효(눌러도 결과 불변) → 스킬·홈 탭과 동일하게 숨김. 검색창은 실제로 작동하므로 유지 */
+body[data-tab="deck"] .chips{display:none}
+body[data-tab="deck"] #recToggle{display:none}
+body[data-tab="kr"] .chips{display:none}
+body[data-tab="kr"] #recToggle{display:none}
 .presub{font-size:13.5px;color:#6e6a5e;line-height:1.6;margin:2px 0 14px}
 /* R15: 프리셋 카드 = .prcard (팔레트 카드가 이미 .pcard를 사용 — R14 클래스 충돌을 개명으로 해소) */
 .prcard{background:#fff;border:1.5px solid #ddd8cb;border-radius:14px;padding:14px;display:flex;flex-direction:column}
@@ -218,7 +224,6 @@ body[data-tab="home"] #jump-home{display:flex} /* R8-4 */
 .jchip{flex:0 0 auto;border:1px solid #ddd8cb;background:#faf9f5;color:#6b675f;font-size:11.5px;font-weight:700;padding:9px 13px;border-radius:8px;cursor:pointer;white-space:nowrap} /* R3-8: ≥32px */
 .jchip:hover{border-color:#2E7D5B;color:#1f6b45}
 .jchip.dim{opacity:.35;pointer-events:none} /* R4-13 */
-#deckDim{margin:14px 0;padding:11px 14px;font-size:12px;color:#6e6a5e;background:#eae8e1;border-radius:10px;opacity:.85} /* R8-8 */
 .noresult{display:none;margin:26px 0;padding:22px 18px;text-align:center;background:#eae8e1;border:1px dashed #cfcabb;border-radius:12px;font-size:13.5px;color:#6b675f;font-weight:600} /* 결함3b */
 :focus-visible{outline:3px solid #2E7D5B;outline-offset:2px;border-radius:4px} /* R3-4 */
 #themeToggle{position:absolute;right:0;top:0;border:1px solid #cfcabb;background:#fff;font-size:15px;width:34px;height:34px;border-radius:9px;cursor:pointer;line-height:1} /* R4-14 */
@@ -252,10 +257,6 @@ body[data-tab="home"] #jump-home{display:flex} /* R8-4 */
   #q{padding:7px 12px}
   /* R4-1b: 섹션 타이틀은 탭바·그룹 헤더와 중복 → 모바일 숨김(정보는 탭·grp 카운트에 존재) */
   .section{display:none}
-  /* R16-1: 단 탭 이름으로 대체되지 않는 '탭 중간' 섹션(예: 한국 브랜드 스펙)은 예외로 남긴다.
-     숨기면 카드 22장이 바로 위 그룹에 속한 것처럼 보이고 '참조 전용' 경고가 통째로 사라진다. */
-  .section.keepmob{display:block;font-size:16px;margin:18px 0 6px}
-  .section.keepmob .secsub{display:block;font-size:12px;line-height:1.45;margin-top:3px}
   .jumprow{margin:4px 0 0;padding-bottom:2px;
     -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 30px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 30px),transparent)} /* R3-5 */
   h3.grp{margin:4px 0 5px;font-size:14px}
@@ -427,7 +428,7 @@ html[data-theme="dark"] .sknote .kit{background:#1e1b16}
 <p class="sub">덱·자료는 <b>팔레트 1 + 스타일 1</b>(+ 필요하면 <b>스킬 여러 개</b>), 홈페이지는 <b>🌐 탭</b>에서 6축. 고른 조합은 하단 바에서 한 줄로 복사됩니다.</p>
 </header>
 <div class="rulebar">
-<p>⛔ <b>형광(네온) 금지</b> — 판정식 <code>L*≥85 &amp; C*≥66</code>(CIELCh) · 판정 도구 <code>is_neon.py</code>. 걸린 팔레트는 <b>⛔ 사용중지</b> 배지가 붙고 선택·조합 복사에서 제외됩니다(삭제하지 않고 이력으로 남김).</p>
+<p>⛔ <b>형광(네온) 금지</b> — 판정식 <code>L*≥85 &amp; C*≥66</code>(CIELCh) · 판정 도구 <code>is_neon.py</code>. 걸린 팔레트는 <b>⛔ 사용중지</b> 배지가 붙고 선택·조합에서 제외되며 <b>전체 복사 버튼도 비활성</b>됩니다(삭제하지 않고 이력으로 남김).</p>
 <p>🎨 <b>색은 건별로 고릅니다</b> — 아래는 과거 검증된 선택지일 뿐 기본값이 아닙니다. 브랜드 색을 초록으로 못박지 않습니다.</p>
 <p>🔘 <b>버튼은 3형(A·B·C) 중에서</b> — 공통 <code>box-shadow:none</code>. 유리(글래스)는 표면 전용, 버튼에는 쓰지 않습니다.</p>
 </div>
@@ -446,11 +447,13 @@ html[data-theme="dark"] .sknote .kit{background:#1e1b16}
 <button class="tab" role="tab" aria-selected="false" tabindex="-1" aria-controls="pane-sty" id="tabSty" onclick="showTab('sty')"><span class="tlf">✨ 스타일</span><span class="tls">✨ 스타일</span></button>
 <button class="tab" role="tab" aria-selected="false" tabindex="-1" aria-controls="pane-skill" id="tabSkill" onclick="showTab('skill')"><span class="tlf">🧰 디자인 스킬</span><span class="tls">🧰 스킬</span></button>
 <button class="tab" role="tab" aria-selected="false" tabindex="-1" aria-controls="pane-home" id="tabHome" onclick="showTab('home')"><span class="tlf">🌐 홈페이지</span><span class="tls">🌐 홈</span></button>
+<button class="tab" role="tab" aria-selected="false" tabindex="-1" aria-controls="pane-deck" id="tabDeck" onclick="showTab('deck')"><span class="tlf">🎬 덱 연출</span><span class="tls">🎬 연출</span></button>
+<button class="tab" role="tab" aria-selected="false" tabindex="-1" aria-controls="pane-kr" id="tabKr" onclick="showTab('kr')"><span class="tlf">🇰🇷 브랜드 스펙</span><span class="tls">🇰🇷 브랜드</span></button>
 </div>
 <div class="chips"><button class="chip on" aria-pressed="true" data-f="all" onclick="filt(this)">전체</button><button class="chip" aria-pressed="false" data-f="건기식웰니스" onclick="filt(this)">건기식·웰니스</button><button class="chip" aria-pressed="false" data-f="식품FB" onclick="filt(this)">식품·F&amp;B</button><button class="chip" aria-pressed="false" data-f="뷰티럭셔리" onclick="filt(this)">뷰티·럭셔리</button><button class="chip" aria-pressed="false" data-f="테크핀테크" onclick="filt(this)">테크·핀테크</button><button class="chip" aria-pressed="false" data-f="금융컨설팅" onclick="filt(this)">금융·컨설팅</button><button class="chip" aria-pressed="false" data-f="패션" onclick="filt(this)">패션</button><button class="chip" aria-pressed="false" data-f="의료" onclick="filt(this)">의료</button><button class="chip" aria-pressed="false" data-f="스포츠" onclick="filt(this)">스포츠</button><button class="chip" aria-pressed="false" data-f="키즈" onclick="filt(this)">키즈</button></div>
 <div class="searchrow"><span class="qwrap"><input id="q" aria-label="이름·무드·용도 검색" placeholder="검색: 이름·무드·용도 (예: 신뢰, 웰니스, 그라데이션)"><button id="qClear" aria-label="검색어 지우기" onclick="clearQ()">✕</button></span><button id="recToggle" aria-pressed="false" onclick="toggleRec()"><span class="rtf">🌿 건기식 추천만</span><span class="rts">🌿 건기식 추천</span></button></div>
 <div class="jumprow" id="jump-pal"><button class="jchip" onclick="jumpGrp(this)" data-g="검증된 조합(고정 아님)">검증된 조합(고정 아님)</button><button class="jchip" onclick="jumpGrp(this)" data-g="웹 트렌드(aicolors)">웹 트렌드(aicolors)</button><button class="jchip" onclick="jumpGrp(this)" data-g="5색 세트">5색 세트</button><button class="jchip" onclick="jumpGrp(this)" data-g="그라데이션">그라데이션</button><button class="jchip" onclick="jumpGrp(this)" data-g="4색 조합">4색 조합</button><button class="jchip" onclick="jumpGrp(this)" data-g="레드·오렌지 조합">레드·오렌지 조합</button><button class="jchip" onclick="jumpGrp(this)" data-g="블루 조합">블루 조합</button><button class="jchip" onclick="jumpGrp(this)" data-g="그린+폰트">그린+폰트</button><button class="jchip" onclick="jumpGrp(this)" data-g="단일색 사다리">단일색 사다리</button></div>
-<div class="jumprow" id="jump-sty"><button class="jchip" onclick="jumpGrp(this)" data-g="범용 스타일">범용 스타일</button><button class="jchip" onclick="jumpGrp(this)" data-g="랜딩 페이지">랜딩 페이지</button><button class="jchip" onclick="jumpGrp(this)" data-g="대시보드·BI">대시보드·BI</button><button class="jchip" onclick="jumpGrp(this)" data-g="모바일 특화">모바일 특화</button><button class="jchip" onclick="jumpGrp(this)" data-g="✨ 2026 트렌드">✨ 2026 트렌드</button><button class="jchip" onclick="jumpGrp(this)" data-g="🎬 덱 연출">🎬 덱 연출</button></div>
+<div class="jumprow" id="jump-sty"><button class="jchip" onclick="jumpGrp(this)" data-g="범용 스타일">범용 스타일</button><button class="jchip" onclick="jumpGrp(this)" data-g="랜딩 페이지">랜딩 페이지</button><button class="jchip" onclick="jumpGrp(this)" data-g="대시보드·BI">대시보드·BI</button><button class="jchip" onclick="jumpGrp(this)" data-g="모바일 특화">모바일 특화</button><button class="jchip" onclick="jumpGrp(this)" data-g="✨ 2026 트렌드">✨ 2026 트렌드</button><button class="jchip" onclick="jumpGrp(this)" data-g="🔘 버튼 3형">🔘 버튼 3형</button></div>
 <div class="jumprow" id="jump-home"><button class="jchip" onclick="jumpGrp(this)" data-g="축 1 · 브랜드 프리셋">브랜드</button><button class="jchip" onclick="jumpGrp(this)" data-g="축 2 · 히어로 유형">히어로</button><button class="jchip" onclick="jumpGrp(this)" data-g="축 3 · 컴포넌트 베이스">베이스</button><button class="jchip" onclick="jumpGrp(this)" data-g="축 4 · 모션 수위">모션</button><button class="jchip" onclick="jumpGrp(this)" data-g="축 5 · 섹션 구성 프리셋">구성</button><button class="jchip" onclick="jumpGrp(this)" data-g="축 6 · 레퍼런스 톤 (선택 시 해당 DESIGN.md 로드)">톤</button></div>
 </div>
 
@@ -481,8 +484,8 @@ html[data-theme="dark"] .sknote .kit{background:#1e1b16}
       <h3>📘 에스엠바이오 영업 인쇄물</h3>
       <div class="pout">📦 이런 게 나옵니다 — 브로셔·3단 접지 리플렛·회사소개서(11장 기준) pptx → PDF(표지·KPI·OEM/ODM·원스톱·제형·공정·설비·강점·품질) — 정제 영업 배포용</div>
       <p class="use">🎯 이럴 때: 정제(타블렛) 거래처에 회사·설비·강점을 인쇄물로 소개할 때</p>
-      <div class="pchips"><i class="pch">색감 에스엠바이오 그린(검증됨)</i><i class="pch">스타일 플랫 디자인</i><i class="pch">스킬 미적 방향 선행</i><i class="pch">스킬 타이포그래피</i><i class="pch">스킬 한국어 AI티 제거</i><i class="pch">스킬 책장 배포</i></div>
-      <p class="pnote">※ 2026-07-27 형광 라임 #D7F06A 를 딥그린900 #0B3A2A 로 교체해 색감 자동 선택을 되살렸습니다(라이브 주CTA = 크림 #FBFBF8 면 + 딥그린 #0B3A2A 글자, 대비 12.26:1) · 색 고정은 아니니 건별로 바꿔도 됩니다 · 제목 Paperlogy/본문 Pretendard · 3단 리플렛은 접지·재단 여백 별도</p>
+      <div class="pchips"><i class="pch">스타일 플랫 디자인</i><i class="pch">스킬 미적 방향 선행</i><i class="pch">스킬 타이포그래피</i><i class="pch">스킬 한국어 AI티 제거</i><i class="pch">스킬 책장 배포</i></div>
+      <p class="pnote">※ ⛔ 라임 #D7F06A 가 형광 금지선(L*90.7·C*66.5)에 걸려 색감 자동 선택을 뺐습니다 — 색은 🎨 색감 탭에서 건별로 고르세요 · 제목 Paperlogy/본문 Pretendard · 3단 리플렛은 접지·재단 여백 별도</p>
       <button class="pbtn" onclick="applyPreset(2)">🎁 이 조합 담기</button>
     </div><div class="prcard">
       <div class="thumbwrap"><img loading="eager" width="456" height="257" src="thumbs/94.jpg" alt="에스엠바이오 홈페이지 대표 이미지"><span class="famtag">추천 조합</span></div>
@@ -604,16 +607,16 @@ html[data-theme="dark"] .sknote .kit{background:#1e1b16}
       <p class="mood">💡 회사 공식 키컬러 — 딥그린+크림, 골드는 5% 제한 강조</p>
       <p class="use">🎯 브이씨바이오 명의 전 산출물(제안덱·IR·정부 발표덱)</p>
       <p class="role">🎨 키=딥그린 · 강조=액센트그린 · 배경=크림 · 보조=베이지 · 제한강조=골드 (출처: Vault 디자인-토큰-통합규격 §VCBio)</p>
-    </div><div class="card pcard" data-tags="건기식웰니스" data-name="검증된 조합(고정 아님) 에스엠바이오 그린(검증됨) 정제 영업 명의 — 메인그린+크림 (형광 라임은 2026-07-27 딥그린900으로 교체) 에스엠바이오 명의 전 산출물(인쇄물·홈페이지·랜딩) 건기식웰니스" data-combo="에스엠바이오 그린(검증됨)" data-hexes="#1F7A4D·#0B3A2A·#FBFBF8·#1E211C·#C2A36B" data-rec="0">
-      <div class="thumbwrap"><img src="thumbs/122.jpg" loading="lazy" width="456" height="257" alt="에스엠바이오 그린(검증됨) 표지 예시"></div>
-      <div class="chd" onclick="selPal(this)"><h3 role="button" tabindex="0" aria-pressed="false">에스엠바이오 그린(검증됨)</h3><div class="hactions"><button class="copyall" data-hex="#1F7A4D #0B3A2A #FBFBF8 #1E211C #C2A36B" onclick="cpall(event,this)">전체 복사</button><span class="pickmark" aria-hidden="true">＋</span></div></div>
-      
+    </div><div class="card pcard neonoff" data-tags="건기식웰니스" data-name="검증된 조합(고정 아님) 에스엠바이오 라임(검증됨) 정제 영업 명의 — 메인그린+크림, 라임은 미세 강조만 에스엠바이오 명의 전 산출물(인쇄물·홈페이지·랜딩) 건기식웰니스" data-combo="에스엠바이오 라임(검증됨)" data-hexes="#1F7A4D·#D7F06A·#FBFBF8·#1E211C·#C2A36B" data-neon="1" data-rec="0">
+      <div class="thumbwrap"><img src="thumbs/122.jpg" loading="lazy" width="456" height="257" alt="에스엠바이오 라임(검증됨) 표지 예시"></div>
+      <div class="chd nchd" onclick="neonBlock(event)"><h3>에스엠바이오 라임(검증됨)</h3><div class="hactions"><button class="copyall" disabled aria-disabled="true" title="형광 금지선에 걸린 팔레트라 복사할 수 없습니다">복사 불가</button><span class="pickmark nomark" aria-hidden="true">⛔</span></div></div>
+      <div class="neonbadge">⛔ 사용중지(형광) — 선택 불가<span class="nb2">#D7F06A(라임) L*90.7 C*66.5</span><span class="nb3">형광 금지 판정식 L*≥85 &amp; C*≥66 (CIELCh) · 판정 도구 design-refs/is_neon.py · 삭제하지 않고 이력으로 남겨둡니다</span></div>
       
       <div class="tags"><span class="tg">건기식웰니스</span></div>
-      <div class="sws"><button class="sw" style="background:#1F7A4D;color:#fff" data-hex="#1F7A4D" onclick="cp(event,this)"><span class="hx">#1F7A4D</span><span class=lb>메인그린</span></button><button class="sw" style="background:#0B3A2A;color:#fff" data-hex="#0B3A2A" onclick="cp(event,this)"><span class="hx">#0B3A2A</span><span class=lb>딥그린900</span></button><button class="sw" style="background:#FBFBF8;color:#1a1a1a" data-hex="#FBFBF8" onclick="cp(event,this)"><span class="hx">#FBFBF8</span><span class=lb>크림bg</span></button><button class="sw" style="background:#1E211C;color:#fff" data-hex="#1E211C" onclick="cp(event,this)"><span class="hx">#1E211C</span><span class=lb>잉크</span></button><button class="sw" style="background:#C2A36B;color:#1a1a1a" data-hex="#C2A36B" onclick="cp(event,this)"><span class="hx">#C2A36B</span><span class=lb>골드</span></button></div>
-      <p class="mood">💡 정제 영업 명의 — 메인그린+크림 (형광 라임은 2026-07-27 딥그린900으로 교체)</p>
+      <div class="sws"><button class="sw" style="background:#1F7A4D;color:#fff" data-hex="#1F7A4D" onclick="cp(event,this)"><span class="hx">#1F7A4D</span><span class=lb>메인그린</span></button><button class="sw" style="background:#D7F06A;color:#1a1a1a" data-hex="#D7F06A" onclick="cp(event,this)"><span class="hx">#D7F06A</span><span class=lb>라임</span></button><button class="sw" style="background:#FBFBF8;color:#1a1a1a" data-hex="#FBFBF8" onclick="cp(event,this)"><span class="hx">#FBFBF8</span><span class=lb>크림bg</span></button><button class="sw" style="background:#1E211C;color:#fff" data-hex="#1E211C" onclick="cp(event,this)"><span class="hx">#1E211C</span><span class=lb>잉크</span></button><button class="sw" style="background:#C2A36B;color:#1a1a1a" data-hex="#C2A36B" onclick="cp(event,this)"><span class="hx">#C2A36B</span><span class=lb>골드</span></button></div>
+      <p class="mood">💡 정제 영업 명의 — 메인그린+크림, 라임은 미세 강조만</p>
       <p class="use">🎯 에스엠바이오 명의 전 산출물(인쇄물·홈페이지·랜딩)</p>
-      <p class="role">🎨 메인=그린600 · 주CTA 글자=딥그린900(크림bg 면 위, 대비 12.26:1) · 배경=크림bg · 본문=잉크 · 포인트=골드 (출처: sm-bio-homepage style.css :root)</p>
+      <p class="role">🎨 메인=그린600 · 미세강조=라임 · 배경=크림bg · 본문=잉크 · 포인트=골드 (출처: sm-bio-homepage style.css :root)</p>
     </div></div><h3 class="grp">웹 트렌드(aicolors) <span class="cnt">5</span></h3><div class="grid"><div class="card pcard" data-tags="금융컨설팅 테크핀테크" data-name="웹 트렌드(aicolors) 트렌드 · 딥사파이어 네이비 묵직한 네이비 3단 — 신뢰·안정·기관 톤 (aicolors likes 1,562) IR·금융권 제안·테크 문서의 다크 베이스 금융컨설팅 테크핀테크" data-combo="트렌드 · 딥사파이어 네이비" data-hexes="#0F1C2E·#1F3A5F·#3D5A80·#FFFFFF·#E0E0E0" data-rec="0">
       <div class="chd" onclick="selPal(this)"><h3 role="button" tabindex="0" aria-pressed="false">트렌드 · 딥사파이어 네이비</h3><div class="hactions"><button class="copyall" data-hex="#0F1C2E #1F3A5F #3D5A80 #FFFFFF #E0E0E0" onclick="cpall(event,this)">전체 복사</button><span class="pickmark" aria-hidden="true">＋</span></div></div>
       
@@ -885,7 +888,7 @@ html[data-theme="dark"] .sknote .kit{background:#1e1b16}
       <p class="use">🎯 키즈·뷰티·웰니스·라이프스타일</p>
       <p class="role">🎨 스카이블루+라이트+핑크</p>
     </div><div class="card pcard neonoff" data-tags="테크핀테크 건기식웰니스" data-name="블루 조합 블루-C · SaaS·헬스테크 블루+그린, 아이스화이트가 채도 충돌 완충 SaaS·헬스테크·환경(혁신·지속가능) 테크핀테크 건기식웰니스" data-combo="블루-C · SaaS·헬스테크" data-hexes="#294AFF·#ECFCFF·#37FFA9" data-neon="1" data-rec="0">
-      <div class="chd nchd" onclick="neonBlock(event)"><h3>블루-C · SaaS·헬스테크</h3><div class="hactions"><button class="copyall" data-hex="#294AFF #ECFCFF #37FFA9" onclick="cpall(event,this)">전체 복사</button><span class="pickmark nomark" aria-hidden="true">⛔</span></div></div>
+      <div class="chd nchd" onclick="neonBlock(event)"><h3>블루-C · SaaS·헬스테크</h3><div class="hactions"><button class="copyall" disabled aria-disabled="true" title="형광 금지선에 걸린 팔레트라 복사할 수 없습니다">복사 불가</button><span class="pickmark nomark" aria-hidden="true">⛔</span></div></div>
       <div class="neonbadge">⛔ 사용중지(형광) — 선택 불가<span class="nb2">#37FFA9(그린) L*89.5 C*72.1</span><span class="nb3">형광 금지 판정식 L*≥85 &amp; C*≥66 (CIELCh) · 판정 도구 design-refs/is_neon.py · 삭제하지 않고 이력으로 남겨둡니다</span></div>
       
       <div class="tags"><span class="tg">테크핀테크</span><span class="tg">건기식웰니스</span></div>
@@ -921,7 +924,7 @@ html[data-theme="dark"] .sknote .kit{background:#1e1b16}
       <p class="use">🎯 의료·클리닉·메디컬 뷰티(안정 신뢰)</p>
       <p class="role">🎨 블루→라이트블루+슬레이트그레이</p>
     </div></div><h3 class="grp">그린+폰트 <span class="cnt">6</span></h3><div class="grid"><div class="card pcard neonoff" data-tags="스포츠" data-name="그린+폰트 네온 라임 형광 라임이 칫블랙 위 터짐 + 헤비 콘덴스드(근육질) 피트니스·헬스장·스포츠·에너지드링크·임팩트 썸네일 스포츠" data-combo="네온 라임" data-hexes="#D4FF00·#121414·#FFFFFF" data-neon="1" data-rec="0">
-      <div class="chd nchd" onclick="neonBlock(event)"><h3>네온 라임</h3><div class="hactions"><button class="copyall" data-hex="#D4FF00 #121414 #FFFFFF" onclick="cpall(event,this)">전체 복사</button><span class="pickmark nomark" aria-hidden="true">⛔</span></div></div>
+      <div class="chd nchd" onclick="neonBlock(event)"><h3>네온 라임</h3><div class="hactions"><button class="copyall" disabled aria-disabled="true" title="형광 금지선에 걸린 팔레트라 복사할 수 없습니다">복사 불가</button><span class="pickmark nomark" aria-hidden="true">⛔</span></div></div>
       <div class="neonbadge">⛔ 사용중지(형광) — 선택 불가<span class="nb2">#D4FF00(네온라임) L*94.1 C*98.8</span><span class="nb3">형광 금지 판정식 L*≥85 &amp; C*≥66 (CIELCh) · 판정 도구 design-refs/is_neon.py · 삭제하지 않고 이력으로 남겨둡니다</span></div>
       
       <div class="tags"><span class="tg">스포츠</span></div>
@@ -930,7 +933,7 @@ html[data-theme="dark"] .sknote .kit{background:#1e1b16}
       <p class="use">🎯 피트니스·헬스장·스포츠·에너지드링크·임팩트 썸네일</p>
       <p class="role">🎨 폰트: Anton·Bebas / 에스코어드림·프리텐다드·경고고딕</p>
     </div><div class="card pcard neonoff" data-tags="스포츠 테크핀테크" data-name="그린+폰트 그린+주황(레이싱) 형광 그린↔오렌지 진동, 모터스포츠/게이밍 HUD 레이싱·e스포츠·게이밍·자동차 ⚠️검정 면적 지배 스포츠 테크핀테크" data-combo="그린+주황(레이싱)" data-hexes="#00FF19·#FF4D00·#000000" data-neon="1" data-rec="0">
-      <div class="chd nchd" onclick="neonBlock(event)"><h3>그린+주황(레이싱)</h3><div class="hactions"><button class="copyall" data-hex="#00FF19 #FF4D00 #000000" onclick="cpall(event,this)">전체 복사</button><span class="pickmark nomark" aria-hidden="true">⛔</span></div></div>
+      <div class="chd nchd" onclick="neonBlock(event)"><h3>그린+주황(레이싱)</h3><div class="hactions"><button class="copyall" disabled aria-disabled="true" title="형광 금지선에 걸린 팔레트라 복사할 수 없습니다">복사 불가</button><span class="pickmark nomark" aria-hidden="true">⛔</span></div></div>
       <div class="neonbadge">⛔ 사용중지(형광) — 선택 불가<span class="nb2">#00FF19(네온그린) L*87.8 C*117.8</span><span class="nb3">형광 금지 판정식 L*≥85 &amp; C*≥66 (CIELCh) · 판정 도구 design-refs/is_neon.py · 삭제하지 않고 이력으로 남겨둡니다</span></div>
       
       <div class="tags"><span class="tg">스포츠</span><span class="tg">테크핀테크</span></div>
@@ -948,7 +951,7 @@ html[data-theme="dark"] .sknote .kit{background:#1e1b16}
       <p class="use">🎯 유기농·식품·친환경·매거진·크리스마스(오래 쓰기 좋음)</p>
       <p class="role">🎨 폰트: Fraunces·Inter / 프리텐다드·Noto Serif KR</p>
     </div><div class="card pcard neonoff" data-tags="패션 뷰티럭셔리" data-name="그린+폰트 네온 그린옐로우 형광 옐로우그린+무채+하이패션 세리프 = 엣지 럭셔리 패션·뷰티 룩북·트렌디 매거진·팝업·페스티벌 패션 뷰티럭셔리" data-combo="네온 그린옐로우" data-hexes="#E2FF54·#000000·#F5F5F0" data-neon="1" data-rec="0">
-      <div class="chd nchd" onclick="neonBlock(event)"><h3>네온 그린옐로우</h3><div class="hactions"><button class="copyall" data-hex="#E2FF54 #000000 #F5F5F0" onclick="cpall(event,this)">전체 복사</button><span class="pickmark nomark" aria-hidden="true">⛔</span></div></div>
+      <div class="chd nchd" onclick="neonBlock(event)"><h3>네온 그린옐로우</h3><div class="hactions"><button class="copyall" disabled aria-disabled="true" title="형광 금지선에 걸린 팔레트라 복사할 수 없습니다">복사 불가</button><span class="pickmark nomark" aria-hidden="true">⛔</span></div></div>
       <div class="neonbadge">⛔ 사용중지(형광) — 선택 불가<span class="nb2">#E2FF54(네온그린옐로우) L*95.3 C*81.0</span><span class="nb3">형광 금지 판정식 L*≥85 &amp; C*≥66 (CIELCh) · 판정 도구 design-refs/is_neon.py · 삭제하지 않고 이력으로 남겨둡니다</span></div>
       
       <div class="tags"><span class="tg">패션</span><span class="tg">뷰티럭셔리</span></div>
@@ -1007,7 +1010,7 @@ html[data-theme="dark"] .sknote .kit{background:#1e1b16}
 </div>
 
 <div class="tabpane" id="pane-sty" role="tabpanel" aria-labelledby="tabSty">
-<div class="section">🧩 디자인 스타일 <span class="secsub">스타일 92종 = 기본 84 + 2026 트렌드 8 · (🎬 덱 연출 3은 별도 부가 태그)</span></div>
+<div class="section">🧩 디자인 스타일 <span class="secsub">스타일 92종 = 기본 84 + 2026 트렌드 8 · 덱 연출·브랜드 스펙은 각각 <b>🎬 · 🇰🇷 탭</b>으로 분리했습니다</span></div>
 <h3 class="grp">범용 스타일 <span class="cnt">49</span></h3><div class="grid sgrid"><div class="card scard" data-tags="테크핀테크 금융컨설팅 뷰티럭셔리" data-name="범용 스타일 미니멀·스위스 스타일 Minimalism &amp; Swiss Style 여백·격자·고대비·기능 우선의 정갈함 기업앱·대시보드·문서·SaaS·전문도구 스위스·그리드 minimalism &amp; swiss style clean, simple, spacious, functional, white space, high contrast, geometric, sans-serif, grid-based, essential enterprise apps, dashboards, documentation sites, saas platforms, professional tools stripe.com" data-combo="미니멀·스위스 스타일" data-rec="1">
       <div class="schd" onclick="selSty(this)"><h3 role="button" tabindex="0" aria-pressed="false">미니멀·스위스 스타일 <span class="en">Minimalism &amp; Swiss Style</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
       <div class="thumbwrap"><img loading="lazy" width="456" height="257" src="thumbs/1.jpg" alt="미니멀·스위스 스타일 표지 예시"><span class="famtag">스위스·그리드</span></div>
@@ -2607,221 +2610,6 @@ Everything else must remain professionally designed: clean Swiss editorial layou
       <p class="role">📐 radius 16px · 600 · 17px · padding 0 20px · height 56px · box-shadow:none</p>
       <p class="mood">📎 출처: 브랜드스펙-토스.md:176(tds-button) · :180 · :317(그림자 토큰 없음)</p>
       <p class="glassban">⚠️ 정본 §4 주석 — :176은 토스 모바일 제품 UI 규격. 웹 마케팅 버튼은 radius 7px·height 40~46px로 따로 있음(대표 확인 사항). 대표가 C형 16px을 승인해 아래 값 그대로 둠.</p>
-    </div></div><h3 class="grp">🎬 덱 연출 <span class="cnt">3</span><span class="grpnote">스타일 92종과 별개 부가 태그 — 여러 개 선택 가능</span></h3><div class="grid kgrid"><div class="card kcard dcard" data-name="reveal.js 테마 reveal.js html 덱 표준 — 웹 프레젠테이션 프레임워크 html 덱 전반의 기본 엔진 덱 연출" data-combo="reveal.js" data-kname="reveal.js 테마">
-      <div class="schd" onclick="selDeck(this)"><h3 role="button" tabindex="0" aria-pressed="false">reveal.js 테마 <span class="en skcode">reveal.js</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
-      <p class="mood">💡 HTML 덱 표준 — 웹 프레젠테이션 프레임워크</p>
-      <p class="use">🎯 HTML 덱 전반의 기본 엔진</p>
-      <p class="role">★ 71,911 · MIT (2026-07-12 실측)</p>
-    </div><div class="card kcard dcard" data-name="impress.js 시네마틱 impress.js 3d 줌·회전 전환 — 임팩트 덱 한정 강한 인상이 필요한 특별 발표(과용 금지) 덱 연출" data-combo="impress.js" data-kname="impress.js 시네마틱">
-      <div class="schd" onclick="selDeck(this)"><h3 role="button" tabindex="0" aria-pressed="false">impress.js 시네마틱 <span class="en skcode">impress.js</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
-      <p class="mood">💡 3D 줌·회전 전환 — 임팩트 덱 한정</p>
-      <p class="use">🎯 강한 인상이 필요한 특별 발표(과용 금지)</p>
-      <p class="role">★ 38,190 · MIT (2026-07-12 실측)</p>
-    </div><div class="card kcard dcard" data-name="echarts 차트 echarts 데이터 슬라이드 200+ 차트 유형 수치·차트 비중 큰 데이터 슬라이드 덱 연출" data-combo="ECharts" data-kname="ECharts 차트">
-      <div class="schd" onclick="selDeck(this)"><h3 role="button" tabindex="0" aria-pressed="false">ECharts 차트 <span class="en skcode">ECharts</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
-      <p class="mood">💡 데이터 슬라이드 200+ 차트 유형</p>
-      <p class="use">🎯 수치·차트 비중 큰 데이터 슬라이드</p>
-      <p class="role">★ 66,793 · Apache-2.0 (2026-07-12 실측)</p>
-    </div></div><div id="deckDim" style="display:none">🎬 건기식 추천 필터 적용 중 — 덱 연출은 추천 대상이 아니라 잠시 숨겼습니다.</div>
-<div class="section keepmob">🇰🇷 한국 브랜드 스펙 <span class="secsub">22종 · oh-my-design 레퍼런스 실측값 · <b>참조 전용(선택 대상 아님)</b> · 정본 노트=디자인/레퍼런스/(브랜드스펙-* · brandspec-*)</span></div>
-<div class="grid kgrid"><div class="card kcard bcard" data-name="토스 toss 파란 단색 + 버튼만 크게 굴린 절제형 — 국내 ui 신뢰감의 기준점 toss product sans fintech 한국 브랜드 스펙">
-      <div class="schd"><h3>토스 <span class="en">Toss</span></h3><span class="bcat">fintech</span></div>
-      <div class="sws"><button class="sw" style="background:#3182f6;color:#fff" data-hex="#3182f6" onclick="cp(event,this)"><span class="hx">#3182F6</span><span class=lb>주색</span></button><button class="sw" style="background:#0064ff;color:#fff" data-hex="#0064ff" onclick="cp(event,this)"><span class="hx">#0064FF</span><span class=lb>로고/식별색(UI 주색 아님)</span></button></div>
-      <p class="mood">💡 파란 단색 + 버튼만 크게 굴린 절제형 — 국내 UI 신뢰감의 기준점</p>
-      <p class="role">⚠ 원본 명시 — #0064ff는 로고/브랜드 식별색(catalog identity)이며 UI 주색으로 대체 금지. UI 주색은 tokens.colors.primary #3182f6.</p>
-      <p class="use">🔤 Toss Product Sans · 라운드 4~16px · 여백 4~32px</p>
-      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-11</p>
-      <div class="promptrow"><button class="bcopy" data-txt="토스 스타일로 — UI 주색 #3182f6(원본 tokens.colors.primary), 폰트 Toss Product Sans, 라운드 4~16px, 여백 스케일 4~32px, 그림자 없이 평면. #0064ff는 로고/브랜드 식별색이며 UI 주색으로 쓰지 않는다(원본이 대체 금지 명시). (출처: OmD 레퍼런스 toss · 검증 2026-07-11 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
-      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-토스.md</p>
-    </div><div class="card kcard bcard" data-name="krds정부디자인시스템 krds 공공 표준 블루 + 작은 라운드 + 굵은 포커스링 — 정부 제출물 톤 pretendard gov government 한국 브랜드 스펙">
-      <div class="schd"><h3>KRDS정부디자인시스템 <span class="en">KRDS</span></h3><span class="bcat">government</span></div>
-      <div class="sws"><button class="sw" style="background:#256ef4;color:#fff" data-hex="#256ef4" onclick="cp(event,this)"><span class="hx">#256EF4</span><span class=lb>주색</span></button></div>
-      <p class="mood">💡 공공 표준 블루 + 작은 라운드 + 굵은 포커스링 — 정부 제출물 톤</p>
-      
-      <p class="use">🔤 Pretendard GOV · 라운드 4~8px·완전 알약 · 여백 2~40px</p>
-      <p class="role">그림자 focus: 0 0 0 0.4rem #256ef4; modal: 0 0.2rem 0 0 rgba(0,0,0,0.1), 0 0.4rem 0.8rem 0 rgba(0,0,0,0.1) · 원본 검증 2026-07-11</p>
-      <div class="promptrow"><button class="bcopy" data-txt="KRDS정부디자인시스템 스타일로 — 주색 #256ef4, 폰트 Pretendard GOV, 라운드 4~8px·완전 알약, 여백 스케일 2~40px, 그림자 focus: 0 0 0 0.4rem #256ef4; modal: 0 0.2rem 0 0 rgba(0,0,0,0.1), 0 0.4rem 0.8rem 0 rgba(0,0,0,0.1). (출처: OmD 레퍼런스 krds · 검증 2026-07-11 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
-      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-KRDS정부디자인시스템.md</p>
-    </div><div class="card kcard bcard" data-name="네이버 naver 초록 포인트를 아주 좁게 쓰고 나머지는 무채색 — 정보 읽기 최우선 system consumer-tech 한국 브랜드 스펙">
-      <div class="schd"><h3>네이버 <span class="en">Naver</span></h3><span class="bcat">consumer-tech</span></div>
-      <div class="sws"><button class="sw" style="background:#03c75a;color:#fff" data-hex="#03c75a" onclick="cp(event,this)"><span class="hx">#03C75A</span><span class=lb>주색</span></button></div>
-      <p class="mood">💡 초록 포인트를 아주 좁게 쓰고 나머지는 무채색 — 정보 읽기 최우선</p>
-      
-      <p class="use">🔤 System · 라운드 4~12px·완전 알약 · 여백 4~20px</p>
-      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-11</p>
-      <div class="promptrow"><button class="bcopy" data-txt="네이버 스타일로 — 주색 #03c75a, 폰트 System, 라운드 4~12px·완전 알약, 여백 스케일 4~20px, 그림자 없이 평면. (출처: OmD 레퍼런스 naver · 검증 2026-07-11 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
-      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-네이버.md</p>
-    </div><div class="card kcard bcard" data-name="카카오 kakao 노란 주색 + 큰 라운드 — 친근함을 색과 곡률로만 만든다 kakaobig consumer-tech 한국 브랜드 스펙">
-      <div class="schd"><h3>카카오 <span class="en">Kakao</span></h3><span class="bcat">consumer-tech</span></div>
-      <div class="sws"><button class="sw" style="background:#fee500;color:#1a1a1a" data-hex="#fee500" onclick="cp(event,this)"><span class="hx">#FEE500</span><span class=lb>주색</span></button></div>
-      <p class="mood">💡 노란 주색 + 큰 라운드 — 친근함을 색과 곡률로만 만든다</p>
-      
-      <p class="use">🔤 KakaoBig · 라운드 12~30px·완전 알약 · 여백 4~20px</p>
-      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-11</p>
-      <div class="promptrow"><button class="bcopy" data-txt="카카오 스타일로 — 주색 #fee500, 폰트 KakaoBig, 라운드 12~30px·완전 알약, 여백 스케일 4~20px, 그림자 없이 평면. (출처: OmD 레퍼런스 kakao · 검증 2026-07-11 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
-      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-카카오.md</p>
-    </div><div class="card kcard bcard" data-name="삼성 samsung 검정·직각·무그림자 — 대기업 b2b 신뢰의 최소주의 samsungonekorean consumer-tech 한국 브랜드 스펙">
-      <div class="schd"><h3>삼성 <span class="en">Samsung</span></h3><span class="bcat">consumer-tech</span></div>
-      <div class="sws"><button class="sw" style="background:#000000;color:#fff" data-hex="#000000" onclick="cp(event,this)"><span class="hx">#000000</span><span class=lb>주색</span></button></div>
-      <p class="mood">💡 검정·직각·무그림자 — 대기업 B2B 신뢰의 최소주의</p>
-      
-      <p class="use">🔤 SamsungOneKorean · 라운드 0~40px · 여백 12~32px</p>
-      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-13</p>
-      <div class="promptrow"><button class="bcopy" data-txt="삼성 스타일로 — 주색 #000000, 폰트 SamsungOneKorean, 라운드 0~40px, 여백 스케일 12~32px, 그림자 없이 평면. (출처: OmD 레퍼런스 samsung · 검증 2026-07-13 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
-      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-삼성.md</p>
-    </div><div class="card kcard bcard" data-name="현대자동차 hyundai 딥네이비 + 직각 — 제조업 무게감, 장식 없음 hyundaisansheadkr automotive 한국 브랜드 스펙">
-      <div class="schd"><h3>현대자동차 <span class="en">Hyundai</span></h3><span class="bcat">automotive</span></div>
-      <div class="sws"><button class="sw" style="background:#002c5f;color:#fff" data-hex="#002c5f" onclick="cp(event,this)"><span class="hx">#002C5F</span><span class=lb>주색</span></button></div>
-      <p class="mood">💡 딥네이비 + 직각 — 제조업 무게감, 장식 없음</p>
-      
-      <p class="use">🔤 HyundaiSansHeadKR · 라운드 0~6px · 여백 미확인</p>
-      <p class="role">그림자 chatbot: rgba(0,0,0,0.15) 0px 0px 20px 0px · 원본 검증 2026-07-13</p>
-      <div class="promptrow"><button class="bcopy" data-txt="현대자동차 스타일로 — 주색 #002c5f, 폰트 HyundaiSansHeadKR, 라운드 0~6px, 여백 스케일 미확인, 그림자 chatbot: rgba(0,0,0,0.15) 0px 0px 20px 0px. (출처: OmD 레퍼런스 hyundai · 검증 2026-07-13 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
-      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-현대자동차.md</p>
-    </div><div class="card kcard bcard" data-name="현대카드 hyundai card 검정 배경 + 전용 서체 + 3~5px 초저라운드 — 프리미엄 에디토리얼 youandinewkr fintech 한국 브랜드 스펙">
-      <div class="schd"><h3>현대카드 <span class="en">Hyundai Card</span></h3><span class="bcat">fintech</span></div>
-      <div class="sws"><button class="sw" style="background:#000000;color:#fff" data-hex="#000000" onclick="cp(event,this)"><span class="hx">#000000</span><span class=lb>주색</span></button></div>
-      <p class="mood">💡 검정 배경 + 전용 서체 + 3~5px 초저라운드 — 프리미엄 에디토리얼</p>
-      
-      <p class="use">🔤 YouandiNewKr · 라운드 3~5px · 여백 20~29px</p>
-      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-13</p>
-      <div class="promptrow"><button class="bcopy" data-txt="현대카드 스타일로 — 주색 #000000, 폰트 YouandiNewKr, 라운드 3~5px, 여백 스케일 20~29px, 그림자 없이 평면. (출처: OmD 레퍼런스 hyundaicard · 검증 2026-07-13 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
-      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-현대카드.md</p>
-    </div><div class="card kcard bcard" data-name="올리브영 olive young 흰 캔버스에 회색 본문, 브랜드 그린은 기업사이트에만 — 매장형 정보밀도 montserrat ecommerce 한국 브랜드 스펙">
-      <div class="schd"><h3>올리브영 <span class="en">Olive Young</span></h3><span class="bcat">ecommerce</span></div>
-      <div class="sws"><button class="sw" style="background:#82dc28;color:#1a1a1a" data-hex="#82dc28" onclick="cp(event,this)"><span class="hx">#82DC28</span><span class=lb>주색</span></button></div>
-      <p class="mood">💡 흰 캔버스에 회색 본문, 브랜드 그린은 기업사이트에만 — 매장형 정보밀도</p>
-      
-      <p class="use">🔤 Montserrat · 라운드 4~12px · 여백 10~14px</p>
-      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-13</p>
-      <div class="promptrow"><button class="bcopy" data-txt="올리브영 스타일로 — 주색 #82dc28, 폰트 Montserrat, 라운드 4~12px, 여백 스케일 10~14px, 그림자 없이 평면. (출처: OmD 레퍼런스 oliveyoung · 검증 2026-07-13 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
-      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-올리브영.md</p>
-    </div><div class="card kcard bcard" data-name="마켓컬리 kurly 딥퍼플 단색 + 2~4px 초저라운드 — 프리미엄 식품의 절제 pretendard ecommerce 한국 브랜드 스펙">
-      <div class="schd"><h3>마켓컬리 <span class="en">Kurly</span></h3><span class="bcat">ecommerce</span></div>
-      <div class="sws"><button class="sw" style="background:#5f0080;color:#fff" data-hex="#5f0080" onclick="cp(event,this)"><span class="hx">#5F0080</span><span class=lb>주색</span></button></div>
-      <p class="mood">💡 딥퍼플 단색 + 2~4px 초저라운드 — 프리미엄 식품의 절제</p>
-      
-      <p class="use">🔤 Pretendard · 라운드 2~4px · 여백 2~16px</p>
-      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-13</p>
-      <div class="promptrow"><button class="bcopy" data-txt="마켓컬리 스타일로 — 주색 #5f0080, 폰트 Pretendard, 라운드 2~4px, 여백 스케일 2~16px, 그림자 없이 평면. (출처: OmD 레퍼런스 kurly · 검증 2026-07-13 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
-      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-마켓컬리.md</p>
-    </div><div class="card kcard bcard" data-name="쿠팡 coupang 직각 0px·무그림자·고밀도 — 정보량 최대의 커머스 미확인(원본 토큰에 폰트 없음) ecommerce 한국 브랜드 스펙">
-      <div class="schd"><h3>쿠팡 <span class="en">Coupang</span></h3><span class="bcat">ecommerce</span></div>
-      <div class="sws"><button class="sw" style="background:#000000;color:#fff" data-hex="#000000" onclick="cp(event,this)"><span class="hx">#000000</span><span class=lb>주색</span></button></div>
-      <p class="mood">💡 직각 0px·무그림자·고밀도 — 정보량 최대의 커머스</p>
-      <p class="role">⚠ 원본 명시 — 폰트 토큰이 없어 대체 폰트를 제안하지 않는다. Pretendard·Inter 등으로 대체해 놓고 &#x27;쿠팡 스타일&#x27;이라 부르지 말 것(폰트 외 항목은 그대로 참조 가능).</p>
-      <p class="use">🔤 미확인(원본 토큰에 폰트 없음) · 라운드 0px · 여백 1~24px</p>
-      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-13</p>
-      <div class="promptrow"><button class="bcopy" data-txt="쿠팡 스타일로 — 주색 #000000, 폰트 지정 없음(원본 토큰에 폰트가 없다. 다른 웹폰트로 대체해 &#x27;쿠팡&#x27;이라 부르지 말 것), 라운드 0px, 여백 스케일 1~24px, 그림자 없이 평면. (출처: OmD 레퍼런스 coupang · 검증 2026-07-13 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
-      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-쿠팡.md</p>
-    </div><div class="card kcard bcard" data-name="11번가 11st 강한 레드 + 가격 타이포 대비 — 오픈마켓 즉시성 noto sans kr ecommerce 한국 브랜드 스펙">
-      <div class="schd"><h3>11번가 <span class="en">11st</span></h3><span class="bcat">ecommerce</span></div>
-      <div class="sws"><button class="sw" style="background:#ff0038;color:#fff" data-hex="#ff0038" onclick="cp(event,this)"><span class="hx">#FF0038</span><span class=lb>주색</span></button></div>
-      <p class="mood">💡 강한 레드 + 가격 타이포 대비 — 오픈마켓 즉시성</p>
-      
-      <p class="use">🔤 Noto Sans KR · 라운드 0~50px·완전 알약 · 여백 4~20px</p>
-      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-13</p>
-      <div class="promptrow"><button class="bcopy" data-txt="11번가 스타일로 — 주색 #ff0038, 폰트 Noto Sans KR, 라운드 0~50px·완전 알약, 여백 스케일 4~20px, 그림자 없이 평면. (출처: OmD 레퍼런스 11st · 검증 2026-07-13 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
-      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-11번가.md</p>
-    </div><div class="card kcard bcard" data-name="롯데on 롯데on 흑백 기반 + 직각/알약 2단 라운드 — 대형 유통의 절제된 커머스 pretendard ecommerce 한국 브랜드 스펙">
-      <div class="schd"><h3>롯데ON <span class="en">롯데ON</span></h3><span class="bcat">ecommerce</span></div>
-      <div class="sws"><button class="sw" style="background:#000000;color:#fff" data-hex="#000000" onclick="cp(event,this)"><span class="hx">#000000</span><span class=lb>주색</span></button></div>
-      <p class="mood">💡 흑백 기반 + 직각/알약 2단 라운드 — 대형 유통의 절제된 커머스</p>
-      
-      <p class="use">🔤 Pretendard · 라운드 0~23px · 여백 2~16px</p>
-      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-14</p>
-      <div class="promptrow"><button class="bcopy" data-txt="롯데ON 스타일로 — 주색 #000000, 폰트 Pretendard, 라운드 0~23px, 여백 스케일 2~16px, 그림자 없이 평면. (출처: OmD 레퍼런스 lotteon · 검증 2026-07-14 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
-      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-롯데ON.md</p>
-    </div><div class="card kcard bcard" data-name="배달의민족 baemin 민트 주색 + 자체 서체 — 브랜드 개성을 폰트로 만드는 사례 baeminwork consumer-tech 한국 브랜드 스펙">
-      <div class="schd"><h3>배달의민족 <span class="en">Baemin</span></h3><span class="bcat">consumer-tech</span></div>
-      <div class="sws"><button class="sw" style="background:#0cefd3;color:#1a1a1a" data-hex="#0cefd3" onclick="cp(event,this)"><span class="hx">#0CEFD3</span><span class=lb>주색</span></button></div>
-      <p class="mood">💡 민트 주색 + 자체 서체 — 브랜드 개성을 폰트로 만드는 사례</p>
-      
-      <p class="use">🔤 BAEMINWORK · 라운드 8~16px·완전 알약 · 여백 6~32px</p>
-      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-12</p>
-      <div class="promptrow"><button class="bcopy" data-txt="배달의민족 스타일로 — 주색 #0cefd3, 폰트 BAEMINWORK, 라운드 8~16px·완전 알약, 여백 스케일 6~32px, 그림자 없이 평면. (출처: OmD 레퍼런스 baemin · 검증 2026-07-12 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
-      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-배달의민족.md</p>
-    </div><div class="card kcard bcard" data-name="캐치테이블 catchtable 주황 포인트 + 넓은 검색 알약 — 미식 카테고리의 온기 pretendard std variable consumer-tech 한국 브랜드 스펙">
-      <div class="schd"><h3>캐치테이블 <span class="en">CatchTable</span></h3><span class="bcat">consumer-tech</span></div>
-      <div class="sws"><button class="sw" style="background:#ff3d00;color:#fff" data-hex="#ff3d00" onclick="cp(event,this)"><span class="hx">#FF3D00</span><span class=lb>주색</span></button></div>
-      <p class="mood">💡 주황 포인트 + 넓은 검색 알약 — 미식 카테고리의 온기</p>
-      
-      <p class="use">🔤 Pretendard Std Variable · 라운드 0~40px · 여백 4~20px</p>
-      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-13</p>
-      <div class="promptrow"><button class="bcopy" data-txt="캐치테이블 스타일로 — 주색 #ff3d00, 폰트 Pretendard Std Variable, 라운드 0~40px, 여백 스케일 4~20px, 그림자 없이 평면. (출처: OmD 레퍼런스 catchtable · 검증 2026-07-13 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
-      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-캐치테이블.md</p>
-    </div><div class="card kcard bcard" data-name="29cm 29cm 흑백 + 초저라운드 + 에디토리얼 타이포 — &#x27;읽는 커머스&#x27; pretendard variable ecommerce 한국 브랜드 스펙">
-      <div class="schd"><h3>29CM <span class="en">29CM</span></h3><span class="bcat">ecommerce</span></div>
-      <div class="sws"><button class="sw" style="background:#000000;color:#fff" data-hex="#000000" onclick="cp(event,this)"><span class="hx">#000000</span><span class=lb>주색</span></button></div>
-      <p class="mood">💡 흑백 + 초저라운드 + 에디토리얼 타이포 — &#x27;읽는 커머스&#x27;</p>
-      
-      <p class="use">🔤 Pretendard Variable · 라운드 2~10px·완전 알약 · 여백 2~28px</p>
-      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-11</p>
-      <div class="promptrow"><button class="bcopy" data-txt="29CM 스타일로 — 주색 #000000, 폰트 Pretendard Variable, 라운드 2~10px·완전 알약, 여백 스케일 2~28px, 그림자 없이 평면. (출처: OmD 레퍼런스 29cm · 검증 2026-07-11 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
-      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-29CM.md</p>
-    </div><div class="card kcard bcard" data-name="무신사 musinsa 색을 거의 안 쓰고 굵기·크기만으로 위계 — 극단 미니멀 pretendard ecommerce 한국 브랜드 스펙">
-      <div class="schd"><h3>무신사 <span class="en">Musinsa</span></h3><span class="bcat">ecommerce</span></div>
-      <div class="sws"><button class="sw" style="background:#000000;color:#fff" data-hex="#000000" onclick="cp(event,this)"><span class="hx">#000000</span><span class=lb>주색</span></button></div>
-      <p class="mood">💡 색을 거의 안 쓰고 굵기·크기만으로 위계 — 극단 미니멀</p>
-      
-      <p class="use">🔤 Pretendard · 라운드 0~4px · 여백 4~24px</p>
-      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-13</p>
-      <div class="promptrow"><button class="bcopy" data-txt="무신사 스타일로 — 주색 #000000, 폰트 Pretendard, 라운드 0~4px, 여백 스케일 4~24px, 그림자 없이 평면. (출처: OmD 레퍼런스 musinsa · 검증 2026-07-13 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
-      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-무신사.md</p>
-    </div><div class="card kcard bcard" data-name="뱅크샐러드 banksalad 민트그린 + 24px 카드 — 숫자·차트를 부드럽게 보여주는 데이터 ui pretendard fintech 한국 브랜드 스펙">
-      <div class="schd"><h3>뱅크샐러드 <span class="en">Banksalad</span></h3><span class="bcat">fintech</span></div>
-      <div class="sws"><button class="sw" style="background:#13bd7e;color:#fff" data-hex="#13bd7e" onclick="cp(event,this)"><span class="hx">#13BD7E</span><span class=lb>주색</span></button></div>
-      <p class="mood">💡 민트그린 + 24px 카드 — 숫자·차트를 부드럽게 보여주는 데이터 UI</p>
-      
-      <p class="use">🔤 Pretendard · 라운드 6~24px·완전 알약 · 여백 8~24px</p>
-      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-12</p>
-      <div class="promptrow"><button class="bcopy" data-txt="뱅크샐러드 스타일로 — 주색 #13bd7e, 폰트 Pretendard, 라운드 6~24px·완전 알약, 여백 스케일 8~24px, 그림자 없이 평면. (출처: OmD 레퍼런스 banksalad · 검증 2026-07-12 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
-      <p class="refsite">📄 디자인/레퍼런스/brandspec-banksalad.md</p>
-    </div><div class="card kcard bcard" data-name="신한은행 shinhan bank 선명한 블루 + 큰 알약 버튼 — 금융권 신뢰 톤 spoqa fintech 한국 브랜드 스펙">
-      <div class="schd"><h3>신한은행 <span class="en">Shinhan Bank</span></h3><span class="bcat">fintech</span></div>
-      <div class="sws"><button class="sw" style="background:#0046ff;color:#fff" data-hex="#0046ff" onclick="cp(event,this)"><span class="hx">#0046FF</span><span class=lb>주색</span></button></div>
-      <p class="mood">💡 선명한 블루 + 큰 알약 버튼 — 금융권 신뢰 톤</p>
-      
-      <p class="use">🔤 Spoqa · 라운드 24~30px · 여백 20~56px</p>
-      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-13</p>
-      <div class="promptrow"><button class="bcopy" data-txt="신한은행 스타일로 — 주색 #0046ff, 폰트 Spoqa, 라운드 24~30px, 여백 스케일 20~56px, 그림자 없이 평면. (출처: OmD 레퍼런스 shinhanbank · 검증 2026-07-13 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
-      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-신한은행.md</p>
-    </div><div class="card kcard bcard" data-name="채널톡 channel talk 거의 검정 주색 + 35px 대형 카드 — b2b saas 랜딩 표준 pretendard saas 한국 브랜드 스펙">
-      <div class="schd"><h3>채널톡 <span class="en">Channel Talk</span></h3><span class="bcat">saas</span></div>
-      <div class="sws"><button class="sw" style="background:#242428;color:#fff" data-hex="#242428" onclick="cp(event,this)"><span class="hx">#242428</span><span class=lb>주색</span></button></div>
-      <p class="mood">💡 거의 검정 주색 + 35px 대형 카드 — B2B SaaS 랜딩 표준</p>
-      
-      <p class="use">🔤 Pretendard · 라운드 6~35px·완전 알약 · 여백 4~30px</p>
-      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-12</p>
-      <div class="promptrow"><button class="bcopy" data-txt="채널톡 스타일로 — 주색 #242428, 폰트 Pretendard, 라운드 6~35px·완전 알약, 여백 스케일 4~30px, 그림자 없이 평면. (출처: OmD 레퍼런스 channeltalk · 검증 2026-07-12 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
-      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-채널톡.md</p>
-    </div><div class="card kcard bcard" data-name="플렉스 flex 흑백 + 대형 디스플레이 타이포 + 24px cta — 임팩트형 기업 소개 pretendard variable saas 한국 브랜드 스펙">
-      <div class="schd"><h3>플렉스 <span class="en">flex</span></h3><span class="bcat">saas</span></div>
-      <div class="sws"><button class="sw" style="background:#111111;color:#fff" data-hex="#111111" onclick="cp(event,this)"><span class="hx">#111111</span><span class=lb>주색</span></button><button class="sw" style="background:#000000;color:#fff" data-hex="#000000" onclick="cp(event,this)"><span class="hx">#000000</span><span class=lb>로고/식별색(UI 주색 아님)</span></button></div>
-      <p class="mood">💡 흑백 + 대형 디스플레이 타이포 + 24px CTA — 임팩트형 기업 소개</p>
-      <p class="role">⚠ #000000은 카탈로그 식별색(공개면 검정 필드)이며 tokens.colors에 없다. 실토큰 검정은 ink #111111.</p>
-      <p class="use">🔤 Pretendard Variable · 라운드 8~24px · 여백 8~44px</p>
-      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-13</p>
-      <div class="promptrow"><button class="bcopy" data-txt="플렉스 스타일로 — 주색 #111111(원본 tokens.colors.ink), 폰트 Pretendard Variable, 라운드 8~24px, 여백 스케일 8~44px, 그림자 없이 평면. #000000은 카탈로그 식별색이며 현재 토큰이 아니다. (출처: OmD 레퍼런스 flex · 검증 2026-07-13 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
-      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-플렉스.md</p>
-    </div><div class="card kcard bcard" data-name="원티드 wanted 파랑 + 카드/메뉴에만 얕은 그림자 — 실측 그림자 토큰이 남은 사례 pretendard variable productivity 한국 브랜드 스펙">
-      <div class="schd"><h3>원티드 <span class="en">Wanted</span></h3><span class="bcat">productivity</span></div>
-      <div class="sws"><button class="sw" style="background:#0066ff;color:#fff" data-hex="#0066ff" onclick="cp(event,this)"><span class="hx">#0066FF</span><span class=lb>주색</span></button></div>
-      <p class="mood">💡 파랑 + 카드/메뉴에만 얕은 그림자 — 실측 그림자 토큰이 남은 사례</p>
-      
-      <p class="use">🔤 Pretendard Variable · 라운드 8~16px·완전 알약 · 여백 4~40px</p>
-      <p class="role">그림자 menu: 0 2px 4px -2px rgba(23,23,23,0.06), 0 4px 6px -1px rgba(23,23,23,0.06) · 원본 검증 2026-07-12</p>
-      <div class="promptrow"><button class="bcopy" data-txt="원티드 스타일로 — 주색 #0066ff, 폰트 Pretendard Variable, 라운드 8~16px·완전 알약, 여백 스케일 4~40px, 그림자 menu: 0 2px 4px -2px rgba(23,23,23,0.06), 0 4px 6px -1px rgba(23,23,23,0.06). (출처: OmD 레퍼런스 wanted · 검증 2026-07-12 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
-      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-원티드.md</p>
-    </div><div class="card kcard bcard" data-name="강남언니 강남언니 무채색 ui + 20px 카드 — 메디컬·뷰티의 담백한 신뢰(오렌지는 식별색일 뿐 현재 ui 토큰 아님) pretendardvariable consumer-tech 한국 브랜드 스펙">
-      <div class="schd"><h3>강남언니 <span class="en">강남언니</span></h3><span class="bcat">consumer-tech</span></div>
-      <div class="sws"><button class="sw" style="background:#d54300;color:#fff" data-hex="#d54300" onclick="cp(event,this)"><span class="hx">#D54300</span><span class=lb>카탈로그 식별색 — 현재 토큰 아님</span></button></div>
-      <p class="mood">💡 무채색 UI + 20px 카드 — 메디컬·뷰티의 담백한 신뢰(오렌지는 식별색일 뿐 현재 UI 토큰 아님)</p>
-      <p class="role">⚠ 원본 명시 — frontmatter primary_color는 카탈로그 식별용 메타데이터이지 현재 토큰이 아니다. 현재 컴포넌트 관찰치에 오렌지가 없어 UI 주색으로 승격 금지. 현재 토큰은 무채색(전경 #131517 · 표면 #eff2f5 · 보조 #697683).</p>
-      <p class="use">🔤 PretendardVariable · 라운드 6~20px·완전 알약 · 여백 8~12px</p>
-      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-13</p>
-      <div class="promptrow"><button class="bcopy" data-txt="강남언니 스타일로 — 주색 지시 없음(원본에 현재 UI 주색 토큰 없음. 오렌지 #d54300은 카탈로그 식별색이며 현재 토큰이 아니라 UI 주색으로 승격 금지), 무채색 기반 전경 #131517·표면 #eff2f5, 폰트 PretendardVariable, 라운드 6~20px·완전 알약, 여백 스케일 8~12px, 그림자 없이 평면. (출처: OmD 레퍼런스 gangnamunni · 검증 2026-07-13 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
-      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-강남언니.md</p>
     </div></div>
 <div class="noresult">조건에 맞는 항목이 없습니다 — 필터·검색을 풀어보세요.</div>
 <div class="sknote"><p>· 일부 카드에는 &#x27;실물 예&#x27; 링크와 &#x27;🧰 이 스타일로 시작하기&#x27; 킷이 붙어 있습니다 — 펼치면 AI 지시문·CSS 변수·핵심 스니펫을 그대로 복사해 쓸 수 있습니다.</p><p>· 아래 2026 흐름 2종은 카드가 아니라 페이지 구성 방식이라 어떤 스타일 위에도 얹을 수 있습니다 — 펼쳐서 코드를 복사해 쓰세요.</p><details class="kit flowkit"><summary>🧪 스크롤텔링 — 스크롤에 맞춰 순차 등장</summary><div class="kitbody"><div class="kitblk"><div class="kith"><span class="kitt">붙여 쓰는 코드</span><button class="kitcopy" data-txt="&lt;div class=&quot;reveal&quot;&gt;내용&lt;/div&gt;
@@ -2852,6 +2640,232 @@ document.querySelectorAll(&#x27;.reveal&#x27;).forEach((el,i)=&gt;{el.style.tran
 .fluid-title{font-size:clamp(28px,5vw,64px);line-height:1.1;letter-spacing:-.02em}
 .fluid-section{padding:clamp(48px,8vw,120px) clamp(16px,4vw,64px)}</pre></div><div class="kitrule">규칙: minmax(min(280px,100%),1fr)의 min()이 있어야 폰에서 가로 넘침이 안 난다 · 미디어쿼리 0개로 폰~데스크톱 소화.</div></div></details></div>
 <div class="jumpspacer" aria-hidden="true"></div>
+</div>
+
+<div class="tabpane" id="pane-deck" role="tabpanel" aria-labelledby="tabDeck">
+<div class="section">🎬 덱 연출 <span class="secsub">3종 · 덱을 실제로 만드는 도구(엔진·차트) · 스타일과 별개 축 · 여러 개 선택 가능</span></div>
+<h3 class="grp">🎬 덱 연출 <span class="cnt">3</span><span class="grpnote">스타일 92종과 별개 부가 축 — 여러 개 선택 가능</span></h3><div class="grid kgrid"><div class="card kcard dcard" data-name="reveal.js 테마 reveal.js html 덱 표준 — 웹 프레젠테이션 프레임워크 html 덱 전반의 기본 엔진 덱 연출" data-combo="reveal.js" data-kname="reveal.js 테마">
+      <div class="schd" onclick="selDeck(this)"><h3 role="button" tabindex="0" aria-pressed="false">reveal.js 테마 <span class="en skcode">reveal.js</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
+      <p class="mood">💡 HTML 덱 표준 — 웹 프레젠테이션 프레임워크</p>
+      <p class="use">🎯 HTML 덱 전반의 기본 엔진</p>
+      <p class="role">★ 71,911 · MIT (2026-07-12 실측)</p>
+    </div><div class="card kcard dcard" data-name="impress.js 시네마틱 impress.js 3d 줌·회전 전환 — 임팩트 덱 한정 강한 인상이 필요한 특별 발표(과용 금지) 덱 연출" data-combo="impress.js" data-kname="impress.js 시네마틱">
+      <div class="schd" onclick="selDeck(this)"><h3 role="button" tabindex="0" aria-pressed="false">impress.js 시네마틱 <span class="en skcode">impress.js</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
+      <p class="mood">💡 3D 줌·회전 전환 — 임팩트 덱 한정</p>
+      <p class="use">🎯 강한 인상이 필요한 특별 발표(과용 금지)</p>
+      <p class="role">★ 38,190 · MIT (2026-07-12 실측)</p>
+    </div><div class="card kcard dcard" data-name="echarts 차트 echarts 데이터 슬라이드 200+ 차트 유형 수치·차트 비중 큰 데이터 슬라이드 덱 연출" data-combo="ECharts" data-kname="ECharts 차트">
+      <div class="schd" onclick="selDeck(this)"><h3 role="button" tabindex="0" aria-pressed="false">ECharts 차트 <span class="en skcode">ECharts</span></h3><span class="pickmark" aria-hidden="true">＋</span></div>
+      <p class="mood">💡 데이터 슬라이드 200+ 차트 유형</p>
+      <p class="use">🎯 수치·차트 비중 큰 데이터 슬라이드</p>
+      <p class="role">★ 66,793 · Apache-2.0 (2026-07-12 실측)</p>
+    </div></div>
+<div class="noresult">조건에 맞는 항목이 없습니다 — 필터·검색을 풀어보세요.</div>
+</div>
+
+<div class="tabpane" id="pane-kr" role="tabpanel" aria-labelledby="tabKr">
+<div class="section">🇰🇷 브랜드 스펙 <span class="secsub">22종 · oh-my-design 레퍼런스 실측값 · <b>참조 전용(선택 대상 아님)</b> · 정본 노트=디자인/레퍼런스/(브랜드스펙-* · brandspec-*)</span></div>
+<p class="presub">⚠️ <b>이 탭은 참조 전용입니다</b> — 카드를 눌러도 선택되지 않고 하단 조합에도 들어가지 않습니다. 값을 참고하거나 <b>📋 AI 지시문 1줄 복사</b>로 가져다 쓰세요.</p>
+<div class="grid kgrid"><div class="card kcard bcard" data-name="토스 toss 파란 단색 + 버튼만 크게 굴린 절제형 — 국내 ui 신뢰감의 기준점 toss product sans fintech 핀테크 금융 한국 브랜드 스펙">
+      <div class="schd"><h3>토스 <span class="en">Toss</span></h3><span class="bcat">fintech</span></div>
+      <div class="sws"><button class="sw" style="background:#3182f6;color:#fff" data-hex="#3182f6" onclick="cp(event,this)"><span class="hx">#3182F6</span><span class=lb>주색</span></button><button class="sw" style="background:#0064ff;color:#fff" data-hex="#0064ff" onclick="cp(event,this)"><span class="hx">#0064FF</span><span class=lb>로고/식별색(UI 주색 아님)</span></button></div>
+      <p class="mood">💡 파란 단색 + 버튼만 크게 굴린 절제형 — 국내 UI 신뢰감의 기준점</p>
+      <p class="role">⚠ 원본 명시 — #0064ff는 로고/브랜드 식별색(catalog identity)이며 UI 주색으로 대체 금지. UI 주색은 tokens.colors.primary #3182f6.</p>
+      <p class="use">🔤 Toss Product Sans · 라운드 4~16px · 여백 4~32px</p>
+      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-11</p>
+      <div class="promptrow"><button class="bcopy" data-txt="토스 스타일로 — UI 주색 #3182f6(원본 tokens.colors.primary), 폰트 Toss Product Sans, 라운드 4~16px, 여백 스케일 4~32px, 그림자 없이 평면. #0064ff는 로고/브랜드 식별색이며 UI 주색으로 쓰지 않는다(원본이 대체 금지 명시). (출처: OmD 레퍼런스 toss · 검증 2026-07-11 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
+      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-토스.md</p>
+    </div><div class="card kcard bcard" data-name="krds정부디자인시스템 krds 공공 표준 블루 + 작은 라운드 + 굵은 포커스링 — 정부 제출물 톤 pretendard gov government 정부 공공 krds 정부디자인 한국 브랜드 스펙">
+      <div class="schd"><h3>KRDS정부디자인시스템 <span class="en">KRDS</span></h3><span class="bcat">government</span></div>
+      <div class="sws"><button class="sw" style="background:#256ef4;color:#fff" data-hex="#256ef4" onclick="cp(event,this)"><span class="hx">#256EF4</span><span class=lb>주색</span></button></div>
+      <p class="mood">💡 공공 표준 블루 + 작은 라운드 + 굵은 포커스링 — 정부 제출물 톤</p>
+      
+      <p class="use">🔤 Pretendard GOV · 라운드 4~8px·완전 알약 · 여백 2~40px</p>
+      <p class="role">그림자 focus: 0 0 0 0.4rem #256ef4; modal: 0 0.2rem 0 0 rgba(0,0,0,0.1), 0 0.4rem 0.8rem 0 rgba(0,0,0,0.1) · 원본 검증 2026-07-11</p>
+      <div class="promptrow"><button class="bcopy" data-txt="KRDS정부디자인시스템 스타일로 — 주색 #256ef4, 폰트 Pretendard GOV, 라운드 4~8px·완전 알약, 여백 스케일 2~40px, 그림자 focus: 0 0 0 0.4rem #256ef4; modal: 0 0.2rem 0 0 rgba(0,0,0,0.1), 0 0.4rem 0.8rem 0 rgba(0,0,0,0.1). (출처: OmD 레퍼런스 krds · 검증 2026-07-11 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
+      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-KRDS정부디자인시스템.md</p>
+    </div><div class="card kcard bcard" data-name="네이버 naver 초록 포인트를 아주 좁게 쓰고 나머지는 무채색 — 정보 읽기 최우선 system consumer-tech 소비자테크 플랫폼 한국 브랜드 스펙">
+      <div class="schd"><h3>네이버 <span class="en">Naver</span></h3><span class="bcat">consumer-tech</span></div>
+      <div class="sws"><button class="sw" style="background:#03c75a;color:#fff" data-hex="#03c75a" onclick="cp(event,this)"><span class="hx">#03C75A</span><span class=lb>주색</span></button></div>
+      <p class="mood">💡 초록 포인트를 아주 좁게 쓰고 나머지는 무채색 — 정보 읽기 최우선</p>
+      
+      <p class="use">🔤 System · 라운드 4~12px·완전 알약 · 여백 4~20px</p>
+      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-11</p>
+      <div class="promptrow"><button class="bcopy" data-txt="네이버 스타일로 — 주색 #03c75a, 폰트 System, 라운드 4~12px·완전 알약, 여백 스케일 4~20px, 그림자 없이 평면. (출처: OmD 레퍼런스 naver · 검증 2026-07-11 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
+      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-네이버.md</p>
+    </div><div class="card kcard bcard" data-name="카카오 kakao 노란 주색 + 큰 라운드 — 친근함을 색과 곡률로만 만든다 kakaobig consumer-tech 소비자테크 플랫폼 한국 브랜드 스펙">
+      <div class="schd"><h3>카카오 <span class="en">Kakao</span></h3><span class="bcat">consumer-tech</span></div>
+      <div class="sws"><button class="sw" style="background:#fee500;color:#1a1a1a" data-hex="#fee500" onclick="cp(event,this)"><span class="hx">#FEE500</span><span class=lb>주색</span></button></div>
+      <p class="mood">💡 노란 주색 + 큰 라운드 — 친근함을 색과 곡률로만 만든다</p>
+      
+      <p class="use">🔤 KakaoBig · 라운드 12~30px·완전 알약 · 여백 4~20px</p>
+      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-11</p>
+      <div class="promptrow"><button class="bcopy" data-txt="카카오 스타일로 — 주색 #fee500, 폰트 KakaoBig, 라운드 12~30px·완전 알약, 여백 스케일 4~20px, 그림자 없이 평면. (출처: OmD 레퍼런스 kakao · 검증 2026-07-11 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
+      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-카카오.md</p>
+    </div><div class="card kcard bcard" data-name="삼성 samsung 검정·직각·무그림자 — 대기업 b2b 신뢰의 최소주의 samsungonekorean consumer-tech 소비자테크 플랫폼 한국 브랜드 스펙">
+      <div class="schd"><h3>삼성 <span class="en">Samsung</span></h3><span class="bcat">consumer-tech</span></div>
+      <div class="sws"><button class="sw" style="background:#000000;color:#fff" data-hex="#000000" onclick="cp(event,this)"><span class="hx">#000000</span><span class=lb>주색</span></button></div>
+      <p class="mood">💡 검정·직각·무그림자 — 대기업 B2B 신뢰의 최소주의</p>
+      
+      <p class="use">🔤 SamsungOneKorean · 라운드 0~40px · 여백 12~32px</p>
+      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-13</p>
+      <div class="promptrow"><button class="bcopy" data-txt="삼성 스타일로 — 주색 #000000, 폰트 SamsungOneKorean, 라운드 0~40px, 여백 스케일 12~32px, 그림자 없이 평면. (출처: OmD 레퍼런스 samsung · 검증 2026-07-13 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
+      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-삼성.md</p>
+    </div><div class="card kcard bcard" data-name="현대자동차 hyundai 딥네이비 + 직각 — 제조업 무게감, 장식 없음 hyundaisansheadkr automotive 자동차 모빌리티 현대차 한국 브랜드 스펙">
+      <div class="schd"><h3>현대자동차 <span class="en">Hyundai</span></h3><span class="bcat">automotive</span></div>
+      <div class="sws"><button class="sw" style="background:#002c5f;color:#fff" data-hex="#002c5f" onclick="cp(event,this)"><span class="hx">#002C5F</span><span class=lb>주색</span></button></div>
+      <p class="mood">💡 딥네이비 + 직각 — 제조업 무게감, 장식 없음</p>
+      
+      <p class="use">🔤 HyundaiSansHeadKR · 라운드 0~6px · 여백 미확인</p>
+      <p class="role">그림자 chatbot: rgba(0,0,0,0.15) 0px 0px 20px 0px · 원본 검증 2026-07-13</p>
+      <div class="promptrow"><button class="bcopy" data-txt="현대자동차 스타일로 — 주색 #002c5f, 폰트 HyundaiSansHeadKR, 라운드 0~6px, 여백 스케일 미확인, 그림자 chatbot: rgba(0,0,0,0.15) 0px 0px 20px 0px. (출처: OmD 레퍼런스 hyundai · 검증 2026-07-13 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
+      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-현대자동차.md</p>
+    </div><div class="card kcard bcard" data-name="현대카드 hyundai card 검정 배경 + 전용 서체 + 3~5px 초저라운드 — 프리미엄 에디토리얼 youandinewkr fintech 핀테크 금융 한국 브랜드 스펙">
+      <div class="schd"><h3>현대카드 <span class="en">Hyundai Card</span></h3><span class="bcat">fintech</span></div>
+      <div class="sws"><button class="sw" style="background:#000000;color:#fff" data-hex="#000000" onclick="cp(event,this)"><span class="hx">#000000</span><span class=lb>주색</span></button></div>
+      <p class="mood">💡 검정 배경 + 전용 서체 + 3~5px 초저라운드 — 프리미엄 에디토리얼</p>
+      
+      <p class="use">🔤 YouandiNewKr · 라운드 3~5px · 여백 20~29px</p>
+      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-13</p>
+      <div class="promptrow"><button class="bcopy" data-txt="현대카드 스타일로 — 주색 #000000, 폰트 YouandiNewKr, 라운드 3~5px, 여백 스케일 20~29px, 그림자 없이 평면. (출처: OmD 레퍼런스 hyundaicard · 검증 2026-07-13 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
+      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-현대카드.md</p>
+    </div><div class="card kcard bcard" data-name="올리브영 olive young 흰 캔버스에 회색 본문, 브랜드 그린은 기업사이트에만 — 매장형 정보밀도 montserrat ecommerce 이커머스 쇼핑 올영 한국 브랜드 스펙">
+      <div class="schd"><h3>올리브영 <span class="en">Olive Young</span></h3><span class="bcat">ecommerce</span></div>
+      <div class="sws"><button class="sw" style="background:#82dc28;color:#1a1a1a" data-hex="#82dc28" onclick="cp(event,this)"><span class="hx">#82DC28</span><span class=lb>주색</span></button></div>
+      <p class="mood">💡 흰 캔버스에 회색 본문, 브랜드 그린은 기업사이트에만 — 매장형 정보밀도</p>
+      
+      <p class="use">🔤 Montserrat · 라운드 4~12px · 여백 10~14px</p>
+      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-13</p>
+      <div class="promptrow"><button class="bcopy" data-txt="올리브영 스타일로 — 주색 #82dc28, 폰트 Montserrat, 라운드 4~12px, 여백 스케일 10~14px, 그림자 없이 평면. (출처: OmD 레퍼런스 oliveyoung · 검증 2026-07-13 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
+      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-올리브영.md</p>
+    </div><div class="card kcard bcard" data-name="마켓컬리 kurly 딥퍼플 단색 + 2~4px 초저라운드 — 프리미엄 식품의 절제 pretendard ecommerce 이커머스 쇼핑 한국 브랜드 스펙">
+      <div class="schd"><h3>마켓컬리 <span class="en">Kurly</span></h3><span class="bcat">ecommerce</span></div>
+      <div class="sws"><button class="sw" style="background:#5f0080;color:#fff" data-hex="#5f0080" onclick="cp(event,this)"><span class="hx">#5F0080</span><span class=lb>주색</span></button></div>
+      <p class="mood">💡 딥퍼플 단색 + 2~4px 초저라운드 — 프리미엄 식품의 절제</p>
+      
+      <p class="use">🔤 Pretendard · 라운드 2~4px · 여백 2~16px</p>
+      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-13</p>
+      <div class="promptrow"><button class="bcopy" data-txt="마켓컬리 스타일로 — 주색 #5f0080, 폰트 Pretendard, 라운드 2~4px, 여백 스케일 2~16px, 그림자 없이 평면. (출처: OmD 레퍼런스 kurly · 검증 2026-07-13 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
+      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-마켓컬리.md</p>
+    </div><div class="card kcard bcard" data-name="쿠팡 coupang 직각 0px·무그림자·고밀도 — 정보량 최대의 커머스 미확인(원본 토큰에 폰트 없음) ecommerce 이커머스 쇼핑 한국 브랜드 스펙">
+      <div class="schd"><h3>쿠팡 <span class="en">Coupang</span></h3><span class="bcat">ecommerce</span></div>
+      <div class="sws"><button class="sw" style="background:#000000;color:#fff" data-hex="#000000" onclick="cp(event,this)"><span class="hx">#000000</span><span class=lb>주색</span></button></div>
+      <p class="mood">💡 직각 0px·무그림자·고밀도 — 정보량 최대의 커머스</p>
+      <p class="role">⚠ 원본 명시 — 폰트 토큰이 없어 대체 폰트를 제안하지 않는다. Pretendard·Inter 등으로 대체해 놓고 &#x27;쿠팡 스타일&#x27;이라 부르지 말 것(폰트 외 항목은 그대로 참조 가능).</p>
+      <p class="use">🔤 미확인(원본 토큰에 폰트 없음) · 라운드 0px · 여백 1~24px</p>
+      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-13</p>
+      <div class="promptrow"><button class="bcopy" data-txt="쿠팡 스타일로 — 주색 #000000, 폰트 지정 없음(원본 토큰에 폰트가 없다. 다른 웹폰트로 대체해 &#x27;쿠팡&#x27;이라 부르지 말 것), 라운드 0px, 여백 스케일 1~24px, 그림자 없이 평면. (출처: OmD 레퍼런스 coupang · 검증 2026-07-13 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
+      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-쿠팡.md</p>
+    </div><div class="card kcard bcard" data-name="11번가 11st 강한 레드 + 가격 타이포 대비 — 오픈마켓 즉시성 noto sans kr ecommerce 이커머스 쇼핑 한국 브랜드 스펙">
+      <div class="schd"><h3>11번가 <span class="en">11st</span></h3><span class="bcat">ecommerce</span></div>
+      <div class="sws"><button class="sw" style="background:#ff0038;color:#fff" data-hex="#ff0038" onclick="cp(event,this)"><span class="hx">#FF0038</span><span class=lb>주색</span></button></div>
+      <p class="mood">💡 강한 레드 + 가격 타이포 대비 — 오픈마켓 즉시성</p>
+      
+      <p class="use">🔤 Noto Sans KR · 라운드 0~50px·완전 알약 · 여백 4~20px</p>
+      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-13</p>
+      <div class="promptrow"><button class="bcopy" data-txt="11번가 스타일로 — 주색 #ff0038, 폰트 Noto Sans KR, 라운드 0~50px·완전 알약, 여백 스케일 4~20px, 그림자 없이 평면. (출처: OmD 레퍼런스 11st · 검증 2026-07-13 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
+      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-11번가.md</p>
+    </div><div class="card kcard bcard" data-name="롯데on 롯데on 흑백 기반 + 직각/알약 2단 라운드 — 대형 유통의 절제된 커머스 pretendard ecommerce 이커머스 쇼핑 한국 브랜드 스펙">
+      <div class="schd"><h3>롯데ON <span class="en">롯데ON</span></h3><span class="bcat">ecommerce</span></div>
+      <div class="sws"><button class="sw" style="background:#000000;color:#fff" data-hex="#000000" onclick="cp(event,this)"><span class="hx">#000000</span><span class=lb>주색</span></button></div>
+      <p class="mood">💡 흑백 기반 + 직각/알약 2단 라운드 — 대형 유통의 절제된 커머스</p>
+      
+      <p class="use">🔤 Pretendard · 라운드 0~23px · 여백 2~16px</p>
+      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-14</p>
+      <div class="promptrow"><button class="bcopy" data-txt="롯데ON 스타일로 — 주색 #000000, 폰트 Pretendard, 라운드 0~23px, 여백 스케일 2~16px, 그림자 없이 평면. (출처: OmD 레퍼런스 lotteon · 검증 2026-07-14 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
+      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-롯데ON.md</p>
+    </div><div class="card kcard bcard" data-name="배달의민족 baemin 민트 주색 + 자체 서체 — 브랜드 개성을 폰트로 만드는 사례 baeminwork consumer-tech 소비자테크 플랫폼 배민 한국 브랜드 스펙">
+      <div class="schd"><h3>배달의민족 <span class="en">Baemin</span></h3><span class="bcat">consumer-tech</span></div>
+      <div class="sws"><button class="sw" style="background:#0cefd3;color:#1a1a1a" data-hex="#0cefd3" onclick="cp(event,this)"><span class="hx">#0CEFD3</span><span class=lb>주색</span></button></div>
+      <p class="mood">💡 민트 주색 + 자체 서체 — 브랜드 개성을 폰트로 만드는 사례</p>
+      
+      <p class="use">🔤 BAEMINWORK · 라운드 8~16px·완전 알약 · 여백 6~32px</p>
+      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-12</p>
+      <div class="promptrow"><button class="bcopy" data-txt="배달의민족 스타일로 — 주색 #0cefd3, 폰트 BAEMINWORK, 라운드 8~16px·완전 알약, 여백 스케일 6~32px, 그림자 없이 평면. (출처: OmD 레퍼런스 baemin · 검증 2026-07-12 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
+      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-배달의민족.md</p>
+    </div><div class="card kcard bcard" data-name="캐치테이블 catchtable 주황 포인트 + 넓은 검색 알약 — 미식 카테고리의 온기 pretendard std variable consumer-tech 소비자테크 플랫폼 한국 브랜드 스펙">
+      <div class="schd"><h3>캐치테이블 <span class="en">CatchTable</span></h3><span class="bcat">consumer-tech</span></div>
+      <div class="sws"><button class="sw" style="background:#ff3d00;color:#fff" data-hex="#ff3d00" onclick="cp(event,this)"><span class="hx">#FF3D00</span><span class=lb>주색</span></button></div>
+      <p class="mood">💡 주황 포인트 + 넓은 검색 알약 — 미식 카테고리의 온기</p>
+      
+      <p class="use">🔤 Pretendard Std Variable · 라운드 0~40px · 여백 4~20px</p>
+      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-13</p>
+      <div class="promptrow"><button class="bcopy" data-txt="캐치테이블 스타일로 — 주색 #ff3d00, 폰트 Pretendard Std Variable, 라운드 0~40px, 여백 스케일 4~20px, 그림자 없이 평면. (출처: OmD 레퍼런스 catchtable · 검증 2026-07-13 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
+      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-캐치테이블.md</p>
+    </div><div class="card kcard bcard" data-name="29cm 29cm 흑백 + 초저라운드 + 에디토리얼 타이포 — &#x27;읽는 커머스&#x27; pretendard variable ecommerce 이커머스 쇼핑 한국 브랜드 스펙">
+      <div class="schd"><h3>29CM <span class="en">29CM</span></h3><span class="bcat">ecommerce</span></div>
+      <div class="sws"><button class="sw" style="background:#000000;color:#fff" data-hex="#000000" onclick="cp(event,this)"><span class="hx">#000000</span><span class=lb>주색</span></button></div>
+      <p class="mood">💡 흑백 + 초저라운드 + 에디토리얼 타이포 — &#x27;읽는 커머스&#x27;</p>
+      
+      <p class="use">🔤 Pretendard Variable · 라운드 2~10px·완전 알약 · 여백 2~28px</p>
+      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-11</p>
+      <div class="promptrow"><button class="bcopy" data-txt="29CM 스타일로 — 주색 #000000, 폰트 Pretendard Variable, 라운드 2~10px·완전 알약, 여백 스케일 2~28px, 그림자 없이 평면. (출처: OmD 레퍼런스 29cm · 검증 2026-07-11 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
+      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-29CM.md</p>
+    </div><div class="card kcard bcard" data-name="무신사 musinsa 색을 거의 안 쓰고 굵기·크기만으로 위계 — 극단 미니멀 pretendard ecommerce 이커머스 쇼핑 한국 브랜드 스펙">
+      <div class="schd"><h3>무신사 <span class="en">Musinsa</span></h3><span class="bcat">ecommerce</span></div>
+      <div class="sws"><button class="sw" style="background:#000000;color:#fff" data-hex="#000000" onclick="cp(event,this)"><span class="hx">#000000</span><span class=lb>주색</span></button></div>
+      <p class="mood">💡 색을 거의 안 쓰고 굵기·크기만으로 위계 — 극단 미니멀</p>
+      
+      <p class="use">🔤 Pretendard · 라운드 0~4px · 여백 4~24px</p>
+      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-13</p>
+      <div class="promptrow"><button class="bcopy" data-txt="무신사 스타일로 — 주색 #000000, 폰트 Pretendard, 라운드 0~4px, 여백 스케일 4~24px, 그림자 없이 평면. (출처: OmD 레퍼런스 musinsa · 검증 2026-07-13 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
+      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-무신사.md</p>
+    </div><div class="card kcard bcard" data-name="뱅크샐러드 banksalad 민트그린 + 24px 카드 — 숫자·차트를 부드럽게 보여주는 데이터 ui pretendard fintech 핀테크 금융 한국 브랜드 스펙">
+      <div class="schd"><h3>뱅크샐러드 <span class="en">Banksalad</span></h3><span class="bcat">fintech</span></div>
+      <div class="sws"><button class="sw" style="background:#13bd7e;color:#fff" data-hex="#13bd7e" onclick="cp(event,this)"><span class="hx">#13BD7E</span><span class=lb>주색</span></button></div>
+      <p class="mood">💡 민트그린 + 24px 카드 — 숫자·차트를 부드럽게 보여주는 데이터 UI</p>
+      
+      <p class="use">🔤 Pretendard · 라운드 6~24px·완전 알약 · 여백 8~24px</p>
+      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-12</p>
+      <div class="promptrow"><button class="bcopy" data-txt="뱅크샐러드 스타일로 — 주색 #13bd7e, 폰트 Pretendard, 라운드 6~24px·완전 알약, 여백 스케일 8~24px, 그림자 없이 평면. (출처: OmD 레퍼런스 banksalad · 검증 2026-07-12 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
+      <p class="refsite">📄 디자인/레퍼런스/brandspec-banksalad.md</p>
+    </div><div class="card kcard bcard" data-name="신한은행 shinhan bank 선명한 블루 + 큰 알약 버튼 — 금융권 신뢰 톤 spoqa fintech 핀테크 금융 한국 브랜드 스펙">
+      <div class="schd"><h3>신한은행 <span class="en">Shinhan Bank</span></h3><span class="bcat">fintech</span></div>
+      <div class="sws"><button class="sw" style="background:#0046ff;color:#fff" data-hex="#0046ff" onclick="cp(event,this)"><span class="hx">#0046FF</span><span class=lb>주색</span></button></div>
+      <p class="mood">💡 선명한 블루 + 큰 알약 버튼 — 금융권 신뢰 톤</p>
+      
+      <p class="use">🔤 Spoqa · 라운드 24~30px · 여백 20~56px</p>
+      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-13</p>
+      <div class="promptrow"><button class="bcopy" data-txt="신한은행 스타일로 — 주색 #0046ff, 폰트 Spoqa, 라운드 24~30px, 여백 스케일 20~56px, 그림자 없이 평면. (출처: OmD 레퍼런스 shinhanbank · 검증 2026-07-13 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
+      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-신한은행.md</p>
+    </div><div class="card kcard bcard" data-name="채널톡 channel talk 거의 검정 주색 + 35px 대형 카드 — b2b saas 랜딩 표준 pretendard saas 업무툴 협업 한국 브랜드 스펙">
+      <div class="schd"><h3>채널톡 <span class="en">Channel Talk</span></h3><span class="bcat">saas</span></div>
+      <div class="sws"><button class="sw" style="background:#242428;color:#fff" data-hex="#242428" onclick="cp(event,this)"><span class="hx">#242428</span><span class=lb>주색</span></button></div>
+      <p class="mood">💡 거의 검정 주색 + 35px 대형 카드 — B2B SaaS 랜딩 표준</p>
+      
+      <p class="use">🔤 Pretendard · 라운드 6~35px·완전 알약 · 여백 4~30px</p>
+      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-12</p>
+      <div class="promptrow"><button class="bcopy" data-txt="채널톡 스타일로 — 주색 #242428, 폰트 Pretendard, 라운드 6~35px·완전 알약, 여백 스케일 4~30px, 그림자 없이 평면. (출처: OmD 레퍼런스 channeltalk · 검증 2026-07-12 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
+      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-채널톡.md</p>
+    </div><div class="card kcard bcard" data-name="플렉스 flex 흑백 + 대형 디스플레이 타이포 + 24px cta — 임팩트형 기업 소개 pretendard variable saas 업무툴 협업 한국 브랜드 스펙">
+      <div class="schd"><h3>플렉스 <span class="en">flex</span></h3><span class="bcat">saas</span></div>
+      <div class="sws"><button class="sw" style="background:#111111;color:#fff" data-hex="#111111" onclick="cp(event,this)"><span class="hx">#111111</span><span class=lb>주색</span></button><button class="sw" style="background:#000000;color:#fff" data-hex="#000000" onclick="cp(event,this)"><span class="hx">#000000</span><span class=lb>로고/식별색(UI 주색 아님)</span></button></div>
+      <p class="mood">💡 흑백 + 대형 디스플레이 타이포 + 24px CTA — 임팩트형 기업 소개</p>
+      <p class="role">⚠ #000000은 카탈로그 식별색(공개면 검정 필드)이며 tokens.colors에 없다. 실토큰 검정은 ink #111111.</p>
+      <p class="use">🔤 Pretendard Variable · 라운드 8~24px · 여백 8~44px</p>
+      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-13</p>
+      <div class="promptrow"><button class="bcopy" data-txt="플렉스 스타일로 — 주색 #111111(원본 tokens.colors.ink), 폰트 Pretendard Variable, 라운드 8~24px, 여백 스케일 8~44px, 그림자 없이 평면. #000000은 카탈로그 식별색이며 현재 토큰이 아니다. (출처: OmD 레퍼런스 flex · 검증 2026-07-13 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
+      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-플렉스.md</p>
+    </div><div class="card kcard bcard" data-name="원티드 wanted 파랑 + 카드/메뉴에만 얕은 그림자 — 실측 그림자 토큰이 남은 사례 pretendard variable productivity 생산성 업무 한국 브랜드 스펙">
+      <div class="schd"><h3>원티드 <span class="en">Wanted</span></h3><span class="bcat">productivity</span></div>
+      <div class="sws"><button class="sw" style="background:#0066ff;color:#fff" data-hex="#0066ff" onclick="cp(event,this)"><span class="hx">#0066FF</span><span class=lb>주색</span></button></div>
+      <p class="mood">💡 파랑 + 카드/메뉴에만 얕은 그림자 — 실측 그림자 토큰이 남은 사례</p>
+      
+      <p class="use">🔤 Pretendard Variable · 라운드 8~16px·완전 알약 · 여백 4~40px</p>
+      <p class="role">그림자 menu: 0 2px 4px -2px rgba(23,23,23,0.06), 0 4px 6px -1px rgba(23,23,23,0.06) · 원본 검증 2026-07-12</p>
+      <div class="promptrow"><button class="bcopy" data-txt="원티드 스타일로 — 주색 #0066ff, 폰트 Pretendard Variable, 라운드 8~16px·완전 알약, 여백 스케일 4~40px, 그림자 menu: 0 2px 4px -2px rgba(23,23,23,0.06), 0 4px 6px -1px rgba(23,23,23,0.06). (출처: OmD 레퍼런스 wanted · 검증 2026-07-12 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
+      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-원티드.md</p>
+    </div><div class="card kcard bcard" data-name="강남언니 강남언니 무채색 ui + 20px 카드 — 메디컬·뷰티의 담백한 신뢰(오렌지는 식별색일 뿐 현재 ui 토큰 아님) pretendardvariable consumer-tech 소비자테크 플랫폼 한국 브랜드 스펙">
+      <div class="schd"><h3>강남언니 <span class="en">강남언니</span></h3><span class="bcat">consumer-tech</span></div>
+      <div class="sws"><button class="sw" style="background:#d54300;color:#fff" data-hex="#d54300" onclick="cp(event,this)"><span class="hx">#D54300</span><span class=lb>카탈로그 식별색 — 현재 토큰 아님</span></button></div>
+      <p class="mood">💡 무채색 UI + 20px 카드 — 메디컬·뷰티의 담백한 신뢰(오렌지는 식별색일 뿐 현재 UI 토큰 아님)</p>
+      <p class="role">⚠ 원본 명시 — frontmatter primary_color는 카탈로그 식별용 메타데이터이지 현재 토큰이 아니다. 현재 컴포넌트 관찰치에 오렌지가 없어 UI 주색으로 승격 금지. 현재 토큰은 무채색(전경 #131517 · 표면 #eff2f5 · 보조 #697683).</p>
+      <p class="use">🔤 PretendardVariable · 라운드 6~20px·완전 알약 · 여백 8~12px</p>
+      <p class="role">그림자 없이 평면 · 원본 검증 2026-07-13</p>
+      <div class="promptrow"><button class="bcopy" data-txt="강남언니 스타일로 — 주색 지시 없음(원본에 현재 UI 주색 토큰 없음. 오렌지 #d54300은 카탈로그 식별색이며 현재 토큰이 아니라 UI 주색으로 승격 금지), 무채색 기반 전경 #131517·표면 #eff2f5, 폰트 PretendardVariable, 라운드 6~20px·완전 알약, 여백 스케일 8~12px, 그림자 없이 평면. (출처: OmD 레퍼런스 gangnamunni · 검증 2026-07-13 · 우리 브랜드 색이 걸린 산출물이면 주색만 우리 정본으로 교체)" onclick="cpb(event,this)">📋 AI 지시문 1줄 복사</button><span class="psrc">OmD 실측</span></div>
+      <p class="refsite">📄 디자인/레퍼런스/브랜드스펙-강남언니.md</p>
+    </div></div>
+<div class="noresult">조건에 맞는 항목이 없습니다 — 필터·검색을 풀어보세요.</div>
 </div>
 
 <div class="tabpane" id="pane-skill" role="tabpanel" aria-labelledby="tabSkill">
@@ -3095,7 +3109,7 @@ document.querySelectorAll(&#x27;.reveal&#x27;).forEach((el,i)=&gt;{el.style.tran
   <button class="clr" onclick="clearSel()">초기화</button>
   <button class="cbtn off" id="copyCombo" onclick="copyCombo()" aria-label="조합 복사 — 먼저 카드를 선택하세요">조합 복사</button>
 </div>
-<div id="toast" aria-live="polite"></div><script>var PRESETS_JS=[{"pal": "VCBio 딥그린(검증됨)", "sty": null, "skills": ["ingredient-proposal-deck", "dataviz", "humanize-korean", "vcbio-shelf"], "decks": [], "home": {}, "name": "원료 제안덱"}, {"pal": "VCBio 딥그린(검증됨)", "sty": "미니멀·스위스 스타일", "skills": ["swiss-design", "ui-typography", "dataviz", "humanize-korean", "vcbio-shelf"], "decks": ["ECharts"], "home": {}, "name": "정부지원 발표덱·사업계획서"}, {"pal": "에스엠바이오 그린(검증됨)", "sty": "플랫 디자인", "skills": ["frontend-design", "ui-typography", "humanize-korean", "vcbio-shelf"], "decks": [], "home": {}, "name": "에스엠바이오 영업 인쇄물"}, {"pal": null, "sty": null, "skills": ["design-taste-frontend", "animate", "ui-typography", "vcbio-shelf"], "decks": [], "home": {"brand": "에스엠바이오", "hero": "보수 B2B", "base": "shadcn 계열", "motion": "절제", "layout": "기업 소개형", "tone": "ag1"}, "name": "에스엠바이오 홈페이지"}, {"pal": null, "sty": null, "skills": ["design-taste-frontend", "ui-typography", "humanize-korean", "vcbio-shelf"], "decks": [], "home": {"brand": "에스엠바이오", "hero": "스플릿(카피+제품컷)", "base": "정적 HTML(CSS-only)", "motion": "절제", "layout": "원페이지 영업형", "tone": "ag1"}, "name": "에스엠바이오 랜딩페이지(웹+A4)"}, {"pal": "시네마틱 스크롤스토퍼", "sty": "리퀴드 글래스", "skills": ["high-end-visual-design", "animate", "humanize-korean"], "decks": ["impress.js"], "home": {}, "name": "임팩트 발표덱"}, {"pal": "생동감 그린", "sty": "플랫 디자인", "skills": ["frontend-design", "ui-typography", "humanize-korean"], "decks": [], "home": {}, "name": "SNS 카드뉴스"}, {"pal": null, "sty": null, "skills": ["vcbio-motion-clip", "vcbio-shelf"], "decks": [], "home": {}, "name": "브랜드 화보(영상)"}];var STACKS_JS=[{"name": "① 원료 제안덱", "skills": ["ingredient-proposal-deck", "dataviz", "humanize-korean", "vcbio-shelf"], "decks": []}, {"name": "② 회사 소개서·IR 덱", "skills": ["swiss-design", "ui-typography", "dataviz", "humanize-korean", "vcbio-shelf"], "decks": ["ECharts"]}, {"name": "③ 홈페이지·랜딩", "skills": ["design-taste-frontend", "animate", "ui-typography", "emil-design-eng", "vcbio-shelf"], "decks": []}, {"name": "④ 프리미엄 홈페이지·브로셔", "skills": ["high-end-visual-design", "animate", "ui-typography", "emil-design-eng", "vcbio-shelf"], "decks": []}, {"name": "⑤ 임팩트 발표덱", "skills": ["high-end-visual-design", "animate", "humanize-korean"], "decks": ["impress.js"]}, {"name": "⑥ 데이터 대시보드·제품 상세", "skills": ["baseline-ui", "dataviz", "color-expert", "ui-typography", "emil-design-eng"], "decks": []}, {"name": "⑦ SNS 카드뉴스", "skills": ["frontend-design", "color-expert", "ui-typography", "humanize-korean"], "decks": []}, {"name": "⑧ 브랜드 화보(영상)", "skills": ["vcbio-motion-clip", "color-expert", "vcbio-shelf"], "decks": []}];
+<div id="toast" aria-live="polite"></div><script>var PRESETS_JS=[{"pal": "VCBio 딥그린(검증됨)", "sty": null, "skills": ["ingredient-proposal-deck", "dataviz", "humanize-korean", "vcbio-shelf"], "decks": [], "home": {}, "name": "원료 제안덱"}, {"pal": "VCBio 딥그린(검증됨)", "sty": "미니멀·스위스 스타일", "skills": ["swiss-design", "ui-typography", "dataviz", "humanize-korean", "vcbio-shelf"], "decks": ["ECharts"], "home": {}, "name": "정부지원 발표덱·사업계획서"}, {"pal": null, "sty": "플랫 디자인", "skills": ["frontend-design", "ui-typography", "humanize-korean", "vcbio-shelf"], "decks": [], "home": {}, "name": "에스엠바이오 영업 인쇄물"}, {"pal": null, "sty": null, "skills": ["design-taste-frontend", "animate", "ui-typography", "vcbio-shelf"], "decks": [], "home": {"brand": "에스엠바이오", "hero": "보수 B2B", "base": "shadcn 계열", "motion": "절제", "layout": "기업 소개형", "tone": "ag1"}, "name": "에스엠바이오 홈페이지"}, {"pal": null, "sty": null, "skills": ["design-taste-frontend", "ui-typography", "humanize-korean", "vcbio-shelf"], "decks": [], "home": {"brand": "에스엠바이오", "hero": "스플릿(카피+제품컷)", "base": "정적 HTML(CSS-only)", "motion": "절제", "layout": "원페이지 영업형", "tone": "ag1"}, "name": "에스엠바이오 랜딩페이지(웹+A4)"}, {"pal": "시네마틱 스크롤스토퍼", "sty": "리퀴드 글래스", "skills": ["high-end-visual-design", "animate", "humanize-korean"], "decks": ["impress.js"], "home": {}, "name": "임팩트 발표덱"}, {"pal": "생동감 그린", "sty": "플랫 디자인", "skills": ["frontend-design", "ui-typography", "humanize-korean"], "decks": [], "home": {}, "name": "SNS 카드뉴스"}, {"pal": null, "sty": null, "skills": ["vcbio-motion-clip", "vcbio-shelf"], "decks": [], "home": {}, "name": "브랜드 화보(영상)"}];var STACKS_JS=[{"name": "① 원료 제안덱", "skills": ["ingredient-proposal-deck", "dataviz", "humanize-korean", "vcbio-shelf"], "decks": []}, {"name": "② 회사 소개서·IR 덱", "skills": ["swiss-design", "ui-typography", "dataviz", "humanize-korean", "vcbio-shelf"], "decks": ["ECharts"]}, {"name": "③ 홈페이지·랜딩", "skills": ["design-taste-frontend", "animate", "ui-typography", "emil-design-eng", "vcbio-shelf"], "decks": []}, {"name": "④ 프리미엄 홈페이지·브로셔", "skills": ["high-end-visual-design", "animate", "ui-typography", "emil-design-eng", "vcbio-shelf"], "decks": []}, {"name": "⑤ 임팩트 발표덱", "skills": ["high-end-visual-design", "animate", "humanize-korean"], "decks": ["impress.js"]}, {"name": "⑥ 데이터 대시보드·제품 상세", "skills": ["baseline-ui", "dataviz", "color-expert", "ui-typography", "emil-design-eng"], "decks": []}, {"name": "⑦ SNS 카드뉴스", "skills": ["frontend-design", "color-expert", "ui-typography", "humanize-korean"], "decks": []}, {"name": "⑧ 브랜드 화보(영상)", "skills": ["vcbio-motion-clip", "color-expert", "vcbio-shelf"], "decks": []}];
 var SEL={palEl:null,palTxt:null,styEl:null,styTxt:null,btnEl:null,btnTxt:null};
 window._lastY=0;window._tick=false;
 function unslim(){var tb=document.querySelector('.toolbar');if(tb)tb.classList.remove('slim');window._lastY=window.scrollY;}  /* R8-6 */
@@ -3165,12 +3179,12 @@ function eagerThumbs(k){  /* R4-9: 활성 페인 첫 6장 eager 로드 */
 }
 function showTab(k){
   document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('act');t.setAttribute('aria-selected','false');t.setAttribute('tabindex','-1');});
-  var ids={pre:'tabPre',pal:'tabPal',sty:'tabSty',skill:'tabSkill',home:'tabHome'};  /* R14 */
+  var ids={pre:'tabPre',pal:'tabPal',sty:'tabSty',skill:'tabSkill',home:'tabHome',deck:'tabDeck',kr:'tabKr'};  /* R14·R16-2 */
   var tb=document.getElementById(ids[k]); tb.classList.add('act'); tb.setAttribute('aria-selected','true'); tb.setAttribute('tabindex','0');  /* R3-4·R4-2 roving */
   document.querySelectorAll('.tabpane').forEach(function(p){p.classList.remove('act');});
   document.getElementById('pane-'+k).classList.add('act');
   document.body.setAttribute('data-tab',k);
-  var ph={pre:'검색: 완성품 이름',pal:'검색: 이름·무드·용도 (예: 신뢰, 웰니스, 그라데이션)',sty:'검색: 이름·무드·용도 (예: 대시보드, 뉴모피즘, 트렌드)',skill:'검색: 이름·용도 (예: 모션, 타이포)',home:'검색: 이름·용도 (예: 히어로, shadcn)'};  /* R14: pre는 검색줄 자체 숨김(placeholder는 방어값) */
+  var ph={pre:'검색: 완성품 이름',pal:'검색: 이름·무드·용도 (예: 신뢰, 웰니스, 그라데이션)',sty:'검색: 이름·무드·용도 (예: 대시보드, 뉴모피즘, 트렌드)',skill:'검색: 이름·용도 (예: 모션, 타이포)',home:'검색: 이름·용도 (예: 히어로, shadcn)',deck:'검색: 이름·용도 (예: 차트, reveal)',kr:'검색: 브랜드·업종·폰트 (예: 토스, 배민, 핀테크)'};  /* R16-2 */  /* R14: pre는 검색줄 자체 숨김(placeholder는 방어값) */
   document.getElementById('q').placeholder=ph[k];  /* R6-7 */
   eagerThumbs(k);  /* R4-9 */
   var pane=document.getElementById('pane-'+k), pr=pane.getBoundingClientRect();  /* R5-7: 깊은 스크롤에서 전환 시 페인 상단으로 */
@@ -3206,7 +3220,7 @@ function tabLbl(full,short,badge){
   return '<span class="tlf" aria-hidden="'+(m?'true':'false')+'">'+full+'</span><span class="tls" aria-hidden="'+(m?'false':'true')+'">'+short+'</span>'+(badge||'');
 }
 function tabMatchCounts(){  /* R9-2: 페인별 현재 표시(검색·필터 반영) 카드 수 */
-  var map={pal:'pane-pal',sty:'pane-sty',skill:'pane-skill',home:'pane-home'}, r={};
+  var map={pal:'pane-pal',sty:'pane-sty',skill:'pane-skill',home:'pane-home',deck:'pane-deck',kr:'pane-kr'}, r={};  /* R16-2 */
   for(var kk in map){
     var pane=document.getElementById(map[kk]);
     r[kk]=[].slice.call(pane.querySelectorAll('.card')).filter(function(c){return c.style.display!=='none';}).length;
@@ -3214,7 +3228,7 @@ function tabMatchCounts(){  /* R9-2: 페인별 현재 표시(검색·필터 반�
   return r;
 }
 function updateTabs(){
-  var p=document.getElementById('tabPal'), s=document.getElementById('tabSty'), k=document.getElementById('tabSkill'), h=document.getElementById('tabHome');
+  var p=document.getElementById('tabPal'), s=document.getElementById('tabSty'), k=document.getElementById('tabSkill'), h=document.getElementById('tabHome'), d=document.getElementById('tabDeck'), b=document.getElementById('tabKr');  /* R16-2 */
   var q=(document.getElementById('q').value||'').trim();  /* R9-2: 검색 중엔 탭별 매치 수 배지, 비면 선택 배지 복귀 */
   if(q){
     var mc=tabMatchCounts();
@@ -3223,6 +3237,8 @@ function updateTabs(){
     s.innerHTML=tabLbl('✨ 스타일','✨ 스타일',badge(mc.sty));
     k.innerHTML=tabLbl('🧰 디자인 스킬','🧰 스킬',badge(mc.skill));
     h.innerHTML=tabLbl('🌐 홈페이지','🌐 홈',badge(mc.home));
+    d.innerHTML=tabLbl('🎬 덱 연출','🎬 연출',badge(mc.deck));
+    b.innerHTML=tabLbl('🇰🇷 브랜드 스펙','🇰🇷 브랜드',badge(mc.kr));
     return;
   }
   var cut=function(t){t=t.trim();return t.length>4?t.slice(0,4)+'…':t;};  /* R3-6a·R7-4: 4자 컷 */
@@ -3230,6 +3246,8 @@ function updateTabs(){
   s.innerHTML=tabLbl('✨ 스타일','✨ 스타일',SEL.styTxt?' <i class="tk">✓'+cut(SEL.styTxt.split('(')[0])+'</i>':'');
   k.innerHTML=tabLbl('🧰 디자인 스킬','🧰 스킬',SKSEL.length?' <i class="tk">✓'+SKSEL.length+'</i>':'');
   h.innerHTML=tabLbl('🌐 홈페이지','🌐 홈',hCount()?' <i class="tk">✓'+hCount()+'</i>':'');
+  d.innerHTML=tabLbl('🎬 덱 연출','🎬 연출',DSEL.length?' <i class="tk">✓'+DSEL.length+'</i>':'');
+  b.innerHTML=tabLbl('🇰🇷 브랜드 스펙','🇰🇷 브랜드','');  /* 참조 전용 — 선택 배지 없음 */
 }
 function syncPad(){  /* 결함2: body 하단 여백을 combobar 실제 높이에 연동 */
   var cb=document.querySelector('.combobar');
@@ -3296,7 +3314,7 @@ function applyPreset(i){  /* R14·R15: 프리셋 원클릭 담기 — 기존 선
   var miss=[];
   if(p.pal&&!clickCard('#pane-pal .card[data-combo="'+p.pal+'"]'))miss.push(p.pal);
   if(p.sty&&!clickCard('#pane-sty .card[data-combo="'+p.sty+'"]'))miss.push(p.sty);
-  (p.decks||[]).forEach(function(d){if(!clickCard('#pane-sty .dcard[data-combo="'+d+'"]'))miss.push(d);});
+  (p.decks||[]).forEach(function(d){if(!clickCard('#pane-deck .dcard[data-combo="'+d+'"]'))miss.push(d);});  /* R16-2: 덱 탭 분리 */
   (p.skills||[]).forEach(function(s){if(!clickCard('#pane-skill .card[data-combo="'+s+'"]'))miss.push(s);});
   for(var ax in (p.home||{})){if(!clickCard('#pane-home .hcard[data-axis="'+ax+'"][data-combo="'+p.home[ax]+'"]'))miss.push(p.home[ax]);}
   if(miss.length){toast("일부 항목을 찾지 못했습니다: "+miss.join('·'));return;}
@@ -3311,7 +3329,7 @@ function applyStack(i){  /* R15: 스킬 스택 담기 — 스킬·덱 선택만 
   updateBar();
   var miss=[];
   s.skills.forEach(function(c){if(!clickCard('#pane-skill .card[data-combo="'+c+'"]'))miss.push(c);});
-  (s.decks||[]).forEach(function(d){if(!clickCard('#pane-sty .dcard[data-combo="'+d+'"]'))miss.push(d);});
+  (s.decks||[]).forEach(function(d){if(!clickCard('#pane-deck .dcard[data-combo="'+d+'"]'))miss.push(d);});  /* R16-2 */
   if(miss.length){toast("일부 항목을 찾지 못했습니다: "+miss.join('·'));return;}
   toast("'"+s.name+"' 스킬 스택 담김 ✓ — 🧰 스킬 탭에서 확인 후 하단 [조합 복사]");
 }
@@ -3332,10 +3350,10 @@ function apply(){
   var q=(document.getElementById('q').value||'').toLowerCase().trim();
   document.querySelector('.qwrap').classList.toggle('has',!!q);  /* R7-3 */
   document.querySelectorAll('.card').forEach(function(c){
-    var isKcard=c.classList.contains('kcard'), isDcard=c.classList.contains('dcard');
+    var isKcard=c.classList.contains('kcard');
     var tagOk=isKcard||CURF==='all'||(' '+c.dataset.tags+' ').indexOf(' '+CURF+' ')>-1;  /* 업종 칩: 부가태그·스킬·홈 면제 유지 */
     var qOk=!q||(c.dataset.name||'').toLowerCase().indexOf(q)>-1;
-    var recOk=(isKcard&&!isDcard)||!REC_ONLY||c.dataset.rec==='1';  /* R6-3: 덱 카드는 추천 필터 대상 */
+    var recOk=isKcard||!REC_ONLY||c.dataset.rec==='1';  /* R16-4: 덱 카드도 면제. 덱은 전용 탭이라 토글이 안 보여 대표가 끌 수단이 없다(R6-3 철회) */
     c.style.display=(tagOk&&qOk&&recOk)?'':'none';
   });
   document.querySelectorAll('.grid').forEach(function(gr){
@@ -3349,7 +3367,7 @@ function apply(){
     sec.style.display=vis?'':'none';
   });
   /* 결함3b: 탭(페인)별 빈 결과 안내 — R10-3: 타 탭 매치 안내 병기 */
-  var mc=tabMatchCounts(), TABKO={pal:'색감',sty:'스타일',skill:'스킬',home:'홈페이지'};
+  var mc=tabMatchCounts(), TABKO={pal:'색감',sty:'스타일',skill:'스킬',home:'홈페이지',deck:'덱 연출',kr:'브랜드 스펙'};  /* R16-2 */
   document.querySelectorAll('.tabpane').forEach(function(pane){
     var nr=pane.querySelector('.noresult');
     if(!nr)return;
@@ -3360,11 +3378,7 @@ function apply(){
     nr.textContent=q?("'"+q+"' 이 탭엔 결과 없음"+(others.length?' — '+others.join(' · ')+' (상단 탭 배지 참고)':' — 필터·검색을 풀어보세요.')):'조건에 맞는 항목이 없습니다 — 필터·검색을 풀어보세요.';  /* R7-3·R10-3 */
     nr.style.display=any?'none':'block';
   });
-  var dd=document.getElementById('deckDim');  /* R8-8·R10-4: 검색어로 숨은 경우엔 표시 안 함(REC_ONLY 단독 원인일 때만) */
-  if(dd){
-    var deckVisible=[].slice.call(document.querySelectorAll('#pane-sty .dcard')).some(function(c){return c.style.display!=='none';});
-    dd.style.display=(REC_ONLY&&!q&&!deckVisible)?'block':'none';
-  }
+  /* R16-4: #deckDim 안내문 제거 — 덱 카드가 추천 필터에서 면제되어 더는 숨지 않는다(R8-8·R10-4 소멸) */
   document.querySelectorAll('.jumprow .jchip').forEach(function(ch){  /* R4-13·R6-4: 숨은 그룹 점프칩 dim */
     var jid=ch.closest('.jumprow').id, pane=document.getElementById({'jump-pal':'pane-pal','jump-sty':'pane-sty','jump-home':'pane-home'}[jid]);
     var g=ch.dataset.g, on=false;
@@ -3395,7 +3409,7 @@ document.addEventListener('DOMContentLoaded',function(){
   var cb=document.getElementById('canonBox');
   if(cb&&window.innerWidth>440)cb.open=true;  /* 결함1b: 정본 고지 — 데스크톱 펼침·모바일 접힘 */
   document.getElementById('hpSlot').addEventListener('click',function(){jumpTo('home','축 1');});  /* R3-7 */
-  document.getElementById('dxSlot').addEventListener('click',function(){jumpTo('sty','덱 연출');});
+  document.getElementById('dxSlot').addEventListener('click',function(){jumpTo('deck','덱 연출');});  /* R16-2 */
   document.getElementById('btnSlot').addEventListener('click',function(){jumpTo('sty','버튼 3형');});
   document.addEventListener('click',function(e){  /* R6-1: 카드 전체 클릭=선택 (버튼·스와치·헤더 자체 제외) */
     if(e.target.closest('button,a,summary,.sw,.recbadge,.rectip'))return;  /* R7-2 */
@@ -3410,7 +3424,7 @@ document.addEventListener('DOMContentLoaded',function(){
   });
   document.querySelector('.tabbar').addEventListener('keydown',function(e){  /* R4-2: 좌우 화살표 roving */
     if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;
-    var order=['pre','pal','sty','skill','home'];  /* R14 */
+    var order=['pre','pal','sty','skill','home','deck','kr'];  /* R14·R16-2 */
     var cur=document.body.getAttribute('data-tab');
     var i=order.indexOf(cur);
     var n=order[(i+(e.key==='ArrowRight'?1:order.length-1))%order.length];
