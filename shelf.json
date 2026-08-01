@@ -185,11 +185,6 @@
   "date": "2026-07-27"
  },
  {
-  "slug": "colorboard",
-  "title": "디자인 선택보드 v3 (2026-07-27 갱신)",
-  "date": "2026-07-27"
- },
- {
   "slug": "semicolony-ot-prompt",
   "title": "세미콜로니 0회차 — 안내문 채워넣기",
   "date": "2026-07-29"
@@ -203,5 +198,10 @@
   "slug": "semicolony-ot-deck",
   "title": "세미콜로니 AI 입문 0회차 — 덱 20장",
   "date": "2026-07-31"
+ },
+ {
+  "slug": "colorboard",
+  "title": "VCBio 디자인 선택 보드 v3",
+  "date": "2026-08-01"
  }
 ]
