@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>에스엠바이오 영업대행 수수료 2026 (1~7월)</title>
+<style>
+  :root {
+    --bg: #111214;
+    --surface: #1a1b1e;
+    --surface-2: #212226;
+    --border: #2e3034;
+    --text: #ececee;
+    --text-dim: #9a9ca1;
+    --text-faint: #6d6f74;
+    --accent: #e8e9eb;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 20px 16px 60px;
+  }
+  header {
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 4px;
+    letter-spacing: -0.01em;
+  }
+  .subline {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin: 0;
+  }
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin: 16px 0 20px;
+  }
+  .stat-tile {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+  .stat-value {
+    font-size: 18px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+  .vat-note {
+    font-size: 12px;
+    color: var(--text-faint);
+    margin: 8px 0 0;
+  }
+  section {
+    margin-bottom: 28px;
+  }
+  h2 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 0 0 10px;
+  }
+  details.company {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+  details.company summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 12px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+  }
+  details.company summary::-webkit-details-marker { display: none; }
+  details.company summary::after {
+    content: "+";
+    color: var(--text-dim);
+    font-size: 16px;
+    margin-left: 6px;
+  }
+  details.company[open] summary::after { content: "−"; }
+  .co-name {
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .co-stats {
+    font-size: 12px;
+    color: var(--text-dim);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .table-wrap {
+    overflow-x: auto;
+    border-top: 1px solid var(--border);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+  }
+  thead th {
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-dim);
+    font-size: 11px;
+    padding: 8px 10px;
+    background: var(--surface-2);
+    white-space: nowrap;
+  }
+  tbody td {
+    padding: 7px 10px;
+    border-top: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .col-num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .col-month { color: var(--text-dim); width: 34px; }
+  .col-product { white-space: normal; min-width: 140px; }
+  .muted { color: var(--text-dim); }
+  .note {
+    color: var(--text-faint);
+    font-size: 11px;
+    margin-left: 2px;
+  }
+  .footnote {
+    font-size: 11px;
+    color: var(--text-faint);
+    margin-top: 6px;
+  }
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .summary-table th {
+    text-align: left;
+    font-size: 11px;
+    color: var(--text-dim);
+    font-weight: 600;
+    padding: 8px 12px;
+    background: var(--surface-2);
+  }
+  .summary-table td {
+    padding: 8px 12px;
+    border-top: 1px solid var(--border);
+    font-variant-numeric: tabular-nums;
+  }
+  .summary-table th:not(:first-child),
+  .summary-table td:not(:first-child) {
+    text-align: right;
+  }
+  ul.highlights {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  ul.highlights li { margin-bottom: 2px; }
+  ul.highlights .hl-num {
+    font-variant-numeric: tabular-nums;
+    color: var(--text-dim);
+  }
+  footer {
+    margin-top: 32px;
+    font-size: 11px;
+    color: var(--text-faint);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>에스엠바이오 영업대행 수수료 2026 (1~7월)</h1>
+  <p class="subline">기준일 2026-08-06 · 부가세별도</p>
+</header>
+
+<div class="stat-grid">
+  <div class="stat-tile">
+    <div class="stat-label">총 수수료</div>
+    <div class="stat-value">10,016,000원</div>
+  </div>
+  <div class="stat-tile">
+    <div class="stat-label">총 건수</div>
+    <div class="stat-value">49건</div>
+  </div>
+  <div class="stat-tile">
+    <div class="stat-label">총 세트</div>
+    <div class="stat-value">104,300세트</div>
+  </div>
+  <div class="stat-tile">
+    <div class="stat-label">평균 원/세트</div>
+    <div class="stat-value">96.0원</div>
+  </div>
+</div>
+
+<section>
+  <h2>업체별</h2>
+  <details class="company" open>
+<summary>
+<span class="co-name">이롭코퍼레이션</span>
+<span class="co-stats">17건 · 3,745,000원 · 48,000세트</span>
+</summary>
+<div class="table-wrap">
+<table>
+<thead><tr><th class="col-month">월</th><th class="col-product">제품</th><th class="col-num">세트</th><th class="col-num">수수료(원)</th><th class="col-num">원/세트</th></tr></thead>
+<tbody>
+<tr>
+<td class="col-month">1월</td>
+<td class="col-product">이롭핏 무궁정</td>
+<td class="col-num">4,000</td>
+<td class="col-num">300,000</td>
+<td class="col-num muted">75.0</td>
+</tr><tr>
+<td class="col-month">1월</td>
+<td class="col-product">이롭핏 무궁정<span class="note">※</span></td>
+<td class="col-num">4,000</td>
+<td class="col-num">300,000</td>
+<td class="col-num muted">75.0</td>
+</tr><tr>
+<td class="col-month">1월</td>
+<td class="col-product">이롭핏 베르베린X알파CD</td>
+<td class="col-num">2,000</td>
+<td class="col-num">200,000</td>
+<td class="col-num muted">100.0</td>
+</tr><tr>
+<td class="col-month">1월</td>
+<td class="col-product">닥터프로그램알부민</td>
+<td class="col-num">2,000</td>
+<td class="col-num">200,000</td>
+<td class="col-num muted">100.0</td>
+</tr><tr>
+<td class="col-month">1월</td>
+<td class="col-product">프리미엄 파인 솔잎정</td>
+<td class="col-num">2,000</td>
+<td class="col-num">150,000</td>
+<td class="col-num muted">75.0</td>
+</tr><tr>
+<td class="col-month">1월</td>
+<td class="col-product">삼백초X맥문동 파이토정</td>
+<td class="col-num">2,000</td>
+<td class="col-num">150,000</td>
+<td class="col-num muted">75.0</td>
+</tr><tr>
+<td class="col-month">2월</td>
+<td class="col-product">이롭핏 무궁정</td>
+<td class="col-num">4,000</td>
+<td class="col-num">300,000</td>
+<td class="col-num muted">75.0</td>
+</tr><tr>
+<td class="col-month">2월</td>
+<td class="col-product">이롭 리얼 빌베리 100</td>
+<td class="col-num">2,000</td>
+<td class="col-num">220,000</td>
+<td class="col-num muted">110.0</td>
+</tr><tr>
+<td class="col-month">2월</td>
+<td class="col-product">이롭 지중해 고체레몬즙</td>
+<td class="col-num">2,000</td>
+<td class="col-num">150,000</td>
+<td class="col-num muted">75.0</td>
+</tr><tr>
+<td class="col-month">3월</td>
+<td class="col-product">프리미엄 파인 솔잎정</td>
+<td class="col-num">4,000</td>
+<td class="col-num">275,000</td>
+<td class="col-num muted">68.8</td>
+</tr><tr>
+<td class="col-month">3월</td>
+<td class="col-product">이롭핏 베르베린X알파CD</td>
+<td class="col-num">2,000</td>
+<td class="col-num">200,000</td>
+<td class="col-num muted">100.0</td>
+</tr><tr>
+<td class="col-month">3월</td>
+<td class="col-product">삼백초X맥문동 파이토정</td>
+<td class="col-num">2,000</td>
+<td class="col-num">150,000</td>
+<td class="col-num muted">75.0</td>
+</tr><tr>
+<td class="col-month">4월</td>
+<td class="col-product">프리미엄 파인 솔잎정</td>
+<td class="col-num">4,000</td>
+<td class="col-num">275,000</td>
+<td class="col-num muted">68.8</td>
+</tr><tr>
+<td class="col-month">4월</td>
+<td class="col-product">지중해 고체레몬즙</td>
+<td class="col-num">2,000</td>
+<td class="col-num">150,000</td>
+<td class="col-num muted">75.0</td>
+</tr><tr>
+<td class="col-month">4월</td>
+<td class="col-product">삼백초X맥문동 파이토정</td>
+<td class="col-num">2,000</td>
+<td class="col-num">150,000</td>
+<td class="col-num muted">75.0</td>
+</tr><tr>
+<td class="col-month">5월</td>
+<td class="col-product">이롭 마시는 샐러드 스타터</td>
+<td class="col-num">4,000</td>
+<td class="col-num">300,000</td>
+<td class="col-num muted">75.0</td>
+</tr><tr>
+<td class="col-month">7월</td>
+<td class="col-product">프리미엄 파인 솔잎정</td>
+<td class="col-num">4,000</td>
+<td class="col-num">275,000</td>
+<td class="col-num muted">68.8</td>
+</tr>
+</tbody>
+</table>
+</div>
+</details>
+<details class="company" >
+<summary>
+<span class="co-name">어니스트컴퍼니</span>
+<span class="co-stats">14건 · 2,930,000원 · 21,300세트</span>
+</summary>
+<div class="table-wrap">
+<table>
+<thead><tr><th class="col-month">월</th><th class="col-product">제품</th><th class="col-num">세트</th><th class="col-num">수수료(원)</th><th class="col-num">원/세트</th></tr></thead>
+<tbody>
+<tr>
+<td class="col-month">1월</td>
+<td class="col-product">웰트릿 소연골 콘드로이친 MBP</td>
+<td class="col-num">2,000</td>
+<td class="col-num">140,000</td>
+<td class="col-num muted">70.0</td>
+</tr><tr>
+<td class="col-month">2월</td>
+<td class="col-product">웰트릿 소연골 콘드로이친 MBP</td>
+<td class="col-num">3,000</td>
+<td class="col-num">250,000</td>
+<td class="col-num muted">83.3</td>
+</tr><tr>
+<td class="col-month">2월</td>
+<td class="col-product">웰트릿 무궁한 알파핏</td>
+<td class="col-num">1,000</td>
+<td class="col-num">150,000</td>
+<td class="col-num muted">150.0</td>
+</tr><tr>
+<td class="col-month">2월</td>
+<td class="col-product">웰트릿 삼백초추출물 파이토맥스</td>
+<td class="col-num">1,000</td>
+<td class="col-num">150,000</td>
+<td class="col-num muted">150.0</td>
+</tr><tr>
+<td class="col-month">3월</td>
+<td class="col-product">웰트릿 알부민 골드 정</td>
+<td class="col-num">2,300</td>
+<td class="col-num">400,000</td>
+<td class="col-num muted">173.9</td>
+</tr><tr>
+<td class="col-month">3월</td>
+<td class="col-product">웰트릿 바른 양배추정</td>
+<td class="col-num">2,000</td>
+<td class="col-num">390,000</td>
+<td class="col-num muted">195.0</td>
+</tr><tr>
+<td class="col-month">3월</td>
+<td class="col-product">웰트릿 무궁한 알파핏</td>
+<td class="col-num">1,000</td>
+<td class="col-num">150,000</td>
+<td class="col-num muted">150.0</td>
+</tr><tr>
+<td class="col-month">4월</td>
+<td class="col-product">웰트릿 무궁한 알파핏</td>
+<td class="col-num">1,000</td>
+<td class="col-num">150,000</td>
+<td class="col-num muted">150.0</td>
+</tr><tr>
+<td class="col-month">4월</td>
+<td class="col-product">웰트릿 삼백초추출물 파이토맥스</td>
+<td class="col-num">1,000</td>
+<td class="col-num">150,000</td>
+<td class="col-num muted">150.0</td>
+</tr><tr>
+<td class="col-month">5월</td>
+<td class="col-product">웰트릿 파미뉴 플로라</td>
+<td class="col-num">1,000</td>
+<td class="col-num">200,000</td>
+<td class="col-num muted">200.0</td>
+</tr><tr>
+<td class="col-month">5월</td>
+<td class="col-product">웰트릿 무궁한 알파핏</td>
+<td class="col-num">1,000</td>
+<td class="col-num">150,000</td>
+<td class="col-num muted">150.0</td>
+</tr><tr>
+<td class="col-month">6월</td>
+<td class="col-product">웰트릿 소연골 콘드로이친</td>
+<td class="col-num">3,000</td>
+<td class="col-num">250,000</td>
+<td class="col-num muted">83.3</td>
+</tr><tr>
+<td class="col-month">6월</td>
+<td class="col-product">매일샐러드 식이섬유정</td>
+<td class="col-num">1,000</td>
+<td class="col-num">200,000</td>
+<td class="col-num muted">200.0</td>
+</tr><tr>
+<td class="col-month">7월</td>
+<td class="col-product">매일샐러드 식이섬유정</td>
+<td class="col-num">1,000</td>
+<td class="col-num">200,000</td>
+<td class="col-num muted">200.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</details>
+<details class="company" >
+<summary>
+<span class="co-name">엑타코</span>
+<span class="co-stats">16건 · 2,921,000원 · 33,000세트</span>
+</summary>
+<div class="table-wrap">
+<table>
+<thead><tr><th class="col-month">월</th><th class="col-product">제품</th><th class="col-num">세트</th><th class="col-num">수수료(원)</th><th class="col-num">원/세트</th></tr></thead>
+<tbody>
+<tr>
+<td class="col-month">1월</td>
+<td class="col-product">파인송솔잎</td>
+<td class="col-num">3,000</td>
+<td class="col-num">300,000</td>
+<td class="col-num muted">100.0</td>
+</tr><tr>
+<td class="col-month">1월</td>
+<td class="col-product">이엔하루</td>
+<td class="col-num">2,000</td>
+<td class="col-num">160,000</td>
+<td class="col-num muted">80.0</td>
+</tr><tr>
+<td class="col-month">2월</td>
+<td class="col-product">호로파 99</td>
+<td class="col-num">2,000</td>
+<td class="col-num">300,000</td>
+<td class="col-num muted">150.0</td>
+</tr><tr>
+<td class="col-month">3월</td>
+<td class="col-product">마가목99</td>
+<td class="col-num">2,000</td>
+<td class="col-num">180,000</td>
+<td class="col-num muted">90.0</td>
+</tr><tr>
+<td class="col-month">3월</td>
+<td class="col-product">한삼덩굴99</td>
+<td class="col-num">2,000</td>
+<td class="col-num">180,000</td>
+<td class="col-num muted">90.0</td>
+</tr><tr>
+<td class="col-month">3월</td>
+<td class="col-product">황칠나무 99</td>
+<td class="col-num">2,000</td>
+<td class="col-num">180,000</td>
+<td class="col-num muted">90.0</td>
+</tr><tr>
+<td class="col-month">4월</td>
+<td class="col-product">마가목99</td>
+<td class="col-num">2,000</td>
+<td class="col-num">180,000</td>
+<td class="col-num muted">90.0</td>
+</tr><tr>
+<td class="col-month">4월</td>
+<td class="col-product">한삼덩굴99</td>
+<td class="col-num">2,000</td>
+<td class="col-num">180,000</td>
+<td class="col-num muted">90.0</td>
+</tr><tr>
+<td class="col-month">5월</td>
+<td class="col-product">엑타코 이엔하루</td>
+<td class="col-num">2,000</td>
+<td class="col-num">160,000</td>
+<td class="col-num muted">80.0</td>
+</tr><tr>
+<td class="col-month">5월</td>
+<td class="col-product">매스티겔포민</td>
+<td class="col-num">2,000</td>
+<td class="col-num">21,000</td>
+<td class="col-num muted">10.5</td>
+</tr><tr>
+<td class="col-month">6월</td>
+<td class="col-product">마가목99</td>
+<td class="col-num">2,000</td>
+<td class="col-num">180,000</td>
+<td class="col-num muted">90.0</td>
+</tr><tr>
+<td class="col-month">6월</td>
+<td class="col-product">한삼덩굴99</td>
+<td class="col-num">2,000</td>
+<td class="col-num">180,000</td>
+<td class="col-num muted">90.0</td>
+</tr><tr>
+<td class="col-month">6월</td>
+<td class="col-product">침향99</td>
+<td class="col-num">2,000</td>
+<td class="col-num">180,000</td>
+<td class="col-num muted">90.0</td>
+</tr><tr>
+<td class="col-month">6월</td>
+<td class="col-product">마가목흑염소진액정</td>
+<td class="col-num">2,000</td>
+<td class="col-num">180,000</td>
+<td class="col-num muted">90.0</td>
+</tr><tr>
+<td class="col-month">7월</td>
+<td class="col-product">산양삼추출물99</td>
+<td class="col-num">2,000</td>
+<td class="col-num">180,000</td>
+<td class="col-num muted">90.0</td>
+</tr><tr>
+<td class="col-month">7월</td>
+<td class="col-product">황칠녹용장어진액정</td>
+<td class="col-num">2,000</td>
+<td class="col-num">180,000</td>
+<td class="col-num muted">90.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</details>
+<details class="company" >
+<summary>
+<span class="co-name">살므시</span>
+<span class="co-stats">1건 · 220,000원 · 1,000세트</span>
+</summary>
+<div class="table-wrap">
+<table>
+<thead><tr><th class="col-month">월</th><th class="col-product">제품</th><th class="col-num">세트</th><th class="col-num">수수료(원)</th><th class="col-num">원/세트</th></tr></thead>
+<tbody>
+<tr>
+<td class="col-month">1월</td>
+<td class="col-product">빌베리100(살므시)</td>
+<td class="col-num">1,000</td>
+<td class="col-num">220,000</td>
+<td class="col-num muted">220.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</details>
+<details class="company" >
+<summary>
+<span class="co-name">레오포즈</span>
+<span class="co-stats">1건 · 200,000원 · 1,000세트</span>
+</summary>
+<div class="table-wrap">
+<table>
+<thead><tr><th class="col-month">월</th><th class="col-product">제품</th><th class="col-num">세트</th><th class="col-num">수수료(원)</th><th class="col-num">원/세트</th></tr></thead>
+<tbody>
+<tr>
+<td class="col-month">4월</td>
+<td class="col-product">무궁S</td>
+<td class="col-num">1,000</td>
+<td class="col-num">200,000</td>
+<td class="col-num muted">200.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</details>
+  <p class="footnote">※ 12월 말 출고분이 마감 일정 변경으로 1월에 청구된 건</p>
+</section>
+
+<section>
+  <h2>세트 규모별</h2>
+  <table class="summary-table">
+    <thead><tr><th>세트 규모</th><th>건수</th><th>수수료 합계</th><th>원/세트</th></tr></thead>
+    <tbody>
+    <tr><td>1,000세트</td><td class="col-num">11건</td><td class="col-num">1,920,000원</td><td class="col-num muted">174.5</td></tr>
+<tr><td>2,000세트</td><td class="col-num">27건</td><td class="col-num">4,871,000원</td><td class="col-num muted">90.2</td></tr>
+<tr><td>2,300세트</td><td class="col-num">1건</td><td class="col-num">400,000원</td><td class="col-num muted">173.9</td></tr>
+<tr><td>3,000세트</td><td class="col-num">3건</td><td class="col-num">800,000원</td><td class="col-num muted">88.9</td></tr>
+<tr><td>4,000세트</td><td class="col-num">7건</td><td class="col-num">2,025,000원</td><td class="col-num muted">72.3</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>월별 요약</h2>
+  <table class="summary-table">
+    <thead><tr><th>월</th><th>건수</th><th>수수료 합계</th></tr></thead>
+    <tbody>
+    <tr><td>1월</td><td class="col-num">10건</td><td class="col-num">2,120,000원</td></tr>
+<tr><td>2월</td><td class="col-num">7건</td><td class="col-num">1,520,000원</td></tr>
+<tr><td>3월</td><td class="col-num">9건</td><td class="col-num">2,105,000원</td></tr>
+<tr><td>4월</td><td class="col-num">8건</td><td class="col-num">1,435,000원</td></tr>
+<tr><td>5월</td><td class="col-num">5건</td><td class="col-num">831,000원</td></tr>
+<tr><td>6월</td><td class="col-num">6건</td><td class="col-num">1,170,000원</td></tr>
+<tr><td>7월</td><td class="col-num">4건</td><td class="col-num">835,000원</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>특이사항</h2>
+  <ul class="highlights">
+    <li>엑타코 매스티겔포민 <span class="hl-num">10.5원/세트</span> — 전체 최저</li>
+    <li>어니스트컴퍼니 웰트릿 바른 양배추정 <span class="hl-num">195원/세트</span> — 반복 발주 제품 중 최고</li>
+    <li>어니스트컴퍼니 웰트릿 무궁한 알파핏 <span class="hl-num">4건 150,000원</span> — 고정 단가 반복</li>
+  </ul>
+</section>
+
+<footer>
+  에스엠바이오 영업대행 수수료 정리 · 2026-08-06 기준 · 부가세별도
+</footer>
+
+</body>
+</html>
