@@ -1,0 +1,1662 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HPLC 메소드 이전 계산기</title>
+<style>
+  :root{
+    --bg:#f4f4f2; --panel:#ffffff; --ink:#1b1b1a; --ink-sub:#5a5a56;
+    --line:#dcdcd8; --line-soft:#ececea;
+    --accent:#2b2b28; --accent-soft:#eeeeec;
+    --warn-bg:#fff6e0; --warn-bd:#c99a2e; --warn-ink:#6b4f0a;
+    --bad-bg:#fdeceb; --bad-bd:#c1443a; --bad-ink:#7a231c;
+    --ok-bg:#eaf3ea; --ok-bd:#4c7a4f; --ok-ink:#2c4a2e;
+    --ref-bg:#efefec;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+    font-size:15px;line-height:1.5;}
+  .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;}
+  .wrap{max-width:1080px;margin:0 auto;padding:20px 16px 64px;}
+  header.top{margin-bottom:20px;}
+  header.top h1{font-size:22px;margin:0 0 4px;letter-spacing:-0.02em;}
+  header.top p{margin:0;color:var(--ink-sub);font-size:13px;}
+  .badge-offline{display:inline-block;margin-top:8px;padding:3px 10px;border:1px solid var(--line);
+    border-radius:999px;font-size:12px;color:var(--ink-sub);background:var(--panel);}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:16px;margin-bottom:16px;}
+  .panel h2{font-size:15px;margin:0 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line-soft);
+    display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+  .panel h2 .src{font-weight:400;font-size:11px;color:var(--ink-sub);}
+  .cols2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media (max-width:720px){.cols2{grid-template-columns:1fr;}}
+  .field{margin-bottom:10px;}
+  .field label{display:block;font-size:12.5px;color:var(--ink-sub);margin-bottom:3px;}
+  .field input[type=text],.field input[type=number]{
+    width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:6px;font-size:14px;
+    background:#fff;color:var(--ink);}
+  .field input:focus{outline:2px solid #b9b9b3;outline-offset:0;}
+  .field .msg{font-size:11.5px;color:var(--bad-ink);margin-top:2px;min-height:14px;}
+  .row-inline{display:flex;gap:8px;}
+  .row-inline .field{flex:1;}
+  .radio-group{display:flex;gap:14px;margin-bottom:12px;font-size:13.5px;flex-wrap:wrap;}
+  .radio-group label{display:flex;align-items:center;gap:5px;cursor:pointer;}
+  .subtitle{font-size:12px;color:var(--ink-sub);margin:2px 0 10px;}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  table.num-table td,table.num-table th{text-align:right;}
+  table.num-table th:first-child,table.num-table td:first-child{text-align:left;}
+  th,td{padding:6px 8px;border-bottom:1px solid var(--line-soft);}
+  th{color:var(--ink-sub);font-weight:600;font-size:12px;text-align:left;}
+  tbody tr:hover{background:var(--accent-soft);}
+  .btn{display:inline-block;padding:6px 12px;border:1px solid var(--line);border-radius:6px;
+    background:#fff;color:var(--ink);font-size:12.5px;cursor:pointer;}
+  .btn:hover{background:var(--accent-soft);}
+  .btn-sm{padding:3px 8px;font-size:11.5px;}
+  .btn-row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;}
+  .result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:6px;}
+  .stat{border:1px solid var(--line-soft);border-radius:8px;padding:10px;background:var(--ref-bg);}
+  .stat .label{font-size:11px;color:var(--ink-sub);margin-bottom:3px;}
+  .stat .value{font-size:18px;font-weight:600;}
+  .stat .value.small{font-size:14px;font-weight:600;}
+  .stat .unit{font-size:11px;color:var(--ink-sub);font-weight:400;margin-left:2px;}
+  .note{font-size:12px;color:var(--ink-sub);margin-top:6px;line-height:1.55;}
+  .warn-box{background:var(--warn-bg);border:1px solid var(--warn-bd);color:var(--warn-ink);
+    border-radius:8px;padding:9px 11px;font-size:12.5px;margin-top:8px;}
+  .bad-box{background:var(--bad-bg);border:1px solid var(--bad-bd);color:var(--bad-ink);
+    border-radius:8px;padding:9px 11px;font-size:12.5px;margin-top:8px;font-weight:600;}
+  .ok-box{background:var(--ok-bg);border:1px solid var(--ok-bd);color:var(--ok-ink);
+    border-radius:8px;padding:9px 11px;font-size:12.5px;margin-top:8px;}
+  .pass{color:var(--ok-ink);font-weight:600;}
+  .fail{color:var(--bad-ink);font-weight:600;}
+  .disabled-note{font-size:12.5px;color:var(--ink-sub);font-style:normal;padding:6px 0;}
+  .always-warn{background:var(--bad-bg);border:1px solid var(--bad-bd);color:var(--bad-ink);
+    border-radius:8px;padding:10px 12px;font-size:12.5px;margin:10px 0;}
+  details{border:1px solid var(--line-soft);border-radius:8px;margin-top:8px;background:#fbfbfa;}
+  details summary{cursor:pointer;padding:8px 10px;font-size:12.5px;color:var(--ink-sub);}
+  details .inner{padding:0 12px 12px;font-size:12.5px;color:var(--ink-sub);line-height:1.6;}
+  .search-box{position:relative;}
+  .suggest{position:absolute;z-index:5;top:100%;left:0;right:0;background:#fff;border:1px solid var(--line);
+    border-radius:0 0 8px 8px;max-height:220px;overflow-y:auto;box-shadow:0 6px 16px rgba(0,0,0,.08);}
+  .suggest div{padding:7px 10px;font-size:12.5px;cursor:pointer;border-bottom:1px solid var(--line-soft);}
+  .suggest div:hover{background:var(--accent-soft);}
+  .ref-chip{display:inline-block;background:var(--ref-bg);border:1px solid var(--line);border-radius:6px;
+    padding:6px 10px;font-size:12.5px;margin:6px 0;}
+  .pill{display:inline-block;padding:1px 7px;border-radius:999px;font-size:10.5px;border:1px solid var(--line);
+    color:var(--ink-sub);margin-left:6px;}
+  .pill-eq{background:var(--ok-bg);border-color:var(--ok-bd);color:var(--ok-ink);}
+  .pill-mid{background:var(--warn-bg);border-color:var(--warn-bd);color:var(--warn-ink);}
+  .pill-ortho{background:var(--bad-bg);border-color:var(--bad-bd);color:var(--bad-ink);}
+  .footnote{font-size:11.5px;color:var(--ink-sub);margin-top:10px;padding-top:8px;border-top:1px dashed var(--line);}
+  .grey-panel{background:#efefec;border:1px dashed var(--line);}
+  .ref-only-badge{display:inline-block;background:#e3e3df;border:1px solid #b9b9b3;color:#4a4a46;
+    font-size:11px;padding:2px 8px;border-radius:999px;margin-left:6px;}
+  .db-count{font-size:12px;color:var(--ink-sub);}
+  footer.bottom{margin-top:24px;font-size:11.5px;color:var(--ink-sub);line-height:1.7;}
+  code{background:var(--ref-bg);padding:1px 5px;border-radius:4px;font-size:12px;}
+  /* --- 설명서 --- */
+  .intro p{margin:0 0 10px;font-size:14px;line-height:1.75;}
+  .intro p:last-child{margin-bottom:0;}
+  .intro .sign{margin-top:14px;color:var(--ink-sub);font-size:13px;}
+  p.lead{margin:0 0 8px;font-size:13.5px;line-height:1.7;color:var(--ink);}
+  .manual details{margin-top:8px;}
+  .manual .inner ul{margin:6px 0 0;padding-left:18px;}
+  .manual .inner li{margin-bottom:5px;}
+  .verify-case{margin-top:12px;}
+  .verify-case h4{margin:0 0 6px;font-size:12.5px;color:var(--ink);}
+  /* --- 유속 조정 블록 --- */
+  .flowbox{border:1px solid var(--line);border-radius:8px;padding:12px;margin-bottom:12px;background:var(--ref-bg);}
+  .flowbox .flow-title{font-size:12.5px;font-weight:600;margin-bottom:8px;}
+  .flow-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;align-items:end;}
+  @media (max-width:720px){.flow-grid{grid-template-columns:1fr;}}
+  .flowbox .stat{background:#fff;}
+  .flowbox .stat.eff{border-color:var(--accent);}
+  .flowbox .field{margin-bottom:0;}
+  /* --- 크로마토그램 --- */
+  .chrom-inputs{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media (max-width:720px){.chrom-inputs{grid-template-columns:1fr;}}
+  .chrom-svg-wrap{margin-top:10px;border:1px solid var(--line-soft);border-radius:8px;background:#fff;padding:6px;}
+  .chrom-svg-wrap svg{display:block;width:100%;height:auto;}
+  .rs-bad{color:var(--bad-ink);font-weight:600;}
+  .rs-ok{color:var(--ok-ink);font-weight:600;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <h1>HPLC 메소드 이전 계산기</h1>
+  <p>논문/원 메소드 조건을 보유 컬럼·시스템 조건으로 스케일링하고, USP&lt;621&gt; 허용범위·컬럼 등가성(Fs)까지 한 화면에서 확인합니다.</p>
+  <span class="badge-offline">오프라인 동작 · 외부 네트워크 요청 없음 · 컬럼 DB 내장 (<span id="dbCountTop" class="num">0</span>개)</span>
+</header>
+
+<!-- ============ 설명서 ① 왜 만들었나 ============ -->
+<div class="panel intro">
+  <h2>왜 만들었나</h2>
+  <p>논문에서 쓸 만한 분석법을 찾아도, 실험실 컬럼과 장비가 논문과 다르면 그대로 따라 할 수 없습니다. 유속·주입량·기울기를 어떻게 바꿔야 같은 결과가 나오는지는 계산으로 답이 나오지만, 매번 손으로 하기 번거롭고 틀리기도 쉽습니다. 그 계산을 대신하려고 만들었습니다.</p>
+  <p><b>새 분석법을 개발해 주는 도구는 아닙니다.</b> 이미 검증된 논문 메소드를 내 컬럼·내 장비에서 재현하는 것까지가 이 계산기의 범위입니다.</p>
+  <p>계산에 쓴 식은 전부 출처를 밝혀 두었고, 맞는지 직접 검산해 볼 수 있도록 검증 사례도 함께 실었습니다.</p>
+  <p class="sign">— Min Sik Kim</p>
+</div>
+
+<!-- ============ 설명서 ② 처음 쓰는 분께 ============ -->
+<div class="panel">
+  <h2>처음 쓰는 분께</h2>
+  <p class="lead">왼쪽 <b>①논문 조건</b>에 논문에 적힌 컬럼 규격(길이·내경·입자크기)과 유속·주입량을, 오른쪽 <b>②내 조건</b>에 실제로 쓸 컬럼 규격을 넣습니다.</p>
+  <p class="lead">그러면 내 컬럼에서 써야 할 <b>유속·주입량·기울기 시간</b>이 나오고, 이어서 예상 압력·이론단수·분리도 변화와 USP&lt;621&gt; 허용범위 통과 여부가 표시됩니다.</p>
+  <p class="lead">컬럼 자체를 바꿔야 한다면 <b>등가성 조회(Fs)</b>에서 논문 컬럼과 성질이 가까운 후보를 찾고, 등용매 조건이면 <b>크로마토그램 모식도</b>로 봉우리가 붙는지 미리 봅니다.</p>
+  <p class="lead">선택 입력(압력·온도·pH·dwell volume)은 비워도 되며, 비운 항목은 계산에서 빠지고 “미입력”으로 표시됩니다.</p>
+  <details>
+    <summary>사용법 자세히 ▸ — 논문 어디에서 입력값을 찾나</summary>
+    <div class="inner">
+      입력값은 대부분 논문의 <b>Experimental</b> 또는 <b>Materials and Methods</b> 절, 그 안의 <b>Chromatographic conditions</b> 소절에 모여 있습니다.<br><br>
+      · <b>컬럼 규격 (L · dc · dp)</b> — “Column” 항목. 예: <code>Zorbax SB-C18 (250 × 4.6 mm, 5 µm)</code> → L=250, dc=4.6, dp=5. 제조사·상품명은 등가성 조회(Fs) 검색어로 그대로 씁니다.<br>
+      · <b>유속 F1</b> — “Flow rate”. 예: <code>1.0 mL/min</code>. mL/min이 아닌 단위(µL/min)면 환산해 넣으십시오.<br>
+      · <b>주입량 V1</b> — “Injection volume”. 예: <code>20 µL</code>.<br>
+      · <b>기울기표</b> — “Gradient program” 또는 표 형태로 실린 <code>time / %B</code> 목록. 시작(0분)부터 마지막 시점까지 그대로 옮겨 적습니다. 이동상 A·B가 무엇인지도 함께 확인하십시오(용매가 다르면 계산⑦ 참고).<br>
+      · <b>컬럼 온도</b> — “Column temperature” 또는 “oven temperature”. 안 적혀 있으면 실온(보통 25 °C)으로 가정된 경우가 많으나, 그 경우 온도 판정은 비워 두는 편이 안전합니다.<br>
+      · <b>이동상 pH · 완충액 농도</b> — “Mobile phase” 서술문. 예: <code>10 mM ammonium formate (pH 3.0)</code>.<br>
+      · <b>등용매/기울기 구분</b> — 기울기표가 있으면 기울기, “isocratic elution”이라고 적혀 있으면 등용매입니다.<br>
+      · <b>머무름 시간(크로마토그램용)</b> — 결과(Results) 절의 크로마토그램 그림이나 시스템 적합성 표에 있는 각 성분의 <code>t<sub>R</sub></code> 값.<br>
+      · <b>압력</b> — 논문에 적혀 있는 경우가 드뭅니다. 없으면 비워 두고 비율만 보십시오.<br><br>
+      논문에 없는 값을 추측해 채우지 마십시오. 비워 두면 그 항목만 빠질 뿐 나머지 계산은 정상적으로 나옵니다.
+    </div>
+  </details>
+</div>
+
+<!-- ============ 입력: 논문/내 조건 ============ -->
+<div class="panel">
+  <h2>조건 입력 <span class="src">기하학적 스케일링 — 출처: Agilent 백서 USP&lt;621&gt; Table 1</span></h2>
+
+  <div class="radio-group">
+    <label><input type="radio" name="mode" value="isocratic" id="modeIso"> 등용매 (isocratic)</label>
+    <label><input type="radio" name="mode" value="gradient" id="modeGrad" checked> 기울기 (gradient)</label>
+  </div>
+
+  <div class="cols2">
+    <div>
+      <div class="subtitle" style="font-weight:600;color:var(--ink);">① 논문 조건</div>
+      <div class="row-inline">
+        <div class="field"><label>컬럼 길이 L1 (mm)</label><input type="text" id="L1" value="250"><div class="msg" id="L1_msg"></div></div>
+        <div class="field"><label>내경 dc1 (mm)</label><input type="text" id="dc1" value="4.6"><div class="msg" id="dc1_msg"></div></div>
+      </div>
+      <div class="row-inline">
+        <div class="field"><label>입자크기 dp1 (µm)</label><input type="text" id="dp1" value="5"><div class="msg" id="dp1_msg"></div></div>
+        <div class="field"><label>유속 F1 (mL/min)</label><input type="text" id="F1" value="1.0"><div class="msg" id="F1_msg"></div></div>
+      </div>
+      <div class="field"><label>주입량 V1 (µL)</label><input type="text" id="V1" value="20"><div class="msg" id="V1_msg"></div></div>
+      <div class="field"><label>논문 컬럼압 (bar, 선택) — 계산③용</label><input type="text" id="P1" value=""><div class="msg" id="P1_msg"></div></div>
+      <div class="field"><label>컬럼 온도 (°C, 선택) — 계산⑥용</label><input type="text" id="temp1" value=""><div class="msg" id="temp1_msg"></div></div>
+      <div class="field"><label>이동상 pH (선택)</label><input type="text" id="ph1" value=""><div class="msg" id="ph1_msg"></div></div>
+      <div class="field"><label>염(완충액) 농도 (mM, 선택)</label><input type="text" id="salt1" value=""><div class="msg" id="salt1_msg"></div></div>
+      <div class="field"><label>이동상 minor 성분 비율 (%, ≤50, 선택)</label><input type="text" id="minor1" value=""><div class="msg" id="minor1_msg"></div></div>
+      <div class="field"><label>시스템 dwell volume Vd1 (µL, 선택) — 계산④용</label><input type="text" id="Vd1" value=""><div class="msg" id="Vd1_msg"></div></div>
+    </div>
+    <div>
+      <div class="subtitle" style="font-weight:600;color:var(--ink);">② 내 조건</div>
+      <div class="row-inline">
+        <div class="field"><label>컬럼 길이 L2 (mm)</label><input type="text" id="L2" value="150"><div class="msg" id="L2_msg"></div></div>
+        <div class="field"><label>내경 dc2 (mm)</label><input type="text" id="dc2" value="4.6"><div class="msg" id="dc2_msg"></div></div>
+      </div>
+      <div class="row-inline">
+        <div class="field"><label>입자크기 dp2 (µm)</label><input type="text" id="dp2" value="3.5"><div class="msg" id="dp2_msg"></div></div>
+        <div class="field"><label>기기 최대압력 (bar, 선택) — 계산③용</label><input type="text" id="Pmax" value=""><div class="msg" id="Pmax_msg"></div></div>
+      </div>
+      <div class="field"><label>컬럼 온도 (°C, 선택) — 계산⑥용</label><input type="text" id="temp2" value=""><div class="msg" id="temp2_msg"></div></div>
+      <div class="field"><label>이동상 pH (선택)</label><input type="text" id="ph2" value=""><div class="msg" id="ph2_msg"></div></div>
+      <div class="field"><label>염(완충액) 농도 (mM, 선택)</label><input type="text" id="salt2" value=""><div class="msg" id="salt2_msg"></div></div>
+      <div class="field"><label>이동상 minor 성분 비율 (%, ≤50, 선택)</label><input type="text" id="minor2" value=""><div class="msg" id="minor2_msg"></div></div>
+      <div class="field"><label>실측 dwell volume Vd2 (µL, 선택) — 계산④용</label><input type="text" id="Vd2actual" value=""><div class="msg" id="Vd2actual_msg"></div></div>
+      <div class="field"><label>ε_total (컬럼 총 공극률, 계산④ 가정값)</label><input type="text" id="epsTotal" value="0.68"><div class="msg" id="epsTotal_msg"></div>
+        <div class="note">가정값, 1차 출처 미확인 — 실측치가 있으면 바꿔 쓰십시오.</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="gradSection">
+    <div class="subtitle" style="font-weight:600;color:var(--ink);margin-top:6px;">기울기 세그먼트 표 (시간 · %B) — 논문 조건 기준 입력</div>
+    <table id="gradTable">
+      <thead><tr><th style="width:40%">시간 (min)</th><th style="width:40%">%B</th><th></th></tr></thead>
+      <tbody id="gradBody"></tbody>
+    </table>
+    <div class="btn-row">
+      <button class="btn btn-sm" id="addRowBtn" type="button">+ 행 추가</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 결과 ① 변환된 조건 ============ -->
+<div class="panel">
+  <h2>① 변환된 조건 <span class="src">Agilent 백서 USP&lt;621&gt; Table 1</span></h2>
+  <div class="flowbox">
+    <div class="flow-title">유속 — 계산값을 그대로 쓰거나, 실제 쓸 값을 직접 넣으십시오</div>
+    <div class="flow-grid">
+      <div class="stat"><div class="label">기하식 계산 유속 F2</div><div class="value num" id="out_F2">—</div></div>
+      <div class="field">
+        <label>실제 사용할 유속 (직접 입력, mL/min)</label>
+        <input type="text" id="F2override" placeholder="비우면 계산값 그대로 사용">
+        <div class="msg" id="F2override_msg"></div>
+      </div>
+      <div class="stat eff"><div class="label">적용 유속 (아래 계산에 실제 반영)</div><div class="value num" id="out_F2eff">—</div></div>
+    </div>
+    <div class="note">유속을 바꾸면 <b>기울기 시간·예상 압력·dwell 보정·크로마토그램이 즉시 다시 계산</b>됩니다. 유속을 낮추면서 기울기 시간을 논문 값 그대로 두면 봉우리가 앞으로 몰려 분리가 깨집니다 — 아래 기울기 표에 이미 재계산된 시간이 표시되니 그 값을 장비에 넣으십시오.</div>
+    <div id="flowChangeWarn"></div>
+    <div id="flowRangeNote"></div>
+    <div id="flowUspNote"></div>
+  </div>
+  <div class="result-grid">
+    <div class="stat"><div class="label">주입량 V2</div><div class="value num" id="out_V2">—</div></div>
+    <div class="stat"><div class="label">기울기 배율</div><div class="value small num" id="out_tGfactor">—</div></div>
+  </div>
+  <div id="gradOutWrap" style="display:none;">
+    <table id="gradOutTable" class="num-table">
+      <thead><tr><th>시간 (min)</th><th>%B</th></tr></thead>
+      <tbody id="gradOutBody"></tbody>
+    </table>
+    <div class="btn-row">
+      <button class="btn btn-sm" id="copyGradBtn" type="button">기울기표 복사</button>
+      <span class="note" id="copyGradMsg"></span>
+    </div>
+  </div>
+  <div class="note" id="calc1_msg"></div>
+</div>
+
+<!-- ============ 결과 ② 효율/분리도 ============ -->
+<div class="panel">
+  <h2>② 효율 · 분리도 <span class="src">N ∝ L/dp, Rs ∝ √N — 일반 크로마토그래피 이론식</span></h2>
+  <div class="result-grid">
+    <div class="stat"><div class="label">이론단수 배율 (N2/N1)</div><div class="value num" id="out_Nratio">—</div></div>
+    <div class="stat"><div class="label">분리도 배율 (Rs2/Rs1)</div><div class="value num" id="out_Rsratio">—</div></div>
+  </div>
+  <div id="calc2_warn"></div>
+</div>
+
+<!-- ============ 결과 ③ 압력 ============ -->
+<div class="panel">
+  <h2>③ 압력 <span class="src">Kozeny-Carman 비율식</span></h2>
+  <div class="result-grid">
+    <div class="stat"><div class="label">ΔP2 / ΔP1 (비율)</div><div class="value num" id="out_dPratio">—</div></div>
+    <div class="stat"><div class="label">예상 절대압력 P2</div><div class="value num" id="out_P2">—</div></div>
+  </div>
+  <div id="calc3_msg" class="note"></div>
+  <div id="calc3_warn"></div>
+  <div class="note" style="margin-top:8px;">전제: 이 비율식은 점도(μ)가 약분되어 사라진 형태이므로 <b>이동상 조성·온도가 같다</b>는 전제에서만 성립합니다.</div>
+  <div class="warn-box">용매 종류를 바꾸면(아래 계산⑦ 사용 시) 점도가 달라져 이 압력 예측이 어긋납니다. 특히 물-메탄올 혼합은 점도가 크게 올라 실제 압력이 예상보다 높아질 수 있습니다.</div>
+</div>
+
+<!-- ============ 결과 ④ Dwell volume 보정 ============ -->
+<div class="panel">
+  <h2>④ Dwell volume 보정 <span class="src">Stoll, LCGC Part I·II</span></h2>
+  <div class="note" style="margin-bottom:8px;">원칙: 컬럼 치수를 바꿀 때는 ①기울기 시간을 컬럼 부피비에 맞춰 조정하고 ②Vd/Vm 비율이 일정하게 유지되도록 GDV를 보정한다.</div>
+  <div class="result-grid">
+    <div class="stat"><div class="label">Vm1 (사강부피)</div><div class="value num" id="out_Vm1">—</div></div>
+    <div class="stat"><div class="label">Vm2 (사강부피)</div><div class="value num" id="out_Vm2">—</div></div>
+    <div class="stat"><div class="label">목표 Vd2</div><div class="value num" id="out_VdTarget">—</div></div>
+    <div class="stat"><div class="label">보정</div><div class="value small num" id="out_dwellCorrection">—</div></div>
+  </div>
+  <div id="calc4_msg" class="disabled-note"></div>
+  <div class="note">참고 GDV(gradient dwell volume) 범위 — 최신 고압혼합 펌프 ≈ 50 µL · 저압혼합 ≈ 400 µL · 구형 저압혼합 ≈ 1,000 µL (Stoll 2024).</div>
+  <details>
+    <summary>내 시스템 GDV 실측법 (컬럼 제거 후)</summary>
+    <div class="inner">
+      1) 컬럼을 제거하고 대신 조인트/제로 데드볼륨 커넥터로 연결한다.<br>
+      2) A·B 이동상 모두 50:50 ACN:water로 채운다.<br>
+      3) B 이동상에 uracil 10 µg/mL을 스파이크한다.<br>
+      4) A→B 기울기를 실행하고 UV로 추적한다.<br>
+      5) 상승 곡선의 접선과 baseline의 교점 시간을 구한다.<br>
+      6) 그 시간 × 유속 = GDV(dwell volume).
+    </div>
+  </details>
+</div>
+
+<!-- ============ 결과 ⑤ USP<621> 판정 ============ -->
+<div class="panel">
+  <h2>⑤ USP&lt;621&gt; 허용 조정범위 판정</h2>
+  <div class="note" style="margin-bottom:8px;">기준: USP&lt;621&gt; 2022-12-01 개정 / Agilent 백서 재현표 / 조회 2026-08-06</div>
+  <table>
+    <thead><tr><th>항목</th><th>허용 기준</th><th>실측/계산값</th><th>판정</th></tr></thead>
+    <tbody id="usp621Body"></tbody>
+  </table>
+</div>
+
+<!-- ============ 등가성 조회 (계산5) ============ -->
+<div class="panel">
+  <h2>등가성 조회 (Fs) <span class="src">Fs = √{[12.5ΔH]²+[100ΔS*]²+[30ΔA]²+[143ΔB]²+[83ΔC]²} — Snyder-Dolan HSM</span></h2>
+  <div class="always-warn">Fs는 후보를 좁히는 도구이지 동등성을 보증하지 않습니다. 실제 분리 성능은 반드시 실측으로 확인하십시오.</div>
+  <div class="note" style="margin-top:6px;">Fs ≤ 3에 해당하는 컬럼은 드뭅니다(DB 819개 전 조합 중 약 0.3%). 후보가 없으면 가장 낮은 Fs부터 검토하되 반드시 실측 확인하십시오.</div>
+
+  <div class="radio-group">
+    <label><input type="radio" name="cph" value="28" id="cph28" checked> C 값 pH 2.8</label>
+    <label><input type="radio" name="cph" value="70" id="cph70"> C 값 pH 7.0</label>
+  </div>
+
+  <div class="field search-box">
+    <label>기준(논문) 컬럼 검색 — 이름 부분일치, 대소문자 무시</label>
+    <input type="text" id="refSearch" placeholder="예: Zorbax C18" autocomplete="off">
+    <div class="suggest" id="refSuggest" style="display:none;"></div>
+  </div>
+  <div id="refChip"></div>
+
+  <div id="manualRefWrap" style="display:none;">
+    <div class="note" style="margin:6px 0;">검색으로 못 찾았으면 아래에 논문 컬럼의 H/S*/A/B/C 값을 직접 입력하세요 (LC-Column-Selectivity 자료 등에서 확인).</div>
+    <div class="row-inline">
+      <div class="field"><label>H</label><input type="text" id="mH"></div>
+      <div class="field"><label>S*</label><input type="text" id="mS"></div>
+      <div class="field"><label>A</label><input type="text" id="mA"></div>
+    </div>
+    <div class="row-inline">
+      <div class="field"><label>B</label><input type="text" id="mB"></div>
+      <div class="field"><label>C (선택한 pH)</label><input type="text" id="mC"></div>
+    </div>
+    <button class="btn btn-sm" id="useManualBtn" type="button">직접 입력값으로 조회</button>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-sm" id="toggleManualBtn" type="button">검색으로 못 찾음 — 직접 입력</button>
+  </div>
+
+  <div id="fsResultWrap" style="display:none;margin-top:10px;">
+    <table>
+      <thead><tr><th>순위</th><th>컬럼명</th><th>제조사</th><th>Fs</th><th>USP type</th><th>ΔH</th><th>ΔS*</th><th>ΔA</th><th>ΔB</th><th>ΔC</th></tr></thead>
+      <tbody id="fsBody"></tbody>
+    </table>
+  </div>
+  <div class="footnote">
+    판정 구간 — Fs≤3 동등(출처: USP PQRI Approach / Snyder-Dolan) · 3~12 유사(통일된 정의 없음, 실측 확인 필요) · Fs&gt;12 직교, 클수록 더 직교(출처: HALO 가이드북) · Fs&gt;65 이온화 가능 화합물 최대 선택성 변화 · Fs&gt;100 중성·비이온화 화합물 최대 선택성 변화(위 두 구간 출처: Dolan 교재 Ch.14).<br>
+    이 구간들은 동일 저자 계열(Snyder/Dolan) 문헌들 사이에서도 서로 다른 조건(이온화 여부 등)에 대응해 문서마다 다르게 제시되며, 3~12 구간에 대한 통일된 정의는 1차 출처로 확인되지 않았습니다.
+  </div>
+</div>
+
+<!-- ============ 크로마토그램 모식도 (등용매 · 기울기) ============ -->
+<div class="panel">
+  <h2>크로마토그램 모식도 <span id="chromModeTag">(기울기)</span>
+    <span class="src" id="chromSrcIso" style="display:none;">t0 = Vm/F · k 보존 · σ = tR/√N</span>
+    <span class="src" id="chromSrcGrad">LSS 폐형식 tR = t0 + td + (t0/b)·ln[b(k0 − td/t0) + 1] — 출처: PMC4388777 Eq.2 / PMC2638764 Eq.13</span>
+  </h2>
+
+  <div id="chromGradBox" style="display:none;">
+    <div class="note" style="margin-bottom:8px;">기울기에서는 봉우리 위치가 용질 고유 상수 <code>S</code>(조성 민감도)에 따라 달라지는데, 논문은 S를 거의 밝히지 않습니다. 그래서 이 계산기는 <b>S = 3 · 4 · 5 · 6</b> 네 값으로 각각 계산하고, 그 최소~최대를 <b>예측 띠(옅은 회색 가로 막대)</b>로, 중앙값을 봉우리 중심으로 그립니다. 띠의 폭이 곧 S를 모르는 데서 오는 불확실성입니다.</div>
+    <div class="row-inline" style="flex-wrap:wrap;">
+      <div class="field" style="min-width:220px;">
+        <label>논문 장비 유형 — Vd1 미입력 시 이 값으로 추정</label>
+        <select id="chromVdType1" style="width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:6px;font-size:14px;background:#fff;color:var(--ink);">
+          <option value="50">고압혼합 펌프 (≈50 µL)</option>
+          <option value="400" selected>저압혼합 펌프 (≈400 µL)</option>
+          <option value="1000">구형 저압혼합 펌프 (≈1,000 µL)</option>
+        </select>
+      </div>
+      <div class="field" style="min-width:220px;">
+        <label>내 장비 유형 — Vd2 미입력 시 이 값으로 추정</label>
+        <select id="chromVdType2" style="width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:6px;font-size:14px;background:#fff;color:var(--ink);">
+          <option value="50" selected>고압혼합 펌프 (≈50 µL)</option>
+          <option value="400">저압혼합 펌프 (≈400 µL)</option>
+          <option value="1000">구형 저압혼합 펌프 (≈1,000 µL)</option>
+        </select>
+      </div>
+    </div>
+    <div class="row-inline" style="flex-wrap:wrap;">
+      <div class="field" style="min-width:220px;">
+        <label>내 조건 시작 %B (선택 — 비우면 논문과 동일)</label>
+        <input type="text" id="chromPhiStart2" placeholder="논문과 동일">
+        <div class="msg" id="chromPhiStart2_msg"></div>
+      </div>
+      <div class="field" style="min-width:220px;">
+        <label>내 조건 종료 %B (선택 — 비우면 논문과 동일)</label>
+        <input type="text" id="chromPhiEnd2" placeholder="논문과 동일">
+        <div class="msg" id="chromPhiEnd2_msg"></div>
+      </div>
+    </div>
+    <div class="note">위 두 칸은 <b>논문 기울기와 다르게 돌려야 할 때만</b> 넣습니다. 값이 다르면 예측이 크게 어긋날 수 있다는 경고가 함께 표시됩니다(그림은 그대로 그립니다).</div>
+  </div>
+
+  <div id="chromIsoWrap">
+    <div class="chrom-inputs">
+      <div>
+        <div class="subtitle" style="font-weight:600;color:var(--ink);">논문 크로마토그램의 머무름 시간</div>
+        <table id="tRTable">
+          <thead><tr><th style="width:45%">물질명 (선택)</th><th style="width:35%">tR (min)</th><th></th></tr></thead>
+          <tbody id="tRBody"></tbody>
+        </table>
+        <div class="btn-row"><button class="btn btn-sm" id="addTrBtn" type="button">+ 행 추가</button></div>
+        <div class="note">아래 초기값은 <b>예시값</b>입니다 — 논문의 실제 머무름 시간으로 바꿔 쓰십시오.</div>
+      </div>
+      <div>
+        <div class="subtitle" style="font-weight:600;color:var(--ink);">이론단수 N</div>
+        <div class="field"><label>N1 (논문 조건)</label><input type="text" id="N1" placeholder=""><div class="msg" id="N1_msg"></div></div>
+        <div class="field"><label>N2 (내 조건)</label><input type="text" id="N2" placeholder=""><div class="msg" id="N2_msg"></div></div>
+        <div class="note" id="nAssumeNote">비워 두면 <code>N = L/(2.5·dp)</code>로 추정합니다(환산 높이 h ≈ 2.5 <b>가정값</b>). 논문·실측 N이 있으면 넣어 덮어쓰십시오.</div>
+      </div>
+    </div>
+
+    <div id="chromWarnWrap"></div>
+
+    <div class="chrom-svg-wrap">
+      <div class="note" style="margin:2px 0 0 6px;"><b>① 논문 조건</b> <span id="chromLabel1" class="num"></span></div>
+      <svg id="chromSvg1" viewBox="0 0 900 190" preserveAspectRatio="xMidYMid meet" role="img" aria-label="논문 조건 크로마토그램 모식도"></svg>
+    </div>
+    <div class="chrom-svg-wrap">
+      <div class="note" style="margin:2px 0 0 6px;"><b>② 내 조건</b> <span id="chromLabel2" class="num"></span></div>
+      <svg id="chromSvg2" viewBox="0 0 900 190" preserveAspectRatio="xMidYMid meet" role="img" aria-label="내 조건 크로마토그램 모식도"></svg>
+    </div>
+
+    <div id="rsWrap" style="margin-top:10px;">
+      <table id="rsTable" class="num-table">
+        <thead><tr><th>인접 봉우리 쌍</th><th>논문 Δt (min)</th><th>논문 Rs</th><th>내 조건 Δt (min)</th><th>내 조건 Rs</th><th>판정</th></tr></thead>
+        <tbody id="rsBody"></tbody>
+      </table>
+    </div>
+
+    <div class="warn-box">
+      ① 이론 계산에 의한 모식도이며 실측이 아닙니다. 봉우리 높이는 농도·검출기 응답에 좌우되어 계산 대상이 아니므로 상대 높이만 표시합니다. 꼬리(tailing)는 반영하지 않습니다.<br>
+      ② <b>용출 순서가 바뀌지 않는다</b>는 전제입니다. 정지상 화학이 다르면 순서 자체가 달라질 수 있습니다.
+    </div>
+    <div id="chromFsWarn"></div>
+    <div class="note" id="chromMethodGrad">계산 방식(기울기) — <code>t0 = Vm/F</code> · <code>td = Vd/F</code> · <code>b = S·Δφ·t0/tG</code> · 논문 머무름시간에서 <code>k0</code>를 역산한 뒤 같은 <code>k0·S</code>로 내 조건의 <code>tR2</code>를 계산합니다: <code>tR = t0 + td + (t0/b)·ln[b(k0 − td/t0) + 1]</code> (PMC4388777 Eq.2 / PMC2638764 Eq.13). S를 모르므로 <b>S=3·4·5·6</b>에 대해 각각 계산해 최소~최대를 예측 띠로 표시하고 중앙값을 봉우리 중심으로 씁니다. 봉우리 폭은 <code>σ = t0·(1+k*)/√N</code>, <code>k* = 1/(1.15·b)</code> · 분리도 <code>Rs = (tR_b−tR_a)/(2(σ_a+σ_b))</code>.</div>
+    <div class="note" id="chromMethodIso" style="display:none;">계산 방식 — <code>t0 = Vm/F</code> (Vm은 계산④의 사강부피, ε_total 가정값 사용) · <code>k = (tR1−t01)/t01</code>을 논문 조건에서 구해 내 조건에도 그대로 보존 · <code>tR2 = t02×(1+k)</code> · <code>σ = tR/√N</code>, 봉우리는 가우시안 <code>A·exp(−(t−tR)²/2σ²)</code> · 분리도 <code>Rs = (tR_b−tR_a)/(2(σ_a+σ_b))</code>.</div>
+  </div>
+</div>
+
+<!-- ============ 계산7: 용매 변환 (독립 구역 — 계산1~6에 영향 없음) ============ -->
+<div class="panel">
+  <h2>계산⑦ 용매 변환 (등용출 환산) <span class="src">Ramos-Ramos et al., Liquid Chromatography (Elsevier 2017) Ch.13 Eq.13.8</span></h2>
+  <div class="warn-box">이 식은 저농도 근사입니다. 유기용매 비율이 높아질수록 실제값에서 벗어납니다. 또한 용매 종류를 바꾸면 선택성 자체가 변할 수 있으므로 변환값은 출발점이며 실측 확인이 필요합니다. 이 구역의 결과는 위 계산①~⑥에 전혀 영향을 주지 않습니다.</div>
+
+  <div class="note" style="margin:10px 0;">변환식(등용출 비율, 저농도 근사): <code>φ_MeOH = 1.27 × φ_ACN = 1.60 × φ_THF</code></div>
+
+  <div class="row-inline" style="max-width:520px;flex-wrap:wrap;">
+    <div class="field" style="min-width:140px;">
+      <label>기준 용매</label>
+      <select id="solvBase" style="width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:6px;font-size:14px;">
+        <option value="ACN">ACN (아세토니트릴)</option>
+        <option value="MeOH">MeOH (메탄올)</option>
+        <option value="THF">THF (테트라하이드로퓨란)</option>
+      </select>
+    </div>
+    <div class="field" style="min-width:140px;">
+      <label>값 (%)</label>
+      <input type="text" id="solvValue" placeholder="예: 60">
+      <div class="msg" id="solvValue_msg"></div>
+    </div>
+  </div>
+  <div class="result-grid" style="margin-top:6px;">
+    <div class="stat"><div class="label">ACN</div><div class="value num" id="out_solvACN">—</div></div>
+    <div class="stat"><div class="label">MeOH</div><div class="value num" id="out_solvMeOH">—</div></div>
+    <div class="stat"><div class="label">THF</div><div class="value num" id="out_solvTHF">—</div></div>
+  </div>
+  <div id="solvHighWarn"></div>
+
+  <div class="note" style="margin-top:12px;"><b>고농도 괴리 예시</b> — 60% ACN을 식으로 환산하면 76.2% MeOH이지만, Sigma-Aldrich/Supelco 노모그램 실측값은 <b>70% MeOH</b>입니다(같은 챕터 Fig.13.2). 고농도에서는 식보다 <b>노모그램 실측점을 우선</b>하십시오.</div>
+  <div class="result-grid" style="margin-top:6px;max-width:420px;">
+    <div class="stat"><div class="label">식 환산(60% ACN 기준)</div><div class="value small num">76.2 % MeOH</div></div>
+    <div class="stat"><div class="label">노모그램 실측점</div><div class="value small num">70 % MeOH</div></div>
+  </div>
+
+  <div class="note" style="margin-top:12px;"><b>실측 대응점 표</b> (Fig.13.2 노모그램·Eq.13.8 원문 서술, 등용출 조합)</div>
+  <table>
+    <thead><tr><th>ACN %</th><th>MeOH %</th><th>THF %</th><th>비고</th></tr></thead>
+    <tbody>
+      <tr><td class="num">60</td><td class="num">70</td><td class="num">46</td><td>노모그램 실측(Fig.13.2)</td></tr>
+      <tr><td class="num">15.7</td><td class="num">20</td><td class="num">12.5</td><td>Eq.13.8 저농도 근사(원문 예시)</td></tr>
+      <tr><td class="num">30</td><td class="num">39</td><td class="num">21</td><td>Snyder 선택성 삼각형(Fig.13.4, a세트)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note" style="margin-top:12px;"><b>용매 강도 S값 참고표</b> (계산에는 쓰지 않음, 정성적 비교용) — 출처: Phenomenex Method Development Seminar, 2012</div>
+  <table style="max-width:360px;">
+    <thead><tr><th>용매</th><th>S</th></tr></thead>
+    <tbody>
+      <tr><td>Water</td><td class="num">0</td></tr>
+      <tr><td>MeOH</td><td class="num">2.6</td></tr>
+      <tr><td>ACN</td><td class="num">3.1</td></tr>
+      <tr><td>THF</td><td class="num">4.4</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ============ 상세 설명서 ============ -->
+<div class="panel manual">
+  <h2>상세 설명서 · 출처 · 검증 사례</h2>
+  <p class="lead">필요한 항목만 펼쳐 보십시오.</p>
+
+  <details>
+    <summary>1. 각 결과를 어떻게 읽나</summary>
+    <div class="inner">
+      <ul>
+        <li><b>① 변환된 조건</b> — 내 컬럼에서 논문과 같은 선속도·같은 체류를 내기 위한 값입니다. <b>유속 F2</b>는 입자가 작아질수록 커지는 것이 정상입니다(선속도 유지). <b>주입량 V2</b>는 컬럼 부피에 비례해 줄이는 값이며, 이보다 많이 넣으면 봉우리가 넓어집니다. <b>기울기 배율</b>은 논문 기울기표의 모든 시각에 곱하는 수이고, 변환된 표가 바로 아래에 나옵니다 — 장비에는 그 표를 넣습니다.</li>
+        <li><b>② 효율·분리도</b> — N2/N1이 1보다 작으면 봉우리가 넓어지는 방향, 크면 좁아지는 방향입니다. 분리도는 √N에 비례하므로 효율이 30% 줄어도 분리도는 약 16%만 줄어듭니다. 1.0 미만이면 임계쌍(가장 붙어 있는 두 봉우리)을 실측으로 확인해야 합니다.</li>
+        <li><b>③ 압력</b> — 논문 압력을 모르면 <b>비율만</b> 나옵니다. 비율이 2배라면 “같은 이동상·같은 온도에서 압력이 2배가 된다”는 뜻입니다. 절대압력은 논문 압력값을 넣어야 나오며, 추정으로 지어내지 않습니다. 이동상·온도가 다르면 이 예측은 어긋납니다.</li>
+        <li><b>④ dwell volume 보정</b> — 기울기에서만 의미가 있습니다. 내 장비의 dwell volume이 목표보다 <b>작으면</b> 시작 부분에 등용리 홀드를 넣고, <b>크면</b> 주입을 그만큼 늦춥니다. Vd를 모르면 이 구역은 비활성화되며, 실측법은 계산④ 안의 접이식 안내에 있습니다.</li>
+        <li><b>⑤ USP&lt;621&gt; 판정</b> — 아래 3번 항목 참조.</li>
+        <li><b>크로마토그램 모식도</b> — 붙는 봉우리가 있는지 눈으로 보기 위한 그림입니다. 봉우리 높이는 계산 대상이 아니며, 판단 근거는 그림이 아니라 아래에 나오는 <b>Rs 값</b>입니다.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>2. Fs(컬럼 등가성)를 어떻게 해석하나</summary>
+    <div class="inner">
+      Fs는 두 컬럼의 다섯 가지 성질(H 소수성, S* 입체 선택성, A 수소결합 산도, B 염기도, C 양이온교환)의 차이를 가중 합해 하나의 거리로 나타낸 값입니다. <b>작을수록 선택성이 비슷</b>합니다.<br><br>
+      · <b>Fs ≤ 3</b> — 동등(equivalent)으로 분류됩니다. DB 819개 전 조합 중 약 0.3%뿐이라 후보가 없는 경우가 흔합니다.<br>
+      · <b>3 &lt; Fs ≤ 12</b> — 이 구간의 해석은 문헌마다 달라 단정할 수 없습니다. 실측 확인이 필요합니다.<br>
+      · <b>Fs &gt; 12</b> — 직교(orthogonal), 즉 선택성이 다릅니다. 값이 클수록 더 다릅니다.<br><br>
+      <b>읽는 요령</b> — 총합 Fs만 보지 말고 <b>어느 항이 큰지</b>를 보십시오. 표의 ΔC가 크면 이온화되는 화합물(염기성 아민 등)에서 특히 차이가 크게 납니다. 반대로 중성 화합물만 다룬다면 ΔC가 커도 실제 분리는 비슷할 수 있습니다.<br><br>
+      <b>한계</b> — Fs는 후보를 좁히는 도구이지 동등성을 보증하지 않습니다. 값이 낮아도 실제 분리는 반드시 실측으로 확인해야 합니다. 또 Fs는 정지상의 화학적 성질만 비교하며, 입자 형태(전다공/표면다공)·컬럼 효율·내구성은 반영하지 않습니다.
+    </div>
+  </details>
+
+  <details>
+    <summary>3. USP &lt;621&gt; 판정을 어떻게 읽나</summary>
+    <div class="inner">
+      USP &lt;621&gt;는 “이만큼까지는 바꿔도 <b>같은 메소드</b>로 본다”는 허용 범위입니다. 여기서 <b>초과</b>가 뜨면 틀렸다는 뜻이 아니라, <b>같은 메소드로 인정받지 못하므로 재검증(밸리데이션)이 필요하다</b>는 뜻입니다.<br><br>
+      · <b>L/dp 비율</b>이 −25% ~ +50% 안이면 컬럼 길이·입자크기 변경이 허용 범위입니다. 이 판정 하나가 사실상 컬럼 교체 가능 여부를 가릅니다.<br>
+      · <b>내경</b>은 제한이 없지만, 바꾸면 유속·주입량을 반드시 다시 계산해야 합니다(계산①이 자동으로 합니다).<br>
+      · <b>유속</b>은 기하식으로 계산한 값을 기준으로, <b>등용매에서만 추가 ±50%</b>가 허용됩니다. <b>기울기에서는 추가 조정이 허용되지 않습니다</b> — 기울기 모드에서 유속을 직접 바꾸면 그 사실이 경고로 표시됩니다.<br>
+      · <b>온도</b>는 등용매 ±10 °C, 기울기 ±5 °C입니다.<br>
+      · <b>정지상·UV 파장</b>은 변경 불가입니다. 컬럼을 다른 화학으로 바꾸는 것은 애초에 이 허용범위의 대상이 아닙니다.<br><br>
+      기준일자: USP &lt;621&gt; 2022-12-01 개정 / Agilent 백서 재현표 / 조회 2026-08-06.
+    </div>
+  </details>
+
+  <details>
+    <summary>4. 자주 하는 실수</summary>
+    <div class="inner">
+      <ul>
+        <li><b>유속만 바꾸고 기울기 시간을 그대로 둔다</b> — 가장 흔한 실수입니다. 유속을 낮추면 기울기 시간을 그만큼 늘려야 k*가 유지됩니다. 이 계산기는 자동으로 늘려 주지만, 장비에는 변환된 표를 넣어야 합니다.</li>
+        <li><b>주입량을 줄이지 않는다</b> — 4.6 mm에서 2.1 mm로 가면 컬럼 부피가 약 1/5입니다. 같은 20 µL를 넣으면 봉우리가 넓어지고 앞머리가 깨집니다.</li>
+        <li><b>압력을 확인하지 않고 작은 입자로 간다</b> — 입자크기가 절반이면 압력은 대략 8배까지 오릅니다. 기기 최대압력을 넣어 미리 확인하십시오.</li>
+        <li><b>dwell volume 차이를 무시한다</b> — 논문이 쓰던 장비와 dwell volume이 다르면 기울기 시작 시점이 어긋나 초기 용출 성분의 머무름이 달라집니다.</li>
+        <li><b>Fs가 낮다고 그대로 쓴다</b> — Fs는 후보 선별용입니다. 반드시 실측으로 확인하십시오.</li>
+        <li><b>용매를 ACN에서 MeOH로 바꾸며 “비율만 맞추면 된다”고 본다</b> — 선택성 자체가 바뀌고 점도가 올라 압력도 달라집니다. 계산⑦은 출발점일 뿐입니다.</li>
+        <li><b>단위를 섞는다</b> — 유속은 mL/min, 주입량은 µL, dwell volume은 µL, 길이·내경은 mm, 입자크기는 µm입니다.</li>
+        <li><b>ε_total 가정값(0.68)을 실측값처럼 믿는다</b> — 사강부피·dwell 보정·크로마토그램의 t0가 모두 이 값에 영향을 받습니다. 실측 t0가 있으면 그것에 맞춰 ε을 조정하십시오.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>5. 출처 목록 (기준일자 병기)</summary>
+    <div class="inner">
+      · <b>계산① 기하학적 스케일링 · 계산⑤(화면 ⑤) USP&lt;621&gt; 허용범위</b> — Agilent 백서 USP&lt;621&gt; Table 1, USP&lt;621&gt; 2022-12-01 개정 반영, 조회 2026-08-06.<br>
+      · <b>계산② 효율·분리도</b> — N ∝ L/dp, Rs ∝ √N. 일반 크로마토그래피 이론식이며 특정 1차 문헌 인용이 아닙니다.<br>
+      · <b>계산③ 압력</b> — Kozeny-Carman 식에서 유도한 비율식. 점도(μ)가 약분된 형태이므로 이동상·온도 동일이 전제입니다.<br>
+      · <b>계산④ dwell volume</b> — Stoll, LCGC North America, Part I·II (2024). GDV 참고 범위(고압혼합 ≈ 50 µL / 저압혼합 ≈ 400 µL / 구형 저압혼합 ≈ 1,000 µL)도 같은 출처.<br>
+      · <b>ε_total = 0.68</b> — <b>가정값이며 1차 출처 미확인</b>입니다. 화면에서 수정할 수 있습니다.<br>
+      · <b>계산⑤ Fs</b> — Snyder-Dolan Hydrophobic Subtraction Model. 계수는 제곱 <b>안</b>에 들어가는 형태로 확정했으며, 근거는 HALO 가이드북 Table 1의 보고값 8건 전부와 일치한다는 점입니다(Advanced Materials Technology, 2021). 판정 구간 — Fs≤3 = USP PQRI·Snyder-Dolan / Fs&gt;12 = HALO 가이드북 / Fs&gt;65·Fs&gt;100 = Dolan, Method development in liquid chromatography, Ch.14 in Liquid Chromatography 2nd ed. (Elsevier 2017).<br>
+      · <b>크로마토그램 모식도</b> — t0 = Vm/F, k 정의, σ = tR/√N, Rs 정의는 모두 표준 크로마토그래피 관계식입니다. N 추정에 쓴 <b>h ≈ 2.5</b>는 잘 충전된 컬럼의 통상값을 쓴 <b>가정값</b>입니다.<br>
+      · <b>계산⑦ 용매 변환</b> — Ramos-Ramos et al., Liquid Chromatography (Elsevier, 2017) Ch.13 Eq.13.8 · Fig.13.2 노모그램, 열람 2026-08-06. S값 참고표 — Phenomenex Method Development Seminar, 2012.<br>
+      · <b>컬럼 DB</b> — hplccolumns_database_export.csv (819행, 결측 0).<br>
+      · <b>유속 실무 범위(4.6 mm 1.0~1.5 / 3.0 mm 0.4~0.6 / 2.1 mm 0.2~0.4 mL/min)</b> — 현장 통상 범위이며 <b>절대 기준이 아닙니다</b>. 문헌 규정이 아니라 관행이므로 벗어나도 차단하지 않고 표시만 합니다.
+    </div>
+  </details>
+
+  <details>
+    <summary>6. 검증 사례 — 아래 값을 넣으면 이 숫자가 나와야 합니다</summary>
+    <div class="inner">
+      계산기가 제대로 도는지 직접 확인하는 방법입니다. 아래 입력을 그대로 넣고 결과를 대조하십시오. (화면 표시는 자리수가 반올림되므로 <b>표시값</b> 열과 맞춰 보시면 됩니다.)
+
+      <div class="verify-case">
+        <h4>케이스 A — 논문 250 × 4.6 mm 5 µm, 1.0 mL/min, 20 µL, 기울기 0→30 min / 내 조건 150 × 4.6 mm 3.5 µm (ε_total 0.68)</h4>
+        <table class="num-table">
+          <thead><tr><th>항목</th><th>표시값</th><th>정확값</th></tr></thead>
+          <tbody>
+            <tr><td>유속 F2</td><td>1.4286 mL/min</td><td>1.428571</td></tr>
+            <tr><td>주입량 V2</td><td>12 µL</td><td>12.000000</td></tr>
+            <tr><td>변환된 기울기 종료시각 tG2</td><td>12.6 min</td><td>12.600000</td></tr>
+            <tr><td>ΔP2/ΔP1</td><td>×1.749</td><td>1.749271</td></tr>
+            <tr><td>N2/N1</td><td>×0.857</td><td>0.857143</td></tr>
+            <tr><td>Rs2/Rs1</td><td>×0.926</td><td>0.925820</td></tr>
+            <tr><td>L/dp 변화</td><td>−14.3%</td><td>−14.2857% → USP 통과</td></tr>
+            <tr><td>Vm1 / Vm2</td><td>2.825 / 1.695 mL</td><td>2.825234 / 1.695141</td></tr>
+          </tbody>
+        </table>
+        <div class="note">Vd1을 임의 값으로 넣으면 목표 Vd2 = Vd1 × 0.600000이 되어야 합니다(예: Vd1 = 500 µL → 목표 300 µL).</div>
+      </div>
+
+      <div class="verify-case">
+        <h4>케이스 B — 같은 논문 조건 / 내 조건 100 × 2.1 mm 1.8 µm (내경이 바뀌는 경우)</h4>
+        <table class="num-table">
+          <thead><tr><th>항목</th><th>표시값</th><th>정확값</th></tr></thead>
+          <tbody>
+            <tr><td>유속 F2</td><td>0.5789 mL/min</td><td>0.578922</td></tr>
+            <tr><td>주입량 V2</td><td>1.667 µL</td><td>1.667297</td></tr>
+            <tr><td>변환된 기울기 종료시각 tG2</td><td>4.32 min</td><td>4.320000</td></tr>
+            <tr><td>ΔP2/ΔP1</td><td>×8.573</td><td>8.573388</td></tr>
+            <tr><td>N2/N1</td><td>×1.111</td><td>1.111111</td></tr>
+            <tr><td>Rs2/Rs1</td><td>×1.054</td><td>1.054093</td></tr>
+            <tr><td>L/dp 변화</td><td>+11.1%</td><td>+11.1111% → USP 통과</td></tr>
+            <tr><td>Vm2</td><td>0.236 mL</td><td>0.235525</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="verify-case">
+        <h4>Fs 문헌 대조 — HALO C18 기준, HALO PFP</h4>
+        등가성 조회에서 기준 컬럼을 <b>Halo C18</b>로 고르고 C 값을 <b>pH 2.8</b>로 두면, <b>HALO PFP</b>의 Fs가 <b>94.45</b>로 나옵니다. 이는 HALO 가이드북 Table 1의 보고값 <b>94.45</b>와 일치합니다(Advanced Materials Technology). 이 대조는 Fs 수식의 계수가 제곱 <b>안</b>에 들어가는 형태임을 확인해 줍니다.
+        <div class="note">확인용 중간값 — ΔH −0.398 / ΔS* −0.157 / ΔA −0.073 / ΔB −0.012 / ΔC +1.12 → √(4.975² + 15.7² + 2.19² + 1.716² + 92.96²) = 94.45</div>
+      </div>
+
+      <div class="verify-case">
+        <h4>Fs 순위 대조 — Zorbax C18 기준 (pH 2.8)</h4>
+        기준 컬럼을 <b>Zorbax C18</b>로 두면 Fs가 가장 낮은 상위 5개가 아래 순서·값으로 나와야 합니다(1위는 자기 자신 Fs = 0이므로 제외한 순위).
+        <table class="num-table">
+          <thead><tr><th>순위</th><th>컬럼</th><th>Fs</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Hypersil PAH</td><td>16.502</td></tr>
+            <tr><td>2</td><td>Supelcosil LC-18</td><td>21.102</td></tr>
+            <tr><td>3</td><td>Adsorbosphere C18</td><td>22.243</td></tr>
+            <tr><td>4</td><td>Apex C8</td><td>23.453</td></tr>
+            <tr><td>5</td><td>Apex C18</td><td>25.710</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="verify-case">
+        <h4>기타 확인점</h4>
+        · dwell 보정 — 케이스 A에서 Vd1 = 500 µL, 실측 Vd2 = 300 µL를 넣으면 목표 300 µL와 같아 “보정 불필요”가 나오고, 실측 Vd2 = 290 µL면 등용리 홀드 <b>+0.01 min</b>이 나옵니다.<br>
+        · 계산⑦ — 기준 용매 MeOH에 20을 넣으면 ACN <b>15.7%</b>가 나옵니다(Eq.13.8 원문 예시와 일치).
+      </div>
+    </div>
+  </details>
+</div>
+
+<footer class="bottom">
+  <b>출처 · 기준일자</b><br>
+  · 계산①⑥ 기하학적 스케일링·USP&lt;621&gt; 허용범위 — Agilent 백서 USP&lt;621&gt; Table 1 (2022-12-01 개정 반영, 조회 2026-08-06)<br>
+  · 계산② 효율·분리도 — N ∝ L/dp, Rs ∝ √N (일반 크로마토그래피 이론식, 특정 1차 문헌 인용 아님)<br>
+  · 계산③ 압력 — Kozeny-Carman 유도 비율식<br>
+  · 계산④ Dwell volume — Stoll, LCGC North America Part I·II (2024)<br>
+  · 계산⑤ 컬럼 등가성 Fs — 수식 계수는 제곱 안(HALO 가이드북 Table 1 실측 8건 전부와 일치, Advanced Materials Technology 2021) / 판정구간 Fs≤3=USP PQRI·Snyder-Dolan, Fs&gt;12=HALO 가이드북, Fs&gt;65·Fs&gt;100=Dolan, Method development in liquid chromatography, Ch.14 in Liquid Chromatography 2nd ed. (Elsevier 2017)<br>
+  · 계산⑦ 용매 변환 — Ramos-Ramos et al., Liquid Chromatography (Elsevier, 2017) Ch.13 — 2026-08-06 열람 / S값 참고표 — Phenomenex Method Development Seminar, 2012<br>
+  · 컬럼 DB — hplccolumns_database_export.csv (819행, 결측 0)<br><br>
+  이 계산기는 스케일링·판정을 보조할 뿐, 실제 메소드 이전의 최종 검증은 반드시 실측(밸리데이션)으로 확인해야 합니다.<br><br>
+  Min Sik Kim
+</footer>
+
+</div>
+
+<script>
+"use strict";
+var COLDATA = [[1,"Zorbax C18","Agilent Technologies","A",1.08,0.05,0.47,0.06,1.48,1.56,10.7,"L1","C18"],[2,"Zorbax C8","Agilent Technologies","A",0.97,-0.04,0.21,0.17,0.97,1.05,8.3,"L7","C8"],[3,"Zorbax Eclipse XDB-C18","Agilent Technologies","B",1.07,0.02,-0.06,-0.03,0.05,0.08,9.1,"L1","C18"],[4,"Zorbax Eclipse XDB-C8","Agilent Technologies","B",0.91,0.02,-0.21,0.0,0.0,0.01,6.6,"L7","C8"],[5,"Zorbax Extend C18","Agilent Technologies","B",1.09,0.05,0.01,-0.04,0.03,0.01,8.4,"L1","C18"],[6,"Zorbax Rx-18","Agilent Technologies","B",1.07,0.03,0.3,-0.03,0.09,0.41,7.7,"L1","C18"],[7,"Zorbax Rx-C8","Agilent Technologies","B",0.79,-0.07,0.11,0.01,0.01,0.94,5.0,"L7","C8"],[8,"Zorbax StableBond 300A C18","Agilent Technologies","B",0.9,-0.05,0.04,0.04,0.25,0.7,2.2,"L1","C18"],[9,"Zorbax StableBond 300A C3","Agilent Technologies","B",0.52,-0.12,-0.19,0.04,0.05,0.35,0.7,"L56","C3"],[10,"Zorbax StableBond 300A C8","Agilent Technologies","B",0.7,-0.08,0.0,0.04,0.14,0.82,1.3,"L7","C8"],[11,"Zorbax StableBond 80A C18","Agilent Technologies","B",0.99,-0.03,0.26,0.0,0.13,1.04,7.6,"L1","C18"],[12,"Zorbax StableBond 80A C3","Agilent Technologies","B",0.6,-0.12,-0.08,0.03,-0.08,0.81,2.8,"L56","C3"],[13,"Zorbax StableBond 80A C8","Agilent Technologies","B",0.79,-0.07,0.13,0.01,0.01,1.02,5.1,"L7","C8"],[15,"Zorbax SB-AQ","Agilent Technologies","EP",0.59,-0.12,-0.08,0.03,-0.13,0.73,2.5,"","EP"],[16,"Zorbax SB-Phenyl","Agilent Technologies","phenyl",0.62,-0.16,0.06,0.03,0.03,1.08,2.7,"L11","Phenyl"],[17,"Zorbax XDB-Phenyl","Agilent Technologies","phenyl",0.66,-0.12,-0.24,0.01,0.06,0.58,3.2,"L11","Phenyl"],[18,"Zorbax SB-CN","Agilent Technologies","CN",0.5,-0.1,-0.22,0.04,-0.14,1.04,1.7,"L10","CN"],[19,"Zorbax Eclipse XDB-CN","Agilent Technologies","CN",0.45,-0.06,-0.31,0.0,0.07,0.99,1.3,"L10","CN"],[20,"Kromasil 100 5 C18","Kromasil by Nouryon","B",1.05,0.03,-0.07,-0.02,0.03,-0.05,12.5,"L1","C18"],[21,"Kromasil 100 5 C4","Kromasil by Nouryon","B",0.73,0.0,-0.33,0.01,0.0,0.0,5.0,"L26","C4"],[22,"Kromasil 100 5 C8","Kromasil by Nouryon","B",0.86,0.01,-0.21,0.01,0.05,0.0,7.6,"L7","C8"],[23,"Kromasil KR60 5 CN","Kromasil by Nouryon","CN",0.44,-0.13,-0.57,-0.01,0.21,1.03,2.0,"L10","CN"],[24,"Adsorbosphere C18","Grace/Alltech","A",0.98,-0.07,0.07,-0.04,1.49,1.68,7.7,"L1","C18"],[25,"Adsorpbosphere UHS C18","Grace/Alltech","B",1.1,0.0,0.4,-0.04,-0.12,-0.12,18.2,"L1","C18"],[26,"Allsphere ODS1","Grace/Alltech","A",0.73,-0.16,0.38,0.0,0.84,1.14,4.7,"L1","C18"],[27,"Allsphere ODS2","Grace/Alltech","A",1.0,-0.04,0.24,-0.02,0.96,1.28,8.0,"L1","C18"],[28,"Alphabond (C18)","Grace/Alltech","A",0.84,-0.09,0.06,0.0,0.57,1.76,5.3,"L1","C18"],[29,"Econosil C18","Grace/Alltech","A",0.96,-0.06,0.37,-0.03,1.02,1.33,8.2,"L1","C18"],[30,"Econosphere C18","Grace/Alltech","A",0.81,-0.12,0.03,-0.01,1.04,1.52,5.1,"L1","C18"],[31,"GraceSmart RP 18 5u","Grace/Alltech","B",0.83,-0.03,0.07,0.0,0.07,0.74,4.0,"L1","C18"],[32,"Alltima AQ","Grace/Alltech","B",0.88,-0.07,0.3,0.01,0.15,1.15,8.8,"","C18"],[33,"Alltima C18","Grace/Alltech","B",0.99,-0.01,0.03,-0.01,0.09,0.39,11.5,"L1","C18"],[34,"Alltima C18-LL","Grace/Alltech","B",0.78,0.08,-0.16,0.04,-0.05,0.36,5.9,"L1","C18"],[35,"Alltima C18-WP","Grace/Alltech","B",0.93,-0.06,0.02,0.0,-0.07,-0.08,4.9,"L1","C18"],[36,"Alltima C8","Grace/Alltech","B",0.75,0.01,-0.27,0.0,-0.06,0.28,5.5,"L7","C8"],[37,"Alltima HP C18","Grace/Alltech","B",0.98,-0.02,-0.04,0.0,0.17,0.19,4.9,"L1","C18"],[38,"Alltima HP C18 High Load","Grace/Alltech","B",1.08,-0.06,0.06,-0.04,-0.32,-0.24,11.8,"L1","C18"],[39,"Alltima HP C8","Grace/Alltech","B",0.83,0.01,-0.11,0.03,0.12,-0.41,3.1,"L7","C8"],[40,"Brava BDS C18","Grace/Alltech","B",0.93,-0.03,0.03,0.01,0.28,0.76,4.7,"L1","C18"],[41,"Platinum C18","Grace/Alltech","A",0.78,-0.07,-0.09,0.0,0.4,0.69,4.6,"L1","C18"],[42,"Platinum C8","Grace/Alltech","B",0.58,-0.05,-0.22,0.0,0.25,0.39,3.0,"L7","C8"],[43,"Platinum EPS C18","Grace/Alltech","A",0.61,-0.17,0.3,0.02,0.68,1.7,2.6,"L1","C18"],[44,"Platinum EPS C8","Grace/Alltech","A",0.42,-0.15,0.15,0.02,0.5,1.36,1.1,"L7","C8"],[45,"Prevail C18","Grace/Alltech","B",0.88,-0.07,0.31,0.02,0.1,1.2,9.4,"L1","C18"],[46,"Prevail C8","Grace/Alltech","B",0.61,-0.08,0.03,0.04,0.08,1.07,3.4,"L7","C8"],[47,"Prevail Select C18","Grace/Alltech","B",0.82,0.02,-0.36,0.14,-1.05,0.45,7.5,"L1","C18"],[48,"Alltima HP C18 Amide","Grace/Alltech","EP",0.49,-0.02,0.35,0.12,-0.01,0.92,4.8,"L60","EP"],[49,"Alltima HP C18 EPS","Grace/Alltech","EP",0.65,-0.1,0.4,0.03,0.45,0.95,1.2,"L1","EP"],[50,"Platinum EPS C18 300","Grace/Alltech","EP",0.45,-0.05,0.37,0.01,0.24,1.29,3.6,"","EP"],[51,"Platinum EPS C8 300","Grace/Alltech","EP",0.58,-0.11,-0.13,0.08,0.48,0.96,0.8,"","EP"],[52,"Prevail Amide","Grace/Alltech","EP",0.86,-0.06,0.25,0.03,0.05,1.2,9.6,"L60","EP"],[53,"Prosphere 300 C4","Grace/Alltech","B",0.68,-0.01,-0.05,0.02,0.31,0.68,1.0,"L26","C4"],[54,"Prosphere 100 C18","Grace/Alltech","B",0.88,-0.07,0.3,0.01,0.18,1.51,6.4,"L1","C18"],[55,"Advantage 300","Analytical Sales & Services","A",0.86,0.0,0.12,0.02,0.59,1.11,1.7,"L1","C18"],[56,"Advantage Armor C18 120A","Analytical Sales & Services","B",0.96,-0.01,-0.07,0.0,0.07,0.26,8.6,"L1","C18"],[57,"Armor C18 3um","Analytical Sales & Services","B",0.96,-0.01,-0.07,0.0,0.12,0.29,8.5,"L1","C18"],[58,"Ultrasphere Octyl","Hichrom","B",0.89,0.01,0.0,0.08,0.15,0.54,5.7,"L7","C8"],[59,"Ultrasphere ODS","Hichrom","B",1.08,-0.01,0.17,0.06,0.27,0.38,8.7,"L1","C18"],[60,"BAS MF-8954","BioAnalytical Systems","A",0.97,-0.06,0.18,0.02,1.08,1.39,6.9,"L1","C18"],[61,"EU Reference Column","Bischoff","B",1.0,0.0,0.26,0.0,0.17,0.44,9.3,"L1","C18"],[62,"ProntoSIL 120 C18 SH","Bischoff","B",1.03,0.01,-0.1,-0.02,0.11,0.4,8.7,"L1","C18"],[63,"ProntoSIL 120 C8 SH","Bischoff","B",0.73,-0.06,-0.08,0.01,0.07,0.52,4.9,"L7","C8"],[64,"ProntoSIL 120 C1","Bischoff","B",0.41,-0.07,-0.08,0.02,0.04,0.65,1.2,"C13","C1"],[65,"ProntoSIL 120 C18 H","Bischoff","B",1.0,0.0,-0.1,0.0,0.12,0.15,9.7,"L1","C18"],[66,"ProntoSIL 120 C18-AQ","Bischoff","B",0.97,0.0,-0.08,0.0,0.13,0.22,8.1,"L1","C18"],[67,"ProntoSIL 120-3-C30","Bischoff","A",0.91,-0.13,0.57,0.0,0.5,1.78,6.9,"L62","C30"],[68,"ProntoSIL 300 C30 EC","Bischoff","B",0.92,-0.04,-0.01,0.01,0.3,0.45,2.8,"L62","C30"],[69,"ProntoSIL 200 C18 AQ","Bischoff","B",0.97,-0.01,-0.05,0.0,0.12,0.28,6.3,"L1","C18"],[70,"ProntoSIL 200 C8 SH","Bischoff","B",0.76,-0.02,-0.19,0.02,0.12,0.23,2.7,"L7","C8"],[71,"ProntoSIL 200 C18 H","Bischoff","B",0.95,0.0,-0.12,0.01,0.16,0.21,4.8,"L1","C18"],[72,"ProntoSIL 200 C30","Bischoff","A",0.9,-0.09,0.34,0.0,0.3,1.17,4.4,"L62","C30"],[73,"ProntoSIL 200 C4","Bischoff","B",0.54,-0.06,-0.22,0.03,0.08,0.51,1.3,"L26","C4"],[74,"ProntoSIL 300 C8 SH","Bischoff","B",0.73,-0.04,-0.13,0.02,0.15,0.4,1.8,"L7","C8"],[75,"ProntoSIL 300-5-C18 H","Bischoff","B",0.95,-0.01,-0.09,0.01,0.23,0.24,3.2,"L1","C18"],[76,"ProntoSIL 300 C30","Bischoff","A",0.89,-0.1,0.32,0.03,0.4,1.54,3.0,"L62","C30"],[77,"ProntoSIL 300 C4","Bischoff","B",0.47,-0.09,-0.07,0.05,0.11,0.78,0.6,"L26","C4"],[78,"ProntoSIL 60 C8 SH","Bischoff","B",0.92,-0.01,0.16,-0.01,-0.31,1.0,8.4,"L7","C8"],[79,"ProntoSIL 60 C18 H","Bischoff","B",1.15,0.04,0.06,-0.07,0.1,0.26,12.2,"L1","C18"],[80,"ProntoSIL 60 C4","Bischoff","B",0.68,-0.07,0.1,0.0,-0.05,1.2,4.1,"L26","C4"],[81,"ProntoSIL CN","Bischoff","CN",0.37,-0.11,-0.41,-0.02,0.16,0.66,0.9,"L10","CN"],[82,"ProntoSIL 120 CN EC","Bischoff","CN",0.42,-0.05,-0.32,0.01,0.01,0.76,1.2,"L10","CN"],[83,"ProntoSIL 120 C18 ace-EPS","Bischoff","EP",0.77,0.04,-0.59,0.22,-0.3,0.04,8.3,"","EP"],[84,"ProntoSIL 120 C18 AQplus","Bischoff","EP",0.94,-0.01,0.21,0.04,-0.13,0.6,9.1,"","EP"],[85,"ProntoSIL 120 C8 ace-EPS","Bischoff","EP",0.53,0.0,-0.85,0.21,-0.28,0.09,3.7,"","EP"],[86,"ProntoSIL 200 C18 ace-EPS","Bischoff","EP",0.76,0.02,-0.56,0.21,0.02,0.14,4.7,"","EP"],[87,"ProntoSIL 300 C18 ace-EPS","Bischoff","EP",0.76,0.02,-0.57,0.21,-0.05,0.13,2.9,"","EP"],[88,"ProntoSIL 120 Phenyl","Bischoff","phenyl",0.56,-0.15,-0.2,0.02,0.17,0.71,2.5,"L11","Phenyl"],[89,"ProntoSIL 60 Phenyl","Bischoff","phenyl",0.7,-0.19,0.0,-0.01,0.41,1.51,4.5,"L11","Phenyl"],[90,"ProntoSIL HyperSORB 120 ODS","Bischoff","A",0.95,-0.06,0.03,-0.02,0.79,1.31,5.2,"L1","C18"],[91,"ProntoSIL SpheriBOND 80 ODS1","Bischoff","A",0.7,-0.19,0.36,0.01,1.45,2.4,3.8,"L1","C18"],[92,"ProntoSIL SpheriBOND 80 ODS2","Bischoff","A",1.01,-0.02,0.15,-0.03,0.73,1.0,7.7,"L1","C18"],[93,"Acclaim 120 C18","Dionex","B",1.03,0.01,-0.14,-0.02,0.08,0.0,10.1,"L1","C18"],[94,"Acclaim 120 C8","Dionex","B",0.85,0.0,-0.27,0.01,0.08,0.01,6.0,"L7","C8"],[95,"Acclaim300 C18","Dionex","B",0.95,-0.01,-0.17,0.01,0.26,0.22,2.9,"L1","C18"],[96,"Acclaim Polar Advantage","Dionex","EP",0.85,-0.06,-0.11,0.02,-0.27,0.35,6.8,"L60","EP"],[97,"Acclaim Organic Acid","Dionex","other",0.83,-0.06,-0.38,0.0,-0.31,0.34,6.7,"","Other"],[98,"Acclaim PolarAdvantage II","Dionex","EP",0.74,0.01,-0.55,0.21,-0.22,0.67,6.3,"L60","EP"],[99,"SynChropak RP8","Eprogen","A",0.63,-0.09,0.1,0.02,0.22,0.94,1.2,"L7","C8"],[100,"SynChropak RPP","no longer available","A",0.74,-0.11,0.23,0.03,0.25,1.28,1.8,"L1","C18"],[101,"SynChropak RPP 100","no longer available","A",0.91,-0.05,-0.07,0.12,0.22,0.31,5.4,"L1","C18"],[102,"Chromegabond WR C18","ES Industries","B",0.97,0.02,-0.15,0.0,0.32,0.28,5.4,"L1","C18"],[103,"Chromegabond WR C8","ES Industries","B",0.85,0.02,-0.27,0.02,0.2,0.14,3.6,"L7","C8"],[104,"Inertsil Ph-3","GL Sciences","phenyl",0.52,-0.17,-0.13,0.04,0.12,0.73,2.6,"L11","Phenyl"],[105,"Inertsil C8-3","GL Sciences","B",0.83,0.0,-0.26,-0.01,-0.33,-0.36,7.1,"L7","C8"],[106,"Inertsil ODS-2","GL Sciences","B",1.0,0.04,-0.07,-0.01,-0.13,0.44,8.2,"L1","C18"],[107,"Inertsil ODS-3","GL Sciences","B",0.99,0.02,-0.14,-0.02,-0.47,-0.33,10.9,"L1","C18"],[108,"Inertsil ODS-P","GL Sciences","B",0.97,-0.02,0.61,-0.03,0.23,1.47,11.2,"L1","C18"],[109,"Inertsil WP300 C18","GL Sciences","B",0.93,-0.01,-0.11,0.0,0.2,0.16,3.8,"L1","C18"],[110,"Inertsil WP300 C8","GL Sciences","B",0.79,-0.01,-0.21,0.01,0.12,0.06,2.2,"L7","C8"],[111,"Inertsil CN-3","GL Sciences","CN",0.36,0.04,-0.8,0.08,-2.6,-1.29,1.1,"L10","CN"],[112,"Inertsil ODS-EP","GL Sciences","EP",0.8,0.06,-1.52,0.05,-0.62,-0.07,7.2,"L60","C18"],[113,"Vydac 201TP","Grace/Vydac","A",0.9,-0.02,0.4,0.0,0.39,1.02,2.1,"L1","C18"],[114,"Vydac 218TP","Grace/Vydac","B",0.9,0.0,0.34,0.0,0.27,0.67,2.0,"L1","C18"],[115,"Vydac Everest","Grace/Vydac","B",0.99,0.04,0.12,0.0,0.06,0.34,2.2,"L1","C18"],[116,"Denali 120A C18","Grace/Vydac","B",1.05,0.04,0.12,-0.01,0.14,0.22,9.4,"L1","C18"],[117,"Vydac 218MS","Grace/Vydac","A",0.77,0.18,0.11,-0.37,0.65,1.23,1.7,"L1","C18"],[119,"GROM-SIL 120 ODS-5 ST","Grace/Grom","B",1.03,0.0,0.13,0.0,0.13,0.12,10.5,"L1","C18"],[120,"GROM-SIL 120 Octyl-6 MB","Grace/Grom","B",0.87,0.0,0.0,0.02,-0.01,0.13,5.8,"L7","C8"],[121,"GROM Saphire 110 C18","Grace/Grom","B",1.05,0.0,0.08,0.0,-0.03,0.11,12.1,"L1","C18"],[122,"GROM-SIL 120 ODS-3 CP","Grace/Grom","B",1.02,0.01,0.09,0.0,0.09,0.12,10.2,"L1","C18"],[123,"GROM Saphire 110 C8","Grace/Grom","B",0.83,-0.03,-0.1,0.03,-0.09,0.25,7.1,"L7","C8"],[124,"HxSil C18","Hamilton","B",0.84,-0.07,0.3,0.01,0.23,1.05,7.0,"L1","C18"],[125,"HxSil C8","Hamilton","B",0.68,-0.07,0.08,0.03,0.06,0.85,4.4,"L7","C8"],[126,"Hichrom RPB","Hichrom","B",0.96,0.02,0.1,0.0,0.15,0.14,6.4,"L1","C18"],[127,"Hichrom 300 5 RPB","Hichrom","B",0.94,0.02,0.04,0.01,0.22,0.21,2.6,"L1","C18"],[128,"Targa C18","Higgins Analytical","B",0.97,-0.01,-0.07,0.0,0.01,0.17,8.6,"L1","C18"],[129,"Unison UK-C18","Imtakt","B",0.98,-0.01,0.01,-0.01,0.11,0.07,8.9,"L1","C18"],[130,"Apex C18","Grace/Jones","A",0.98,-0.03,0.01,0.04,1.24,2.31,6.1,"L1","C18"],[131,"Apex C8","Grace/Jones","A",0.86,-0.07,0.23,0.17,1.36,1.37,4.4,"L1","C18"],[132,"Apex II C18","Grace/Jones","A",1.0,-0.07,0.23,0.12,2.03,2.69,6.7,"L1","C18"],[133,"Genesis AQ 120A","Grace/Jones","B",0.96,-0.03,-0.15,0.0,0.06,0.23,9.6,"L1","C18"],[134,"Genesis C18 120A","Grace/Jones","B",1.0,0.0,-0.06,0.0,0.13,0.12,9.8,"L1","C18"],[135,"Genesis C18 300A","Grace/Jones","B",0.97,0.0,-0.08,0.01,0.26,0.27,3.5,"L1","C18"],[136,"Genesis C4 300A","Grace/Jones","B",0.61,-0.05,-0.39,0.03,0.14,0.24,1.1,"L26","C4"],[137,"Genesis C4 EC 120A","Grace/Jones","B",0.64,-0.05,-0.33,0.02,0.06,0.4,3.4,"L26","C4"],[138,"Genesis C8 120A","Grace/Jones","B",0.82,-0.01,-0.08,0.01,0.05,0.3,6.2,"L7","C8"],[139,"Genesis EC C8 120A","Grace/Jones","B",0.86,0.0,-0.17,0.02,0.06,0.14,6.9,"L7","C8"],[140,"Genesis CN 120A","Grace/Jones","CN",0.42,-0.11,-0.68,-0.01,0.0,0.57,1.4,"L10","CN"],[141,"Genesis CN 300A","Grace/Jones","CN",0.39,-0.1,-0.64,0.0,0.02,0.39,0.5,"L10","CN"],[142,"Genesis Phenyl","Grace/Jones","phenyl",0.6,-0.14,-0.36,0.03,0.13,0.58,2.9,"L11","Phenyl"],[143,"Nucelosil 100-5-C8 HD","Macherey Nagel","A",0.86,0.0,-0.17,0.02,0.04,0.18,6.3,"L7","C8"],[144,"Nucleosil 100 5 C18 HD","Macherey Nagel","A",0.96,-0.02,-0.12,0.0,0.08,0.15,8.8,"L1","C18"],[145,"Nucleosil 100 5 C18 Nautilus","Macherey Nagel","EP",0.7,0.0,-0.48,0.26,-0.44,0.48,5.4,"L60","EP"],[146,"Nucleosil  C8","Macherey Nagel","A",0.57,-0.13,0.03,0.01,0.28,1.12,2.7,"L7","C8"],[147,"Nucleosil C18","Macherey Nagel","A",0.9,-0.05,0.01,-0.03,0.32,0.73,7.3,"L1","C18"],[148,"Nucleosil 300 5 C18","Macherey Nagel","A",0.86,-0.08,0.0,0.01,0.45,0.98,2.7,"L1","C18"],[149,"Nucleodur C8 Gravity 5 micron","Macherey Nagel","B",0.86,0.03,-0.24,0.0,-0.15,0.63,6.6,"L1","C18"],[150,"Nucleodur C18 Gravity","Macherey Nagel","B",1.05,0.04,-0.09,-0.02,-0.08,0.31,11.0,"L1","C18"],[151,"EC Nucleosil 100-5 Protect 1","Macherey Nagel","EP",0.54,0.04,-0.41,0.3,-3.21,-0.57,2.7,"","EP"],[152,"ACE 5 C8-300","ACT","B",0.78,0.0,-0.11,0.03,0.14,0.38,1.8,"L7","C8"],[153,"ACE 5 C4","ACT","B",0.67,-0.01,-0.17,0.02,0.09,0.31,2.5,"L26","C4"],[154,"ACE 5 C4-300","ACT","B",0.71,-0.01,-0.18,0.03,0.16,0.35,1.3,"L26","C4"],[155,"ACE 5 C18","ACT","B",1.0,0.02,-0.09,0.0,0.14,0.09,7.9,"L1","C18"],[156,"ACE 5 C18-300","ACT","B",0.98,0.02,0.04,0.01,0.26,0.23,3.0,"L1","C18"],[157,"ACE 5 C8","ACT","B",0.827,0.005,-0.18,0.026,0.11,0.16,4.9,"L7","C8"],[158,"ACE 5 CN","ACT","CN",0.4,-0.1,-0.72,0.0,-0.08,0.44,1.0,"L10","CN"],[159,"ACE 5 CN-300","ACT","CN",0.46,-0.07,-0.16,0.03,0.15,0.85,0.4,"L10","CN"],[160,"ACE 5 AQ","ACT","EP",0.8,-0.05,-0.12,0.03,0.0,0.16,4.7,"","EP"],[161,"ACE 5 Phenyl","ACT","phenyl",0.64,-0.13,-0.29,0.02,0.13,0.46,2.8,"L11","Phenyl"],[162,"ACE Phenyl-300","ACT","phenyl",0.59,-0.1,-0.23,0.03,0.16,0.54,1.1,"L11","Phenyl"],[163,"Precision CN","Mac-Mod Analytical","CN",0.43,-0.11,-0.48,0.01,-0.04,0.6,1.3,"L10","CN"],[164,"Precision C18","Mac-Mod Analytical","B",1.0,0.0,-0.04,-0.01,0.07,0.34,9.5,"L1","C18"],[165,"Precision C8","Mac-Mod Analytical","B",0.82,-0.01,-0.18,0.02,0.09,0.24,4.9,"L7","C8"],[166,"Precision C18-PE","Mac-Mod Analytical","EP",0.97,-0.01,-0.08,0.0,0.0,0.16,8.6,"L1","EP"],[167,"Precision C8-PE","Mac-Mod Analytical","EP",0.81,-0.02,-0.15,0.01,0.05,0.27,5.0,"L7","EP"],[168,"Precision Phenyl","Mac-Mod Analytical","phenyl",0.59,-0.13,-0.29,0.02,0.09,0.5,2.6,"L11","Phenyl"],[169,"LiChrosorb RP-18","Merck KGaA (EMD Millipore)�","A",0.9,-0.07,0.15,-0.08,0.71,0.97,7.1,"L1","C18"],[170,"LiChrospher 100 RP-18","Merck KGaA (EMD Millipore)�","A",1.0,-0.02,0.18,-0.03,0.64,0.89,9.5,"L1","C18"],[171,"Chromolith RP18e","Merck KGaA (EMD Millipore)�","B",1.0,0.02,0.0,-0.01,0.1,0.18,3.1,"L1","C18"],[172,"LiChrospher 60 RP-Select B","Merck KGaA (EMD Millipore)�","B",0.74,-0.06,-0.04,0.0,0.1,0.86,5.1,"L1","C8"],[173,"Purospher RP-18","Merck KGaA (EMD Millipore)�","B",0.84,0.23,0.15,0.3,-0.96,0.9,4.9,"L1","C18"],[174,"Purospher STAR RP18e","Merck KGaA (EMD Millipore)�","B",1.0,0.01,-0.07,-0.03,0.01,0.04,10.6,"L1","C18"],[175,"Superspher 100 RP-18e","Merck KGaA (EMD Millipore)�","B",1.03,0.02,-0.02,-0.01,0.35,0.26,9.3,"L1","C18"],[176,"COSMOSIL C18-AR-II","Nacalai Tesque","B",1.01,0.01,0.12,-0.02,0.11,0.49,8.1,"L1","C18"],[177,"COSMOSIL C18-MS-II","Nacalai Tesque","B",1.03,0.04,-0.13,-0.01,-0.11,-0.02,8.1,"L1","C18"],[178,"COSMOSIL 5-C18-PAQ","Nacalai Tesque","EP",0.82,-0.02,-0.34,0.05,-0.35,0.04,5.5,"","EP"],[179,"Develosil C30-UG-5","Nomura","B",0.97,-0.03,-0.19,0.01,0.15,0.17,7.8,"L62","C30"],[180,"Develosil ODS-HG-5","Nomura","B",0.98,0.01,-0.17,0.0,0.18,0.22,8.2,"L1","C18"],[181,"Develosil ODS-MG-5","Nomura","B",0.96,-0.03,-0.16,0.0,-0.01,0.05,11.2,"L1","C18"],[182,"Develosil ODS-UG-5","Nomura","B",0.99,0.02,-0.14,0.0,0.15,0.15,8.4,"L1","C18"],[183,"Bondclone C18","Phenomenex","B",0.82,-0.05,-0.12,0.04,0.07,0.34,4.5,"L1","C18"],[184,"Partisil C8","Phenomenex","B",0.74,-0.07,-0.09,0.07,0.03,0.54,4.5,"L7","C8"],[185,"Partisil ODS(3)","Phenomenex","A",0.81,-0.07,0.0,0.0,0.31,0.9,5.4,"L1","C18"],[186,"Sphereclone ODS(2)","Phenomenex","A",0.97,-0.04,0.27,-0.05,0.86,1.32,7.6,"L1","C18"],[187,"Jupiter 300 C18","Phenomenex","B",0.94,0.03,-0.22,0.0,0.23,0.21,2.9,"L1","C18"],[188,"Jupiter 300 C4","Phenomenex","B",0.69,0.0,-0.42,0.01,0.15,0.14,1.3,"L26","C4"],[189,"Jupiter 300 C5","Phenomenex","B",0.72,0.02,-0.38,0.01,0.12,0.33,1.5,"","C5"],[190,"Luna C18","Phenomenex","B",1.01,0.02,0.07,0.0,-0.36,-0.03,10.9,"L1","C18"],[191,"Luna C18(2)","Phenomenex","B",1.0,0.02,-0.12,0.0,-0.26,-0.17,9.6,"L1","C18"],[192,"Luna C5","Phenomenex","B",0.8,0.03,-0.25,0.0,-0.27,0.11,5.9,"","C5"],[193,"Luna C8","Phenomenex","B",0.87,0.03,-0.01,0.02,-0.4,0.13,7.0,"L7","C8"],[194,"Luna C8(2)","Phenomenex","B",0.88,0.04,-0.22,0.0,-0.3,-0.17,7.2,"L7","C8"],[195,"Prodigy ODS(2)","Phenomenex","B",0.99,0.03,-0.11,0.0,-0.09,0.23,7.7,"L1","C18"],[196,"Prodigy ODS(3)","Phenomenex","B",1.02,0.02,-0.13,-0.01,-0.19,-0.13,10.1,"L1","C18"],[197,"Selectosil C18","Phenomenex","B",0.91,-0.05,0.03,0.0,0.29,0.74,7.0,"L1","C18"],[198,"Synergi Max-RP","Phenomenex","B",0.98,0.02,0.0,-0.01,-0.13,-0.03,9.5,"L1","C18"],[199,"Ultracarb ODS (30)","Phenomenex","B",1.11,0.01,0.37,-0.05,-0.31,0.73,18.2,"L62","C18"],[200,"Aqua C18","Phenomenex","B",0.96,-0.03,0.03,0.0,0.06,0.27,8.8,"L1","C18"],[201,"Luna CN","Phenomenex","CN",0.45,-0.11,-0.32,-0.02,0.43,1.32,1.3,"L10","CN"],[202,"Polaris C18-Ether","Agilent Technologies/Varian","EP",0.94,-0.01,-0.12,0.02,0.16,0.55,5.5,"","EP"],[203,"Polaris C8-Ether","Agilent Technologies/Varian","EP",0.7,-0.02,-0.31,0.04,0.09,0.26,1.8,"","EP"],[204,"Synergi Hydro-RP","Phenomenex","EP",1.02,0.0,0.16,-0.04,-0.07,0.26,11.3,"L1","EP"],[205,"Synergi Polar-RP","Phenomenex","EP",0.65,-0.14,-0.25,0.0,0.05,0.77,3.9,"L1","EP"],[206,"Luna Phenyl-Hexyl","Phenomenex","phenyl",0.78,-0.11,-0.27,0.0,0.0,0.38,5.2,"L11","Phenyl"],[207,"Prodigy Phenyl-3","Phenomenex","phenyl",0.52,-0.19,0.05,0.02,0.23,1.46,2.3,"L11","Phenyl"],[208,"Curosil-PFP","Phenomenex","F",0.69,-0.07,-0.26,0.0,0.11,0.37,4.0,"L43","F"],[209,"Onyx Monolithic C8","Phenomenex","B",0.82,0.0,0.0,0.0,-0.02,0.44,2.0,"L7","C8"],[210,"Onyx Monolithic C18","Phenomenex","B",1.01,0.02,0.22,-0.01,0.12,0.43,3.2,"L1","C18"],[211,"Gemini C18 110A","Phenomenex","B",0.96,0.0,0.02,0.01,-0.09,0.19,8.0,"L1","C18"],[212,"Synergi Fusion-RP","Phenomenex","EP",0.87,-0.03,-0.01,0.0,-0.23,0.36,7.5,"","EP"],[214,"Allure C18","Restek","B",1.13,0.05,0.04,-0.04,-0.03,0.02,17.9,"L1","C18"],[215,"Ultra C18","Restek","B",1.05,0.03,-0.03,-0.02,0.05,0.0,12.2,"L1","C18"],[216,"Ultra C8","Restek","B",0.87,0.01,-0.19,0.01,-0.03,-0.07,8.2,"L7","C8"],[218,"Allure PFP Propyl","Restek","F",0.83,-0.26,0.05,0.34,1.1,1.65,7.4,"L43","F"],[220,"UltraSep ES AMID H RP18P","SEPSERV","EP",0.75,-0.01,-0.1,0.25,-0.52,0.85,4.9,"","EP"],[221,"UltraSep ES PHARM RP18","SEPSERV","A",0.95,-0.06,0.43,-0.05,0.59,1.67,8.5,"L1","C18"],[222,"Exsil C8","no longer available","A",0.75,-0.07,-0.04,-0.01,0.47,0.97,4.7,"L7","C8"],[223,"Exsil ODS","no longer available","A",0.99,-0.03,0.29,-0.04,0.83,1.22,7.6,"L1","C18"],[224,"Wakosil 5 C8 RS","no longer available","B",0.8,0.0,-0.27,0.0,-0.11,0.09,5.6,"L7","C8"],[225,"Wakosil II 5 C18 AR","no longer available","B",0.99,0.07,-0.05,-0.03,0.07,0.01,6.2,"L1","C18"],[226,"Wakosil II 5 C18 HG","no longer available","B",1.03,0.03,0.01,-0.02,0.0,0.21,7.1,"L1","C18"],[227,"Wakosil II 5 C18 RS","no longer available","B",0.96,0.0,-0.16,0.0,-0.07,0.04,9.2,"L1","C18"],[228,"CAPCELL C18 UG120","Shiseido","B",1.0,0.03,0.03,-0.01,0.01,0.0,6.9,"L1","C18"],[229,"CAPCELL C18 AG120","Shiseido","A",1.03,0.06,0.12,-0.06,0.54,0.62,7.2,"L1","C18"],[230,"CAPCELL C18 MG","Shiseido","B",1.0,0.01,0.04,0.0,0.07,0.0,10.2,"L1","C18"],[231,"CAPCELL C18 SG120","Shiseido","B",0.98,0.03,0.09,-0.02,0.12,0.19,6.6,"L1","C18"],[232,"CAPCELL C18 AQ","Shiseido","EP",0.86,-0.04,-0.06,0.01,-0.09,0.4,7.0,"L1","EP"],[233,"CAPCELL C18 ACR","Shiseido","B",1.02,0.04,0.07,-0.01,0.03,0.11,8.5,"L1","C18"],[234,"CAPCELL PAK C8 DD","Shiseido","B",0.83,0.02,-0.15,0.01,-0.11,-0.07,5.4,"L7","C8"],[235,"Capcell Pak C18 MGII","Shiseido","B",1.01,0.01,0.04,0.0,0.0,0.0,9.9,"L1","C18"],[236,"CAPCELL PAK C8 UG120","Shiseido","B",0.85,0.03,-0.09,-0.01,-0.04,-0.01,4.3,"L7","C8"],[238,"Discovery BIO Wide pore C18","Supelco","B",0.83,0.01,-0.25,0.02,0.12,0.11,3.4,"L1","C18"],[239,"Discovery BIO Wide pore C5","Supelco","B",0.65,-0.01,-0.3,0.02,0.09,0.21,1.1,"","C5"],[240,"Discovery BIO Wide pore C8","Supelco","B",0.83,0.01,-0.22,0.03,0.2,0.19,2.2,"L7","C8"],[241,"Discovery C18","Supelco","B",0.98,0.02,-0.12,0.0,0.17,0.15,4.8,"L1","C18"],[242,"Discovery C8","Supelco","B",0.83,0.01,-0.23,0.02,0.11,0.14,3.3,"L7","C8"],[243,"Discovery CN","Supelco","CN",0.39,-0.11,-0.61,0.0,-0.03,0.51,0.6,"L10","CN"],[244,"Discovery Amide C16","Supelco","EP",0.72,0.01,-0.62,0.21,-0.09,-0.02,4.0,"L60","EP"],[245,"Discovery HS PEG","Supelco","EP",0.31,0.02,-0.71,0.12,-0.53,0.38,0.7,"","EP"],[246,"Supelcosil LC-18","Supelco","A",1.01,-0.04,0.18,0.16,1.59,1.75,5.9,"L1","C18"],[247,"Supelcosil LC-18-DB","Supelco","A",0.97,-0.02,0.04,0.11,0.48,0.53,5.7,"L1","C18"],[248,"Supelcosil LC-8","Supelco","A",0.83,-0.04,-0.02,0.08,1.11,1.09,3.6,"L7","C8"],[249,"Supelcosil LC-8-DB","Supelco","A",0.81,-0.03,-0.07,0.14,0.44,0.55,3.4,"L7","C8"],[250,"Supelcosil LC-PAH","Supelco","A",0.85,-0.02,0.1,-0.03,0.64,0.83,4.4,"L1","C18"],[252,"Thermo CN","Thermo/Hypersil","CN",0.4,-0.11,-0.7,0.0,-0.02,0.49,0.8,"L10","CN"],[253,"Hypersil 100 C18","Thermo/Hypersil","A",1.04,0.02,0.11,0.03,0.4,0.34,7.9,"L1","C18"],[254,"Hypersil BDS C18","Thermo/Hypersil","A",0.99,0.01,-0.09,0.0,0.33,0.28,5.6,"L1","C18"],[255,"Hypersil Elite","no longer available","A",0.95,0.03,0.15,-0.01,0.31,0.73,6.5,"L1","C18"],[256,"Hypersil ODS","Thermo/Hypersil","A",0.97,-0.02,-0.12,0.02,0.91,0.97,5.5,"L1","C18"],[257,"Hypersil ODS-2","Thermo/Hypersil","B",0.98,0.01,0.13,-0.01,0.25,0.37,5.6,"L1","C18"],[258,"Hypersil PAH","Thermo/Hypersil","A",0.94,-0.05,0.23,-0.01,1.43,1.72,5.3,"L1","C18"],[259,"Hypersil Beta Basic-18","Thermo/Hypersil","B",0.99,0.03,-0.09,0.0,0.16,0.12,6.4,"L1","C18"],[260,"Hypersil Beta Basic-8","Thermo/Hypersil","B",0.83,0.01,-0.24,0.02,0.11,0.11,4.2,"L7","C8"],[261,"Hypersil Betamax Neutral","Thermo/Hypersil","B",1.09,0.03,0.06,-0.03,-0.03,0.01,17.0,"L1","C18"],[262,"BetaBasic CN","Thermo/Hypersil","CN",0.42,-0.04,-0.45,0.01,0.01,0.9,0.8,"L10","CN"],[263,"BetaMax Acid","Thermo/Hypersil","EP",0.63,0.05,-0.59,0.37,-2.06,-0.51,5.8,"","EP"],[264,"BetaMax Base","Thermo/Hypersil","EP",0.47,-0.06,-0.39,0.01,0.01,1.14,2.2,"","EP"],[265,"Hypersil Bio Basic-18","Thermo/Hypersil","B",0.97,0.02,-0.1,0.0,0.25,0.21,3.2,"L1","C18"],[266,"Hypersil Bio Basic-8","Thermo/Hypersil","B",0.82,0.01,-0.23,0.02,0.23,0.21,1.8,"L7","C8"],[267,"Hypersil GOLD","Thermo/Hypersil","B",0.88,0.0,-0.01,0.03,0.16,0.47,3.9,"L1","C18"],[268,"Hypurity C18","Thermo/Hypersil","B",0.98,0.02,-0.09,0.0,0.19,0.16,5.6,"L1","C18"],[269,"HyPurity C4","Thermo/Hypersil","B",0.71,0.0,-0.29,0.02,0.12,0.25,1.9,"L26","C4"],[270,"Hypurity C8","Thermo/Hypersil","B",0.83,0.01,-0.2,0.03,0.15,0.16,3.5,"L7","C8"],[271,"Hypurity Cyano","Thermo/Hypersil","CN",0.45,-0.04,-0.49,0.02,-0.01,0.83,0.7,"L10","CN"],[272,"Hypersil Prism C18 RP","Thermo/Hypersil","EP",0.64,0.08,-0.45,0.3,-2.81,-0.71,4.8,"","EP"],[273,"Hypersil Prism C18 RPN","Thermo/Hypersil","EP",0.67,0.0,-0.06,0.23,-0.54,0.62,3.4,"","EP"],[274,"Hypurity Advance","Thermo/Hypersil","EP",0.41,-0.05,-0.09,0.24,-1.33,0.78,1.6,"L60","EP"],[275,"Fluophase PFP","Thermo/Hypersil","F",0.67,-0.12,-0.31,0.06,0.81,1.37,4.5,"L43","F"],[276,"Fluophase RP","Thermo/Hypersil","F",0.69,0.02,0.1,0.03,1.03,1.41,3.4,"L43","F"],[277,"BetaBasic Phenyl","Thermo/Hypersil","phenyl",0.58,-0.15,-0.41,0.04,0.1,0.75,1.7,"L11","Phenyl"],[278,"Betasil Phenyl-Hexyl","Thermo/Hypersil","phenyl",0.7,-0.05,-0.29,0.02,0.05,0.35,4.3,"L11","Phenyl"],[279,"OmniSpher 5 C18","Agilent Technologies/Varian","B",1.05,0.05,-0.03,-0.02,0.12,0.05,10.9,"L1","C18"],[280,"Polaris C18-A","Agilent Technologies/Varian","EP",0.92,0.0,-0.22,0.06,0.14,0.16,5.2,"L1","EP"],[281,"Polaris C8-A","Agilent Technologies/Varian","EP",0.6,0.0,-0.6,0.1,-0.07,0.2,2.2,"L7","EP"],[282,"Pursuit C18","Agilent Technologies/Varian","B",1.0,0.0,-0.16,0.01,0.24,0.22,6.2,"L1","C18"],[283,"MicroBondapak C18","Waters","A",0.79,-0.07,-0.03,0.01,0.28,0.85,4.6,"L1","C18"],[284,"Nova-Pak C18","Waters","A",1.04,0.0,0.09,-0.02,0.54,0.56,6.5,"L1","C18"],[285,"Nova-Pak C8","Waters","A",0.89,-0.02,-0.09,0.0,0.61,0.62,3.9,"L7","C8"],[286,"Resolve C18","Waters","A",0.96,-0.12,0.33,-0.04,1.92,2.14,7.9,"L1","C18"],[287,"Spherisorb C8","Waters","A",0.76,-0.09,-0.03,0.05,0.73,1.14,4.9,"L7","C8"],[288,"Spherisorb ODS-1","Waters","A",0.68,-0.18,0.32,0.01,0.84,1.29,4.6,"L1","C18"],[289,"Spherisorb ODS-2","Waters","A",0.96,-0.07,0.07,0.03,0.9,1.26,8.3,"L1","C18"],[290,"Spherisorb S5 ODSB","Waters","B",0.97,0.02,0.24,0.38,-0.64,1.68,6.9,"L1","C18"],[291,"Atlantis dC18","Waters","B",0.91,-0.03,-0.19,0.0,0.03,0.08,8.1,"L1","C18"],[292,"DeltaPak C18 100A","Waters","B",1.02,0.01,-0.01,-0.01,-0.05,0.02,9.0,"L1","C18"],[293,"DeltaPak C18 300A","Waters","B",0.95,-0.01,-0.1,0.01,0.23,0.28,3.0,"L1","C18"],[294,"J'Sphere H80","YMC","B",1.13,0.05,-0.02,-0.06,-0.24,-0.16,13.3,"L1","C18"],[295,"J'Sphere L80","YMC","B",0.76,-0.03,-0.21,0.0,-0.4,0.34,5.8,"L1","C18"],[296,"J'Sphere M80","YMC","B",0.92,-0.02,-0.12,0.0,-0.29,0.13,9.1,"L1","C18"],[297,"Sunfire C8","Waters","B",0.85,0.03,-0.12,0.0,-0.27,0.0,5.8,"L7","C8"],[298,"Sunfire C18","Waters","B",1.03,0.03,0.04,-0.01,-0.18,-0.09,9.9,"L1","C18"],[299,"Symmetry 300 C18","Waters","B",0.98,0.03,-0.05,0.0,0.22,0.2,3.5,"L1","C18"],[300,"Symmetry 300 C4","Waters","B",0.65,-0.01,-0.42,0.01,0.1,0.18,1.4,"L26","C4"],[301,"Symmetry C18","Waters","B",1.05,0.06,0.01,-0.02,-0.3,0.12,9.8,"L1","C18"],[302,"Symmetry C8","Waters","B",0.89,0.04,-0.2,0.02,-0.5,0.28,7.0,"L7","C8"],[303,"XTerra MS C18","Waters","B",0.98,0.01,-0.14,-0.01,0.13,0.05,6.3,"L1","C18"],[304,"XTerra MS C8","Waters","B",0.8,0.0,-0.29,0.0,0.05,0.0,3.7,"L7","C8"],[305,"YMC Basic","YMC","B",0.82,0.0,-0.23,0.02,0.07,0.09,3.3,"L7","C8"],[306,"YMC Hydrosphere C18","YMC","B",0.93,-0.02,-0.12,0.0,-0.13,0.15,6.8,"L1","C18"],[307,"YMC-Pack ODS-AQ","YMC","B",0.96,-0.03,-0.13,0.0,-0.06,0.1,8.6,"L1","C18"],[308,"YMC-Pack Pro C18 RS","YMC","B",1.11,0.05,-0.06,-0.05,-0.17,-0.22,12.7,"L1","C18"],[309,"YMC-Pack Pro C18","YMC","B",1.01,0.01,-0.12,0.0,-0.15,0.0,8.7,"L1","C18"],[310,"YMC-Pack Pro C8","YMC","B",0.89,0.01,-0.21,0.0,-0.32,0.01,6.5,"L7","C8"],[311,"Nova-Pak CN HP 60A","Waters","CN",0.36,-0.16,0.1,0.0,0.69,1.17,0.4,"L10","CN"],[312,"SymmetryShield C18","Waters","EP",0.85,0.02,-0.41,0.09,-0.72,0.13,7.3,"","EP"],[313,"SymmetryShield C8","Waters","EP",0.73,0.0,-0.55,0.1,-0.62,0.13,5.7,"","EP"],[314,"XTerra C18 RP","Waters","EP",0.75,-0.04,-0.48,0.09,-0.17,-0.17,4.3,"","EP"],[315,"XTerra C8 RP","Waters","EP",0.65,-0.04,-0.6,0.09,-0.18,-0.19,3.1,"","EP"],[316,"XTerra Phenyl","Waters","phenyl",0.68,-0.07,-0.36,0.0,0.11,0.02,2.6,"L11","Phenyl"],[317,"MicroBondapak Phenyl","Waters","phenyl",0.58,-0.15,-0.24,0.02,0.35,0.97,2.1,"L11","Phenyl"],[318,"Nova-Pak Phenyl","Waters","phenyl",0.7,-0.15,-0.3,0.01,0.76,0.81,2.5,"L11","Phenyl"],[319,"ZirChrom-EZ","ZirChrom","other",1.04,0.11,-0.99,0.0,2.08,2.08,1.1,"","Other"],[320,"ZirChrom-PBD","ZirChrom","other",1.28,0.15,-0.38,-0.07,2.18,2.18,1.0,"L49","Other"],[321,"ZirChrom-PS","ZirChrom","other",0.58,-0.23,-0.47,0.06,1.75,1.75,0.3,"","Other"],[322,"Cadenza 5CL-C18","Imtakt","B",1.01,0.0,0.09,-0.04,0.14,0.3,9.2,"L1","C18"],[323,"Cogent hQ C18","MicroSolv","B",0.9,-0.06,0.37,0.0,0.19,2.18,8.1,"L1","C18"],[324,"Cogent Bidentate C18","MicroSolv","A",0.95,0.05,-0.13,0.0,0.78,2.26,5.6,"L1","C18"],[325,"Cogent HPS C18","MicroSolv","B",1.02,-0.01,-0.07,-0.01,0.1,0.08,10.2,"L1","C18"],[326,"Cogent UDC Cholesterol","MicroSolv","other",0.62,0.22,0.52,0.06,0.74,1.21,3.4,"","Other"],[327,"Atlantis T3","Waters","B",0.94,-0.03,-0.18,0.0,0.02,0.71,8.4,"L1","C18"],[328,"Halo C18","Advanced Materials Technology","B",1.1,0.04,0.0,-0.05,0.05,0.04,6.1,"L1","C18"],[329,"Halo C8","Advanced Materials Technology","B",0.91,0.02,-0.13,0.0,-0.01,0.18,4.3,"L7","C8"],[330,"Acquity UPLC BEH C8","Waters","B",0.85,0.0,0.09,0.05,0.22,0.77,2.7,"L7","C8"],[331,"Acquity UPLC BEH Phenyl","Waters","phenyl",0.76,-0.07,-0.05,0.06,0.29,0.58,2.0,"L11","Phenyl"],[332,"Acquity UPLC BEH Shield RP-18","Waters","EP",0.9,0.01,-0.03,0.13,-0.05,0.41,3.5,"","EP"],[333,"Aquasil C18","Thermo/Hypersil","EP",0.8,0.11,0.26,0.01,0.23,1.19,7.4,"","EP"],[334,"Ascentis C18","Supelco","B",1.07,0.05,0.03,-0.04,-0.08,-0.08,10.5,"L1","C18"],[335,"Ascentis C8","Supelco","B",0.89,0.02,-0.18,0.0,-0.12,-0.03,8.4,"L7","C8"],[336,"Ascentis Express C18","Supelco","B",1.13,0.05,0.02,-0.05,0.06,0.1,6.5,"L1","C18"],[337,"Ascentis Express C8","Supelco","B",0.91,0.01,-0.11,0.0,0.0,0.17,4.6,"L7","C8"],[338,"Ascentis RP-Amide","Supelco","EP",0.84,0.07,-0.49,0.18,-0.78,0.08,8.8,"L60","EP"],[339,"Betasil C18","Thermo/Hypersil","B",1.05,0.04,-0.1,-0.03,-0.03,-0.04,11.1,"L1","C18"],[340,"Cogent Bidentate C8","MicroSolv","B",0.68,-0.11,0.36,0.0,0.19,1.35,3.7,"L7","C8"],[341,"BioBasic CN","Thermo/Hypersil","CN",0.39,-0.03,-0.82,0.0,-0.07,0.53,0.4,"L10","CN"],[342,"BioBasic Phenyl","Thermo/Hypersil","phenyl",0.49,-0.23,-0.67,0.21,0.01,0.39,0.8,"L11","Phenyl"],[343,"BioBasic 4","Thermo/Hypersil","B",0.69,0.0,-0.19,0.03,0.18,0.39,1.2,"L26","C4"],[344,"GraceSmart RP 18","Grace/Alltech","B",0.83,-0.03,0.07,0.0,0.07,0.74,4.0,"L1","C18"],[345,"Hypersil GOLD aQ","Thermo/Hypersil","A",0.91,-0.01,-0.06,-0.01,0.37,0.63,4.1,"L1","C18"],[346,"Hypersil GOLD C8","Thermo/Hypersil","B",0.82,0.01,-0.15,0.03,0.09,0.21,2.7,"L7","C8"],[347,"Hypersil GOLD PFP","Thermo/Hypersil","F",0.62,-0.08,-0.11,-0.02,0.37,0.99,1.9,"L43","F"],[348,"Sepax Bio-C18","Sepax Technologies","B",0.91,-0.02,-0.13,0.01,0.21,0.22,2.6,"L1","C18"],[349,"SepaxBio-C4","Sepax Technologies","B",0.66,-0.01,-0.29,0.02,0.1,0.22,1.4,"L26","C4"],[350,"SepaxBio-C8","Sepax Technologies","B",0.77,-0.02,-0.27,0.02,0.16,0.21,1.6,"L7","C8"],[351,"SepaxGP-C18","Sepax Technologies","B",1.01,0.01,-0.11,-0.01,0.1,0.09,9.0,"L1","C18"],[352,"SepaxGP-C4","Sepax Technologies","B",0.69,-0.01,-0.26,0.0,-0.02,0.2,3.9,"L26","C4"],[353,"SepaxGP-Phenyl","Sepax Technologies","phenyl",0.57,-0.11,-0.27,0.02,0.05,0.56,2.6,"L11","Phenyl"],[354,"SepaxHP-C18","Sepax Technologies","B",0.95,-0.02,-0.1,0.0,0.07,0.22,8.5,"L1","C18"],[355,"SepaxHP-Cyano","Sepax Technologies","CN",0.42,-0.05,-0.47,0.0,0.0,0.75,1.3,"L10","CN"],[356,"TSKgel CN-80Ts","Tosoh Bioscience","CN",0.37,-0.02,-0.61,0.01,-0.36,0.42,0.9,"L10","CN"],[357,"TSKgel Octyl-80Ts","Tosoh Bioscience","B",0.81,0.0,-0.25,0.01,0.08,0.45,4.4,"L7","C8"],[358,"TSKgel ODS-100S","Tosoh Bioscience","B",1.03,0.06,-0.09,-0.03,0.0,-0.03,8.1,"L1","C18"],[359,"TSKgel ODS-100V","Tosoh Bioscience","B",0.9,-0.04,-0.22,0.0,-0.06,-0.02,9.0,"L1","C18"],[360,"TSKgel ODS-100Z","Tosoh Bioscience","B",1.03,0.01,-0.13,-0.03,-0.06,-0.16,11.6,"L1","C18"],[361,"TSK-gel ODS-140HTP","Tosoh Bioscience","B",1.0,0.05,-0.25,-0.03,0.13,0.14,2.8,"L1","C18"],[362,"TSKgel ODS-80Ts","Tosoh Bioscience","B",0.97,-0.01,-0.13,0.0,0.01,0.29,8.1,"L1","C18"],[363,"TSKgel ODS-80Ts QA","Tosoh Bioscience","B",0.94,-0.03,-0.11,0.0,0.0,0.36,7.8,"L1","C18"],[364,"TSKgel Super-Octyl","Tosoh Bioscience","B",0.82,0.03,-0.15,0.01,0.12,0.23,2.2,"L7","C8"],[365,"TSKgel Super-ODS","Tosoh Bioscience","B",0.99,0.03,-0.04,-0.01,0.15,0.23,3.8,"L1","C18"],[366,"TSKgel Super-Phenyl","Tosoh Bioscience","phenyl",0.58,-0.1,-0.14,0.01,0.08,0.67,1.0,"L11","Phenyl"],[367,"VisionHT C18","Grace/Alltech","B",0.78,-0.07,-0.09,0.0,0.4,0.69,4.6,"L1","C18"],[368,"VisionHT C18-P","Grace/Alltech","B",0.63,-0.16,0.28,0.03,0.69,1.61,2.7,"L1","C18"],[369,"Zorbax Bonus RP","Agilent Technologies","EP",0.65,0.1,-1.04,0.37,-2.97,-1.1,4.5,"L60","EP"],[372,"ACE 5 C18-HL","ACT","B",1.04,0.05,-0.08,-0.03,-0.03,-0.11,10.0,"L1","C18"],[373,"Nucleodur Isis","Macherey Nagel","B",1.02,0.05,-0.07,-0.02,-0.01,0.15,8.8,"L1","C18"],[374,"Nucleodur Pyramid","Macherey Nagel","B",0.95,0.0,-0.13,-0.01,-0.28,0.21,8.0,"L1","C18"],[375,"Nucleodur Sphinx RP","Macherey Nagel","phenyl",0.8,-0.07,-0.27,0.0,0.02,0.72,5.6,"L1","Phenyl"],[376,"Zorbax Eclipse Plus C18","Agilent Technologies","B",1.03,0.0,-0.07,-0.02,0.0,0.02,7.8,"L1","C18"],[377,"Zorbax Eclipse Plus C8","Agilent Technologies","B",0.88,0.01,-0.17,0.0,-0.04,0.05,5.2,"L1","C18"],[378,"Epic C18","ES Industries","B",0.95,-0.02,-0.2,0.0,-0.13,-0.04,10.7,"L1","C18"],[379,"Epic C8","ES Industries","B",0.89,0.02,-0.19,0.0,-0.1,0.03,8.6,"L7","C8"],[380,"Epic C4","ES Industries","B",0.77,0.01,-0.31,0.0,-0.2,0.06,5.9,"L26","C4"],[381,"Epic Phenyl Hexyl","ES Industries","phenyl",0.67,-0.08,-0.37,0.0,-0.14,0.3,4.5,"L11","phenyl"],[382,"Gemini-NX C18","Phenomenex","B",0.96,0.01,-0.2,-0.01,-0.18,-0.13,7.1,"L1","C18"],[383,"Luna PFP(2)","Phenomenex","F",0.75,-0.07,-0.38,-0.05,0.08,0.54,4.9,"L43","F"],[384,"Alltima HP CN","Grace/Alltech","CN",0.46,-0.01,-0.55,0.0,-0.18,0.44,0.9,"L10","CN"],[385,"SepaxBR-C18","Sepax Technologies","B",1.01,0.03,-0.07,-0.01,-0.01,0.06,8.2,"L1","C18"],[386,"SepaxGP-C8","Sepax Technologies","B",0.84,0.0,-0.13,0.01,-0.07,0.26,5.6,"L7","C8"],[387,"Vision C18 B","Grace/Alltech","A",0.68,-0.11,0.35,0.03,0.39,1.41,2.9,"L1","C18"],[388,"Vision C18 HL","Grace/Alltech","B",0.99,0.05,0.05,-0.01,0.13,0.14,6.3,"L1","C18"],[389,"Capcell Pak C18 IF","Shiseido","B",0.95,0.02,-0.2,0.0,-0.2,-0.01,3.8,"L1","C18"],[390,"Capcell Pak C18 MG III","Shiseido","B",0.95,0.0,-0.11,-0.01,-0.11,0.04,9.3,"L1","C18"],[391,"Grom-Sil 120 ODS-4 HE","Grace/Grom","B",0.97,-0.03,-0.08,0.01,-0.03,0.26,6.8,"L1","C18"],[392,"ZodiacSil 60-5-C18H","Zodiac Life Sciences","B",1.15,0.04,0.06,-0.07,0.1,0.26,12.2,"L1","C18"],[393,"ZodiacSil 120-5-C18 ace EPS","Zodiac Life Sciences","EP",0.77,0.04,-0.59,0.22,-0.3,0.04,8.3,"","EP"],[394,"ZodiacSil 120-5 C18 AQ","Zodiac Life Sciences","B",0.97,0.0,-0.08,0.0,0.13,0.22,8.1,"L1","C18"],[395,"ZodiacSil 120-5-C18 AQ Plus","Zodiac Life Sciences","EP",0.94,-0.01,0.21,0.04,-0.13,0.6,9.1,"","EP"],[396,"ZodiacSil 120-5-C18H","Zodiac Life Sciences","B",1.0,0.0,-0.1,0.0,0.12,0.15,9.7,"L1","C18"],[397,"ZodiacSil 120-5-C18SH","Zodiac Life Sciences","B",1.03,0.01,-0.1,-0.02,0.11,0.4,8.7,"L1","C18"],[398,"ZodiacSil 200-5-C18 ace EPS","Zodiac Life Sciences","EP",0.76,0.02,-0.56,0.21,0.02,0.14,4.7,"","EP"],[399,"ZodiacSil 200-5-C18H","Zodiac Life Sciences","B",0.95,0.0,-0.12,0.01,0.16,0.21,4.8,"L1","C18"],[400,"ZodiacSil 200-5-C18AQ","Zodiac Life Sciences","B",0.97,-0.01,-0.05,0.0,0.12,0.02,6.3,"L1","C18"],[402,"ZodiacSil 300-5-C18ace EPS","Zodiac Life Sciences","EP",0.76,0.02,-0.57,0.21,-0.05,0.13,2.9,"","EP"],[403,"ZodiacSil 300-5-C18H","Zodiac Life Sciences","B",0.95,-0.01,-0.09,0.01,0.24,0.24,3.2,"L1","C18"],[404,"XBridge C18","Waters","B",1.0,0.02,-0.09,0.0,0.17,0.13,4.6,"L1","C18"],[405,"XBridge Phenyl","Waters","phenyl",0.73,-0.07,-0.35,0.03,0.19,0.2,2.4,"L11","Phenyl"],[406,"XBridge Shield RP18","Waters","EP",0.83,-0.02,-0.37,0.09,-0.12,-0.05,3.7,"","EP"],[407,"ACE 5 C18-AR","ACT","phenyl",0.88,-0.05,-0.2,-0.01,0.07,0.15,5.7,"L1","Phenyl"],[408,"Allure Aqueous C18","Restek","B",0.96,-0.1,0.39,-0.04,0.0,1.38,17.0,"L1","C18"],[409,"Allure Basix","Restek","CN",0.43,-0.07,-0.42,0.0,0.01,0.86,2.4,"Other","CN"],[410,"Allure Biphenyl","Restek","phenyl",0.71,-0.19,-0.29,0.02,-0.01,0.69,7.2,"","Phenyl"],[411,"Allure Organic Acids","Restek","B",0.91,-0.12,0.53,-0.02,0.19,1.5,14.5,"L1","C18"],[412,"Ascentis Express RP-Amide","Supelco","EP",0.84,0.06,-0.41,0.19,-0.47,0.26,5.1,"L60","EP"],[413,"Ascentis Phenyl","Supelco","phenyl",0.72,-0.1,-0.28,0.0,0.0,0.57,4.8,"L11","Phenyl"],[414,"Clipeus C18","Higgins Analytical","B",1.0,0.0,-0.04,-0.01,0.07,0.34,9.5,"L1","C18"],[415,"Clipeus C8","Higgins Analytical","B",0.82,-0.01,-0.18,0.02,0.09,0.24,4.9,"L7","C8"],[416,"Clipeus Cyano","Higgins Analytical","CN",0.42,-0.06,-0.42,0.01,0.05,0.78,1.2,"L10","CN"],[417,"Clipeus Phenyl","Higgins Analytical","phenyl",0.58,-0.11,-0.3,0.03,0.07,0.48,2.5,"L11","Phenyl"],[418,"Discovery HS F5","Supelco","F",0.67,0.08,-0.28,0.0,0.91,1.42,4.1,"L43","F"],[419,"Gemini C6-Phenyl 110A","Phenomenex","phenyl",0.8,0.03,-0.34,0.0,-0.4,-0.26,4.8,"L11","Phenyl"],[420,"Haisil 300 C18","Higgins Analytical","A",0.94,0.0,-0.03,0.0,0.42,0.68,2.2,"L1","C18"],[421,"Haisil HL C18","Higgins Analytical","B",1.04,-0.03,-0.07,-0.02,0.04,-0.05,10.4,"L1","C18"],[422,"Halo Phenyl-Hexyl","Advanced Materials Technology","B",0.78,-0.09,-0.23,0.0,0.1,0.45,3.5,"L11","Phenyl"],[423,"Halo RP-Amide","Advanced Materials Technology","B",0.85,0.08,-0.38,0.19,-0.41,0.31,4.6,"L60","EP"],[424,"Heavy C18","Higgins Analytical","B",1.04,0.03,-0.13,-0.03,-0.08,-0.12,11.5,"L1","C18"],[425,"HyperClone BDS C18 130A","Phenomenex","B",0.98,0.03,0.01,-0.01,0.19,0.42,5.3,"L1","C18"],[426,"HyperClone BDS C8 130A","Phenomenex","B",0.84,0.0,-0.14,0.01,0.23,0.26,3.9,"L7","C8"],[427,"HyperClone CN (CPS)","Phenomenex","CN",0.4,-0.08,-0.55,0.0,0.92,1.04,0.8,"L10","CN"],[428,"HyperClone MOS C8 120A","Phenomenex","EP",0.84,-0.05,0.04,0.13,1.14,1.12,3.7,"L60","EP"],[429,"HyperClone ODS C18 120A","Phenomenex","A",1.03,-0.02,0.06,0.09,1.03,0.96,6.1,"L1","C18"],[430,"HyperClone PAH","Phenomenex","other",0.98,0.0,0.18,-0.02,1.16,1.11,4.9,"","Other"],[431,"Inertsil ODS-4","GL Sciences","B",0.91,-0.02,-0.22,-0.03,-0.02,-0.14,9.1,"L1","C18"],[432,"Inertsil ODS-SP","GL Sciences","B",0.85,-0.02,-0.22,-0.02,-0.04,-0.07,7.8,"L1","C18"],[433,"Kinetex C18 100A","Phenomenex","B",0.96,0.0,-0.13,-0.01,0.0,0.12,4.9,"L1","C18"],[434,"Kinetex PFP 100A","Phenomenex","F",0.68,0.08,-0.27,-0.03,0.94,1.53,2.4,"L43","F"],[435,"Microsorb 100-5 C8","Agilent Technologies/Varian","A",0.87,0.06,0.09,0.19,0.61,0.82,5.4,"L7","C8"],[436,"Microsorb 100-5 Phenyl","Agilent Technologies/Varian","phenyl",0.71,-0.14,-0.19,0.16,0.6,0.78,3.1,"L11","phenyl"],[437,"Microsorb 300-5 C4","Agilent Technologies/Varian","B",0.66,-0.02,-0.31,0.03,0.2,0.41,1.0,"L26","C4"],[438,"Microsorb-MV 100 CN","Agilent Technologies/Varian","CN",0.35,-0.24,-0.85,-0.02,0.14,0.78,1.3,"L10","CN"],[439,"Nucleodur 100-5 C18","Macherey Nagel","B",0.97,-0.02,0.0,-0.03,0.14,0.59,9.7,"L1","C18"],[440,"Nucleodur 100-5 C8","Macherey Nagel","B",0.77,-0.04,-0.15,0.0,0.04,0.82,5.4,"L1","C18"],[441,"Phalanx C18","Higgins Analytical","B",0.95,-0.03,-0.2,0.0,-0.07,-0.01,10.4,"L1","C18"],[442,"Pinnacle DB Aqueous C18","Restek","A",0.69,-0.14,0.22,0.03,0.37,1.13,3.5,"L1","C18"],[443,"Pinnacle DB Biphenyl","Restek","phenyl",0.64,-0.17,-0.34,0.05,0.19,0.51,2.3,"L11","Phenyl"],[444,"Pinnacle DB C18","Restek","A",1.01,0.02,-0.03,0.0,0.36,0.28,6.3,"L1","C18"],[445,"Pinnacle DB C8","Restek","A",0.83,0.0,-0.19,0.03,0.26,0.23,3.8,"L7","C8"],[446,"Pinnacle DB Cyano","Restek","CN",0.37,-0.07,-0.38,0.0,0.22,0.72,0.7,"L10","CN"],[447,"Pinnacle DB PFP Propyl","Restek","F",0.64,-0.06,-0.25,0.05,0.59,1.1,2.5,"L43","F"],[448,"Pinnacle DB Phenyl","Restek","phenyl",0.57,-0.12,-0.46,0.04,0.16,0.28,1.7,"L11","Phenyl"],[449,"Pinnacle II Biphenyl","Restek","phenyl",0.64,-0.19,-0.24,0.05,0.46,0.73,2.9,"L11","Phenyl"],[450,"Pinnacle II C18","Restek","A",1.03,0.01,-0.03,0.0,0.44,0.34,8.4,"L1","C18"],[451,"Pinnacle II C8","Restek","A",0.85,0.0,-0.11,0.03,0.39,0.43,5.3,"L7","C8"],[452,"Pinnacle II Cyano","Restek","CN",0.37,-0.08,-0.21,-0.01,0.2,0.78,1.2,"L10","CN"],[453,"Pinnacle II PAH","Restek","A",0.97,-0.02,0.35,-0.02,0.74,1.18,6.8,"L1","C18"],[454,"Pinnacle II Phenyl","Restek","phenyl",0.59,-0.13,-0.4,0.06,0.37,0.49,2.3,"L11","Phenyl"],[455,"Polaris Amide-C18","Agilent Technologies/Varian","EP",0.84,0.11,-0.33,0.34,-1.65,-0.55,4.2,"L60","EP"],[456,"Proto 300 C18","Higgins Analytical","B",0.96,0.01,-0.13,0.0,0.22,0.14,2.9,"L1","C18"],[457,"Pursuit DP","Agilent Technologies/Varian","phenyl",0.57,-0.13,-0.53,0.04,0.15,0.26,1.7,"","Phenyl"],[458,"Pursuit PFP","Agilent Technologies/Varian","F",0.65,-0.08,-0.25,-0.02,0.05,0.53,2.2,"L43","F"],[459,"Pursuit UPS C18","Agilent Technologies/Varian","B",1.06,0.06,-0.05,0.0,-0.07,0.2,4.6,"L1","C18"],[460,"Targa C8","Higgins Analytical","B",0.82,-0.02,-0.22,0.0,-0.02,0.17,6.0,"L7","C8"],[461,"TSKgel ODS-120A","Tosoh Bioscience","B",0.89,-0.03,0.28,0.0,0.26,0.96,6.5,"L1","C18"],[462,"TSKgel ODS-120T","Tosoh Bioscience","B",0.97,0.03,0.11,-0.01,0.19,0.22,6.5,"L1","C18"],[463,"TSKgel ODS-80T","Tosoh Bioscience","B",0.96,-0.03,0.14,-0.01,0.16,0.58,8.3,"L1","C18"],[464,"TSKgel OligoDNA RP","Tosoh Bioscience","A",0.86,0.02,0.14,0.01,0.31,0.65,3.3,"L1","C18"],[465,"Ultra Aqueous C18","Restek","B",0.8,-0.12,0.37,0.01,0.22,1.25,8.1,"L1","C18"],[466,"Ultra Biphenyl","Restek","phenyl",0.66,-0.18,-0.28,0.04,0.2,0.72,3.9,"L11","Phenyl"],[467,"Ultra C1","Restek","B",0.61,-0.05,-0.4,0.01,-0.03,0.05,3.5,"L13","C1"],[468,"Ultra C4","Restek","B",0.73,-0.01,-0.27,0.01,0.03,0.31,5.2,"L26","C4"],[469,"Ultra Cyano","Restek","CN",0.4,-0.04,-0.8,-0.01,-0.11,0.62,1.6,"L10","CN"],[470,"Ultra IBD","Restek","EP",0.67,-0.03,-0.05,0.23,-0.56,0.86,4.6,"L68","EP"],[471,"Ultra II Aqueous C18","Restek","B",0.78,-0.15,0.32,0.01,0.46,1.16,7.4,"L1","C18"],[472,"Ultra II Aromax","Restek","phenyl",0.73,-0.19,-0.34,0.02,0.47,0.64,5.3,"L11","Phenyl"],[473,"Ultra II C18","Restek","B",1.04,0.02,-0.03,-0.01,0.26,0.18,10.8,"L1","C18"],[474,"Ultra II IBD","Restek","EP",0.67,-0.04,-0.02,0.22,-0.25,0.86,4.0,"L68","EP"],[475,"Ultra II PFP Propyl","Restek","F",0.67,-0.08,-0.3,0.0,0.76,1.21,4.3,"L43","F"],[476,"Ultra PFP","Restek","F",0.44,-0.05,-0.24,0.01,-0.22,0.15,1.6,"L43","F"],[477,"Ultra Phenyl","Restek","phenyl",0.58,-0.12,-0.33,0.03,0.04,0.43,3.0,"L11","Phenyl"],[478,"Ultra Quat","Restek","other",0.85,0.01,-0.17,0.01,0.02,0.13,7.3,"","Other"],[479,"Viva Biphenyl","Restek","phenyl",0.6,-0.18,-0.3,0.04,0.33,0.54,1.3,"L11","Phenyl"],[480,"Viva C18","Restek","A",0.98,0.01,-0.07,0.01,0.35,0.3,4.0,"L1","C18"],[481,"Viva C4","Restek","A",0.7,-0.01,-0.28,0.03,0.22,0.31,1.7,"L26","C4"],[482,"Viva C8","Restek","A",0.83,0.0,-0.22,0.03,0.26,0.22,2.6,"L7","C8"],[483,"Viva PFP Propyl","Restek","F",0.62,-0.06,-0.25,0.02,0.28,0.76,1.5,"L43","F"],[484,"XBridge C8","Waters","B",0.8,0.01,-0.29,0.01,0.12,0.06,3.4,"L7","C8"],[485,"ZirChrom-MS","ZirChrom","other",0.94,-0.17,-0.45,0.32,0.48,0.55,2.0,"","Other"],[486,"Zorbax Eclipse PAH","Agilent Technologies","B",1.03,-0.01,0.68,-0.05,0.07,1.4,5.9,"L1","C18"],[488,"Peerless Basic C-18","Chromatopak","B",0.98,-0.01,-0.15,-0.01,-0.16,-0.09,11.7,"L1","C18"],[489,"Peerless C-18","Chromatopak","B",0.99,-0.02,0.03,-0.01,0.0,0.45,10.2,"L1","C18"],[490,"Pursuit XRs C-18","Agilent Technologies/Varian","B",1.04,0.03,-0.12,-0.03,-0.01,-0.1,11.7,"L1","C18"],[491,"Pursuit XRs C-8","Agilent Technologies/Varian","B",0.88,0.02,-0.22,0.0,-0.15,-0.06,8.2,"L7","C8"],[492,"Pursuit XRs DP","Agilent Technologies/Varian","phenyl",0.63,-0.13,-0.43,0.03,0.04,0.39,4.0,"","Phenyl"],[493,"Biobond C18","Dikma Technologies","B",0.96,-0.02,-0.15,0.0,0.22,0.18,3.1,"L1","C18"],[494,"Biobond C4","Dikma Technologies","B",0.7,0.0,-0.31,0.02,0.14,0.18,1.4,"L26","C4"],[495,"Biobond C8","Dikma Technologies","B",0.82,0.0,-0.26,0.02,0.17,0.15,2.0,"L7","C8"],[496,"Inspire C18","Dikma Technologies","B",1.06,-0.05,-0.07,-0.04,-0.08,-0.1,11.2,"L1","C18"],[497,"Inspire C8","Dikma Technologies","B",0.88,-0.02,-0.21,0.0,-0.19,-0.01,8.1,"L7","C8"],[498,"Spursil C18","Dikma Technologies","A",0.96,0.0,-0.18,-0.04,0.42,0.76,9.1,"L1","C18"],[499,"Spursil C18-EP","Dikma Technologies","EP",0.83,0.1,-0.5,0.22,-1.12,0.89,8.9,"L60","EP"],[500,"Fortis C18","Fortis Technologies","B",0.96,-0.02,-0.18,0.0,-0.16,0.11,11.0,"L1","C18"],[501,"Fortis C8","Fortis Technologies","B",0.87,0.02,-0.22,0.0,-0.14,-0.04,8.2,"L7","C8"],[502,"Fortis Cyano","Fortis Technologies","CN",0.38,-0.05,-0.39,0.01,0.01,0.87,1.1,"L10","CN"],[503,"Fortis H2O","Fortis Technologies","EP",1.03,0.03,0.14,-0.02,0.0,0.1,10.5,"","EP"],[504,"Fortis Phenyl","Fortis Technologies","phenyl",0.61,-0.15,-0.4,0.03,0.08,0.77,4.0,"L11","phenyl"],[505,"Fortis UniverSil C18","Fortis Technologies","B",0.92,-0.02,-0.12,0.04,0.23,0.25,5.4,"L1","C18"],[506,"Fortis UniverSil HS C18","Fortis Technologies","B",0.99,-0.01,-0.11,-0.01,-0.06,0.08,10.6,"L1","C18"],[507,"Inertsil C8-4","GL Sciences","B",0.67,-0.03,-0.38,-0.01,-0.09,-0.15,4.5,"L7","C8"],[508,"Prosphere C18 300A","Grace/Alltech","A",0.9,-0.01,0.17,0.01,0.57,1.26,2.2,"L1","C18"],[509,"Vydac 218MSC18","Grace/Vydac","B",0.88,-0.01,0.29,0.0,0.17,0.82,1.6,"L1","C18"],[510,"Vydac C18 Monomeric","Grace/Vydac","B",0.97,0.04,0.03,0.0,0.13,0.27,2.2,"L1","C18"],[511,"Cadenza CD-C18","Imtakt","B",1.05,0.03,0.08,-0.02,0.11,0.04,9.9,"L1","C18"],[513,"Ultra II Biphenyl","Restek","phenyl",0.65,-0.19,-0.27,0.04,0.43,0.76,3.9,"L11","Phenyl"],[514,"Sepax HP-C18(2)","Sepax Technologies","B",0.95,-0.02,-0.18,0.0,-0.13,0.05,11.3,"L1","C18"],[515,"apHera C18 Polymer","Supelco","B",0.83,-0.01,-1.1,0.0,-0.55,7.51,6.3,"L67","C18"],[516,"Ascentis ES Cyano","Supelco","CN",0.54,-0.1,-0.49,0.01,0.13,-0.44,2.9,"L10","CN"],[517,"Ascentis Express Peptide ES-C18","Supelco","B",0.91,-0.04,0.26,0.01,0.19,0.81,3.6,"","C18"],[518,"Ascentis Express Phenyl-Hexyl","Supelco","phenyl",0.79,-0.08,-0.26,-0.01,0.09,0.48,3.5,"L11","Phenyl"],[519,"HSS C18","Waters","B",1.02,0.03,-0.13,-0.02,0.05,0.0,8.6,"L1","C18"],[520,"HSS C18 SB","Waters","B",0.73,-0.12,0.4,0.02,0.4,1.41,4.0,"L1","C18"],[521,"HSS T3","Waters","B",0.94,-0.02,-0.17,0.0,0.03,0.18,7.9,"L1","C18"],[522,"YMC-Triart C18","YMC","B",0.92,-0.02,-0.19,-0.03,-0.02,-0.13,9.4,"L1","C18"],[523,"Endeavorsil C18","Dikma Technologies","B",1.02,0.04,-0.09,-0.02,-0.07,0.0,4.05,"L1","C18"],[524,"Leapsil C18","Dikma Technologies","B",1.05,0.04,-0.07,-0.03,-0.02,-0.05,10.51,"L1","C18"],[525,"LaChrom C18","Hitachi High-Tech","B",0.99,0.01,-0.15,0.0,-0.27,-0.12,8.2,"L1","C18"],[526,"LaChrom C18-AQ","Hitachi High-Tech","B",0.9,-0.02,-0.13,0.01,-0.32,0.19,6.8,"L1","C18"],[527,"LaChrom C18-NE","Hitachi High-Tech","B",0.96,-0.02,0.36,0.0,0.13,0.77,7.6,"L1","C18"],[528,"LaChrom C8","Hitachi High-Tech","B",0.85,0.02,-0.19,0.01,-0.41,-0.02,5.4,"L7","C8"],[529,"LaChrom CN","Hitachi High-Tech","CN",0.42,-0.06,-0.37,0.0,-0.02,0.79,1.13,"L10","CN"],[530,"LaChrom Ph","Hitachi High-Tech","phenyl",0.59,-0.1,-0.32,0.02,0.0,0.45,2.51,"L11","Phenyl"],[531,"Kinetex C8","Phenomenex","B",0.86,0.01,-0.2,0.0,-0.08,0.0,3.5,"L7","C8"],[532,"Kinetex XB-C18","Phenomenex","B",0.97,-0.01,-0.08,0.02,-0.04,0.3,4.9,"L1","C18"],[533,"HALO Peptide ES-C18","Advanced Materials Technology","B",0.89,-0.059,0.25,0.024,0.177,0.819,3.0,"L1","C18"],[534,"Hitachi LaChrom C18-PM","Hitachi High-Tech","B",1.13,0.069,-0.019,-0.068,-0.267,-0.144,12.4,"L1","C18"],[535,"Ace 5 C18-PFP","ACT","B",0.899,-0.021,-0.246,-0.08,-0.001,-0.995,5.9,"L1","C18"],[536,"HALO PFP","Advanced Materials Technology","B",0.702,-0.117,-0.073,-0.062,1.17,0.972,2.3,"L43","F"],[537,"Ultra PFP Propyl","Restek","F",0.622,-0.102,-0.314,-0.035,0.456,1.05,4.5,"L43","F"],[538,"Ultra Aromax","Restek","phenyl",0.741,-0.179,-0.375,0.021,0.195,0.375,5.6,"L11","Phenyl"],[539,"Shim-pack XR-C8","Shimadzu","B",0.862,0.01,-0.16,0.017,-0.044,0.217,3.689,"L7","C8"],[540,"Shim-pack XR-ODS","Shimadzu","B",1.01,0.032,-0.106,-0.018,-0.061,0.17,5.741,"L1","C18"],[541,"Shim-pack XR-Phenyl","Shimadzu","phenyl",0.705,-0.08,-0.264,0.01,-0.021,0.486,2.656,"L11","Phenyl"],[542,"XSelect CSH C18","Waters","B",0.954,-0.002,-0.179,0.118,0.082,0.171,5.62,"L1","C18"],[543,"XSelect CSH Fluoro-Phenyl","Waters","F",0.498,-0.138,-0.052,0.055,-0.321,0.793,1.413,"L43","F"],[544,"XSelect CSH Phenyl-Hexyl","Waters","phenyl",0.708,-0.059,-0.435,0.129,-0.068,0.223,2.865,"L11","Phenyl"],[545,"InertSustain C18","GL Sciences","B",1.01,0.055,-0.152,-0.087,-0.081,-0.195,11.399,"L1","C18"],[546,"Venusil ASB C18","Bonna-Agela Technologies, Inc.","B",0.824,-0.066,0.166,0.05,0.047,0.644,3.883,"L1","C18"],[547,"Venusil ASB C8","Bonna-Agela Technologies, Inc.","B",0.677,-0.078,-0.001,0.044,0.119,0.569,2.424,"L7","C8"],[548,"Durashell C18","Bonna-Agela Technologies, Inc.","B",1.04,0.041,-0.066,-0.038,-0.191,-0.174,10.556,"L1","C18"],[549,"Innoval C18","Bonna-Agela Technologies, Inc.","B",1.05,0.049,-0.024,-0.034,-0.066,0.027,6.731,"L1","C18"],[550,"Unisol C18","Bonna-Agela Technologies, Inc.","B",0.95,-0.017,-0.108,-0.009,-0.108,0.092,10.176,"L1","C18"],[551,"Venusil XBP C18(2)","Bonna-Agela Technologies, Inc.","B",1.01,0.007,-0.081,-0.022,-0.116,0.072,11.451,"L1","C18"],[552,"Venusil XBP C18(L)","Bonna-Agela Technologies, Inc.","B",0.945,0.025,-0.135,-0.002,0.152,0.318,5.123,"L1","C18"],[553,"Shodex C18-4D","Showa Denko","B",1.01,0.027,0.021,-0.01,-0.11,0.107,8.207,"L1","C18"],[554,"Venusil HLP","Bonna-Agela Technologies, Inc.","EP",0.547,-0.015,-0.649,0.254,-0.926,1.64,3.801,"L60","EP"],[555,"Venusil XBP CN","Bonna-Agela Technologies, Inc.","CN",0.45,-0.053,-0.631,-0.013,-0.018,0.737,1.94,"L10","CN"],[556,"Zodiac C18(1)","Zodiac Life Sciences","B",0.973,0.008,-0.124,0.019,0.204,0.156,5.091,"L1","C18"],[557,"Zodiac C18","Zodiac Life Sciences","B",1.07,0.052,-0.069,-0.039,-0.184,-0.152,11.626,"L1","C18"],[558,"Kinetex Phenyl-Hexyl","Phenomenex","phenyl",0.795,-0.091,-0.258,0.016,0.062,0.236,3.49,"L11","Phenyl"],[559,"Ultimate XB-C18","Welch","B",1.01,0.011,-0.046,0.001,0.118,0.133,9.39,"L1","C18"],[560,"Ultimate XB-C8","Welch","B",0.835,0.001,-0.074,0.028,0.069,0.281,5.55,"L7","C8"],[561,"Ultimate XB-Phenyl","Welch","phenyl",0.651,-0.108,-0.25,0.032,0.15,0.476,3.45,"L11","Phenyl"],[562,"Xselect HSS Cyano","Waters","CN",0.479,-0.116,-0.224,0.043,0.082,1.18,1.76,"L10","CN"],[563,"Ultisil XB-Phenyl","Welch","phenyl",0.651,-0.108,-0.273,0.032,0.144,0.466,3.53,"L11","Phenyl"],[564,"Ultisil XB-C8","Welch","B",0.841,0.001,-0.108,0.027,0.063,0.244,5.87,"L7","C8"],[565,"Ultisil XB-C18","Welch","B",1.01,0.012,-0.016,0.005,0.118,0.142,9.44,"L1","C18"],[566,"Ultisil AQ-C18","Welch","B",0.872,-0.037,-0.072,0.031,0.054,0.323,6.61,"L1","C18"],[567,"Xtimate C8","Welch","B",0.855,-0.014,-0.185,0.008,0.013,0.173,6.26,"L7","C8"],[568,"Xtimate C18","Welch","B",1.0,-0.001,-0.083,-0.011,0.155,0.283,8.99,"1","C18"],[569,"Ultimate AQ-C18","Welch","B",0.868,-0.033,-0.055,0.029,0.058,0.363,6.51,"L1","C18"],[570,"Topsil C18","Welch","B",0.972,-0.011,-0.019,0.009,0.124,0.312,7.37,"L1","C18"],[571,"Chromolith Performance RP-8e","Merck KGaA (EMD Millipore)�","B",0.833,-0.014,-0.01,0.014,0.071,0.572,2.41,"L7","C8"],[572,"Chromolith HighResolution RP-18e","Merck KGaA (EMD Millipore)�","B",0.999,0.019,0.017,-0.001,0.206,0.285,3.41,"L1","C18"],[573,"Cosmicsil Aura ODS","Genius Technologies","B",0.948,-0.04,-0.185,0.009,-0.047,0.089,11.7,"L1","C18"],[574,"Cosmicsil AQ C18 120","Genius Technologies","B",0.958,-0.039,-0.072,0.013,0.133,0.295,9.19,"L1","C18"],[575,"Cosmicsil Aster C18 XD","Genius Technologies","B",1.08,0.038,0.042,-0.024,-0.086,0.084,13.5,"L1","C18"],[576,"Cosmicsil Agate 100 C18","Genius Technologies","B",1.02,-0.026,-0.07,0.009,0.048,0.263,13.0,"L1","C18"],[577,"Cosmicsil Adore 100 CN","Genius Technologies","B",0.339,-0.067,-0.488,0.008,0.099,0.901,0.561,"L10","CN"],[578,"Symmetry C4","Waters","B",0.687,-0.012,-0.29,0.022,0.217,0.305,1.41,"L26","C4"],[579,"Shim-pack XR-ODS II","Shimadzu","B",1.09,0.039,0.076,-0.026,-0.006,0.204,12.85,"L1","C18"],[580,"Xselect HSS PFP","Waters","F",0.592,-0.164,0.146,-0.02,0.74,1.77,3.35,"L43","F"],[581,"Nucleodur PAH C18","Macherey Nagel","B",1.01,0.008,0.574,-0.022,0.343,1.22,8.74,"L1","C18"],[582,"Nucleodur POLARTEC C18","Macherey Nagel","B",0.858,0.168,-0.259,0.351,-3.4,-0.787,7.67,"L1","C18"],[583,"Monitor C18","Orochem","B",0.981,-0.004,-0.131,0.001,0.021,0.063,9.13,"L1","C18"],[584,"Matrix C18","Orochem","B",0.934,-0.046,0.068,-0.003,0.071,0.765,11.42,"L1","C18"],[585,"Orosil C18","Orochem","B",0.981,-0.032,-0.137,0.002,-0.048,0.155,12.61,"L1","C18"],[586,"Polar C18","Orochem","B",1.04,-0.086,0.645,-0.035,1.07,1.56,10.17,"L1","C18"],[587,"Reliasil C18","Orochem","B",0.879,-0.004,0.326,0.048,0.592,0.822,8.97,"L1","C18"],[588,"InertSustain C8","GL Sciences","B",0.868,-0.005,-0.27,-0.021,-0.035,-0.122,8.59,"L7","C8"],[589,"InertSustain Phenyl","GL Sciences","phenyl",0.569,-0.135,-0.375,0.035,-0.044,0.32,3.37,"L11","Phenyl"],[590,"Nucleoshell RP 18","Macherey Nagel","B",1.11,0.036,0.077,-0.04,0.082,0.266,7.5,"L1","C18"],[591,"Nucleodur HTEC C18","Macherey Nagel","B",1.05,0.038,-0.022,-0.015,-0.482,0.136,11.7,"L1","C18"],[592,"Nucleodur PFP","Macherey Nagel","F",0.712,-0.059,-0.265,-0.036,0.023,0.81,4.8,"L43","F"],[593,"Balancil C18","Bonna-Agela Technologies, Inc.","B",0.918,-0.037,-0.17,0.025,0.109,0.734,7.97,"L1","C18"],[594,"Venusil XBP Phenyl-Hexyl","Bonna-Agela Technologies, Inc.","phenyl",0.678,-0.17,0.128,0.034,0.156,1.2,5.487,"L11","Phenyl"],[595,"Venusil PFP","Bonna-Agela Technologies, Inc.","F",0.519,-0.158,0.12,0.011,0.35,1.14,2.763,"L43","F"],[596,"Venusil XBP Polar-Phenyl","Bonna-Agela Technologies, Inc.","phenyl",0.552,-0.214,0.016,0.052,-0.034,1.07,3.19,"L11","Phenyl"],[597,"Promosil  C18","Bonna-Agela Technologies, Inc.","B",1.06,0.036,-0.068,-0.012,-0.002,-0.09,11.533,"L1","C18"],[598,"Venusil XBP Phenyl","Bonna-Agela Technologies, Inc.","phenyl",0.626,-0.118,-0.234,0.02,0.024,0.776,4.151,"L11","Phenyl"],[599,"Halo 5 C18","Advanced Materials Technology","B",1.15,0.055,0.025,-0.055,0.073,0.1,7.031,"L1","C18"],[600,"Halo ES-CN","Advanced Materials Technology","B",0.566,-0.11,-0.344,0.021,0.126,1.15,1.88,"L10","CN"],[601,"Halo 5 PFP","Advanced Materials Technology","B",0.711,-0.122,-0.07,-0.052,1.16,1.85,2.725,"L43","F"],[602,"Athena C8","CNW Technologies","B",0.831,-0.021,-0.166,0.009,0.026,0.274,6.43,"L7","C8"],[603,"Athena C18","CNW Technologies","B",0.997,0.002,-0.03,-0.013,0.094,0.265,9.82,"L1","C18"],[604,"Athena C18-WP","CNW Technologies","B",0.953,-0.03,-0.203,-0.003,-0.052,0.066,11.1,"L1","C18"],[605,"Athena Phenyl","CNW Technologies","phenyl",0.587,-0.114,-0.396,0.033,0.067,0.345,2.52,"L11","Phenyl"],[606,"Cosmicsil Adze C18","Genius Technologies","B",0.997,-0.019,-0.138,-0.013,-0.082,0.069,12.7,"L1","C18"],[607,"Cosmicsil BDS C18","Genius Technologies","B",0.854,-0.035,0.195,-0.012,0.476,0.929,3.79,"L1","C18"],[608,"Syncronis C18","Thermo/Hypersil","B",1.04,-0.003,-0.086,-0.019,-0.026,0.038,13.0,"L1","C18"],[609,"Syncronis C8","Thermo/Hypersil","B",0.84,-0.024,-0.227,0.01,-0.058,0.116,7.99,"L7","C8"],[610,"Syncronis aQ","Thermo/Hypersil","EP",0.984,-0.004,-0.1,-0.038,0.066,1.08,10.2,"L60","EP"],[611,"Syncronis Phenyl","Thermo/Hypersil","phenyl",0.75,-0.082,-0.32,0.008,-0.031,0.176,6.36,"L11","Phenyl"],[612,"Hypersil GOLD C4","Thermo/Hypersil","B",0.705,-0.003,-0.285,0.026,0.11,0.235,2.19,"L26","C4"],[613,"Hypersil GOLD Phenyl","Thermo/Hypersil","phenyl",0.65,-0.091,-0.362,0.03,0.161,0.416,2.0,"L11","Phenyl"],[614,"Hypersil GOLD CN","Thermo/Hypersil","CN",0.397,-0.035,-0.886,-0.019,-0.069,0.66,0.75,"L10","CN"],[615,"Accucore XL C18","Thermo/Hypersil","B",1.09,0.059,0.051,-0.038,0.086,0.384,5.22,"L1","C18"],[616,"Accucore XL C8","Thermo/Hypersil","B",0.926,0.02,-0.161,-0.001,0.02,-0.432,4.63,"L7","C8"],[617,"Accucore C18","Thermo/Hypersil","B",1.09,0.054,0.055,-0.04,0.072,0.095,6.5,"L1","C18"],[618,"Accucore C8","Thermo/Hypersil","B",0.924,0.015,-0.084,-0.003,0.002,0.186,5.2,"L7","C8"],[619,"Accucore C30","Thermo/Hypersil","B",0.978,-0.02,-0.143,-0.002,0.321,0.462,4.52,"L62","C30"],[620,"Accucore 150-C18","Thermo/Hypersil","B",1.03,0.046,-0.037,-0.009,0.2,0.171,4.45,"L1","C18"],[621,"Accucore 150-C4","Thermo/Hypersil","B",0.738,-0.008,-0.309,0.023,0.13,0.224,2.17,"L26","C4"],[622,"Accucore aQ","Thermo/Hypersil","EP",1.07,0.05,0.002,-0.059,0.06,0.508,5.46,"L60","EP"],[623,"Accucore Phenyl-X","Thermo/Hypersil","phenyl",0.781,-0.103,-0.554,0.044,-0.294,-0.082,3.64,"L11","Phenyl"],[624,"Accucore Phenyl-Hexyl","Thermo/Hypersil","phenyl",0.786,-0.047,-0.223,0.006,0.055,0.574,3.6,"L11","Phenyl"],[625,"Accucore PFP","Thermo/Hypersil","F",0.729,-0.098,-0.249,-0.036,0.873,1.66,3.22,"L43","F"],[626,"Accucore RP-MS","Thermo/Hypersil","B",1.0,0.024,-0.015,-0.006,0.027,0.057,6.2,"",""],[627,"Accucore Polar Premium","Thermo/Hypersil","EP",0.871,0.103,-0.567,0.217,-0.207,0.787,5.6,"L60","EP"],[628,"Acclaim C30","Thermo/Hypersil","B",0.973,-0.022,-0.126,0.004,0.353,0.32,5.52,"L62","C30"],[629,"Acclaim Phenyl-1","Thermo/Hypersil","phenyl",0.689,-0.15,-0.548,0.068,0.013,0.15,4.27,"L11","Phenyl"],[630,"Ascentis Express F5","Supelco","F",0.721,-0.124,0.067,-0.074,1.06,1.84,3.25,"L43","F"],[631,"Ascentis Express 5 F5","Supelco","F",0.711,-0.118,-0.097,-0.067,1.06,1.71,2.85,"L43","F"],[632,"Ascentis Express 5 C18","Supelco","B",1.13,0.053,0.053,-0.05,0.084,0.197,6.56,"L1","C18"],[633,"Halo 5 C8","Advanced Materials Technology","B",0.92,0.017,-0.118,-0.002,-0.002,0.205,4.6,"L7","C8"],[634,"Halo 5 Phenyl-Hexyl","Advanced Materials Technology","B",0.799,-0.091,-0.295,-0.004,0.115,0.429,3.29,"L11","Phenyl"],[635,"Ascentis Express ES-CN","Supelco","CN",0.565,-0.098,-0.415,0.014,0.031,1.04,1.88,"L10","CN"],[636,"Halo 5 ES-CN","Advanced Materials Technology","B",0.558,-0.102,-0.492,0.012,0.081,0.967,1.61,"L10","CN"],[637,"Poroshell 120 EC-C18","Agilent Technologies","B",1.02,0.008,-0.13,-0.004,0.161,0.123,6.92,"L1","C18"],[638,"Poroshell 120 EC-C8","Agilent Technologies","B",0.877,0.011,-0.232,0.023,0.127,0.09,4.84,"L7","C8"],[639,"Poroshell 120 EC-CN","Agilent Technologies","CN",0.421,-0.057,-0.476,0.002,0.045,0.87,0.95,"L10","CN"],[640,"Poroshell 120 Phenyl-Hexyl","Agilent Technologies","phenyl",0.752,-0.083,-0.394,0.018,0.136,0.14,3.59,"L11","Phenyl"],[641,"Poroshell 120 Bonus-RP","Agilent Technologies","EP",0.686,-0.03,-0.573,0.18,-0.67,-0.017,3.98,"L60","EP"],[642,"Poroshell 120 SB-C18","Agilent Technologies","B",0.956,-0.041,0.168,0.025,0.21,0.763,5.44,"L1","C18"],[643,"Poroshell 120 SB-C8","Agilent Technologies","B",0.726,-0.087,0.068,0.044,0.087,0.807,3.56,"L7","C8"],[644,"Poroshell 120 SB-AQ","Agilent Technologies","EP",0.581,-0.12,-0.133,0.051,-0.014,0.67,2.15,"L60","EP"],[645,"Titan C18","Supelco","C18",1.01,0.004,-0.084,-0.047,-0.052,0.088,10.11,"L1","C18"],[646,"Cosmosil piNap","Nacalai Tesque","phenyl",0.665,-0.176,-0.258,0.034,0.188,0.789,3.48,"L11","phenyl"],[647,"Cosmosil 5PYE","Nacalai Tesque","Other",0.671,-0.271,-0.283,0.092,0.521,1.32,3.81,"","Other"],[648,"Excel SuperC18","ACT","C18",0.997,-0.003,-0.201,-0.013,0.03,0.009,9.92,"L1","C18"],[649,"Excel CN-ES","ACT","CN",0.811,-0.005,-0.429,-0.01,-0.052,0.153,3.74,"L10","CN"],[650,"Excel C18-Amide","ACT","EP",0.791,0.023,-0.489,0.199,-0.06,0.176,5.86,"","EP"],[651,"UltraCore SuperPhenylHexyl","ACT","phenyl",0.809,-0.074,-0.347,-0.014,-0.014,-0.007,3.7,"L11","phenyl"],[652,"Ultracore SuperC18","ACT","B",1.09,0.03,-0.111,-0.05,-0.029,0.028,6.92,"L1","C18"],[653,"Flare C18","Diamond Analytics","Other",0.806,-0.073,-0.47,0.841,-1.48,2.41,0.75,"","Other"],[654,"Cosmicsil Agate RP C8","Genius Technologies","B",0.846,-0.008,-0.178,0.022,0.034,0.262,7.16,"L7","C8"],[655,"Cosmicsil APT C18","Genius Technologies","B",1.02,0.004,-0.064,-0.007,0.135,0.196,10.43,"L1","C18"],[656,"Cosmicsil Glory C18","Genius Technologies","B",1.0,0.007,-0.17,0.003,0.172,0.222,9.38,"L1","C18"],[657,"Cosmicsil Abra C18","Genius Technologies","B",0.81,0.031,-0.482,0.214,-0.178,0.139,8.16,"L1","C18"],[658,"Cosmicsil Agate RP C18","Genius Technologies","B",1.02,0.017,-0.007,-0.007,0.185,0.23,10.61,"L1","C18"],[659,"Kinetex Biphenyl 100A","Phenomenex","phenyl",0.697,-0.173,-0.583,0.034,0.122,0.817,2.63,"L11","Phenyl"],[660,"Aeris WIDEPORE XB-C8","Phenomenex","B",0.788,-0.038,-0.169,0.073,-0.042,0.518,1.23,"L7","C8"],[661,"Aeris WIDEPORE XB-C18","Phenomenex","B",0.934,-0.032,-0.134,0.068,0.073,0.36,1.81,"L1","C18"],[662,"Aeris WIDEPORE XB-C4","Phenomenex","B",0.699,-0.021,-0.31,0.017,0.084,0.195,0.91,"L26","C4"],[663,"Aeris PEPTIDE XB-C18","Phenomenex","B",0.992,-0.021,-0.095,0.016,0.071,0.314,5.65,"L1","C18"],[664,"Primesep A","SIELC","Other",0.57,-0.199,0.057,0.032,2.73,2.6,1.57,"","Other"],[665,"Primesep B","SIELC","Other",0.497,-0.004,0.034,0.584,-1.87,-1.36,0.91,"","Other"],[666,"Primesep C","SIELC","Other",0.513,-0.146,-0.265,0.124,1.04,1.55,1.85,"","Other"],[667,"Cortecs C18","Waters","B",1.08,0.043,-0.108,-0.037,0.063,0.035,6.39,"L1","C18"],[668,"Cortecs C18+","Waters","B",1.04,-0.005,0.175,0.026,-0.033,0.537,6.54,"L1","C18"],[669,"Sunshell RP-AQUA","Chromanik","C28",0.898,-0.04,-0.272,0.013,0.127,0.095,4.02,"L62","C28"],[670,"Sunshell C18","Chromanik","B",1.09,0.028,-0.124,-0.056,-0.043,-0.084,7.79,"L1","C18"],[671,"Sunshell Phenyl","Chromanik","phenyl",0.813,-0.076,-0.323,-0.017,-0.061,-0.09,4.161,"L11","Phenyl"],[672,"Sunshell C8","Chromanik","B",0.907,0.007,-0.235,-0.028,-0.065,-0.126,4.7,"L7","C8"],[673,"Sunshell PFP","Chromanik","fluoro",0.663,-0.176,0.14,-0.076,1.11,2.14,2.46,"L43","F"],[674,"Sunniest C8","Chromanik","B",0.845,0.005,-0.304,-0.002,0.036,-0.018,5.7,"L7","C8"],[675,"Sunniest PhE","Chromanik","phenyl",0.656,-0.085,-0.469,0.008,0.044,-0.022,3.24,"L11","Phenyl"],[676,"Sunniest RP-AQUA","Chromanik","C28",0.958,-0.024,-0.21,-0.008,0.142,0.098,8.49,"L62","C28"],[677,"Sunniest C18","Chromanik","B",1.02,0.01,-0.169,-0.023,0.089,0.803,9.62,"L1","C18"],[678,"Sunniest PFP","Chromanik","fluoro",0.615,-0.15,-0.049,-0.04,1.1,1.8,2.97,"L43","F"],[679,"Kinetex EVO C18","Phenomenex","B",1.01,-0.006,-0.17,-0.024,-0.11,-0.01,4.38,"L1","C18"],[680,"Flare C18+","Diamond Analytics","Other",1.14,-0.31,0.73,0.97,-0.51,1.2,0.27,"","Other"],[681,"Primesil C8","Wesley Technologies Inc","B",0.857,-0.014,-0.2,0.018,-0.052,0.17,8.2,"L7","C8"],[682,"Primesil C18 5 micron","Wesley Technologies Inc","B",1.04,-0.002,-0.043,-0.013,0.015,0.15,12.4,"L1","C18"],[683,"Primesil C18 3 micron","Wesley Technologies Inc","B",1.02,0.025,-0.06,-0.001,0.014,0.12,9.0,"L1","C18"],[684,"Primesil ODS-P","Wesley Technologies Inc","EP",0.752,0.09,-0.67,0.042,-0.24,-0.015,8.7,"L60","EP"],[685,"Primesil C18-2","Wesley Technologies Inc","B",1.0,-0.004,-0.057,-0.006,0.109,0.18,10.3,"L1","C18"],[686,"Kinetex F5","Phenomenex","fluoro",0.725,-0.064,-0.32,-0.046,0.11,2.66,3.03,"L43","F"],[687,"Selectra Aqueous C18","UCT","B",0.78,-0.11,0.011,0.011,0.076,1.15,6.79,"L60","EP"],[688,"Selectra C18","UCT","B",1.05,0.032,0.006,-0.017,0.015,0.026,11.8,"L1","C18"],[689,"Selectra PFPP","UCT","fluoro",0.674,-0.081,-0.33,-0.033,0.43,1.26,4.63,"L43","F"],[690,"InertSustain AQ-C18","GL Sciences","B",0.939,-0.05,-0.23,0.001,-0.003,-0.095,10.7,"L1","C18"],[691,"InertSustain Phenylhexyl","GL Sciences","phenyl",0.743,-0.043,-0.37,-0.015,-0.109,-0.204,5.92,"L11","Phenyl"],[692,"InertSustainSwift C18","GL Sciences","B",0.882,-0.013,-0.31,-0.001,0.13,0.074,4.74,"L1","C18"],[693,"Poroshell 120 HPH C8","Agilent Technologies","B",0.887,0.01,-0.25,0.008,-0.019,-0.073,4.18,"L7","C8"],[694,"Poroshell 120 HPH C18","Agilent Technologies","B",1.03,0.005,-0.14,-0.014,0.073,-0.004,6.1,"L1","C18"],[695,"Poroshell 120 PFP","Agilent Technologies","fluoro",0.63,-0.059,-0.46,0.015,-0.038,0.741,2.88,"L43","F"],[696,"Ascentis Express Biphenyl","Supelco","phenyl",0.702,-0.177,-0.23,0.031,0.208,0.923,2.43,"L11","phenyl"],[697,"Acquity UPLC BEH C18","Waters","B",1.0,0.028,-0.366,0.007,0.142,0.088,6.4,"L1","C18"],[698,"Acquity UPLC CSH C18","Waters","EP",0.968,0.0,-0.355,0.199,0.065,0.157,6.1,"L60","EP"],[699,"YMC-Triart C8","YMC","B",0.83,-0.007,-0.317,-0.007,-0.023,-0.102,7.2,"L7","C8"],[700,"YMC-Triart C18 ExRS","YMC","B",1.17,0.063,-0.004,-0.096,-0.139,-0.254,18.4,"L1","C18"],[701,"YMC-Triart Phenyl","YMC","phenyl",0.723,-0.072,-0.376,-0.008,-0.021,-0.084,5.3,"L11","phenyl"],[702,"YMC-Triart PFP","YMC","fluoro",0.586,-0.182,-0.014,-0.045,0.363,1.36,3.8,"L43","F"],[703,"BIOshell A160 Peptide C18","Supelco","B",0.89,-0.059,0.25,0.024,0.177,0.819,3.0,"L1","C18"],[704,"BIOshell A400 Protein C18","Supelco","B",0.94,-0.052,-0.202,0.063,0.177,0.261,1.1,"L1","C18"],[705,"BIOshell A400 Protein C4","Supelco","B",0.704,0.005,-0.847,0.013,0.109,0.155,0.61,"L26","C4"],[706,"BIOshell A160 Peptide CN","Supelco","CN",0.481,-0.098,-0.353,0.028,0.076,0.838,0.9,"L10","CN"],[707,"Luna Omega C18","Phenomenex","B",0.976,-0.0029,-0.187,-0.0071,-0.018,0.005,9.6,"L1","C18"],[708,"Luna Omega Polar C18","Phenomenex","EP",0.86,-0.07,-0.158,0.02,0.0027,0.558,7.4,"L60","EP"],[709,"Luna Omega PS C18","Phenomenex","EP",0.901,-0.017,-0.273,0.011,-0.29,0.013,7.6,"L60","EP"],[710,"Halo AQ-C18","Advanced Materials Technology","B",1.0,-0.036,0.099,-0.048,0.156,0.864,6.7,"L1","C18"],[711,"Halo Biphenyl","Advanced Materials Technology","B",0.708,-0.183,-0.279,0.028,0.047,0.99,3.1,"L11","phenyl"],[712,"Svea C18","Nanologica","B",1.06,0.041,-0.054,-0.028,0.047,-0.031,11.2,"L1","C18"],[713,"Svea PheHex","Nanologica","phenyl",0.763,-0.09,-0.304,0.011,0.152,0.417,5.5,"L11","phenyl"],[714,"Svea C4","Nanologica","B",0.73,-0.002,-0.289,0.017,0.042,0.304,4.6,"L26","C4"],[715,"Kanak C18","Nanghavi Chromatography Solutions Ltd","B",1.06,0.041,-0.054,-0.028,0.047,-0.031,11.2,"L1","C18"],[716,"Kanak PheHex","Nanghavi Chromatography Solutions Ltd","phenyl",0.763,-0.09,-0.304,0.011,0.152,0.417,5.5,"L11","phenyl"],[717,"Kanak C4","Nanghavi Chromatography Solutions Ltd","B",0.73,-0.002,-0.289,0.017,0.042,0.304,4.6,"L26","C4"],[718,"Cortecs C8","Waters","B",0.882,0.02,-0.21,-0.007,0.028,0.047,4.5,"L7","C8"],[719,"Cortecs T3","Waters","B",0.954,-0.036,-0.16,0.016,0.15,0.19,5.2,"L1","C18"],[720,"Cortecs Phenyl","Waters","phenyl",0.764,-0.088,-0.31,0.009,0.042,0.59,3.3,"L11","phenyl"],[721,"Cortecs UPLC Shield RP18","Waters","EP",0.869,-0.023,-0.28,0.1,-0.19,0.096,4.9,"L60","EP"],[722,"Xbridge Protein BEH C4","Waters","B",0.546,-0.073,-0.21,0.043,0.007,0.12,0.85,"L26","C4"],[723,"BioResolve RP mAb","Waters","phenyl",0.586,-0.14,-0.49,0.058,0.18,0.25,0.39,"L11","phenyl"],[724,"Inertsil ODS-HL","GL Sciences","B",1.07,0.01,-0.037,-0.066,0.016,-0.013,16.0,"L1","C18"],[725,"InertSustainSwift C8","GL Sciences","B",0.785,-0.014,-0.32,0.0,0.07,0.0,3.7,"L7","C8"],[726,"InertSustain Cyano","GL Sciences","CN",0.445,-0.04,-0.37,-0.015,-0.077,0.83,1.6,"L10","CN"],[727,"Svea C8","Nanologica","B",0.873,0.014,-0.17,0.012,0.029,0.15,7.2,"L7","C8"],[728,"Svea PFP","Nanologica","fluoro",0.633,-0.085,-0.26,0.024,0.4,1.28,3.7,"L43","F"],[729,"Svea CN","Nanologica","CN",0.44,-0.046,-0.65,-0.01,0.01,0.82,1.6,"L10","CN"],[730,"Halo C30","Advanced Materials Technology","B",0.938,-0.046,-0.14,0.023,0.17,0.35,4.5,"L62","C30"],[731,"Ultimate LP-C18","Welch","B",0.913,-0.044,0.16,0.026,0.15,0.77,7.4,"L1","C18"],[732,"Ultimate Plus C18","Welch","B",0.979,-0.003,-0.12,0.015,0.16,0.17,6.3,"L1","C18"],[733,"Ultimate XS-C18","Welch","B",0.982,-0.009,0.45,-0.016,0.22,1.2,9.5,"L1","C18"],[734,"Ultimate Polar-RP","Welch","B",0.773,0.026,-0.43,0.19,-0.27,0.1,6.4,"L60","EP"],[735,"Ultimate PFP","Welch","fluoro",0.636,-0.1,-0.17,-0.023,0.45,1.1,3.4,"L43","F"],[736,"Ultimate XB-CN","Welch","CN",0.394,-0.074,-0.3,0.007,0.092,0.92,1.1,"L10","CN"],[737,"Ultisil LP-C18","Welch","B",0.916,-0.042,0.15,0.026,0.14,0.76,7.6,"L1","C18"],[738,"Ultisil Polar-RP","Welch","B",0.773,0.028,-0.44,0.19,-0.25,0.037,6.4,"L60","EP"],[739,"Primesil C8","Wesley Technologies Inc","B",0.858,0.009,-0.186,0.026,0.1,0.125,6.3,"L7","C8"],[740,"Flowrosil ODS","Wesley Technologies Inc","B",1.01,0.004,-0.121,0.0,0.162,0.142,9.5,"L1","C18"],[741,"Flowrosil C18 AQ","Wesley Technologies Inc","B",0.894,-0.04,-0.182,0.024,0.112,0.171,7.5,"L1","C18"],[742,"Flowrosil C8","Wesley Technologies Inc","B",0.857,0.001,-0.173,0.024,0.11,0.166,6.4,"L7","C8"],[743,"Targetsil C18 HPH","Wesley Technologies Inc","B",0.973,-0.014,-0.084,0.01,0.148,0.208,7.2,"L1","C18"],[744,"Targetsil C18 Polar","Wesley Technologies Inc","B",0.778,0.017,-0.463,0.185,-0.301,0.018,7.0,"L1","C18"],[745,"VDSpher PUR 100 C18-E","VDS Optilab","B",1.03,-0.0034,-0.0026,-0.016,0.01,0.15,13.0,"L1","C18"],[746,"VDSpher PUR 100 C18-H","VDS Optilab","B",0.809,-0.073,-0.14,0.015,0.033,0.97,7.8,"L1","C18"],[747,"VDSpher PUR 100 C18-M-SE","VDS Optilab","B",1.07,0.037,-0.044,-0.037,-0.06,0.022,13.1,"L1","C18"],[748,"VDSpher PUR 100 C18-M","VDS Optilab","B",0.903,-0.077,0.51,0.0002,0.12,1.51,10.2,"L1","C18"],[749,"Triart Bio C4","YMC","B",0.673,-0.015,-0.35,0.02,0.13,0.064,1.2,"L26","C4"],[750,"Shim-pack Arata C18","Shimadzu","B",0.782,0.032,-0.503,0.236,-0.52,0.079,7.6,"L1","C18"],[751,"Shim-pack Velox SP-C18","Shimadzu","B",0.983,-0.045,0.385,0.01,0.106,1.06,6.3,"L1","C18"],[752,"Shim-pack Velox C18","Shimadzu","B",1.1,0.051,0.101,-0.034,0.111,0.196,6.6,"L1","C18"],[753,"Shim-pack Velox Biphenyl","Shimadzu","B",0.707,-0.19,-0.244,0.046,0.063,1.07,3.2,"L11","phenyl"],[754,"Shim-pack Velox PFPP","Shimadzu","B",0.688,-0.13,0.116,-0.043,0.443,1.59,3.0,"L43","F"],[755,"Betasil C18","Thermo/Hypersil","B",1.06,0.033,0.034,-0.014,0.095,0.099,12.3,"L1","C18"],[756,"Acclaim Mixed-Mode HILIC-1","Thermo/Hypersil","B",0.517,-0.086,0.0,0.126,0.067,0.893,1.7,"L60","EP"],[757,"Acclaim Mixed-Mode WCX-1","Thermo/Hypersil","B",0.432,-0.099,-0.606,0.168,-0.156,0.99,1.5,"L60","EP"],[758,"Hypersil   ODS","Thermo/Hypersil","B",0.973,-0.051,-0.094,0.019,1.1,0.895,5.7,"L1","C18"],[759,"Betasil C8","Thermo/Hypersil","B",0.875,-0.0027,-0.164,0.031,0.084,0.076,8.1,"L7","C8"],[760,"Accucore Biphenyl","Thermo/Hypersil","B",0.706,-0.18,-0.317,0.025,0.077,0.727,3.3,"L11","phenyl"],[761,"YMC-Triart Bio C18","YMC","B",0.954,-0.0081,-0.139,0.011,0.261,0.21,3.0,"L1","C18"],[762,"Adamas C18-Select","SepaChrom","B",0.948,-0.066,0.422,0.006,0.131,1.2,12.1,"L1","C18"],[763,"Adamas C18-X-Bond","SepaChrom","B",1.04,0.013,0.095,-0.034,-0.053,0.639,12.4,"L1","C18"],[764,"Adamas C18-AQ","SepaChrom","B",0.847,-0.069,-0.162,0.011,-0.067,0.664,9.3,"L1","C18"],[765,"Adamas C18-Extreme","SepaChrom","B",1.05,0.022,-0.017,-0.03,0.037,0.167,12.7,"L1","C18"],[766,"Adamas C18-Classic","SepaChrom","B",1.01,-0.024,-0.101,-0.001,0.036,0.083,12.3,"L1","C18"],[767,"Robusta C18","SepaChrom","B",1.06,-0.002,0.025,-0.025,-0.019,0.203,13.7,"L1","C18"],[768,"Orosil C18-HC","Orochem","B",1.04,0.013,0.128,-0.02,-0.014,0.361,14.3,"L1","C18"],[769,"Orosil C18-ER","Orochem","B",0.907,-0.054,0.356,0.026,0.157,1.05,10.3,"L1","C18"],[770,"Gazelle C18","Orochem","B",1.01,0.018,0.049,-0.01,0.164,0.209,11.5,"L1","C18"],[771,"Orosil Polar C18","Orochem","B",1.02,-0.041,0.603,-0.017,0.291,1.37,13.1,"L1","C18"],[772,"Agilent 5 Prep C18 Scalar","Agilent Technologies","B",1.08,0.046,0.084,-0.037,0.075,0.018,12.6,"L1","C18"],[773,"SunShell Biphenyl","Chromanik","B",0.775,-0.11,-0.33,-0.0032,0.062,0.087,3.76,"L11","phenyl"],[774,"SunShell PFP&C18","Chromanik","B",0.887,-0.13,0.013,-0.073,-0.025,1.11,5.45,"L11","phenyl"],[775,"Sunniest Biphenyl","Chromanik","B",0.725,-0.11,-0.42,0.0081,0.111,0.059,4.33,"L11","phenyl"],[776,"Sunniest PFP&C18","Chromanik","B",0.857,-0.12,-0.08,-0.073,0.19,1.13,7.04,"L11","phenyl"],[777,"Halo LPH-C18","Advanced Materials Technology","B",0.99,-0.036,0.33,0.0055,0.106,1.02,6.2,"L1","C18"],[778,"Halo 90 A PCS C18","Advanced Materials Technology","B",0.933,0.005,-0.233,0.148,-0.254,0.055,5.6,"L1","C18"],[779,"Halo 90 A PCS Phenyl-Hexyl","Advanced Materials Technology","B",0.663,-0.076,-0.514,0.15,-0.26,0.304,2.9,"L11","phenyl"],[780,"Astra C18-HE","Chromservis","B",1.02,-0.009,-0.108,-0.008,0.037,0.144,12.7,"L1","C18"],[781,"Astra C18-BDS","Chromservis","B",0.97,-0.022,-0.042,0.013,0.201,0.311,6.5,"L1","C18"],[782,"C18-AQ","Chromservis","B",0.87,-0.063,-0.238,0.01,-0.065,0.41,9.8,"L1","C18"],[783,"Astra Phenyl-Hexyl HE","Chromservis","B",0.831,-0.089,-0.311,0.004,0.01,0.157,8.3,"L11","phenyl"],[784,"ChromCore C18","NanoChrom","B",0.988,0.014,-0.105,0.006,0.213,0.173,6.6,"L1","C18"],[785,"ChromCore 120 C18","NanoChrom","B",0.986,0.004,-0.11,-0.002,0.155,0.342,8.7,"L1","C18"],[786,"ChromCore AQ C18","NanoChrom","B",0.975,0.005,-0.051,0.008,0.193,0.208,6.2,"L1","C18"],[787,"ChromCore 300 C18","NanoChrom","B",0.962,0.005,-0.116,0.021,0.231,0.207,3.5,"L1","C18"],[788,"ChromCore AR C18","NanoChrom","B",0.857,-0.076,0.281,0.02,0.117,0.895,6.5,"L1","C18"],[789,"ChromCore BR C18","NanoChrom","B",0.976,0.037,-0.03,-0.006,0.266,0.27,4.7,"L1","C18"],[790,"ChromCore 120 C18-T","NanoChrom","B",0.987,0.029,0.21,-0.017,0.258,0.484,7.3,"L1","C18"],[791,"ChromCore Polar C18","NanoChrom","B",0.824,0.042,-0.31,0.184,-0.079,0.326,6.7,"L1","C18"],[792,"ChromCore T3","NanoChrom","B",0.953,-0.027,-0.166,0.019,0.173,0.142,8.2,"L1","C18"],[793,"HALO Elevate C18","Advanced Materials Technology","B",1.06,0.023,-0.064,-0.02,0.273,0.158,4.4,"L1","C18"],[794,"PURITAS 120 C1","Chromachemie","B",0.548,-0.059,-0.252,0.019,-0.022,0.528,2.3,"L13","C1"],[795,"PURITAS 120 C4","Chromachemie","B",0.701,-0.024,-0.265,0.022,0.072,0.282,4.0,"L26","C4"],[796,"PURITAS BIO 300 C4","Chromachemie","B",0.787,-0.036,-0.172,0.043,0.185,0.3,2.0,"L26","C4"],[797,"PURITAS BIO EXIMIUS 300 C8","Chromachemie","B",0.819,-0.006,-0.234,0.038,0.212,0.202,2.1,"L7","C8"],[798,"PURITAS EXIMIUS 100 C8","Chromachemie","B",0.887,0.006,-0.159,0.012,-0.02,0.222,9.0,"L7","C8"],[799,"PURITAS BIO 300 C8","Chromachemie","B",0.786,-0.033,-0.168,0.038,0.177,0.311,2.0,"L7","C8"],[800,"PURITAS PK C8","Chromachemie","B",0.88,0.014,-0.185,0.014,0.059,0.081,7.2,"L7","C8"],[801,"PURITAS 120 C8","Chromachemie","B",0.82,-0.029,-0.095,0.019,0.016,0.387,6.6,"L7","C8"],[802,"PURITAS BIO EXIMIUS 300 C18","Chromachemie","B",0.972,0.009,-0.095,0.015,0.273,0.258,3.4,"L1","C18"],[803,"PURITAS BIO 300 C18","Chromachemie","B",0.929,-0.036,-0.085,0.031,0.25,0.322,3.0,"L1","C18"],[804,"PURITAS ODS 120 C18","Chromachemie","B",1.0,-0.004,-0.044,-0.003,0.112,0.243,10.2,"L1","C18"],[805,"PURITAS ODS-AQ 120 C18","Chromachemie","B",0.943,-0.036,-0.041,0.01,0.086,0.371,9.0,"L1","C18"],[806,"PURITAS PROPREP 200 C18","Chromachemie","B",0.951,-0.018,-0.073,0.018,0.22,0.284,5.6,"L1","C18"],[807,"PURITAS PK C18","Chromachemie","B",1.04,0.042,-0.014,-0.024,0.053,0.029,9.9,"L1","C18"],[808,"PURITAS EXIMIUS 100 C18","Chromachemie","B",1.07,0.048,-0.026,-0.028,-0.142,-0.027,12.7,"L1","C18"],[809,"PURITAS EXIMIUS 100 C18","Chromachemie","B",1.01,-0.023,-0.131,-0.008,-0.11,0.128,13.5,"L1","C18"],[810,"PURITAS 120 PHENYL","Chromachemie","B",0.554,-0.121,-0.225,0.037,0.06,0.763,2.5,"L11","phenyl"],[811,"Shim-pack Scepter C18-120","Shimadzu","B",0.961,-0.011,-0.175,-0.03,0.001,-0.105,11.3,"L1","C18"],[812,"Evosphere C12","Fortis Technologies","B",1.01,0.011,0.013,-0.018,0.08,0.232,11.9,"L87","C12"],[813,"Evosphere C18/AR","Fortis Technologies","B",0.904,-0.071,-0.112,-0.015,0.059,0.832,9.24,"L1","C18"],[814,"Evosphere AQUA","Fortis Technologies","B",1.06,0.013,0.49,-0.041,0.174,0.986,11.5,"L60","EP"],[815,"Evosphere C18/PFP","Fortis Technologies","B",0.917,-0.054,-0.083,-0.062,0.486,1.35,9.55,"L1","C18"],[816,"Evosphere PFP","Fortis Technologies","B",0.74,-0.113,-0.183,-0.069,0.948,1.89,6.16,"L43","F"],[817,"Evosphere RP18 Amide","Fortis Technologies","B",0.825,0.029,0.062,0.196,-0.772,1.35,8.59,"L60","EP"],[818,"Evosphere Diphenyl","Fortis Technologies","B",0.654,-0.176,-0.361,0.032,0.086,1.35,4.63,"L11","phenyl"],[819,"Caprisil C18-X","Morhchem","B",1.01,0.03,-0.056,0.023,-0.249,-0.026,7.03,"L1","C18"],[820,"Caprisil C18-B","Morhchem","B",1.03,0.028,-0.081,-0.01,0.004,-0.053,10.7,"L1","C18"],[821,"Caprisil C18-IP","Morhchem","B",0.906,-0.048,0.236,0.035,0.194,0.776,7.61,"L1","C18"],[822,"Caprisil C18-AQ","Morhchem","B",0.966,-0.035,-0.042,0.015,0.075,0.382,9.82,"L60","EP"],[823,"Caprisil C18-AQ(2)","Morhchem","B",0.844,-0.075,-0.088,0.019,0.024,0.698,8.95,"L60","EP"],[824,"Caprisil C8-P","Morhchem","B",0.864,-0.026,-0.173,0.02,0.011,0.191,8.62,"L7","C8"],[825,"Caprisil Phenyl","Morhchem","B",0.696,-0.103,-0.202,0.023,0.014,0.604,5.51,"L11","phenyl"],[826,"Caprisil Hexyl-Phenyl","Morhchem","B",0.82,-0.098,-0.24,0.012,0.03,0.314,8.09,"L11","phenyl"],[827,"Excsep C18","OneTwo Chromatography","B",1.03,0.028,-0.078,0.0,-0.227,0.12,10.3,"L1","C18"],[828,"Excsep SCB-C18","OneTwo Chromatography","B",0.933,-0.063,0.441,0.03,0.115,1.02,8.27,"L1","C18"],[829,"Excsep HPH-C18","OneTwo Chromatography","B",0.955,-0.006,-0.147,-0.007,0.038,0.111,8.02,"L1","C18"],[830,"ShimNex CS C18","Shimadzu","B",1.0,-0.009,-0.106,-0.001,-0.193,0.07,10.6,"L1","C18"],[831,"ShimNex CS C18","Shimadzu","B",1.0,-0.009,-0.106,-0.001,-0.193,0.07,10.6,"L1","C18"]];
+// COLDATA row: [0 ID,1 Name,2 Manufacturer,3 SilicaType,4 H,5 S*,6 A,7 B,8 C_pH2.8,9 C_pH7.0,10 EB,11 USPtype,12 Phase]
+
+document.getElementById('dbCountTop').textContent = COLDATA.length;
+
+function $(id){ return document.getElementById(id); }
+function setMsg(id, text){ var el = $(id+'_msg'); if(el){ el.textContent = text || ''; } }
+function fmt(n, digits){
+  if(n === null || n === undefined || isNaN(n) || !isFinite(n)) return '—';
+  digits = (digits===undefined) ? 3 : digits;
+  return n.toLocaleString('en-US', {minimumFractionDigits:0, maximumFractionDigits:digits});
+}
+// 분 단위 값이 2자리 반올림으로 0.00처럼 의미 없는 표시가 되면 초 단위를 병기
+function fmtMinSec(min){
+  if(min === null || min === undefined || isNaN(min) || !isFinite(min)) return '—';
+  var rounded2 = Math.round(min*100)/100;
+  if(Math.abs(rounded2) < 0.01 && Math.abs(min) > 1e-9){
+    var sec = min * 60;
+    return fmt(min,4)+' min ('+fmt(sec,1)+'초)';
+  }
+  return fmt(min,2)+' min';
+}
+
+// 양수 검증: 값이 없으면(옵션) null 리턴(정상), 값이 있는데 숫자가 아니거나 <=0이면 에러
+function readPositive(id, opts){
+  opts = opts || {};
+  var raw = $(id).value;
+  if(raw === undefined || raw === null || raw.trim() === ''){
+    if(opts.required){ setMsg(id, '값을 입력하세요'); return {ok:false, val:null}; }
+    setMsg(id, ''); return {ok:true, val:null};
+  }
+  var n = Number(raw);
+  if(isNaN(n) || !isFinite(n)){ setMsg(id, '숫자를 입력하세요'); return {ok:false, val:null}; }
+  if(n <= 0){ setMsg(id, '0 또는 음수는 입력할 수 없습니다'); return {ok:false, val:null}; }
+  setMsg(id, '');
+  return {ok:true, val:n};
+}
+// 부호 허용(온도차·pH 등은 음수 가능) 값 읽기
+function readAny(id, opts){
+  opts = opts || {};
+  var raw = $(id).value;
+  if(raw === undefined || raw === null || raw.trim() === ''){
+    if(opts.required){ setMsg(id, '값을 입력하세요'); return {ok:false, val:null}; }
+    setMsg(id, ''); return {ok:true, val:null};
+  }
+  var n = Number(raw);
+  if(isNaN(n) || !isFinite(n)){ setMsg(id, '숫자를 입력하세요'); return {ok:false, val:null}; }
+  setMsg(id, '');
+  return {ok:true, val:n};
+}
+
+/* ---------------- 기울기 세그먼트 표 ---------------- */
+function gradRowHtml(t, b){
+  return '<tr>'+
+    '<td><input type="text" class="gradT" value="'+(t===undefined?'':t)+'" style="width:100%;padding:5px;border:1px solid var(--line);border-radius:5px;"></td>'+
+    '<td><input type="text" class="gradB" value="'+(b===undefined?'':b)+'" style="width:100%;padding:5px;border:1px solid var(--line);border-radius:5px;"></td>'+
+    '<td><button type="button" class="btn btn-sm rmRow">삭제</button></td>'+
+    '</tr>';
+}
+function addGradRow(t, b){
+  var tbody = $('gradBody');
+  var tr = document.createElement('tr');
+  tr.innerHTML = gradRowHtml(t,b).replace('<tr>','').replace('</tr>','');
+  tbody.appendChild(tr);
+  tr.querySelector('.rmRow').addEventListener('click', function(){ tr.remove(); computeAll(); });
+  tr.querySelectorAll('input').forEach(function(inp){ inp.addEventListener('input', computeAll); });
+}
+$('addRowBtn').addEventListener('click', function(){ addGradRow('', ''); });
+addGradRow(0, 5);
+addGradRow(30, 65);
+
+function readGradRows(){
+  var rows = [];
+  var trs = $('gradBody').querySelectorAll('tr');
+  var bad = false;
+  trs.forEach(function(tr){
+    var tEl = tr.querySelector('.gradT'), bEl = tr.querySelector('.gradB');
+    var tRaw = tEl.value.trim(), bRaw = bEl.value.trim();
+    if(tRaw === '' && bRaw === '') return;
+    var t = Number(tRaw), b = Number(bRaw);
+    if(isNaN(t) || isNaN(b) || tRaw==='' || bRaw===''){ bad = true; return; }
+    rows.push({t:t, b:b});
+  });
+  return {rows:rows, bad:bad};
+}
+
+/* ---------------- 등용매/기울기 라디오 ---------------- */
+function isGradient(){ return $('modeGrad').checked; }
+function updateModeUI(){
+  var grad = isGradient();
+  $('gradSection').style.display = grad ? '' : 'none';
+  // 크로마토그램 구역도 모드에 따라 바뀐다 (등용매 = k 보존 / 기울기 = LSS 폐형식)
+  $('chromModeTag').textContent = grad ? '(기울기)' : '(등용매)';
+  $('chromSrcIso').style.display = grad ? 'none' : '';
+  $('chromSrcGrad').style.display = grad ? '' : 'none';
+  $('chromGradBox').style.display = grad ? '' : 'none';
+  $('chromMethodIso').style.display = grad ? 'none' : '';
+  $('chromMethodGrad').style.display = grad ? '' : 'none';
+}
+$('modeIso').addEventListener('change', function(){ updateModeUI(); computeAll(); });
+$('modeGrad').addEventListener('change', function(){ updateModeUI(); computeAll(); });
+updateModeUI();
+
+/* ---------------- 유속 직접조정 안내 ----------------
+   ⚠️ 이 함수는 computeAll()에서 호출되는데 정의가 빠져 있어(ReferenceError)
+      계산①~⑦ 전체가 실행되지 못하던 결함을 메운 것이다. 기존 수식·판정은 바꾸지 않았다. */
+function renderFlowNotes(F2, F2eff, dc2, baseOk){
+  var wChange = $('flowChangeWarn'), wRange = $('flowRangeNote'), wUsp = $('flowUspNote');
+  wChange.innerHTML = ''; wRange.innerHTML = ''; wUsp.innerHTML = '';
+  if(!baseOk || F2 === null || F2eff === null) return;
+  var grad = isGradient();
+  var changed = Math.abs(F2eff - F2) > 1e-12;
+  var pct = (F2eff/F2 - 1) * 100;
+
+  if(grad){
+    wRange.innerHTML = '<div class="note">기울기 모드 — USP&lt;621&gt;은 기하식 계산값에서의 <b>추가 유속 조정을 허용하지 않습니다</b>. 기하식 계산 유속 '+fmt(F2,4)+' mL/min을 그대로 쓰십시오.</div>';
+    if(changed){
+      wChange.innerHTML = '<div class="bad-box">유속을 기하식 계산값('+fmt(F2,4)+' mL/min)에서 '+(pct>=0?'+':'')+fmt(pct,1)+'% 조정했습니다. <b>기울기에서는 추가 조정이 허용되지 않습니다</b> — 같은 메소드로 인정받으려면 계산값을 쓰십시오. (아래 계산은 조정한 값 '+fmt(F2eff,4)+' mL/min으로 진행합니다.)</div>';
+    }
+  } else {
+    wRange.innerHTML = '<div class="note">등용매 모드 — 기하식 계산값에서 <b>추가 ±50%</b>까지 허용됩니다. 허용 범위: '+fmt(F2*0.5,4)+' ~ '+fmt(F2*1.5,4)+' mL/min.</div>';
+    if(changed){
+      if(Math.abs(pct) <= 50){
+        wChange.innerHTML = '<div class="warn-box">유속을 기하식 계산값에서 '+(pct>=0?'+':'')+fmt(pct,1)+'% 조정했습니다 — 등용매 허용범위(±50%) 이내입니다. 아래 모든 계산에 '+fmt(F2eff,4)+' mL/min이 반영됩니다.</div>';
+      } else {
+        wChange.innerHTML = '<div class="bad-box">유속을 기하식 계산값에서 '+(pct>=0?'+':'')+fmt(pct,1)+'% 조정했습니다 — <b>등용매 허용범위 ±50%를 벗어납니다.</b> 같은 메소드로 인정되지 않습니다.</div>';
+      }
+    }
+  }
+  if(changed){
+    wUsp.innerHTML = '<div class="note">계산⑥ USP&lt;621&gt; 표의 “유속” 행에는 기하식 계산값 F2가 표시됩니다. 실제 적용값은 위 “적용 유속”입니다.</div>';
+  }
+  /* 내경별 실무 통상 범위 — 규정이 아니라 관행이므로 차단하지 않고 표시만 한다 */
+  var PRACT = [{id:4.6,lo:1.0,hi:1.5},{id:3.0,lo:0.4,hi:0.6},{id:2.1,lo:0.2,hi:0.4}];
+  var dc2v = (dc2 && typeof dc2 === 'object') ? dc2.val : dc2;
+  if(dc2v === null || dc2v === undefined || !isFinite(dc2v)) return;
+  var near = null, best = 1e9;
+  for(var i=0;i<PRACT.length;i++){
+    var d = Math.abs(dc2v - PRACT[i].id);
+    if(d < best && d <= 0.35){ best = d; near = PRACT[i]; }
+  }
+  if(near && (F2eff < near.lo || F2eff > near.hi)){
+    wRange.innerHTML += '<div class="warn-box">적용 유속 ' + fmt(F2eff,4) + ' mL/min은 내경 ' + near.id +
+      ' mm 컬럼의 <b>현장 통상 범위(' + near.lo + '~' + near.hi + ' mL/min)를 벗어납니다.</b> ' +
+      '규정 위반은 아니지만 실제로 이렇게 돌리는 경우가 드무니 압력과 용매 소모를 확인하십시오. ' +
+      '위 “적용 유속”에 값을 직접 넣으면 기울기 시간이 자동으로 다시 계산되어 크로마토그램이 보존됩니다.</div>';
+  }
+}
+
+/* ---------------- 계산 ①②③④⑥ ---------------- */
+function computeAll(){
+  var L1 = readPositive('L1', {required:true});
+  var dc1 = readPositive('dc1', {required:true});
+  var dp1 = readPositive('dp1', {required:true});
+  var F1 = readPositive('F1', {required:true});
+  var V1 = readPositive('V1', {required:true});
+  var L2 = readPositive('L2', {required:true});
+  var dc2 = readPositive('dc2', {required:true});
+  var dp2 = readPositive('dp2', {required:true});
+
+  var baseOk = L1.ok && dc1.ok && dp1.ok && F1.ok && V1.ok && L2.ok && dc2.ok && dp2.ok;
+
+  var F2 = null, V2 = null, tGfactor = null;
+  if(baseOk){
+    F2 = F1.val * (dp1.val * dc2.val*dc2.val) / (dp2.val * dc1.val*dc1.val);
+    V2 = V1.val * (L2.val * dc2.val*dc2.val) / (L1.val * dc1.val*dc1.val);
+  }
+
+  // 유속 직접조정: 값이 있으면 그 값을 이후 모든 계산(기울기·압력·dwell·크로마토그램)에 반영
+  var Fov = readPositive('F2override');
+  var F2eff = F2;
+  if(F2 !== null && Fov.ok && Fov.val !== null){ F2eff = Fov.val; }
+  if(baseOk && F2eff !== null){
+    tGfactor = ((L2.val * dc2.val*dc2.val) / (L1.val * dc1.val*dc1.val)) * (F1.val / F2eff);
+  }
+  renderFlowNotes(F2, F2eff, dc2, baseOk);
+
+  $('out_F2').textContent = (F2!==null) ? fmt(F2,4)+' mL/min' : '—';
+  $('out_F2eff').textContent = (F2eff!==null) ? fmt(F2eff,4)+' mL/min' : '—';
+  $('out_V2').textContent = (V2!==null) ? fmt(V2,3)+' µL' : '—';
+  $('out_tGfactor').textContent = (tGfactor!==null) ? '×'+fmt(tGfactor,4) : '—';
+  $('calc1_msg').textContent = baseOk ? '' : '논문·내 조건의 L, dc, dp, F1, V1을 모두 올바르게 입력해야 계산됩니다.';
+
+  // 기울기 세그먼트 표 변환
+  var gradWrap = $('gradOutWrap');
+  var gradOutBody = $('gradOutBody');
+  gradOutBody.innerHTML = '';
+  if(isGradient() && baseOk && tGfactor !== null){
+    var g = readGradRows();
+    if(g.bad){
+      gradWrap.style.display = 'none';
+      $('calc1_msg').textContent = '기울기 세그먼트 표의 시간·%B 값을 모두 숫자로 입력하세요.';
+    } else if(g.rows.length > 0) {
+      gradWrap.style.display = '';
+      g.rows.forEach(function(r){
+        var newT = r.t * tGfactor;
+        var tr = document.createElement('tr');
+        tr.innerHTML = '<td class="num">'+fmt(newT,3)+'</td><td class="num">'+fmt(r.b,2)+'</td>';
+        gradOutBody.appendChild(tr);
+      });
+    } else {
+      gradWrap.style.display = 'none';
+    }
+  } else {
+    gradWrap.style.display = 'none';
+  }
+
+  // 계산② 효율/분리도
+  var Nratio = null, Rsratio = null;
+  if(baseOk){
+    Nratio = (L2.val/dp2.val) / (L1.val/dp1.val);
+    Rsratio = Math.sqrt(Nratio);
+  }
+  $('out_Nratio').textContent = (Nratio!==null) ? '×'+fmt(Nratio,3) : '—';
+  $('out_Rsratio').textContent = (Rsratio!==null) ? '×'+fmt(Rsratio,3) : '—';
+  var warn2 = $('calc2_warn'); warn2.innerHTML = '';
+  if(Rsratio !== null && Rsratio < 1.0){
+    warn2.innerHTML = '<div class="warn-box">분리도가 논문 대비 감소하는 방향입니다(×'+fmt(Rsratio,3)+'). 임계쌍 분리에 영향이 있는지 실측으로 확인하세요.</div>';
+  }
+
+  // 계산③ 압력
+  var P1 = readAny('P1');
+  var Pmax = readPositive('Pmax');
+  var dPratio = null, P2 = null;
+  if(baseOk && F2eff !== null){
+    dPratio = (L2.val/L1.val) * (F2eff/F1.val) * Math.pow(dp1.val/dp2.val,2) * Math.pow(dc1.val/dc2.val,2);
+  }
+  $('out_dPratio').textContent = (dPratio!==null) ? '×'+fmt(dPratio,3) : '—';
+  var calc3msg = $('calc3_msg'); var calc3warn = $('calc3_warn'); calc3warn.innerHTML='';
+  if(dPratio !== null && P1.ok && P1.val !== null){
+    P2 = P1.val * dPratio;
+    $('out_P2').textContent = fmt(P2,1)+' bar';
+    calc3msg.textContent = '';
+    if(Pmax.ok && Pmax.val !== null){
+      var pct = P2 / Pmax.val * 100;
+      if(pct >= 100){
+        calc3warn.innerHTML = '<div class="bad-box">예상 압력이 기기 최대압력의 '+fmt(pct,0)+'%입니다. 이 조건은 실행 금지.</div>';
+      } else if(pct >= 80){
+        calc3warn.innerHTML = '<div class="warn-box">예상 압력이 기기 최대압력의 '+fmt(pct,0)+'%입니다. 주의가 필요합니다.</div>';
+      }
+    }
+  } else {
+    $('out_P2').textContent = '—';
+    calc3msg.textContent = baseOk ? '논문 압력을 모르면 절대값은 낼 수 없음 — 비율만 표시합니다.' : '';
+  }
+
+  // 계산④ Dwell volume
+  var eps = readPositive('epsTotal', {required:true});
+  var Vd1 = readPositive('Vd1');
+  var Vd2actual = readPositive('Vd2actual');
+  var Vm1 = null, Vm2 = null, VdTarget = null;
+  if(baseOk && eps.ok){
+    Vm1 = eps.val * (Math.PI/4) * dc1.val*dc1.val * L1.val / 1000;
+    Vm2 = eps.val * (Math.PI/4) * dc2.val*dc2.val * L2.val / 1000;
+  }
+  $('out_Vm1').textContent = (Vm1!==null) ? fmt(Vm1,3)+' mL' : '—';
+  $('out_Vm2').textContent = (Vm2!==null) ? fmt(Vm2,3)+' mL' : '—';
+  var calc4msg = $('calc4_msg');
+  if(Vm1 !== null && Vm2 !== null && Vd1.ok && Vd1.val !== null){
+    VdTarget = Vd1.val * (Vm2 / Vm1);
+    $('out_VdTarget').textContent = fmt(VdTarget,1)+' µL';
+    if(Vd2actual.ok && Vd2actual.val !== null && F2eff !== null){
+      // 단위 주의: diff는 µL, F2는 mL/min → diff를 mL로 환산(÷1000)해야 min 단위가 맞음
+      var diffUL = VdTarget - Vd2actual.val;
+      var diffML = diffUL / 1000;
+      if(Math.abs(diffUL) < 1e-9){
+        $('out_dwellCorrection').textContent = '보정 불필요';
+      } else if(diffUL > 0){
+        var tHold = diffML / F2eff;
+        $('out_dwellCorrection').textContent = '등용리 홀드 +'+fmtMinSec(tHold);
+      } else {
+        var tDelay = (-diffML) / F2eff;
+        $('out_dwellCorrection').textContent = '주입 지연 +'+fmtMinSec(tDelay);
+      }
+      calc4msg.textContent = '';
+    } else {
+      $('out_dwellCorrection').textContent = '—';
+      calc4msg.textContent = '실측 dwell volume(Vd2)이 미입력이라 보정값을 낼 수 없습니다.';
+    }
+  } else {
+    $('out_VdTarget').textContent = '—';
+    $('out_dwellCorrection').textContent = '—';
+    calc4msg.textContent = 'Vd1(논문 시스템 dwell volume)이 미입력이라 이 구역은 비활성화됩니다.';
+  }
+
+  // 계산⑥ USP<621>
+  renderUsp621(L1, dc1, dp1, F1, V1, L2, dc2, dp2, F2, baseOk);
+
+  // 크로마토그램 (등용매·기울기) — 위에서 이미 구한 값을 그대로 넘긴다(재계산 금지)
+  computeChrom({
+    ok: baseOk && eps.ok && F2eff !== null && Vm1 !== null && Vm2 !== null,
+    L1: L1.val, dc1: dc1.val, dp1: dp1.val, F1: F1.val,
+    L2: L2.val, dc2: dc2.val, dp2: dp2.val,
+    F2eff: F2eff, tGfactor: tGfactor,
+    Vm1: Vm1, Vm2: Vm2,
+    Vd1: (Vd1.ok ? Vd1.val : null),
+    Vd2: (Vd2actual.ok ? Vd2actual.val : null),
+    dwellCorrText: $('out_dwellCorrection').textContent
+  });
+}
+
+function uspRow(name, allow, val, pass, note){
+  var cls = (pass===null) ? '' : (pass ? 'pass' : 'fail');
+  var passText = (pass===null) ? '정보' : (pass ? '통과' : '초과');
+  return '<tr><td>'+name+'</td><td>'+allow+'</td><td class="num">'+val+'</td><td class="'+cls+'">'+passText+(note?(' — '+note):'')+'</td></tr>';
+}
+
+function renderUsp621(L1,dc1,dp1,F1,V1,L2,dc2,dp2,F2,baseOk){
+  var body = $('usp621Body');
+  var rows = [];
+  var grad = isGradient();
+
+  // L/dp 비율
+  if(baseOk){
+    var ratio = (L2.val/dp2.val) / (L1.val/dp1.val);
+    var pct = (ratio - 1) * 100;
+    var pass = (pct >= -25 && pct <= 50);
+    rows.push(uspRow('L/dp 비율', '−25% ~ +50%', (pct>=0?'+':'')+fmt(pct,1)+'%', pass, pass ? '' : '같은 메소드로 인정 안 됨 → 재검증 필요'));
+  } else {
+    rows.push(uspRow('L/dp 비율', '−25% ~ +50%', '—', null, '입력 부족'));
+  }
+
+  // 컬럼 내경
+  rows.push(uspRow('컬럼 내경', '제한 없음 (Flexible)', baseOk ? (dc2.val+' mm') : '—', null, '유속·주입량은 계산①에서 재계산됨'));
+
+  // 유속
+  rows.push(uspRow('유속', grad ? '기하식 계산 후 추가조정 불허' : '기하식 계산 후 추가 ±50% 허용',
+    (F2!==null) ? fmt(F2,4)+' mL/min' : '—', null, ''));
+
+  // 주입량
+  rows.push(uspRow('주입량', '컬럼 치수 비례 스케일', baseOk ? '계산①의 V2 적용' : '—', null, ''));
+
+  // 컬럼 온도
+  var t1 = readAny('temp1'), t2 = readAny('temp2');
+  var tempAllow = grad ? 5 : 10;
+  if(t1.ok && t1.val!==null && t2.ok && t2.val!==null){
+    var td = t2.val - t1.val;
+    var tp = Math.abs(td) <= tempAllow;
+    rows.push(uspRow('컬럼 온도', '등용매 ±10°C / 기울기 ±5°C', (td>=0?'+':'')+fmt(td,1)+'°C', tp));
+  } else {
+    rows.push(uspRow('컬럼 온도', '등용매 ±10°C / 기울기 ±5°C', '—', null, '미입력'));
+  }
+
+  // pH
+  var ph1 = readAny('ph1'), ph2 = readAny('ph2');
+  var phEvaluated = false, phpass = null;
+  if(ph1.ok && ph1.val!==null && ph2.ok && ph2.val!==null){
+    var phd = ph2.val - ph1.val;
+    phpass = Math.abs(phd) <= 0.2;
+    phEvaluated = true;
+    rows.push(uspRow('이동상 pH', '±0.2', (phd>=0?'+':'')+fmt(phd,2), phpass));
+  } else {
+    rows.push(uspRow('이동상 pH', '±0.2', '—', null, '미입력'));
+  }
+
+  // 염 농도 (pH 허용범위를 충족할 때만 이 기준이 적용됨)
+  var s1 = readPositive('salt1'), s2 = readPositive('salt2');
+  if(s1.ok && s1.val!==null && s2.ok && s2.val!==null){
+    var sd = (s2.val - s1.val) / s1.val * 100;
+    var saltWithinRange = Math.abs(sd) <= 10;
+    var spass = saltWithinRange && (!phEvaluated || phpass);
+    var saltNote = saltWithinRange && phEvaluated && !phpass ? 'pH 허용범위(±0.2) 미충족으로 이 기준 무효' : '';
+    rows.push(uspRow('염(완충액) 농도', '±10% (단, pH 허용범위를 충족할 때)', (sd>=0?'+':'')+fmt(sd,1)+'%', spass, saltNote));
+  } else {
+    rows.push(uspRow('염(완충액) 농도', '±10% (단, pH 허용범위를 충족할 때)', '—', null, '미입력'));
+  }
+
+  // 이동상 조성비 (minor)
+  var m1 = readPositive('minor1'), m2 = readPositive('minor2');
+  if(m1.ok && m1.val!==null && m2.ok && m2.val!==null){
+    if(m1.val > 50 || m2.val > 50){
+      rows.push(uspRow('이동상 조성비 (minor)', 'minor ≤50%, 상대 ±30% & 절대 ±10%p', '—', null, 'minor 성분은 50% 이하여야 합니다'));
+    } else {
+      var relDiff = (m2.val - m1.val) / m1.val * 100;
+      var absDiff = m2.val - m1.val;
+      var compPass = (Math.abs(relDiff) <= 30) && (Math.abs(absDiff) <= 10);
+      rows.push(uspRow('이동상 조성비 (minor)', 'minor ≤50%, 상대 ±30% & 절대 ±10%p',
+        '상대 '+(relDiff>=0?'+':'')+fmt(relDiff,1)+'% / 절대 '+(absDiff>=0?'+':'')+fmt(absDiff,1)+'%p', compPass));
+    }
+  } else {
+    rows.push(uspRow('이동상 조성비 (minor)', 'minor ≤50%, 상대 ±30% & 절대 ±10%p', '—', null, '미입력 · 3성분계는 minor 1개만'));
+  }
+
+  // 정지상 / UV
+  rows.push(uspRow('정지상', '변경 불가', '—', null, ''));
+  rows.push(uspRow('UV 파장', '변경 불가', '—', null, ''));
+
+  body.innerHTML = rows.join('');
+}
+
+// 입력 이벤트 바인딩
+// F2override는 바인딩이 빠져 있어 “유속을 바꾸면 즉시 다시 계산”이 동작하지 않던 것을 추가함
+['L1','dc1','dp1','F1','V1','L2','dc2','dp2','P1','Pmax','temp1','temp2','ph1','ph2','salt1','salt2','minor1','minor2','Vd1','Vd2actual','epsTotal','F2override'].forEach(function(id){
+  var el = $(id);
+  if(el){ el.addEventListener('input', computeAll); }
+});
+
+/* ---------------- 계산⑤ Fs 등가성 조회 ---------------- */
+var refRow = null; // 선택된 논문 컬럼의 DB row
+var manualRef = null; // {H,S,A,B,C}
+
+function getCph(){ return $('cph28').checked ? 8 : 9; } // index 8 = C_pH2.8, 9 = C_pH7.0
+
+$('refSearch').addEventListener('input', function(){
+  var q = this.value.trim().toLowerCase();
+  var box = $('refSuggest');
+  if(q === ''){ box.style.display='none'; box.innerHTML=''; return; }
+  var matches = COLDATA.filter(function(r){ return r[1].toLowerCase().indexOf(q) !== -1; }).slice(0,20);
+  if(matches.length === 0){ box.innerHTML = '<div style="color:var(--ink-sub);">일치하는 컬럼 없음 — 아래 "직접 입력"을 사용하세요</div>'; box.style.display=''; return; }
+  box.innerHTML = matches.map(function(r){
+    return '<div data-id="'+r[0]+'">'+r[1]+' <span style="color:var(--ink-sub);">('+r[2]+')</span></div>';
+  }).join('');
+  box.style.display = '';
+  box.querySelectorAll('div[data-id]').forEach(function(d){
+    d.addEventListener('click', function(){
+      var id = Number(d.getAttribute('data-id'));
+      refRow = COLDATA.filter(function(r){ return r[0]===id; })[0];
+      manualRef = null;
+      $('refSearch').value = refRow[1];
+      box.style.display = 'none';
+      renderRefChip();
+      computeFs();
+    });
+  });
+});
+document.addEventListener('click', function(e){
+  if(!$('refSuggest').contains(e.target) && e.target !== $('refSearch')){
+    $('refSuggest').style.display = 'none';
+  }
+});
+
+function renderRefChip(){
+  var chip = $('refChip');
+  if(refRow){
+    chip.innerHTML = '<span class="ref-chip">기준 컬럼: <b>'+refRow[1]+'</b> ('+refRow[2]+') · H='+refRow[4]+' S*='+refRow[5]+' A='+refRow[6]+' B='+refRow[7]+'</span>';
+  } else if(manualRef){
+    chip.innerHTML = '<span class="ref-chip">기준 컬럼: 직접 입력값 · H='+manualRef.H+' S*='+manualRef.S+' A='+manualRef.A+' B='+manualRef.B+' C='+manualRef.C+'</span>';
+  } else {
+    chip.innerHTML = '';
+  }
+}
+
+$('toggleManualBtn').addEventListener('click', function(){
+  var w = $('manualRefWrap');
+  w.style.display = (w.style.display === 'none') ? '' : 'none';
+});
+$('useManualBtn').addEventListener('click', function(){
+  var H = readAny('mH', {required:true});
+  var S = readAny('mS', {required:true});
+  var A = readAny('mA', {required:true});
+  var B = readAny('mB', {required:true});
+  var C = readAny('mC', {required:true});
+  if(H.ok && S.ok && A.ok && B.ok && C.ok && H.val!==null && S.val!==null && A.val!==null && B.val!==null && C.val!==null){
+    manualRef = {H:H.val, S:S.val, A:A.val, B:B.val, C:C.val};
+    refRow = null;
+    renderRefChip();
+    computeFs();
+  }
+});
+$('cph28').addEventListener('change', computeFs);
+$('cph70').addEventListener('change', computeFs);
+
+function classifyFs(fs){
+  if(fs <= 3) return {text:'동등(equivalent)으로 분류됨', cls:'pill-eq'};
+  if(fs <= 12) return {text:'유사 — 통일된 정의 없음, 실측 확인 필요', cls:'pill-mid'};
+  if(fs <= 65) return {text:'직교(orthogonal) — 선택성이 다름', cls:'pill-ortho'};
+  if(fs <= 100) return {text:'직교 — 이온화 가능 화합물에 대해 최대 선택성 변화', cls:'pill-ortho'};
+  return {text:'직교 — 중성·비이온화 화합물에 대해서도 최대 선택성 변화', cls:'pill-ortho'};
+}
+
+function computeFs(){
+  var cphIdx = getCph();
+  var refH, refS, refA, refB, refC;
+  if(refRow){
+    refH=refRow[4]; refS=refRow[5]; refA=refRow[6]; refB=refRow[7]; refC=refRow[cphIdx];
+  } else if(manualRef){
+    refH=manualRef.H; refS=manualRef.S; refA=manualRef.A; refB=manualRef.B; refC=manualRef.C;
+  } else {
+    $('fsResultWrap').style.display = 'none';
+    return;
+  }
+  var results = COLDATA.map(function(r){
+    var dH = r[4]-refH, dS = r[5]-refS, dA = r[6]-refA, dB = r[7]-refB, dC = r[cphIdx]-refC;
+    // 계수가 차이값과 함께 제곱 안에 들어감(확정본): Fs = sqrt{ [12.5·dH]² + [100·dS]² + [30·dA]² + [143·dB]² + [83·dC]² }
+    var t1=12.5*dH, t2=100*dS, t3=30*dA, t4=143*dB, t5=83*dC;
+    var fs = Math.sqrt(t1*t1 + t2*t2 + t3*t3 + t4*t4 + t5*t5);
+    return {row:r, fs:fs, dH:dH, dS:dS, dA:dA, dB:dB, dC:dC};
+  });
+  results.sort(function(a,b){ return a.fs - b.fs; });
+  var top15 = results.slice(0,15);
+  var body = $('fsBody');
+  body.innerHTML = top15.map(function(x, i){
+    var c = classifyFs(x.fs);
+    return '<tr><td>'+(i+1)+'</td><td>'+x.row[1]+' <span class="pill '+c.cls+'">'+c.text+'</span>'+
+      ' <button type="button" class="btn btn-sm chromPick" data-name="'+esc(x.row[1])+'" data-fs="'+x.fs+'">예측에 사용</button></td><td>'+x.row[2]+'</td>'+
+      '<td class="num">'+fmt(x.fs,2)+'</td><td>'+x.row[11]+'</td>'+
+      '<td class="num">'+fmt(x.dH,3)+'</td><td class="num">'+fmt(x.dS,3)+'</td><td class="num">'+fmt(x.dA,3)+'</td>'+
+      '<td class="num">'+fmt(x.dB,3)+'</td><td class="num">'+fmt(x.dC,3)+'</td></tr>';
+  }).join('');
+  $('fsResultWrap').style.display = '';
+  // 고른 컬럼은 크로마토그램 구역의 Fs 경고에만 쓰인다(계산⑤ 결과 자체는 바뀌지 않음)
+  body.querySelectorAll('.chromPick').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      chromPickedCol = {name: btn.getAttribute('data-name'), fs: Number(btn.getAttribute('data-fs'))};
+      computeAll();
+    });
+  });
+}
+
+/* ---------------- 계산⑦ 용매 변환 (독립 — 계산①~⑥에 영향 없음) ---------------- */
+// φ_MeOH = 1.27·φ_ACN = 1.60·φ_THF  (Ramos-Ramos et al. 2017, Eq.13.8, 저농도 근사)
+function computeSolvent(){
+  var base = $('solvBase').value;
+  var r = readPositive('solvValue');
+  var warnEl = $('solvHighWarn');
+  if(!r.ok || r.val === null){
+    $('out_solvACN').textContent = '—';
+    $('out_solvMeOH').textContent = '—';
+    $('out_solvTHF').textContent = '—';
+    warnEl.innerHTML = '';
+    return;
+  }
+  var v = r.val, acn, meoh, thf;
+  if(base === 'ACN'){ acn = v; meoh = 1.27*v; thf = 1.27*v/1.60; }
+  else if(base === 'MeOH'){ meoh = v; acn = v/1.27; thf = v/1.60; }
+  else { thf = v; meoh = 1.60*v; acn = 1.60*v/1.27; }
+  $('out_solvACN').textContent = fmt(acn,1)+' %';
+  $('out_solvMeOH').textContent = fmt(meoh,1)+' %';
+  $('out_solvTHF').textContent = fmt(thf,1)+' %';
+  warnEl.innerHTML = (v > 40)
+    ? '<div class="warn-box">입력값이 40%를 초과했습니다 — 이 식은 저농도 근사이므로 고농도에서는 위 "고농도 괴리 예시"·노모그램 실측점을 우선 확인하십시오.</div>'
+    : '';
+}
+$('solvBase').addEventListener('change', computeSolvent);
+$('solvValue').addEventListener('input', computeSolvent);
+
+/* ---------------- 복사 버튼 ---------------- */
+$('copyGradBtn').addEventListener('click', function(){
+  var rows = $('gradOutBody').querySelectorAll('tr');
+  var lines = ['시간(min)\t%B'];
+  rows.forEach(function(tr){
+    var tds = tr.querySelectorAll('td');
+    lines.push(tds[0].textContent+'\t'+tds[1].textContent);
+  });
+  var text = lines.join('\n');
+  var msg = $('copyGradMsg');
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){
+      msg.textContent = '복사됨';
+      setTimeout(function(){ msg.textContent=''; }, 1500);
+    }, function(){ msg.textContent = '복사 실패 — 표를 직접 선택해 복사하세요'; });
+  } else {
+    msg.textContent = '이 브라우저는 자동 복사를 지원하지 않습니다 — 표를 직접 선택해 복사하세요';
+  }
+});
+
+/* ================= 크로마토그램 모식도 (등용매 + 기울기) =================
+   등용매: k = (tR1−t01)/t01 보존 → tR2 = t02·(1+k), σ = tR/√N
+   기울기: LSS 폐형식 tR = t0 + td + (t0/b)·ln[b(k0 − td/t0) + 1]   (PMC4388777 Eq.2 / PMC2638764 Eq.13)
+           b = S·Δφ·t0/tG · k0는 논문 tR1에서 역산 · S=3·4·5·6 반복 → 예측 띠
+           σ = t0·(1+k*)/√N, k* = 1/(1.15·b)
+   경고는 하되 그림은 막지 않는다(대표 지시).                                     */
+var CHROM_S_SET = [3, 4, 5, 6];
+var chromPickedCol = null; // 계산⑤에서 "예측에 사용"으로 고른 컬럼 {name, fs}
+
+function esc(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ---------------- 머무름시간 입력 표 ---------------- */
+function addTrRow(name, tr){
+  var tbody = $('tRBody');
+  var el = document.createElement('tr');
+  el.innerHTML =
+    '<td><input type="text" class="trName" value="'+esc(name===undefined?'':name)+'" style="width:100%;padding:5px;border:1px solid var(--line);border-radius:5px;"></td>'+
+    '<td><input type="text" class="trVal" value="'+esc(tr===undefined?'':tr)+'" style="width:100%;padding:5px;border:1px solid var(--line);border-radius:5px;"></td>'+
+    '<td><button type="button" class="btn btn-sm rmTrRow">삭제</button></td>';
+  tbody.appendChild(el);
+  el.querySelector('.rmTrRow').addEventListener('click', function(){ el.remove(); computeAll(); });
+  el.querySelectorAll('input').forEach(function(inp){ inp.addEventListener('input', computeAll); });
+}
+$('addTrBtn').addEventListener('click', function(){ addTrRow('', ''); });
+addTrRow('물질 A', 8);
+addTrRow('물질 B', 16);
+addTrRow('물질 C', 24);
+
+function readTrRows(){
+  var out = [], bad = false;
+  $('tRBody').querySelectorAll('tr').forEach(function(tr){
+    var nEl = tr.querySelector('.trName'), vEl = tr.querySelector('.trVal');
+    if(!nEl || !vEl) return;
+    var raw = vEl.value.trim();
+    if(raw === '') return;
+    var x = Number(raw);
+    if(isNaN(x) || !isFinite(x) || x <= 0){ bad = true; return; }
+    out.push({name: nEl.value.trim(), t: x});
+  });
+  out.sort(function(a,b){ return a.t - b.t; });
+  out.forEach(function(p,i){ if(p.name === '') p.name = '봉우리 '+(i+1); });
+  return {rows: out, bad: bad};
+}
+
+/* ---------------- N (이론단수) — 비우면 N = L/(2.5·dp), L·dp 모두 µm ---------------- */
+function chromN(id, L_mm, dp_um){
+  var r = readPositive(id);
+  if(r.ok && r.val !== null) return {N: r.val, assumed: false};
+  return {N: (L_mm * 1000) / (2.5 * dp_um), assumed: true}; // L(mm)→µm 환산 필수
+}
+
+/* ---------------- 기울기 프로그램 해석 ---------------- */
+function gradProgram(){
+  var g = readGradRows();
+  if(g.bad || g.rows.length < 2) return null;
+  var rows = g.rows.slice().sort(function(a,b){ return a.t - b.t; });
+  var maxB = -Infinity, iEnd = 0;
+  for(var i=0;i<rows.length;i++){ if(rows[i].b > maxB){ maxB = rows[i].b; iEnd = i; } }
+  var s = rows[0], e = rows[iEnd];
+  var tG = e.t - s.t;
+  if(!(tG > 0)) return null;
+  return {
+    phi0: s.b, phiEnd: e.b, dphi: (e.b - s.b)/100, tG: tG, tStart: s.t,
+    // 단일 선형 상승(0분 시작, 중간 세그먼트 없음)이 아니면 폐형식의 전제에서 벗어난다
+    multi: !(iEnd === 1 && Math.abs(s.t) < 1e-12)
+  };
+}
+
+/* ---------------- LSS 폐형식 ---------------- */
+// tR1에서 k0 역산 (같은 식의 해석적 역함수 — 이분법과 1e-9 이내 동일함을 확인)
+function lssK0(tR1, t0, td, b){
+  var k0 = (Math.exp(b*(tR1 - t0 - td)/t0) - 1)/b + td/t0;
+  return (isFinite(k0) ? k0 : null);
+}
+function lssTR(k0, t0, td, b){
+  var arg = b*(k0 - td/t0) + 1;
+  if(!(arg > 0)) return null; // 로그 진수 조건 — 불통과면 그 용질은 예측 불가
+  var v = t0 + td + (t0/b)*Math.log(arg);
+  return (isFinite(v) ? v : null);
+}
+function median(a){
+  var s = a.slice().sort(function(x,y){ return x-y; });
+  var n = s.length;
+  if(n === 0) return null;
+  return (n % 2) ? s[(n-1)/2] : (s[n/2 - 1] + s[n/2])/2;
+}
+
+/* ---------------- SVG 그리기 ---------------- */
+function chromAxisStep(tMax){
+  var raw = tMax/8;
+  if(!(raw > 0)) return 1;
+  var mag = Math.pow(10, Math.floor(Math.log(raw)/Math.LN10));
+  var n = raw/mag;
+  var f = (n <= 1) ? 1 : (n <= 2 ? 2 : (n <= 5 ? 5 : 10));
+  return f*mag;
+}
+// peaks: [{name, t, sigma, lo, hi}] · badIdx: 강조할 봉우리 인덱스 집합 · badPairs: [{a,b,rs}]
+function drawChrom(svgId, peaks, tMax, badPairs){
+  var svg = $(svgId);
+  if(!svg) return;
+  var W = 900, H = 190, ML = 46, MR = 16, MT = 16, MB = 30;
+  var x0 = ML, x1 = W - MR, yB = H - MB, yT = MT;
+  svg.innerHTML = '';
+  if(!peaks || peaks.length === 0 || !(tMax > 0) || !isFinite(tMax)){
+    svg.innerHTML = '<text x="'+(W/2)+'" y="'+(H/2)+'" text-anchor="middle" font-size="12" fill="#5a5a56">입력이 부족해 그릴 수 없습니다</text>';
+    return;
+  }
+  var X = function(t){ return x0 + (t/tMax)*(x1 - x0); };
+  var p = [];
+
+  // 눈금
+  var step = chromAxisStep(tMax);
+  var nTick = Math.floor(tMax/step + 1e-9);
+  for(var i=0;i<=nTick;i++){
+    var tv = i*step, xv = X(tv);
+    p.push('<line x1="'+xv.toFixed(1)+'" y1="'+yT+'" x2="'+xv.toFixed(1)+'" y2="'+yB+'" stroke="#ececea" stroke-width="1"/>');
+    p.push('<text x="'+xv.toFixed(1)+'" y="'+(yB+14)+'" text-anchor="middle" font-size="10" fill="#5a5a56">'+fmt(tv, step<1?2:(step<10?1:0))+'</text>');
+  }
+  p.push('<text x="'+(x1)+'" y="'+(yB+26)+'" text-anchor="end" font-size="10" fill="#5a5a56">시간 (min)</text>');
+  p.push('<text x="14" y="'+((yT+yB)/2)+'" font-size="10" fill="#5a5a56" transform="rotate(-90 14 '+((yT+yB)/2)+')" text-anchor="middle">상대 세기</text>');
+
+  // 봉우리 합성 신호 — 봉우리가 매우 좁을 수 있으므로 균일격자 + 봉우리 주변 조밀격자
+  var ts = [];
+  var NS = 600;
+  for(var s0=0;s0<=NS;s0++) ts.push(tMax*s0/NS);
+  peaks.forEach(function(pk){
+    if(!(pk.sigma > 0)) return;
+    for(var j=-40;j<=40;j++){
+      var tt = pk.t + pk.sigma*(j/10);
+      if(tt >= 0 && tt <= tMax) ts.push(tt);
+    }
+  });
+  ts.sort(function(a,b){ return a-b; });
+  var signal = function(tt){
+    var v = 0;
+    for(var m=0;m<peaks.length;m++){
+      var pk = peaks[m];
+      if(!(pk.sigma > 0)) continue;
+      var z = (tt - pk.t)/pk.sigma;
+      if(Math.abs(z) < 8) v += Math.exp(-0.5*z*z);
+    }
+    return v;
+  };
+  var vals = ts.map(signal);
+  var maxV = 1;
+  for(var q=0;q<vals.length;q++){ if(vals[q] > maxV) maxV = vals[q]; }
+  var plotH = (yB - yT - 10);
+  var Y = function(v){ return yB - (v/maxV)*plotH; };
+
+  // Rs<1.5 구간 강조 (무채색 음영 + 점선)
+  var badSet = {};
+  (badPairs||[]).forEach(function(bp){
+    badSet[bp.a] = true; badSet[bp.b] = true;
+    var xa = X(peaks[bp.a].t), xb = X(peaks[bp.b].t);
+    var wRect = Math.max(2, xb - xa);
+    p.push('<rect x="'+xa.toFixed(1)+'" y="'+yT+'" width="'+wRect.toFixed(1)+'" height="'+(yB-yT)+'" fill="#1b1b1a" opacity="0.09"/>');
+    p.push('<line x1="'+xa.toFixed(1)+'" y1="'+yT+'" x2="'+xa.toFixed(1)+'" y2="'+yB+'" stroke="#7a231c" stroke-width="1" stroke-dasharray="3 3"/>');
+    p.push('<line x1="'+xb.toFixed(1)+'" y1="'+yT+'" x2="'+xb.toFixed(1)+'" y2="'+yB+'" stroke="#7a231c" stroke-width="1" stroke-dasharray="3 3"/>');
+    p.push('<text x="'+((xa+xb)/2).toFixed(1)+'" y="'+(yT+10)+'" text-anchor="middle" font-size="10" fill="#7a231c">Rs '+fmt(bp.rs,2)+'</text>');
+  });
+
+  // 예측 띠 (S=3~6 범위) — 봉우리 아래 옅은 회색 가로 막대
+  peaks.forEach(function(pk){
+    if(pk.lo === null || pk.lo === undefined || pk.hi === null || pk.hi === undefined) return;
+    var xa = X(pk.lo), xb = X(pk.hi);
+    var wBar = Math.max(2, xb - xa);
+    p.push('<rect x="'+xa.toFixed(1)+'" y="'+(yB-7)+'" width="'+wBar.toFixed(1)+'" height="7" fill="#a8a8a3" opacity="0.55"/>');
+  });
+
+  // 기준선 + 곡선
+  p.push('<line x1="'+x0+'" y1="'+yB+'" x2="'+x1+'" y2="'+yB+'" stroke="#dcdcd8" stroke-width="1"/>');
+  p.push('<line x1="'+x0+'" y1="'+yT+'" x2="'+x0+'" y2="'+yB+'" stroke="#dcdcd8" stroke-width="1"/>');
+  var pts = [];
+  for(var r0=0;r0<ts.length;r0++) pts.push(X(ts[r0]).toFixed(2)+','+Y(vals[r0]).toFixed(2));
+  p.push('<polyline points="'+pts.join(' ')+'" fill="none" stroke="#1b1b1a" stroke-width="1.4" stroke-linejoin="round"/>');
+
+  // 라벨 — 가로로 겹치면 한 단씩 내려 쌓는다(같은 시간축이라 봉우리가 몰릴 수 있음)
+  var yFloor = yT + ((badPairs && badPairs.length) ? 21 : 9); // Rs 표시줄과 겹치지 않게
+  var levels = []; // 각 단에 이미 놓인 [x시작, x끝]
+  peaks.forEach(function(pk, idx){
+    var xv2 = X(pk.t);
+    var label = pk.name + ' ' + fmt(pk.t, 2);
+    var halfW = label.length * 3.1 + 3; // 10px 글꼴 대략폭
+    var lv = 0;
+    while(true){
+      if(!levels[lv]) levels[lv] = [];
+      var clash = levels[lv].some(function(seg){ return !(xv2 + halfW < seg[0] || xv2 - halfW > seg[1]); });
+      if(!clash){ levels[lv].push([xv2 - halfW, xv2 + halfW]); break; }
+      lv++;
+      if(lv > 8) { levels[lv] = []; levels[lv].push([xv2-halfW, xv2+halfW]); break; }
+    }
+    var apex = Y(signal(pk.t));
+    var yLab = apex - 5 - lv*11;
+    if(yLab < yFloor) yLab = yFloor + lv*11;
+    var fill = badSet[idx] ? '#7a231c' : '#1b1b1a';
+    var weight = badSet[idx] ? '600' : '400';
+    p.push('<text x="'+xv2.toFixed(1)+'" y="'+yLab.toFixed(1)+'" text-anchor="middle" font-size="10" font-weight="'+weight+'" fill="'+fill+'">'+esc(label)+'</text>');
+  });
+
+  svg.innerHTML = p.join('');
+}
+
+/* ---------------- 본체 ---------------- */
+function computeChrom(c){
+  var warnWrap = $('chromWarnWrap'), fsWarn = $('chromFsWarn'), rsBody = $('rsBody');
+  warnWrap.innerHTML = ''; fsWarn.innerHTML = ''; rsBody.innerHTML = '';
+  $('chromLabel1').textContent = ''; $('chromLabel2').textContent = '';
+
+  var warns = [], notes = [];
+  var grad = isGradient();
+
+  var tr = readTrRows();
+  if(tr.bad) warns.push('머무름 시간은 0보다 큰 숫자여야 합니다 — 잘못된 행은 제외하고 그렸습니다.');
+
+  if(!c.ok || tr.rows.length === 0){
+    drawChrom('chromSvg1', [], 0, []); drawChrom('chromSvg2', [], 0, []);
+    warnWrap.innerHTML = warns.map(function(w){ return '<div class="warn-box">'+w+'</div>'; }).join('');
+    return;
+  }
+
+  var t01 = c.Vm1 / c.F1;
+  var t02 = c.Vm2 / c.F2eff;
+  var n1 = chromN('N1', c.L1, c.dp1), n2 = chromN('N2', c.L2, c.dp2);
+  if(!(t01 > 0) || !(t02 > 0) || !(n1.N > 0) || !(n2.N > 0)){
+    drawChrom('chromSvg1', [], 0, []); drawChrom('chromSvg2', [], 0, []);
+    warnWrap.innerHTML = '<div class="warn-box">t0 또는 N이 유효하지 않아 그릴 수 없습니다.</div>';
+    return;
+  }
+
+  var peaks1 = [], peaks2 = [], skipped = [];
+
+  if(!grad){
+    /* ---- 등용매 ---- */
+    tr.rows.forEach(function(r){
+      var k = (r.t - t01)/t01;
+      var s1 = r.t/Math.sqrt(n1.N);
+      peaks1.push({name:r.name, t:r.t, sigma:s1, lo:null, hi:null});
+      if(k <= 0){ skipped.push(r.name+' (tR가 t0='+fmt(t01,3)+'분 이하 — 머무르지 않음)'); return; }
+      var t2 = t02*(1+k);
+      peaks2.push({name:r.name, t:t2, sigma:t2/Math.sqrt(n2.N), lo:null, hi:null});
+    });
+    $('chromLabel1').textContent = '· t0 = '+fmt(t01,3)+' min · N = '+fmt(n1.N,0)+(n1.assumed?' (가정값)':'');
+    $('chromLabel2').textContent = '· t0 = '+fmt(t02,3)+' min · N = '+fmt(n2.N,0)+(n2.assumed?' (가정값)':'');
+  } else {
+    /* ---- 기울기 ---- */
+    var gp = gradProgram();
+    if(gp === null){
+      drawChrom('chromSvg1', [], 0, []); drawChrom('chromSvg2', [], 0, []);
+      warnWrap.innerHTML = '<div class="warn-box">기울기 세그먼트 표에서 상승 구간을 읽을 수 없습니다(최소 2행·시간 증가·%B 상승 필요).</div>';
+      return;
+    }
+    if(c.tGfactor === null || !(c.tGfactor > 0)){
+      drawChrom('chromSvg1', [], 0, []); drawChrom('chromSvg2', [], 0, []);
+      warnWrap.innerHTML = '<div class="warn-box">기울기 배율을 계산할 수 없어 그릴 수 없습니다.</div>';
+      return;
+    }
+    var tG1 = gp.tG, tG2 = gp.tG * c.tGfactor;
+
+    // dwell — 미입력이면 장비 유형으로 추정
+    var vd1 = c.Vd1, vd2 = c.Vd2, est1 = false, est2 = false;
+    if(vd1 === null || vd1 === undefined){ vd1 = Number($('chromVdType1').value); est1 = true; }
+    if(vd2 === null || vd2 === undefined){ vd2 = Number($('chromVdType2').value); est2 = true; }
+    var td1 = (vd1/1000)/c.F1, td2 = (vd2/1000)/c.F2eff;
+
+    // 내 조건 기울기(선택 입력)
+    var ps = readPositive('chromPhiStart2'), pe = readPositive('chromPhiEnd2');
+    var phi0_2 = (ps.ok && ps.val !== null) ? ps.val : gp.phi0;
+    var phiE_2 = (pe.ok && pe.val !== null) ? pe.val : gp.phiEnd;
+    var dphi2 = (phiE_2 - phi0_2)/100;
+    var dphi1 = gp.dphi;
+
+    if(!(dphi1 > 0)){
+      drawChrom('chromSvg1', [], 0, []); drawChrom('chromSvg2', [], 0, []);
+      warnWrap.innerHTML = '<div class="warn-box">논문 기울기의 %B 변화폭이 0 이하입니다 — 기울기 예측을 할 수 없습니다.</div>';
+      return;
+    }
+    var dphi2eff = (dphi2 > 0) ? dphi2 : dphi1;
+
+    // 경고 (막지 않고 경고만)
+    if(Math.abs(dphi2 - dphi1) > 1e-9 || Math.abs(phi0_2 - gp.phi0) > 1e-9){
+      warns.push('<b>이 예측은 크게 어긋날 수 있습니다.</b> 내 조건의 기울기 폭(Δφ) 또는 시작 %B가 논문과 다릅니다 — 논문 '+fmt(gp.phi0,1)+'→'+fmt(gp.phiEnd,1)+'%B / 내 조건 '+fmt(phi0_2,1)+'→'+fmt(phiE_2,1)+'%B. 시작 조성이 다르면 k0 자체가 달라지므로 이 계산으로는 보정되지 않습니다.');
+    }
+    if(gp.multi){
+      warns.push('<b>이 예측은 크게 어긋날 수 있습니다.</b> 기울기 표가 0분에서 시작하는 단일 선형 상승이 아닙니다(초기 홀드 또는 다단 구간). 사용한 상승 구간은 '+fmt(gp.tStart,2)+'→'+fmt(gp.tStart+tG1,2)+'분입니다.');
+    }
+    var ratio1 = td1/t01, ratio2 = td2/t02;
+    var relDwell = (ratio1 > 0) ? Math.abs(ratio2 - ratio1)/ratio1 : null;
+    if(relDwell !== null && relDwell > 0.05){
+      var dwellMsg = '<b>dwell 보정을 적용하면 예측이 정확해집니다.</b> td/t0 비가 논문 '+fmt(ratio1,3)+' vs 내 조건 '+fmt(ratio2,3)+' (상대차 '+fmt(relDwell*100,1)+'%)로 5%를 넘습니다.';
+      var dc0 = c.dwellCorrText;
+      if(dc0 && dc0 !== '—' ) dwellMsg += ' 계산④의 보정값: <b>'+esc(dc0)+'</b>을 적용하십시오.';
+      else dwellMsg += ' 계산④에 Vd1·Vd2를 넣으면 적용할 홀드/지연 값이 나옵니다.';
+      warns.push(dwellMsg);
+    }
+    if(est1 || est2){
+      notes.push('dwell volume <b>추정값</b> 사용 — '+(est1?('논문 Vd1 = '+fmt(vd1,0)+' µL(추정) '):'')+(est2?('내 Vd2 = '+fmt(vd2,0)+' µL(추정)'):'')+'. 실측값을 넣으면 예측이 정확해집니다.');
+    }
+
+    // 용질별 k0 역산 → S=3·4·5·6 반복 → 예측 띠
+    var lateFlag = false, bandTexts = [];
+    tr.rows.forEach(function(r){
+      var preds = [], sig2s = [], sig1s = [];
+      var okAll = true;
+      CHROM_S_SET.forEach(function(S){
+        var b1 = S*dphi1*t01/tG1;
+        var b2 = S*dphi2eff*t02/tG2;
+        if(!(b1 > 0) || !(b2 > 0)){ okAll = false; return; }
+        var k0 = lssK0(r.t, t01, td1, b1);
+        // k0 < 0 은 물리적으로 불가(초기 조성에서 머무르지 않음) — 입력 tR가 t0+td보다 이른 경우
+        if(k0 === null || k0 < 0 || !(b1*(k0 - td1/t01) + 1 > 0)){ okAll = false; return; }
+        var v = lssTR(k0, t02, td2, b2);
+        if(v === null || !(v > 0)){ okAll = false; return; }
+        preds.push(v);
+        sig1s.push(t01*(1 + 1/(1.15*b1))/Math.sqrt(n1.N));
+        sig2s.push(t02*(1 + 1/(1.15*b2))/Math.sqrt(n2.N));
+      });
+      var s1med = median(sig1s);
+      peaks1.push({name:r.name, t:r.t, sigma:(s1med!==null?s1med:r.t/Math.sqrt(n1.N)), lo:null, hi:null});
+      if(!okAll || preds.length === 0){
+        var why = (r.t <= t01 + td1)
+          ? ('tR='+fmt(r.t,2)+'분이 t0+td='+fmt(t01+td1,2)+'분보다 일러 k0가 음수 — 머무르지 않는 값입니다')
+          : ('tR='+fmt(r.t,2)+'분 — 로그 진수 조건 b·(k0 − td/t0)+1 > 0 불통과');
+        skipped.push(r.name+' ('+why+')');
+        return;
+      }
+      var lo = Math.min.apply(null, preds), hi = Math.max.apply(null, preds);
+      var mid = median(preds);
+      if(mid > t02 + td2 + tG2) lateFlag = true;
+      peaks2.push({name:r.name, t:mid, sigma:median(sig2s), lo:lo, hi:hi});
+      bandTexts.push(esc(r.name)+' '+fmt(lo,3)+'~'+fmt(hi,3)+'분(중앙값 '+fmt(mid,3)+')');
+    });
+    if(bandTexts.length > 0){
+      notes.push('예측 띠(S=3·4·5·6 범위) — '+bandTexts.join(' · ')+'. 그림에서는 봉우리 아래 옅은 회색 막대이며, 시간축이 논문 조건과 같아 폭이 얇게 보일 수 있습니다.');
+    }
+    if(lateFlag){
+      notes.push('일부 봉우리의 예측 시각이 <b>기울기 종료 이후</b>입니다. 폐형식은 기울기가 계속된다고 가정하므로 그 구간의 예측 신뢰도는 낮습니다.');
+    }
+
+    var bMid1 = 4.5*dphi1*t01/tG1, bMid2 = 4.5*dphi2eff*t02/tG2;
+    $('chromLabel1').textContent = '· t0 = '+fmt(t01,3)+' · td = '+fmt(td1,3)+' min · tG = '+fmt(tG1,3)+' min · N = '+fmt(n1.N,0)+(n1.assumed?' (가정값)':'')+' · b(S=4.5) = '+fmt(bMid1,4);
+    $('chromLabel2').textContent = '· t0 = '+fmt(t02,3)+' · td = '+fmt(td2,3)+' min · tG = '+fmt(tG2,3)+' min · N = '+fmt(n2.N,0)+(n2.assumed?' (가정값)':'')+' · b(S=4.5) = '+fmt(bMid2,4);
+  }
+
+  /* ---- Rs 계산 (양쪽 조건, 같은 시간축) ---- */
+  function pairs(pk){
+    var out = [];
+    for(var i=0;i+1<pk.length;i++){
+      var a = pk[i], b = pk[i+1];
+      var den = 2*(a.sigma + b.sigma);
+      var rs = (den > 0) ? (b.t - a.t)/den : null;
+      out.push({a:i, b:i+1, rs:rs, dt:(b.t - a.t)});
+    }
+    return out;
+  }
+  var pr1 = pairs(peaks1), pr2 = pairs(peaks2);
+  var bad1 = pr1.filter(function(x){ return x.rs !== null && x.rs < 1.5; });
+  var bad2 = pr2.filter(function(x){ return x.rs !== null && x.rs < 1.5; });
+
+  /* ---- 같은 시간축 ---- */
+  function span(pk){
+    var m = 0;
+    pk.forEach(function(p){ var e = p.t + 4*p.sigma; if(p.hi !== null && p.hi !== undefined && p.hi + 4*p.sigma > e) e = p.hi + 4*p.sigma; if(e > m) m = e; });
+    return m;
+  }
+  var tMax = Math.max(span(peaks1), span(peaks2));
+  tMax = tMax > 0 ? tMax*1.05 : 1;
+
+  drawChrom('chromSvg1', peaks1, tMax, bad1);
+  drawChrom('chromSvg2', peaks2, tMax, bad2);
+
+  /* ---- Rs 표 ---- */
+  var rowsHtml = [];
+  var byName = {};
+  peaks2.forEach(function(p){ byName[p.name] = p; });
+  pr1.forEach(function(x){
+    var a1 = peaks1[x.a], b1p = peaks1[x.b];
+    var a2 = byName[a1.name], b2p = byName[b1p.name];
+    var rs2 = null, dt2 = null;
+    if(a2 && b2p){ dt2 = b2p.t - a2.t; var den2 = 2*(a2.sigma + b2p.sigma); rs2 = den2 > 0 ? dt2/den2 : null; }
+    var verdict, cls;
+    if(rs2 === null){ verdict = '예측 불가'; cls = ''; }
+    else if(rs2 < 1.5){ verdict = '정량 어려움 (Rs &lt; 1.5)'; cls = 'rs-bad'; }
+    else { verdict = '분리 충분'; cls = 'rs-ok'; }
+    rowsHtml.push('<tr><td>'+esc(a1.name)+' ↔ '+esc(b1p.name)+'</td>'+
+      '<td class="num">'+fmt(x.dt,3)+'</td><td class="num">'+(x.rs===null?'—':fmt(x.rs,2))+'</td>'+
+      '<td class="num">'+(dt2===null?'—':fmt(dt2,3))+'</td><td class="num">'+(rs2===null?'—':fmt(rs2,2))+'</td>'+
+      '<td class="'+cls+'">'+verdict+'</td></tr>');
+  });
+  rsBody.innerHTML = rowsHtml.join('');
+
+  /* ---- 경고 출력 ---- */
+  if(bad2.length > 0){
+    var names = bad2.map(function(x){ return peaks2[x.a].name+' ↔ '+peaks2[x.b].name+' (Rs '+fmt(x.rs,2)+')'; }).join(' · ');
+    warns.unshift('<b>내 조건에서 분리도 Rs &lt; 1.5인 봉우리 쌍이 있습니다 — 정량이 어렵습니다.</b> '+esc(names)+'. 그림에서 해당 구간을 음영으로 표시했습니다.');
+  }
+  if(bad1.length > 0){
+    var names1 = bad1.map(function(x){ return peaks1[x.a].name+' ↔ '+peaks1[x.b].name+' (Rs '+fmt(x.rs,2)+')'; }).join(' · ');
+    warns.push('논문 조건에서도 Rs &lt; 1.5인 쌍이 있습니다: '+esc(names1)+'. 입력한 머무름 시간을 다시 확인하십시오.');
+  }
+  if(skipped.length > 0){
+    notes.push('그리지 못한 봉우리 — '+esc(skipped.join(' · ')));
+  }
+  warnWrap.innerHTML =
+    warns.map(function(w){ return '<div class="warn-box">'+w+'</div>'; }).join('') +
+    notes.map(function(w){ return '<div class="note">'+w+'</div>'; }).join('');
+
+  /* ---- 계산⑤에서 고른 컬럼의 Fs 경고 ---- */
+  if(chromPickedCol && chromPickedCol.fs > 3){
+    fsWarn.innerHTML = '<div class="warn-box"><b>정지상이 달라 용출 순서가 바뀔 수 있습니다.</b> 계산⑤에서 고른 컬럼 <b>'+esc(chromPickedCol.name)+'</b>의 Fs = '+fmt(chromPickedCol.fs,2)+' (&gt; 3). 이 그림은 용출 순서와 S·k0가 논문과 같다는 전제에서 그린 것이므로, Fs가 클수록 실제와 달라집니다.</div>';
+  }
+}
+
+// 크로마토그램 전용 입력 바인딩
+['N1','N2','chromPhiStart2','chromPhiEnd2'].forEach(function(id){
+  var el = $(id); if(el){ el.addEventListener('input', computeAll); }
+});
+['chromVdType1','chromVdType2'].forEach(function(id){
+  var el = $(id); if(el){ el.addEventListener('change', computeAll); }
+});
+
+// 초기 계산
+computeAll();
+</script>
+</body>
+</html>
