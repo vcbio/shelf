@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>곡물발효 효소원료 공급 단가 안내 — 주식회사 브이씨바이오</title>
+<style>
+:root{
+  --ink:#16201C;
+  --ink-2:#3D4A44;
+  --ink-3:#6B7873;
+  --green:#114A35;
+  --green-deep:#0B3A2A;
+  --green-key:#1F7A4D;
+  --green-tint:#EDF2EF;
+  --green-tint-2:#F6F8F7;
+  --paper:#FFFFFF;
+  --shell:#F1F0EC;
+  --rule:#D9DEDB;
+  --rule-2:#E9ECEA;
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px;
+  --space-5:24px; --space-6:32px; --space-7:44px;
+}
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  margin:0;
+  background:var(--shell);
+  color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Noto Sans KR","Malgun Gothic",sans-serif;
+  font-size:16px;
+  line-height:1.55;
+  font-feature-settings:"kern" 1;
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
+}
+.sheet{
+  width:210mm;
+  min-height:297mm;
+  margin:24px auto;
+  padding:17mm 18mm 14mm;
+  background:var(--paper);
+  box-shadow:0 1px 3px rgba(22,32,28,.10),0 12px 40px rgba(22,32,28,.08);
+}
+
+/* ── 헤더 ───────────────────────────────── */
+.masthead{
+  border-top:2.5px solid var(--green-deep);
+  padding-top:var(--space-4);
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:var(--space-5);
+}
+.org{font-size:12.5px;font-weight:700;letter-spacing:.02em;color:var(--green-deep);}
+.org .biznum{
+  display:block;margin-top:3px;
+  font-size:10.5px;font-weight:400;letter-spacing:.01em;color:var(--ink-3);
+  font-variant-numeric:tabular-nums lining-nums;
+}
+.issue{
+  text-align:right;font-size:10.5px;color:var(--ink-3);
+  font-variant-numeric:tabular-nums lining-nums;
+}
+.issue .label{
+  display:block;font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:2px;
+}
+.title-block{margin:var(--space-6) 0 var(--space-6);}
+h1{
+  margin:0;
+  font-size:29px;line-height:1.28;font-weight:700;letter-spacing:-.02em;
+  color:var(--green-deep);
+}
+.title-rule{
+  width:56px;height:3px;background:var(--green-key);
+  margin-top:var(--space-4);
+}
+/* ── 견적 격식 블록 ──────────────────────── */
+.formal{
+  margin:0 0 var(--space-6);
+  padding-top:var(--space-4);
+  border-top:1px solid var(--rule-2);
+}
+.fm-meta{margin:0;}
+.fm-row{display:flex;align-items:baseline;gap:var(--space-3);}
+.fm-row + .fm-row{margin-top:5px;}
+.fm-row dt{
+  flex:none;width:58px;
+  white-space:pre;
+  font-size:12.5px;font-weight:700;letter-spacing:0;
+  color:var(--green-deep);
+  margin:0;
+}
+.fm-row dt::after{
+  content:":";
+  margin-left:8px;
+  font-weight:400;color:var(--ink-3);
+}
+.fm-row dd{
+  margin:0;
+  font-size:12.5px;font-weight:600;letter-spacing:-.005em;color:var(--ink);
+}
+.fm-greeting{
+  margin:var(--space-4) 0 0;
+  padding-left:18px;
+  font-size:11.5px;line-height:1.7;color:var(--ink-2);
+}
+.fm-greeting li + li{margin-top:2px;}
+.fm-below{
+  margin:var(--space-4) 0 0;
+  text-align:center;
+  white-space:pre;
+  font-size:12px;font-weight:700;letter-spacing:.02em;
+  color:var(--green-deep);
+}
+
+/* ── 안내 문구 영역 ──────────────────────── */
+.notes{margin-top:var(--space-4);}
+.note-line{
+  margin:0;
+  font-size:11px;line-height:1.6;color:var(--ink-2);letter-spacing:-.005em;
+}
+
+/* ── 섹션 ───────────────────────────────── */
+section{margin-bottom:var(--space-6);}
+.sec-head{
+  display:flex;align-items:baseline;gap:var(--space-3);
+  border-bottom:1px solid var(--rule);
+  padding-bottom:var(--space-2);
+  margin-bottom:var(--space-4);
+}
+.sec-num{
+  font-size:10px;font-weight:700;letter-spacing:.14em;color:var(--green-key);
+  font-variant-numeric:tabular-nums lining-nums;
+}
+h2{
+  margin:0;font-size:14.5px;font-weight:700;letter-spacing:-.005em;color:var(--ink);
+  hyphens:none;
+}
+.sec-note{margin-left:auto;font-size:10.5px;color:var(--ink-3);letter-spacing:.01em;}
+
+/* ── 표 공통 ─────────────────────────────── */
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-variant-numeric:tabular-nums lining-nums;
+}
+caption{caption-side:top;text-align:left;}
+th,td{
+  padding:9px 12px;
+  text-align:left;
+  vertical-align:middle;
+  border-bottom:1px solid var(--rule-2);
+}
+thead th{
+  font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--ink-2);
+  border-bottom:1.5px solid var(--ink-2);
+  padding-top:6px;padding-bottom:7px;
+}
+.nobr{white-space:nowrap;}
+.num{text-align:right;font-variant-numeric:tabular-nums lining-nums;}
+
+/* 취급 원료 표 */
+.spec-table td,.spec-table th{font-size:12.5px;}
+.spec-table .rowlabel{
+  width:23%;
+  font-weight:600;color:var(--ink-2);
+  background:var(--green-tint-2);
+  font-size:11.5px;letter-spacing:.01em;
+}
+.spec-table thead th:first-child{background:transparent;}
+.spec-table thead th:not(:first-child){color:var(--green-deep);}
+.spec-table tbody tr:last-child td,
+.spec-table tbody tr:last-child th{border-bottom:1px solid var(--rule);}
+.spec-table .assay td{font-variant-numeric:tabular-nums lining-nums;}
+.spec-table td.num{text-align:right;}
+.spec-table tbody td{text-align:right;}
+.spec-table tbody .rowlabel{text-align:left;}
+.spec-table thead th:not(:first-child){text-align:right;}
+.tag{
+  display:inline-block;padding:1px 6px;border-radius:2px;
+  background:var(--green-tint);color:var(--green-deep);
+  font-size:10.5px;font-weight:600;letter-spacing:.01em;
+}
+.foot-note{
+  margin:var(--space-3) 0 0;
+  font-size:10.5px;line-height:1.6;color:var(--ink-3);
+}
+.foot-note + .foot-note{margin-top:var(--space-1);}
+.grain-list{
+  margin:var(--space-2) 0 0;
+  font-size:10px;line-height:1.65;color:var(--ink-3);
+  padding-left:0;
+}
+.grain-list .gl-label{color:var(--ink-2);font-weight:600;}
+
+/* ── 단가표 (문서의 중심) ───────────────────── */
+.price-block{
+  border:1.5px solid var(--green-deep);
+  padding:0;
+  background:var(--paper);
+}
+.price-bar{
+  background:var(--green-deep);
+  color:#F7FAF8;
+  padding:9px 16px;
+  display:flex;align-items:baseline;justify-content:space-between;gap:var(--space-4);
+}
+.price-bar .pb-title{font-size:12.5px;font-weight:700;letter-spacing:.02em;}
+.price-bar .pb-unit{
+  font-size:10.5px;letter-spacing:.02em;color:#BFD3C9;
+  font-variant-numeric:tabular-nums lining-nums;
+}
+.price-table{width:100%;}
+.price-table th,.price-table td{border-bottom:1px solid var(--rule-2);}
+.price-table thead th{
+  font-size:10.5px;font-weight:600;letter-spacing:.05em;color:var(--ink-2);
+  border-bottom:1px solid var(--rule);
+  padding:8px 16px;
+  background:#FAFBFA;
+}
+.price-table thead th.col-key{
+  color:var(--green-deep);
+  background:var(--green-tint);
+}
+.price-table tbody td{padding:14px 16px;}
+.price-table tbody tr:last-child td{border-bottom:none;}
+.price-table .item{
+  font-size:13px;font-weight:600;color:var(--ink);letter-spacing:-.005em;
+  width:32%;
+}
+.price-table .col-key{
+  background:var(--green-tint);
+}
+.price-table td.col-key .val{
+  font-size:23px;font-weight:700;letter-spacing:-.02em;color:var(--green-deep);
+  font-variant-numeric:tabular-nums lining-nums;
+  display:inline-block;
+}
+.price-table td .val{
+  font-size:15px;font-weight:500;color:var(--ink-2);
+  font-variant-numeric:tabular-nums lining-nums;
+}
+.price-table td .cur{
+  font-size:10.5px;font-weight:400;color:var(--ink-3);margin-left:3px;letter-spacing:0;
+}
+.price-table td.col-key .cur{color:#4C6A5C;}
+.margin-cell .val{color:var(--ink);font-weight:600;}
+.margin-cell .pct{
+  display:block;margin-top:2px;
+  font-size:10.5px;color:var(--ink-3);
+  font-variant-numeric:tabular-nums lining-nums;
+}
+
+/* ── 거래 조건 ───────────────────────────── */
+.terms-table td,.terms-table th{font-size:12px;padding:8px 12px;}
+.terms-table .rowlabel{
+  width:26%;font-weight:600;color:var(--ink-2);font-size:11.5px;
+  background:var(--green-tint-2);
+}
+.terms-table .tbd{color:var(--ink-2);letter-spacing:.02em;}
+
+/* ── 취급 이점 ───────────────────────────── */
+.benefits{
+  list-style:none;margin:0;padding:0;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:var(--space-4) var(--space-6);
+}
+.benefits li{
+  padding-left:var(--space-4);
+  border-left:2px solid var(--green-key);
+  font-size:11.5px;line-height:1.65;color:var(--ink-2);
+}
+.benefits b{
+  display:block;
+  font-size:12.5px;font-weight:700;color:var(--ink);margin-bottom:3px;
+  letter-spacing:-.005em;
+}
+.benefits li.wide{grid-column:1 / -1;}
+.benefits li.grains{font-size:11px;letter-spacing:-.01em;}
+
+/* ── 푸터 ───────────────────────────────── */
+footer{
+  margin-top:var(--space-7);
+  border-top:1.5px solid var(--green-deep);
+  padding-top:var(--space-4);
+  display:flex;justify-content:space-between;align-items:flex-end;gap:var(--space-5);
+}
+.contact .ct-label{
+  font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);
+  display:block;margin-bottom:5px;
+}
+.contact .ct-name{font-size:12.5px;font-weight:700;color:var(--green-deep);}
+.contact .ct-seal{
+  display:block;margin-top:3px;
+  font-size:10.5px;font-weight:400;letter-spacing:.02em;color:var(--ink-3);
+}
+.contact .ct-fill{
+  display:inline-block;margin-top:var(--space-3);
+  padding:4px 14px;
+  border:1px solid var(--green-deep);
+  border-radius:2px;
+  background:var(--green-deep);
+  color:#fff;
+  font-size:12.5px;font-weight:700;letter-spacing:.02em;font-variant-numeric:tabular-nums;
+}
+.footer-org{
+  text-align:right;font-size:10px;line-height:1.6;color:var(--ink-3);
+  font-variant-numeric:tabular-nums lining-nums;
+}
+.footer-org .addr{
+  display:block;font-size:9px;letter-spacing:0;
+}
+
+/* ── 인쇄 버튼 (화면 전용) ────────────────── */
+.print-btn{
+  position:fixed;top:18px;right:18px;z-index:100;
+  appearance:none;-webkit-appearance:none;
+  border:1px solid var(--green-deep);
+  border-radius:2px;
+  background:var(--green-deep);
+  color:#F7FAF8;
+  font-family:inherit;
+  font-size:11.5px;font-weight:700;letter-spacing:.01em;
+  padding:8px 14px;
+  cursor:pointer;
+  box-shadow:0 1px 3px rgba(22,32,28,.18);
+}
+.print-btn:hover{background:var(--green);border-color:var(--green);}
+.print-btn:focus-visible{outline:2px solid var(--green-key);outline-offset:2px;}
+
+/* ── 모바일 ─────────────────────────────── */
+@media screen and (max-width:820px){
+  body{font-size:15px;}
+  .print-btn{
+    position:static;display:block;width:100%;
+    border-radius:0;padding:10px 14px;
+    box-shadow:none;
+  }
+  .sheet{
+    width:auto;min-height:0;margin:0;
+    padding:20px 16px 28px;
+    box-shadow:none;
+  }
+  h1{font-size:23px;}
+  .title-block{margin:20px 0 24px;}
+  .masthead{flex-direction:column;gap:var(--space-2);}
+  .issue{text-align:left;}
+  .sec-head{flex-wrap:wrap;gap:var(--space-2);}
+  .sec-note{margin-left:0;flex-basis:100%;}
+  .scroll-x{
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  .scroll-x table{min-width:460px;}
+  .spec-table td,.spec-table th{padding:8px 9px;font-size:11.5px;}
+  .spec-table .rowlabel{width:28%;font-size:11px;}
+  .price-table thead th,.price-table tbody td{padding:10px 11px;}
+  .price-table .item{font-size:12px;}
+  .price-table td.col-key .val{font-size:19px;}
+  .price-table td .val{font-size:13.5px;}
+  .price-block .scroll-x table{min-width:420px;}
+  /* 거래 조건: 4열 표 → 라벨/값 2열로 재배치 (min-content 폭 초과 방지) */
+  .terms-table,
+  .terms-table tbody,
+  .terms-table tr,
+  .terms-table th,
+  .terms-table td{display:block;width:auto;}
+  .terms-table tr{
+    display:grid;grid-template-columns:38% 1fr;
+    border-bottom:1px solid var(--rule-2);
+  }
+  .terms-table tr:last-child{border-bottom:none;}
+  .terms-table th,.terms-table td{border-bottom:none;}
+  .terms-table .rowlabel{width:auto;}
+  .benefits{grid-template-columns:1fr;gap:var(--space-4);}
+  footer{flex-direction:column;align-items:flex-start;}
+  .footer-org{text-align:left;}
+}
+
+/* ── 인쇄 (A4 1장) ───────────────────────── */
+@media print{
+  @page{size:A4 portrait;margin:8.5mm 12mm;}
+  html,body{background:#fff;}
+  body{
+    font-size:9.3pt;line-height:1.32;
+    print-color-adjust:exact;-webkit-print-color-adjust:exact;
+  }
+  .sheet{
+    width:auto;min-height:0;margin:0;padding:0;
+    box-shadow:none;
+    print-color-adjust:exact;-webkit-print-color-adjust:exact;
+  }
+  *{print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+  .masthead{padding-top:1.6mm;}
+  section{margin-bottom:2.2mm;page-break-inside:avoid;}
+  .title-block{margin:2.6mm 0 2.6mm;}
+  h1{font-size:15.5pt;line-height:1.18;}
+  .title-rule{margin-top:2mm;height:2.2px;}
+  .print-btn{display:none !important;}
+  .formal{margin:0 0 2.4mm;padding-top:1.6mm;page-break-inside:avoid;}
+  .fm-row dt{width:15mm;font-size:9.1pt;}
+  .fm-row dd{font-size:9.1pt;}
+  .fm-row + .fm-row{margin-top:0.4mm;}
+  .fm-greeting{margin-top:1.8mm;font-size:8.1pt;line-height:1.4;padding-left:4.6mm;}
+  .fm-below{margin-top:1.6mm;font-size:8.7pt;}
+  h2{font-size:10.2pt;}
+  .sec-num{font-size:7.8pt;}
+  .sec-note{font-size:7.8pt;}
+  .sec-head{margin-bottom:1.8mm;padding-bottom:0.9mm;}
+  th,td{padding:0.9mm 3mm;}
+  .spec-table td,.spec-table th{font-size:8.4pt;}
+  .spec-table .rowlabel{font-size:7.8pt;}
+  .tag{font-size:7.4pt;}
+  .price-bar{padding:1.4mm 4mm;}
+  .price-bar .pb-title{font-size:9.4pt;}
+  .price-bar .pb-unit{font-size:7.8pt;}
+  .price-table thead th{padding:1.2mm 4mm;font-size:7.8pt;}
+  .price-table tbody td{padding:1.5mm 4mm;}
+  .price-table .item{font-size:9.4pt;}
+  .price-table td.col-key .val{font-size:14.5pt;}
+  .price-table td .val{font-size:10.4pt;}
+  .margin-cell .pct{font-size:7.8pt;}
+  .terms-table td,.terms-table th{font-size:8.2pt;padding:0.9mm 3mm;}
+  .benefits{gap:2mm 5mm;}
+  .benefits li{font-size:8pt;line-height:1.35;}
+  .benefits b{font-size:8.8pt;margin-bottom:1px;}
+  .foot-note{font-size:7.4pt;margin-top:1.4mm;}
+  .grain-list{font-size:7pt;margin-top:1mm;}
+  .notes{margin-top:1.2mm;page-break-inside:avoid;}
+  .note-line{font-size:7.4pt;line-height:1.25;}
+  footer{margin-top:1.8mm;padding-top:1.2mm;page-break-inside:avoid;}
+  .contact .ct-name{font-size:9.4pt;}
+  .contact .ct-seal{font-size:7.4pt;margin-top:0.5mm;}
+  .contact .ct-fill{margin-top:1mm;font-size:8.4pt;}
+  .footer-org{font-size:7.4pt;}
+  .footer-org .addr{font-size:6.2pt;}
+  .scroll-x{overflow:visible;}
+  .scroll-x table{min-width:0;}
+  h2,.sec-head{page-break-after:avoid;}
+  tr{page-break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+<button type="button" class="print-btn" id="printBtn">인쇄 / PDF 저장</button>
+<main class="sheet">
+
+  <header class="masthead">
+    <div class="org">
+      주식회사 브이씨바이오
+      <span class="biznum">사업자등록번호 <span class="nobr">540-86-03514</span></span>
+    </div>
+    <div class="issue">
+      <span class="label">Price Notice</span>
+      2026년 8월 기준
+    </div>
+  </header>
+
+  <div class="title-block">
+    <h1>곡물발효 효소원료<br>공급 단가 안내</h1>
+    <div class="title-rule" aria-hidden="true"></div>
+  </div>
+
+  <div class="formal">
+    <dl class="fm-meta">
+      <div class="fm-row"><dt>일  시</dt><dd>2026년 08월 07일</dd></div>
+      <div class="fm-row"><dt>제  목</dt><dd>곡물발효 효소원료 2종 견적서</dd></div>
+    </dl>
+    <ol class="fm-greeting">
+      <li>귀사의 무궁한 발전을 기원합니다.</li>
+      <li>귀사에 제시한 제품에 대한 견적을 아래와 같이 제시해드립니다.</li>
+      <li>앞으로도 당사는 귀사에 열과 성의를 다하여 업무 협조할 것을 약속드립니다.</li>
+    </ol>
+    <p class="fm-below">&lt;  아  래  &gt;</p>
+  </div>
+
+  <!-- 01 취급 원료 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2>취급 원료</h2>
+      <span class="sec-note">2종 라인업</span>
+    </div>
+
+    <div class="scroll-x">
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th scope="col">항목</th>
+            <th scope="col">19곡 발효효소분말</th>
+            <th scope="col">늘보리 발효효소분말</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row" class="rowlabel">주 소구 효소</th>
+            <td><span class="tag">아밀라아제</span></td>
+            <td><span class="tag">프로테아제</span></td>
+          </tr>
+          <tr class="assay">
+            <th scope="row" class="rowlabel">아밀라아제 (U/g)</th>
+            <td class="num">2,500,000</td>
+            <td class="num">150,000</td>
+          </tr>
+          <tr class="assay">
+            <th scope="row" class="rowlabel">프로테아제 (U/g)</th>
+            <td class="num">1,000</td>
+            <td class="num">30,000</td>
+          </tr>
+          <tr>
+            <th scope="row" class="rowlabel">기질</th>
+            <td>국내산 혼합곡물 19종</td>
+            <td>국내산 늘보리 (단일)</td>
+          </tr>
+          <tr>
+            <th scope="row" class="rowlabel">알레르기 표시</th>
+            <td>밀 함유 (통밀 포함)</td>
+            <td>해당 없음</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="foot-note">표기 역가는 대표값이 아닌 최소 보증치이며, 시험성적서 실측값은 이를 상회합니다.</p>
+  </section>
+
+  <!-- 02 공급 단가 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2>공급 단가</h2>
+    </div>
+
+    <div class="price-block">
+      <div class="price-bar">
+        <span class="pb-title">공급 단가</span>
+        <span class="pb-unit">단위 원/kg &middot; 부가세 별도</span>
+      </div>
+      <div class="scroll-x">
+        <table class="price-table">
+          <thead>
+            <tr>
+              <th scope="col">품목</th>
+              <th scope="col" class="col-key num">공급 단가</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row" class="item">19곡 발효효소분말</th>
+              <td class="col-key num"><span class="val">52,000</span><span class="cur">원</span></td>
+            </tr>
+            <tr>
+              <th scope="row" class="item">늘보리 발효효소분말</th>
+              <td class="col-key num"><span class="val">62,000</span><span class="cur">원</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 거래 조건 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <h2>거래 조건</h2>
+    </div>
+
+    <table class="terms-table">
+      <tbody>
+        <tr>
+          <th scope="row" class="rowlabel">포장 단위</th>
+          <td>20kg</td>
+          <th scope="row" class="rowlabel">유통기한</th>
+          <td>제조일로부터 2년</td>
+        </tr>
+        <tr>
+          <th scope="row" class="rowlabel">최소 발주 단위</th>
+          <td>포장 단위 기준</td>
+          <th scope="row" class="rowlabel">결제 조건</th>
+          <td class="tbd">협의</td>
+        </tr>
+        <tr>
+          <th scope="row" class="rowlabel">납기</th>
+          <td class="tbd">협의</td>
+          <th scope="row" class="rowlabel">샘플</th>
+          <td class="tbd">요청 시 제공</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 04 취급 이점 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">04</span>
+      <h2>취급 이점</h2>
+    </div>
+
+    <ul class="benefits">
+      <li class="wide"><b>고역가 보증</b>표기 역가는 업계 통용 대표값이 아닌 최소 보증치입니다. 시험성적서 실측값은 이를 상회합니다.</li>
+      <li class="wide grains"><b>국내산 19종 곡물 발효</b>늘보리, 찰현미, 현미, 찰흑미, 녹미, 황금찰보리, 흑보리, 청보리, 자색보리, 가바현미, 귀리, 흑백미, 압맥, 홍미, 흑진주, 찰기장, 찰수수, 늘찰보리, 통밀</li>
+      <li><b>국내 제조</b>국내 공장에서 제조되어 원산지 및 공급 이력 확인이 가능합니다.</li>
+      <li><b>2종 라인업</b>아밀라아제 중심&middot;프로테아제 중심 원료를 한 곳에서 공급받으실 수 있습니다.</li>
+    </ul>
+  </section>
+
+  <div class="notes">
+    <p class="note-line">* 상기 품목은 부가세 별도 금액이며, 공장 납품가 입니다.</p>
+  </div>
+
+  <footer>
+    <div class="contact">
+      <span class="ct-label">Contact</span>
+      <span class="ct-name">주식회사 브이씨바이오 &nbsp;/&nbsp; 대표이사 김민식</span>
+      <span class="ct-seal">(직인생략)</span>
+      <span class="ct-fill">H/P. 010-3879-2569</span>
+    </div>
+    <div class="footer-org">
+      주식회사 브이씨바이오<br>
+      사업자등록번호 <span class="nobr">540-86-03514</span><br>
+      <span class="addr">본사 : 대전광역시 유성구 장대로 106, 2층-제이69호(장대동)</span>
+      <span class="addr">영업사무소 : 서울특별시 강남구 논현동 167-11, 202호</span>
+      2026년 8월 기준
+    </div>
+  </footer>
+
+</main>
+<script>
+(function(){
+  var btn = document.getElementById('printBtn');
+  if (btn) { btn.addEventListener('click', function(){ window.print(); }); }
+})();
+</script>
+</body>
+</html>
