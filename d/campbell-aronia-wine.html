@@ -13,8 +13,9 @@
     --ink:#1A1A1A;
     --ink2:#5A5A5A;
     --line:#E3E3E0;
-    --accent:#A8323C;
-    --accent-soft:rgba(168,50,60,.10);
+    --accent:#0B5FA5;
+    --danger:#C62828;
+    --accent-soft:rgba(11,95,165,.10);
     --sans:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI","Malgun Gothic","Noto Sans KR",Roboto,Helvetica,Arial,sans-serif;
   }
   @media (prefers-color-scheme:dark){
@@ -24,8 +25,9 @@
       --ink:#EDEDED;
       --ink2:#A9A9A6;
       --line:#333331;
-      --accent:#E2707A;
-      --accent-soft:rgba(226,112,122,.14);
+      --accent:#6FB6F0;
+      --danger:#FF8A80;
+      --accent-soft:rgba(111,182,240,.14);
     }
   }
   *{box-sizing:border-box;}
@@ -71,10 +73,10 @@
 
   /* fatal warnings */
   .fatal{
-    border:1px solid var(--accent);border-left:5px solid var(--accent);
+    border:1px solid var(--danger);border-left:5px solid var(--danger);
     border-radius:8px;padding:12px 14px;margin:0 0 12px;background:var(--bg);
   }
-  .fatal .h{font-weight:800;color:var(--accent);font-size:15px;margin:0 0 4px;}
+  .fatal .h{font-weight:800;color:var(--danger);font-size:15px;margin:0 0 4px;}
   .fatal p{margin:0;font-size:16px;line-height:1.65;}
   /* small inline notes (격 낮춤) */
   .n{
@@ -94,17 +96,17 @@
   /* --- 도식1 timeline --- */
   .tlbar{display:flex;height:15px;border-radius:4px;overflow:hidden;margin:0 0 4px;}
   .tlbar i{display:block;height:100%;}
-  .s1{background:rgba(168,50,60,.28);}
-  .s2{background:rgba(168,50,60,.48);}
-  .s3{background:rgba(168,50,60,.68);}
-  .s4{background:#A8323C;}
-  .s5{background:rgba(168,50,60,.20);}
+  .s1{background:rgba(11,95,165,.28);}
+  .s2{background:rgba(11,95,165,.48);}
+  .s3{background:rgba(11,95,165,.68);}
+  .s4{background:#0B5FA5;}
+  .s5{background:rgba(11,95,165,.20);}
   @media (prefers-color-scheme:dark){
-    .s1{background:rgba(226,112,122,.34);}
-    .s2{background:rgba(226,112,122,.55);}
-    .s3{background:rgba(226,112,122,.75);}
-    .s4{background:#E2707A;}
-    .s5{background:rgba(226,112,122,.26);}
+    .s1{background:rgba(111,182,240,.34);}
+    .s2{background:rgba(111,182,240,.55);}
+    .s3{background:rgba(111,182,240,.75);}
+    .s4{background:#6FB6F0;}
+    .s5{background:rgba(111,182,240,.26);}
   }
   .tlticks{display:flex;font-size:11px;color:var(--ink2);font-variant-numeric:tabular-nums;margin:0 0 12px;}
   .tlticks span{flex:0 0 auto;}
