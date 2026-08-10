@@ -230,11 +230,6 @@
   "date": "2026-08-06"
  },
  {
-  "slug": "enzyme-quote-acebiopharm",
-  "title": "곡물발효 효소원료 견적서 — (주)에이스바이오팜",
-  "date": "2026-08-07"
- },
- {
   "slug": "enzyme-quote-factory",
   "title": "곡물발효 효소원료 견적서 — 공장용",
   "date": "2026-08-07"
@@ -243,5 +238,10 @@
   "slug": "semicolony-hapbon",
   "title": "세미콜로니 합본 강의 덱 (8/8·15장)",
   "date": "2026-08-08"
+ },
+ {
+  "slug": "enzyme-quote-acebiopharm",
+  "title": "곡물발효 효소원료 견적서 — (주)에이스바이오팜",
+  "date": "2026-08-10"
  }
 ]
