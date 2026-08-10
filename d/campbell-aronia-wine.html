@@ -8,853 +8,649 @@
 <meta name="color-scheme" content="light dark">
 <style>
   :root{
-    --wine:#6B1F32;
-    --wine-deep:#4E1524;
-    --aronia:#3D1B4A;
-    --bg:#FDFBF7;
-    --surface:#FFFFFF;
-    --surface-2:#F6F1E9;
-    --ink:#241A1D;
-    --ink-2:#4A3B3F;
-    --line:#E2D8CC;
-    --warn-bg:#FBEEF0;
-    --warn-line:#6B1F32;
-    --star:#8A2A42;
-    --serif: ui-serif, "Apple SD Gothic Neo", "Nanum Myeongjo", Georgia, "Times New Roman", "Noto Serif KR", serif;
-    --sans: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Segoe UI", "Malgun Gothic", "Noto Sans KR", Roboto, Helvetica, Arial, sans-serif;
+    --bg:#FFFFFF;
+    --card:#F7F7F5;
+    --ink:#1A1A1A;
+    --ink2:#5A5A5A;
+    --line:#E3E3E0;
+    --accent:#A8323C;
+    --accent-soft:rgba(168,50,60,.10);
+    --sans:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI","Malgun Gothic","Noto Sans KR",Roboto,Helvetica,Arial,sans-serif;
   }
-  @media (prefers-color-scheme: dark){
+  @media (prefers-color-scheme:dark){
     :root{
-      --wine:#E8A3B4;
-      --wine-deep:#F0C0CB;
-      --aronia:#C9A6DC;
-      --bg:#171013;
-      --surface:#1F171A;
-      --surface-2:#251C20;
-      --ink:#EFE7E4;
-      --ink-2:#C3B4B6;
-      --line:#3A2C31;
-      --warn-bg:#2B1920;
-      --warn-line:#E8A3B4;
-      --star:#F0B8C4;
+      --bg:#141414;
+      --card:#1D1D1C;
+      --ink:#EDEDED;
+      --ink2:#A9A9A6;
+      --line:#333331;
+      --accent:#E2707A;
+      --accent-soft:rgba(226,112,122,.14);
     }
   }
   *{box-sizing:border-box;}
   html{-webkit-text-size-adjust:100%;}
   body{
-    margin:0;
-    background:var(--bg);
-    color:var(--ink);
-    font-family:var(--sans);
-    font-size:17px;
-    line-height:1.75;
-    word-break:keep-all;
-    overflow-wrap:anywhere;
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:var(--sans);font-size:17px;line-height:1.75;
+    word-break:keep-all;overflow-wrap:anywhere;
   }
-  .wrap{max-width:820px;margin:0 auto;padding:0 18px 72px;}
+  .wrap{max-width:760px;margin:0 auto;padding:26px 16px 56px;}
+  p{margin:0 0 12px;}
+  ul,ol{margin:0 0 12px;padding-left:1.15em;}
+  li{margin:0 0 6px;}
+  strong{font-weight:700;}
+  .num{color:var(--accent);font-weight:700;font-variant-numeric:tabular-nums;}
+  .sub{color:var(--ink2);font-size:14.5px;line-height:1.6;}
 
-  /* ---- header ---- */
-  header.masthead{
-    background:linear-gradient(160deg,var(--wine-deep) 0%,#6B1F32 55%,#3D1B4A 100%);
-    color:#FDFBF7;
-    padding:44px 18px 38px;
-    border-bottom:4px solid #3D1B4A;
+  h1{font-size:clamp(23px,5.6vw,31px);line-height:1.3;margin:0 0 8px;font-weight:800;letter-spacing:-.01em;}
+  .lede{margin:0 0 6px;font-size:16px;line-height:1.6;color:var(--ink2);}
+  header.top{border-bottom:1px solid var(--line);padding:0 0 18px;margin:0 0 28px;}
+
+  h2{
+    font-size:19px;line-height:1.35;margin:26px 0 12px;font-weight:800;
+    padding:0 0 6px;border-bottom:1px solid var(--line);
+    display:flex;align-items:baseline;gap:9px;
   }
-  @media (prefers-color-scheme: dark){
-    header.masthead{background:linear-gradient(160deg,#2E0F1B 0%,#43141F 55%,#26102F 100%);border-bottom-color:#3A2C31;}
+  h2 .b{
+    flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+    min-width:22px;height:22px;border-radius:5px;
+    background:var(--accent);color:#fff;font-size:12.5px;font-weight:700;
+    padding:0 5px;position:relative;top:-1px;
   }
-  .masthead .inner{max-width:820px;margin:0 auto;}
-  .eyebrow{
-    font-size:12px;letter-spacing:.18em;text-transform:uppercase;
-    opacity:.82;margin:0 0 14px;font-weight:600;
+  @media (prefers-color-scheme:dark){ h2 .b{color:#141414;} }
+  h3{font-size:16px;margin:20px 0 8px;font-weight:700;}
+
+  /* tables */
+  .tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 12px;}
+  table{border-collapse:collapse;width:100%;font-size:14.5px;line-height:1.45;margin:0;}
+  th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top;}
+  thead th{background:var(--card);font-weight:700;font-size:13px;color:var(--ink2);}
+  .tw.scroll table{min-width:560px;}
+  .swipe{font-size:12.5px;color:var(--ink2);margin:0 0 6px;font-weight:700;}
+
+  /* fatal warnings */
+  .fatal{
+    border:1px solid var(--accent);border-left:5px solid var(--accent);
+    border-radius:8px;padding:12px 14px;margin:0 0 12px;background:var(--bg);
   }
-  h1{
-    font-family:var(--serif);
-    font-size:clamp(25px,6.4vw,40px);
-    line-height:1.28;
-    margin:0 0 12px;
-    font-weight:700;
-    letter-spacing:-.01em;
+  .fatal .h{font-weight:800;color:var(--accent);font-size:15px;margin:0 0 4px;}
+  .fatal p{margin:0;font-size:16px;line-height:1.65;}
+  /* small inline notes (격 낮춤) */
+  .n{
+    display:block;font-size:14px;line-height:1.6;color:var(--ink2);
+    border-left:2px solid var(--line);padding:2px 0 2px 10px;margin:6px 0 10px;
   }
-  .subtitle{
-    margin:0;font-size:clamp(14px,3.6vw,17px);
-    line-height:1.6;opacity:.9;
+  .n b{font-weight:700;color:var(--ink2);}
+
+  /* figure shell */
+  figure{margin:0 0 20px;}
+  figcaption{
+    font-size:12.5px;letter-spacing:.06em;font-weight:700;color:var(--accent);
+    margin:0 0 8px;text-transform:uppercase;
+  }
+  .fig{border:1px solid var(--line);border-radius:10px;padding:14px 13px;background:var(--bg);}
+
+  /* --- 도식1 timeline --- */
+  .tlbar{display:flex;height:15px;border-radius:4px;overflow:hidden;margin:0 0 4px;}
+  .tlbar i{display:block;height:100%;}
+  .s1{background:rgba(168,50,60,.28);}
+  .s2{background:rgba(168,50,60,.48);}
+  .s3{background:rgba(168,50,60,.68);}
+  .s4{background:#A8323C;}
+  .s5{background:rgba(168,50,60,.20);}
+  @media (prefers-color-scheme:dark){
+    .s1{background:rgba(226,112,122,.34);}
+    .s2{background:rgba(226,112,122,.55);}
+    .s3{background:rgba(226,112,122,.75);}
+    .s4{background:#E2707A;}
+    .s5{background:rgba(226,112,122,.26);}
+  }
+  .tlticks{display:flex;font-size:11px;color:var(--ink2);font-variant-numeric:tabular-nums;margin:0 0 12px;}
+  .tlticks span{flex:0 0 auto;}
+  .tlrow{display:grid;grid-template-columns:11px 1fr auto;gap:9px;align-items:start;padding:9px 0;border-top:1px solid var(--line);}
+  .tlrow:first-of-type{border-top:0;padding-top:2px;}
+  .tlrow .dot{width:9px;height:9px;border-radius:2px;margin-top:7px;}
+  .tlrow .ph{font-weight:700;font-size:15.5px;line-height:1.4;}
+  .tlrow .do{font-size:14px;color:var(--ink2);line-height:1.5;}
+  .tlrow .tmp{
+    font-size:13px;font-weight:700;white-space:nowrap;color:var(--ink);
+    background:var(--card);border:1px solid var(--line);border-radius:5px;padding:1px 7px;margin-top:3px;
+  }
+  .tlrow.key{background:var(--accent-soft);border-radius:7px;padding-left:8px;padding-right:8px;margin:0 -8px;}
+  .tlrow.key .ph{color:var(--accent);}
+
+  /* --- 도식2 brix --- */
+  .brix{display:block;}
+  .brow{display:grid;grid-template-columns:52px 1fr;gap:10px;align-items:center;padding:7px 0;border-top:1px dashed var(--line);}
+  .brow:first-child{border-top:0;}
+  .bval{text-align:right;font-variant-numeric:tabular-nums;line-height:1.15;}
+  .bval b{display:block;font-size:22px;font-weight:800;color:var(--accent);}
+  .bval span{display:block;font-size:10.5px;color:var(--ink2);letter-spacing:.05em;}
+  .bbar{height:11px;background:var(--accent);border-radius:3px;margin:0 0 5px;opacity:.85;}
+  .bbar.zero{height:3px;opacity:1;}
+  .bact{font-size:14.5px;line-height:1.5;}
+  .bact .d{font-size:12px;color:var(--ink2);font-weight:700;letter-spacing:.03em;}
+  .baxis{font-size:11.5px;color:var(--ink2);margin:8px 0 0;text-align:right;}
+
+  /* --- 도식3 yeast steps --- */
+  .steps{display:grid;grid-template-columns:1fr;gap:0;}
+  .step{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--card);}
+  .step .sn{font-size:11.5px;font-weight:700;color:var(--accent);letter-spacing:.08em;}
+  .step .st{font-size:24px;font-weight:800;line-height:1.2;font-variant-numeric:tabular-nums;}
+  .step .sd{font-size:14.5px;color:var(--ink2);line-height:1.5;}
+  .arrow{text-align:center;color:var(--accent);font-size:15px;line-height:1;padding:5px 0;font-weight:700;}
+  .step.last{background:var(--bg);border-color:var(--accent);}
+
+  /* --- 도식4 relation --- */
+  .rel{display:grid;grid-template-columns:1fr 22px 1fr;gap:8px 6px;align-items:center;}
+  .rel .a{
+    border:1px solid var(--line);border-radius:7px;padding:8px 10px;background:var(--card);
+    font-size:14px;line-height:1.45;
+  }
+  .rel .arw{text-align:center;color:var(--accent);font-weight:700;font-size:13px;}
+  .rel .g{
+    border:1px solid var(--accent);border-radius:7px;padding:8px 10px;
+    font-size:15.5px;font-weight:700;color:var(--accent);line-height:1.4;text-align:center;
   }
 
-  /* ---- toc ---- */
-  nav.toc{
-    background:var(--surface);
-    border:1px solid var(--line);
-    border-radius:12px;
-    padding:20px 18px 14px;
-    margin:26px 0 34px;
+  /* --- 도식5 before/after --- */
+  .ba{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+  .ba .hd{
+    font-size:11.5px;font-weight:700;letter-spacing:.08em;color:var(--ink2);
+    padding:0 0 6px;border-bottom:1px solid var(--line);
   }
-  nav.toc h2{
-    font-family:var(--serif);
-    font-size:15px;letter-spacing:.14em;text-transform:uppercase;
-    margin:0 0 12px;color:var(--wine);font-weight:700;
-  }
-  nav.toc ol{margin:0;padding:0;list-style:none;counter-reset:toc -1;}
-  nav.toc li{counter-increment:toc;border-top:1px solid var(--line);}
-  nav.toc li:first-child{border-top:0;}
-  nav.toc a{
-    display:block;padding:9px 2px;text-decoration:none;
-    color:var(--ink);font-size:15.5px;line-height:1.5;
-  }
-  nav.toc a::before{
-    content:counter(toc) ".";
-    display:inline-block;min-width:1.9em;
-    color:var(--wine);font-weight:700;font-variant-numeric:tabular-nums;
-  }
-  nav.toc a:hover{color:var(--wine);}
+  .ba .hd.r{color:var(--accent);}
+  .ba .k{grid-column:1/-1;font-size:12.5px;font-weight:700;color:var(--ink2);padding:11px 0 2px;border-top:1px solid var(--line);}
+  .ba .k:first-of-type{border-top:0;}
+  .ba .o{font-size:14px;color:var(--ink2);text-decoration:line-through;padding:0 10px 2px 0;line-height:1.5;}
+  .ba .n2{font-size:15px;font-weight:700;line-height:1.5;padding:0 0 2px 10px;border-left:2px solid var(--accent);}
+  .ba .n2 em{font-style:normal;color:var(--accent);}
+  .ba .o s{text-decoration:line-through;text-decoration-color:var(--ink2);}
+  .ba i{display:none;}
 
-  /* ---- sections ---- */
-  section{margin:0 0 46px;scroll-margin-top:14px;}
-  h2.sec{
-    font-family:var(--serif);
-    font-size:clamp(20px,4.8vw,27px);
-    line-height:1.35;
-    margin:0 0 18px;
-    padding:0 0 10px;
-    border-bottom:2px solid var(--wine);
-    color:var(--wine);
-    font-weight:700;
-  }
-  h3{
-    font-family:var(--serif);
-    font-size:clamp(17px,4vw,21px);
-    margin:32px 0 12px;color:var(--aronia);font-weight:700;line-height:1.4;
-  }
-  h4{
-    font-size:16.5px;margin:24px 0 8px;color:var(--ink);font-weight:700;
-  }
-  p{margin:0 0 14px;}
-  strong{font-weight:700;color:var(--ink);}
-  a{color:var(--wine);}
-  ul{margin:0 0 14px;padding-left:1.15em;}
-  li{margin:0 0 7px;}
-  .lead{font-size:17.5px;}
-  .muted{color:var(--ink-2);}
-  .star{color:var(--star);font-weight:700;}
+  /* checklist */
+  .ck{list-style:none;margin:0;padding:0;}
+  .ck > li{border-top:1px solid var(--line);padding:9px 0 7px;}
+  .ck > li:first-child{border-top:0;}
+  .ck .day{font-size:12.5px;font-weight:800;color:var(--accent);letter-spacing:.05em;margin:0 0 3px;line-height:1.5;}
+  .ck label{display:block;position:relative;padding-left:26px;font-size:16px;line-height:1.5;margin:0 0 5px;cursor:pointer;}
+  .ck input{position:absolute;left:0;top:5px;width:16px;height:16px;margin:0;accent-color:var(--accent);}
+  .ck .n{margin:5px 0 2px;}
 
-  /* ---- tables ---- */
-  .tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 20px;}
-  table{
-    border-collapse:collapse;width:100%;
-    background:var(--surface);
-    font-size:15px;line-height:1.6;
-  }
-  caption{
-    caption-side:top;text-align:left;
-    font-size:13.5px;color:var(--ink-2);padding:0 0 8px;
-  }
-  th,td{
-    border:1px solid var(--line);
-    padding:10px 11px;
-    text-align:left;vertical-align:top;
-    overflow-wrap:break-word;
-  }
-  thead th{
-    background:var(--wine);color:#FDFBF7;
-    font-weight:700;font-size:14px;
-    border-color:var(--wine);
-    white-space:nowrap;
-  }
-  @media (prefers-color-scheme: dark){
-    thead th{background:#43141F;color:#F5E9EC;border-color:#5A2130;}
-  }
-  tbody tr:nth-child(even) td{background:var(--surface-2);}
+  details{border:1px solid var(--line);border-radius:8px;margin:0 0 10px;background:var(--bg);}
+  summary{padding:11px 13px;font-weight:700;font-size:15.5px;cursor:pointer;list-style:none;}
+  summary::-webkit-details-marker{display:none;}
+  summary::before{content:"＋ ";color:var(--accent);font-weight:800;}
+  details[open] > summary::before{content:"－ ";}
+  details[open] > summary{border-bottom:1px solid var(--line);}
+  .dbody{padding:12px 13px 4px;}
+  .dbody > *:last-child{margin-bottom:0;}
 
-  /* card reflow on phones */
-  @media (max-width:640px){
+  footer{border-top:1px solid var(--line);margin:34px 0 0;padding:14px 0 0;font-size:13.5px;line-height:1.7;color:var(--ink2);}
+
+  @media (max-width:480px){
+    .rel{grid-template-columns:1fr;gap:2px;}
+    .rel .arw{transform:rotate(90deg);padding:1px 0;}
+    .rel .g{margin-bottom:12px;}
+    .rel .g:last-child{margin-bottom:0;}
+    /* 도식5 — 폰에서는 세로 카드 스택 */
+    .ba{grid-template-columns:1fr;gap:0;}
+    .ba .hd{display:none;}
+    .ba .k{
+      padding:9px 10px 5px;border-top:0;margin:0 0 0;
+      background:var(--card);border:1px solid var(--line);border-bottom:0;
+      border-radius:8px 8px 0 0;font-size:14px;color:var(--ink);
+    }
+    .ba .o{
+      padding:5px 10px;border:1px solid var(--line);border-bottom:0;
+      font-size:14.5px;text-decoration:none;
+    }
+    .ba .n2{
+      padding:5px 10px 9px;border:1px solid var(--line);border-left-width:1px;
+      border-radius:0 0 8px 8px;margin:0 0 9px;font-size:16px;
+    }
+    .ba i{
+      display:inline-block;min-width:34px;font-style:normal;
+      font-size:11px;font-weight:700;letter-spacing:.06em;
+      color:var(--ink2);text-decoration:none;vertical-align:1px;
+    }
+    .ba .n2 i{color:var(--accent);}
+
+    /* 표 — 폰에서는 카드형(가로 스크롤 없이 전 열 표시) */
     table.card{border:0;}
     table.card thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
     table.card tbody tr{
-      display:block;border:1px solid var(--line);border-radius:10px;
-      margin:0 0 12px;overflow:hidden;background:var(--surface);
+      display:block;border:1px solid var(--line);border-radius:8px;
+      margin:0 0 8px;overflow:hidden;
     }
-    table.card tbody tr:nth-child(even) td{background:transparent;}
-    table.card td{
-      display:block;border:0;border-top:1px solid var(--line);
-      padding:9px 12px;
-    }
+    table.card td{display:block;border:0;border-top:1px solid var(--line);padding:6px 10px;}
     table.card td:first-child{
-      border-top:0;
-      background:var(--surface-2);
-      font-weight:700;color:var(--wine);
-      font-family:var(--serif);font-size:16px;
+      border-top:0;background:var(--card);font-weight:700;font-size:15px;
     }
     table.card td:not(:first-child)::before{
-      content:attr(data-l);
-      display:block;
-      font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;
-      color:var(--ink-2);font-weight:700;margin:0 0 2px;
+      content:attr(data-l);display:inline-block;min-width:52px;
+      padding-right:9px;
+      font-size:11px;letter-spacing:.06em;font-weight:700;color:var(--ink2);
+      vertical-align:1px;
     }
-    table.card td:first-child::before{content:none;}
+    table.card td:not(:first-child){padding-left:10px;text-indent:0;}
   }
-
-  /* ---- callouts ---- */
-  .warn{
-    background:var(--warn-bg);
-    border:1px solid var(--warn-line);
-    border-left:5px solid var(--warn-line);
-    border-radius:8px;
-    padding:14px 16px;
-    margin:0 0 18px;
-  }
-  .warn p{margin:0 0 10px;}
-  .warn p:last-child{margin:0;}
-  .warn.hard{border-width:2px;border-left-width:6px;}
-  .note{
-    background:var(--surface-2);
-    border:1px solid var(--line);
-    border-left:5px solid var(--aronia);
-    border-radius:8px;padding:14px 16px;margin:0 0 18px;
-  }
-  .note p:last-child,.note ul:last-child{margin-bottom:0;}
-  .principle{
-    background:var(--surface);
-    border:1px solid var(--line);
-    border-radius:10px;
-    padding:14px 16px;margin:0 0 14px;
-  }
-  .principle p:last-child{margin:0;}
-
-  /* ---- method blocks ---- */
-  .method{
-    background:var(--surface);
-    border:1px solid var(--line);
-    border-radius:10px;
-    padding:16px 16px 12px;
-    margin:0 0 16px;
-  }
-  .method h4{margin-top:0;}
-  .method.pick{border-color:var(--wine);border-width:2px;}
-  .pill{
-    display:inline-block;
-    background:var(--wine);color:#FDFBF7;
-    font-size:12px;font-weight:700;letter-spacing:.06em;
-    padding:2px 9px;border-radius:999px;margin-left:8px;vertical-align:2px;
-  }
-  @media (prefers-color-scheme: dark){ .pill{background:#5A2130;color:#F5E9EC;} }
-
-  /* ---- timeline ---- */
-  .tl{list-style:none;margin:0;padding:0;position:relative;}
-  .tl::before{
-    content:"";position:absolute;left:9px;top:6px;bottom:6px;
-    width:2px;background:var(--line);
-  }
-  .tl > li{
-    position:relative;padding:0 0 4px 34px;margin:0 0 22px;
-  }
-  .tl > li::before{
-    content:"";position:absolute;left:3px;top:8px;
-    width:14px;height:14px;border-radius:50%;
-    background:var(--wine);border:3px solid var(--bg);
-  }
-  .tl > li.key::before{background:var(--aronia);}
-  .tl .day{
-    font-family:var(--serif);
-    font-size:17px;font-weight:700;color:var(--wine);
-    margin:0 0 4px;line-height:1.4;
-  }
-  .tl li.key .day{color:var(--aronia);}
-  .tl .tag{
-    display:block;font-size:13px;font-weight:700;
-    color:var(--aronia);letter-spacing:.02em;margin:0 0 6px;
-  }
-  .tl ol{margin:0;padding-left:1.3em;}
-  .tl ol li{margin:0 0 6px;}
-  .tl ol li.warn-item{
-    background:var(--warn-bg);
-    border:2px solid var(--warn-line);
-    border-radius:8px;
-    padding:10px 12px;
-    margin:12px 0 6px;
-  }
-  .tl ol li.warn-item::marker{color:var(--warn-line);font-weight:700;}
-  .tl .warn{margin-top:12px;}
-
-  /* ---- back to top ---- */
-  .totop{margin:22px 0 0;text-align:right;}
-  .totop a{
-    display:inline-block;
-    font-size:13.5px;font-weight:700;
-    color:var(--wine);text-decoration:none;
-    border:1px solid var(--line);border-radius:999px;
-    padding:6px 14px;background:var(--surface);
-  }
-  .totop a:hover{border-color:var(--wine);}
-
-  /* ---- footer ---- */
-  footer{
-    border-top:2px solid var(--line);
-    margin-top:12px;padding:20px 0 0;
-    font-size:13.5px;line-height:1.7;color:var(--ink-2);
-  }
-
-  /* ---- print ---- */
   @media print{
-    :root{--bg:#fff;--surface:#fff;--surface-2:#f5f5f5;--ink:#000;--ink-2:#333;--line:#999;--wine:#5A1729;--aronia:#33163F;--warn-bg:#f4f4f4;--warn-line:#5A1729;}
-    body{background:#fff;color:#000;font-size:11pt;line-height:1.55;}
-    header.masthead{background:#fff;color:#000;border-bottom:2px solid #5A1729;padding:0 0 14px;}
-    .eyebrow{color:#5A1729;opacity:1;}
-    h1{color:#5A1729;}
-    .subtitle{opacity:1;color:#333;}
+    :root{--bg:#fff;--card:#f4f4f2;--ink:#000;--ink2:#444;--line:#bbb;--accent:#8E2029;--accent-soft:#f6eaec;}
+    body{font-size:11pt;line-height:1.5;}
     .wrap{max-width:none;padding:0;}
-    nav.toc{display:none;}
-    .totop{display:none;}
-    thead th{background:#eee !important;color:#000 !important;border-color:#999 !important;}
-    table.card thead{position:static;width:auto;height:auto;clip:auto;}
-    table.card tbody tr{display:table-row;}
-    table.card td{display:table-cell;border:1px solid #999;}
-    table.card td::before{content:none !important;}
-    section{page-break-inside:auto;margin-bottom:22px;}
-    h2.sec,h3,h4{page-break-after:avoid;}
-    table,.warn,.note,.method,.tl > li{page-break-inside:avoid;}
-    .pill{border:1px solid #5A1729;background:#fff;color:#5A1729;}
-    .tl::before{background:#999;}
-    .tl > li::before{background:#5A1729;border-color:#fff;}
-    a{color:#000;text-decoration:none;}
+    details{break-inside:avoid;}
+    details:not([open]) > *:not(summary){display:block !important;}
+    details::details-content{content-visibility:visible !important;display:block !important;block-size:auto !important;}
+    summary::before{content:"" !important;}
+    figure,.fatal,.step,table,.ck > li{break-inside:avoid;}
+    h2,h3{break-after:avoid;}
   }
 </style>
 </head>
 <body>
-
-<header class="masthead" id="top">
-  <div class="inner">
-    <p class="eyebrow">가정 양조 실험 · 10 kg 배치</p>
-    <h1>캠벨·아로니아 실험 와인 개정 가이드 (10 kg 배치)</h1>
-    <p class="subtitle">탄닌 첨가제 없이, 원료·침용·온도로 탄닌·안토시아닌·단맛·쓴맛 끌어올리기</p>
-  </div>
-</header>
-
 <div class="wrap">
 
-  <nav class="toc" aria-label="목차">
-    <h2>목차</h2>
-    <ol>
-      <li><a href="#s0">한눈에 — 원 레시피에서 바뀌는 것</a></li>
-      <li><a href="#s1">핵심 원리 — 왜 이렇게 바꾸나</a></li>
-      <li><a href="#s2">효소 — 식품첨가물 공전 기준</a></li>
-      <li><a href="#s3">효모 — 균주별 특성</a></li>
-      <li><a href="#s4">효모영양제 — 지금 레시피의 가장 큰 문제</a></li>
-      <li><a href="#s5">개정 재료표 (10 kg 배치)</a></li>
-      <li><a href="#s6">일자별 공정</a></li>
-      <li><a href="#s7">목표별 기여도 정리</a></li>
-      <li><a href="#s8">마지막 경고</a></li>
-    </ol>
-  </nav>
+<header class="top">
+  <h1>캠벨·아로니아 실험 와인 개정 가이드</h1>
+  <p class="lede">10&nbsp;kg 배치 · 탄닌 첨가제 없이 <strong>원료·침용·온도</strong>만으로 색·탄닌·쓴맛·단맛을 올린다.</p>
+  <p class="sub">지렛대는 셋뿐 — 원료를 더 넣거나, 더 오래 담그거나, 온도를 쓴다.</p>
+</header>
 
-  <!-- 0 -->
-  <section id="s0">
-    <h2 class="sec">0. 한눈에 — 원 레시피에서 바뀌는 것</h2>
-    <div class="tw">
-      <table class="card">
-        <thead>
-          <tr><th scope="col">항목</th><th scope="col">원래</th><th scope="col">개정</th><th scope="col">이유</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>아로니아</td>
-            <td data-l="원래">청 1.4 kg</td>
-            <td data-l="개정"><strong>생과 1.5 kg</strong> + 청은 당도 맞출 만큼만</td>
-            <td data-l="이유">청은 당 위주라 색소·탄닌 기여가 미미함</td>
-          </tr>
-          <tr>
-            <td>포도 줄기</td>
-            <td data-l="원래">전량 제거</td>
-            <td data-l="개정"><strong>목질화된 것만 120 g 재투입</strong></td>
-            <td data-l="이유">줄기 탄닌으로 구조감</td>
-          </tr>
-          <tr>
-            <td>KMS(아황산)</td>
-            <td data-l="원래">2 g</td>
-            <td data-l="개정"><strong>0.7 g</strong></td>
-            <td data-l="이유">KMS 2 g은 SO₂ 환산 약 140 ppm — 효소를 죽이고 색을 뺌</td>
-          </tr>
-          <tr>
-            <td>효모</td>
-            <td data-l="원래">71B-1122 5 g</td>
-            <td data-l="개정"><strong>BDX 2 g → EC-1118 1 g</strong> (시차)</td>
-            <td data-l="이유">71B는 사과산 분해·색소 흡착</td>
-          </tr>
-          <tr>
-            <td>효소제</td>
-            <td data-l="원래">1 g</td>
-            <td data-l="개정"><strong>0.3 g</strong></td>
-            <td data-l="이유">1 g은 통상의 3배, 과량이면 탁도·잡미</td>
-          </tr>
-          <tr>
-            <td>효모영양제</td>
-            <td data-l="원래">6 g × 2회</td>
-            <td data-l="개정"><strong>1.5 g + 1 g</strong>, 시점 변경</td>
-            <td data-l="이유">12 g은 통상의 3~6배</td>
-          </tr>
-          <tr>
-            <td>침용</td>
-            <td data-l="원래">없음</td>
-            <td data-l="개정"><strong>발효 전 저온침용 3일 + 발효 후 연장침용 3~4일</strong></td>
-            <td data-l="이유">색과 탄닌이 여기서 결정됨</td>
-          </tr>
-          <tr>
-            <td>단맛</td>
-            <td data-l="원래">처음부터 23브릭스</td>
-            <td data-l="개정">23브릭스 발효 + <strong>끝나고 되당</strong></td>
-            <td data-l="이유">발효 전 당은 전부 알코올이 됨</td>
-          </tr>
-        </tbody>
-      </table>
+<!-- ================= 1. 도식5 Before/After ================= -->
+<h2><span class="b">1</span>원 레시피 → 개정</h2>
+<figure>
+  <figcaption>도식 · 8개 변경점</figcaption>
+  <div class="fig">
+    <div class="ba">
+      <div class="hd l">원래</div><div class="hd r">개정</div>
+
+      <div class="k">아로니아</div>
+      <div class="o"><i>원래</i><s>청 1.4 kg</s></div>
+      <div class="n2"><i>개정</i>생과 <em>1.5 kg</em> + 청은 당도 맞출 만큼만</div>
+
+      <div class="k">포도 줄기</div>
+      <div class="o"><i>원래</i><s>전량 제거</s></div>
+      <div class="n2"><i>개정</i>목질화된 것만 <em>120 g</em> 재투입</div>
+
+      <div class="k">KMS (아황산)</div>
+      <div class="o"><i>원래</i><s>2 g</s></div>
+      <div class="n2"><i>개정</i><em>0.7 g</em></div>
+
+      <div class="k">효모</div>
+      <div class="o"><i>원래</i><s>71B-1122 5 g</s></div>
+      <div class="n2"><i>개정</i><em>BDX 2 g</em> → <em>EC-1118 1 g</em> (시차)</div>
+
+      <div class="k">효소제</div>
+      <div class="o"><i>원래</i><s>1 g</s></div>
+      <div class="n2"><i>개정</i><em>0.3 g</em></div>
+
+      <div class="k">효모영양제</div>
+      <div class="o"><i>원래</i><s>6 g × 2회</s></div>
+      <div class="n2"><i>개정</i><em>1.5 g + 1 g</em>, 시점 변경</div>
+
+      <div class="k">침용</div>
+      <div class="o"><i>원래</i><s>없음</s></div>
+      <div class="n2"><i>개정</i>저온침용 <em>3일</em> + 연장침용 <em>3~4일</em></div>
+
+      <div class="k">단맛</div>
+      <div class="o"><i>원래</i><s>처음부터 23브릭스</s></div>
+      <div class="n2"><i>개정</i>23브릭스 발효 + <em>끝나고 되당</em></div>
     </div>
-    <p class="totop"><a href="#top">↑ 맨 위로</a></p>
-  </section>
+  </div>
+</figure>
+<p class="n"><b>이유 요약 —</b> 청은 당 위주라 색소·탄닌 기여가 미미함 · 줄기 탄닌으로 구조감 · KMS 2 g은 SO₂ 환산 약 140 ppm이라 효소를 죽이고 색을 뺌 · 71B는 사과산 분해·색소 흡착 · 효소 1 g은 통상의 3배(과량이면 탁도·잡미) · 영양제 12 g은 통상의 3~6배 · 색과 탄닌은 침용에서 결정됨 · 발효 전 당은 전부 알코올이 됨.</p>
 
-  <!-- 1 -->
-  <section id="s1">
-    <h2 class="sec">1. 핵심 원리 — 왜 이렇게 바꾸나</h2>
+<!-- ================= 2. 재료표 ================= -->
+<h2><span class="b">2</span>재료 (10 kg 배치 전량)</h2>
+<table class="card">
+  <thead><tr><th>재료</th><th>수량</th><th>비고</th></tr></thead>
+  <tbody>
+    <tr><td>캠벨포도 (세척·제경 후)</td><td data-l="수량" class="num">10 kg</td><td data-l="비고">—</td></tr>
+    <tr><td>목질화된 포도 줄기</td><td data-l="수량" class="num">120 g</td><td data-l="비고">갈색인 것만 선별, 초록 줄기 폐기</td></tr>
+    <tr><td>아로니아 생과 (냉동 가능)</td><td data-l="수량" class="num">1.5 kg</td><td data-l="비고">없으면 건조 아로니아 300~400 g을 미온수에 30분 불려 사용</td></tr>
+    <tr><td>아로니아청</td><td data-l="수량" class="num">약 0.6~0.9 kg</td><td data-l="비고">브릭스 맞출 만큼, 실측값으로 조정</td></tr>
+    <tr><td>메타중아황산칼륨(KMS)</td><td data-l="수량" class="num">0.7 g</td><td data-l="비고">초기. 랙킹 때 별도 소량 추가</td></tr>
+    <tr><td>와인효모 Lalvin BDX</td><td data-l="수량" class="num">2 g</td><td data-l="비고">D3 투입</td></tr>
+    <tr><td>와인효모 Lalvin EC-1118</td><td data-l="수량" class="num">1 g</td><td data-l="비고">브릭스 5 이하에서 투입</td></tr>
+    <tr><td>효소제 (펙티나아제 복합제)</td><td data-l="수량" class="num">0.3 g</td><td data-l="비고">—</td></tr>
+    <tr><td>Go-Ferm Protect</td><td data-l="수량" class="num">2.5 g + 1.25 g</td><td data-l="비고">BDX용 2.5 g, EC-1118용 1.25 g</td></tr>
+    <tr><td>Fermaid O</td><td data-l="수량" class="num">1.5 g</td><td data-l="비고">브릭스 15에서</td></tr>
+    <tr><td>Fermaid K</td><td data-l="수량" class="num">1 g</td><td data-l="비고">브릭스 8에서</td></tr>
+    <tr><td>(되당용) 아로니아청</td><td data-l="수량">마무리 시 별도</td><td data-l="비고">—</td></tr>
+  </tbody>
+</table>
 
-    <div class="principle">
-      <p><strong>효소로는 탄닌·안토시아닌을 “만들지” 못합니다.</strong> 효소가 하는 일은 껍질 세포벽을 허물어 안에 있는 것을 더 잘 뽑아내는 것뿐입니다. 그러니 원료에 없으면 아무것도 안 나옵니다. 캠벨(labrusca)은 탄닌이 거의 없고 색소도 껍질에만 얇게 있습니다.</p>
+<!-- ================= 3. 도식1 타임라인 ================= -->
+<h2><span class="b">3</span>전체 공정 타임라인</h2>
+<figure>
+  <figcaption>도식 · D0 → D35</figcaption>
+  <div class="fig">
+    <div class="tlbar" aria-hidden="true">
+      <i class="s1" style="flex:3"></i>
+      <i class="s2" style="flex:6"></i>
+      <i class="s3" style="flex:3"></i>
+      <i class="s4" style="flex:4"></i>
+      <i class="s5" style="flex:19"></i>
     </div>
-
-    <div class="principle">
-      <p><strong>단맛은 효소로 못 만듭니다.</strong> 넣은 당은 발효로 전부 알코올이 됩니다. 단맛은 발효를 완전히 끝낸 뒤 다시 넣는 것(되당) 외에 방법이 없습니다.</p>
+    <div class="tlticks" aria-hidden="true">
+      <span style="flex:3">D0</span><span style="flex:6">D3</span><span style="flex:3">D9</span>
+      <span style="flex:4">D13</span><span style="flex:19">D17</span><span>D35</span>
     </div>
 
-    <div class="principle">
-      <p><strong>쓴맛은 씨와 줄기에서 나옵니다.</strong> 씨 탄닌은 알코올이 8%를 넘어야 본격적으로 우러나오므로, 발효가 끝난 뒤에도 껍질·씨를 더 담가두는 것이 핵심입니다.</p>
+    <div class="tlrow">
+      <i class="dot s1"></i>
+      <div><div class="ph">저온침용 · D0–D3</div><div class="do">파쇄·KMS·효소 → 발효 없이 담가 색을 뽑는다. 하루 2회 캡 누름.</div></div>
+      <div class="tmp">15℃↓</div>
     </div>
-
-    <p class="lead"><strong>정리하면 지렛대는 셋뿐입니다 — 원료를 더 넣거나, 더 오래 담그거나, 온도를 쓰는 것.</strong></p>
-    <p class="totop"><a href="#top">↑ 맨 위로</a></p>
-  </section>
-
-  <!-- 2 -->
-  <section id="s2">
-    <h2 class="sec">2. 효소 — 식품첨가물 공전 기준</h2>
-
-    <p>와인 양조용 효소는 국내에서 식품첨가물 공전 ‘효소제’ 품목으로 관리됩니다.</p>
-
-    <div class="tw">
-      <table class="card">
-        <thead>
-          <tr><th scope="col">공전상 품목명</th><th scope="col">하는 일</th><th scope="col">이번 목적</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>펙티나아제(펙틴분해효소)</td>
-            <td data-l="하는 일">껍질 세포벽 분해 → 색소·페놀 방출</td>
-            <td data-l="이번 목적">핵심</td>
-          </tr>
-          <tr>
-            <td>셀룰라아제 / 헤미셀룰라아제</td>
-            <td data-l="하는 일">세포벽 잔여 골격 분해</td>
-            <td data-l="이번 목적">병용 좋음</td>
-          </tr>
-          <tr>
-            <td>글루코시다아제</td>
-            <td data-l="하는 일">결합형 향 유리</td>
-            <td data-l="이번 목적">향만, 색·탄닌 무관</td>
-          </tr>
-          <tr>
-            <td>아밀라아제</td>
-            <td data-l="하는 일">전분 분해</td>
-            <td data-l="이번 목적">부적합 — 당만 늘고 발효로 소실</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="tlrow">
+      <i class="dot s2"></i>
+      <div><div class="ph">주발효 · D3–D9</div><div class="do">당도 23브릭스 조정 → BDX 접종. 하루 3회 펀치다운, 영양제 2회.</div></div>
+      <div class="tmp">24~26℃</div>
     </div>
-
-    <p>시판 양조용 효소제(Lallzyme EX-V, Rapidase Ex Color, Scottzyme Color Pro 등)는 위 펙티나아제+셀룰라아제 복합제입니다.</p>
-
-    <div class="warn">
-      <p>⚠️ 제품별 국내 수입·식품용 표시 여부는 구매처에서 확인하세요. 라벨에 “식품첨가물 효소제” 표기와 수입신고필증이 있는 물건만 쓰고, 관상·실험용 표기 제품은 배제합니다. (미확인 사항)</p>
+    <div class="tlrow">
+      <i class="dot s3"></i>
+      <div><div class="ph">후반 가온 · D9–D12</div><div class="do">브릭스 5 이하에서 온도를 올리고 EC-1118 투입. 펀치다운 2회로.</div></div>
+      <div class="tmp">28~30℃</div>
     </div>
-
-    <p>양조용 효소제의 통상 사용량은 <strong>20~40 g/ton(포도 10 kg 기준 0.2~0.4 g)</strong>입니다. 원 레시피의 1 g은 100 g/ton으로 <strong>약 3배</strong>입니다.</p>
-
-    <p><strong>투입량 0.3 g / 투입 시점: 파쇄·아황산 처리 후 1~2시간 뒤, 효모 넣기 전</strong></p>
-
-    <div class="warn hard">
-      <p>⚠️ KMS와 동시 투입 금지 — 효소가 죽습니다. 최소 1~2시간 간격.</p>
-      <p>⚠️ 벤토나이트와도 동시 투입 금지.</p>
+    <div class="tlrow key">
+      <i class="dot s4"></i>
+      <div><div class="ph">★ 연장침용 · D13–D16</div><div class="do">가장 중요. 브릭스 0에도 압착하지 말고 3~4일 더. 매일 시음해 멈출 지점을 잡는다.</div></div>
+      <div class="tmp">밀폐</div>
     </div>
-    <p class="totop"><a href="#top">↑ 맨 위로</a></p>
-  </section>
-
-  <!-- 3 -->
-  <section id="s3">
-    <h2 class="sec">3. 효모 — 균주별 특성</h2>
-
-    <p>캠벨(색·탄닌 없음, 산 낮음) + 아로니아(탄닌 강함) 조합의 선택 기준은 셋입니다. ① 색소를 덜 흡착할 것 ② 바디를 채워줄 것 ③ 사과산을 깎지 말 것.</p>
-
-    <div class="tw">
-      <table class="card">
-        <thead>
-          <tr>
-            <th scope="col">효모</th><th scope="col">성격</th><th scope="col">색소 흡착</th>
-            <th scope="col">영양 요구</th><th scope="col">알코올 내성</th><th scope="col">적합도</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Lalvin BM4×4</td>
-            <td data-l="성격">다당류 다량 분비 → 바디·부드러움, 색 안정성 우수. 중간 속도, 안정적</td>
-            <td data-l="색소 흡착">낮음</td>
-            <td data-l="영양 요구">중간</td>
-            <td data-l="알코올 내성">16%</td>
-            <td data-l="적합도">★★★★★</td>
-          </tr>
-          <tr>
-            <td>Lalvin BDX</td>
-            <td data-l="성격">보르도 분리주. 색·탄닌 구조 강조, 황화수소 발생 적음. 느린 편</td>
-            <td data-l="색소 흡착">낮음</td>
-            <td data-l="영양 요구">중간</td>
-            <td data-l="알코올 내성">16%</td>
-            <td data-l="적합도">★★★★★</td>
-          </tr>
-          <tr>
-            <td>Lalvin RC212</td>
-            <td data-l="성격">부르고뉴. 폴리페놀 추출 최대, 향 복합도 높음. 영양 부족 시 계란 썩는 냄새 잘 남</td>
-            <td data-l="색소 흡착">매우 낮음</td>
-            <td data-l="영양 요구">높음</td>
-            <td data-l="알코올 내성">16%</td>
-            <td data-l="적합도">★★★★☆</td>
-          </tr>
-          <tr>
-            <td>ICV D21</td>
-            <td data-l="성격">떫은맛·풋내를 깎아줌. 아로니아 탄닌이 거칠 때 유용</td>
-            <td data-l="색소 흡착">낮음</td>
-            <td data-l="영양 요구">중간~높음</td>
-            <td data-l="알코올 내성">16%</td>
-            <td data-l="적합도">★★★★☆</td>
-          </tr>
-          <tr>
-            <td>ICV D254</td>
-            <td data-l="성격">진한 과실향·두터운 바디, 발효 빠름</td>
-            <td data-l="색소 흡착">중간</td>
-            <td data-l="영양 요구">높음</td>
-            <td data-l="알코올 내성">16%</td>
-            <td data-l="적합도">★★★☆☆</td>
-          </tr>
-          <tr>
-            <td>Lalvin EC-1118</td>
-            <td data-l="성격">만능·강건, 재발효·정체 복구용. 향과 색을 깎아먹음</td>
-            <td data-l="색소 흡착">높음</td>
-            <td data-l="영양 요구">낮음</td>
-            <td data-l="알코올 내성">18%</td>
-            <td data-l="적합도">★★☆☆☆ 주력 부적합</td>
-          </tr>
-          <tr>
-            <td>Lalvin 71B-1122 (원래)</td>
-            <td data-l="성격">과실향 살림, 사과산 20~40% 분해</td>
-            <td data-l="색소 흡착">중간~높음</td>
-            <td data-l="영양 요구">낮음</td>
-            <td data-l="알코올 내성">14%</td>
-            <td data-l="적합도">★★☆☆☆ 교체 권장</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="tlrow">
+      <i class="dot s5"></i>
+      <div><div class="ph">압착·숙성 · D17–D35</div><div class="do">가볍게 압착 → 랙킹 1차, 약 2주 뒤 2차 → D35 이후 되당.</div></div>
+      <div class="tmp">12~15℃</div>
     </div>
+  </div>
+</figure>
 
-    <div class="warn">
-      <p>⚠️ <strong>71B를 빼는 이유</strong>: 캠벨은 원래 산이 낮습니다. 71B가 사과산까지 깎으면 술이 물러지고, 산이 낮으면 pH가 올라가 안토시아닌이 붉은색이 아니라 칙칙한 자주·회색으로 보입니다. 색이 목적인 이번 배치와 정면으로 어긋납니다.</p>
-    </div>
-
-    <p><strong>투입량</strong>: 5 g은 과량입니다. 통상 20~30 g/hL이고 이 배치의 머스트는 약 8 L이므로 <strong>주효모는 1.6~2.4 g(→ 2 g)</strong>이 적정합니다. 2종 복합을 쓸 경우 뒤에 넣는 마무리 효모 1 g은 이와 별도이며, 전체 합계는 3 g이 됩니다.</p>
-
-    <h3>효모 2종 복합 — 3가지 방식</h3>
-
-    <p>동시 투입보다 <strong>시차 투입이 훨씬 안전</strong>합니다. 동시에 넣으면 한쪽이 다른 쪽을 눌러 결국 1종만 발효한 것과 같아집니다. 특히 EC-1118은 킬러 효모라 다른 균주를 죽입니다.</p>
-
-    <div class="method">
-      <h4>방식 A — 비-사카로마이세스 → 주효모 (바디·복합도 최대)</h4>
-      <ul>
-        <li>D3 (당도 조정 직후): Torulaspora delbrueckii (Biodiva 등) 1.5 g</li>
-        <li>D3 + 48시간: BM4×4 2 g</li>
-        <li>T. delbrueckii는 알코올을 6~7%까지만 만들지만 그 사이 글리세롤·다당류를 만들어 바디와 질감을 크게 올립니다.</li>
-      </ul>
-      <div class="warn">
-        <p>⚠️ 반드시 48시간 안에 주효모 투입. 늦으면 발효 정체·초산균 오염.</p>
+<!-- ================= 4. 도식2 브릭스 ================= -->
+<h2><span class="b">4</span>브릭스별 투입 시점</h2>
+<figure>
+  <figcaption>도식 · 언제 무엇을 넣나 (핵심)</figcaption>
+  <div class="fig">
+    <div class="brix">
+      <div class="brow">
+        <div class="bval"><b>23</b><span>BRIX</span></div>
+        <div><div class="bbar" style="width:100%"></div>
+          <div class="bact"><span class="d">D3 · </span>효모 <strong>BDX 2 g</strong> 투입 (당도 조정 직후)</div></div>
+      </div>
+      <div class="brow">
+        <div class="bval"><b>15</b><span>BRIX</span></div>
+        <div><div class="bbar" style="width:65%"></div>
+          <div class="bact"><span class="d">주발효 · </span><strong>Fermaid O 1.5 g</strong> — 당 1/3 소진</div></div>
+      </div>
+      <div class="brow">
+        <div class="bval"><b>8</b><span>BRIX</span></div>
+        <div><div class="bbar" style="width:35%"></div>
+          <div class="bact"><span class="d">주발효 · </span><strong>Fermaid K 1 g</strong> — 당 2/3 소진</div></div>
+      </div>
+      <div class="brow">
+        <div class="bval"><b>5</b><span>BRIX</span></div>
+        <div><div class="bbar" style="width:22%"></div>
+          <div class="bact"><span class="d">D9~D12 · </span><strong>EC-1118 1 g</strong> + 온도 <strong>28~30℃</strong>로 올림</div></div>
+      </div>
+      <div class="brow">
+        <div class="bval"><b>0</b><span>BRIX</span></div>
+        <div><div class="bbar zero" style="width:8%"></div>
+          <div class="bact"><span class="d">D13 · </span><strong>연장침용 시작</strong> — 압착 금지, 3~4일 더</div></div>
       </div>
     </div>
+    <p class="baxis">↓ 발효 진행 (D3 → D16)</p>
+  </div>
+</figure>
+<p class="n"><b>영양제 원칙 —</b> 소량의 머스트에 개어 슬러리로 넣고 직후 펀치다운(가루째 뿌리면 뭉치고 거품이 넘침). D0(효모 투입 시)에는 넣지 않는다 — 초반에 질소가 다 소모되면 후반에 부족해 황화수소(계란 썩는 냄새)가 난다. 당이 2/3 이상 소진된 뒤에는 절대 추가하지 않는다(잔류·오염·이취).</p>
 
-    <div class="method pick">
-      <h4>방식 B — 색·구조 담당 + 마무리 담당 (안전 우선) <span class="pill">★ 이 배치 추천</span></h4>
-      <ul>
-        <li>D3: BDX 또는 RC212 2 g</li>
-        <li>브릭스 5 이하 (D9~D10경): EC-1118 1 g</li>
-        <li>앞 효모가 색·탄닌·향을 다 만든 뒤 EC-1118이 남은 당을 확실히 끝냅니다. 이 시점엔 향·색이 이미 형성돼 EC-1118의 단점이 거의 안 나타납니다.</li>
-        <li>되당을 계획하고 있으므로 <strong>잔당 완전 소진</strong>이 특히 중요합니다. 이 조합이 그 보험입니다.</li>
-      </ul>
+<!-- ================= 5. 체크리스트 ================= -->
+<h2><span class="b">5</span>공정 체크리스트</h2>
+<ul class="ck">
+  <li>
+    <p class="day">D0 · 파쇄·아황산</p>
+    <label><input type="checkbox">세척·제경 → 갈색 목질화 줄기만 <strong>120 g</strong> 선별(제경분 약 1/3), 초록 줄기 폐기</label>
+    <label><input type="checkbox">포도 <strong>가볍게</strong> 파쇄 + 아로니아 생과 <strong>1.5 kg</strong> 파쇄해 투입 + 줄기 투입</label>
+    <label><input type="checkbox">KMS <strong>0.7 g</strong>을 소량의 물에 녹여 고루 뿌리고 섞기</label>
+    <label><input type="checkbox"><strong>15~18℃</strong> 서늘한 곳, 뚜껑 덮고 정치</label>
+    <span class="n">씨가 깨지면 쓴맛이 아니라 거친 잡미가 난다.</span>
+  </li>
+  <li>
+    <p class="day">D0 + 1~2시간 · 효소</p>
+    <label><input type="checkbox">효소제 <strong>0.3 g</strong>을 미온수 20 ml에 풀어 표면에 뿌리고 가볍게 섞기</label>
+    <span class="n"><b>KMS와 동시 투입 금지</b>(효소가 죽는다 · 최소 1~2시간 간격). <b>벤토나이트와도 동시 금지.</b></span>
+  </li>
+  <li>
+    <p class="day">D1~D3 · 저온침용 ★ 색</p>
+    <label><input type="checkbox"><strong>15℃ 이하</strong> 3일간 발효 없이 침용, 하루 2회 캡 부드럽게 누름</label>
+    <span class="n">안토시아닌은 수용성이라 알코올 없이 뽑힌다. 온도 유지가 어려우면 냉장고·아이스팩, 2일도 무방.</span>
+  </li>
+  <li>
+    <p class="day">D3 · 당도 조정·효모 접종</p>
+    <label><input type="checkbox">브릭스 측정 → 아로니아청 소량씩 나눠 넣어 <strong>23브릭스</strong>(섞고 재측정 반복)</label>
+    <label><input type="checkbox"><strong>43℃</strong> 물 50 ml + Go-Ferm Protect <strong>2.5 g</strong> 완전히 풀기</label>
+    <label><input type="checkbox"><strong>40℃</strong>로 식으면 BDX <strong>2 g</strong> 뿌리고, 젓지 말고 <strong>20분</strong> 정치</label>
+    <label><input type="checkbox">머스트 한 국자씩 5분 간격 → <strong>온도차 10℃ 이내</strong> → 발효조 투입, 면포 덮기</label>
+    <label><input type="checkbox">이 시점에 영양제는 넣지 않음</label>
+    <span class="n">아로니아 생과가 들어가 초기 브릭스값이 달라진다. Go-Ferm 없이 할 때는 38~40℃ 미온수 20 ml에 효모만 뿌린다.</span>
+  </li>
+  <li>
+    <p class="day">D4~D8 · 주발효</p>
+    <label><input type="checkbox"><strong>24~26℃</strong> 유지, 하루 3회 펀치다운, 매일 브릭스·온도 기록</label>
+    <label><input type="checkbox">브릭스 약 <strong>15</strong> → Fermaid O <strong>1.5 g</strong>(슬러리로)</label>
+    <label><input type="checkbox">브릭스 약 <strong>8</strong> → Fermaid K <strong>1 g</strong></label>
+  </li>
+  <li>
+    <p class="day">D9~D12 · 후반 가온 ★ 탄닌</p>
+    <label><input type="checkbox">브릭스 <strong>5 이하</strong>에서 온도를 <strong>28~30℃</strong>로 올림</label>
+    <label><input type="checkbox">같은 시점 EC-1118 <strong>1 g</strong> — 43℃ 물 25 ml + Go-Ferm Protect 1.25 g으로 동일 활성화</label>
+    <label><input type="checkbox">펀치다운 하루 <strong>2회</strong>로 줄임</label>
+    <span class="n">씨 탄닌은 알코올 농도와 온도가 같이 올라가야 나온다. 펀치다운이 과도하면 거칠어진다.</span>
+  </li>
+  <li>
+    <p class="day">D13~D16 · 연장침용 ★ 가장 중요</p>
+    <label><input type="checkbox">브릭스 0 이하여도 <strong>압착 금지</strong> — 껍질·씨·줄기를 <strong>3~4일</strong> 더</label>
+    <label><input type="checkbox">뚜껑 밀폐(산화 방지), 펀치다운 하루 1회 이하 또는 중단</label>
+    <label><input type="checkbox"><strong>매일 시음</strong> — 떫은맛이 원하는 수준이면 즉시 다음 단계로</label>
+  </li>
+  <li>
+    <p class="day">D17 · 압착·앙금 분리</p>
+    <label><input type="checkbox">체·면포로 껍질을 걸러 <strong>가볍게만</strong> 압착</label>
+    <label><input type="checkbox">용기에 옮겨 밀폐, <strong>12~15℃</strong> 정치</label>
+    <span class="n">강하게 짜면 거친 탄닌과 이물이 같이 나온다.</span>
+  </li>
+  <li>
+    <p class="day">D20~D35 · 청징·안정화</p>
+    <label><input type="checkbox">앙금이 가라앉으면 1차 랙킹(윗물만 옮겨담기) → 약 2주 뒤 2차 랙킹</label>
+    <label><input type="checkbox">랙킹 시 KMS 소량 추가(<strong>10 L당 약 0.3~0.5 g</strong>)</label>
+  </li>
+  <li>
+    <p class="day">D35 이후 · 되당 (2차 랙킹 후)</p>
+    <label><input type="checkbox"><strong>방법 A</strong> — 소르빈산칼륨 + KMS로 재발효를 잠근 뒤 아로니아청으로 가당</label>
+    <label><input type="checkbox"><strong>방법 B</strong> — 되당 후 병입해 <strong>60~65℃ 20~30분</strong> 저온살균, 냉장 보관</label>
+    <span class="n">설탕물 대신 아로니아청을 쓰면 색이 조금 더 진해진다(탄닌 기여는 거의 없음). 소르빈산칼륨은 과실주에 쓸 수 있는 보존료지만 사용량 상한이 있으니 식품첨가물 공전 기준을 확인해 지킬 것(정확한 수치 미확인). 방법 B는 향이 다소 무뎌지고 냉장 유통이 전제.</span>
+  </li>
+</ul>
+
+<!-- ================= 6. 도식3 효모 활성화 ================= -->
+<h2><span class="b">6</span>효모 활성화 3단계</h2>
+<figure>
+  <figcaption>도식 · 온도 흐름</figcaption>
+  <div class="fig">
+    <div class="steps">
+      <div class="step"><div class="sn">STEP 1</div><div class="st">43℃</div>
+        <div class="sd">물 50 ml + Go-Ferm 2.5 g 완전히 풀기</div></div>
+      <div class="arrow">▼ 식힘</div>
+      <div class="step"><div class="sn">STEP 2</div><div class="st">40℃</div>
+        <div class="sd">효모 투입 후 젓지 말고 <strong>20분 대기</strong></div></div>
+      <div class="arrow">▼</div>
+      <div class="step"><div class="sn">STEP 3</div><div class="st">온도차 10℃ 이내</div>
+        <div class="sd">머스트를 한 국자씩 5분 간격으로 섞어 낮춤</div></div>
+      <div class="arrow">▼</div>
+      <div class="step last"><div class="sn">STEP 4</div><div class="st">발효조 투입</div>
+        <div class="sd">면포로 덮는다</div></div>
     </div>
+  </div>
+</figure>
 
-    <div class="method">
-      <h4>방식 C — 동시 접종</h4>
-      <ul>
-        <li>D3: BM4×4 1.2 g + D21 1.2 g 동시</li>
-        <li>역할 분담은 되지만 어느 쪽이 우세할지 예측 불가 — 재현성은 기대하지 마세요.</li>
-      </ul>
-      <div class="warn">
-        <p>⚠️ EC-1118·Uvaferm 43 같은 킬러 균주는 절대 동시 접종 금지.</p>
-      </div>
+<!-- ================= 7. 치명 경고 ================= -->
+<h2><span class="b">7</span>치명 경고 3</h2>
+<div class="fatal">
+  <p class="h">1 · 효모액과 머스트의 온도차 10℃</p>
+  <p>온도차가 10℃를 넘으면 그 자리에서 효모의 상당수가 죽는다(저온 쇼크). 급하다고 바로 붓지 말 것.</p>
+</div>
+<div class="fatal">
+  <p class="h">2 · 연장침용은 되돌릴 수 없다</p>
+  <p>D13~D16에 <strong>매일 시음</strong>해 멈출 지점을 잡는다. 지나치면 되돌릴 수 없으며, 이것이 쓴맛을 조절하는 유일한 다이얼이다.</p>
+</div>
+<div class="fatal">
+  <p class="h">3 · 잔당이 남은 채 병입하면 병이 터진다</p>
+  <p>가당은 병입 직전에, 발효가 완전히 끝난 것을 확인한 뒤에만. 당이 남은 상태로 병입하면 병 안에서 재발효해 병이 터진다.</p>
+</div>
+<p class="n"><b>균형 —</b> 네 가지를 동시에 최대로 올리면 마시기 힘든 술이 된다. 탄닌·쓴맛이 세지면 단맛도 그만큼 올려야 균형이 잡히고, 캠벨은 원래 산이 낮아 단맛만 올리면 물러진다.</p>
+
+<!-- ================= 8. 도식4 관계도 ================= -->
+<h2><span class="b">8</span>무엇이 무엇을 올리나</h2>
+<figure>
+  <figcaption>도식 · 조치 → 목표</figcaption>
+  <div class="fig">
+    <div class="rel">
+      <div class="a">아로니아 생과 1.5 kg + 저온침용 3일 <span class="sub">(+ 아황산 감량)</span></div>
+      <div class="arw">─▶</div><div class="g">안토시아닌 (색)</div>
+
+      <div class="a">연장침용 3~4일 + 줄기 120 g + 후반 가온</div>
+      <div class="arw">─▶</div><div class="g">탄닌</div>
+
+      <div class="a">씨 접촉 연장 <span class="sub">(매일 시음으로 조절)</span></div>
+      <div class="arw">─▶</div><div class="g">쓴맛</div>
+
+      <div class="a">발효 완료 후 아로니아청 되당</div>
+      <div class="arw">─▶</div><div class="g">단맛</div>
     </div>
+  </div>
+</figure>
+<p class="n"><b>기여도 —</b> 안토시아닌·탄닌이 가장 큼, 쓴맛 큼, 단맛 확실. 효소제 0.3 g과 효모 BDX+EC-1118은 보조 역할.</p>
 
-    <h3>효모 공통 주의</h3>
+<!-- ================= 9. 참고 자료 ================= -->
+<h2><span class="b">9</span>참고 자료 (펼쳐 보기)</h2>
+
+<details>
+  <summary>원리 — 왜 이렇게 바꾸나</summary>
+  <div class="dbody">
+    <p><strong>효소로는 탄닌·안토시아닌을 “만들지” 못한다.</strong> 효소가 하는 일은 껍질 세포벽을 허물어 안에 있는 것을 더 잘 뽑아내는 것뿐이다. 원료에 없으면 아무것도 안 나온다. 캠벨(labrusca)은 탄닌이 거의 없고 색소도 껍질에만 얇게 있다.</p>
+    <p><strong>단맛은 효소로 못 만든다.</strong> 넣은 당은 발효로 전부 알코올이 된다. 단맛은 발효를 완전히 끝낸 뒤 다시 넣는 것(되당) 외에 방법이 없다.</p>
+    <p><strong>쓴맛은 씨와 줄기에서 나온다.</strong> 씨 탄닌은 알코올이 8%를 넘어야 본격적으로 우러나므로, 발효가 끝난 뒤에도 껍질·씨를 더 담가두는 것이 핵심이다.</p>
+  </div>
+</details>
+
+<details>
+  <summary>효소 — 식품첨가물 공전 기준</summary>
+  <div class="dbody">
+    <p>와인 양조용 효소는 국내에서 식품첨가물 공전 ‘효소제’ 품목으로 관리된다.</p>
+    <table class="card">
+      <thead><tr><th>공전상 품목명</th><th>하는 일</th><th>이번 목적</th></tr></thead>
+      <tbody>
+        <tr><td>펙티나아제(펙틴분해효소)</td><td data-l="하는 일">껍질 세포벽 분해 → 색소·페놀 방출</td><td data-l="이번 목적">핵심</td></tr>
+        <tr><td>셀룰라아제 / 헤미셀룰라아제</td><td data-l="하는 일">세포벽 잔여 골격 분해</td><td data-l="이번 목적">병용 좋음</td></tr>
+        <tr><td>글루코시다아제</td><td data-l="하는 일">결합형 향 유리</td><td data-l="이번 목적">향만, 색·탄닌 무관</td></tr>
+        <tr><td>아밀라아제</td><td data-l="하는 일">전분 분해</td><td data-l="이번 목적">부적합 — 당만 늘고 발효로 소실</td></tr>
+      </tbody>
+    </table>
+    <p>시판 양조용 효소제(Lallzyme EX-V, Rapidase Ex Color, Scottzyme Color Pro 등)는 위 펙티나아제+셀룰라아제 복합제다.</p>
+    <p>통상 사용량은 <strong>20~40 g/ton</strong>(포도 10 kg 기준 0.2~0.4 g). 원 레시피의 1 g은 100 g/ton으로 <strong>약 3배</strong>다. 투입 시점은 파쇄·아황산 처리 후 1~2시간 뒤, 효모 넣기 전.</p>
+    <span class="n">제품별 국내 수입·식품용 표시 여부는 구매처에서 확인. 라벨에 “식품첨가물 효소제” 표기와 수입신고필증이 있는 물건만 쓰고, 관상·실험용 표기 제품은 배제한다. (미확인 사항)</span>
+  </div>
+</details>
+
+<details>
+  <summary>효모 7종 비교표 · 선택 기준</summary>
+  <div class="dbody">
+    <p>캠벨(색·탄닌 없음, 산 낮음) + 아로니아(탄닌 강함) 조합의 선택 기준 — ① 색소를 덜 흡착할 것 ② 바디를 채워줄 것 ③ 사과산을 깎지 말 것.</p>
+    <p class="swipe">← 옆으로 밀어서 보세요</p>
+    <div class="tw scroll"><table>
+      <thead><tr><th>효모</th><th>성격</th><th>색소 흡착</th><th>영양 요구</th><th>알코올 내성</th><th>적합도</th></tr></thead>
+      <tbody>
+        <tr><td>Lalvin BM4×4</td><td>다당류 다량 분비 → 바디·부드러움, 색 안정성 우수. 중간 속도, 안정적</td><td>낮음</td><td>중간</td><td>16%</td><td>★★★★★</td></tr>
+        <tr><td>Lalvin BDX</td><td>보르도 분리주. 색·탄닌 구조 강조, 황화수소 발생 적음. 느린 편</td><td>낮음</td><td>중간</td><td>16%</td><td>★★★★★</td></tr>
+        <tr><td>Lalvin RC212</td><td>부르고뉴. 폴리페놀 추출 최대, 향 복합도 높음. 영양 부족 시 계란 썩는 냄새 잘 남</td><td>매우 낮음</td><td>높음</td><td>16%</td><td>★★★★☆</td></tr>
+        <tr><td>ICV D21</td><td>떫은맛·풋내를 깎아줌. 아로니아 탄닌이 거칠 때 유용</td><td>낮음</td><td>중간~높음</td><td>16%</td><td>★★★★☆</td></tr>
+        <tr><td>ICV D254</td><td>진한 과실향·두터운 바디, 발효 빠름</td><td>중간</td><td>높음</td><td>16%</td><td>★★★☆☆</td></tr>
+        <tr><td>Lalvin EC-1118</td><td>만능·강건, 재발효·정체 복구용. 향과 색을 깎아먹음</td><td>높음</td><td>낮음</td><td>18%</td><td>★★☆☆☆ 주력 부적합</td></tr>
+        <tr><td>Lalvin 71B-1122 (원래)</td><td>과실향 살림, 사과산 20~40% 분해</td><td>중간~높음</td><td>낮음</td><td>14%</td><td>★★☆☆☆ 교체 권장</td></tr>
+      </tbody>
+    </table></div>
+    <span class="n"><b>71B를 빼는 이유 —</b> 캠벨은 원래 산이 낮다. 71B가 사과산까지 깎으면 술이 물러지고, 산이 낮으면 pH가 올라가 안토시아닌이 붉은색이 아니라 칙칙한 자주·회색으로 보인다. 색이 목적인 이번 배치와 정면으로 어긋난다.</span>
+    <p><strong>투입량</strong> — 5 g은 과량. 통상 20~30 g/hL이고 이 배치의 머스트는 약 8 L이므로 <strong>주효모 1.6~2.4 g(→ 2 g)</strong>이 적정. 2종 복합 시 마무리 효모 1 g은 별도이며 합계 3 g.</p>
+    <span class="n">아로니아 폴리페놀이 효모를 억제할 수 있으므로 알코올 내성 16% 이상 균주를 고른다. 활성화는 균주별로 따로 한다.</span>
+  </div>
+</details>
+
+<details>
+  <summary>효모 복합 방식 — 이 배치는 B</summary>
+  <div class="dbody">
+    <p>동시 투입보다 <strong>시차 투입이 훨씬 안전</strong>하다. 동시에 넣으면 한쪽이 다른 쪽을 눌러 결국 1종만 발효한 것과 같아진다. 특히 EC-1118은 킬러 효모라 다른 균주를 죽인다.</p>
+    <h3>방식 B — 색·구조 담당 + 마무리 담당 (★ 이 배치 추천)</h3>
     <ul>
-      <li>활성화는 균주별로 따로 합니다. <strong>Go-Ferm을 쓸 때는 43℃ 물 50 ml에 Go-Ferm을 먼저 녹이고 40℃까지 식힌 뒤 효모를 투입</strong>하고, Go-Ferm 없이 할 때는 <strong>38~40℃ 미온수 20 ml</strong>에 효모만 뿌립니다. 어느 쪽이든 20분 정치 후, 머스트를 조금씩 섞어 <strong>온도차 10℃ 이내</strong>로 낮춘 뒤 투입합니다. 온도차가 크면 그 자리에서 절반이 죽습니다.</li>
-      <li>아로니아 폴리페놀이 효모를 억제할 수 있으므로 알코올 내성 16% 이상 균주를 고르세요.</li>
+      <li>D3: BDX 또는 RC212 <strong>2 g</strong></li>
+      <li>브릭스 5 이하 (D9~D10경): EC-1118 <strong>1 g</strong></li>
+      <li>앞 효모가 색·탄닌·향을 다 만든 뒤 EC-1118이 남은 당을 확실히 끝낸다. 이 시점엔 향·색이 이미 형성돼 EC-1118의 단점이 거의 안 나타난다.</li>
+      <li>되당을 계획하므로 <strong>잔당 완전 소진</strong>이 특히 중요하다. 이 조합이 그 보험이다.</li>
     </ul>
-    <p class="totop"><a href="#top">↑ 맨 위로</a></p>
-  </section>
+    <details>
+      <summary>방식 A — 비-사카로마이세스 → 주효모 (바디·복합도 최대)</summary>
+      <div class="dbody">
+        <ul>
+          <li>D3 (당도 조정 직후): Torulaspora delbrueckii (Biodiva 등) 1.5 g</li>
+          <li>D3 + 48시간: BM4×4 2 g</li>
+          <li>T. delbrueckii는 알코올을 6~7%까지만 만들지만 그 사이 글리세롤·다당류를 만들어 바디와 질감을 크게 올린다.</li>
+        </ul>
+        <span class="n">반드시 48시간 안에 주효모 투입. 늦으면 발효 정체·초산균 오염.</span>
+      </div>
+    </details>
+    <details>
+      <summary>방식 C — 동시 접종</summary>
+      <div class="dbody">
+        <ul>
+          <li>D3: BM4×4 1.2 g + D21 1.2 g 동시</li>
+          <li>역할 분담은 되지만 어느 쪽이 우세할지 예측 불가 — 재현성은 기대하지 말 것.</li>
+        </ul>
+        <span class="n">EC-1118·Uvaferm 43 같은 킬러 균주는 절대 동시 접종 금지.</span>
+      </div>
+    </details>
+  </div>
+</details>
 
-  <!-- 4 -->
-  <section id="s4">
-    <h2 class="sec">4. 효모영양제 — 지금 레시피의 가장 큰 문제</h2>
-
-    <div class="warn hard">
-      <p>⚠️ <strong>Fermaid-K 6 g × 2회 = 총 12 g은 심각한 과량입니다.</strong> 머스트 약 8 L 기준 150 g/hL로, 통상 권장(25~50 g/hL, 총 2~4 g)의 <strong>3~6배</strong>입니다.</p>
-    </div>
-
+<details>
+  <summary>영양제 3종 — 역할과 과량 문제</summary>
+  <div class="dbody">
+    <p><strong>Fermaid-K 6 g × 2회 = 총 12 g은 심각한 과량이다.</strong> 머스트 약 8 L 기준 150 g/hL로, 통상 권장(25~50 g/hL, 총 2~4 g)의 <strong>3~6배</strong>.</p>
     <p><strong>과량의 결과</strong></p>
     <ul>
-      <li>Fermaid-K에는 무기질소(DAP, 인산이암모늄)가 들어 있어 발효가 폭주 → 온도 급상승, 향 성분 휘발</li>
-      <li>효모가 다 못 먹은 질소가 잔류 → 잡균·오염에 취약, 병입 후 불안정</li>
+      <li>무기질소(DAP, 인산이암모늄)로 발효 폭주 → 온도 급상승, 향 성분 휘발</li>
+      <li>못 먹은 질소가 잔류 → 잡균·오염에 취약, 병입 후 불안정</li>
       <li>에틸카바메이트(요소 유래) 전구체 증가 우려</li>
       <li>짠맛·쓴맛 계열의 이취</li>
     </ul>
-
-    <div class="warn">
-      <p>⚠️ <strong>투입 시점도 틀렸습니다.</strong> 1차를 효모와 동시에(D0) 넣으면 초반에 질소가 다 소모돼 정작 필요한 발효 후반에 부족해집니다. 이때 효모가 스트레스를 받아 <strong>황화수소(계란 썩는 냄새)</strong>를 만듭니다. 정석은 <strong>당이 1/3 소진됐을 때</strong>입니다.</p>
-    </div>
-
-    <h3>영양제 3종 — 역할이 다릅니다</h3>
-
-    <div class="tw">
-      <table class="card">
-        <thead>
-          <tr><th scope="col">제품</th><th scope="col">정체</th><th scope="col">언제</th><th scope="col">이 배치 투입량</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Go-Ferm / Go-Ferm Protect</strong></td>
-            <td data-l="정체">비활성 효모 유래 미네랄·비타민. <strong>활성화 물에 타는 것</strong>(머스트에 넣지 않음)</td>
-            <td data-l="언제">효모 리하이드레이션 시</td>
-            <td data-l="이 배치 투입량">효모 무게의 1.25배 = <strong>2.5 g</strong>을 40 ml 물에</td>
-          </tr>
-          <tr>
-            <td><strong>Fermaid O</strong></td>
-            <td data-l="정체">유기질소(효모 자가분해물). DAP 없음. 향에 부드럽고 후반 지속력 좋음</td>
-            <td data-l="언제">당 1/3 소진 시</td>
-            <td data-l="이 배치 투입량"><strong>1.5 g</strong></td>
-          </tr>
-          <tr>
-            <td><strong>Fermaid K</strong></td>
-            <td data-l="정체">유기+무기(DAP) 복합. 강력하지만 거칠 수 있음</td>
-            <td data-l="언제">당 1/3~2/3 사이</td>
-            <td data-l="이 배치 투입량"><strong>1 g</strong></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
+    <table class="card">
+      <thead><tr><th>제품</th><th>정체</th><th>언제</th><th>이 배치 투입량</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Go-Ferm / Go-Ferm Protect</strong></td><td data-l="정체">비활성 효모 유래 미네랄·비타민. <strong>활성화 물에 타는 것</strong>(머스트에 넣지 않음)</td><td data-l="언제">효모 리하이드레이션 시</td><td data-l="이 배치 투입량">효모 무게의 1.25배 = <strong>2.5 g</strong>을 50 ml 물에</td></tr>
+        <tr><td><strong>Fermaid O</strong></td><td data-l="정체">유기질소(효모 자가분해물). DAP 없음. 향에 부드럽고 후반 지속력 좋음</td><td data-l="언제">당 1/3 소진 시</td><td data-l="이 배치 투입량"><strong>1.5 g</strong></td></tr>
+        <tr><td><strong>Fermaid K</strong></td><td data-l="정체">유기+무기(DAP) 복합. 강력하지만 거칠 수 있음</td><td data-l="언제">당 1/3~2/3 사이</td><td data-l="이 배치 투입량"><strong>1 g</strong></td></tr>
+      </tbody>
+    </table>
     <h3>권장안 (셋 중 하나)</h3>
-
-    <div class="method pick">
-      <h4>① 최선 — 3단 구성</h4>
-      <ol>
-        <li>Go-Ferm Protect 2.5 g → 효모 활성화 물(43℃ 40 ml)에 먼저 녹인 뒤 효모 투입</li>
-        <li>Fermaid O 1.5 g → 브릭스가 23 → 약 15로 떨어졌을 때(당 1/3 소진)</li>
-        <li>Fermaid K 1 g → 브릭스 약 8일 때(당 2/3 소진)</li>
-      </ol>
-    </div>
-
-    <div class="method">
-      <h4>② 현실안 — Fermaid-K만 있을 때</h4>
-      <ol>
-        <li>브릭스 약 15일 때 <strong>1.5 g</strong></li>
-        <li>브릭스 약 8일 때 <strong>1 g</strong></li>
-        <li><strong>D0(효모 투입 시)에는 넣지 않습니다.</strong></li>
-      </ol>
-    </div>
-
-    <div class="method">
-      <h4>③ RC212를 쓸 경우 — 증량</h4>
-      <ul>
-        <li>위 ① 또는 ②에서 각 회차를 1.5배로. RC212는 영양 요구가 높아 부족하면 반드시 황화수소가 납니다.</li>
-      </ul>
-    </div>
-
-    <div class="warn hard">
-      <p>⚠️ <strong>당이 2/3 이상 소진된 뒤에는 절대 넣지 마세요.</strong> 효모가 더 이상 흡수하지 못해 그대로 잔류하고, 오염과 이취의 원인이 됩니다.</p>
-      <p>⚠️ 영양제는 반드시 소량의 머스트에 개어 슬러리로 만든 뒤 투입하고, 넣은 직후 펀치다운을 합니다. 가루째 뿌리면 뭉치고 거품이 넘칩니다.</p>
-    </div>
-    <p class="totop"><a href="#top">↑ 맨 위로</a></p>
-  </section>
-
-  <!-- 5 -->
-  <section id="s5">
-    <h2 class="sec">5. 개정 재료표 (10 kg 배치)</h2>
-    <div class="tw">
-      <table class="card">
-        <thead>
-          <tr><th scope="col">재료</th><th scope="col">수량</th><th scope="col">비고</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>캠벨포도 (세척·제경 후)</td><td data-l="수량">10 kg</td><td data-l="비고">—</td></tr>
-          <tr><td>목질화된 포도 줄기</td><td data-l="수량">120 g</td><td data-l="비고">제경분에서 갈색인 것만 선별, 초록 줄기 폐기</td></tr>
-          <tr><td>아로니아 생과 (냉동 가능)</td><td data-l="수량">1.5 kg</td><td data-l="비고">없으면 건조 아로니아 300~400 g을 미온수에 30분 불려 사용</td></tr>
-          <tr><td>아로니아청</td><td data-l="수량">브릭스 맞출 만큼 (약 0.6~0.9 kg 예상)</td><td data-l="비고">실측값으로 조정</td></tr>
-          <tr><td>메타중아황산칼륨(KMS)</td><td data-l="수량">0.7 g</td><td data-l="비고">초기. 랙킹 때 별도 소량 추가</td></tr>
-          <tr><td>와인효모 Lalvin BDX</td><td data-l="수량">2 g</td><td data-l="비고">D3 투입</td></tr>
-          <tr><td>와인효모 Lalvin EC-1118</td><td data-l="수량">1 g</td><td data-l="비고">브릭스 5 이하에서 투입</td></tr>
-          <tr><td>효소제 (펙티나아제 복합제)</td><td data-l="수량">0.3 g</td><td data-l="비고">—</td></tr>
-          <tr><td>Go-Ferm Protect</td><td data-l="수량">2.5 g + 1.25 g</td><td data-l="비고">BDX용 2.5 g, EC-1118용 1.25 g</td></tr>
-          <tr><td>Fermaid O</td><td data-l="수량">1.5 g</td><td data-l="비고">브릭스 15에서</td></tr>
-          <tr><td>Fermaid K</td><td data-l="수량">1 g</td><td data-l="비고">브릭스 8에서</td></tr>
-          <tr><td>(되당용) 아로니아청</td><td data-l="수량">마무리 시 별도</td><td data-l="비고">—</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="totop"><a href="#top">↑ 맨 위로</a></p>
-  </section>
-
-  <!-- 6 -->
-  <section id="s6">
-    <h2 class="sec">6. 일자별 공정</h2>
-
-    <ol class="tl">
-      <li>
-        <p class="day">D0 — 파쇄 및 아황산 처리</p>
-        <ol>
-          <li>캠벨 세척·제경. 제경분에서 갈색으로 목질화된 줄기만 120 g 선별(제경하고 나온 줄기의 약 1/3 분량입니다. 초록 줄기 폐기).</li>
-          <li>포도를 손이나 크러셔로 <strong>가볍게</strong> 파쇄 — 씨가 깨지지 않게. 씨가 깨지면 쓴맛이 아니라 거친 잡미가 납니다.</li>
-          <li>아로니아 생과 1.5 kg도 가볍게 파쇄해 함께 투입. 선별한 줄기 120 g 투입.</li>
-          <li>KMS 0.7 g을 소량의 물에 녹여 전체에 고루 뿌리고 섞는다.</li>
-          <li>15~18℃ 서늘한 곳에서 뚜껑 덮고 정치.</li>
-        </ol>
-      </li>
-
-      <li>
-        <p class="day">D0 + 1~2시간 — 효소 투입</p>
-        <ol start="6">
-          <li>효소제 0.3 g을 미온수 20 ml에 풀어 표면에 고루 뿌리고 가볍게 섞는다.</li>
-        </ol>
-      </li>
-
-      <li class="key">
-        <p class="day">D1~D3 — 저온 침용 (cold soak)</p>
-        <span class="tag">★ 색이 결정되는 구간</span>
-        <ol start="7">
-          <li>15℃ 이하를 유지하며 3일간 발효 없이 담가둔다. 하루 2회 캡을 부드럽게 눌러준다.</li>
-          <li>안토시아닌은 수용성이라 알코올 없이도 이 단계에서 뽑힙니다. 온도 유지가 어려우면 냉장고·아이스팩 사용. 2일도 무방.</li>
-        </ol>
-      </li>
-
-      <li>
-        <p class="day">D3 — 당도 조정 및 효모 접종</p>
-        <ol start="9">
-          <li>당도계로 브릭스 측정(아로니아 생과가 들어가 초기값이 달라집니다). 목표 23브릭스까지 아로니아청을 소량씩 나눠 넣으며 섞고 재측정 반복.</li>
-          <li><strong>43℃ 물 50 ml</strong>에 Go-Ferm Protect 2.5 g을 완전히 풀어준다. 그대로 두어 <strong>40℃까지 식으면</strong> BDX 2 g을 표면에 뿌리고, 저어주지 말고 <strong>20분간</strong> 그대로 둔다.</li>
-          <li>20분 뒤 가볍게 저어 균일하게 하고, 머스트를 한 국자씩 5분 간격으로 섞어 넣어 <strong>온도차가 10℃ 이내</strong>가 되면 발효조에 투입한다. 면포로 덮는다.</li>
-          <li><strong>이 시점에 영양제는 넣지 않습니다.</strong></li>
-        </ol>
-        <div class="warn">
-          <p>⚠️ 효모액과 머스트의 온도차가 10℃를 넘으면 그 자리에서 효모의 상당수가 죽습니다(저온 쇼크). 급하다고 바로 붓지 마세요.</p>
-        </div>
-      </li>
-
-      <li>
-        <p class="day">D4~D8 — 주발효</p>
-        <ol start="13">
-          <li>24~26℃ 유지. 하루 3회 캡(껍질층)을 눌러 섞는다(펀치다운).</li>
-          <li>브릭스가 약 15로 떨어지면(당 1/3 소진) <strong>Fermaid O 1.5 g</strong> 투입 — 소량의 머스트에 개어 슬러리로.</li>
-          <li>브릭스가 약 8로 떨어지면(당 2/3 소진) <strong>Fermaid K 1 g</strong> 투입.</li>
-          <li>매일 브릭스·온도 기록.</li>
-        </ol>
-      </li>
-
-      <li class="key">
-        <p class="day">D9~D12 — 후반 온도 상승</p>
-        <span class="tag">★ 쓴맛·탄닌 구간</span>
-        <ol start="17">
-          <li>브릭스 5 이하에서 <strong>온도를 28~30℃까지 올린다.</strong> 씨 탄닌은 알코올 농도와 온도가 같이 올라가야 나옵니다.</li>
-          <li>같은 시점에 <strong>EC-1118 1 g</strong>을 활성화해 투입한다(방식 B). 43℃ 물 25 ml + Go-Ferm Protect 1.25 g으로 위 10~11번과 같은 방식으로 활성화한다.</li>
-          <li>펀치다운은 하루 2회로 줄인다. 과도하면 거칠어집니다.</li>
-        </ol>
-      </li>
-
-      <li class="key">
-        <p class="day">D13~D16 — 연장 침용 (extended maceration)</p>
-        <span class="tag">★ 가장 중요한 구간</span>
-        <ol start="20">
-          <li>브릭스가 0 이하(당 소진)에 도달해도 <strong>바로 압착하지 말고</strong> 껍질·씨·줄기를 그대로 3~4일 더 담가둡니다.</li>
-          <li>이 기간엔 뚜껑을 밀폐하고(산화 방지) 펀치다운은 하루 1회 이하 또는 중단.</li>
-          <li><strong>매일 맛을 봅니다.</strong> 떫은맛이 원하는 수준에 도달하면 즉시 다음 단계로. <strong>지나치면 되돌릴 수 없습니다</strong> — 이것이 쓴맛을 조절하는 유일한 다이얼입니다.</li>
-        </ol>
-      </li>
-
-      <li>
-        <p class="day">D17 — 압착 및 앙금 분리</p>
-        <ol start="23">
-          <li>체·면포로 껍질을 걸러내고 <strong>가볍게만</strong> 압착. 강하게 짜면 거친 탄닌과 이물이 같이 나옵니다.</li>
-          <li>용기에 옮겨 밀폐, 12~15℃에서 정치.</li>
-        </ol>
-      </li>
-
-      <li>
-        <p class="day">D20~D35 — 청징 및 안정화</p>
-        <ol start="25">
-          <li>앙금이 가라앉으면 랙킹(윗물만 옮겨담기) 1차. 약 2주 뒤 2차 랙킹.</li>
-          <li>랙킹 시 KMS를 소량(10 L당 약 0.3~0.5 g) 추가해 산화를 막습니다.</li>
-        </ol>
-      </li>
-
-      <li>
-        <p class="day">D35 이후 — 되당 (2차 랙킹 완료 후)</p>
-        <ol start="27">
-          <li><strong>방법 A (첨가물 사용)</strong>: 소르빈산칼륨 + KMS로 재발효를 잠근 뒤 아로니아청으로 원하는 당도까지 가당. 설탕물 대신 아로니아청을 쓰면 색이 조금 더 진해집니다(탄닌 기여는 거의 없습니다). 소르빈산칼륨은 과실주에 사용 가능한 보존료지만 사용량 상한이 정해져 있으니 식품첨가물 공전 기준을 확인해 지키세요. (정확한 수치 미확인)</li>
-          <li><strong>방법 B (첨가물 없이)</strong>: 되당 후 병입해 60~65℃에서 20~30분 저온살균하고 냉장 보관. 첨가물 없이 재발효를 막는 대신 향이 다소 무뎌지고 냉장 유통이 전제됩니다.</li>
-          <li class="warn-item">⚠️ 어느 쪽이든 <strong>가당은 병입 직전에, 발효가 완전히 끝난 것을 확인한 뒤에만.</strong> 당이 남은 상태로 병입하면 병 안에서 재발효해 병이 터집니다.</li>
-        </ol>
-      </li>
+    <ol>
+      <li><strong>① 최선 — 3단 구성</strong>: Go-Ferm Protect 2.5 g(43℃ 50 ml 활성화 물) → 브릭스 23→15에서 Fermaid O 1.5 g → 브릭스 약 8에서 Fermaid K 1 g</li>
+      <li><strong>② 현실안 — Fermaid-K만 있을 때</strong>: 브릭스 약 15에서 1.5 g, 브릭스 약 8에서 1 g. D0(효모 투입 시)에는 넣지 않는다</li>
+      <li><strong>③ RC212를 쓸 경우</strong>: ① 또는 ②의 각 회차를 1.5배로. 영양 요구가 높아 부족하면 반드시 황화수소가 난다</li>
     </ol>
-    <p class="totop"><a href="#top">↑ 맨 위로</a></p>
-  </section>
+  </div>
+</details>
 
-  <!-- 7 -->
-  <section id="s7">
-    <h2 class="sec">7. 목표별 기여도 정리</h2>
-    <div class="tw">
-      <table class="card">
-        <thead>
-          <tr><th scope="col">목표</th><th scope="col">담당 조치</th><th scope="col">기여도</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>안토시아닌 ↑</td><td data-l="담당 조치">아로니아 생과 1.5 kg + 저온침용 3일 + 아황산 감량</td><td data-l="기여도">가장 큼</td></tr>
-          <tr><td>탄닌 ↑</td><td data-l="담당 조치">연장침용 3~4일 + 줄기 120 g(제경분의 약 1/3) + 후반 온도 상승</td><td data-l="기여도">가장 큼</td></tr>
-          <tr><td>쓴맛 ↑</td><td data-l="담당 조치">씨 접촉 연장 + 줄기 (매일 시음으로 조절)</td><td data-l="기여도">큼</td></tr>
-          <tr><td>단맛 ↑</td><td data-l="담당 조치">발효 완료 후 아로니아청 되당</td><td data-l="기여도">확실</td></tr>
-          <tr><td>보조</td><td data-l="담당 조치">효소제 0.3 g, 효모 BDX+EC-1118</td><td data-l="기여도">보조</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="totop"><a href="#top">↑ 맨 위로</a></p>
-  </section>
-
-  <!-- 8 -->
-  <section id="s8">
-    <h2 class="sec">8. 마지막 경고</h2>
-    <div class="warn hard">
-      <p>⚠️ <strong>네 가지를 동시에 최대로 올리면 마시기 힘든 술이 됩니다.</strong> 탄닌·쓴맛이 세지면 단맛도 그만큼 올려야 균형이 잡히고, 캠벨은 원래 산이 낮아서 단맛만 올리면 물러집니다.</p>
-    </div>
-    <p class="lead"><strong>연장 침용 기간(D13~D16)에 매일 시음하면서 멈출 지점을 잡는 것이 이 레시피 전체에서 가장 중요한 판단입니다.</strong> 나머지는 다 정해진 수순이지만, 여기만은 혀로 결정해야 합니다.</p>
-    <p class="totop"><a href="#top">↑ 맨 위로</a></p>
-  </section>
-
-  <footer>
-    <p>본 가이드는 가정 양조 실험용 참고자료입니다. 주류 제조·판매는 관련 법령의 허가 대상이며, 개인의 가양주 제조 범위를 벗어난 활동은 사전에 법적 요건을 확인하세요. 효소제·보존료 등 식품첨가물은 식품첨가물 공전의 사용 기준을 따르십시오.</p>
-  </footer>
+<footer>
+  <p>본 가이드는 가정 양조 실험용 참고자료입니다. 주류 제조·판매는 관련 법령의 허가 대상이며, 개인의 가양주 제조 범위를 벗어난 활동은 사전에 법적 요건을 확인하세요. 효소제·보존료 등 식품첨가물은 식품첨가물 공전의 사용 기준을 따르십시오.</p>
+</footer>
 
 </div>
 </body>
