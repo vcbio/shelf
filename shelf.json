@@ -250,11 +250,6 @@
   "date": "2026-08-10"
  },
  {
-  "slug": "semicolony-ot-deck",
-  "title": "세미콜로니 AI 입문 0회차 — 덱 16장",
-  "date": "2026-08-19"
- },
- {
   "slug": "semicolony-ot-prompt",
   "title": "내 소개 안내문 — AI 인터뷰 + 지침 여덟 줄",
   "date": "2026-08-19"
@@ -267,6 +262,11 @@
  {
   "slug": "vcbio-platform-proto",
   "title": "VCBio B2B 플랫폼 프로토타입 (색감 리디자인 260819)",
+  "date": "2026-08-19"
+ },
+ {
+  "slug": "semicolony-ot-deck",
+  "title": "세미콜로니 AI 입문 0회차 — 덱 18장",
   "date": "2026-08-19"
  }
 ]
