@@ -51,7 +51,8 @@
   /* 유령 숫자 전용 — 잉크(8.28:1)로 쓰면 흰 바탕에서 제목보다 무겁고,
      선 색(1.95:1)까지 내리면 밝은 사무실 TV에서 사라진다.
      3.43:1 로 잡아 그래픽 객체 기준선(3:1)을 넘기면서 한 단계 뒤에 앉힌다. */
-  --c-ghost:#B99C8E;
+  --c-ghost:#A88574;   /* 2026-08-19 검증 P2-2: 구 #B99C8E 는 흰 배경 2.56:1 로
+                          대형 텍스트 기준(3:1) 미달이었다. 3.35:1 로 올렸다. */
   /* 2026-08-19 대표 낙점 A(테라코타) — 무채색만 쓰니 «칙칙하고 처진다»는 지적.
      액센트는 번호·강조 문구·표의 강조 칸까지만. 넓히지 말 것(따뜻한 색은
      조금만 넘쳐도 촌스러워진다). 회색 면에도 미세한 웜톤을 섞어 '죽은 회색'을 없앴다.
@@ -418,7 +419,7 @@ h1{ color:var(--c-fg); font-weight:800; text-wrap:balance; }
 .tbb-main{ padding:1.6rem 8rem 0; display:flex; flex-direction:column; justify-content:center; }
 .tbb-foot{
   border-top:.1rem solid var(--c-hair); background:var(--c-panel);
-  padding:2.8rem 8rem 3.6rem;
+  padding:2.8rem 8rem 4rem;
   display:grid; grid-template-columns:1fr 1fr; gap:6.4rem; align-items:end;
 }
 .tbb h1{ font-size:6rem; line-height:1.06; letter-spacing:-.034em; }
@@ -468,6 +469,10 @@ h1{ color:var(--c-fg); font-weight:800; text-wrap:balance; }
 .pager .pgn{ color:var(--c-fg-3); font-variant-numeric:tabular-nums; }
 .pager .ix{ font-size:2rem; border-left:.1rem solid var(--c-hair); padding-left:1.6rem; }
 @media print{ .pager{ display:none; } }
+/* 2026-08-19 검증 P3-3: 표지 하단 띠의 상표 귀속 문구를 페이저가 덮어
+   «각 사의 상표»가 안 읽혔다(라이브는 페이저가 없어 무관하나 로컬 열람 시 문제).
+   표지에서만 페이저를 왼쪽으로 옮겨 문구를 비운다. */
+body:has(#s01) .pager{ right:auto; left:2rem; }
 /* 페이저가 화면 오른쪽 아래를 쓰므로, 하단에 글이 오는 배치는 그만큼 우측을 비운다.
    (2026-08-19: s06 캡션이 페이저에 가려진 것을 렌더에서 확인하고 넣었다.) */
 .tbb-note, .itv-body > .cap, .list.one > .cap{ padding-right:24rem; }
