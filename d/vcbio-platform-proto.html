@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VCBio B2B 플랫폼 — 프로토타입 데모</title>
+<style>
+/* ================================================================
+   VCBio B2B Platform — clickable prototype (single file, offline)
+   Palette: 브이씨바이오 정본 (발표자료 260819 CSS 변수 승계)
+   ================================================================ */
+
+:root{
+  /* brand tokens */
+  --charcoal:#1C1C1A;
+  --warm-cream:#F2F0EB;
+  --deep-green:#1E3932;
+  --accent-green:#2E7D5B;
+  --accent-green-light:#3D9970;
+  --grain-beige:#C9BCA4;
+  --muted-gold:#B8954A;
+
+  /* semantic surfaces */
+  --surface:#FFFFFF;
+  --surface-2:#FAF9F6;
+  --page:#F2F0EB;
+  --line:rgba(30,57,50,.16);
+  --line-soft:rgba(30,57,50,.10);
+
+  --ink:rgba(0,0,0,.87);
+  --ink-2:rgba(0,0,0,.62);
+  --ink-3:rgba(0,0,0,.45);
+  --on-dark:#F2F0EB;
+  --on-dark-2:rgba(242,240,235,.62);
+
+  --accent-green-dark:#256A4D;
+  --deep-green-dark:#162B25;
+  --badge-ink:#215B43;
+  --badge-gold-ink:#7C6224;
+  --ok:#2E7D5B;
+  --warn:#B8954A;
+  --danger:#9C3B2E;
+
+  --r-sm:6px; --r:8px; --r-lg:12px;
+  --sh-1:0 1px 2px rgba(28,28,26,.06), 0 1px 1px rgba(28,28,26,.04);
+  --sh-2:0 4px 14px rgba(28,28,26,.08), 0 1px 3px rgba(28,28,26,.05);
+  --gnb-h:64px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{
+  font-family:Pretendard,"Pretendard Variable",-apple-system,BlinkMacSystemFont,
+              "Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  background:var(--page); color:var(--ink);
+  font-size:15px; line-height:1.6;
+  font-variant-numeric:tabular-nums;
+}
+button,input,select,textarea{font:inherit;color:inherit}
+button{background:none;border:0;cursor:pointer}
+ul,ol{list-style:none}
+[hidden]{display:none !important}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--accent-green-light);outline-offset:2px;border-radius:4px}
+
+/* ---------------- demo ribbon ---------------- */
+.demo-bar{
+  background:var(--deep-green); color:var(--grain-beige);
+  font-size:13px; letter-spacing:.02em; text-align:center;
+  padding:7px 16px; border-bottom:1px solid rgba(242,240,235,.12);
+}
+.demo-bar b{color:var(--warm-cream);font-weight:600}
+
+/* ---------------- GNB ---------------- */
+.gnb{
+  position:sticky; top:0; z-index:100;
+  background:var(--charcoal); color:var(--on-dark);
+  border-bottom:1px solid rgba(242,240,235,.10);
+}
+.gnb-in{
+  max-width:1520px; margin:0 auto; height:var(--gnb-h);
+  padding:0 32px; display:flex; align-items:center; gap:40px;
+}
+.brand{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:700;letter-spacing:.02em}
+.brand .mark{
+  width:28px;height:28px;border-radius:7px;
+  background:linear-gradient(135deg,var(--accent-green-dark),var(--deep-green));
+  display:grid;place-items:center;font-size:14px;font-weight:700;color:var(--warm-cream);
+  letter-spacing:0;
+}
+.brand small{
+  font-size:13px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--grain-beige); padding-left:8px; border-left:1px solid rgba(242,240,235,.2);
+  align-self:center;
+}
+.gnb-nav{display:flex;gap:4px;flex:1}
+.gnb-nav button{
+  position:relative; padding:0 16px; height:44px; min-width:44px; border-radius:var(--r-sm);
+  font-size:15px; font-weight:500; color:rgba(242,240,235,.72);
+  transition:color .16s ease, background .16s ease;
+}
+.gnb-nav button:hover{color:var(--warm-cream);background:rgba(242,240,235,.07)}
+.gnb-nav button[aria-current="page"]{color:var(--warm-cream);font-weight:600}
+.gnb-nav button[aria-current="page"]::after{
+  content:"";position:absolute;left:16px;right:16px;bottom:-11px;height:2px;
+  background:var(--accent-green-light);border-radius:2px;
+}
+.gnb-right{display:flex;align-items:center;gap:14px}
+.icon-btn{
+  width:40px;height:40px;border-radius:var(--r-sm);display:grid;place-items:center;
+  color:rgba(242,240,235,.7);position:relative;transition:background .16s ease
+}
+.icon-btn:hover{background:rgba(242,240,235,.08);color:var(--warm-cream)}
+.icon-btn .dot{
+  position:absolute;top:8px;right:9px;width:7px;height:7px;border-radius:50%;
+  background:var(--muted-gold);border:2px solid var(--charcoal)
+}
+.acct{display:flex;align-items:center;gap:10px;padding-left:14px;border-left:1px solid rgba(242,240,235,.14)}
+.avatar{
+  width:32px;height:32px;border-radius:50%;background:var(--deep-green);
+  color:var(--grain-beige);display:grid;place-items:center;font-size:13px;font-weight:600
+}
+.acct-txt{line-height:1.25}
+.acct-txt b{display:block;font-size:14px;font-weight:600;color:var(--warm-cream)}
+.acct-txt span{font-size:12px;color:var(--on-dark-2)}
+
+/* ---------------- layout ---------------- */
+.wrap{max-width:1520px;margin:0 auto;padding:32px}
+.view{display:none;animation:fade .28s ease both}
+.view.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:22px}
+.eyebrow{
+  font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent-green);display:block;margin-bottom:8px
+}
+h1.page-title{font-size:29px;font-weight:700;letter-spacing:-.01em;color:var(--deep-green);line-height:1.3}
+.page-sub{font-size:15px;color:var(--ink-2);margin-top:6px;max-width:78ch}
+
+.grid{display:grid;gap:20px}
+.g-3{grid-template-columns:repeat(3,1fr)}
+.g-4{grid-template-columns:repeat(4,1fr)}
+.g-2-1{grid-template-columns:minmax(0,2fr) minmax(0,1fr)}
+.g-1-2{grid-template-columns:minmax(0,340px) minmax(0,1fr)}
+
+.card{
+  background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r-lg);
+  box-shadow:var(--sh-1);
+}
+.card-pad{padding:24px}
+.card-head{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:18px 24px;border-bottom:1px solid var(--line-soft)
+}
+.card-head h2,.card-head h3{font-size:17px;font-weight:600;color:var(--deep-green);letter-spacing:-.005em}
+.card-head .hint{font-size:13px;color:var(--ink-3)}
+
+/* ---------------- buttons ---------------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  height:44px;padding:0 20px;border-radius:var(--r);font-size:15px;font-weight:600;
+  border:1px solid transparent;transition:background .16s ease,border-color .16s ease,transform .1s ease;
+  white-space:nowrap;
+}
+.btn:active{transform:scale(.985)}
+.btn-primary{background:var(--accent-green);color:var(--surface)}
+.btn-primary:hover{background:var(--accent-green-dark)}
+.btn-dark{background:var(--deep-green);color:var(--warm-cream)}
+.btn-dark:hover{background:var(--deep-green-dark)}
+.btn-ghost{border-color:var(--line);color:var(--deep-green);background:var(--surface)}
+.btn-ghost:hover{background:rgba(30,57,50,.05)}
+.btn-quiet{color:var(--ink-2);padding:0 12px}
+.btn-quiet:hover{color:var(--deep-green);background:rgba(30,57,50,.05)}
+.btn-lg{height:52px;padding:0 28px;font-size:16px}
+.btn-sm{height:36px;padding:0 14px;font-size:14px;font-weight:500}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+
+/* ---------------- badges / chips ---------------- */
+.badge{
+  display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;
+  border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.01em;
+  background:rgba(46,125,91,.10);color:var(--badge-ink);border:1px solid rgba(46,125,91,.2)
+}
+.badge.gold{background:rgba(184,149,74,.12);color:var(--badge-gold-ink);border-color:rgba(184,149,74,.28)}
+.badge.grey{background:rgba(30,57,50,.06);color:var(--ink-2);border-color:var(--line-soft)}
+.badge.red{background:rgba(156,59,46,.10);color:var(--danger);border-color:rgba(156,59,46,.24)}
+.badge.solid{background:var(--deep-green);color:var(--warm-cream);border-color:var(--deep-green)}
+.chip{
+  display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 14px;border-radius:999px;
+  background:rgba(30,57,50,.05);border:1px solid var(--line-soft);
+  font-size:14px;font-weight:500;color:var(--deep-green)
+}
+.chip b{font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+
+/* ---------------- home hero ---------------- */
+.hero{
+  position:relative;overflow:hidden;border-radius:var(--r-lg);
+  background:
+    radial-gradient(900px 420px at 88% -10%, rgba(61,153,112,.30), transparent 60%),
+    linear-gradient(135deg,#1E3932 0%, #16302A 48%, #1C1C1A 100%);
+  color:var(--on-dark);padding:56px 56px 48px;
+}
+.hero::after{
+  content:"";position:absolute;right:-90px;bottom:-140px;width:420px;height:420px;
+  border-radius:50%;border:1px solid rgba(242,240,235,.10)
+}
+.hero::before{
+  content:"";position:absolute;right:30px;bottom:-60px;width:240px;height:240px;
+  border-radius:50%;border:1px solid rgba(201,188,164,.14)
+}
+.hero-in{position:relative;z-index:1;max-width:760px}
+.hero .eyebrow{color:var(--grain-beige)}
+.hero h2{font-size:44px;font-weight:700;line-height:1.24;letter-spacing:-.02em}
+.hero h2 em{font-style:normal;color:var(--accent-green-light)}
+.hero p{font-size:17px;line-height:1.65;color:var(--grain-beige);margin-top:18px;max-width:60ch}
+.hero-cta{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
+.hero .btn-ghost{background:transparent;border-color:rgba(242,240,235,.34);color:var(--warm-cream)}
+.hero .btn-ghost:hover{background:rgba(242,240,235,.10)}
+.hero-note{margin-top:22px;font-size:13px;color:rgba(242,240,235,.5)}
+
+/* trust bar */
+.trust{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:var(--line-soft);border:1px solid var(--line-soft);
+  border-radius:var(--r-lg);overflow:hidden;margin-top:20px
+}
+.trust div{background:var(--surface);padding:22px 24px}
+.trust dt{font-size:13px;color:var(--ink-3);margin-bottom:8px;font-weight:500}
+.trust dd{font-size:30px;font-weight:700;color:var(--deep-green);letter-spacing:-.02em;line-height:1.1}
+.trust dd small{font-size:15px;font-weight:600;color:var(--ink-2);margin-left:3px}
+
+/* section title */
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:20px;margin:36px 0 16px}
+.sec-head h3{font-size:20px;font-weight:700;color:var(--deep-green);letter-spacing:-.01em}
+.sec-head p{font-size:14px;color:var(--ink-3);margin-top:4px}
+
+/* maker preview card */
+.maker{
+  display:flex;flex-direction:column;gap:14px;padding:22px;
+  border:1px solid var(--line-soft);border-radius:var(--r-lg);background:var(--surface);
+  box-shadow:var(--sh-1);transition:box-shadow .18s ease,border-color .18s ease,transform .18s ease
+}
+.maker:hover{box-shadow:var(--sh-2);border-color:rgba(46,125,91,.34);transform:translateY(-2px)}
+.maker-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.maker-id{display:flex;align-items:center;gap:12px}
+.maker-logo{
+  width:44px;height:44px;border-radius:10px;display:grid;place-items:center;
+  background:rgba(30,57,50,.07);color:var(--deep-green);font-size:16px;font-weight:700
+}
+.maker-id b{display:block;font-size:16.5px;font-weight:700;color:var(--deep-green);letter-spacing:-.005em}
+.maker-id span{font-size:13px;color:var(--ink-3)}
+.rate{text-align:right;line-height:1.1}
+.rate b{font-size:24px;font-weight:700;color:var(--accent-green);letter-spacing:-.02em}
+.rate span{display:block;font-size:13px;color:var(--ink-3);letter-spacing:.06em;margin-top:3px}
+.bar{height:5px;border-radius:3px;background:rgba(30,57,50,.09);overflow:hidden}
+.bar i{display:block;height:100%;width:100%;border-radius:3px;transform-origin:left center;
+  background:linear-gradient(90deg,var(--accent-green),var(--accent-green-light));
+  transition:transform .7s cubic-bezier(.22,1,.36,1)}
+.maker-meta{display:flex;flex-wrap:wrap;gap:8px}
+.kv{display:flex;justify-content:space-between;font-size:14px;padding:7px 0;border-top:1px dashed var(--line-soft)}
+.kv dt{color:var(--ink-3)}
+.kv dd{font-weight:600;color:var(--ink)}
+
+/* insight list */
+.feed li{display:flex;gap:14px;padding:15px 24px;border-bottom:1px solid var(--line-soft);align-items:flex-start}
+.feed li:last-child{border-bottom:0}
+.feed .tag{flex:none;margin-top:2px}
+.feed .txt b{display:block;font-size:15px;font-weight:600;color:var(--ink);line-height:1.45}
+.feed .txt span{font-size:13px;color:var(--ink-3)}
+
+/* flow strip */
+.flow{display:flex;align-items:stretch;gap:0;border:1px solid var(--line-soft);border-radius:var(--r-lg);overflow:hidden;background:var(--surface)}
+.flow div{flex:1;padding:20px;border-right:1px solid var(--line-soft);text-align:center}
+.flow div:last-child{border-right:0}
+.flow span{display:block;font-size:12px;font-weight:700;color:var(--accent-green);letter-spacing:.1em;margin-bottom:8px}
+.flow b{font-size:15.5px;font-weight:600;color:var(--deep-green)}
+.flow p{font-size:13px;color:var(--ink-3);margin-top:5px;line-height:1.45}
+
+/* ---------------- form ---------------- */
+.stepper{display:flex;gap:0;margin-bottom:26px;border-bottom:1px solid var(--line-soft)}
+.stepper button{
+  flex:1;text-align:left;padding:14px 4px 16px;border-bottom:2px solid transparent;
+  color:var(--ink-3);transition:color .16s ease,border-color .16s ease
+}
+.stepper .n{
+  display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;
+  background:rgba(30,57,50,.08);color:var(--ink-3);font-size:13px;font-weight:700;margin-right:9px;
+  vertical-align:middle
+}
+.stepper .l{font-size:15px;font-weight:600;vertical-align:middle}
+.stepper button[data-state="active"]{color:var(--deep-green);border-color:var(--accent-green)}
+.stepper button[data-state="active"] .n{background:var(--accent-green);color:var(--surface)}
+.stepper button[data-state="done"]{color:var(--ink-2)}
+.stepper button[data-state="done"] .n{background:rgba(46,125,91,.16);color:var(--accent-green)}
+
+.field{margin-bottom:22px}
+.field > label,.field .lb{
+  display:block;font-size:14.5px;font-weight:600;color:var(--ink);margin-bottom:9px
+}
+.field .req{color:var(--danger);margin-left:3px}
+.help{font-size:13px;color:var(--ink-3);margin-top:7px;line-height:1.5}
+input[type=text],input[type=number],select,textarea{
+  width:100%;height:46px;padding:0 14px;border:1px solid var(--line);border-radius:var(--r);
+  background:var(--surface);font-size:15px;transition:border-color .16s ease,box-shadow .16s ease
+}
+textarea{height:auto;padding:12px 14px;resize:vertical;min-height:88px;line-height:1.6}
+input:focus,select:focus,textarea:focus{
+  outline:none;border-color:var(--accent-green);box-shadow:0 0 0 3px rgba(46,125,91,.14)
+}
+select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' fill='none' stroke='%23555' stroke-width='1.6' stroke-linecap='round'/></svg>");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+
+.opt-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.opt-grid.c3{grid-template-columns:repeat(3,1fr)}
+.opt{
+  position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  min-height:78px;padding:12px 8px;border:1px solid var(--line);border-radius:var(--r);
+  background:var(--surface);cursor:pointer;text-align:center;
+  transition:border-color .16s ease,background .16s ease,box-shadow .16s ease
+}
+.opt:hover{border-color:rgba(46,125,91,.5);background:rgba(46,125,91,.03)}
+.opt input{position:absolute;opacity:0;width:0;height:0}
+.opt .ic{font-size:19px;line-height:1;color:var(--deep-green)}
+.opt .t{font-size:14.5px;font-weight:600;color:var(--ink)}
+.opt .s{font-size:12px;color:var(--ink-3)}
+.opt:has(input:checked){
+  border-color:var(--accent-green);background:rgba(46,125,91,.07);
+  box-shadow:0 0 0 1px var(--accent-green) inset
+}
+.opt:has(input:focus-visible){outline:2px solid var(--accent-green-light);outline-offset:2px}
+.opt.row{flex-direction:row;justify-content:flex-start;min-height:52px;gap:10px;padding:0 14px}
+.opt.row .t{font-size:14.5px}
+
+.form-nav{display:flex;justify-content:space-between;align-items:center;gap:16px;
+  padding-top:22px;margin-top:6px;border-top:1px solid var(--line-soft)}
+.form-nav .right{display:flex;gap:10px}
+.step-count{font-size:13.5px;color:var(--ink-3);font-weight:500}
+
+.summary-row{display:flex;justify-content:space-between;gap:16px;padding:13px 0;border-bottom:1px solid var(--line-soft)}
+.summary-row:last-child{border-bottom:0}
+.summary-row dt{font-size:14px;color:var(--ink-3)}
+.summary-row dd{font-size:15px;font-weight:600;color:var(--ink);text-align:right;max-width:60%}
+
+.aside-note{
+  background:var(--surface-2);border:1px solid var(--line-soft);border-radius:var(--r-lg);padding:22px
+}
+.aside-note h2.an-h,.aside-note h4{font-size:15px;font-weight:700;color:var(--deep-green);margin-bottom:12px}
+.aside-note li{font-size:13.5px;color:var(--ink-2);line-height:1.65;padding-left:16px;position:relative;margin-bottom:8px}
+.aside-note li::before{content:"";position:absolute;left:0;top:9px;width:5px;height:5px;border-radius:50%;background:var(--accent-green-light)}
+
+/* ---------------- matching loader ---------------- */
+.loader{
+  position:fixed;inset:0;z-index:200;display:none;place-items:center;
+  background:rgba(28,28,26,.62);backdrop-filter:blur(3px)
+}
+.loader.on{display:grid}
+.loader-box{
+  width:420px;background:var(--surface);border-radius:var(--r-lg);padding:30px;box-shadow:var(--sh-2)
+}
+.loader-box h2.ld-h,.loader-box h4{font-size:17px;font-weight:700;color:var(--deep-green);margin-bottom:4px}
+.loader-box p{font-size:13.5px;color:var(--ink-3);margin-bottom:20px}
+.lstep{display:flex;align-items:center;gap:11px;font-size:14.5px;color:var(--ink-3);padding:7px 0}
+.lstep .mk{
+  width:20px;height:20px;border-radius:50%;border:2px solid var(--line);flex:none;
+  display:grid;place-items:center;font-size:13px;color:transparent
+}
+.lstep[data-on="1"]{color:var(--ink)}
+.lstep[data-on="1"] .mk{border-color:var(--accent-green);background:var(--accent-green);color:var(--surface)}
+.lprog{height:4px;border-radius:2px;background:rgba(30,57,50,.09);margin-top:18px;overflow:hidden}
+.lprog i{display:block;height:100%;width:100%;background:var(--accent-green);transform:scaleX(0);
+  transform-origin:left center;transition:transform .35s linear}
+
+/* ---------------- table ---------------- */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14.5px}
+th{
+  text-align:left;font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink-3);padding:12px 24px;border-bottom:1px solid var(--line);background:var(--surface-2);
+  white-space:nowrap
+}
+td{padding:14px 24px;border-bottom:1px solid var(--line-soft);vertical-align:middle}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:rgba(30,57,50,.025)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+td b{font-weight:600}
+
+/* ---------------- deal stepper ---------------- */
+.pipe{display:flex;gap:10px}
+.pipe div{
+  flex:1;padding:16px 14px;border-radius:var(--r);border:1px solid var(--line-soft);
+  background:var(--surface-2);position:relative
+}
+.pipe span{display:block;font-size:13px;font-weight:700;letter-spacing:.08em;color:var(--ink-3);margin-bottom:7px}
+.pipe b{font-size:15.5px;font-weight:600;color:var(--ink-2)}
+.pipe small{display:block;font-size:12.5px;color:var(--ink-3);margin-top:5px}
+.pipe .done{background:rgba(46,125,91,.07);border-color:rgba(46,125,91,.25)}
+.pipe .done b,.pipe .done span{color:var(--accent-green)}
+.pipe .now{background:var(--deep-green);border-color:var(--deep-green)}
+.pipe .now span{color:var(--grain-beige)}
+.pipe .now b{color:var(--warm-cream)}
+.pipe .now small{color:rgba(242,240,235,.62)}
+
+.timeline{position:relative;padding-left:26px}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:1px;background:var(--line)}
+.timeline li{position:relative;padding:0 0 20px}
+.timeline li:last-child{padding-bottom:0}
+.timeline li::before{
+  content:"";position:absolute;left:-23px;top:6px;width:9px;height:9px;border-radius:50%;
+  background:var(--surface);border:2px solid var(--line)
+}
+.timeline li.hit::before{background:var(--accent-green);border-color:var(--accent-green)}
+.timeline b{display:block;font-size:14.5px;font-weight:600;color:var(--ink)}
+.timeline span{font-size:13px;color:var(--ink-3)}
+
+/* ---------------- insight ---------------- */
+.tabs{display:flex;gap:6px;margin-bottom:20px;border-bottom:1px solid var(--line-soft)}
+.tabs button{
+  height:44px;padding:0 16px;font-size:15px;font-weight:600;color:var(--ink-3);
+  border-bottom:2px solid transparent;margin-bottom:-1px
+}
+.tabs button[aria-selected="true"]{color:var(--deep-green);border-color:var(--accent-green)}
+.tabs button:hover{color:var(--deep-green)}
+.tabpanel{display:none}
+.tabpanel.on{display:block;animation:fade .22s ease both}
+
+.brow{display:grid;grid-template-columns:132px 1fr 64px;align-items:center;gap:14px;padding:10px 0}
+.brow .nm{font-size:14.5px;font-weight:500;color:var(--ink)}
+.brow .tr{height:22px;border-radius:4px;background:rgba(30,57,50,.06);overflow:hidden}
+.brow .tr i{display:block;height:100%;background:linear-gradient(90deg,var(--deep-green),var(--accent-green));border-radius:4px}
+.brow .vl{text-align:right;font-size:14px;font-weight:700;color:var(--deep-green)}
+
+.note-line{
+  font-size:12.5px;color:var(--ink-3);margin-top:14px;padding-top:12px;border-top:1px dashed var(--line-soft);line-height:1.6
+}
+
+/* ---------------- footer ---------------- */
+.foot{
+  border-top:1px solid var(--line-soft);margin-top:44px;padding:26px 32px 40px;
+  display:flex;justify-content:space-between;align-items:center;gap:24px;
+  max-width:1520px;margin-left:auto;margin-right:auto;
+  font-size:13px;color:var(--ink-3)
+}
+.foot b{color:var(--deep-green);font-weight:700;font-size:15px;letter-spacing:.02em}
+
+/* ---------------- toast ---------------- */
+.toast{
+  position:fixed;left:50%;bottom:34px;transform:translate(-50%,20px);z-index:300;
+  background:var(--charcoal);color:var(--warm-cream);padding:13px 20px;border-radius:var(--r);
+  font-size:14.5px;font-weight:500;box-shadow:var(--sh-2);opacity:0;pointer-events:none;
+  transition:opacity .22s ease,transform .22s ease
+}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+@media (max-width:1380px){
+  .g-4{grid-template-columns:repeat(2,1fr)}
+  .trust{grid-template-columns:repeat(2,1fr)}
+  .opt-grid{grid-template-columns:repeat(3,1fr)}
+  .flow{flex-wrap:wrap}
+  .flow div{flex:1 1 33%}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important;transition-duration:.01ms !important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<div class="demo-bar">
+  <b>DEMO</b> · VCBio B2B 플랫폼 프로토타입 (2026 청년창업사관학교 2차 중간평가용) — 화면 내 기업명·수치는 <b>시연용 예시</b>이며 실제 거래 데이터가 아닙니다.
+</div>
+
+<!-- ======================= GNB ======================= -->
+<header class="gnb">
+  <div class="gnb-in">
+    <div class="brand">
+      <span class="mark">VC</span>VCBio<small>B2B Platform</small>
+    </div>
+    <nav class="gnb-nav" aria-label="주 메뉴">
+      <button data-nav="home">홈</button>
+      <button data-nav="quote">견적 요청</button>
+      <button data-nav="match">AI 매칭</button>
+      <button data-nav="deal">거래관리</button>
+      <button data-nav="insight">동향 인사이트</button>
+    </nav>
+    <div class="gnb-right">
+      <button class="icon-btn" aria-label="알림 3건">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg>
+        <span class="dot"></span>
+      </button>
+      <div class="acct">
+        <span class="avatar">한</span>
+        <span class="acct-txt"><b>한결네이처(가칭)</b><span>구매팀 · 담당자</span></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- ======================= 1. HOME ======================= -->
+<section class="view" id="view-home" aria-label="홈">
+  <div class="hero">
+    <div class="hero-in">
+      <span class="eyebrow">One-Stop B2B Sourcing Platform</span>
+      <h2>원료 소싱부터 생산·품질서류까지,<br><em>한 곳에서</em> 끝내는 건강기능식품 B2B</h2>
+      <p>제형·물량·일정만 입력하면 AI가 검증된 GMP·HACCP 제조사를 매칭합니다. 소싱 담당자가 제조사 10곳에 개별 문의하던 2주를, 조건 입력 3분으로 바꿉니다.</p>
+      <div class="hero-cta">
+        <button class="btn btn-primary btn-lg" data-nav="quote">견적 요청하기</button>
+        <button class="btn btn-ghost btn-lg" data-nav="insight">이번 주 업계 동향 보기</button>
+      </div>
+      <p class="hero-note">가입·조건 입력 무료 · 매칭 결과 확인 후 진행 여부를 결정합니다.</p>
+    </div>
+  </div>
+
+  <dl class="trust">
+    <div><dt>검증 등록 제조사</dt><dd>128<small>개사</small></dd></div>
+    <div><dt>보유 원료 DB</dt><dd>1,240<small>종</small></dd></div>
+    <div><dt>누적 매칭 요청</dt><dd>3,180<small>건</small></dd></div>
+    <div><dt>평균 1차 회신</dt><dd>18<small>시간</small></dd></div>
+  </dl>
+
+  <div class="sec-head">
+    <div>
+      <h3>AI 스마트 매칭 미리보기</h3>
+      <p>지금 등록된 조건과 유사한 프로젝트에 추천되는 제조사입니다.</p>
+    </div>
+    <button class="btn btn-ghost btn-sm" data-nav="quote">내 조건으로 매칭하기 →</button>
+  </div>
+  <div class="grid g-3">
+    <article class="maker">
+      <div class="maker-top">
+        <div class="maker-id">
+          <span class="maker-logo">A</span>
+          <span><b>A제조</b><span>충북 · 정제 전문</span></span>
+        </div>
+        <div class="rate"><b>96%</b><span>MATCH</span></div>
+      </div>
+      <div class="bar"><i style="transform:scaleX(.96)"></i></div>
+      <div class="maker-meta"><span class="badge">GMP</span><span class="badge">HACCP</span><span class="badge grey">정제 · 코팅정</span></div>
+    </article>
+    <article class="maker">
+      <div class="maker-top">
+        <div class="maker-id">
+          <span class="maker-logo">D</span>
+          <span><b>D제조</b><span>경기 · 대형 라인</span></span>
+        </div>
+        <div class="rate"><b>91%</b><span>MATCH</span></div>
+      </div>
+      <div class="bar"><i style="transform:scaleX(.91)"></i></div>
+      <div class="maker-meta"><span class="badge">GMP</span><span class="badge">ISO 22000</span><span class="badge grey">대량 생산</span></div>
+    </article>
+    <article class="maker">
+      <div class="maker-top">
+        <div class="maker-id">
+          <span class="maker-logo">C</span>
+          <span><b>C제조</b><span>충북 · 스틱 전문</span></span>
+        </div>
+        <div class="rate"><b>88%</b><span>MATCH</span></div>
+      </div>
+      <div class="bar"><i style="transform:scaleX(.88)"></i></div>
+      <div class="maker-meta"><span class="badge">HACCP</span><span class="badge grey">분말스틱</span><span class="badge grey">소량 대응</span></div>
+    </article>
+  </div>
+
+  <div class="grid g-2-1" style="margin-top:32px">
+    <div class="card">
+      <div class="card-head">
+        <h3>오늘의 업계 동향</h3>
+        <button class="btn btn-quiet btn-sm" data-nav="insight">전체 보기 →</button>
+      </div>
+      <ul class="feed">
+        <li>
+          <span class="badge tag">규제</span>
+          <span class="txt"><b>건강기능식품 표시·광고 자율심의 운영 가이드 개정 안내</b><span>2026-08-18 · 표시문구 검토 시 확인 필요</span></span>
+        </li>
+        <li>
+          <span class="badge gold tag">품목신고</span>
+          <span class="txt"><b>7월 신규 품목신고, 프로바이오틱스·루테인 카테고리 증가세</b><span>2026-08-17 · 월간 집계 리포트</span></span>
+        </li>
+        <li>
+          <span class="badge red tag">회수</span>
+          <span class="txt"><b>수입 원료 1건 자진회수 공고, 해당 로트 사용 여부 확인 권고</b><span>2026-08-16 · 안전 알림</span></span>
+        </li>
+        <li>
+          <span class="badge grey tag">원료</span>
+          <span class="txt"><b>유럽산 밀크씨슬 추출물 신규 공급 라인 등록</b><span>2026-08-15 · 원료 DB 업데이트</span></span>
+        </li>
+      </ul>
+    </div>
+    <div class="card card-pad">
+      <h3 style="font-size:17px;font-weight:600;color:var(--deep-green);margin-bottom:14px">이용 안내</h3>
+      <dl>
+        <div class="kv"><dt>플랫폼 가입</dt><dd>무료</dd></div>
+        <div class="kv"><dt>AI 매칭·견적 요청</dt><dd>무료</dd></div>
+        <div class="kv"><dt>원료 중개 수수료</dt><dd>거래액의 10~15%</dd></div>
+        <div class="kv"><dt>완제품 중개 수수료</dt><dd>거래액의 5~10%</dd></div>
+      </dl>
+      <p class="note-line">수수료율은 품목·물량·거래 조건에 따라 위 범위 내에서 협의로 확정됩니다. 개별 단가·견적 금액은 매칭 후 제조사와의 협의 단계에서 안내됩니다.</p>
+    </div>
+  </div>
+
+  <div class="sec-head"><div><h3>서비스 흐름</h3><p>플랫폼 안에서 기획부터 출시까지 6단계를 그대로 추적합니다.</p></div></div>
+  <div class="flow">
+    <div><span>01</span><b>기획</b><p>제품 컨셉·기능성 정의</p></div>
+    <div><span>02</span><b>소싱</b><p>검증 원료 DB에서 후보 선정</p></div>
+    <div><span>03</span><b>매칭</b><p>AI 제조사 추천·견적</p></div>
+    <div><span>04</span><b>생산</b><p>진행 단계 실시간 확인</p></div>
+    <div><span>05</span><b>품질</b><p>COA·시험성적서 관리</p></div>
+    <div><span>06</span><b>출시</b><p>품목신고·사후 대응</p></div>
+  </div>
+</section>
+
+<!-- ======================= 2. QUOTE FORM ======================= -->
+<section class="view" id="view-quote" aria-label="견적 요청">
+  <div class="page-head">
+    <div>
+      <span class="eyebrow">Step-by-step Request</span>
+      <h1 class="page-title">견적 요청</h1>
+      <p class="page-sub">4단계 조건만 입력하면 AI가 조건에 맞는 제조사를 추천합니다. 입력값은 매칭 결과와 거래관리에 그대로 연동됩니다.</p>
+    </div>
+    <span class="badge grey" id="autosave">임시저장됨 · 방금</span>
+  </div>
+
+  <div class="grid g-2-1">
+    <div class="card card-pad">
+      <div class="stepper" id="stepper" role="tablist" aria-label="견적 요청 단계">
+        <button data-step="1" data-state="active"><span class="n">1</span><span class="l">제형 · 물량</span></button>
+        <button data-step="2"><span class="n">2</span><span class="l">기능성 · 원료</span></button>
+        <button data-step="3"><span class="n">3</span><span class="l">일정 · 예산</span></button>
+        <button data-step="4"><span class="n">4</span><span class="l">확인 · 제출</span></button>
+      </div>
+
+      <form id="quoteForm" novalidate>
+        <!-- step 1 -->
+        <div class="fstep" data-step="1">
+          <div class="field">
+            <span class="lb">제형<span class="req">*</span></span>
+            <div class="opt-grid" role="radiogroup" aria-label="제형 선택">
+              <label class="opt"><input type="radio" name="form" value="정제" checked><span class="ic">◉</span><span class="t">정제</span><span class="s">Tablet</span></label>
+              <label class="opt"><input type="radio" name="form" value="캡슐"><span class="ic">◍</span><span class="t">캡슐</span><span class="s">Capsule</span></label>
+              <label class="opt"><input type="radio" name="form" value="분말스틱"><span class="ic">▤</span><span class="t">분말스틱</span><span class="s">Stick</span></label>
+              <label class="opt"><input type="radio" name="form" value="젤리"><span class="ic">◆</span><span class="t">젤리</span><span class="s">Gummy</span></label>
+              <label class="opt"><input type="radio" name="form" value="액상"><span class="ic">◗</span><span class="t">액상</span><span class="s">Liquid</span></label>
+            </div>
+          </div>
+          <div class="grid" style="grid-template-columns:1fr 1fr">
+            <div class="field">
+              <label for="qty">생산 물량<span class="req">*</span></label>
+              <input type="number" id="qty" name="qty" value="10000" min="1000" step="1000" inputmode="numeric">
+              <p class="help">제형 단위 기준(정·캡슐·포·개). 최소 발주수량(MOQ)은 제조사별로 다릅니다.</p>
+            </div>
+            <div class="field">
+              <label for="unit">포장 단위</label>
+              <select id="unit" name="unit">
+                <option>병(HDPE) 60정</option>
+                <option>병(HDPE) 90정</option>
+                <option>PTP 블리스터</option>
+                <option>파우치 30포</option>
+                <option>미정 · 제조사 제안</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- step 2 -->
+        <div class="fstep" data-step="2" hidden>
+          <div class="field">
+            <span class="lb">기능성 카테고리<span class="req">*</span> <span style="font-weight:500;color:var(--ink-3)">(복수 선택)</span></span>
+            <div class="opt-grid c3" role="group" aria-label="기능성 카테고리">
+              <label class="opt row"><input type="checkbox" name="func" value="간 건강" checked><span class="t">간 건강</span></label>
+              <label class="opt row"><input type="checkbox" name="func" value="눈 건강"><span class="t">눈 건강</span></label>
+              <label class="opt row"><input type="checkbox" name="func" value="장 건강"><span class="t">장 건강</span></label>
+              <label class="opt row"><input type="checkbox" name="func" value="관절 건강"><span class="t">관절 건강</span></label>
+              <label class="opt row"><input type="checkbox" name="func" value="체지방"><span class="t">체지방</span></label>
+              <label class="opt row"><input type="checkbox" name="func" value="면역"><span class="t">면역</span></label>
+            </div>
+            <p class="help">식약처 고시·개별인정 기능성 분류 기준입니다. 최종 표시문구는 품목신고·표시광고 심의 절차를 거쳐 확정됩니다.</p>
+          </div>
+          <div class="field">
+            <label for="ing">희망 원료</label>
+            <select id="ing" name="ing">
+              <option>밀크씨슬 추출물</option>
+              <option>루테인·지아잔틴</option>
+              <option>프로바이오틱스</option>
+              <option>MSM·보스웰리아</option>
+              <option>가르시니아 추출물</option>
+              <option>아연·비타민 복합</option>
+              <option>미정 · 원료 추천 요청</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="memo">추가 요청사항</label>
+            <textarea id="memo" name="memo" placeholder="예: 무카페인, 비건 인증 원료 우선, 기존 제품 리뉴얼 건 등"></textarea>
+          </div>
+        </div>
+
+        <!-- step 3 -->
+        <div class="fstep" data-step="3" hidden>
+          <div class="field">
+            <span class="lb">희망 납기<span class="req">*</span></span>
+            <div class="opt-grid c3" role="radiogroup" aria-label="희망 납기">
+              <label class="opt row"><input type="radio" name="lead" value="2주" ><span class="t">2주 이내</span></label>
+              <label class="opt row"><input type="radio" name="lead" value="3주" checked><span class="t">3주</span></label>
+              <label class="opt row"><input type="radio" name="lead" value="4주 이상"><span class="t">4주 이상</span></label>
+            </div>
+          </div>
+          <div class="field">
+            <label for="budget">예산 구간</label>
+            <select id="budget" name="budget">
+              <option>1천만원 미만</option>
+              <option selected>1천만 ~ 3천만원</option>
+              <option>3천만 ~ 5천만원</option>
+              <option>5천만원 이상</option>
+              <option>미정 · 제안 요청</option>
+            </select>
+            <p class="help">예산 구간은 제조사 선별에만 사용되며, 제조사에게는 구간 정보만 전달됩니다.</p>
+          </div>
+          <div class="field">
+            <span class="lb">우선순위</span>
+            <div class="opt-grid c3" role="radiogroup" aria-label="우선순위">
+              <label class="opt row"><input type="radio" name="prio" value="납기" checked><span class="t">납기 우선</span></label>
+              <label class="opt row"><input type="radio" name="prio" value="품질"><span class="t">품질·인증 우선</span></label>
+              <label class="opt row"><input type="radio" name="prio" value="소량"><span class="t">소량 대응 우선</span></label>
+            </div>
+          </div>
+        </div>
+
+        <!-- step 4 -->
+        <div class="fstep" data-step="4" hidden>
+          <p style="font-size:14.5px;color:var(--ink-2);margin-bottom:16px">입력하신 조건입니다. 확인 후 매칭을 시작하세요.</p>
+          <dl id="reviewList"></dl>
+          <p class="note-line">제출 시 조건은 등록 제조사에 익명으로 전달되며, 기업 정보는 NDA 체결 이후 공개됩니다.</p>
+        </div>
+
+        <div class="form-nav">
+          <button type="button" class="btn btn-ghost" id="btnPrev" disabled>이전</button>
+          <div class="right">
+            <span class="step-count" id="stepCount">1 / 4 단계</span>
+            <button type="button" class="btn btn-primary" id="btnNext">다음</button>
+            <button type="button" class="btn btn-primary" id="btnSubmit" hidden>매칭 시작</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <aside>
+      <div class="aside-note" style="margin-bottom:20px">
+        <h2 class="an-h">입력하신 조건</h2>
+        <div class="chips" id="liveChips"></div>
+      </div>
+      <div class="aside-note">
+        <h2 class="an-h">이렇게 진행됩니다</h2>
+        <ul>
+          <li>조건 제출 → AI가 등록 제조사 128개사를 조건으로 필터링합니다.</li>
+          <li>일치율 상위 제조사와 대응 가능 여부를 즉시 확인합니다.</li>
+          <li>제조사 선택 시 NDA 자동 체결 후 거래관리 대시보드가 개설됩니다.</li>
+          <li>견적 금액은 제조사 회신 단계에서 개별 안내됩니다.</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ======================= 3. MATCH RESULT ======================= -->
+<section class="view" id="view-match" aria-label="AI 매칭 결과">
+  <div class="page-head">
+    <div>
+      <span class="eyebrow">AI Smart Matching</span>
+      <h1 class="page-title">매칭 결과</h1>
+      <p class="page-sub" id="matchSub">입력 조건으로 등록 제조사를 선별했습니다.</p>
+    </div>
+    <button class="btn btn-ghost btn-sm" data-nav="quote">조건 수정하기</button>
+  </div>
+
+  <div class="card card-pad" style="margin-bottom:22px">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+      <div class="chips" id="matchChips"></div>
+      <span class="badge solid" id="matchCount">추천 3곳</span>
+    </div>
+  </div>
+
+  <div class="grid g-3" id="matchList"></div>
+
+  <div class="card" style="margin-top:22px">
+    <div class="card-head"><h2>대응 조건 비교</h2><span class="hint">단가는 제조사 회신 단계에서 개별 안내됩니다.</span></div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>제조사</th><th>지역</th><th>인증</th><th class="num">일치율</th><th class="num">MOQ</th><th class="num">예상 리드타임</th><th>대응 가능</th></tr>
+        </thead>
+        <tbody id="matchTable"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 4. DEAL DASHBOARD ======================= -->
+<section class="view" id="view-deal" aria-label="거래관리 대시보드">
+  <div class="page-head">
+    <div>
+      <span class="eyebrow">Deal Management</span>
+      <h1 class="page-title">거래관리 대시보드</h1>
+      <p class="page-sub" id="dealSub">프로젝트 진행 단계·서류·일정을 한 화면에서 추적합니다.</p>
+    </div>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-ghost btn-sm">담당자 문의</button>
+      <button class="btn btn-dark btn-sm">진행 보고서 내려받기</button>
+    </div>
+  </div>
+
+  <div class="card card-pad" style="margin-bottom:22px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:16px;flex-wrap:wrap">
+      <div class="chips" id="dealChips"></div>
+      <span class="badge">진행중 · 3단계 / 6단계</span>
+    </div>
+    <div class="pipe">
+      <div class="done"><span>01</span><b>기획</b><small>완료 · 08-05</small></div>
+      <div class="done"><span>02</span><b>소싱</b><small>완료 · 08-11</small></div>
+      <div class="now"><span>03</span><b>매칭</b><small>진행중 · 제조사 확정</small></div>
+      <div><span>04</span><b>생산</b><small>대기</small></div>
+      <div><span>05</span><b>품질</b><small>대기</small></div>
+      <div><span>06</span><b>출시</b><small>대기</small></div>
+    </div>
+  </div>
+
+  <div class="grid g-2-1">
+    <div>
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-head"><h2>서류 관리</h2><span class="hint">위변조 검증 · 자동 수집</span></div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>서류</th><th>담당</th><th>기한</th><th>상태</th></tr></thead>
+            <tbody>
+              <tr><td><b>비밀유지계약(NDA)</b></td><td>플랫폼 자동</td><td>08-12</td><td><span class="badge">체결 완료</span></td></tr>
+              <tr><td><b>견적 회신서</b></td><td>제조사</td><td>08-20</td><td><span class="badge gold">회신 대기</span></td></tr>
+              <tr><td><b>품목제조보고서</b></td><td>제조사</td><td>09-02</td><td><span class="badge grey">예정</span></td></tr>
+              <tr><td><b>시험성적서 (COA)</b></td><td>제조사</td><td>09-16</td><td><span class="badge grey">예정</span></td></tr>
+              <tr><td><b>표시사항 검토서</b></td><td>VCBio</td><td>09-20</td><td><span class="badge grey">예정</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2>생산 일정</h2><span class="hint">제조사 확정 기준 자동 산출</span></div>
+        <div class="card-pad">
+          <ul class="timeline">
+            <li class="hit"><b>조건 등록 · AI 매칭 완료</b><span>2026-08-19 · 추천 3개사 회신 요청 발송</span></li>
+            <li class="hit"><b>제조사 확정 · NDA 체결</b><span>2026-08-19 · 자동 체결 완료</span></li>
+            <li><b>배합·시제품 검토</b><span>2026-08-25 예정 · 샘플 발송</span></li>
+            <li><b>본 생산 착수</b><span>2026-09-08 예정</span></li>
+            <li><b>품질검사·서류 수령</b><span>2026-09-16 예정</span></li>
+            <li><b>출고·품목신고 완료</b><span>2026-09-24 예정</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <aside>
+      <div class="card card-pad" style="margin-bottom:20px">
+        <h2 style="font-size:17px;font-weight:600;color:var(--deep-green);margin-bottom:12px">프로젝트 요약</h2>
+        <dl id="dealSummary"></dl>
+      </div>
+      <div class="card">
+        <div class="card-head"><h2>알림</h2><span class="hint">3건</span></div>
+        <ul class="feed">
+          <li><span class="badge tag">완료</span><span class="txt"><b>NDA 자동 체결이 완료되었습니다</b><span>오늘 · 서류함에서 확인</span></span></li>
+          <li><span class="badge gold tag">요청</span><span class="txt"><b>제조사가 시제품 사양 확인을 요청했습니다</b><span>오늘 · 회신 필요</span></span></li>
+          <li><span class="badge grey tag">안내</span><span class="txt"><b>선택 원료의 신규 로트 시험성적서가 등록되었습니다</b><span>어제</span></span></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ======================= 5. INSIGHT ======================= -->
+<section class="view" id="view-insight" aria-label="동향 인사이트">
+  <div class="page-head">
+    <div>
+      <span class="eyebrow">Industry Insight</span>
+      <h1 class="page-title">식품·건기식 동향 인사이트</h1>
+      <p class="page-sub">주간 업계 동향, 신규 품목신고 트렌드, 회수·안전 알림을 한 곳에서 확인합니다. VCBio 자체 리서치·공개 데이터 기반으로 매주 갱신됩니다.</p>
+    </div>
+    <span class="badge grey">최근 갱신 2026-08-18</span>
+  </div>
+
+  <div class="tabs" role="tablist" aria-label="인사이트 분류">
+    <button role="tab" aria-selected="true" data-tab="weekly">주간 업계 동향</button>
+    <button role="tab" aria-selected="false" data-tab="trend">신규 품목신고 트렌드</button>
+    <button role="tab" aria-selected="false" data-tab="safety">회수 · 안전 알림</button>
+  </div>
+
+  <div class="tabpanel on" id="tab-weekly">
+    <div class="grid g-2-1">
+      <div class="card">
+        <div class="card-head"><h2>이번 주 이슈</h2><span class="hint">08-12 ~ 08-18</span></div>
+        <ul class="feed">
+          <li><span class="badge tag">규제</span><span class="txt"><b>표시·광고 자율심의 운영 가이드 개정, 검토 항목 정비</b><span>제품 문구 작성 전 개정 항목 확인이 필요합니다.</span></span></li>
+          <li><span class="badge grey tag">시장</span><span class="txt"><b>온라인 채널 건기식 판매 구성 변화, 스틱·젤리 제형 비중 확대</b><span>주간 채널 모니터링 요약</span></span></li>
+          <li><span class="badge grey tag">원료</span><span class="txt"><b>유럽·남미산 프리미엄 원료 신규 공급 라인 2건 등록</b><span>원료 DB 업데이트 반영</span></span></li>
+          <li><span class="badge gold tag">수급</span><span class="txt"><b>일부 수입 원료 리드타임 연장, 발주 일정 여유 확보 권고</b><span>공급사 회신 기준</span></span></li>
+        </ul>
+      </div>
+      <div class="card card-pad">
+        <h2 style="font-size:17px;font-weight:600;color:var(--deep-green);margin-bottom:14px">이번 주 요약</h2>
+        <dl>
+          <div class="kv"><dt>수집 기사·공고</dt><dd>146건</dd></div>
+          <div class="kv"><dt>규제·행정 항목</dt><dd>12건</dd></div>
+          <div class="kv"><dt>신규 품목신고</dt><dd>318건</dd></div>
+          <div class="kv"><dt>회수·안전 공고</dt><dd>4건</dd></div>
+        </dl>
+        <p class="note-line">공개 행정 데이터와 자체 리서치를 매주 수집·정리한 요약입니다. 표시 수치는 시연용 예시입니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabpanel" id="tab-trend">
+    <div class="grid g-2-1">
+      <div class="card card-pad">
+        <h2 style="font-size:17px;font-weight:600;color:var(--deep-green);margin-bottom:6px">기능성 카테고리별 신규 품목신고</h2>
+        <p style="font-size:13.5px;color:var(--ink-3);margin-bottom:16px">2026년 7월 집계 · 전월 대비 증감</p>
+        <div class="brow"><span class="nm">장 건강</span><span class="tr"><i style="width:92%"></i></span><span class="vl">86</span></div>
+        <div class="brow"><span class="nm">눈 건강</span><span class="tr"><i style="width:74%"></i></span><span class="vl">69</span></div>
+        <div class="brow"><span class="nm">간 건강</span><span class="tr"><i style="width:61%"></i></span><span class="vl">57</span></div>
+        <div class="brow"><span class="nm">체지방</span><span class="tr"><i style="width:48%"></i></span><span class="vl">45</span></div>
+        <div class="brow"><span class="nm">관절 건강</span><span class="tr"><i style="width:36%"></i></span><span class="vl">34</span></div>
+        <div class="brow"><span class="nm">면역</span><span class="tr"><i style="width:29%"></i></span><span class="vl">27</span></div>
+        <p class="note-line">집계 기준 = 월별 품목신고 공개 목록. 수치는 시연용 예시이며 실제 집계와 다를 수 있습니다.</p>
+      </div>
+      <div class="card">
+        <div class="card-head"><h2>제형별 비중</h2><span class="hint">7월</span></div>
+        <div class="card-pad">
+          <div class="brow"><span class="nm">정제</span><span class="tr"><i style="width:88%"></i></span><span class="vl">31%</span></div>
+          <div class="brow"><span class="nm">캡슐</span><span class="tr"><i style="width:72%"></i></span><span class="vl">25%</span></div>
+          <div class="brow"><span class="nm">분말스틱</span><span class="tr"><i style="width:58%"></i></span><span class="vl">20%</span></div>
+          <div class="brow"><span class="nm">젤리</span><span class="tr"><i style="width:41%"></i></span><span class="vl">14%</span></div>
+          <div class="brow"><span class="nm">액상</span><span class="tr"><i style="width:29%"></i></span><span class="vl">10%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabpanel" id="tab-safety">
+    <div class="card">
+      <div class="card-head"><h2>회수 · 안전 알림</h2><span class="hint">보유 원료·진행 프로젝트와 자동 대조</span></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>일자</th><th>구분</th><th>내용</th><th>내 프로젝트 영향</th></tr></thead>
+          <tbody>
+            <tr><td>2026-08-16</td><td><span class="badge red">자진회수</span></td><td><b>수입 원료 1건 자진회수 공고 (특정 로트 한정)</b></td><td><span class="badge grey">해당 없음</span></td></tr>
+            <tr><td>2026-08-14</td><td><span class="badge gold">주의</span></td><td><b>일부 수입 식품 검사 강화 대상 추가</b></td><td><span class="badge grey">해당 없음</span></td></tr>
+            <tr><td>2026-08-11</td><td><span class="badge red">회수</span></td><td><b>표시기준 위반 제품 회수 공고</b></td><td><span class="badge grey">해당 없음</span></td></tr>
+            <tr><td>2026-08-08</td><td><span class="badge">해제</span></td><td><b>기존 검사명령 대상 1건 해제</b></td><td><span class="badge grey">해당 없음</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-pad" style="padding-top:0"><p class="note-line">진행 중인 프로젝트의 원료·제조사와 공고 내용을 자동 대조해 영향 여부를 표시합니다. 표시 내용은 시연용 예시입니다.</p></div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /wrap -->
+
+<footer class="foot">
+  <div><b>VCBio</b> · 주식회사 브이씨바이오</div>
+  <div>2026 대전 청년창업사관학교 2차 중간평가 시연용 프로토타입 · 화면 내 기업명·수치는 예시입니다.</div>
+</footer>
+
+<!-- loader -->
+<div class="loader" id="loader" role="status" aria-live="polite">
+  <div class="loader-box">
+    <h2 class="ld-h">AI 매칭 진행 중</h2>
+    <p>입력 조건으로 등록 제조사를 선별하고 있습니다.</p>
+    <div class="lstep" data-i="0"><span class="mk">✓</span>조건 분석 (제형 · 물량 · 납기)</div>
+    <div class="lstep" data-i="1"><span class="mk">✓</span>등록 제조사 128개사 필터링</div>
+    <div class="lstep" data-i="2"><span class="mk">✓</span>인증 · 라인 보유 현황 대조</div>
+    <div class="lstep" data-i="3"><span class="mk">✓</span>일치율 산출 및 정렬</div>
+    <div class="lprog"><i id="lprog"></i></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------------- state ---------------- */
+var state = {
+  form:"정제", qty:10000, unit:"병(HDPE) 60정",
+  func:["간 건강"], ing:"밀크씨슬 추출물", memo:"",
+  lead:"3주", budget:"1천만 ~ 3천만원", prio:"납기",
+  chosen:null
+};
+var step = 1;
+
+/* ---------------- maker sets by 제형 ---------------- */
+var SETS = {
+  "정제":[
+    {id:"A",name:"A제조",region:"충북",certs:["GMP","HACCP"],line:"정제 · 코팅정 전용라인",moq:"5,000정",lead:18,base:96,cap:"대응 가능",note:"코팅정·이중정 대응"},
+    {id:"D",name:"D제조",region:"경기",certs:["GMP","ISO 22000"],line:"대형 타정 라인 3기",moq:"20,000정",lead:21,base:91,cap:"대응 가능",note:"대량 생산 최적"},
+    {id:"F",name:"F제조",region:"충남",certs:["GMP"],line:"정제 · 분말 혼합라인",moq:"3,000정",lead:25,base:84,cap:"일정 협의",note:"소량 시생산 대응"}
+  ],
+  "캡슐":[
+    {id:"B",name:"B제조",region:"경기",certs:["GMP","HACCP"],line:"경질캡슐 충전라인 2기",moq:"5,000캡슐",lead:17,base:95,cap:"대응 가능",note:"식물성 캡슐 대응"},
+    {id:"A",name:"A제조",region:"충북",certs:["GMP","HACCP"],line:"캡슐 · 정제 겸용라인",moq:"10,000캡슐",lead:20,base:89,cap:"대응 가능",note:"정제 병행 발주 가능"},
+    {id:"G",name:"G제조",region:"전북",certs:["GMP"],line:"연질캡슐 전용라인",moq:"8,000캡슐",lead:26,base:83,cap:"일정 협의",note:"오일류 제형 특화"}
+  ],
+  "분말스틱":[
+    {id:"C",name:"C제조",region:"충북",certs:["HACCP"],line:"스틱 포장라인 4기",moq:"10,000포",lead:16,base:94,cap:"대응 가능",note:"소량 다품종 대응"},
+    {id:"E",name:"E제조",region:"강원",certs:["HACCP","ISO 22000"],line:"분말 혼합 · 스틱 일관라인",moq:"20,000포",lead:20,base:90,cap:"대응 가능",note:"과립·분말 혼합 강점"},
+    {id:"B",name:"B제조",region:"경기",certs:["GMP","HACCP"],line:"스틱 · 캡슐 겸용라인",moq:"15,000포",lead:24,base:82,cap:"일정 협의",note:"캡슐 병행 발주 가능"}
+  ],
+  "젤리":[
+    {id:"H",name:"H제조",region:"경남",certs:["HACCP"],line:"구미젤리 성형라인 2기",moq:"20,000개",lead:22,base:93,cap:"대응 가능",note:"무설탕 배합 대응"},
+    {id:"C",name:"C제조",region:"충북",certs:["HACCP"],line:"젤리 · 스틱 겸용라인",moq:"15,000개",lead:19,base:88,cap:"대응 가능",note:"소량 시생산 가능"},
+    {id:"E",name:"E제조",region:"강원",certs:["HACCP","ISO 22000"],line:"성형 · 개별포장 라인",moq:"30,000개",lead:27,base:80,cap:"일정 협의",note:"대량 발주 유리"}
+  ],
+  "액상":[
+    {id:"I",name:"I제조",region:"전남",certs:["GMP","HACCP"],line:"파우치 · 앰플 충전라인",moq:"10,000포",lead:20,base:92,cap:"대응 가능",note:"고온 충전 대응"},
+    {id:"H",name:"H제조",region:"경남",certs:["HACCP"],line:"액상 · 젤리 겸용라인",moq:"20,000포",lead:23,base:86,cap:"대응 가능",note:"음료타입 대응"},
+    {id:"D",name:"D제조",region:"경기",certs:["GMP","ISO 22000"],line:"액상 대형 충전라인",moq:"30,000포",lead:26,base:81,cap:"일정 협의",note:"대량 발주 유리"}
+  ]
+};
+
+/* ---------------- helpers ---------------- */
+function $(s,r){return (r||document).querySelector(s);}
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));}
+function nf(n){return Number(n).toLocaleString("ko-KR");}
+function unitOf(f){return f==="정제"?"정":f==="캡슐"?"캡슐":f==="젤리"?"개":"포";}
+function qtyLabel(){return nf(state.qty)+unitOf(state.form);}
+function condLine(){return state.form+" · "+qtyLabel()+" · "+state.lead;}
+
+function toast(msg){
+  var t=$("#toast"); t.textContent=msg; t.classList.add("on");
+  clearTimeout(t._h); t._h=setTimeout(function(){t.classList.remove("on");},2400);
+}
+
+/* ---------------- router ---------------- */
+var VIEWS=["home","quote","match","deal","insight"];
+function go(name){
+  if(VIEWS.indexOf(name)<0) name="home";
+  VIEWS.forEach(function(v){ $("#view-"+v).classList.toggle("active", v===name); });
+  $$(".gnb-nav button").forEach(function(b){
+    if(b.dataset.nav===name) b.setAttribute("aria-current","page");
+    else b.removeAttribute("aria-current");
+  });
+  window.scrollTo({top:0,behavior:"instant" in window ? "auto":"auto"});
+  if(name==="match") renderMatch();
+  if(name==="deal") renderDeal();
+}
+document.addEventListener("click",function(e){
+  var el=e.target.closest("[data-nav]");
+  if(el){ e.preventDefault(); go(el.dataset.nav); }
+});
+
+/* ---------------- form ---------------- */
+function readForm(){
+  var f=$("#quoteForm");
+  state.form = (f.querySelector('input[name=form]:checked')||{}).value || state.form;
+  state.qty  = Math.max(1000, parseInt($("#qty").value,10)||10000);
+  state.unit = $("#unit").value;
+  state.func = $$('input[name=func]:checked',f).map(function(i){return i.value;});
+  if(!state.func.length) state.func=["미지정"];
+  state.ing  = $("#ing").value;
+  state.memo = $("#memo").value.trim();
+  state.lead = (f.querySelector('input[name=lead]:checked')||{}).value || state.lead;
+  state.budget = $("#budget").value;
+  state.prio = (f.querySelector('input[name=prio]:checked')||{}).value || state.prio;
+  renderChips();
+  renderReview();
+}
+function renderChips(){
+  var c=$("#liveChips");
+  c.innerHTML =
+    chip("제형", state.form) + chip("물량", qtyLabel()) + chip("납기", state.lead) +
+    chip("기능성", state.func.join(" · ")) + chip("원료", state.ing);
+}
+function chip(k,v){
+  return '<span class="chip">'+k+' <b>'+esc(v)+'</b></span>';
+}
+function esc(s){return String(s).replace(/[&<>"]/g,function(m){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m];});}
+
+function renderReview(){
+  var rows=[
+    ["제형", state.form],
+    ["생산 물량", qtyLabel()],
+    ["포장 단위", state.unit],
+    ["기능성 카테고리", state.func.join(" · ")],
+    ["희망 원료", state.ing],
+    ["희망 납기", state.lead],
+    ["예산 구간", state.budget],
+    ["우선순위", state.prio+" 우선"],
+    ["추가 요청사항", state.memo || "—"]
+  ];
+  $("#reviewList").innerHTML = rows.map(function(r){
+    return '<div class="summary-row"><dt>'+r[0]+'</dt><dd>'+esc(r[1])+'</dd></div>';
+  }).join("");
+}
+
+function showStep(n){
+  step=n;
+  $$(".fstep").forEach(function(el){ el.hidden = (Number(el.dataset.step)!==n); });
+  $$("#stepper button").forEach(function(b){
+    var s=Number(b.dataset.step);
+    b.dataset.state = s===n ? "active" : (s<n ? "done":"");
+  });
+  $("#stepCount").textContent = n+" / 4 단계";
+  $("#btnPrev").disabled = (n===1);
+  $("#btnNext").hidden = (n===4);
+  $("#btnSubmit").hidden = (n!==4);
+  if(n===4) renderReview();
+}
+$("#btnNext").addEventListener("click",function(){ readForm(); if(step<4) showStep(step+1); });
+$("#btnPrev").addEventListener("click",function(){ if(step>1) showStep(step-1); });
+$$("#stepper button").forEach(function(b){
+  b.addEventListener("click",function(){ readForm(); showStep(Number(b.dataset.step)); });
+});
+$("#quoteForm").addEventListener("change", function(){ readForm(); $("#autosave").textContent="임시저장됨 · 방금"; });
+$("#quoteForm").addEventListener("input", function(){ readForm(); });
+$("#quoteForm").addEventListener("submit", function(e){ e.preventDefault(); });
+
+/* ---------------- matching ---------------- */
+function score(m,i){
+  var s=m.base;
+  // 납기 우선인데 리드타임이 길면 감점, 짧으면 가점
+  var want = state.lead==="2주"?14:(state.lead==="3주"?21:28);
+  var gap = m.lead - want;
+  if(gap>0) s -= Math.min(9, gap);
+  else s += Math.min(3, Math.floor(-gap/3));
+  // 물량 적합도
+  var moq = parseInt(m.moq.replace(/[^0-9]/g,""),10);
+  if(state.qty < moq) s -= 8;
+  else if(state.qty >= moq*3) s += 2;
+  // 우선순위 보정
+  if(state.prio==="품질" && m.certs.length>=2) s += 3;
+  if(state.prio==="소량" && moq<=10000) s += 3;
+  if(state.prio==="납기" && m.lead<=21) s += 2;
+  return Math.max(58, Math.min(99, Math.round(s)));
+}
+function currentMatches(){
+  var set = (SETS[state.form]||SETS["정제"]).slice();
+  return set.map(function(m,i){
+    var o=Object.assign({},m); o.score=score(m,i); return o;
+  }).sort(function(a,b){return b.score-a.score;});
+}
+function renderMatch(){
+  var list=currentMatches();
+  $("#matchSub").textContent =
+    "입력 조건 「"+condLine()+"」 기준으로 등록 제조사 128개사 중 "+list.length+"곳을 추천합니다.";
+  $("#matchChips").innerHTML =
+    chip("제형",state.form)+chip("물량",qtyLabel())+chip("납기",state.lead)+
+    chip("기능성",state.func.join(" · "))+chip("원료",state.ing)+chip("예산",state.budget);
+  $("#matchCount").textContent = "추천 "+list.length+"곳";
+
+  $("#matchList").innerHTML = list.map(function(m,i){
+    return ''+
+    '<article class="maker">'+
+      '<div class="maker-top">'+
+        '<div class="maker-id"><span class="maker-logo">'+m.id+'</span>'+
+          '<span><b>'+m.name+'</b><span>'+m.region+' · '+esc(m.line)+'</span></span></div>'+
+        '<div class="rate"><b>'+m.score+'%</b><span>MATCH</span></div>'+
+      '</div>'+
+      '<div class="bar"><i style="transform:scaleX('+(m.score/100)+')"></i></div>'+
+      '<div class="maker-meta">'+
+        m.certs.map(function(c){return '<span class="badge">'+c+'</span>';}).join("")+
+        '<span class="badge grey">'+state.form+' 대응</span>'+
+        (i===0?'<span class="badge gold">추천 1순위</span>':'')+
+      '</div>'+
+      '<dl style="margin-top:2px">'+
+        '<div class="kv"><dt>최소 발주수량</dt><dd>'+m.moq+'</dd></div>'+
+        '<div class="kv"><dt>예상 리드타임</dt><dd>'+m.lead+'일</dd></div>'+
+        '<div class="kv"><dt>희망 납기 대응</dt><dd>'+m.cap+'</dd></div>'+
+        '<div class="kv"><dt>특이사항</dt><dd>'+esc(m.note)+'</dd></div>'+
+      '</dl>'+
+      '<div style="display:flex;gap:8px;margin-top:6px">'+
+        '<button class="btn btn-primary btn-sm" style="flex:1" data-pick="'+i+'">이 제조사로 진행</button>'+
+        '<button class="btn btn-ghost btn-sm" data-detail="'+i+'">상세</button>'+
+      '</div>'+
+    '</article>';
+  }).join("");
+
+  $("#matchTable").innerHTML = list.map(function(m){
+    return '<tr><td><b>'+m.name+'</b></td><td>'+m.region+'</td><td>'+
+      m.certs.join(" · ")+'</td><td class="num"><b>'+m.score+'%</b></td><td class="num">'+m.moq+
+      '</td><td class="num">'+m.lead+'일</td><td>'+
+      (m.cap==="대응 가능"?'<span class="badge">대응 가능</span>':'<span class="badge gold">일정 협의</span>')+
+      '</td></tr>';
+  }).join("");
+
+  // 애니메이션 재실행
+  requestAnimationFrame(function(){
+    $$("#matchList .bar i").forEach(function(el){
+      var t=el.style.transform; el.style.transform="scaleX(0)";
+      requestAnimationFrame(function(){ el.style.transform=t; });
+    });
+  });
+}
+$("#matchList").addEventListener("click",function(e){
+  var pick=e.target.closest("[data-pick]");
+  if(pick){
+    state.chosen = currentMatches()[Number(pick.dataset.pick)];
+    toast(state.chosen.name+" 선택 · NDA 자동 체결 후 거래가 개설되었습니다");
+    go("deal");
+    return;
+  }
+  var d=e.target.closest("[data-detail]");
+  if(d){
+    var m=currentMatches()[Number(d.dataset.detail)];
+    toast(m.name+" · "+m.region+" · "+m.certs.join("/")+" · 리드타임 "+m.lead+"일");
+  }
+});
+
+/* ---------------- loader → match ---------------- */
+$("#btnSubmit").addEventListener("click",function(){
+  readForm();
+  var box=$("#loader"), prog=$("#lprog"), steps=$$(".lstep");
+  steps.forEach(function(s){s.dataset.on="0";});
+  prog.style.transform="scaleX(0)";
+  box.classList.add("on");
+  var i=0;
+  var t=setInterval(function(){
+    if(i<steps.length){ steps[i].dataset.on="1"; i++; prog.style.transform="scaleX("+(i/steps.length)+")"; }
+    else{
+      clearInterval(t);
+      setTimeout(function(){
+        box.classList.remove("on");
+        go("match");
+        toast("매칭 완료 · 조건에 맞는 제조사 3곳을 찾았습니다");
+      },320);
+    }
+  },330);
+});
+
+/* ---------------- deal ---------------- */
+function renderDeal(){
+  var m = state.chosen || currentMatches()[0];
+  $("#dealSub").textContent =
+    "「"+condLine()+"」 프로젝트 · 선택 제조사 "+m.name+"("+m.region+")";
+  $("#dealChips").innerHTML =
+    chip("제조사", m.name+" ("+m.region+")")+chip("제형",state.form)+
+    chip("물량",qtyLabel())+chip("납기",state.lead);
+  $("#dealSummary").innerHTML = [
+    ["프로젝트 번호","VCB-2608-0142"],
+    ["제형 · 물량", state.form+" · "+qtyLabel()],
+    ["포장 단위", state.unit],
+    ["기능성", state.func.join(" · ")],
+    ["주요 원료", state.ing],
+    ["선택 제조사", m.name+" ("+m.region+")"],
+    ["보유 인증", m.certs.join(" · ")],
+    ["최소 발주수량", m.moq],
+    ["예상 리드타임", m.lead+"일"],
+    ["희망 납기", state.lead]
+  ].map(function(r){
+    return '<div class="kv"><dt>'+r[0]+'</dt><dd>'+esc(r[1])+'</dd></div>';
+  }).join("");
+}
+
+/* ---------------- insight tabs ---------------- */
+$$(".tabs button").forEach(function(b){
+  b.addEventListener("click",function(){
+    $$(".tabs button").forEach(function(x){x.setAttribute("aria-selected", x===b ? "true":"false");});
+    $$(".tabpanel").forEach(function(p){p.classList.toggle("on", p.id==="tab-"+b.dataset.tab);});
+  });
+});
+
+/* ---------------- init ---------------- */
+readForm();
+showStep(1);
+go("home");
+})();
+</script>
+</body>
+</html>
