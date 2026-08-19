@@ -250,11 +250,6 @@
   "date": "2026-08-10"
  },
  {
-  "slug": "vcbio-platform-proto",
-  "title": "VCBio B2B 플랫폼 프로토타입 (시연용 260819)",
-  "date": "2026-08-19"
- },
- {
   "slug": "semicolony-ot-deck",
   "title": "세미콜로니 AI 입문 0회차 — 덱 16장",
   "date": "2026-08-19"
@@ -267,6 +262,11 @@
  {
   "slug": "ccs-2nd-review-260819",
   "title": "청창사 2차 중간평가 발표자료 (18장 전면 재작업 260819)",
+  "date": "2026-08-19"
+ },
+ {
+  "slug": "vcbio-platform-proto",
+  "title": "VCBio B2B 플랫폼 프로토타입 (색감 리디자인 260819)",
   "date": "2026-08-19"
  }
 ]
