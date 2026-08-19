@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
-<title>세미콜로니 AI 입문 0회차 — 덱 16장</title>
+<title>세미콜로니 AI 입문 0회차 — 덱 18장</title>
 <meta name="description" content="AI를 처음 켜는 60분. 앱 설치부터 나를 소개하는 지침까지.">
 <style>
 /* 세미콜로니 AI 입문 0회차 덱 — 화이트 시안(mockup). build_w.py가 생성. 직접 수정 금지.
@@ -293,7 +293,7 @@ h1{ color:var(--c-fg); font-weight:800; text-wrap:balance; }
    액센트는 켜진 탭에만 쓴다(색을 늘리지 않는다는 규칙 유지). */
 .dia-stroke-accent{ stroke:var(--c-ac); }
 .dia-fill-shell{ fill:var(--c-hair); }
-.itv .dia, .tbb .dia{ width:29rem; }
+.itv .dia, .tbb .dia{ width:27rem; }
 
 /* ══ 공통 부품 ════════════════════════════════════════
    여러 배치에서 함께 쓰는 조각들. 배치가 아니라 '안에 들어가는 것'이다. */
@@ -452,9 +452,9 @@ h1{ color:var(--c-fg); font-weight:800; text-wrap:balance; }
 .askhd{ font-size:2.4rem; font-weight:700; letter-spacing:.08em; color:var(--c-ac-2); margin-bottom:1.6rem; }
 .askq{ font-size:2.8rem; line-height:1.5; color:var(--c-fg); }
 .askq b{ color:var(--c-ac-2); }
-.itv-tips{ display:flex; flex-direction:column; gap:1.2rem; }
-.tip .k{ display:block; font-size:2.6rem; font-weight:700; color:var(--c-fg); margin-bottom:.6rem; }
-.tip p{ font-size:2.6rem; line-height:1.4; color:var(--c-fg-3); }
+.itv-tips{ display:flex; flex-direction:column; gap:1rem; }
+.tip .k{ display:block; font-size:2.5rem; font-weight:700; color:var(--c-fg); margin-bottom:.4rem; }
+.tip p{ font-size:2.5rem; line-height:1.35; color:var(--c-fg-3); }
 .itv-body > .cap{ grid-column:1 / -1; }
 
 /* 2026-08-19: 넘김 스크립트를 전부 제거하고 링크로 바꿨다.
@@ -525,7 +525,9 @@ body:has(#s01) .pager{ right:auto; left:2rem; }
 .flow{ display:grid; grid-template-rows:auto 1fr auto; height:100%; }
 .flow-head{ padding:5.2rem 8rem 3.6rem; display:flex; flex-direction:column; gap:2rem; }
 .flow h1{ font-size:8.8rem; line-height:1.02; letter-spacing:-.04em; }
-.flow-cols{ display:grid; grid-template-columns:repeat(4,1fr); border-top:.1rem solid var(--c-hair); }
+/* 2026-08-19 검증 P1-1: 4열 고정이라 신설 3장(자식 3개)에서 우측 1/4이 빈 면이 되고
+   칸이 좁아져 s12가 넘치고 s10 주소가 쪼개졌다. 자식 수에 맞춰 늘어나게 바꾼다. */
+.flow-cols{ display:grid; grid-auto-flow:column; grid-auto-columns:1fr; border-top:.1rem solid var(--c-hair); }
 .flow-col{
   border-left:.1rem solid var(--c-hair); padding:4rem;
   display:flex; flex-direction:column; gap:2rem;
@@ -763,7 +765,7 @@ html.fit{ font-size:min(0.625vw, 1.111vh); }
 body{ background:#8A8A8E; margin:0; padding:2.4rem 0 6rem; }
 .wrap{ display:flex; flex-direction:column; align-items:center; gap:2.4rem; }
 .item{ width:160rem; max-width:100%; }
-.tag{ font:700 2.2rem/1 var(--font,sans-serif); color:#fff;
+.shelf-no{ font:700 2.2rem/1 var(--font,sans-serif); color:#fff;
       letter-spacing:.08em; padding:0 0 .8rem .4rem; }
 .item .slide{ box-shadow:0 .6rem 2.4rem rgba(0,0,0,.28); }
 .pager{ display:none; }
@@ -771,7 +773,7 @@ body{ background:#8A8A8E; margin:0; padding:2.4rem 0 6rem; }
 </head>
 <body>
 <div class="wrap">
-<div class="item"><div class="tag">01 / 16</div><div class="slide" id="s01">
+<div class="item"><div class="shelf-no">01 / 18</div><div class="slide" id="s01">
   <div class="cv v1">
     <div class="cv-type">
       <h1>AI, 어디서부터<br>시작하죠?</h1>
@@ -784,8 +786,8 @@ body{ background:#8A8A8E; margin:0; padding:2.4rem 0 6rem; }
     </div>
   </div>
 </div></div>
-<div class="item"><div class="tag">02 / 16</div><div class="slide" id="s02">
-  <div class="hd"><span class="chip">PART 1 &middot; 오늘은 딱 하나</span><span class="prog">02 / 16</span></div>
+<div class="item"><div class="shelf-no">02 / 18</div><div class="slide" id="s02">
+  <div class="hd"><span class="chip">PART 1 &middot; 오늘은 딱 하나</span><span class="prog">02 / 18</span></div>
   <div class="st">
     <div class="st-main">
       <h1>안 써보신 게<br>이상한 게 아닙니다</h1>
@@ -796,8 +798,8 @@ body{ background:#8A8A8E; margin:0; padding:2.4rem 0 6rem; }
     </div>
   </div>
 </div></div>
-<div class="item"><div class="tag">03 / 16</div><div class="slide" id="s03">
-  <div class="hd"><span class="chip">PART 1 &middot; 오늘은 딱 하나</span><span class="prog">03 / 16</span></div>
+<div class="item"><div class="shelf-no">03 / 18</div><div class="slide" id="s03">
+  <div class="hd"><span class="chip">PART 1 &middot; 오늘은 딱 하나</span><span class="prog">03 / 18</span></div>
   <div class="q">
     <div class="q-head">
       <h1>오늘 답할 질문 세 개</h1>
@@ -816,8 +818,8 @@ body{ background:#8A8A8E; margin:0; padding:2.4rem 0 6rem; }
     </div>
   </div>
 </div></div>
-<div class="item"><div class="tag">04 / 16</div><div class="slide" id="s04">
-  <div class="hd"><span class="chip">PART 2 &middot; AI 지도</span><span class="prog">04 / 16</span></div>
+<div class="item"><div class="shelf-no">04 / 18</div><div class="slide" id="s04">
+  <div class="hd"><span class="chip">PART 2 &middot; AI 지도</span><span class="prog">04 / 18</span></div>
   <div class="rl">
     <div class="rl-body">
       <div class="stack">
@@ -839,8 +841,8 @@ body{ background:#8A8A8E; margin:0; padding:2.4rem 0 6rem; }
     </div>
   </div>
 </div></div>
-<div class="item"><div class="tag">05 / 16</div><div class="slide" id="s05">
-  <div class="hd"><span class="chip">PART 2 &middot; AI 지도</span><span class="prog">05 / 16</span></div>
+<div class="item"><div class="shelf-no">05 / 18</div><div class="slide" id="s05">
+  <div class="hd"><span class="chip">PART 2 &middot; AI 지도</span><span class="prog">05 / 18</span></div>
   <div class="tri">
     <div class="tri-head">
       <div>
@@ -864,8 +866,8 @@ body{ background:#8A8A8E; margin:0; padding:2.4rem 0 6rem; }
       <p class="tag">오늘은 이름만</p></div>
   </div>
 </div></div>
-<div class="item"><div class="tag">06 / 16</div><div class="slide" id="s06">
-  <div class="hd"><span class="chip">PART 2 &middot; AI 지도</span><span class="prog">06 / 16</span></div>
+<div class="item"><div class="shelf-no">06 / 18</div><div class="slide" id="s06">
+  <div class="hd"><span class="chip">PART 2 &middot; AI 지도</span><span class="prog">06 / 18</span></div>
   <div class="tbb">
     <div class="tbb-main">
       <div class="appwin"><svg class="dia" viewBox="0 0 420 190" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect class="dia-fill-surface dia-stroke-line" x="2" y="2" width="416" height="186" rx="14"/><path class="dia-stroke-line" d="M2 26h416"/><circle class="dia-fill-line" cx="20" cy="14" r="3" stroke="none"/><circle class="dia-fill-line" cx="32" cy="14" r="3" stroke="none"/><circle class="dia-fill-line" cx="44" cy="14" r="3" stroke="none"/><rect class="dia-stroke-soft" x="18" y="38" width="104" height="26" rx="8"/><rect class="dia-fill-tint dia-stroke-accent" x="134" y="38" width="118" height="26" rx="8"/><rect class="dia-stroke-soft" x="264" y="38" width="104" height="26" rx="8"/><path class="dia-stroke-accent" d="M158 70h70"/><path class="dia-stroke-line" d="M2 78h416M140 78v110"/><path class="dia-stroke-soft" d="M22 96h20l6 7h44a5 5 0 0 1 5 5v30a5 5 0 0 1-5 5H22a5 5 0 0 1-5-5v-37a5 5 0 0 1 5-5Z"/><path class="dia-stroke-soft" d="M22 156h74M22 168h56"/><rect class="dia-fill-tint" x="158" y="94" width="150" height="26" rx="8" stroke="none"/><rect class="dia-fill-shell" x="238" y="128" width="164" height="26" rx="8" stroke="none"/><rect class="dia-stroke-soft" x="158" y="164" width="244" height="16" rx="6"/></svg></div>
@@ -899,8 +901,8 @@ body{ background:#8A8A8E; margin:0; padding:2.4rem 0 6rem; }
     </div>
   </div>
 </div></div>
-<div class="item"><div class="tag">07 / 16</div><div class="slide" id="s07">
-  <div class="hd"><span class="chip">PART 2 &middot; AI 지도</span><span class="prog">07 / 16</span></div>
+<div class="item"><div class="shelf-no">07 / 18</div><div class="slide" id="s07">
+  <div class="hd"><span class="chip">PART 2 &middot; AI 지도</span><span class="prog">07 / 18</span></div>
   <div class="duo">
     <div class="duo-head">
       <h1>진짜 차이는 여기 있습니다</h1>
@@ -916,8 +918,8 @@ body{ background:#8A8A8E; margin:0; padding:2.4rem 0 6rem; }
     </div>
   </div>
 </div></div>
-<div class="item"><div class="tag">08 / 16</div><div class="slide" id="s08">
-  <div class="hd"><span class="chip">PART 3 &middot; 왜 컴퓨터에서 해야 하나</span><span class="prog">08 / 16</span></div>
+<div class="item"><div class="shelf-no">08 / 18</div><div class="slide" id="s08">
+  <div class="hd"><span class="chip">PART 3 &middot; 왜 컴퓨터에서 해야 하나</span><span class="prog">08 / 18</span></div>
   <div class="cmp">
     <div class="cmp-head">
       <h1>내 파일은 노트북에서 엽니다</h1>
@@ -934,8 +936,8 @@ body{ background:#8A8A8E; margin:0; padding:2.4rem 0 6rem; }
     <div class="cmp-cap"><p class="cap">그래서 오늘 노트북을 가져오시라고 했습니다.</p></div>
   </div>
 </div></div>
-<div class="item"><div class="tag">09 / 16</div><div class="slide" id="s09">
-  <div class="hd"><span class="chip">PART 3 &middot; 왜 컴퓨터에서 해야 하나</span><span class="prog">09 / 16</span></div>
+<div class="item"><div class="shelf-no">09 / 18</div><div class="slide" id="s09">
+  <div class="hd"><span class="chip">PART 3 &middot; 왜 컴퓨터에서 해야 하나</span><span class="prog">09 / 18</span></div>
   <div class="tri">
     <div class="tri-head">
       <div>
@@ -955,40 +957,84 @@ body{ background:#8A8A8E; margin:0; padding:2.4rem 0 6rem; }
       <p class="tag">일정 &middot; 주고받은 메일</p></div>
   </div>
 </div></div>
-<div class="item"><div class="tag">10 / 16</div><div class="slide" id="s10">
-  <div class="hd"><span class="chip">PART 4 &middot; 다 같이 깔기</span><span class="prog">10 / 16</span></div>
+<div class="item"><div class="shelf-no">10 / 18</div><div class="slide" id="s10">
+  <div class="hd"><span class="chip">PART 4 &middot; 다 같이 깔기</span><span class="prog">10 / 18</span></div>
   <div class="flow">
     <div class="flow-head">
-      <h1>네 단계면 끝납니다</h1>
-      <p class="lead">트랙은 달라도 순서는 같습니다.</p>
+      <h1>먼저 앱을 내려받습니다</h1>
+      <p class="lead">지금 같이 합니다. 둘 중 <b>하나만</b> 고르세요.</p>
     </div>
     <div class="flow-cols">
-      <div class="flow-col"><span class="n">1</span><svg class="ic" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M4 21h16"/></svg><p>공식 사이트에서 앱을 내려받습니다</p>
-        <p class="tag">claude.com / chatgpt.com</p></div>
-      <div class="flow-col"><span class="n">2</span><svg class="ic" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><p>내 계정으로 로그인합니다</p></div>
-      <div class="flow-col"><span class="n">3</span><svg class="ic" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="6" height="14" rx="1"/><rect x="9" y="5" width="6" height="14" rx="1"/><rect x="16" y="5" width="6" height="14" rx="1"/></svg><p>모드를 고릅니다</p>
-        <p class="tag">Claude Cowork / ChatGPT Work</p></div>
-      <div class="flow-col"><span class="n">4</span><svg class="ic" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h4l2 3h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2Z"/></svg><p>일할 폴더를 지정합니다</p></div>
+      <div class="flow-col"><span class="n">A</span><svg class="ic" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M4 21h16"/></svg><p><b>ChatGPT</b>로 시작</p>
+        <p class="tag">chatgpt.com &rarr; 다운로드</p></div>
+      <div class="flow-col"><span class="n">B</span><svg class="ic" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M4 21h16"/></svg><p><b>Claude</b>로 시작</p>
+        <p class="tag">claude.com/ko/download</p></div>
+      <div class="flow-col"><span class="n">!</span><svg class="ic" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="11" rx="2"/><path d="M2 20h20"/></svg><p><b>폰 앱이 아닙니다</b></p>
+        <p class="tag">컴퓨터에 까는 앱</p></div>
     </div>
     <div class="flow-warn">
-      <p class="warn">ChatGPT는 &lsquo;Classic&rsquo;이 아니라 최신 앱을 받아주세요.
+      <p class="warn">ChatGPT는 &lsquo;Classic&rsquo; 말고 <b>위쪽 최신 앱</b>을 받아주세요.
         새 기능은 새 앱에서만 제공될 수 있습니다.</p>
     </div>
   </div>
 </div></div>
-<div class="item"><div class="tag">11 / 16</div><div class="slide" id="s11">
-  <div class="hd"><span class="chip">PART 4 &middot; 다 같이 깔기</span><span class="prog">11 / 16</span></div>
+<div class="item"><div class="shelf-no">11 / 18</div><div class="slide" id="s11">
+  <div class="hd"><span class="chip">PART 4 &middot; 다 같이 깔기</span><span class="prog">11 / 18</span></div>
+  <div class="flow">
+    <div class="flow-head">
+      <h1>로그인하고 &lsquo;일 시키는 칸&rsquo;을 엽니다</h1>
+      <p class="lead">앞에서 본 가운데 칸입니다.</p>
+    </div>
+    <div class="flow-cols">
+      <div class="flow-col"><span class="n">1</span><svg class="ic" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><p>앱을 열고 내 계정으로 로그인</p>
+        <p class="tag">구글 계정으로도 됩니다</p></div>
+      <div class="flow-col"><span class="n">2</span><svg class="ic" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="6" height="14" rx="1"/><rect x="9" y="5" width="6" height="14" rx="1"/><rect x="16" y="5" width="6" height="14" rx="1"/></svg><p>화면 위쪽에서 칸을 바꿉니다</p>
+        <p class="tag">ChatGPT &mdash; Work / Claude &mdash; Cowork</p></div>
+      <div class="flow-col"><span class="n">3</span><svg class="ic" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg><p>여기까지 오면 준비 끝</p>
+        <p class="tag">아직 아무것도 안 시켜도 됩니다</p></div>
+    </div>
+    <div class="flow-warn">
+      <p class="warn">칸이 안 보이면 앱이 구버전일 수 있습니다. 최신 앱을 다시 받아보세요.
+        Claude 쪽에서 칸이 끝내 안 보이면 <b>ChatGPT로 바꿔서</b> 따라오시면 됩니다.
+        <b>막히면 손 들어주세요.</b> 옆에서 같이 봅니다.</p>
+    </div>
+  </div>
+</div></div>
+<div class="item"><div class="shelf-no">12 / 18</div><div class="slide" id="s12">
+  <div class="hd"><span class="chip">PART 4 &middot; 다 같이 깔기</span><span class="prog">12 / 18</span></div>
+  <div class="flow">
+    <div class="flow-head">
+      <h1>일할 폴더를 하나 만듭니다</h1>
+      <p class="lead">AI가 들여다볼 방을 하나 정해 주는 겁니다.</p>
+    </div>
+    <div class="flow-cols">
+      <div class="flow-col"><span class="n">1</span><svg class="ic" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h4l2 3h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2Z"/></svg><p>바탕화면에 새 폴더를 만듭니다</p>
+        <p class="tag">이름은 아무거나 &mdash; 예: AI연습</p></div>
+      <div class="flow-col"><span class="n">2</span><svg class="ic" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg><p>파일 한두 개를 그 안에 넣습니다</p>
+        <p class="tag">회의록 &middot; 견적서 &middot; 주간 보고</p></div>
+      <div class="flow-col"><span class="n">3</span><svg class="ic" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg><p>앱에서 그 폴더를 열어줍니다</p>
+        <p class="tag">지정한 폴더만 보입니다</p></div>
+    </div>
+    <div class="flow-warn">
+      <p class="warn">가져온 파일이 없으면 <b>아무 파일이나 하나</b> 넣으셔도 됩니다 &mdash; 오늘은 여는 연습입니다.
+        계약서&middot;주민번호&middot;통장이 든 파일은 넣지 마세요.</p>
+    </div>
+  </div>
+</div></div>
+<div class="item"><div class="shelf-no">13 / 18</div><div class="slide" id="s13">
+  <div class="hd"><span class="chip">PART 4 &middot; 다 같이 깔기</span><span class="prog">13 / 18</span></div>
   <div class="duo">
     <div class="duo-head">
       <h1>여기까지 되면 성공입니다</h1>
-      <p class="lead">세 가지만 확인하고 다음으로 갑니다.</p>
+      <p class="lead">네 가지만 확인하고 다음으로 갑니다.</p>
     </div>
     <div class="duo-rows">
       <div class="duo-checks">
         <div class="checks">
           <div class="chk"><svg class="ic" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg><span>앱이 열렸다</span></div>
           <div class="chk"><svg class="ic" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg><span>내 계정으로 로그인됐다</span></div>
-          <div class="chk"><svg class="ic" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg><span>모드가 눌린다</span></div>
+          <div class="chk"><svg class="ic" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg><span>일 시키는 칸이 열린다</span></div>
+          <div class="chk"><svg class="ic" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg><span>내 폴더를 열어줬다</span></div>
         </div>
         <div class="big-ok"><svg class="ic big" width="220" height="220" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg></div>
       </div>
@@ -997,8 +1043,8 @@ body{ background:#8A8A8E; margin:0; padding:2.4rem 0 6rem; }
     </div>
   </div>
 </div></div>
-<div class="item"><div class="tag">12 / 16</div><div class="slide" id="s12">
-  <div class="hd"><span class="chip">PART 5 &middot; AI에게 안내문 주기</span><span class="prog">12 / 16</span></div>
+<div class="item"><div class="shelf-no">14 / 18</div><div class="slide" id="s14">
+  <div class="hd"><span class="chip">PART 5 &middot; AI에게 안내문 주기</span><span class="prog">14 / 18</span></div>
   <div class="rail">
     <div class="rail-head">
       <p class="lead">앱 안에 상시 안내문을 넣는 칸이 있습니다.</p>
@@ -1015,8 +1061,8 @@ body{ background:#8A8A8E; margin:0; padding:2.4rem 0 6rem; }
     </div>
   </div>
 </div></div>
-<div class="item"><div class="tag">13 / 16</div><div class="slide" id="s13">
-  <div class="hd"><span class="chip">PART 5 &middot; AI에게 안내문 주기</span><span class="prog">13 / 16</span></div>
+<div class="item"><div class="shelf-no">15 / 18</div><div class="slide" id="s15">
+  <div class="hd"><span class="chip">PART 5 &middot; AI에게 안내문 주기</span><span class="prog">15 / 18</span></div>
   <div class="itv">
     <div class="itv-head">
       <div>
@@ -1047,8 +1093,8 @@ body{ background:#8A8A8E; margin:0; padding:2.4rem 0 6rem; }
     </div>
   </div>
 </div></div>
-<div class="item"><div class="tag">14 / 16</div><div class="slide" id="s14">
-  <div class="hd"><span class="chip">PART 5 &middot; AI에게 안내문 주기</span><span class="prog">14 / 16</span></div>
+<div class="item"><div class="shelf-no">16 / 18</div><div class="slide" id="s16">
+  <div class="hd"><span class="chip">PART 5 &middot; AI에게 안내문 주기</span><span class="prog">16 / 18</span></div>
   <div class="tbb one">
     <div class="tbb-main">
       <table class="tbl gl eight">
@@ -1080,8 +1126,8 @@ body{ background:#8A8A8E; margin:0; padding:2.4rem 0 6rem; }
     </div>
   </div>
 </div></div>
-<div class="item"><div class="tag">15 / 16</div><div class="slide" id="s15">
-  <div class="hd"><span class="chip">PART 5 &middot; AI에게 안내문 주기</span><span class="prog">15 / 16</span></div>
+<div class="item"><div class="shelf-no">17 / 18</div><div class="slide" id="s17">
+  <div class="hd"><span class="chip">PART 5 &middot; AI에게 안내문 주기</span><span class="prog">17 / 18</span></div>
   <div class="dlg">
     <div class="dlg-talk">
       <div class="bubble me"><p>내 소개 한 장으로 만들어줘</p></div>
@@ -1109,8 +1155,8 @@ body{ background:#8A8A8E; margin:0; padding:2.4rem 0 6rem; }
     </div>
   </div>
 </div></div>
-<div class="item"><div class="tag">16 / 16</div><div class="slide" id="s16">
-  <div class="hd"><span class="chip">PART 6 &middot; 마무리</span><span class="prog">16 / 16</span></div>
+<div class="item"><div class="shelf-no">18 / 18</div><div class="slide" id="s18">
+  <div class="hd"><span class="chip">PART 6 &middot; 마무리</span><span class="prog">18 / 18</span></div>
   <div class="st">
     <div class="st-main">
       <h1>다음 주까지 이것 하나만</h1>
