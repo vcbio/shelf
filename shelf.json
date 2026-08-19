@@ -195,11 +195,6 @@
   "date": "2026-07-29"
  },
  {
-  "slug": "semicolony-ot-deck",
-  "title": "세미콜로니 AI 입문 0회차 — 덱 20장",
-  "date": "2026-07-31"
- },
- {
   "slug": "designmd",
   "title": "VCBio DESIGN.md 디자인 규격 전문",
   "date": "2026-08-01"
@@ -267,6 +262,11 @@
  {
   "slug": "ccs-2nd-review-260819",
   "title": "청창사 2차 중간평가 발표자료 (도해 18개 반영 260819)",
+  "date": "2026-08-19"
+ },
+ {
+  "slug": "semicolony-ot-deck",
+  "title": "세미콜로니 AI 입문 0회차 — 덱 16장",
   "date": "2026-08-19"
  }
 ]
