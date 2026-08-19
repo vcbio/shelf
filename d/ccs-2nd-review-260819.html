@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<title>㈜브이씨바이오 — 2026년 대전 청년창업사관학교 2차 중간평가</title>
+<style>
+  @page { size: 1600px 900px; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --charcoal: #1C1C1A;
+    --warm-cream: #F2F0EB;
+    --deep-green: #1E3932;
+    --accent-green: #2E7D5B;
+    --accent-green-light: #3D9970;
+    --grain-beige: #C9BCA4;
+    --muted-gold: #B8954A;
+    --ink: rgba(0, 0, 0, 0.87);
+    --ink-muted: rgba(0, 0, 0, 0.58);
+    --cream-muted: rgba(242, 240, 235, 0.55);
+  }
+
+  html { -webkit-font-smoothing: antialiased; }
+
+  body {
+    font-family: Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--charcoal);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .slide {
+    width: 1600px;
+    height: 900px;
+    padding: 64px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    break-after: page;
+    page-break-after: always;
+  }
+  .slide:last-child { break-after: auto; page-break-after: auto; }
+
+  .dark { background: var(--charcoal); color: var(--warm-cream); }
+  .cream { background: var(--warm-cream); color: var(--ink); }
+
+  /* ---------- furniture ---------- */
+  .eyebrow {
+    font-size: 15px; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .dark .eyebrow { color: var(--grain-beige); }
+  .cream .eyebrow { color: var(--deep-green); }
+
+  .hairline { height: 1px; margin: 20px 0 0; }
+  .dark .hairline { background: rgba(242, 240, 235, 0.15); }
+  .cream .hairline { background: rgba(30, 57, 50, 0.18); }
+
+  .title {
+    font-size: 40px; font-weight: 600; line-height: 1.25;
+    letter-spacing: -0.01em; margin-top: 28px;
+  }
+  .cream .title { color: var(--deep-green); }
+  .cream .title::after {
+    content: ""; display: block; width: 64px; height: 3px;
+    background: var(--accent-green); margin-top: 14px;
+  }
+  .subtitle {
+    font-size: 21px; font-weight: 500; line-height: 1.5; margin-top: 14px;
+    max-width: 92ch;
+  }
+  .dark .subtitle { color: var(--grain-beige); }
+  .cream .subtitle { color: var(--ink-muted); }
+
+  .body-area { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+  .foot {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    font-size: 13px; padding-top: 20px;
+  }
+  .logo { font-size: 19px; font-weight: 700; letter-spacing: 0.04em; }
+  .dark .logo { color: var(--warm-cream); }
+  .cream .logo { color: var(--deep-green); }
+  .dark .pageno { color: var(--cream-muted); }
+  .cream .pageno { color: var(--ink-muted); }
+
+  .note { font-size: 13px; line-height: 1.5; }
+  .dark .note { color: var(--cream-muted); }
+  .cream .note { color: var(--ink-muted); }
+  .gold { color: var(--muted-gold); }
+  .grn { color: var(--accent-green-light); }
+
+  /* ---------- cover ---------- */
+  .hero {
+    font-size: 96px; font-weight: 700; line-height: 1.08;
+    letter-spacing: -0.025em;
+  }
+  .lede {
+    font-size: 21px; font-weight: 500; line-height: 1.6;
+    color: var(--grain-beige); margin-top: 28px; max-width: 62ch;
+  }
+  .meta { display: flex; gap: 40px; border-top: 1px solid var(--deep-green); padding-top: 22px; }
+  .meta div { flex: 1; }
+  .meta dt {
+    font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--grain-beige); margin-bottom: 8px;
+  }
+  .meta dd { font-size: 19px; font-weight: 500; line-height: 1.4; }
+
+  /* ---------- declaration ---------- */
+  .declare {
+    font-size: 60px; font-weight: 700; line-height: 1.32; letter-spacing: -0.02em;
+    max-width: 26ch;
+  }
+
+  /* ---------- generic grids ---------- */
+  .cols { display: flex; gap: 24px; }
+  .cols > * { flex: 1; }
+
+  .panel {
+    background: var(--deep-green); color: var(--warm-cream);
+    border-radius: 8px; padding: 24px;
+  }
+  .card {
+    border: 1px solid rgba(30, 57, 50, 0.22); border-radius: 8px;
+    padding: 24px; background: rgba(30, 57, 50, 0.04);
+  }
+  .card-dark {
+    border: 1px solid rgba(242, 240, 235, 0.16); border-radius: 8px;
+    padding: 24px;
+  }
+  .card h4, .panel h4, .card-dark h4 {
+    font-size: 19px; font-weight: 600; line-height: 1.4; margin-bottom: 12px;
+  }
+  .card h4 { color: var(--deep-green); }
+  .num-tag {
+    font-size: 13px; font-weight: 600; letter-spacing: 0.1em;
+    color: var(--accent-green); margin-bottom: 10px; display: block;
+  }
+  .panel .num-tag, .card-dark .num-tag { color: var(--grain-beige); }
+
+  ul.tight { list-style: none; }
+  ul.tight li {
+    font-size: 16px; font-weight: 400; line-height: 1.62; padding-left: 15px;
+    position: relative;
+  }
+  ul.tight li::before {
+    content: ""; position: absolute; left: 0; top: 11px;
+    width: 5px; height: 5px; border-radius: 4px; background: var(--accent-green);
+  }
+  .cream .card ul.tight li { color: var(--ink-muted); }
+  .panel ul.tight li, .card-dark ul.tight li { color: var(--grain-beige); }
+  .panel ul.tight li::before, .card-dark ul.tight li::before { background: var(--grain-beige); }
+
+  /* ---------- KPI ---------- */
+  .kpis { display: flex; gap: 24px; }
+  .kpi { flex: 1; }
+  .kpi .k-label {
+    font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .dark .k-label { color: var(--grain-beige); }
+  .cream .k-label { color: var(--ink-muted); }
+  .kpi .k-value {
+    font-size: 56px; font-weight: 700; line-height: 1.05; letter-spacing: -0.02em;
+  }
+  .kpi .k-value .unit { font-size: 26px; font-weight: 600; letter-spacing: 0; }
+  .kpi .k-sub { font-size: 13px; margin-top: 10px; line-height: 1.5; }
+  .dark .k-sub { color: var(--cream-muted); }
+  .cream .k-sub { color: var(--ink-muted); }
+
+  /* ---------- table ---------- */
+  table { width: 100%; border-collapse: collapse; font-size: 16px; font-weight: 500; }
+  thead th {
+    text-align: left; font-size: 13px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--deep-green);
+    background: rgba(30, 57, 50, 0.08); padding: 14px 16px;
+  }
+  tbody td { padding: 13px 16px; border-bottom: 1px solid rgba(30, 57, 50, 0.14); line-height: 1.45; }
+  td.n { text-align: right; font-variant-numeric: tabular-nums; }
+  tr.total td { background: rgba(46, 125, 91, 0.13); font-weight: 700; color: var(--deep-green); border-bottom: none; }
+  td .muted { color: var(--ink-muted); font-size: 13px; }
+
+  /* ---------- bar chart ---------- */
+  .bars { display: flex; align-items: flex-end; gap: 56px; height: 300px; }
+  .bar-col { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; }
+  .bar-val { font-size: 26px; font-weight: 700; margin-bottom: 10px; }
+  .bar { border-radius: 4px 4px 0 0; }
+  .bar-label { font-size: 15px; font-weight: 500; margin-top: 12px; color: var(--grain-beige); }
+  .bar-note { font-size: 13px; color: var(--cream-muted); margin-top: 4px; }
+
+  /* ---------- bullet (target vs actual) ---------- */
+  .bullet { position: relative; height: 76px; background: rgba(242, 240, 235, 0.08); border-radius: 4px; }
+  .bullet .fill {
+    position: absolute; left: 0; top: 0; bottom: 0;
+    background: var(--accent-green); border-radius: 4px;
+  }
+  .bullet .fill-proj {
+    position: absolute; left: 0; top: 0; bottom: 0;
+    border: 2px dashed var(--grain-beige); border-radius: 4px;
+  }
+  .bullet .marker { position: absolute; top: -8px; bottom: -8px; width: 3px; background: var(--muted-gold); }
+  .bullet .in-label {
+    position: absolute; left: 24px; top: 50%; transform: translateY(-50%);
+    font-size: 21px; font-weight: 700; color: var(--warm-cream);
+  }
+  .scale { display: flex; justify-content: space-between; font-size: 13px; color: var(--cream-muted); margin-top: 10px; }
+
+  /* ---------- match badge ---------- */
+  .match { display: flex; align-items: center; gap: 24px; }
+  .match .side { flex: 1; }
+  .match .side .m-label { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-muted); }
+  .match .side .m-num { font-size: 40px; font-weight: 700; color: var(--deep-green); line-height: 1.2; margin-top: 6px; }
+  .match .eq {
+    background: var(--deep-green); color: var(--warm-cream); border-radius: 8px;
+    padding: 14px 22px; text-align: center; flex: 0 0 auto;
+  }
+  .match .eq .big { font-size: 26px; font-weight: 700; line-height: 1.2; }
+  .match .eq .sm { font-size: 13px; color: var(--grain-beige); margin-top: 4px; }
+
+  /* ---------- timeline ---------- */
+  .timeline { display: flex; gap: 0; }
+  .tl-step { flex: 1; padding-right: 24px; border-top: 3px solid var(--accent-green); padding-top: 16px; }
+  .tl-step:last-child { padding-right: 0; }
+  .tl-step .tl-when { font-size: 21px; font-weight: 700; color: var(--deep-green); }
+  .dark .tl-step { border-top-color: var(--grain-beige); }
+  .dark .tl-step .tl-when { color: var(--warm-cream); }
+  .tl-step .tl-what { font-size: 16px; line-height: 1.55; margin-top: 8px; color: var(--ink-muted); }
+  .dark .tl-step .tl-what { color: var(--grain-beige); }
+
+  /* ---------- flow ---------- */
+  .flow { display: flex; align-items: stretch; gap: 16px; }
+  .flow .node { flex: 1; border: 1px solid rgba(242, 240, 235, 0.16); border-radius: 8px; padding: 24px; }
+  .flow .node.mid { background: var(--deep-green); border-color: var(--deep-green); }
+  .flow .arrow {
+    flex: 0 0 40px; display: flex; align-items: center; justify-content: center;
+    color: var(--grain-beige); font-size: 21px;
+  }
+
+  .placeholder {
+    color: var(--muted-gold); font-weight: 600;
+    border-bottom: 1px dashed var(--muted-gold);
+  }
+</style>
+
+<style>
+@media (max-width: 1100px){
+  body{ margin:0; padding:0; background:#111; }
+  .slide{
+    transform: scale(calc(100vw / 1600));
+    transform-origin: top left;
+    margin: 0 0 calc((100vw / 1600 - 1) * 900px + 10px) 0 !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== 01 표지 (dark) ===== -->
+<section class="slide dark">
+  <header>
+    <p class="eyebrow">2026년 청년창업사관학교 16기 · 2차 중간평가 · 대전</p>
+    <div class="hairline"></div>
+  </header>
+
+  <div class="body-area">
+    <h1 class="hero">매출은 못 채웠습니다.<br><span class="gold">플랫폼은 만들었습니다.</span></h1>
+    <p class="lede">
+      시장이 2년 연속 역성장한 해에, 우리는 매출 대신 과제의 본질인 플랫폼 구축에 리소스를 넣었습니다.</p>
+  </div>
+
+  <footer>
+    <dl class="meta">
+      <div>
+        <dt>기업</dt>
+        <dd>주식회사 브이씨바이오</dd>
+      </div>
+      <div>
+        <dt>과제번호</dt>
+        <dd>20377861</dd>
+      </div>
+      <div>
+        <dt>발표자</dt>
+        <dd>대표이사 김민식</dd>
+      </div>
+      <div>
+        <dt>발표일</dt>
+        <dd>2026년 8월 26일</dd>
+      </div>
+    </dl>
+    <div class="foot">
+      <span class="logo">VCBIO</span>
+      <span class="pageno">01</span>
+    </div>
+  </footer>
+</section>
+
+<!-- ===== 02 기업의 목적 (dark) ===== -->
+<section class="slide dark">
+  <header>
+    <p class="eyebrow">01 · 기업의 목적</p>
+    <div class="hairline"></div>
+  </header>
+
+  <div class="body-area">
+    <p class="declare">
+      건강기능식품을 만들려는 회사가<br>
+      <span class="grn">원료·제조·품질</span>을<br>
+      한 곳에서 끝내게 합니다.
+    </p>
+    <p class="lede" style="margin-top:36px;">
+      브이씨바이오는 흩어진 B2B 밸류체인을 하나의 창구로 묶는 회사입니다.
+      지금은 오프라인에서 그 실행을 증명했고, 다음은 플랫폼입니다.
+    </p>
+  </div>
+
+  <footer>
+    <div class="kpis" style="border-top:1px solid var(--deep-green); padding-top:24px;">
+      <div class="kpi">
+        <p class="k-label">2025년 매출</p>
+        <p class="k-value">25<span class="unit">억원</span></p>
+        <p class="k-sub">2024년 3.9억원 대비 541% 성장</p>
+      </div>
+      <div class="kpi">
+        <p class="k-label">2026년 1~7월 매출</p>
+        <p class="k-value">7.51<span class="unit">억원</span></p>
+        <p class="k-sub">공급가액 750,814,462원</p>
+      </div>
+      <div class="kpi">
+        <p class="k-label">사업 형태</p>
+        <p class="k-value">B2B<span class="unit"> 원료·OEM/ODM</span></p>
+        <p class="k-sub">브랜드사·유통사 대상 위탁생산 중개</p>
+      </div>
+    </div>
+    <div class="foot">
+      <span class="logo">VCBIO</span>
+      <span class="pageno">02</span>
+    </div>
+  </footer>
+</section>
+
+<!-- ===== 03 문제 인식 (cream) ===== -->
+<section class="slide cream">
+  <header>
+    <p class="eyebrow">02 · 문제 인식</p>
+    <h2 class="title">양쪽 모두 상대를 찾지 못해 손해를 봅니다</h2>
+    <p class="subtitle">브랜드사는 만들 곳을 못 찾고, 제조사는 팔 곳을 못 찾습니다. 같은 시장 안에서 벌어지는 일입니다.</p>
+  </header>
+
+  <div class="body-area">
+    <div class="cols">
+      <div class="card">
+        <span class="num-tag">CLIENT SIDE · 브랜드사 / 유통사</span>
+        <h4>제품을 만들고 싶어도<br>어디서부터 시작할지 모릅니다</h4>
+        <ul class="tight">
+          <li>원료 소싱처를 건별로 개별 접촉해야 함 — 가격·스펙 비교 기준이 없음</li>
+          <li>제조사 설비 현황과 GMP·HACCP 인증 상태를 사전에 확인할 방법이 없음</li>
+          <li>기획부터 양산까지 단계마다 담당이 달라 리드타임이 길어짐</li>
+          <li>소량 발주는 대형 제조사 최소수량 조건에 걸려 진행 자체가 어려움</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="num-tag">SUPPLY SIDE · OEM / ODM 제조사</span>
+        <h4>라인은 비어 있는데<br>주문이 들어오지 않습니다</h4>
+        <ul class="tight">
+          <li>자체 영업 인력이 없어 신규 고객 발굴이 수주 대기에 의존</li>
+          <li>시즌별 발주 편차로 가동률이 급등락, 고정비 부담이 그대로 남음</li>
+          <li>해외 프리미엄 원료를 직접 조달할 역량이 없어 중간 유통 마진을 부담</li>
+          <li>브랜드사의 기획 단계 요구를 해석해 줄 기술 창구가 없음</li>
+        </ul>
+      </div>
+    </div>
+    <p class="note" style="margin-top:20px;">
+      * 위 항목은 당사가 5년간 B2B 원료 공급·위탁생산 거래에서 직접 관찰한 현장 문제이며, 외부 조사기관의 정량 조사 결과가 아닙니다.
+    </p>
+  </div>
+
+  <div class="foot">
+    <span class="logo">VCBIO</span>
+    <span class="pageno">03</span>
+  </div>
+</section>
+
+<!-- ===== 04 해결책 (cream) ===== -->
+<section class="slide cream">
+  <header>
+    <p class="eyebrow">03 · 해결책</p>
+    <h2 class="title">네 단계를 한 창구로 묶습니다</h2>
+    <p class="subtitle">원료를 찾고, 만들 곳을 붙이고, 기술로 받치고, 서류로 닫습니다. 이 네 가지가 한 곳에서 끝나는 것이 고객이 얻는 값입니다.</p>
+  </header>
+
+  <div class="body-area">
+    <div class="cols">
+      <div class="card">
+        <span class="num-tag">01</span>
+        <h4>글로벌 원료 직소싱</h4>
+        <ul class="tight">
+          <li>이탈리아·페루 등 해외 산지 직접 발굴 및 직계약</li>
+          <li>중간 유통 단계를 줄여 원가 구조를 개선</li>
+          <li>소량 발주부터 대량 공급까지 대응</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="num-tag">02</span>
+        <h4>OEM · ODM 제조사 매칭</h4>
+        <ul class="tight">
+          <li>제형·물량·예산 조건에 맞는 GMP·HACCP 제조사 연결</li>
+          <li>비수기 유휴 라인을 활용해 소량 생산 가능성 확보</li>
+          <li>양산까지의 일정·공정을 단일 창구에서 관리</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="num-tag">03</span>
+        <h4>기술 컨설팅</h4>
+        <ul class="tight">
+          <li>식품공학 석사 기반 포뮬러·제형 설계 지원</li>
+          <li>식약처 인허가 절차 및 표시사항 자문</li>
+          <li>신규 기능성 원료 발굴 및 기술 제안</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="num-tag">04</span>
+        <h4>품질 서류 · 거래관리</h4>
+        <ul class="tight">
+          <li>표시사항 검토 엔진으로 라벨 문구 사전 점검</li>
+          <li>시험성적서·품목제조보고서 등 서류 흐름 정리</li>
+          <li>생산 단계별 진행 상황과 이력 관리</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span class="logo">VCBIO</span>
+    <span class="pageno">04</span>
+  </div>
+</section>
+
+<!-- ===== 05 잠재적인 시장의 규모 (dark) ===== -->
+<section class="slide dark">
+  <header>
+    <p class="eyebrow">04 · 잠재적인 시장의 규모</p>
+    <h2 class="title">6조 원 시장의 뒤편, 위탁생산 구간이 우리 자리입니다</h2>
+    <p class="subtitle">완제품 시장이 아니라 그 제품을 만들어 내는 원료·위탁생산 거래가 우리의 매출이 발생하는 구간입니다.</p>
+  </header>
+
+  <div class="body-area">
+    <div class="cols" style="align-items:stretch;">
+      <div class="card-dark">
+        <span class="num-tag">TAM · 전체 시장</span>
+        <p class="k-value" style="font-size:52px;">5조 9,626<span class="unit">억원</span></p>
+        <p class="note" style="margin-top:12px;">
+          2025년 국내 건강기능식품 시장 규모(전년 대비 +0.2%).<br>
+          유통 채널 중 인터넷몰 비중 71%.
+        </p>
+      </div>
+      <div class="card-dark">
+        <span class="num-tag">SAM · 유효 시장</span>
+        <p class="k-value" style="font-size:30px;line-height:1.35;">위탁생산 · 원료<br>거래 구간</p>
+        <p class="note" style="margin-top:12px;">
+          국내 건기식 위탁생산(OEM/ODM) 및 원료 거래 구간.<br>
+          공개 통계로 특정되지 않아 수치를 비워 둡니다.
+        </p>
+      </div>
+      <div class="panel">
+        <span class="num-tag">SOM · 당사 현재 위치</span>
+        <p class="k-value" style="font-size:52px;">7.51<span class="unit">억원</span></p>
+        <p class="note" style="color:var(--grain-beige); margin-top:12px;">
+          2026년 1~7월 실제 공급가액 750,814,462원.<br>
+          월평균 107,259,209원 규모로 거래가 진행 중입니다.
+        </p>
+      </div>
+    </div>
+
+    <div style="margin-top:32px; border-top:1px solid rgba(242,240,235,0.15); padding-top:20px;">
+      <p class="subtitle" style="margin-top:0; font-size:19px;">
+        시장은 이미 성숙했고 성장률은 완만합니다. 그래서 신규 진입 브랜드가 아니라
+        <span class="grn">이미 시장에 있는 브랜드의 제조 비용과 시간</span>을 줄이는 쪽이 실제 수요가 있는 구간입니다.
+      </p>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span class="logo">VCBIO</span>
+    <span class="pageno">05</span>
+  </div>
+</section>
+
+<!-- ===== 06 경쟁과 대체재 (cream) ===== -->
+<section class="slide cream">
+  <header>
+    <p class="eyebrow">05 · 경쟁과 대체재</p>
+    <h2 class="title">경쟁자는 셋, 대체재는 하나입니다</h2>
+    <p class="subtitle">각자 한 구간씩 맡고 있습니다. 우리는 그 구간들 사이에서 끊기는 지점을 붙입니다.</p>
+  </header>
+
+  <div class="body-area">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:20%;">구분</th>
+          <th style="width:26%;">무엇을 하는가</th>
+          <th style="width:28%;">고객이 겪는 한계</th>
+          <th style="width:26%;">우리가 붙는 지점</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>대형 OEM · ODM 제조사</strong><br><span class="muted">직거래</span></td>
+          <td>자사 라인 기준의 제품 생산</td>
+          <td>최소 발주 수량 조건이 높아 소량·신규 브랜드는 진입이 어려움</td>
+          <td>여러 제조사를 조건별로 연결해 소량 발주 경로를 확보</td>
+        </tr>
+        <tr>
+          <td><strong>원료 수입상 · 에이전시</strong></td>
+          <td>해외 원료의 수입·중개</td>
+          <td>원료까지만 담당, 제형화·제조·인허가는 고객이 직접 해결</td>
+          <td>원료부터 양산·품질 서류까지 같은 창구에서 연결</td>
+        </tr>
+        <tr>
+          <td><strong>온라인 B2B 중개 플랫폼</strong></td>
+          <td>제조사 목록과 견적 요청 접수</td>
+          <td>목록 연결에 그쳐 기술 판단과 규제 검토는 제공되지 않음</td>
+          <td>식품공학 기반 기술 검토와 표시사항 점검을 함께 제공</td>
+        </tr>
+        <tr>
+          <td><strong>대체재 — 브랜드사 내부 소싱</strong></td>
+          <td>담당자가 직접 원료사·공장 접촉</td>
+          <td>담당자 개인 역량에 의존, 이직 시 거래 관계가 끊김</td>
+          <td>거래 이력과 서류를 플랫폼에 남겨 담당자와 무관하게 유지</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="note" style="margin-top:18px;">
+      * 위 비교는 당사가 실제 거래·상담 과정에서 확인한 범위를 정리한 것이며, 경쟁사 전수 조사 결과가 아닙니다.
+    </p>
+  </div>
+
+  <div class="foot">
+    <span class="logo">VCBIO</span>
+    <span class="pageno">06</span>
+  </div>
+</section>
+
+<!-- ===== 07 차별화 전략 (cream) ===== -->
+<section class="slide cream">
+  <header>
+    <p class="eyebrow">06 · 차별화 전략</p>
+    <h2 class="title">중개가 아니라, 직접 해 본 사람이 붙습니다</h2>
+    <p class="subtitle">우리는 연결만 하는 회사가 아니라 원료를 사고 제품을 만들어 납품해 온 회사입니다. 그 실행 이력이 차별화의 근거입니다.</p>
+  </header>
+
+  <div class="body-area">
+    <div class="cols">
+      <div class="card">
+        <span class="num-tag">실행 이력</span>
+        <h4>이미 매출이 나는 구조</h4>
+        <ul class="tight">
+          <li>2025년 매출 25억원 · 2026년 1~7월 7.51억원</li>
+          <li>월평균 1.07억원 규모의 거래가 상시 진행</li>
+          <li>가설 검증이 아니라 운영 중인 사업의 온라인화</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="num-tag">원료 접근</span>
+        <h4>해외 산지 직접 계약</h4>
+        <ul class="tight">
+          <li>이탈리아·페루 등 산지 직접 발굴 후 직계약</li>
+          <li>신규 기능성 원료를 직접 발굴해 기술 제안까지 수행</li>
+          <li>중간 유통 단계를 줄인 원가 구조</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="num-tag">기술 대응</span>
+        <h4>식품공학 기반 기술 창구</h4>
+        <ul class="tight">
+          <li>식품공학 석사 · 연구원 경력 5년 2개월</li>
+          <li>OEM 제품개발 컨설팅 20개 이상 브랜드 수행</li>
+          <li>포뮬러 설계부터 인허가 절차까지 직접 대응</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="num-tag">규제 자동화</span>
+        <h4>표시사항 검토 엔진</h4>
+        <ul class="tight">
+          <li>자체 개발 엔진으로 라벨 표시사항 사전 점검</li>
+          <li>식품유형 6종 규칙 구현, 테스트 164건 통과</li>
+          <li>수작업 검토 시간 단축을 목표로 개발 진행 중</li>
+        </ul>
+      </div>
+    </div>
+    <p class="note" style="margin-top:18px;">
+      * 테스트 164건 = 2026년 7월 17일 자체 검증 기준. 리드타임·원가 절감 폭은 개발 완료 후 달성을 목표로 하는 값이며 현재 확정된 실적이 아닙니다.
+    </p>
+  </div>
+
+  <div class="foot">
+    <span class="logo">VCBIO</span>
+    <span class="pageno">07</span>
+  </div>
+</section>
+
+<!-- ===== 08 비즈니스 모델 (dark) ===== -->
+<section class="slide dark">
+  <header>
+    <p class="eyebrow">07 · 비즈니스 모델</p>
+    <h2 class="title">거래가 성사될 때 양쪽에서 수수료가 발생합니다</h2>
+    <p class="subtitle">원료를 대면 원료 매출에서, 제품을 만들어 주면 제품 매출에서 수수료가 붙습니다. 거래가 늘수록 같은 구조가 반복됩니다.</p>
+  </header>
+
+  <div class="body-area">
+    <div class="flow">
+      <div class="node">
+        <span class="num-tag">공급</span>
+        <h4>원료사 · 제조공장</h4>
+        <ul class="tight">
+          <li>유럽·남미 프리미엄 원료사</li>
+          <li>분말 제형 전문 제조사</li>
+          <li>정제 제형 전문 제조사</li>
+          <li>액상·젤리 제형 전문 제조사</li>
+        </ul>
+      </div>
+      <div class="arrow">→</div>
+      <div class="node mid">
+        <span class="num-tag">VCBIO 플랫폼</span>
+        <h4>매칭 · 품질보증 · 거래관리</h4>
+        <ul class="tight">
+          <li>조건 기반 제조사 매칭과 견적</li>
+          <li>기술 검토 및 포뮬러 설계</li>
+          <li>표시사항·품질 서류 점검</li>
+          <li>생산 단계 진행 관리</li>
+        </ul>
+      </div>
+      <div class="arrow">→</div>
+      <div class="node">
+        <span class="num-tag">수요</span>
+        <h4>브랜드사 · 유통사</h4>
+        <ul class="tight">
+          <li>맞춤형 원료 조달 요청</li>
+          <li>특이성 원료 공급 요청</li>
+          <li>소량 생산 제품 개발 요청</li>
+          <li>제품 납품 및 사후 관리</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="kpis" style="margin-top:32px; border-top:1px solid rgba(242,240,235,0.15); padding-top:24px;">
+      <div class="kpi">
+        <p class="k-label">원료 중개 수수료</p>
+        <p class="k-value">10~15<span class="unit">%</span></p>
+        <p class="k-sub">원료 매출 기준</p>
+      </div>
+      <div class="kpi">
+        <p class="k-label">제품 중개 수수료</p>
+        <p class="k-value">5~10<span class="unit">%</span></p>
+        <p class="k-sub">제품 매출 기준</p>
+      </div>
+      <div class="kpi">
+        <p class="k-label">기술 컨설팅</p>
+        <p class="k-value">건별<span class="unit"> 과금</span></p>
+        <p class="k-sub">포뮬러 개발 · 인허가 자문</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span class="logo">VCBIO</span>
+    <span class="pageno">08</span>
+  </div>
+</section>
+
+<!-- ===== 09 팀 (cream) ===== -->
+<section class="slide cream">
+  <header>
+    <p class="eyebrow">08 · 팀</p>
+    <h2 class="title">현장에서 제품을 만들어 본 사람들이 모였습니다</h2>
+    <p class="subtitle">연구·개발·디자인·고객 대응이 각각 실무 경력으로 채워져 있어 기획부터 납품까지 외부 의존 없이 진행됩니다.</p>
+  </header>
+
+  <div class="body-area">
+    <div class="cols">
+      <div class="panel" style="flex:1.25;">
+        <span class="num-tag">CEO &amp; FOUNDER</span>
+        <h4 style="font-size:26px;">김민식 · 대표이사</h4>
+        <ul class="tight" style="margin-top:14px;">
+          <li>순천대학교 일반대학원 식품공학 전공 석사</li>
+          <li>㈜NPK · ㈜에버스 연구원 (경력 5년 2개월)</li>
+          <li>OEM 제품개발 컨설팅 20개 이상 브랜드 수행</li>
+          <li>품질관리(QC) 및 생산 공정 최적화 실무</li>
+          <li>총괄 기획 · 원료 소싱 · 거래처 대응</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="num-tag">공동창업자 · CDO</span>
+        <h4>송건</h4>
+        <ul class="tight">
+          <li>브랜딩 및 패키지 디자인</li>
+          <li>경력 5년</li>
+          <li>제품 아이덴티티 · 플랫폼 UI 방향 설계</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="num-tag">공동창업자 · CTO</span>
+        <h4>김태식</h4>
+        <ul class="tight">
+          <li>웹 플랫폼 개발 및 서버 구축</li>
+          <li>경력 3년</li>
+          <li>매칭·견적 기능 개발 담당</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="num-tag">공동창업자 · CSM</span>
+        <h4>박산하</h4>
+        <ul class="tight">
+          <li>고객 관리 및 공장 커뮤니케이션</li>
+          <li>경력 5년</li>
+          <li>발주·납기·클레임 대응</li>
+        </ul>
+      </div>
+    </div>
+    <p class="k-label" style="color:var(--grain-beige); font-size:13px; letter-spacing:0.08em; text-transform:uppercase; margin:22px 0 12px;">
+      핵심 리스크와 대응 계획
+    </p>
+    <div style="display:flex; gap:14px;">
+      <div style="flex:1; border-left:3px solid var(--grain-beige); padding:9px 0 9px 13px;">
+        <p style="font-size:14px; font-weight:700; margin:0 0 4px;">시장 침체</p>
+        <p class="note" style="margin:0 0 6px;">건기식 시장 2년 연속 역성장(2023 -0.1% → 2024 -1.6%) 후 2025년 +0.2% 정체</p>
+        <p style="font-size:13px; margin:0;"><span class="grn">→</span> 원료 직소싱 확대로 단가 경쟁력 확보 · 거래 건수 기반 구조로 전환</p>
+      </div>
+      <div style="flex:1; border-left:3px solid var(--accent-green); padding:9px 0 9px 13px;">
+        <p style="font-size:14px; font-weight:700; margin:0 0 4px;">인력 규모 제약</p>
+        <p class="note" style="margin:0 0 6px;">상시근로자 대표 1인 · 신규 채용 시 고정비 부담</p>
+        <p style="font-size:13px; margin:0;"><span class="grn">→</span> 공동창업자 3인 역할 분담 + 개발·디자인은 외주용역(1,980만원 집행계획 확정)으로 대체</p>
+      </div>
+      <div style="flex:1; border-left:3px solid var(--grain-beige); padding:9px 0 9px 13px;">
+        <p style="font-size:14px; font-weight:700; margin:0 0 4px;">플랫폼 전환 리스크</p>
+        <p class="note" style="margin:0 0 6px;">구축 기간 중 단기 매출 성장 둔화 가능성</p>
+        <p style="font-size:13px; margin:0;"><span class="grn">→</span> 기존 오프라인 거래로 현금흐름 유지하며 단계 오픈 · 11월 베타 오픈 목표</p>
+      </div>
+    </div>
+    <p class="note" style="margin-top:14px;">
+      * 위 3인은 공동창업자입니다. 고용보험 피보험자 기준 상시근로자는 대표 1인이며, 2026년 7월 31일 기준 고용 증가 실적은 없습니다.
+    </p>
+  </div>
+
+  <div class="foot">
+    <span class="logo">VCBIO</span>
+    <span class="pageno">09</span>
+  </div>
+</section>
+
+<!-- ===== 10 재무 ① 협약 목표 대비 (dark) ===== -->
+<section class="slide dark">
+  <header>
+    <p class="eyebrow">09 · 재무 ① 매출 실적</p>
+    <h2 class="title">2025년 25억을 만든 거래 구조가 그대로 돌아갑니다</h2>
+    <p class="subtitle">오프라인 원료·OEM/ODM 거래에서 확보한 매출이며, 국세청 증빙과 원 단위까지 일치합니다.</p>
+  </header>
+
+  <div class="body-area">
+    <div style="display:flex; gap:56px; align-items:flex-start;">
+      <div style="flex:1.15;">
+        <p class="k-label" style="color:var(--grain-beige); font-size:13px; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:18px;">
+          2026년 1~7월 매출 실적 (공급가액)
+        </p>
+        <p class="k-value" style="font-size:64px; line-height:1; margin:0 0 6px;">750,814,462<span class="unit" style="font-size:26px;">원</span></p>
+        <p class="note" style="margin:0 0 26px;">부가세 포함 825,895,906원</p>
+
+        <div style="display:flex; gap:14px;">
+          <div style="flex:1; border-left:3px solid var(--accent-green); padding:10px 0 10px 14px;">
+            <p class="k-label" style="font-size:12px; margin:0 0 4px;">월평균 매출</p>
+            <p style="font-size:24px; font-weight:700; margin:0;">1억 725만원</p>
+          </div>
+          <div style="flex:1; border-left:3px solid var(--grain-beige); padding:10px 0 10px 14px;">
+            <p class="k-label" style="font-size:12px; margin:0 0 4px;">발행 세금계산서</p>
+            <p style="font-size:24px; font-weight:700; margin:0;">53건</p>
+          </div>
+        </div>
+
+        <p class="note" style="margin-top:22px; line-height:1.65;">
+          1~6월 662,880,897원은 <span class="grn">부가가치세 과세표준증명원</span>과 내부 매출장이 원 단위까지 일치합니다.<br>
+          7월 87,933,565원은 전자세금계산서 6건 기준입니다.
+        </p>
+      </div>
+
+      <div style="flex:1;">
+        <p class="k-label" style="color:var(--grain-beige); font-size:13px; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:14px;">
+          연도별 매출 추이 (공급가액 기준)
+        </p>
+        <div class="bars">
+          <div class="bar-col">
+            <span class="bar-val">3.9억</span>
+            <div class="bar" style="height:14%; background:var(--grain-beige);"></div>
+            <span class="bar-label">2024년</span>
+            <span class="bar-note">개업 후 약 4개월</span>
+          </div>
+          <div class="bar-col">
+            <span class="bar-val">25억</span>
+            <div class="bar" style="height:90%; background:var(--warm-cream);"></div>
+            <span class="bar-label">2025년</span>
+            <span class="bar-note">전년 대비 541% 성장</span>
+          </div>
+          <div class="bar-col">
+            <span class="bar-val grn">7.51억</span>
+            <div class="bar" style="height:27%; background:var(--accent-green);"></div>
+            <span class="bar-label">2026년 1~7월</span>
+            <span class="bar-note">7개월 실적 · 월평균 1.07억</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="note" style="margin-top:22px; border-top:1px solid rgba(242,240,235,0.15); padding-top:16px;">
+      * 2026년 1~7월 공급가액 750,814,462원(부가세 포함 825,895,906원) — 부가가치세 과세표준증명원(1~6월) 및 전자세금계산서(7월) 기준.
+      2024년은 개업 후 약 4개월 실적이므로 연간 실적과 직접 비교되지 않습니다.
+    </p>
+  </div>
+
+  <div class="foot">
+    <span class="logo">VCBIO</span>
+    <span class="pageno">10</span>
+  </div>
+</section>
+
+<!-- ===== 11 재무 ② 3년 계획 (cream) ===== -->
+<section class="slide cream">
+  <header>
+    <p class="eyebrow">09 · 재무 ② 확정 실적과 성장 경로</p>
+    <h2 class="title">확정된 실적 위에 성장 경로를 얹습니다</h2>
+    <p class="subtitle">확정된 실적 위에 계획을 얹습니다. 계획 수치는 발표 직전 대표 확정 단계로 두었습니다.</p>
+  </header>
+
+  <div class="body-area">
+    <div class="cols" style="gap:40px;">
+      <div style="flex:1.1;">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:22%;">구분</th>
+              <th class="n" style="width:26%;">매출 계획</th>
+              <th style="width:52%;">근거 · 전제</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>2026년</strong><br><span class="muted">진행 중</span></td>
+              <td class="n">약 12.87억</td>
+              <td>1~7월 <strong>750,814,462원</strong> 확정 + 월평균 107,259,209원 × 잔여 5개월</td>
+            </tr>
+            <tr>
+              <td><strong>2027년</strong></td>
+              <td class="n"><span style="font-size:15px;">플랫폼 상용화</span></td>
+              <td>매칭·자동견적 오픈으로 <strong>거래 건수</strong> 증가 · 신규 거래처 유입</td>
+            </tr>
+            <tr>
+              <td><strong>2028년</strong></td>
+              <td class="n"><span style="font-size:15px;">카테고리 확장</span></td>
+              <td>식품 → 펫푸드 확장 · 자체 브랜드(D2C) 매출 편입</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="flex:0.9;">
+        <p class="eyebrow" style="margin-bottom:14px;">예상 비용 구조</p>
+        <table>
+          <thead>
+            <tr>
+              <th style="width:44%;">비용 항목</th>
+              <th class="n" style="width:26%;">규모</th>
+              <th style="width:30%;">성격</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+                <td>원료 매입원가</td>
+                <td class="n">매출 연동</td>
+                <td>변동비</td>
+              </tr>
+              <tr>
+                <td>위탁생산비 (OEM)</td>
+                <td class="n">매출 연동</td>
+                <td>변동비</td>
+              </tr>
+              <tr>
+                <td>물류 · 통관비</td>
+                <td class="n">매출 연동</td>
+                <td>변동비</td>
+              </tr>
+              <tr>
+                <td>인건비</td>
+                <td class="n">대표 + 공동창업자 3인</td>
+                <td>고정비</td>
+              </tr>
+              <tr>
+                <td>플랫폼 개발 · 운영</td>
+                <td class="n">외주용역 19,800,000원 확정</td>
+                <td>투자성</td>
+              </tr>
+              <tr>
+                <td>영업 · 품질 비용</td>
+                <td class="n">샘플 · 시험성적 · 인증</td>
+                <td>고정비</td>
+              </tr>
+          </tbody>
+        </table>
+        <p class="note" style="margin-top:16px;">
+          현재 확정된 것은 실적뿐이며, 계획 수치는 근거 없이 채우지 않았습니다.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span class="logo">VCBIO</span>
+    <span class="pageno">11</span>
+  </div>
+</section>
+
+<!-- ===== 12 비전 (dark) ===== -->
+<section class="slide dark">
+  <header>
+    <p class="eyebrow">10 · 비전</p>
+    <h2 class="title">5년 뒤, 거래가 아니라 데이터가 자산이 됩니다</h2>
+    <p class="subtitle">누가 어떤 원료로 무엇을 만들었고 어디서 문제가 났는지가 쌓이면, 그 다음 제안은 사람이 아니라 데이터가 합니다.</p>
+  </header>
+
+  <div class="body-area">
+    <div class="timeline">
+      <div class="tl-step">
+        <p class="tl-when">2026</p>
+        <p class="tl-what">
+          <strong>기반 구축</strong><br>
+          플랫폼 상용화 및 베타 오픈<br>
+          주력 원료 선제 확보<br>
+          초기 회원사 유치
+        </p>
+      </div>
+      <div class="tl-step">
+        <p class="tl-when">2027</p>
+        <p class="tl-what">
+          <strong>고도화</strong><br>
+          매칭·자동 견적 정확도 개선<br>
+          글로벌 원료 직계약 확대<br>
+          고객 카테고리 확장 (식품 → 펫푸드)
+        </p>
+      </div>
+      <div class="tl-step">
+        <p class="tl-when">2028</p>
+        <p class="tl-what">
+          <strong>확장</strong><br>
+          자체 브랜드(D2C) 런칭<br>
+          해외 시장 진출 기반 확보<br>
+          투자 유치 추진
+        </p>
+      </div>
+      <div class="tl-step">
+        <p class="tl-when">2029~2030</p>
+        <p class="tl-what">
+          <strong>데이터 자산화</strong><br>
+          누적 거래 데이터 기반 제안 자동화<br>
+          원료·제조 표준 데이터 구축<br>
+          K-건기식 수출 연계 기반 마련
+        </p>
+      </div>
+    </div>
+
+    <div class="kpis" style="margin-top:40px; border-top:1px solid rgba(242,240,235,0.15); padding-top:24px;">
+      <div class="kpi">
+        <p class="k-label">5년 후 목표 매출</p>
+        <p class="k-value" style="font-size:24px;line-height:1.4;">원료 · 제조 표준<br>데이터 구축</p>
+        <p class="k-sub">거래가 쌓일수록 매칭 정확도와 협상력이 함께 올라가는 구조</p>
+      </div>
+      <div class="kpi">
+        <p class="k-label">5년 후 목표 회원사</p>
+        <p class="k-value" style="font-size:24px;line-height:1.4;">제안 자동화 ·<br>K-건기식 수출 연계</p>
+        <p class="k-sub">누적 거래 데이터 기반으로 사람이 아닌 시스템이 제안</p>
+      </div>
+      <div class="kpi">
+        <p class="k-label">달성 방식</p>
+        <p class="k-value" style="font-size:40px;">거래 데이터</p>
+        <p class="k-sub">중개 건수가 쌓일수록 매칭 정확도와 협상력이 함께 올라가는 구조</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span class="logo">VCBIO</span>
+    <span class="pageno">12</span>
+  </div>
+</section>
+
+<!-- ===== 13 사업화 진척도 (cream) ===== -->
+<section class="slide cream">
+  <header>
+    <p class="eyebrow">11 · 사업화 진척도</p>
+    <h2 class="title">계획서에 쓴 것을 어디까지 했는가</h2>
+    <p class="subtitle">협약 이후 진행한 내용을 사업계획서 항목과 그대로 대조했습니다.</p>
+  </header>
+
+  <div class="body-area">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:20%;">사업계획서 항목</th>
+          <th style="width:36%;">현재 진행 상황</th>
+          <th style="width:30%;">근거</th>
+          <th style="width:14%;">상태</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>플랫폼 화면 설계</strong></td>
+          <td>핵심 거래 흐름 5개 화면 설계 완료 — 홈·매칭 결과·동향 인사이트·견적 요청·거래관리</td>
+          <td>화면설계안 5종</td>
+          <td><strong style="color:var(--accent-green);">완료</strong></td>
+        </tr>
+        <tr>
+          <td><strong>개발환경 구축</strong></td>
+          <td>사업비로 개발 전용 장비 집행, 온디바이스 AI 개발 환경 확보 후 개발 착수</td>
+          <td>전산장비 집행 4,948,172원</td>
+          <td><strong style="color:var(--accent-green);">완료</strong></td>
+        </tr>
+        <tr>
+          <td><strong>규제 문서 자동화</strong></td>
+          <td>표시사항 검토 엔진 개발 — 식품유형 6종 규칙 구현, 테스트 164건 통과</td>
+          <td>2026-07-17 자체 검증</td>
+          <td><strong style="color:var(--muted-gold);">진행 중</strong></td>
+        </tr>
+        <tr>
+          <td><strong>신규 원료 발굴</strong></td>
+          <td>신규 기능성 원료 발굴 후 기술·마케팅 제안서 작성 및 거래처 배포</td>
+          <td>원료 제안서 1건</td>
+          <td><strong style="color:var(--accent-green);">완료</strong></td>
+        </tr>
+        <tr>
+          <td><strong>지식재산권</strong></td>
+          <td>특허 출원 준비 중 — 선행기술 검토 단계</td>
+          <td>2026년 8월 변리사 검토 의뢰 완료</td>
+          <td><strong style="color:var(--muted-gold);">준비 중</strong></td>
+        </tr>
+        <tr>
+          <td><strong>매출 · 거래 운영</strong></td>
+          <td>기존 거래처 발주·납기·수주 관리 지속, 신규 발주 확보</td>
+          <td>1~7월 공급가액 750,814,462원</td>
+          <td><strong style="color:var(--accent-green);">진행</strong></td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="note" style="margin-top:18px;">
+      * 지식재산권은 2026년 8월 현재 출원 실적이 없으며 선행기술 검토 단계입니다. 수출·국가인증·정부 R&amp;D 과제·창업경진대회 수상 실적도 각 0건입니다.
+    </p>
+  </div>
+
+  <div class="foot">
+    <span class="logo">VCBIO</span>
+    <span class="pageno">13</span>
+  </div>
+</section>
+
+<!-- ===== 14 최종 성과 달성 가능성 (cream) ===== -->
+<section class="slide cream">
+  <header>
+    <p class="eyebrow">12 · 최종 성과 달성 가능성</p>
+    <h2 class="title">잔여 사업비, 항목까지 이미 맞춰 놓았습니다</h2>
+    <p class="subtitle">남은 금액과 집행 계획의 합계가 정확히 일치합니다. 계획이 아니라 배정이 끝난 상태입니다.</p>
+  </header>
+
+  <div class="body-area">
+    <div class="cols" style="gap:40px; align-items:flex-start;">
+      <div style="flex:1.15;">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:32%;">비목</th>
+              <th style="width:38%;">세부 내역</th>
+              <th class="n" style="width:30%;">금액 (원)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>재료비</td><td>원료·소재 구입</td><td class="n">39,490,000</td></tr>
+            <tr><td>외주용역비</td><td>제품제작비 — 플랫폼 990만 + 디자인 UI/UX 990만</td><td class="n">19,800,000</td></tr>
+            <tr><td>기계장치</td><td>기자재구입비</td><td class="n">4,000,000</td></tr>
+            <tr><td>기계장치</td><td>전산장비 잔여</td><td class="n">1,051,828</td></tr>
+            <tr><td>지급수수료</td><td>기자재 사용료</td><td class="n">4,177,760</td></tr>
+            <tr><td>지급수수료</td><td>회계처리비</td><td class="n">300,000</td></tr>
+            <tr class="total"><td colspan="2">집행 계획 합계</td><td class="n">68,819,588</td></tr>
+          </tbody>
+        </table>
+        <p class="note" style="margin-top:14px;">
+          * 2026년 8월 18일 청창사 시스템 조회 기준. 외주용역비 19,800,000원은 이미 집행계획에 반영되어 있습니다.
+        </p>
+      </div>
+
+      <div style="flex:0.85;">
+        <div class="match" style="margin-bottom:24px;">
+          <div class="side">
+            <p class="m-label">11/30까지 소진 필요액</p>
+            <p class="m-num">68,819,588</p>
+          </div>
+          <div class="eq">
+            <p class="big">차이 0원</p>
+            <p class="sm">잔여액 = 계획 합계</p>
+          </div>
+        </div>
+
+        <div class="cols" style="gap:16px; margin-bottom:24px;">
+          <div class="card" style="padding:18px;">
+            <p class="k-label" style="font-size:13px; color:var(--ink-muted); letter-spacing:0.08em; text-transform:uppercase;">총 집행계획</p>
+            <p style="font-size:26px; font-weight:700; color:var(--deep-green); margin-top:8px;">74,290,000</p>
+          </div>
+          <div class="card" style="padding:18px;">
+            <p class="k-label" style="font-size:13px; color:var(--ink-muted); letter-spacing:0.08em; text-transform:uppercase;">집행 누계</p>
+            <p style="font-size:26px; font-weight:700; color:var(--deep-green); margin-top:8px;">5,470,412</p>
+          </div>
+          <div class="card" style="padding:18px;">
+            <p class="k-label" style="font-size:13px; color:var(--ink-muted); letter-spacing:0.08em; text-transform:uppercase;">집행률</p>
+            <p style="font-size:26px; font-weight:700; color:var(--accent-green); margin-top:8px;">7.36%</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <span class="num-tag">재료비 소진 리스크 — 해당 없음</span>
+          <ul class="tight">
+            <li>당사 월 원료 구입 규모 5,000만~8,000만원 — 재료비 39,490,000원은 <strong style="color:var(--warm-cream);">0.49~0.79개월치</strong></li>
+            <li>2026년 1~7월 월평균 매출 107,259,209원이 이 구입 규모를 뒷받침</li>
+            <li>신규 수요를 만들어 쓰는 것이 아니라 이미 발생하는 구매에 배정</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline" style="margin-top:28px;">
+          <div style="display:flex; gap:14px; margin-bottom:18px; padding:14px 16px; background:rgba(30,57,50,0.05); border-left:3px solid var(--deep-green);">
+      <div style="flex:0 0 auto;">
+        <p class="k-label" style="font-size:12px; color:var(--ink-muted); letter-spacing:0.08em; text-transform:uppercase; margin:0 0 4px;">인력 계획</p>
+        <p style="font-size:15px; font-weight:700; margin:0; color:var(--deep-green);">신규 채용 없이 수행</p>
+      </div>
+      <p class="note" style="margin:0; align-self:center; line-height:1.6;">
+        대표(총괄·원료 소싱) + 공동창업자 3인(디자인 · 개발 · 고객관리) 체제를 유지하고,
+        플랫폼 개발과 UI/UX는 <strong>외주용역 2건(각 9,900,000원)</strong>으로 처리합니다.
+        고정 인건비를 늘리지 않고 잔여 기간 내 산출물을 확보하는 구조입니다.
+      </p>
+    </div>
+<div class="tl-step">
+        <p class="tl-when">9월 · 착수</p>
+        <p class="tl-what">외주용역 구매계약 승인요청 및 계약 체결, 재료비 발주 개시</p>
+      </div>
+      <div class="tl-step">
+        <p class="tl-when">10월 · 본집행</p>
+        <p class="tl-what">플랫폼·디자인 용역 중간 산출물 검수, 재료비 본집행 및 기자재 구입</p>
+      </div>
+      <div class="tl-step">
+        <p class="tl-when">11월 · 마감</p>
+        <p class="tl-what">잔여 비목 정산, 회계처리비 집행, 11월 30일 협약 종료 시점 전액 소진</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span class="logo">VCBIO</span>
+    <span class="pageno">14</span>
+  </div>
+</section>
+
+<!-- ===== 15 마무리 (dark) ===== -->
+<section class="slide dark">
+  <header>
+    <p class="eyebrow">정리</p>
+    <div class="hairline"></div>
+  </header>
+
+  <div class="body-area">
+    <h1 class="hero" style="font-size:72px;">
+      계획이 아니라<br>
+      <span class="gold">이미 돌아가는 실적</span>으로<br>
+      남은 3개월을 마칩니다
+    </h1>
+
+    <div class="kpis" style="margin-top:48px;">
+      <div class="kpi">
+        <p class="k-label">2026년 1~7월 매출</p>
+        <p class="k-value">7.51<span class="unit">억</span></p>
+        <p class="k-sub">국세청 증빙과 원 단위 일치 · 월평균 1억 725만원</p>
+      </div>
+      <div class="kpi">
+        <p class="k-label">2026년 1~7월 매출</p>
+        <p class="k-value">7.51<span class="unit">억원</span></p>
+        <p class="k-sub">공급가액 750,814,462원 · 월평균 1.07억원</p>
+      </div>
+      <div class="kpi">
+        <p class="k-label">잔여 사업비 배정</p>
+        <p class="k-value">68,819,588<span class="unit">원</span></p>
+        <p class="k-sub">소진 필요액과 차이 0원 · 9~11월 집행 완료 예정</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <dl class="meta">
+      <div>
+        <dt>기업</dt>
+        <dd>주식회사 브이씨바이오</dd>
+      </div>
+      <div>
+        <dt>대표이사</dt>
+        <dd>김민식</dd>
+      </div>
+      <div>
+        <dt>연락처</dt>
+        <dd>010-3879-2569</dd>
+      </div>
+      <div>
+        <dt>이메일</dt>
+        <dd>vcbio15@gmail.com</dd>
+      </div>
+    </dl>
+    <div class="foot">
+      <span class="logo">VCBIO</span>
+      <span class="pageno">15</span>
+    </div>
+  </footer>
+</section>
+
+</body>
+</html>
