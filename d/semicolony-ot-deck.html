@@ -167,7 +167,9 @@ h1{ color:var(--c-fg); font-weight:800; text-wrap:balance; }
   border-top:.1rem solid var(--c-hair); padding-top:2.8rem; padding-bottom:1.6rem; margin-top:4.8rem;
 }
 .cv .foot{ font-size:2.8rem; font-weight:700; line-height:1; letter-spacing:.14em; color:var(--c-fg-3); }
-.cv .tmfoot{ font-size:2.8rem; line-height:1.4; color:var(--c-fg-3); }
+/* 상표 귀속은 3사 브랜드 가이드가 요구하는 고지라 지우지 않는다. 대신 크기를 낮추고
+   띠 배경에 가깝게 묻혀 시선을 안 끌게 한다(대표 지시 2026-08-20 «이딴 것 좀 안 보이게»). */
+.cv .tmfoot{ font-size:1.7rem; line-height:1.4; color:var(--c-hair-2); }
 
 /* ── 표지 로고 블록 3안 (2026-08-19) ────────────────────
    1안(하단 풀블리드 띠)이 확정본이다. 2·3안은 기록용으로 남긴다.
@@ -186,7 +188,7 @@ h1{ color:var(--c-fg); font-weight:800; text-wrap:balance; }
   padding:3.6rem 8rem;
 }
 .cv.v1 .marks{ display:flex; align-items:center; gap:6rem; }
-.cv.v1 .tmfoot{ color:var(--c-plate-ink); font-size:2.8rem; line-height:1.4; text-align:right; }
+.cv.v1 .tmfoot{ color:var(--c-hair-2); font-size:1.7rem; line-height:1.4; text-align:right; }
 
 /* 2안 — 가장자리 물림. 흰 무대에서는 판이 보이지 않으므로 옅은 면으로 세운다. */
 .cv.v2{ padding:6.4rem 8rem 5.6rem; }
@@ -476,7 +478,10 @@ h1{ color:var(--c-fg); font-weight:800; text-wrap:balance; }
 /* 2026-08-19 검증 P3-3: 표지 하단 띠의 상표 귀속 문구를 페이저가 덮어
    «각 사의 상표»가 안 읽혔다(라이브는 페이저가 없어 무관하나 로컬 열람 시 문제).
    표지에서만 페이저를 왼쪽으로 옮겨 문구를 비운다. */
-body:has(#s01) .pager{ right:auto; left:2rem; }
+body:has(#s01) .pager{ bottom:14.6rem; }
+/* 2026-08-20 — 표지에서는 페이저를 옆으로 피하지 말고 '띠 위'로 올린다.
+   왼쪽으로 옮기면 Claude·OpenAI 마크를, 그대로 두면 상표 문구를 덮는다(둘 다 실측).
+   띠 높이(로고 5rem + 상하 여백 3.6rem×2 = 12.2rem)를 넘겨 앉히면 오른쪽 빈 여백에 놓인다. */
 /* 페이저가 화면 오른쪽 아래를 쓰므로, 하단에 글이 오는 배치는 그만큼 우측을 비운다.
    (2026-08-19: s06 캡션이 페이저에 가려진 것을 렌더에서 확인하고 넣었다.) */
 .tbb-note, .itv-body > .cap, .list.one > .cap{ padding-right:24rem; }
