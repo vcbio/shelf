@@ -154,6 +154,10 @@ h1{ color:var(--c-fg); font-weight:800; text-wrap:balance; }
 .cv h1{
   font-size:16.4rem; line-height:.92; letter-spacing:-.045em; font-weight:800;
 }
+/* 2026-08-20 대표 지적 — 16.4rem 에서 쉼표가 통짜로 커져 둘째 줄 '시' 획에 물린다.
+   Pretendard 쉼표는 베이스라인 아래로 내려앉으므로 크기를 절반으로 줄이고 살짝 띄운다.
+   글자(문안)는 그대로이고 쉼표를 감싼 span 의 표시 크기만 바뀐다. */
+.cv h1 .cm{ font-size:.5em; vertical-align:.08em; letter-spacing:-.05em; }
 .cv .sub{
   font-size:3.2rem; line-height:1.5; font-weight:500; color:var(--c-fg-3);
   margin-top:4.8rem; letter-spacing:0;
@@ -776,7 +780,7 @@ body{ background:#8A8A8E; margin:0; padding:2.4rem 0 6rem; }
 <div class="item"><div class="shelf-no">01 / 18</div><div class="slide" id="s01">
   <div class="cv v1">
     <div class="cv-type">
-      <h1>AI, 어디서부터<br>시작하죠?</h1>
+      <h1>AI<span class="cm">,</span> 어디서부터<br>시작하죠?</h1>
       <p class="sub">AI 처음이어도 됩니다. 여기서부터 같이 해요.</p>
     </div>
     <p class="foot">세미콜로니 · AI 입문 0회차</p>
