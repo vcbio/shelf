@@ -1,36 +1,38 @@
-<!doctype html><html lang="ko"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow">
-<title>로나월드 썬콜 가이드</title><style>
-:root{--bg:#0f1218;--card:#171b23;--ink:#e8eaf0;--mut:#9aa3b2;--acc:#5aa9ff;--line:#262c38;--warn:#ffb648}
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>로나월드 썬콜 가이드</title>
+<style>
+:root{--bg:#0f1218;--ink:#e8eaf0;--mut:#9aa3b2;--acc:#5aa9ff;--line:#262c38;--warn:#ffb648}
 *{box-sizing:border-box}
-body{margin:0;padding:16px 14px 60px;background:var(--bg);color:var(--ink);
- font:16px/1.7 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard",sans-serif;
- max-width:820px;margin-inline:auto;-webkit-text-size-adjust:100%}
-h1{font-size:24px;margin:8px 0 4px;letter-spacing:-.4px}
-h2{font-size:19px;margin:34px 0 10px;padding-top:14px;border-top:1px solid var(--line);letter-spacing:-.3px}
-h3{font-size:16px;margin:22px 0 8px;color:var(--acc)}
-h4{font-size:15px;margin:16px 0 6px;color:var(--mut)}
-p{margin:8px 0}
-ul{margin:8px 0;padding-left:20px}
-li{margin:4px 0}
-li.todo::marker{content:"☐ "}
+body{margin:0 auto;padding:16px 14px 70px;background:var(--bg);color:var(--ink);max-width:860px;
+ font:16px/1.7 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",Pretendard,sans-serif;-webkit-text-size-adjust:100%}
+h1{font-size:24px;margin:6px 0 2px;letter-spacing:-.4px}
+h2{font-size:20px;margin:36px 0 12px;padding:14px 0 0;border-top:2px solid var(--acc);letter-spacing:-.3px}
+h3{font-size:16.5px;margin:24px 0 8px;color:var(--acc)}
+h4{font-size:15px;margin:16px 0 6px;color:#cfd6e4}
+p{margin:8px 0}ul{margin:8px 0;padding-left:20px}li{margin:4px 0}
+li.todo{list-style:none;margin-left:-16px}li.todo::before{content:"☐ ";color:var(--warn)}
 strong{color:#fff}
 code{background:#222836;padding:1px 5px;border-radius:4px;font-size:13.5px;color:#8fd3ff}
-pre{background:#11151d;border:1px solid var(--line);border-radius:8px;padding:12px;
- overflow-x:auto;font-size:13.5px;line-height:1.55;color:#cfd6e4}
+pre{background:#11151d;border:1px solid var(--line);border-radius:8px;padding:12px;overflow-x:auto;
+ font-size:13.5px;line-height:1.55;color:#cfd6e4}
 blockquote{margin:12px 0;padding:10px 14px;background:#1b2130;border-left:3px solid var(--warn);
- border-radius:0 8px 8px 0;color:#dbe2ef;font-size:15px}
+ border-radius:0 8px 8px 0;font-size:15px}
 .tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:12px 0}
 table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:340px}
 th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
 th{background:#1d2330;color:#fff;font-weight:700;white-space:nowrap}
 tr:nth-child(even) td{background:#141821}
-a{color:var(--acc)}
-hr{border:0;border-top:1px solid var(--line);margin:24px 0}
-.meta{color:var(--mut);font-size:13px;margin-bottom:18px}
+a{color:var(--acc)}hr{border:0;border-top:1px solid var(--line);margin:22px 0}
+.meta{color:var(--mut);font-size:13px;margin-bottom:14px}
+nav{background:#151a23;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:0 0 8px}
+nav a{display:block;text-decoration:none;padding:3px 0;font-size:14.5px}
+nav a.l2{font-weight:700;color:#fff;margin-top:6px}
+nav a.l3{padding-left:14px;color:var(--mut);font-size:13.5px}
 </style></head><body>
+<h1>로나월드 썬콜 가이드</h1>
 <div class="meta">갱신 2026-08-24 · 신사동폭격기 / 아크메이지(썬,콜)</div>
+<nav><a class="l2" href="#s0">1. 현황</a><a class="l2" href="#s1">2. 스킬</a><a class="l3" href="#s2">2-1. 4차 전직 루트 ✅ 완료</a><a class="l3" href="#s3">2-2. 블리자드 퀘스트 ✅ 완료</a><a class="l3" href="#s4">2-3. 4차 스킬트리 — 3갈래로 갈린다</a><a class="l2" href="#s5">3. 사냥터</a><a class="l3" href="#s6">3-1. 실측 경험치 (다크 와이번 · 홀리심볼+메소업 버프 포함)</a><a class="l3" href="#s7">3-2. 몬스터 젠 주기 실측 (협곡의 동쪽길 · SCStream 3.6Hz · 164초)</a><a class="l2" href="#s8">4. 장비</a><a class="l3" href="#s9">4-1. 대원칙 (150렙 유저 실전 조언)</a><a class="l3" href="#s10">4-2. 부위별 목표 + 조달법</a><a class="l3" href="#s11">4-3. ★ 무자본 실행 순서</a><a class="l3" href="#s12">4-4. 마스터리북</a><a class="l2" href="#s13">5. 계정·시스템</a><a class="l3" href="#s14">5-1. 자석펫 활성화 조건 (공식, 최종수정 2025-09-17)</a><a class="l3" href="#s15">5-2. 쩔·파티·버프캐 — ⛔ 결론: 안 한다</a><a class="l2" href="#s16">6. 미확정 · 다음 할 일</a><a class="l2" href="#s17">참고</a></nav>
 
 <h1>로나월드 썬콜 가이드</h1>
 
@@ -42,7 +44,7 @@ hr{border:0;border-top:1px solid var(--line);margin:24px 0}
 
 <hr>
 
-<h2>1. 현황 (2026-08-24)</h2>
+<h2 id="s0">1. 현황</h2>
 
 <div class="tw"><table>
 <tr><th>항목</th><th>값</th></tr>
@@ -58,7 +60,11 @@ hr{border:0;border-top:1px solid var(--line);margin:24px 0}
 
 <hr>
 
-<h2>2. 4차 전직 루트 ✅ 완료</h2>
+<hr>
+
+<h2 id="s1">2. 스킬</h2>
+
+<h3 id="s2">2-1. 4차 전직 루트 ✅ 완료</h3>
 
 <p>⚠️ 로나는 <strong>26.03.21 <code>/전직</code> 명령어 삭제</strong> — 직접 다녀야 한다. (삭제 사유는 미공개, 패치안내 채널에 변경내역 없음)</p>
 
@@ -72,7 +78,7 @@ hr{border:0;border-top:1px solid var(--line);margin:24px 0}
 <tr><td>6</td><td>교관 재방문 → <strong>전직 완료</strong></td><td>사제의 숲</td></tr>
 </table></div>
 
-<h3>영웅의 펜타곤 · 영웅의 별 — 두 가지 길</h3>
+<h4>2-1-1. 영웅의 펜타곤 · 영웅의 별 — 두 가지 길</h4>
 
 <div class="tw"><table>
 <tr><th>방법</th><th>내용</th><th>실측 판정</th></tr>
@@ -83,12 +89,12 @@ hr{border:0;border-top:1px solid var(--line);margin:24px 0}
 <p><strong>②가 안 되는 이유 (실측):</strong> 전 채널을 돌아도 안 보인다. <strong>젠 3~4시간</strong>(로나 시트의 &quot;1시간 30분&quot;은 부정확)이고, 마뇽은 혼테일 입장 퀘스트 아이템 「마뇽의 울음소리」를, 그리프는 마스터리북을 떨궈서 <strong>고렙들이 젠 즉시 쓸어간다.</strong></p>
 
 <blockquote>
-갤 증언: *&quot;지금 마북값 달달해서 잡을만하지&quot;* / *&quot;누가 마뇽 도륙내고 다니냐&quot;*<br>
+갤 증언: <em>&quot;지금 마북값 달달해서 잡을만하지&quot;</em> / <em>&quot;누가 마뇽 도륙내고 다니냐&quot;</em><br>
 </blockquote>
 
 <p><strong>★ 다만 알아둘 것 — 딜 안 넣어도 아이템은 먹힌다.</strong></p>
 <blockquote>
-*&quot;전직퀘템은 파티 상관없이 먹어짐&quot;* / *&quot;저건 딜 아예 안 넣어도 드랍 먹어짐&quot;*<br>
+<em>&quot;전직퀘템은 파티 상관없이 먹어짐&quot;</em> / <em>&quot;저건 딜 아예 안 넣어도 드랍 먹어짐&quot;</em><br>
 남이 잡을 때 그 맵에 있기만 하면 된다. 주술서 살 돈이 없으면 이 방법.<br>
 </blockquote>
 
@@ -96,9 +102,9 @@ hr{border:0;border-top:1px solid var(--line);margin:24px 0}
 
 <hr>
 
-<h2>3. 블리자드 퀘스트 ✅ 완료</h2>
+<h3 id="s3">2-2. 블리자드 퀘스트 ✅ 완료</h3>
 
-<h3>3-1. 선행 「샤모스의 과거」 (Lv120)</h3>
+<h4>2-2-1. 선행 「샤모스의 과거」 (Lv120)</h4>
 
 <p>시작 = <strong>엘나스 산맥 「장로의 관저」 마법사 장로 로베이라</strong></p>
 
@@ -113,7 +119,7 @@ hr{border:0;border-top:1px solid var(--line);margin:24px 0}
 
 <p>보상 = 경험치 <strong>120만</strong> + 광역기 퀘스트 개방</p>
 
-<h3>3-2. 「블리자드」</h3>
+<h4>2-2-2. 「블리자드」</h4>
 
 <div class="tw"><table>
 <tr><th>항목</th><th>내용</th></tr>
@@ -127,7 +133,7 @@ hr{border:0;border-top:1px solid var(--line);margin:24px 0}
 <p>⚠️ <strong>웨어울프(Lv75, 날카로운절벽3·4)는 다른 몬스터다 — 심장 안 나온다.</strong></p>
 <p>⚠️ 드랍 몬스터는 라이칸스로프 <strong>하나뿐</strong>. 대체 경로 없음.</p>
 
-<h3>3-3. 블리자드 실측</h3>
+<h4>2-2-3. 블리자드 실측</h4>
 
 <div class="tw"><table>
 <tr><th>항목</th><th>값</th></tr>
@@ -140,7 +146,7 @@ hr{border:0;border-top:1px solid var(--line);margin:24px 0}
 
 <hr>
 
-<h2>4. ★ 4차 스킬트리 — 3갈래로 갈린다</h2>
+<h3 id="s4">2-3. 4차 스킬트리 — 3갈래로 갈린다</h3>
 
 <p>유저 정리 원문:</p>
 <blockquote>
@@ -154,7 +160,7 @@ hr{border:0;border-top:1px solid var(--line);margin:24px 0}
 <tr><td>빅뱅 선마</td><td>빠른 렙업 (신규)</td><td>126에 빅뱅20 → 협동3층 아스-빅뱅 반복</td></tr>
 </table></div>
 
-<h3>선택 기준 (이 한 줄로 정한다)</h3>
+<h4>2-3-1. 선택 기준 (이 한 줄로 정한다)</h4>
 
 <blockquote>
 <strong>MP가 제약이면 체라, 제약이 아니면 블리자드.</strong><br>
@@ -162,7 +168,7 @@ hr{border:0;border-top:1px solid var(--line);margin:24px 0}
 
 <p><strong>→ MP 물약이 넉넉하므로 「블자 선마」 채택.</strong></p>
 
-<h3>채택 트리 (블자 선마)</h3>
+<h4>2-3-2. 채택 트리 (블자 선마)</h4>
 
 <pre>
 메이플 용사 9 → 인피니티 1 → 블리자드 20 → 인피니티 30
@@ -170,7 +176,7 @@ hr{border:0;border-top:1px solid var(--line);margin:24px 0}
 → ⭐마스터리북⭐ → 블리자드 30
 </pre>
 
-<h3>참고: 정석 트리 (체라 선마)</h3>
+<h4>2-3-3. 참고: 정석 트리 (체라 선마)</h4>
 
 <pre>
 체인 라이트닝 1 → 메이플 용사 9 → 아이스 데몬 5 → 이프리트 10
@@ -180,14 +186,14 @@ hr{border:0;border-top:1px solid var(--line);margin:24px 0}
 → 메용 20 → 블자 30 → 마나 리플렉션 30 → 빅뱅 30 → 용사의 의지 1
 </pre>
 
-<h3>알아둘 것</h3>
+<h4>2-3-4. 알아둘 것</h4>
 
 <ul><li><strong>빅뱅은 주력기가 아니다.</strong> 정석 트리에서 거의 마지막에 찍는다.</li>
 <li><strong>이프리트는 별도 퀘스트</strong> — 「역속성」(엘나스 시장 NPC 알케스터 시작) 필요.</li>
 <li><strong>인피니티는 재사용 대기 10분</strong> — MP 유지용이 아니라 버스트 창을 여는 스킬. 블리자드를 상시로 굴려주지 못한다.</li>
 <li><strong>4차 스킬은 마스터리북 없이 20에서 막힌다.</strong></li>
 </ul>
-<h3>MP 효율 비교</h3>
+<h4>2-3-5. MP 효율 비교</h4>
 
 <div class="tw"><table>
 <tr><th></th><th>블리자드</th><th>체인 라이트닝</th></tr>
@@ -199,7 +205,9 @@ hr{border:0;border-top:1px solid var(--line);margin:24px 0}
 
 <hr>
 
-<h2>5. 사냥터</h2>
+<hr>
+
+<h2 id="s5">3. 사냥터</h2>
 
 <div class="tw"><table>
 <tr><th>사냥터</th><th>몬스터</th><th>레벨</th><th>비고</th></tr>
@@ -211,7 +219,7 @@ hr{border:0;border-top:1px solid var(--line);margin:24px 0}
 
 <p><strong>시간 조각</strong>이 나와서 자석펫 없이도 메소가 된다.</p>
 
-<h3>실측 경험치 (다크 와이번 · 홀리심볼+메소업 버프 포함)</h3>
+<h3 id="s6">3-1. 실측 경험치 (다크 와이번 · 홀리심볼+메소업 버프 포함)</h3>
 
 <div class="tw"><table>
 <tr><th>구간</th><th>값</th></tr>
@@ -219,35 +227,20 @@ hr{border:0;border-top:1px solid var(--line);margin:24px 0}
 <tr><td><strong>시간당</strong></td><td><strong>약 1,258만</strong></td></tr>
 </table></div>
 
-<hr>
-
-<h2>6. 자석펫 활성화 조건 (공식, 최종수정 2025-09-17)</h2>
-
-<p><strong>아래 중 1가지만 충족하면 사용 가능</strong></p>
+<h3 id="s7">3-2. 몬스터 젠 주기 실측 (협곡의 동쪽길 · SCStream 3.6Hz · 164초)</h3>
+<p>(SCStream 3.6Hz · 164초 · 587샘플)</p>
 
 <div class="tw"><table>
-<tr><th>#</th><th>조건</th><th>현황</th></tr>
-<tr><td>1</td><td>접속중인 캐릭터 레벨 <strong>70 미만</strong></td><td>❌ (120)</td></tr>
-<tr><td>2</td><td>계정 내 <strong>다른 150레벨 이상</strong> 캐릭터들 레벨 합 <strong>300 이상</strong></td><td>❌</td></tr>
-<tr><td>3</td><td><strong>퀘스트 완료 200개 이상</strong> (이벤트 포함, <strong>접속한 캐릭터만 기준</strong>)</td><td>⭕ <strong>282</strong></td></tr>
+<tr><th>항목</th><th>값</th></tr>
+<tr><td>전멸 → 리젠</td><td><strong>평균 10.8초</strong> (9.3~11.4초, 6회)</td></tr>
+<tr><td>1사이클</td><td><strong>약 20.1초</strong></td></tr>
 </table></div>
-
-<h3>⚠️ 함정 두 개</h3>
-
-<p>1. <strong>&quot;접속한 캐릭터만 기준&quot;</strong> — 계정 전체 합산이 아니다.</p>
-<p>2. <strong>&quot;재접속 시 자동 적용&quot;</strong> — 조건을 넘겨도 <strong>재로그인을 안 하면 계속 비활성.</strong></p>
-
-<p><strong>→ 조건 3은 이미 충족(282). 재접속으로 안 풀리면 디스코드 <code>개발-건의사항</code> 문의.</strong></p>
-<p>「혼돈의 주문서 획득: 불가능」도 같이 막혀 있어 <strong>별도 게이트 가능성</strong> 있음.</p>
-
-<h3>사용 불가 지역</h3>
-<p>노란빛의 정원2 · 빨간코 해적단 소굴1~3 · 야생곰의 영토1~3 · 개미굴4 · 연구소 201호</p>
 
 <hr>
 
-<h2>7. 장비 세팅 (무자본 기준)</h2>
+<h2 id="s8">4. 장비</h2>
 
-<h3>대원칙 (150렙 유저 실전 조언)</h3>
+<h3 id="s9">4-1. 대원칙 (150렙 유저 실전 조언)</h3>
 
 <blockquote>
 **&quot;장비에 비싸게 투자해서 인트 몇 올리는 것보다, 그 비용을 마북에 투자해서<br>
@@ -259,7 +252,7 @@ hr{border:0;border-top:1px solid var(--line);margin:24px 0}
 <li><strong>순럭(LUK)은 무기 착용 조건까지만</strong>, 나머지 전부 <strong>인트(INT)</strong></li>
 <li>전신옷은 <strong>지력작</strong> (럭작하면 오버럭으로 낭비)</li>
 </ul>
-<h3>부위별 목표 + 조달법</h3>
+<h3 id="s10">4-2. 부위별 목표 + 조달법</h3>
 
 <div class="tw"><table>
 <tr><th>부위</th><th>목표템</th><th>조달법</th><th>드랍처 / 시세</th></tr>
@@ -274,7 +267,7 @@ hr{border:0;border-top:1px solid var(--line);margin:24px 0}
 
 <p>⚠️ 시세는 <strong>메이플랜드 기준</strong>. 로나 실시세는 옥션(로나오프)에서 재확인 필요.</p>
 
-<h3>★ 무자본 실행 순서</h3>
+<h3 id="s11">4-3. ★ 무자본 실행 순서</h3>
 
 <div class="tw"><table>
 <tr><th>순위</th><th>항목</th><th>비용</th></tr>
@@ -289,7 +282,7 @@ hr{border:0;border-top:1px solid var(--line);margin:24px 0}
 <strong>자쿰의 투구만 예외(60%)</strong> — 이것만 직접 먹고 나머지는 산다.<br>
 </blockquote>
 
-<h3>마스터리북</h3>
+<h3 id="s12">4-4. 마스터리북</h3>
 
 <div class="tw"><table>
 <tr><th>마북</th><th>드랍처</th><th>비고</th></tr>
@@ -300,13 +293,42 @@ hr{border:0;border-top:1px solid var(--line);margin:24px 0}
 
 <hr>
 
-<h2>8. 파티·쩔·버프캐 — ⛔ 결론: 안 한다 (2026-08-24 확정)</h2>
+<hr>
+
+<h2 id="s13">5. 계정·시스템</h2>
+
+<h3 id="s14">5-1. 자석펫 활성화 조건 (공식, 최종수정 2025-09-17)</h3>
+
+<p><strong>아래 중 1가지만 충족하면 사용 가능</strong></p>
+
+<div class="tw"><table>
+<tr><th>#</th><th>조건</th><th>현황</th></tr>
+<tr><td>1</td><td>접속중인 캐릭터 레벨 <strong>70 미만</strong></td><td>❌ (120)</td></tr>
+<tr><td>2</td><td>계정 내 <strong>다른 150레벨 이상</strong> 캐릭터들 레벨 합 <strong>300 이상</strong></td><td>❌</td></tr>
+<tr><td>3</td><td><strong>퀘스트 완료 200개 이상</strong> (이벤트 포함, <strong>접속한 캐릭터만 기준</strong>)</td><td>⭕ <strong>282</strong></td></tr>
+</table></div>
+
+<h4>5-1-1. ⚠️ 함정 두 개</h4>
+
+<p>1. <strong>&quot;접속한 캐릭터만 기준&quot;</strong> — 계정 전체 합산이 아니다.</p>
+<p>2. <strong>&quot;재접속 시 자동 적용&quot;</strong> — 조건을 넘겨도 <strong>재로그인을 안 하면 계속 비활성.</strong></p>
+
+<p><strong>→ 조건 3은 이미 충족(282). 재접속으로 안 풀리면 디스코드 <code>개발-건의사항</code> 문의.</strong></p>
+<p>「혼돈의 주문서 획득: 불가능」도 같이 막혀 있어 <strong>별도 게이트 가능성</strong> 있음.</p>
+
+<h4>5-1-2. 사용 불가 지역</h4>
+<p>노란빛의 정원2 · 빨간코 해적단 소굴1~3 · 야생곰의 영토1~3 · 개미굴4 · 연구소 201호</p>
+
+<hr>
+
+<h3 id="s15">5-2. 쩔·파티·버프캐 — ⛔ 결론: 안 한다</h3>
 
 <blockquote>
 <strong>대표 방침 = 솔플 주력.</strong> 아래는 검토 끝에 접은 내용이며, 다시 꺼내지 말 것.<br>
 </blockquote>
 
-<h3>8-1. ★ 파티 경험치를 받는 조건 (두 개 다 만족해야 함)</h3>
+<h4>5-2-1. ★ 파티 경험치를 받는 조건 (두 개 다 만족해야 함)</h4>
+
 
 <blockquote>
 <strong>①</strong> <code>[몹레벨 − 캐릭터레벨]</code> ≤ <strong>5</strong> (= <strong>적정 레벨</strong>)<br>
@@ -321,7 +343,7 @@ hr{border:0;border-top:1px solid var(--line);margin:24px 0}
 </ul>
 <p>출처 = <a href="https://arca.live/b/mapleland/153305152" target="_blank" rel="noopener">레벨차/잠수/버프에 따른 경험치 감소 총 정리</a></p>
 
-<h3>8-2. ★★ 홀리심볼은 「81 완성」이 끝이 아니다 — 계획을 접은 이유</h3>
+<h4>5-2-2. ★★ 홀리심볼은 「81 완성」이 끝이 아니다 — 계획을 접은 이유</h4>
 
 <blockquote>
 <strong>「홀리심볼 사용자의 레벨이 몬스터보다 6 이상 낮으면 적용되지 않는다」</strong><br>
@@ -338,7 +360,7 @@ hr{border:0;border-top:1px solid var(--line);margin:24px 0}
 <p>⚠️ <strong>구 기록 「프리스트 81이면 충분」은 실격.</strong> 81은 홀심 스킬을 마스터하는 레벨일 뿐이고, <strong>쓸 수 있는 사냥터가 레벨대로 묶인다.</strong> 사실상 본캐를 하나 더 키우는 일이라 값어치가 없다.</p>
 <p>⚠️ 홀리심볼은 <strong>솔플 시 33.33%</strong>(파티 50%)라 혼자 쓰면 효과도 줄어든다.</p>
 
-<h3>8-3. 로나 버프 완성 레벨 (참고용)</h3>
+<h4>5-2-3. 로나 버프 완성 레벨 (참고용)</h4>
 
 <div class="tw"><table>
 <tr><th>버프</th><th>직업</th><th>완성 레벨</th><th>효과</th></tr>
@@ -353,7 +375,7 @@ hr{border:0;border-top:1px solid var(--line);margin:24px 0}
 
 <p>⚠️ 메소업·기타 버프에도 같은 레벨 제한이 걸리는지는 <strong>미확인</strong>.</p>
 
-<h3>8-4. 쩔 — 안 받는 이유</h3>
+<h4>5-2-4. 쩔 — 안 받는 이유</h4>
 
 <p>로나 쩔은 <strong>레벨 43(망둥이 집뿌)부터</strong> 시작하고, 구간마다 <strong>몹 레벨이 맞는 맵</strong>이 정해져 있다.</p>
 
@@ -368,11 +390,11 @@ hr{border:0;border-top:1px solid var(--line);margin:24px 0}
 </table></div>
 
 <ul><li><strong>집뿌</strong> = 아쿠아리움 <strong>폭렬 망둥이집(Lv90)</strong>을 깨면 망둥이(Lv85)가 쏟아지는 구조. <code>아쿠아로드: 깊은 바다 협곡2</code>에 11마리(=11집).</li>
-<li><strong>「젠컷」</strong> = 다음 젠 전에 맵 전체를 다 잡는 것. 갤 기준 *&quot;20초마다 젠되는 게 젠컷&quot;*, 성공 시 10분 1,900만.</li>
-<li>⚠️ <strong>집뿌는 부자 전용</strong> — *&quot;뉴비셋으론 젠컷 못하지, 템 비싼 걸로 맞춰야 함&quot;*. 쩔값도 4,000만으로 최고.</li>
-<li><strong>레이스쩔은 없다.</strong> 레이스(Lv48, 커닝시티 지하철 1호선 3·4구역 / 2호선 2구역, 맵당 54~60마리)는 <strong>언데드라 프리스트가 힐로 혼자 잡는 사냥터</strong>다. 갤에 *&quot;레이스로 120 찍었다&quot;* 사례 있음(쩔값 0원이나 매우 느림).</li>
+<li><strong>「젠컷」</strong> = 다음 젠 전에 맵 전체를 다 잡는 것. 갤 기준 <em>&quot;20초마다 젠되는 게 젠컷&quot;</em>, 성공 시 10분 1,900만.</li>
+<li>⚠️ <strong>집뿌는 부자 전용</strong> — <em>&quot;뉴비셋으론 젠컷 못하지, 템 비싼 걸로 맞춰야 함&quot;</em>. 쩔값도 4,000만으로 최고.</li>
+<li><strong>레이스쩔은 없다.</strong> 레이스(Lv48, 커닝시티 지하철 1호선 3·4구역 / 2호선 2구역, 맵당 54~60마리)는 <strong>언데드라 프리스트가 힐로 혼자 잡는 사냥터</strong>다. 갤에 <em>&quot;레이스로 120 찍었다&quot;</em> 사례 있음(쩔값 0원이나 매우 느림).</li>
 </ul>
-<h3>8-5. 2계정 동시 실행 — 맥 불가 (2026-08-24 실측)</h3>
+<h4>5-2-5. 2계정 동시 실행 — 맥 불가 (2026-08-24 실측)</h4>
 
 <div class="tw"><table>
 <tr><th>항목</th><th>결과</th></tr>
@@ -383,17 +405,25 @@ hr{border:0;border-top:1px solid var(--line);margin:24px 0}
 <p>LD플레이어(로나 공식 허용)는 <strong>윈도우 전용</strong>. 정공법은 <strong>기기 2대</strong>뿐이고, 맥미니가 후보다(네트워크 도달 <code>192.168.0.2</code>·테일스케일 <code>100.116.103.9</code>, 화면 공유 켜짐, SSH는 공개키 미등록).</p>
 
 
-<h2>9. 미확정 · 다음 할 일</h2>
+
+<hr>
+
+<hr>
+
+<h2 id="s16">6. 미확정 · 다음 할 일</h2>
 
 <ul><li class="todo"><strong>자석펫 재접속 시도</strong> → 안 되면 디코 문의</li>
 <li class="todo">로나 옥션(로나오프) <strong>실시세</strong> 조사 — 위 금액은 전부 메랜 기준</li>
 <li class="todo"><strong>블리자드 30 마북</strong> 드랍처·시세</li>
 <li class="todo">다크 크리시아슈즈 드랍처</li>
+<li class="todo">맥미니에 메이플스토리 월드 설치 → 2계정 프리스트</li>
 <li class="todo"><code>/전직</code> 명령어 삭제 사유 (패치안내에 변경내역 없음 — 디코 문의 필요)</li>
 </ul>
 <hr>
 
-<h2>참고</h2>
+<hr>
+
+<h2 id="s17">참고</h2>
 
 <ul><li><a href="https://arca.live/b/mapleland/125266579" target="_blank" rel="noopener">메랜 썬콜 스킬트리 1~4차 리프레 시점</a> — 131렙 썬콜 작성</li>
 <li><a href="https://arca.live/b/mapleland/167427347" target="_blank" rel="noopener">님들 썬콜 4차 스킬 트리 아직 그대로에요?</a> — 트리 3갈래 분류</li>
@@ -403,5 +433,4 @@ hr{border:0;border-top:1px solid var(--line);margin:24px 0}
 <li>로나 공식 디스코드 「자석펫활성화조건」·「운영정책」 채널</li>
 <li>로나 공식 시트 「필드보스」·「추천 사냥터」·「버프캐 육성」 (제작: 순신)</li>
 <li>메랜쩔(maplelandzzul.gg) 드랍 정보 — 2026-08-24 조회</li>
-</ul>
-</body></html>
+</ul></body></html>
