@@ -283,7 +283,65 @@
            font-variant-numeric: tabular-nums; letter-spacing: .04em;
            pointer-events: none; -webkit-user-select: none; user-select: none; }
 
-  @media print { .timer, .tmr-hint, .pgind { display: none !important; } }
+
+  /* ── 번호 편집 모드 ────────────────────────────────────────────────────────
+     발표 10분에 20장을 다 읽을 수 없다. 대표가 「내가 실제로 말할 것」만 남기도록
+     배지를 직접 빼고 살린다(대표 지시 2026-08-25). 슬라이드 내용은 건드리지 않는다.
+     · 뺀 배지는 지우지 않고 회색+사선으로 남겨 다시 누를 수 있게 한다.
+     · 편집을 끄면 뺀 배지는 사라지고 남은 배지에 1부터 번호·색을 다시 매긴다.
+     · 선택은 localStorage 에 「슬라이드번호:원래번호」 로 저장한다. 키에 버전을 넣지
+       않는다 — 재배포로 파일이 바뀌어도 대표가 골라 둔 것이 남아야 한다.
+     ────────────────────────────────────────────────────────────────────────── */
+  .rd.off { background: #6E6E6E !important; opacity: .25; }
+  .rd.off::after { content: ''; position: absolute; left: -3px; right: -3px; top: 50%;
+                   height: 2px; background: #FFFFFF; transform: rotate(-20deg); }
+  body.editing .rd { pointer-events: auto; cursor: pointer; }
+  /* 편집 중에는 히트 영역을 46px 로 넓힌다 — 보이는 크기는 그대로 */
+  body.editing .rd::before { content: ''; position: absolute; inset: -7px; border-radius: 50%; }
+
+  .editbar { position: fixed; right: 16px; bottom: 16px; z-index: 9999;
+             display: flex; gap: 8px; align-items: center; }
+  .ebtn { min-height: 44px; padding: 0 16px; border: 0; border-radius: 999px;
+          background: rgba(0, 0, 0, .62);
+          -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+          color: #FFFFFF;
+          font-family: Pretendard, "Pretendard Variable", -apple-system, sans-serif;
+          font-size: 16px; font-weight: 700; line-height: 44px; cursor: pointer;
+          -webkit-user-select: none; user-select: none; }
+  .ebtn.on { background: #F76808; }
+  .ebtn.ghost { background: rgba(0, 0, 0, .45); font-weight: 600; }
+  /* 코드 주고받기 — 아이패드 사파리는 클립보드가 막히는 일이 잦아 손으로 복사할
+     화면을 반드시 함께 띄운다. 이 코드로 맥에서 같은 상태를 재현해 PDF를 뽑는다. */
+  .codewrap { position: fixed; inset: 0; z-index: 10000; display: flex;
+              align-items: center; justify-content: center;
+              background: rgba(0, 0, 0, .72);
+              -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+  .codebox { width: min(680px, 88vw); background: #1C1C1A; border-radius: 14px;
+             padding: 22px; box-shadow: 0 20px 60px rgba(0, 0, 0, .5);
+             font-family: Pretendard, "Pretendard Variable", -apple-system, sans-serif; }
+  .codebox h4 { margin: 0 0 6px; color: #FFFFFF; font-size: 19px; font-weight: 800; }
+  .codebox p { margin: 0 0 14px; color: rgba(255, 255, 255, .68); font-size: 15px; line-height: 1.6; }
+  .codebox textarea { width: 100%; height: 96px; box-sizing: border-box; resize: none;
+                      border: 1px solid rgba(255, 255, 255, .22); border-radius: 8px;
+                      background: #111111; color: #FFFFFF; padding: 12px;
+                      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+                      font-size: 16px; line-height: 1.5; letter-spacing: .04em; }
+  .codebox .row { display: flex; gap: 8px; justify-content: flex-end; margin-top: 14px; }
+  .codebox button { min-height: 44px; padding: 0 18px; border: 0; border-radius: 999px;
+                    font-family: inherit; font-size: 16px; font-weight: 700; cursor: pointer; }
+  .codebox .ok { background: #F76808; color: #FFFFFF; }
+  .codebox .no { background: rgba(255, 255, 255, .14); color: #FFFFFF; }
+  .codebox .msg { margin: 10px 0 0; font-size: 14px; color: #F76808; min-height: 20px; }
+
+  .ehint { position: fixed; right: 16px; bottom: 68px; z-index: 9999;
+           padding: 4px 12px; border-radius: 999px;
+           background: rgba(247, 104, 8, .92);
+           color: #FFFFFF;
+           font-family: Pretendard, -apple-system, sans-serif;
+           font-size: 13px; font-weight: 600; line-height: 22px;
+           pointer-events: none; }
+
+  @media print { .timer, .tmr-hint, .pgind, .editbar, .ehint, .codewrap { display: none !important; } }
 
 </style>
 </head>
@@ -2356,6 +2414,12 @@
 </div>
 <div class="tmr-hint" id="tmrHint">눌러서 시작</div>
 <div class="pgind" id="pgind">01 / 20</div>
+<div class="editbar">
+  <button class="ebtn ghost" id="edPaste" type="button" style="display:none">코드 넣기</button>
+  <button class="ebtn ghost" id="edCopy" type="button" style="display:none">코드 복사</button>
+  <button class="ebtn ghost" id="edRestore" type="button" style="display:none">전체 복구</button>
+  <button class="ebtn" id="edToggle" type="button">&#9998; 편집</button>
+</div>
 <script>
 (function () {
   var boxes = Array.prototype.slice.call(document.querySelectorAll('.fitbox'));
@@ -2414,6 +2478,196 @@
     if (Date.now() - st > 800) return;
     if (Math.abs(dx) >= 60 && Math.abs(dx) > Math.abs(dy) * 1.5) goTo(cur + (dx < 0 ? 1 : -1));
   }, { passive: true });
+
+
+  // ── 번호 편집 모드 ───────────────────────────────────────────────────────
+  var STORE = 'vcbio-ccs-rehearsal-badges';   // 키에 버전을 넣지 않는다
+  var secs = Array.prototype.slice.call(document.querySelectorAll('section.s'));
+  var edToggle = document.getElementById('edToggle');
+  var edRestore = document.getElementById('edRestore');
+  var editing = false, off = {};
+
+  function load() {
+    try { off = JSON.parse(localStorage.getItem(STORE) || '{}') || {}; } catch (e) { off = {}; }
+  }
+  function save() {
+    try { localStorage.setItem(STORE, JSON.stringify(off)); } catch (e) {}
+  }
+  // 배지에 「원래 번호」를 심어 둔다 — 재번호해도 정체가 흔들리지 않게
+  secs.forEach(function (sec) {
+    Array.prototype.slice.call(sec.querySelectorAll('.rd')).forEach(function (b) {
+      if (!b.getAttribute('data-orig')) b.setAttribute('data-orig', b.textContent.trim());
+    });
+  });
+  function keyOf(si, b) { return (si + 1) + ':' + b.getAttribute('data-orig'); }
+
+  function render() {
+    secs.forEach(function (sec, si) {
+      var badges = Array.prototype.slice.call(sec.querySelectorAll('.rd'));
+      var legend = sec.querySelector('.rd-legend');
+      var n = 0;
+      badges.forEach(function (b) {
+        var isOff = !!off[keyOf(si, b)];
+        if (isOff) {
+          b.className = 'rd off';
+          b.textContent = b.getAttribute('data-orig');
+          b.style.display = editing ? '' : 'none';   // 편집 중에만 보인다
+        } else {
+          n++;
+          b.className = 'rd rd-' + n;                 // 남은 것에 1부터 다시
+          b.textContent = n;
+          b.style.display = '';
+        }
+      });
+      if (legend) {
+        legend.innerHTML = '';
+        for (var i = 1; i <= n; i++) {
+          var d = document.createElement('i');
+          d.className = 'rd-l rd-' + i;
+          d.textContent = i;
+          legend.appendChild(d);
+        }
+        legend.style.display = n ? '' : 'none';
+      }
+    });
+  }
+
+
+  // ── 편집 상태를 한 줄 코드로 주고받기 ────────────────────────────────────
+  // 슬라이드마다 「빠진 원래번호」를 8비트로 접어 2자리 16진수로 쓴다.
+  // 20장 = 40자 고정. 카톡으로 붙여 보낼 수 있는 길이다.
+  var edCopy = document.getElementById('edCopy');
+  var edPaste = document.getElementById('edPaste');
+
+  function encodeSel() {
+    var out = '';
+    for (var si = 0; si < secs.length; si++) {
+      var m = 0;
+      var bs = secs[si].querySelectorAll('.rd');
+      for (var j = 0; j < bs.length; j++) {
+        var o = parseInt(bs[j].getAttribute('data-orig'), 10);
+        if (o >= 1 && o <= 8 && off[(si + 1) + ':' + o]) m |= (1 << (o - 1));
+      }
+      out += ('0' + m.toString(16)).slice(-2);
+    }
+    return 'RH' + out.toUpperCase();
+  }
+  function decodeSel(str) {
+    str = String(str || '').replace(/\s+/g, '').toUpperCase();
+    if (str.indexOf('RH') === 0) str = str.slice(2);
+    if (!new RegExp('^[0-9A-F]{' + (secs.length * 2) + '}$').test(str)) return null;
+    var o = {};
+    for (var si = 0; si < secs.length; si++) {
+      var m = parseInt(str.substr(si * 2, 2), 16);
+      for (var b = 0; b < 8; b++) if (m & (1 << b)) o[(si + 1) + ':' + (b + 1)] = 1;
+    }
+    return o;
+  }
+
+  function overlay(opts) {
+    var wrap = document.createElement('div');
+    wrap.className = 'codewrap';
+    wrap.innerHTML = '<div class="codebox"><h4></h4><p></p>' +
+      '<textarea spellcheck="false" autocapitalize="off" autocorrect="off"></textarea>' +
+      '<p class="msg"></p><div class="row"></div></div>';
+    wrap.querySelector('h4').textContent = opts.title;
+    wrap.querySelector('p').textContent = opts.desc;
+    var ta = wrap.querySelector('textarea');
+    ta.value = opts.value || '';
+    ta.readOnly = !!opts.readOnly;
+    var row = wrap.querySelector('.row');
+    var msg = wrap.querySelector('.msg');
+    (opts.buttons || []).forEach(function (bt) {
+      var el = document.createElement('button');
+      el.className = bt.kind || 'no';
+      el.textContent = bt.label;
+      el.addEventListener('click', function () { bt.on(ta, msg, close); });
+      row.appendChild(el);
+    });
+    function close() { wrap.remove(); }
+    wrap.addEventListener('click', function (e) { if (e.target === wrap) close(); });
+    document.body.appendChild(wrap);
+    setTimeout(function () { ta.focus(); if (opts.readOnly) ta.select(); }, 40);
+    return { close: close, msg: msg };
+  }
+
+  edCopy.addEventListener('click', function () {
+    edCopy.blur();
+    var code = encodeSel();
+    var ui = overlay({
+      title: '편집 코드',
+      desc: '이 한 줄을 최상단(맥)에 보내면 같은 상태로 PDF를 뽑습니다. 자동 복사가 막히면 아래 글자를 길게 눌러 복사하세요.',
+      value: code, readOnly: true,
+      buttons: [{ label: '닫기', kind: 'no', on: function (t, m, close) { close(); } }]
+    });
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code).then(function () {
+          ui.msg.textContent = '클립보드에 복사했습니다.';
+        })["catch"](function () {
+          ui.msg.textContent = '자동 복사가 막혔습니다 — 위 글자를 길게 눌러 복사하세요.';
+        });
+      } else {
+        ui.msg.textContent = '자동 복사가 막혔습니다 — 위 글자를 길게 눌러 복사하세요.';
+      }
+    } catch (e) {
+      ui.msg.textContent = '자동 복사가 막혔습니다 — 위 글자를 길게 눌러 복사하세요.';
+    }
+  });
+
+  edPaste.addEventListener('click', function () {
+    edPaste.blur();
+    overlay({
+      title: '편집 코드 넣기',
+      desc: '받은 코드를 붙여넣고 적용을 누르세요.',
+      value: '', readOnly: false,
+      buttons: [
+        { label: '취소', kind: 'no', on: function (t, m, close) { close(); } },
+        { label: '적용', kind: 'ok', on: function (t, m, close) {
+            var o = decodeSel(t.value);
+            if (!o) { m.textContent = '형식이 맞지 않습니다.'; return; }
+            off = o; save(); render(); close();
+          } }
+      ]
+    });
+  });
+
+  var edHint = null;
+  function setEditing(v) {
+    editing = v;
+    document.body.classList.toggle('editing', v);
+    edToggle.classList.toggle('on', v);
+    edToggle.innerHTML = v ? '✓ 편집 끝' : '✎ 편집';
+    edRestore.style.display = v ? '' : 'none';
+    edCopy.style.display = v ? '' : 'none';
+    edPaste.style.display = v ? '' : 'none';
+    if (v && !edHint) {
+      edHint = document.createElement('div');
+      edHint.className = 'ehint';
+      edHint.textContent = '배지를 눌러 빼기 · 다시 누르면 살아납니다';
+      document.body.appendChild(edHint);
+    } else if (!v && edHint) { edHint.remove(); edHint = null; }
+    render();
+  }
+  edToggle.addEventListener('click', function () { setEditing(!editing); edToggle.blur(); });
+  edRestore.addEventListener('click', function () {
+    if (!window.confirm('뺀 번호를 모두 되살릴까요?')) return;
+    off = {}; save(); render(); edRestore.blur();
+  });
+  // 배지 탭 — 넘김으로 오해되지 않게 여기서 이벤트를 멈춘다
+  document.addEventListener('click', function (e) {
+    if (!editing) return;
+    var b = e.target.closest ? e.target.closest('.rd') : null;
+    if (!b) return;
+    e.preventDefault(); e.stopPropagation();
+    var sec = b.closest('section.s');
+    var si = secs.indexOf(sec);
+    var k = keyOf(si, b);
+    if (off[k]) delete off[k]; else off[k] = 1;
+    save(); render();
+  }, true);
+
+  load(); render();
 
   // ── 10분 타이머 ──────────────────────────────────────────────────────────
   var TOTAL = 10 * 60 * 1000;
