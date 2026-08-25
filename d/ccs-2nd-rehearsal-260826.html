@@ -213,10 +213,10 @@
   .rd-7 { background: #0E7C86; }   /* 청록 */
   .rd-8 { background: #A16207; }   /* 황토 */
   /* ══════════════════════════════════════════════════════════════════════════
-     발표 연습용 10분 타이머 — 책장(아이패드) 배포본에만 있는 레이어.
-     ⛔ 제출본·발표용 PDF 원본에는 없다. 인쇄 시에도 안 나온다(@media print).
+     발표 연습용 10분 타이머 — 책장(아이패드) 배포본에만 있다.
+     ⛔ 제출본·발표용 PDF 원본에는 없다. 인쇄에도 안 나온다(@media print).
      · 슬라이드 위에 fixed 로 얹기만 하므로 콘텐츠는 1px도 안 움직인다.
-     · 남은 시간은 setInterval 누적이 아니라 시작 시각과 Date.now() 의 차분으로 센다
+     · 남은 시간은 setInterval 누적이 아니라 목표 시각과 Date.now() 의 차분으로 센다
        — 아이패드에서 탭을 뒤로 돌리면 누적 방식은 어긋난다.
      ══════════════════════════════════════════════════════════════════════════ */
   .timer { position: fixed; top: 16px; right: 16px; z-index: 9999;
@@ -232,24 +232,38 @@
                            BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
               font-size: 38px; font-weight: 800; line-height: 46px;
               font-variant-numeric: tabular-nums; letter-spacing: 0;
-              text-align: center; cursor: pointer;
-              transition: color .2s ease; }
+              text-align: center; cursor: pointer; transition: color .2s ease; }
   .tmr-reset { width: 46px; height: 46px; flex: none; border: 0; border-radius: 50%;
                background: rgba(255, 255, 255, .15); color: #FFFFFF;
                font-family: inherit; font-size: 21px; line-height: 46px;
                text-align: center; cursor: pointer; }
-  .tmr-hint { position: absolute; right: 16px; top: 60px;
+  .tmr-hint { position: fixed; right: 16px; top: 62px; z-index: 9999;
               font-family: Pretendard, -apple-system, sans-serif;
               font-size: 13px; color: rgba(255, 255, 255, .82);
               background: rgba(0, 0, 0, .55); padding: 3px 10px; border-radius: 999px;
               -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
               pointer-events: none; transition: opacity .3s ease; }
-  /* 남은 시간 3분 이하 주황, 1분 이하 빨강, 0에서 점멸 */
-  .tmr-warn .tmr-main { color: #F76808; }
-  .tmr-crit .tmr-main { color: #E5484D; }
+  .tmr-warn .tmr-main { color: #F76808; }   /* 남은 3분 이하 */
+  .tmr-crit .tmr-main { color: #E5484D; }   /* 남은 1분 이하 */
   .tmr-done .tmr-main { color: #E5484D; animation: tmrBlink 1s steps(1, end) infinite; }
   @keyframes tmrBlink { 0%, 49% { opacity: 1 } 50%, 100% { opacity: .16 } }
   @media print { .timer, .tmr-hint { display: none !important; } }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     화면 폭 맞춤 — 아이패드에서 슬라이드가 잘리지 않게 통째로 축소한다.
+     슬라이드는 1600×900 고정이라 뷰포트가 그보다 좁으면 좌우가 잘리고 가로 스크롤이
+     생겼다(2026-08-25 대표 실측 — innerWidth 1280에서 제목 앞글자·배지가 화면 밖).
+     · .fit 에 transform:scale 만 걸면 레이아웃이 차지하는 공간은 1600×900 그대로라
+       슬라이드 사이에 빈틈이 생긴다. 그래서 바깥 .fitbox 를 축소 후 크기로 잡는다.
+     · 리플로우가 아니라 통째 축소다. 슬라이드 내부 레이아웃은 1px도 안 바뀐다.
+     · 배율은 JS가 clientWidth(세로 스크롤바 뺀 폭)로 --sc 에 넣는다.
+       100vw 는 스크롤바를 포함해 그만큼 넘친다.
+     · 타이머는 .fitbox 밖 fixed 라 축소 대상이 아니다 — 크기·자리 그대로.
+     ══════════════════════════════════════════════════════════════════════════ */
+  @media screen {
+    .fitbox { flex: none; width: calc(1600px * var(--sc, 1)); height: calc(900px * var(--sc, 1)); }
+    .fit    { width: 1600px; height: 900px; transform: scale(var(--sc, 1)); transform-origin: top left; }
+  }
 
 </style>
 </head>
@@ -342,7 +356,7 @@
 
 
 <!-- ══════════════ 01 표지 ══════════════ -->
-<section class="s dark">
+<div class="fitbox"><div class="fit"><section class="s dark">
   <div class="eyebrow">청년창업사관학교 16기 · 2026년 2차 중간평가</div>
   <div class="bd" style="flex-direction:row;gap:44px;align-items:center;padding-top:4px">
     <div style="width:712px;flex:none">
@@ -413,11 +427,11 @@
     <div><dt>소재지</dt><dd>대전 유성구 장대로 106</dd></div>
     <div><dt>발표일</dt><dd>2026년 8월 26일</dd></div>
   </div>
-</section>
+</section></div></div>
 
 
 <!-- ══════════════ 02 회사와 사업 개요 ══════════════ -->
-<section class="s cream">
+<div class="fitbox"><div class="fit"><section class="s cream">
   <div class="eyebrow">01 · 회사와 사업 개요</div>
   <h2 class="title">이미 돌아가는 거래 위에 플랫폼을 올립니다</h2>
   <p class="lead">수주 채널이 부족한 중소 제조사와 유통사를 잇는 일을 2024년부터 오프라인에서 해 왔고, 이번 사업은 그 거래를 플랫폼으로 옮깁니다.</p>
@@ -520,11 +534,11 @@
   </div>
 
   <div class="ft"><span class="logo">VCBIO</span><span class="pageno">02</span></div>
-</section>
+</section></div></div>
 
 
 <!-- ══════════════ 03 문제 인식 ══════════════ -->
-<section class="s dark">
+<div class="fitbox"><div class="fit"><section class="s dark">
   <div class="eyebrow">02 · 문제 인식</div>
   <h2 class="title">양쪽 모두 상대를 찾지 못합니다</h2>
   <p class="lead">서로를 필요로 하는데도 정보가 흩어져 만나지 못하는, 한쪽의 잘못이 아니라 구조에서 생기는 문제입니다.</p>
@@ -636,11 +650,11 @@
   </div>
 
   <div class="ft"><span class="logo">VCBIO</span><span class="pageno">03</span></div>
-</section>
+</section></div></div>
 
 
 <!-- ══════════════ 04 해결책 ══════════════ -->
-<section class="s cream">
+<div class="fitbox"><div class="fit"><section class="s cream">
   <div class="eyebrow">03 · 해결책</div>
   <h2 class="title">네 갈래를 한 창구로 묶습니다</h2>
   <p class="lead">각각 다른 곳에서 처리하던 원료 소싱·제조사 매칭·품질 서류·거래 관리를 하나의 플랫폼에서 받으므로, 문제가 생겼을 때 물어볼 곳도 하나입니다.</p>
@@ -723,11 +737,11 @@
   </div>
 
   <div class="ft"><span class="logo">VCBIO</span><span class="pageno">04</span></div>
-</section>
+</section></div></div>
 
 
 <!-- ══════════════ 05 플랫폼 화면 · 홈 ══════════════ -->
-<section class="s dark">
+<div class="fitbox"><div class="fit"><section class="s dark">
   <div class="eyebrow">04 · 플랫폼 구조와 화면</div>
   <h2 class="title">견적 요청과 파트너 매칭, 두 과업에 화면을 집중시켰습니다</h2>
 
@@ -751,11 +765,11 @@
 
   <p class="note" style="margin-top:12px">* 입교 후 자체 설계·구현한 화면을 실제로 띄워 캡처 · 화면 내 기업명·수치는 시연용 예시 · 전체 동시 오픈이 아니라 견적 요청과 매칭부터 기능 단위 단계 오픈입니다.</p>
   <div class="ft"><span class="logo">VCBIO</span><span class="pageno">05</span></div>
-</section>
+</section></div></div>
 
 
 <!-- ══════════════ 06 AI 매칭 결과 ══════════════ -->
-<section class="s cream">
+<div class="fitbox"><div class="fit"><section class="s cream">
   <div class="eyebrow">04 · 플랫폼 구조와 화면 · 핵심 기능</div>
   <h2 class="title">조건을 넣으면 제조사가 일치도 순으로 정렬됩니다</h2>
 
@@ -780,11 +794,11 @@
 
   <p class="note" style="margin-top:12px">* 표시된 업체명·일치도·수치는 화면 구성을 보이기 위한 시연용 예시입니다.</p>
   <div class="ft"><span class="logo">VCBIO</span><span class="pageno">06</span></div>
-</section>
+</section></div></div>
 
 
 <!-- ══════════════ 07 견적 요청 · 거래관리 · 동향 인사이트 ══════════════ -->
-<section class="s dark">
+<div class="fitbox"><div class="fit"><section class="s dark">
   <div class="eyebrow">04 · 플랫폼 구조와 화면</div>
   <h2 class="title">요청서 한 장으로 시작해 계약과 서류까지 화면에 남습니다</h2>
 
@@ -822,11 +836,11 @@
   </div>
 
   <div class="ft"><span class="logo">VCBIO</span><span class="pageno">07</span></div>
-</section>
+</section></div></div>
 
 
 <!-- ══════════════ 08 표시사항 검토 엔진 ══════════════ -->
-<section class="s cream">
+<div class="fitbox"><div class="fit"><section class="s cream">
   <div class="eyebrow">05 · 제품 완성도</div>
   <h2 class="title">화면 5종이 실제로 돌아갑니다</h2>
   <p class="lead">설계안이 아니라 조건을 넣으면 결과가 나오는 구현 상태이며, 별도로 개발해 온 표시사항 검토 엔진을 뒤이어 연계합니다.</p>
@@ -925,11 +939,11 @@
   </div>
 
   <div class="ft"><span class="logo">VCBIO</span><span class="pageno">08</span></div>
-</section>
+</section></div></div>
 
 
 <!-- ══════════════ 09 시장 ══════════════ -->
-<section class="s dark">
+<div class="fitbox"><div class="fit"><section class="s dark">
   <div class="eyebrow">06 · 잠재 시장 규모</div>
   <h2 class="title">완제품 시장이 아니라 그 뒤편이 우리 자리입니다</h2>
   <p class="lead">소비자에게 파는 시장이 아니라 그 제품이 만들어지기까지 오가는 원료·위탁생산 거래가 우리 자리이며, 완제품 시장이 커지면 뒤편의 거래량도 함께 늘어납니다.</p>
@@ -997,11 +1011,11 @@
   </div>
 
   <div class="ft"><span class="logo">VCBIO</span><span class="pageno">09</span></div>
-</section>
+</section></div></div>
 
 
 <!-- ══════════════ 10 비즈니스 모델 ══════════════ -->
-<section class="s cream">
+<div class="fitbox"><div class="fit"><section class="s cream">
   <div class="eyebrow">07 · 비즈니스 모델</div>
   <h2 class="title">거래가 성사될 때 양쪽에서 수수료가 발생합니다</h2>
   <p class="lead">물건을 사서 쌓아 두는 구조가 아니라 성사된 거래에 붙는 구조라, 거래가 늘어도 재고 부담이 같은 속도로 커지지 않습니다.</p>
@@ -1115,11 +1129,11 @@
   </div>
 
   <div class="ft"><span class="logo">VCBIO</span><span class="pageno">10</span></div>
-</section>
+</section></div></div>
 
 
 <!-- ══════════════ 11 경쟁 지형 ══════════════ -->
-<section class="s dark">
+<div class="fitbox"><div class="fit"><section class="s dark">
   <div class="eyebrow">08 · 경쟁과 대체재</div>
   <h2 class="title">실행 경험과 온라인화, 둘 다 가진 자리는 비어 있습니다</h2>
   <p class="lead">만들어 본 쪽은 온라인으로 옮기지 않았고 온라인으로 옮긴 쪽은 기술 판단을 하지 않으므로, 두 축이 겹치는 칸을 먼저 차지하는 것이 이번 사업의 목표입니다.</p>
@@ -1235,11 +1249,11 @@
   </div>
 
   <div class="ft"><span class="logo">VCBIO</span><span class="pageno">11</span></div>
-</section>
+</section></div></div>
 
 
 <!-- ══════════════ 12 차별화 ══════════════ -->
-<section class="s cream">
+<div class="fitbox"><div class="fit"><section class="s cream">
   <div class="eyebrow">09 · 차별화 전략</div>
   <h2 class="title">목록을 넘기는 대신 끝까지 함께 갑니다</h2>
   <p class="lead">중개형은 목록을 넘기고 끝나지만, 우리는 유통사 쪽 자료 준비와 공장 쪽 수주를 양방향으로 대신하며 납품까지 갑니다.</p>
@@ -1328,11 +1342,11 @@
   </div>
 
   <div class="ft"><span class="logo">VCBIO</span><span class="pageno">12</span></div>
-</section>
+</section></div></div>
 
 
 <!-- ══════════════ 13 트랙레코드 ══════════════ -->
-<section class="s cream">
+<div class="fitbox"><div class="fit"><section class="s cream">
   <div class="eyebrow">10 · 대표 트랙레코드</div>
   <h2 class="title">직접 만들어 본 실적이 공급망의 출발점입니다</h2>
   <p class="lead">브랜드사 제품을 처음부터 끝까지 설계해 본 이력이며, 그때 쌓인 제조사·원료사 접점이 지금 플랫폼에 올릴 공급망입니다.</p>
@@ -1411,11 +1425,11 @@
   </div>
 
   <div class="ft"><span class="logo">VCBIO</span><span class="pageno">13</span></div>
-</section>
+</section></div></div>
 
 
 <!-- ══════════════ 14 팀과 인력계획 ══════════════ -->
-<section class="s dark">
+<div class="fitbox"><div class="fit"><section class="s dark">
   <div class="eyebrow">11 · 대표자와 팀 역량</div>
   <h2 class="title">현장에서 제품을 만들어 본 사람들입니다</h2>
   <p class="lead">연구·개발, 플랫폼 개발, 고객 대응이 팀 안에 모두 있어 제품 기획부터 플랫폼까지 외부 판단에 의존하지 않습니다.</p>
@@ -1543,11 +1557,11 @@
   </div>
 
   <div class="ft"><span class="logo">VCBIO</span><span class="pageno">14</span></div>
-</section>
+</section></div></div>
 
 
 <!-- ══════════════ 14 리스크와 대응 ══════════════ -->
-<section class="s cream">
+<div class="fitbox"><div class="fit"><section class="s cream">
   <div class="eyebrow">12 · 핵심 리스크와 대응계획</div>
   <h2 class="title">약한 곳을 먼저 말하고 대응까지 같이 적었습니다</h2>
   <p class="lead">흔들릴 수 있는 네 지점마다 이미 실행 중이거나 일정이 잡힌 대응과, 그 대응이 반영된 위치를 함께 적었습니다.</p>
@@ -1637,11 +1651,11 @@
   </div>
 
   <div class="ft"><span class="logo">VCBIO</span><span class="pageno">15</span></div>
-</section>
+</section></div></div>
 
 
 <!-- ══════════════ 15 사업화 진척도 ══════════════ -->
-<section class="s dark">
+<div class="fitbox"><div class="fit"><section class="s dark">
   <div class="eyebrow">13 · 사업화 진척도</div>
   <h2 class="title">계획서에 쓴 것을 어디까지 했는가</h2>
   <p class="lead">협약 이후 추진 내용을 사업계획서 항목과 하나씩 대조해, 못 한 것은 못 했다고 적고 진행 상태를 항목별로 그대로 표기했습니다.</p>
@@ -1729,11 +1743,11 @@
   </div>
 
   <div class="ft"><span class="logo">VCBIO</span><span class="pageno">16</span></div>
-</section>
+</section></div></div>
 
 
 <!-- ══════════════ 17 원료 파이프라인 ══════════════ -->
-<section class="s dark">
+<div class="fitbox"><div class="fit"><section class="s dark">
   <div class="eyebrow">14 · 원료 파이프라인</div>
   <h2 class="title">원료를 찾고 서류까지 만들어 거래처에 보냈습니다</h2>
   <p class="lead">원료를 찾는 데서 끝내지 않았습니다. 소개서와 견적서까지 직접 만들어 거래처에 보냈고, 아래가 그 실물입니다.</p>
@@ -1830,11 +1844,11 @@
   </div>
 
   <div class="ft"><span class="logo">VCBIO</span><span class="pageno">17</span></div>
-</section>
+</section></div></div>
 
 
 <!-- ══════════════ 18 사업비 집행 ══════════════ -->
-<section class="s cream">
+<div class="fitbox"><div class="fit"><section class="s cream">
   <div class="eyebrow">15 · 최종 성과 달성 가능성</div>
   <h2 class="title">잔여 사업비, 항목까지 이미 맞춰 놓았습니다</h2>
   <p class="lead">남은 기간에 써야 할 금액과 쓰겠다고 적어 낸 금액이 정확히 일치하며, 어디에 얼마를 언제 쓸지가 이미 항목으로 정해져 있습니다.</p>
@@ -1956,12 +1970,12 @@
   </div>
 
   <div class="ft"><span class="logo">VCBIO</span><span class="pageno">18</span></div>
-</section>
+</section></div></div>
 
 
 <!-- ══════════════ 17 로드맵 ══════════════ -->
 <!-- 다크 — 18p(크림)·20p(다크) 사이의 교대 리듬을 살리기 위해 크림에서 전환(2026-08-21) -->
-<section class="s dark">
+<div class="fitbox"><div class="fit"><section class="s dark">
   <div class="eyebrow">16 · 비전과 로드맵</div>
   <h2 class="title">수주 채널이 부족한 중소 제조사를 하나로 묶습니다</h2>
   <p class="lead">유통사에게는 가장 빠르고 조건이 맞는 공장을, 공장에게는 비지 않는 스케줄을. 이것이 이 과제이자 회사의 목표입니다.</p>
@@ -2047,11 +2061,11 @@
   </div>
 
   <div class="ft"><span class="logo">VCBIO</span><span class="pageno">19</span></div>
-</section>
+</section></div></div>
 
 
 <!-- ══════════════ 18 정리 ══════════════ -->
-<section class="s dark">
+<div class="fitbox"><div class="fit"><section class="s dark">
   <div class="eyebrow">정리</div>
   <div class="bd" style="flex-direction:row;gap:52px;align-items:center;padding-top:8px">
     <div style="width:596px;flex:none">
@@ -2112,7 +2126,7 @@
 
   <p class="note" style="margin-top:8px">11월에 베타를 열고 첫 거래 데이터를 쌓아, 다음 보고 때 화면이 실제로 받은 견적 건수와 매칭 건수로 말씀드리겠습니다.</p>
   <div class="ft"><span class="logo">VCBIO</span><span class="pageno">20</span></div>
-</section>
+</section></div></div>
 
 <!-- ══════════════════════════════════════════════════════════════════════════
      발표자 전용 「읽는 순서」 생성기 — 이 사본에만 있다. 제출본으로 옮기지 말 것.
@@ -2321,6 +2335,16 @@
 <div class="tmr-hint" id="tmrHint">눌러서 시작</div>
 <script>
 (function () {
+  // 화면 폭 맞춤 — 세로 스크롤바를 뺀 실제 표시 폭 기준. 1600 이상이면 1배(확대 안 함).
+  function fit() {
+    var w = document.documentElement.clientWidth || window.innerWidth;
+    document.documentElement.style.setProperty('--sc', String(Math.min(1, w / 1600)));
+  }
+  fit();
+  window.addEventListener('resize', fit);
+  window.addEventListener('orientationchange', function () { setTimeout(fit, 120); });
+
+  // 10분 카운트다운
   var TOTAL = 10 * 60 * 1000;
   var main = document.getElementById('tmrMain');
   var reset = document.getElementById('tmrReset');
@@ -2329,8 +2353,7 @@
   var remain = TOTAL, endAt = 0, running = false, ticker = null, lock = null;
 
   function fmt(ms) {
-    var s = Math.max(0, Math.ceil(ms / 1000));
-    var m = Math.floor(s / 60);
+    var s = Math.max(0, Math.ceil(ms / 1000)), m = Math.floor(s / 60);
     return (m < 10 ? '0' : '') + m + ':' + ((s % 60) < 10 ? '0' : '') + (s % 60);
   }
   function paint() {
@@ -2341,7 +2364,7 @@
     else if (remain <= 3 * 60 * 1000) wrap.classList.add('tmr-warn');
   }
   function tick() {
-    remain = endAt - Date.now();           // 누적이 아니라 목표 시각과의 차분
+    remain = endAt - Date.now();          // 누적이 아니라 목표 시각과의 차분
     if (remain <= 0) { remain = 0; stop(); }
     paint();
   }
@@ -2350,13 +2373,10 @@
       .then(function (l) { lock = l; })["catch"](function () {}); } catch (e) {}
   }
   function lockOff() { try { if (lock) { lock.release(); lock = null; } } catch (e) {} }
-
   function start() {
     if (running || remain <= 0) return;
-    endAt = Date.now() + remain;
-    running = true;
-    ticker = setInterval(tick, 200);
-    lockOn();
+    endAt = Date.now() + remain; running = true;
+    ticker = setInterval(tick, 200); lockOn();
     if (hint) hint.style.opacity = '0';
     tick();
   }
@@ -2371,7 +2391,7 @@
     if (hint) hint.style.opacity = '1';
   });
   document.addEventListener('visibilitychange', function () {
-    if (!document.hidden) { if (running) { lockOn(); tick(); } }
+    if (!document.hidden && running) { lockOn(); tick(); }
   });
   paint();
 })();
