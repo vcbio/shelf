@@ -213,12 +213,36 @@
   .rd-7 { background: #0E7C86; }   /* 청록 */
   .rd-8 { background: #A16207; }   /* 황토 */
   /* ══════════════════════════════════════════════════════════════════════════
-     발표 연습용 10분 타이머 — 책장(아이패드) 배포본에만 있다.
+     발표 모드 — 책장(아이패드) 배포본에만 있는 레이어.
      ⛔ 제출본·발표용 PDF 원본에는 없다. 인쇄에도 안 나온다(@media print).
-     · 슬라이드 위에 fixed 로 얹기만 하므로 콘텐츠는 1px도 안 움직인다.
-     · 남은 시간은 setInterval 누적이 아니라 목표 시각과 Date.now() 의 차분으로 센다
-       — 아이패드에서 탭을 뒤로 돌리면 누적 방식은 어긋난다.
+
+     한 화면에 한 장, 좌우로만 전환한다(대표 지시 2026-08-25 "무조건 좌우 슬라이드로만").
+     · 세로 스크롤을 없앤다 — html·body 를 100% 높이 + overflow:hidden.
+     · 배율은 폭만이 아니라 높이도 본다: min(clientWidth/1600, clientHeight/900).
+       폭만 보면 1024×768에서 슬라이드가 568px로 들어가 아래에 다음 장이 비쳤다.
+     · 슬라이드는 화면 정중앙, 남는 자리는 어두운 무대(#111)로 두어 레터박스가 된다.
+     · 전환은 transform:translateX 만 움직인다(방향감이 있어야 한다). 200ms.
+     · 슬라이드 내부(1600×900)는 통째 축소일 뿐 1px도 리플로우되지 않는다.
      ══════════════════════════════════════════════════════════════════════════ */
+  @media screen {
+    html, body { height: 100%; overflow: hidden; background: #111111; }
+    body { display: block; padding: 0; margin: 0; }
+    .stage { position: fixed; inset: 0; overflow: hidden; }
+    .fitbox { position: absolute; left: 50%; top: 50%;
+              width: calc(1600px * var(--sc, 1)); height: calc(900px * var(--sc, 1));
+              margin-left: calc(-800px * var(--sc, 1)); margin-top: calc(-450px * var(--sc, 1));
+              transition: transform .2s ease; will-change: transform;
+              visibility: hidden; }
+    .fitbox.near { visibility: visible; }   /* 현재 ±1 장만 그린다 */
+    .fit { width: 1600px; height: 900px;
+           transform: scale(var(--sc, 1)); transform-origin: top left; }
+  }
+  @media screen and (prefers-reduced-motion: reduce) {
+    .fitbox { transition: none; }
+  }
+
+  /* 발표 연습용 10분 타이머 — 무대 밖 fixed 라 배율 영향을 받지 않는다.
+     남은 시간은 setInterval 누적이 아니라 목표 시각과 Date.now() 의 차분으로 센다. */
   .timer { position: fixed; top: 16px; right: 16px; z-index: 9999;
            display: flex; align-items: center; gap: 8px;
            padding: 5px 9px 5px 15px; border-radius: 999px;
@@ -247,23 +271,19 @@
   .tmr-crit .tmr-main { color: #E5484D; }   /* 남은 1분 이하 */
   .tmr-done .tmr-main { color: #E5484D; animation: tmrBlink 1s steps(1, end) infinite; }
   @keyframes tmrBlink { 0%, 49% { opacity: 1 } 50%, 100% { opacity: .16 } }
-  @media print { .timer, .tmr-hint { display: none !important; } }
 
-  /* ══════════════════════════════════════════════════════════════════════════
-     화면 폭 맞춤 — 아이패드에서 슬라이드가 잘리지 않게 통째로 축소한다.
-     슬라이드는 1600×900 고정이라 뷰포트가 그보다 좁으면 좌우가 잘리고 가로 스크롤이
-     생겼다(2026-08-25 대표 실측 — innerWidth 1280에서 제목 앞글자·배지가 화면 밖).
-     · .fit 에 transform:scale 만 걸면 레이아웃이 차지하는 공간은 1600×900 그대로라
-       슬라이드 사이에 빈틈이 생긴다. 그래서 바깥 .fitbox 를 축소 후 크기로 잡는다.
-     · 리플로우가 아니라 통째 축소다. 슬라이드 내부 레이아웃은 1px도 안 바뀐다.
-     · 배율은 JS가 clientWidth(세로 스크롤바 뺀 폭)로 --sc 에 넣는다.
-       100vw 는 스크롤바를 포함해 그만큼 넘친다.
-     · 타이머는 .fitbox 밖 fixed 라 축소 대상이 아니다 — 크기·자리 그대로.
-     ══════════════════════════════════════════════════════════════════════════ */
-  @media screen {
-    .fitbox { flex: none; width: calc(1600px * var(--sc, 1)); height: calc(900px * var(--sc, 1)); }
-    .fit    { width: 1600px; height: 900px; transform: scale(var(--sc, 1)); transform-origin: top left; }
-  }
+  /* 현재 위치 — 좌하단 */
+  .pgind { position: fixed; left: 16px; bottom: 16px; z-index: 9999;
+           padding: 6px 15px; border-radius: 999px;
+           background: rgba(0, 0, 0, .62);
+           -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+           color: #FFFFFF;
+           font-family: Pretendard, "Pretendard Variable", -apple-system, sans-serif;
+           font-size: 17px; font-weight: 700; line-height: 24px;
+           font-variant-numeric: tabular-nums; letter-spacing: .04em;
+           pointer-events: none; -webkit-user-select: none; user-select: none; }
+
+  @media print { .timer, .tmr-hint, .pgind { display: none !important; } }
 
 </style>
 </head>
@@ -356,6 +376,7 @@
 
 
 <!-- ══════════════ 01 표지 ══════════════ -->
+<div class="stage">
 <div class="fitbox"><div class="fit"><section class="s dark">
   <div class="eyebrow">청년창업사관학교 16기 · 2026년 2차 중간평가</div>
   <div class="bd" style="flex-direction:row;gap:44px;align-items:center;padding-top:4px">
@@ -2127,6 +2148,7 @@
   <p class="note" style="margin-top:8px">11월에 베타를 열고 첫 거래 데이터를 쌓아, 다음 보고 때 화면이 실제로 받은 견적 건수와 매칭 건수로 말씀드리겠습니다.</p>
   <div class="ft"><span class="logo">VCBIO</span><span class="pageno">20</span></div>
 </section></div></div>
+</div>
 
 <!-- ══════════════════════════════════════════════════════════════════════════
      발표자 전용 「읽는 순서」 생성기 — 이 사본에만 있다. 제출본으로 옮기지 말 것.
@@ -2327,24 +2349,73 @@
 })();
 </script>
 
-<!-- 발표 연습용 10분 타이머 (책장 배포본 전용) -->
+<!-- 발표 연습용 타이머·페이지 표시 (책장 배포본 전용) -->
 <div class="timer" id="tmr">
   <button class="tmr-main" id="tmrMain" type="button" aria-label="발표 타이머 시작 및 일시정지">10:00</button>
   <button class="tmr-reset" id="tmrReset" type="button" aria-label="타이머를 10분으로 되돌리기">&#8635;</button>
 </div>
 <div class="tmr-hint" id="tmrHint">눌러서 시작</div>
+<div class="pgind" id="pgind">01 / 20</div>
 <script>
 (function () {
-  // 화면 폭 맞춤 — 세로 스크롤바를 뺀 실제 표시 폭 기준. 1600 이상이면 1배(확대 안 함).
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('.fitbox'));
+  var LAST = boxes.length - 1;
+  var cur = 0;
+  var ind = document.getElementById('pgind');
+
+  // ── 화면 맞춤: 폭과 높이 둘 다 보고 한 장이 통째로 들어오게 ──────────────
   function fit() {
     var w = document.documentElement.clientWidth || window.innerWidth;
-    document.documentElement.style.setProperty('--sc', String(Math.min(1, w / 1600)));
+    var h = document.documentElement.clientHeight || window.innerHeight;
+    document.documentElement.style.setProperty('--sc', String(Math.min(w / 1600, h / 900)));
   }
-  fit();
-  window.addEventListener('resize', fit);
-  window.addEventListener('orientationchange', function () { setTimeout(fit, 120); });
 
-  // 10분 카운트다운
+  // ── 배치: 현재 장은 가운데, 나머지는 좌우 화면 밖 ────────────────────────
+  function place(animate) {
+    boxes.forEach(function (b, i) {
+      if (!animate) b.style.transition = 'none';
+      b.style.transform = 'translateX(' + ((i - cur) * 100) + 'vw)';
+      if (Math.abs(i - cur) <= 1) b.classList.add('near');
+      else b.classList.remove('near');
+      if (!animate) { void b.offsetWidth; b.style.transition = ''; }
+    });
+    var n = cur + 1;
+    ind.textContent = (n < 10 ? '0' : '') + n + ' / ' + boxes.length;
+  }
+  function goTo(i, animate) {
+    i = Math.max(0, Math.min(LAST, i));   // 순환하지 않는다 — 첫 장/끝 장에서 멈춘다
+    if (i === cur) return;
+    cur = i; place(animate !== false);
+  }
+  fit(); place(false);
+  window.addEventListener('resize', function () { fit(); place(false); });
+  window.addEventListener('orientationchange', function () { setTimeout(function () { fit(); place(false); }, 120); });
+
+  // ── 키보드 ───────────────────────────────────────────────────────────────
+  var NEXT = { ArrowRight: 1, ArrowDown: 1, PageDown: 1, ' ': 1, Spacebar: 1 };
+  var PREV = { ArrowLeft: 1, ArrowUp: 1, PageUp: 1 };
+  document.addEventListener('keydown', function (e) {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var k = e.key;
+    if (NEXT[k]) { e.preventDefault(); goTo(cur + 1); }
+    else if (PREV[k]) { e.preventDefault(); goTo(cur - 1); }
+    else if (k === 'Home') { e.preventDefault(); goTo(0); }
+    else if (k === 'End') { e.preventDefault(); goTo(LAST); }
+  });
+
+  // ── 스와이프: 가로가 세로보다 확실히 클 때만 넘김 ────────────────────────
+  var sx = 0, sy = 0, st = 0;
+  document.addEventListener('touchstart', function (e) {
+    var t = e.changedTouches[0]; sx = t.clientX; sy = t.clientY; st = Date.now();
+  }, { passive: true });
+  document.addEventListener('touchend', function (e) {
+    var t = e.changedTouches[0];
+    var dx = t.clientX - sx, dy = t.clientY - sy;
+    if (Date.now() - st > 800) return;
+    if (Math.abs(dx) >= 60 && Math.abs(dx) > Math.abs(dy) * 1.5) goTo(cur + (dx < 0 ? 1 : -1));
+  }, { passive: true });
+
+  // ── 10분 타이머 ──────────────────────────────────────────────────────────
   var TOTAL = 10 * 60 * 1000;
   var main = document.getElementById('tmrMain');
   var reset = document.getElementById('tmrReset');
@@ -2385,10 +2456,12 @@
     if (ticker) { clearInterval(ticker); ticker = null; }
     lockOff();
   }
-  main.addEventListener('click', function () { running ? stop() : start(); });
+  // 클릭 뒤 포커스를 떼어 둔다 — 버튼에 포커스가 남으면 Space 가 타이머를 토글해 버린다
+  main.addEventListener('click', function () { running ? stop() : start(); main.blur(); });
   reset.addEventListener('click', function (e) {
     e.stopPropagation(); stop(); remain = TOTAL; paint();
     if (hint) hint.style.opacity = '1';
+    reset.blur();
   });
   document.addEventListener('visibilitychange', function () {
     if (!document.hidden && running) { lockOn(); tick(); }
