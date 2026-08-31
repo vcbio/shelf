@@ -26,16 +26,19 @@ body{ font-family:var(--font); color:var(--ink-900); background:var(--sunk);
      font-size:1.7rem; color:var(--ink-300); }
 
 /* ── 표지 ─────────────────────────────────── */
-.cover{ grid-template-columns:1fr 64rem; }
-.cover .l{ padding:0 6rem 0 7rem; align-self:center; }
+/* 원본 그림이 1024×1024 정사각이다. 우측 칸을 슬라이드 높이와 같은 정사각(90rem)으로
+   두면 잘림 없이 전부 들어간다 — 그림 안의 제목도 온전히 보인다. */
+.cover{ grid-template-columns:1fr 90rem; }
+.cover .l{ padding:0 5rem 0 7rem; align-self:center; }
 .cover .kick{ font-size:2rem; font-weight:700; letter-spacing:.16em;
-              color:var(--brand); margin-bottom:2.6rem; }
-.cover h1{ font-size:8.8rem; font-weight:800; line-height:1.06; letter-spacing:-.035em; }
+              color:var(--brand); margin-bottom:2.4rem; }
+.cover h1{ font-size:7.6rem; font-weight:800; line-height:1.06; letter-spacing:-.035em; }
 .cover h1 em{ font-style:normal; color:var(--brand); }
-.cover .sub{ font-size:2.8rem; line-height:1.5; color:var(--ink-500); margin-top:3.4rem; }
-/* 원본 그림 위쪽에 제목이 그려져 있다. 인물·길만 보이게 확대해 아래를 쓴다. */
+.cover .sub{ font-size:2.5rem; line-height:1.5; color:var(--ink-500); margin-top:3rem; }
 .cover .r{ overflow:hidden; }
-.cover .r img{ width:190%; height:auto; display:block; margin-left:-45%; margin-top:-26%; }
+.cover .r img{ width:100%; height:100%; object-fit:cover; display:block; }
+/* 표지에서는 쪽번호가 사진 위에 얹힌다. 어두운 땅 위라 흰 글씨로 바꾼다. */
+.cover .pg{ color:rgba(255,255,255,.85); }
 
 /* ── 본문 공통 ────────────────────────────── */
 .body{ grid-template-rows:auto 1fr; padding:6rem 7rem 7rem; }
