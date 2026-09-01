@@ -195,11 +195,6 @@
   "date": "2026-08-01"
  },
  {
-  "slug": "trend-dashboard",
-  "title": "시장 트렌드 대시보드",
-  "date": "2026-08-01"
- },
- {
   "slug": "colorboard",
   "title": "VCBio 디자인 선택 보드 v3",
   "date": "2026-08-01"
@@ -287,6 +282,11 @@
  {
   "slug": "enzyme-quote-20grain-hi",
   "title": "견적서 — 20곡 발효효소분말 (에이스바이오팜)",
+  "date": "2026-09-01"
+ },
+ {
+  "slug": "trend-dashboard",
+  "title": "시장 트렌드 대시보드",
   "date": "2026-09-01"
  }
 ]
