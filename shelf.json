@@ -275,11 +275,6 @@
   "date": "2026-08-25"
  },
  {
-  "slug": "semiclass-ot-deck-v2",
-  "title": "세미클래스 OT — AI 셰르파 따라걷기 (33장)",
-  "date": "2026-08-31"
- },
- {
   "slug": "enzyme-quote-20grain-hi",
   "title": "견적서 — 20곡 발효효소분말 (에이스바이오팜)",
   "date": "2026-09-01"
@@ -288,5 +283,10 @@
   "slug": "trend-dashboard",
   "title": "시장 트렌드 대시보드",
   "date": "2026-09-01"
+ },
+ {
+  "slug": "semiclass-ot-deck-v2",
+  "title": "세미클래스 OT — AI 셰르파 따라걷기 (33장)",
+  "date": "2026-09-04"
  }
 ]
