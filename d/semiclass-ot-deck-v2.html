@@ -223,7 +223,7 @@ body.cue .nav, body.cue .brandfoot, body.cue .zoom .hint{ display:none; }   /* �
      padding:.8rem 1.6rem; cursor:pointer; text-decoration:none; box-shadow:var(--sh-sm); }
 .lb .bar a:hover, .lb .bar button:hover{ background:var(--blue-50); color:var(--brand); }
 
-/* 9단계 레벨 사다리 — 시안 E 탭형 */
+/* 9단계 레벨 사다리 — 시안 F 블록형 */
 .L{ display:grid; grid-template-rows:auto auto; gap:1rem; min-height:0; }
 .L .gh{ display:grid; grid-template-columns:repeat(9,1fr); gap:1.2rem; }
 .L .g{ background:var(--blue-50); border-radius:1rem; padding:.7rem 1.4rem; display:flex; gap:1rem; align-items:baseline; }
@@ -232,17 +232,16 @@ body.cue .nav, body.cue .brandfoot, body.cue .zoom .hint{ display:none; }   /* �
 .L .phone{ position:absolute; left:calc(2/9 * 100% - .6rem); top:0; transform:translateX(-50%); white-space:nowrap; font-size:1.55rem; font-weight:700; color:var(--ink-700);
            background:var(--white); border:.1rem solid var(--ink-200); border-radius:99rem; padding:.7rem 1.4rem; box-shadow:var(--sh-sm); }
 .L .phone::after{ content:''; position:absolute; left:50%; top:100%; width:.15rem; height:1.4rem; background:var(--ink-300); }
-.L .st{ position:relative; display:flex; flex-direction:column; justify-content:flex-end; gap:.35rem; background:var(--white); border:.15rem solid var(--ink-200);
-        border-radius:1.6rem 1.6rem .8rem .8rem; padding:1.4rem 1.4rem 1.3rem; box-shadow:var(--sh-sm); }
-.L .st.on{ background:linear-gradient(180deg,#3B78FF 0%,#2F6BFF 100%); border-color:#2F6BFF; color:var(--white); box-shadow:0 .8rem 2.4rem rgba(47,107,255,.28); }
-.L .badge{ position:absolute; left:50%; top:0; transform:translate(-50%,-50%); width:4.8rem; height:4.8rem; border-radius:50%; background:var(--white); border:.3rem solid var(--ink-300);
-           color:var(--ink-700); font-size:2.3rem; font-weight:800; display:grid; place-items:center; }
-.L .st.on .badge{ border-color:var(--white); background:var(--brand); color:var(--white); box-shadow:0 0 0 .5rem rgba(47,107,255,.18); }
-.L .lv{ font-size:1.55rem; font-weight:800; letter-spacing:.08em; color:var(--ink-400); } .L .st.on .lv{ color:rgba(255,255,255,.75); }
+.L .st{ position:relative; display:flex; flex-direction:column; justify-content:flex-end; gap:.35rem; border-radius:2rem; padding:6rem 1.5rem 1.4rem;
+        background:var(--cloud); border:.1rem solid var(--ink-200); }
+.L .st.on{ background:linear-gradient(160deg,#2F6BFF 0%,#163D8C 100%); border-color:transparent; color:var(--white); box-shadow:0 1rem 2.8rem rgba(22,61,140,.28); }
+.L .badge{ position:absolute; left:1.4rem; top:1.2rem; font-size:4.4rem; font-weight:800; letter-spacing:-.04em; line-height:1; color:var(--ink-300); }
+.L .st.on .badge{ color:rgba(255,255,255,.92); }
+.L .lv{ display:none; }
 .L h3{ font-size:2.05rem; font-weight:800; letter-spacing:-.02em; line-height:1.2; } .L .st:not(.on) h3{ color:var(--ink-700); }
-.L .tm{ font-size:1.5rem; font-weight:700; color:var(--brand); } .L .st.on .tm{ color:#CFE0FF; }
-.L p{ font-size:1.5rem; line-height:1.38; margin-top:.2rem; color:var(--ink-500); } .L .st.on p{ color:rgba(255,255,255,.9); }
-.L .now{ margin-top:.9rem; font-size:1.45rem; font-weight:800; color:var(--white); } .L .now.dim{ color:var(--ink-400); font-weight:600; }
+.L .tm{ font-size:1.5rem; font-weight:700; color:var(--brand); } .L .st.on .tm{ color:#A9D8FF; }
+.L p{ font-size:1.5rem; line-height:1.38; margin-top:.2rem; color:var(--ink-500); } .L .st.on p{ color:rgba(255,255,255,.88); }
+.L .now{ margin-top:.9rem; font-size:1.45rem; font-weight:800; color:#A9D8FF; } .L .now.dim{ color:var(--ink-400); font-weight:600; }
 .credit{ font-size:1.45rem; color:var(--ink-400); text-align:right; margin-top:1rem; }
 
 /* 3층 구조 */
