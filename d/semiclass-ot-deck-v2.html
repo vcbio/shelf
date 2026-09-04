@@ -34,6 +34,7 @@ body{ font-family:var(--font); color:var(--ink-900); background:var(--sunk);
              background:none; border:0; cursor:pointer; padding:.4rem 1rem;
              border-radius:.8rem; }
 .nav button:hover{ background:var(--blue-50); color:var(--brand); }
+body.cue .nav, body.cue .brandfoot, body.cue .zoom .hint{ display:none; }   /* 큐카드 iframe 안에서는 막대·힌트 숨김 */
 .nav .num{ font-size:1.9rem; font-weight:700; color:var(--ink-500);
            font-variant-numeric:tabular-nums; min-width:7rem; text-align:center; }
 @media print{ .nav{ display:none; } .slide{ display:grid !important; } }
@@ -343,5 +344,6 @@ body{ font-family:var(--font); color:var(--ink-900); background:var(--sunk);
 
   var m = (location.hash || '').match(/^#p(\d+)$/);
   show(m ? parseInt(m[1], 10) - 1 : 0, false);
+  if (/[?&]cue=1/.test(location.search)) { document.body.classList.add('cue'); }
 })();
 </script></body></html>
