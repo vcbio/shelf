@@ -285,11 +285,6 @@
   "date": "2026-09-01"
  },
  {
-  "slug": "semiclass-ot-cue",
-  "title": "세미클래스 OT 발표자 큐카드 (27장)",
-  "date": "2026-09-04"
- },
- {
   "slug": "semiclass-ot-ladder-options",
   "title": "세미클래스 OT 23번 레벨 사다리 시안",
   "date": "2026-09-04"
@@ -302,6 +297,11 @@
  {
   "slug": "semiclass-ot-script",
   "title": "세미클래스 OT 발표대본 (26장)",
+  "date": "2026-09-04"
+ },
+ {
+  "slug": "semiclass-ot-cue",
+  "title": "세미클래스 OT 발표자 큐카드 (26장)",
   "date": "2026-09-04"
  }
 ]
