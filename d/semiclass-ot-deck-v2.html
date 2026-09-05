@@ -337,6 +337,11 @@ body.cue .brandfoot, body.cue .pg, body.cue .zoom .hint{ display:none; }   /* �
     if (!e.isTrusted) return;                       // 합성 이벤트 차단
     if (lb.classList.contains('on')) { if (e.key === 'Escape') lbHide(); return; }   // 확대 중엔 장 안 넘김
     if (e.repeat) return;                           // 눌린 채로 있는 키는 한 번만
+    if ((e.metaKey || e.key === 'f' || e.key === 'F') && (e.key === 'f' || e.key === 'F') && !e.ctrlKey && !e.altKey) {   // ⌘F 또는 F = 전체화면 (2026-09-05 대표 요청)
+      e.preventDefault();
+      if (document.fullscreenElement) { document.exitFullscreen(); } else { (document.documentElement.requestFullscreen || document.documentElement.webkitRequestFullscreen).call(document.documentElement); }
+      return;
+    }
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); move(1); }
     else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); move(-1); }
