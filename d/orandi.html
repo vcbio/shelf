@@ -244,6 +244,9 @@ h1, h2, h3 { margin: 0; letter-spacing: -.02em; }
 .uchip i { font-style: normal; font-size: 12px; color: var(--ink-3); font-weight: 500; }
 
 /* ── 목표 고르기 시트 ── */
+/* ⚠️ [hidden]은 display 선언에 덮인다. 시트·화면 전환이 안 닫히던 원인(2026-08-20 실측). */
+[hidden] { display: none !important; }
+
 .sheet { position: fixed; inset: 0; z-index: 50; background: rgba(20,40,60,.45); display: grid; place-items: start center; padding: 40px 16px; overflow-y: auto; }
 .sheet-box { background: var(--bg); border-radius: 16px; padding: 22px; width: 100%; max-width: 720px; }
 .sheet-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
