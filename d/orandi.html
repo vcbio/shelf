@@ -74,6 +74,18 @@ h1, h2, h3 { margin: 0; letter-spacing: -.02em; }
   font-size: calc(19px * var(--zoom)); font-weight: 700;
 }
 .big-btn:hover { background: #203c56; }
+.big-btn.ghost { background: var(--card); color: var(--ink); border: 2px solid var(--navy); }
+.big-btn.ghost:hover { background: #eef2f6; }
+.or-line { margin: 14px 0 !important; color: var(--ink-3) !important; font-size: 14px !important; }
+.seed-card {
+  display: flex; align-items: center; gap: calc(14px * var(--zoom));
+  background: var(--card); border: 2px solid var(--navy); border-radius: 14px;
+  padding: calc(14px * var(--zoom)) calc(18px * var(--zoom));
+  margin-bottom: calc(20px * var(--zoom)); flex-wrap: wrap;
+}
+.seed-card > img { width: calc(54px * var(--zoom)); height: calc(54px * var(--zoom)); border-radius: 11px; }
+.seed-card > div { flex: 1; min-width: 140px; }
+.seed-card b { display: block; font-size: calc(24px * var(--zoom)); font-weight: 800; }
 .big-btn.sm { padding: 9px 18px; font-size: 15px; border-radius: 9px; margin-top: 10px; }
 .link-btn { display: block; margin: 14px auto 0; background: none; border: none; color: var(--ink-2); font-size: 15px; text-decoration: underline; }
 
@@ -7949,6 +7961,51 @@ function nextGoals(index, madeIds = [], inventory = new Map(), { limit = 5 } = {
 }
 
 /**
+ * 「선택 위습」으로 받은 영웅에서 출발해 노릴 만한 최종 목표를 고른다.
+ *
+ * 원랜디는 스토리를 밀면 그 등급의 '선택 위습'을 주고 원하는 유닛을 하나 받는다.
+ * 그 유닛이 그 판의 출발점이 되므로, **그것을 재료로 쓰는 최종 목표**를 보여주면
+ * 초보자가 길을 잃지 않는다 (대표 제안 2026-08-20).
+ *
+ * @returns {{seed: object, goals: {unit, cost, plan, progress, uses, tier, score}[]}}
+ */
+function goalsFrom(index, seedId, inventory = new Map(), { limit = 6 } = {}) {
+  const seed = index.get(seedId);
+  if (!seed) return { seed: null, goals: [] };
+
+  // seed가 (직·간접) 재료로 들어가는 최종 목표만 추린다
+  const reachable = new Set(upgradePaths(index, seedId, { depth: 6 }).map((r) => r.unit.id));
+  const goals = [...reachable]
+    .map((id) => index.get(id))
+    .filter((u) => u && isFinalGoal(index, u))
+    .map((unit) => {
+      const cost = unitCost(index, unit.id);
+      const plan = planTarget(index, unit.id, inventory);
+      const progress = plan.leafTotal ? plan.leafHave / plan.leafTotal : 0;
+      // seed가 그 목표에 몇 개나 들어가는지 — 많이 쓰일수록 그 판의 축이 된다
+      const uses = expandLeaves(index, unit.id, 1).get(seedId)
+        ?? (index.usedIn.get(seedId) ?? []).find((p) => p.id === unit.id)?.count ?? 1;
+      const core = unit.roles.filter((r) => CORE_ROLE_KEYS.includes(r)).length;
+      const score = Math.max(0, 160 - (cost?.units ?? 999)) * 0.7
+        + progress * 60 + core * 12 + Math.min(uses, 8) * 4;
+      return { unit, cost, plan, progress, uses, tier: goalTier(cost), score };
+    })
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit);
+  return { seed, goals };
+}
+
+/** 선택 위습으로 받을 만한 유닛 (그 등급에서 위로 잘 뻗는 것 순) */
+function wispPicks(index, gradeBase, { limit = 12 } = {}) {
+  const reach = materialReach(index);
+  return [...index.units.values()]
+    .filter((u) => u.gradeBase === gradeBase)
+    .map((unit) => ({ unit, reach: reach.get(unit.id) ?? 0 }))
+    .sort((a, b) => b.reach - a.reach || a.unit.name.localeCompare(b.unit.name, 'ko'))
+    .slice(0, limit);
+}
+
+/**
  * ORANDI 조합 도우미 — 화면 계층 (2026-08-20 전면 개편)
  *
  * 설계 원칙 하나: **요리 레시피처럼 체크해 나간다.**
@@ -7978,6 +8035,9 @@ const state = {
   pickerRole: 'reco',        // 처음엔 추천부터 보여준다 (초보자 기준)
   findRole: 'mainDps',
   selected: null,
+  seed: null,                 // 선택 위습으로 받은 시작 영웅
+  pickMode: 'goal',           // 'goal' = 목표 고르기 / 'seed' = 받은 영웅 고르기
+  seedGrade: '특별함',
 };
 
 /* ───────────────────────── 저장 ───────────────────────── */
@@ -7985,7 +8045,7 @@ const state = {
 function persist() {
   try {
     localStorage.setItem(STORE, JSON.stringify({
-      inventory: [...state.inventory], goal: state.goal, made: state.made, zoom: state.zoom,
+      inventory: [...state.inventory], goal: state.goal, made: state.made, zoom: state.zoom, seed: state.seed,
     }));
   } catch { /* 저장 실패가 기능을 막지는 않는다 */ }
 }
@@ -7995,6 +8055,7 @@ function restore() {
     const s = JSON.parse(localStorage.getItem(STORE) || '{}');
     if (Array.isArray(s.inventory)) state.inventory = new Map(s.inventory.filter(([id]) => state.index.get(id)));
     if (s.goal && state.index.get(s.goal)) state.goal = s.goal;
+    if (s.seed && state.index.get(s.seed)) state.seed = s.seed;
     if (Array.isArray(s.made)) state.made = s.made.filter((id) => state.index.get(id));
     if (Number(s.zoom) > 0) state.zoom = Number(s.zoom);
   } catch { /* 손상된 저장값은 버린다 */ }
@@ -8036,13 +8097,53 @@ function matsOf(u) {
 function renderRun() {
   const goal = state.index.get(state.goal);
 
+  if (!goal && state.seed) {
+    const { seed, goals } = goalsFrom(state.index, state.seed, state.inventory, { limit: 5 });
+    const label = (k) => ROLES.find((r) => r.key === k)?.label ?? k;
+    $('#goalBar').innerHTML = `
+      <div class="seed-card">
+        ${img(seed)}
+        <div>
+          <span class="gc-label">받은 영웅</span>
+          <b>${esc(seed.name)}</b>
+          <span class="gc-tags">${gradeTag(seed)}${roleTags(seed)}</span>
+        </div>
+        <button class="ghost-btn" data-open-seed>바꾸기</button>
+      </div>`;
+    $('#laneNow').innerHTML = goals.length ? `
+      <h2 class="lane-h next">이 영웅으로 갈 수 있는 목표</h2>
+      <p class="lane-note">고르면 만들 순서가 펼쳐집니다.</p>
+      ${goals.map((g) => `
+        <article class="task next-task">
+          ${img(g.unit)}
+          <div class="t-text">
+            <b>${esc(g.unit.name)}</b>
+            <div class="t-mats">
+              <span class="tier ${g.tier.key}">${esc(g.tier.label)}</span>
+              ${gradeTag(g.unit)}
+              <span class="m">재료 ${g.cost.units}개</span>
+              ${g.unit.roles.filter((r) => CORE_ROLE_KEYS.includes(r)).length
+                ? `<span class="fills">${g.unit.roles.filter((r) => CORE_ROLE_KEYS.includes(r)).map(label).map(esc).join('·')}</span>` : ''}
+            </div>
+          </div>
+          <button class="make-btn" data-goal="${esc(g.unit.id)}">이걸로</button>
+        </article>`).join('')}`
+      : '<p class="lane-note">이 영웅에서 이어지는 최종 목표를 못 찾았습니다. 위 <b>바꾸기</b>로 다른 영웅을 골라보세요.</p>';
+    $('#laneWait').innerHTML = '';
+    $('#laneMats').innerHTML = '';
+    $('#doneDrawer').hidden = true;
+    return;
+  }
+
   if (!goal) {
     $('#goalBar').innerHTML = `
       <div class="pick-hero">
         <h1>무엇을 만들까요?</h1>
         <p>목표를 하나 정하면 <b>만들 순서가 전부 펼쳐집니다.</b><br />만들 때마다 누르기만 하면 됩니다.</p>
         <button class="big-btn" data-open-picker>목표 고르기</button>
-        <p class="hint-line">뭘 만들지 모르겠으면 눌러보세요 — <b>⭐추천</b>에 쉬운 것부터 나옵니다.</p>
+        <p class="or-line">또는</p>
+        <button class="big-btn ghost" data-open-seed>게임에서 받은 영웅으로 시작</button>
+        <p class="hint-line">스토리를 밀면 주는 <b>선택 위습</b>으로 받은 영웅을 고르면,<br />그 영웅으로 갈 수 있는 목표를 찾아드립니다.</p>
       </div>`;
     $('#laneNow').innerHTML = '';
     $('#laneWait').innerHTML = '';
@@ -8202,11 +8303,40 @@ function renderDone() {
 
 /* ───────────────────────── 목표 고르기 ───────────────────────── */
 
-function openPicker() {
+function openPicker(mode = 'goal') {
+  state.pickMode = mode;
   $('#picker').hidden = false;
   $('#pickerQ').value = '';
+  $('.sheet-head h2').textContent = mode === 'seed' ? '게임에서 받은 영웅이 뭔가요?' : '무엇을 만들까요';
   renderPicker();
   $('#pickerQ').focus();
+}
+
+/** 받은 영웅(선택 위습) 고르기 — 등급별로 '위로 잘 뻗는' 순 */
+function renderSeedPicker() {
+  const q = $('#pickerQ').value.trim();
+  const grades = ['흔함', '안흔함', '특별함', '희귀함', '전설'];
+  $('#pickerRoles').innerHTML = grades.map((g) =>
+    `<button class="chip ${state.seedGrade === g ? 'on' : ''}" data-sgrade="${esc(g)}">${esc(g)}</button>`).join('');
+
+  const list = q
+    ? searchUnits(state.index, q, { limit: 30 }).map((h) => ({ unit: h.unit, reach: null }))
+    : wispPicks(state.index, state.seedGrade, { limit: 14 });
+
+  $('#pickerList').innerHTML = `
+    <div class="pick-sec">
+      <h3>${q ? '검색 결과' : `${esc(state.seedGrade)} 선택 위습`}</h3>
+      <p>${q ? '' : '위쪽 조합에 많이 쓰이는 순서입니다. 이걸 받으면 길이 넓어집니다.'}</p>
+    </div>
+    ${list.map(({ unit, reach }) => `
+      <button class="pick-row" data-seed="${esc(unit.id)}">
+        ${img(unit)}
+        <span class="pr-text">
+          <b>${esc(unit.name)}</b>
+          <span class="pr-tags">${gradeTag(unit)}${roleTags(unit)}</span>
+          <small>${reach !== null ? `상위 조합 ${reach}곳에 쓰임` : esc(unit.grade)}</small>
+        </span>
+      </button>`).join('')}`;
 }
 
 function pickRow(u, note, star) {
@@ -8226,6 +8356,7 @@ function pickRow(u, note, star) {
 }
 
 function renderPicker() {
+  if (state.pickMode === 'seed') { renderSeedPicker(); return; }
   const q = $('#pickerQ').value.trim();
   $('#pickerRoles').innerHTML =
     `<button class="chip ${state.pickerRole === 'reco' ? 'on' : ''}" data-prole="reco">⭐ 추천</button>`
@@ -8366,6 +8497,15 @@ function renderDetail() {
 
 /* ───────────────────────── 동작 ───────────────────────── */
 
+function setSeed(id) {
+  state.seed = id;
+  state.inventory = invAdd(state.inventory, id, 1);   // 받은 영웅은 이미 손에 있다
+  $('#picker').hidden = true;
+  persist();
+  renderRun();
+  toast(`${state.index.name(id)}로 시작합니다`);
+}
+
 function setGoal(id) {
   state.goal = id;
   $('#picker').hidden = true;
@@ -8405,7 +8545,11 @@ document.addEventListener('click', (e) => {
   const t = (sel) => e.target.closest(sel);
 
   if (t('[data-mode]')) { setMode(t('[data-mode]').dataset.mode); return; }
-  if (t('[data-open-picker]')) { openPicker(); return; }
+  if (t('[data-open-picker]')) { openPicker('goal'); return; }
+  if (t('[data-open-seed]')) { openPicker('seed'); return; }
+  if (t('[data-seed]')) { setSeed(t('[data-seed]').dataset.seed); return; }
+  const sg = t('[data-sgrade]');
+  if (sg) { state.seedGrade = sg.dataset.sgrade; $('#pickerQ').value = ''; renderPicker(); return; }
   if (t('#pickerClose')) { $('#picker').hidden = true; return; }
   if (t('[data-goal]')) { setGoal(t('[data-goal]').dataset.goal); return; }
   if (t('[data-make]')) { const b = t('[data-make]'); make(b.dataset.make, Number(b.dataset.n || 1)); return; }
@@ -8452,6 +8596,7 @@ $('#resetBtn').addEventListener('click', () => {
   if (!confirm('새 판을 시작합니다.\n\n지금까지 모은 재료와 목표를 모두 지웁니다.')) return;
   state.inventory = new Map();
   state.goal = null;
+  state.seed = null;
   state.made = [];
   persist();
   renderRun();
