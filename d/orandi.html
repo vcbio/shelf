@@ -48,6 +48,12 @@ h1, h2, h3 { margin: 0; letter-spacing: -.02em; }
   padding: 10px 16px; background: rgba(247,244,238,.94); backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line);
 }
+.home-btn {
+  background: var(--card); border: 1px solid var(--line-2); border-radius: 9px;
+  padding: 8px 14px; font-size: 15px; font-weight: 700; color: var(--ink); margin-right: 8px;
+}
+.home-btn:hover { border-color: var(--navy); }
+.top { }
 .modes { display: flex; gap: 4px; background: #ece7dd; border-radius: 10px; padding: 3px; }
 .mode {
   border: none; background: none; border-radius: 8px;
@@ -330,6 +336,7 @@ h1, h2, h3 { margin: 0; letter-spacing: -.02em; }
   </head>
   <body>
     <header class="top">
+      <button class="home-btn" id="homeBtn" title="첫 화면으로">🏠 홈</button>
       <div class="modes">
         <button class="mode on" data-mode="run">진행</button>
         <button class="mode" data-mode="find">영웅 찾기</button>
@@ -7837,6 +7844,15 @@ function isFinalGoal(index, unit) {
   return Boolean(unit?.craftable) && (index.usedIn.get(unit.id) ?? []).length === 0;
 }
 
+/**
+ * 추천에 올릴 '최상위' 목표 — 초월·불멸·영원만.
+ * 히든·해적선·변화된은 최종급이지만 그 위가 있는 라인이라 목표로는 안 세운다
+ * (대표 지시 2026-08-20 — "최상위만 추천에 넣어라").
+ */
+function isTopGoal(index, unit) {
+  return isFinalGoal(index, unit) && powerRank(index, unit) >= 8;
+}
+
 /** 난이도 구간 — 최종 목표는 코스트 폭이 15~157개로 너무 넓어 그냥 늘어놓으면 못 고른다 */
 function goalTier(cost) {
   const n = cost?.units ?? 0;
@@ -7859,7 +7875,7 @@ function starterGoals(index, inventory = new Map(), { limit = 8 } = {}) {
   const rows = [];
   for (const unit of index.units.values()) {
     // ⭐ 최종 목표급만 추천한다. 중간재는 '진행' 화면이 순서로 보여주므로 목표가 아니다.
-    if (!isFinalGoal(index, unit)) continue;
+    if (!isTopGoal(index, unit)) continue;
     const cost = unitCost(index, unit.id);
     if (!cost) continue;
 
@@ -7880,7 +7896,7 @@ function starterGoals(index, inventory = new Map(), { limit = 8 } = {}) {
 /** 지금 보유로 가장 가까운(완성이 임박한) 목표 */
 function closestGoals(index, inventory, { limit = 6 } = {}) {
   return [...index.units.values()]
-    .filter((u) => isFinalGoal(index, u))
+    .filter((u) => isTopGoal(index, u))
     .map((unit) => {
       const plan = planTarget(index, unit.id, inventory);
       return { unit, plan, progress: plan.leafTotal ? plan.leafHave / plan.leafTotal : 0 };
@@ -7898,7 +7914,7 @@ function closestGoals(index, inventory, { limit = 6 } = {}) {
  */
 function roleGoals(index, roleKey, inventory = new Map(), { limit = 5, damageType = null } = {}) {
   return [...index.units.values()]
-    .filter((u) => isFinalGoal(index, u) && u.roles.includes(roleKey))
+    .filter((u) => isTopGoal(index, u) && u.roles.includes(roleKey))
     .filter((u) => !damageType || u.damageType === damageType)
     .map((unit) => {
       const cost = unitCost(index, unit.id);
@@ -7906,11 +7922,13 @@ function roleGoals(index, roleKey, inventory = new Map(), { limit = 5, damageTyp
       const progress = plan.leafTotal ? plan.leafHave / plan.leafTotal : 0;
       const core = unit.roles.filter((r) => CORE_ROLE_KEYS.includes(r)).length;
       // 가까울수록 · 쌀수록 · 역할 많을수록 · 셀수록 높다
+      // ⚠️ 역할 겸용에 점수를 주면 만능 유닛 몇 개가 모든 역할에서 1위를 먹어
+      //    역할별 추천이 전부 똑같아진다(2026-08-20 실측). 여기서는 겸용 보너스를 빼고
+      //    '만들 수 있느냐'(코스트·진행률)에 집중한다.
       const score = progress * 70
-        + Math.max(0, 90 - (cost?.units ?? 999)) * 0.8
-        + core * 9
-        + powerRank(index, unit) * 3
-        + Math.max(0, 12 - (cost?.steps ?? 99)) * 1.5;
+        + Math.max(0, 160 - (cost?.units ?? 999)) * 0.9
+        + powerRank(index, unit) * 2
+        + Math.max(0, 30 - (cost?.steps ?? 99)) * 1.2;
       return { unit, cost, plan, progress, tier: goalTier(cost), score };
     })
     .sort((a, b) => b.score - a.score)
@@ -7929,11 +7947,11 @@ function nextGoals(index, madeIds = [], inventory = new Map(), { limit = 5 } = {
   const made = [...new Set(madeIds)].map((id) => index.get(id)).filter(Boolean);
   const haveRoles = new Set(made.flatMap((u) => u.roles.filter((r) => CORE_ROLE_KEYS.includes(r))));
   const missing = CORE_ROLE_KEYS.filter((r) => !haveRoles.has(r));
-  const madeFinals = made.filter((u) => isFinalGoal(index, u));
+  const madeFinals = made.filter((u) => isTopGoal(index, u));
 
   const rows = [];
   for (const unit of index.units.values()) {
-    if (!isFinalGoal(index, unit)) continue;
+    if (!isTopGoal(index, unit)) continue;
     if (madeIds.includes(unit.id)) continue;
     // 이미 만든 것과 효과가 겹쳐 죽는 조합은 권하지 않는다
     if (madeFinals.some((m) => conflictsOf(index, m.id).some((c) => c.withId === unit.id))) continue;
@@ -7977,7 +7995,7 @@ function goalsFrom(index, seedId, inventory = new Map(), { limit = 6 } = {}) {
   const reachable = new Set(upgradePaths(index, seedId, { depth: 6 }).map((r) => r.unit.id));
   const goals = [...reachable]
     .map((id) => index.get(id))
-    .filter((u) => u && isFinalGoal(index, u))
+    .filter((u) => u && isTopGoal(index, u))
     .map((unit) => {
       const cost = unitCost(index, unit.id);
       const plan = planTarget(index, unit.id, inventory);
@@ -8582,6 +8600,15 @@ document.addEventListener('click', (e) => {
 
 $('#pickerQ').addEventListener('input', renderPicker);
 $('#q').addEventListener('input', renderFind);
+
+$('#homeBtn').addEventListener('click', () => {
+  // 첫 화면으로. 모은 재료는 그대로 두고 목표만 푼다(재료까지 지우는 건 '새 판'이다).
+  state.goal = null;
+  state.seed = null;
+  setMode('run');
+  persist();
+  renderRun();
+});
 
 $('#zoomBtn').addEventListener('click', () => {
   const steps = [1, 1.15, 1.3, 1.5];
