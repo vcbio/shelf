@@ -109,6 +109,13 @@ h1, h2, h3 { margin: 0; letter-spacing: -.02em; }
 .lane-h.now::before { background: var(--go); }
 .lane-h.wait::before { background: var(--ink-3); }
 .lane-h.mats::before { background: var(--need); }
+.lane-h.next::before { background: var(--navy); }
+.next-task { border: 2px solid var(--line-2) !important; opacity: 1 !important; }
+.next-task:hover { border-color: var(--navy) !important; }
+.fills { font-size: calc(13px * var(--zoom)); font-weight: 700; color: var(--go); background: var(--go-soft); border-radius: 5px; padding: 2px 8px; }
+.t-mats .m.warn { background: var(--need-soft); color: var(--need); }
+.miss { color: var(--need); }
+.ok-text { color: var(--go); }
 .lane-h.ok { color: var(--go); }
 .lane-h.ok::before { background: var(--go); }
 .lane-h.idle { color: var(--ink-3); }
@@ -7186,16 +7193,20 @@ function planTarget(index, targetId, inventory, { qty = 1 } = {}) {
   emit(targetId);
   for (const id of makeCounts.keys()) emit(id);   // 순환 등으로 목표에서 못 닿은 것 보강
 
-  // ⚠️ 자원(목재·금화)을 빼고 세면 목재가 없어도 100%로 보인다(2026-08-20 검증에서 적발).
-  //    자원도 '있어야 완성되는 것'이므로 총량·부족분에 함께 넣는다.
-  const leafSumTotal = [...totalLeaves].reduce((sum, [, n]) => sum + n, 0);
-  const leafSumShort = [...shortage.values()].reduce((sum, n) => sum + n, 0)
-    + [...resources.values()].reduce((sum, n) => sum + n, 0);
+  // 진행률에 넣을 것과 뺄 것을 가른다.
+  //  · 목재·특성포인트: '개수'라 다른 재료와 같이 세도 된다
+  //  · 금화: 10,000 단위 금액이라 개수와 합치면 분모가 통째로 망가진다
+  //    (실측 — 산적왕 히그마 분모가 10,064가 돼 진행률이 늘 0%로 눌렸다. 2026-08-20)
+  const countable = (id) => id !== 'GOLD';
+  const leafSumTotal = [...totalLeaves].reduce((sum, [id, n]) => sum + (countable(id) ? n : 0), 0);
+  const leafSumShort = [...shortage.entries()].reduce((sum, [id, n]) => sum + (countable(id) ? n : 0), 0)
+    + [...resources.entries()].reduce((sum, [id, n]) => sum + (countable(id) ? n : 0), 0)
+    + wildcards;   // 랜덤유닛도 '아직 없는 것'이다
 
   const nextStep = steps.find((step) => craftTimes(index, inventory, index.get(step.unitId)) >= step.times) ?? null;
 
   return {
-    ok: shortage.size === 0 && resources.size === 0,
+    ok: shortage.size === 0 && resources.size === 0 && wildcards === 0,
     steps,
     reserved,
     shortage,
@@ -7862,7 +7873,8 @@ function closestGoals(index, inventory, { limit = 6 } = {}) {
       const plan = planTarget(index, unit.id, inventory);
       return { unit, plan, progress: plan.leafTotal ? plan.leafHave / plan.leafTotal : 0 };
     })
-    .filter((r) => r.progress > 0 && r.progress < 1)
+    // progress>0 만으로는 0.01%짜리도 '거의 다 됨'으로 올라온다(2026-08-20 실측). 실질 기준으로 자른다.
+    .filter((r) => r.progress >= 0.3 && r.progress < 1)
     .sort((a, b) => b.progress - a.progress || powerRank(index, b.unit) - powerRank(index, a.unit))
     .slice(0, limit);
 }
@@ -7891,6 +7903,49 @@ function roleGoals(index, roleKey, inventory = new Map(), { limit = 5, damageTyp
     })
     .sort((a, b) => b.score - a.score)
     .slice(0, limit);
+}
+
+/**
+ * 이미 만든 영웅들을 보고 **다음에 만들면 좋은 최종 목표**를 고른다.
+ *
+ * 기준 —
+ *   ① 지금 덱에 **비어 있는 핵심 역할**을 메우는가 (주딜만 있으면 방깎·이감·스턴을 권한다)
+ *   ② 이미 만든 것과 **재료를 덜 뺏는가** (같은 재료를 다투면 둘 다 못 만든다)
+ *   ③ 지금 보유로 가까운가 · 재료가 적게 드는가
+ */
+function nextGoals(index, madeIds = [], inventory = new Map(), { limit = 5 } = {}) {
+  const made = [...new Set(madeIds)].map((id) => index.get(id)).filter(Boolean);
+  const haveRoles = new Set(made.flatMap((u) => u.roles.filter((r) => CORE_ROLE_KEYS.includes(r))));
+  const missing = CORE_ROLE_KEYS.filter((r) => !haveRoles.has(r));
+  const madeFinals = made.filter((u) => isFinalGoal(index, u));
+
+  const rows = [];
+  for (const unit of index.units.values()) {
+    if (!isFinalGoal(index, unit)) continue;
+    if (madeIds.includes(unit.id)) continue;
+    // 이미 만든 것과 효과가 겹쳐 죽는 조합은 권하지 않는다
+    if (madeFinals.some((m) => conflictsOf(index, m.id).some((c) => c.withId === unit.id))) continue;
+
+    const cost = unitCost(index, unit.id);
+    if (!cost) continue;
+    const plan = planTarget(index, unit.id, inventory);
+    const progress = plan.leafTotal ? plan.leafHave / plan.leafTotal : 0;
+    const fills = unit.roles.filter((r) => missing.includes(r));
+
+    // 이미 만든 것들과 재료가 얼마나 겹치는지 (평균)
+    const overlap = madeFinals.length
+      ? madeFinals.reduce((s, m) => s + materialOverlap(index, m.id, unit.id), 0) / madeFinals.length
+      : 0;
+
+    // 빈 역할을 메우는 것이 1순위다 — 싸다고 역할 안 맞는 걸 위로 올리면 덱이 절름발이가 된다
+    const score = fills.length * 90
+      + Math.max(0, 160 - cost.units) * 0.45
+      + progress * 55
+      - overlap * 30;
+    rows.push({ unit, cost, plan, progress, fills, overlap, tier: goalTier(cost), score });
+  }
+  rows.sort((a, b) => b.score - a.score);
+  return { missing, haveRoles: [...haveRoles], picks: rows.slice(0, limit) };
 }
 
 /**
@@ -8025,9 +8080,9 @@ function renderRun() {
         <b>완성했습니다</b>
         <span>${esc(goal.name)} 재료가 전부 모였습니다. 인게임에서 조합하세요.</span>
         ${goal.commands.length ? `<button class="cmd-btn big" data-copy="${esc(goal.commands[0])}">-${esc(goal.commands[0])} 복사</button>` : ''}
-        <button class="big-btn sm" data-open-picker>다음 목표 고르기</button>
       </div>`;
-    $('#laneWait').innerHTML = '';
+    // 다음에 뭘 만들지까지 이어서 알려준다 — 역할이 비지 않게
+    $('#laneWait').innerHTML = renderNextGoals([...state.made, goal.id]);
     $('#laneMats').innerHTML = '';
     renderDone();
     return;
@@ -8102,6 +8157,37 @@ function renderRun() {
     <h2 class="lane-h ok">재료가 전부 모였습니다</h2>`;
 
   renderDone();
+}
+
+/** 다음에 만들면 좋은 영웅 — 비어 있는 역할을 메우고 재료를 덜 뺏는 순 */
+function renderNextGoals(madeIds) {
+  const { missing, haveRoles, picks } = nextGoals(state.index, madeIds, state.inventory, { limit: 5 });
+  const label = (k) => ROLES.find((r) => r.key === k)?.label ?? k;
+  if (!picks.length) return '';
+
+  return `
+    <h2 class="lane-h next">다음엔 이걸 만드세요</h2>
+    <p class="lane-note">
+      지금 갖춘 역할 — ${haveRoles.length ? haveRoles.map(label).map(esc).join(' · ') : '아직 없음'}<br />
+      ${missing.length
+        ? `<b class="miss">비어 있는 역할 — ${missing.map(label).map(esc).join(' · ')}</b>`
+        : '<b class="ok-text">핵심 역할이 전부 채워졌습니다</b>'}
+    </p>
+    ${picks.map((r) => `
+      <article class="task next-task">
+        ${img(r.unit)}
+        <div class="t-text">
+          <b>${esc(r.unit.name)}</b>
+          <div class="t-mats">
+            <span class="tier ${r.tier.key}">${esc(r.tier.label)}</span>
+            ${gradeTag(r.unit)}
+            ${r.fills.length ? `<span class="fills">${r.fills.map(label).map(esc).join('·')} 메움</span>` : ''}
+            <span class="m">재료 ${r.cost.units}개</span>
+            ${r.overlap > 0.4 ? `<span class="m warn">재료 겹침 ${Math.round(r.overlap * 100)}%</span>` : ''}
+          </div>
+        </div>
+        <button class="make-btn" data-goal="${esc(r.unit.id)}">이걸 목표로</button>
+      </article>`).join('')}`;
 }
 
 function renderDone() {
