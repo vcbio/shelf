@@ -6856,7 +6856,30 @@ globalThis.__ORANDI_OVERRIDES__ = {
     "해적선": "① 도박 ② 아이스버그(특수함) 스킬 — 목재 필요 ③ 크립 2단계 사슴 처치 (목재7 또는 목재3+해적선) ④ 스토리 보상",
     "확장팩": "PC에 별도 설치 후 맵 중앙의 천사를 클릭해 인증 (공식 카페 안내)"
   },
-  "_항법메모": "연합세력-일석이조 항법: 전설·히든 이상 조합 시 랜덤위습 1개 지급 / 페널티 = 도움소 선택위습 획득 불가, 최상위(초월·불멸·영원·제한·신비) 조합 불가"
+  "_항법메모": "연합세력-일석이조 항법: 전설·히든 이상 조합 시 랜덤위습 1개 지급 / 페널티 = 도움소 선택위습 획득 불가, 최상위(초월·불멸·영원·제한·신비) 조합 불가",
+  "_조합식수정": "게임에서 확인한 실제 조합식. 공개 데이터가 낡아 틀린 것을 여기서 덮어쓴다.",
+  "조합식수정": [
+    {
+      "유닛": "로빈",
+      "등급": "초월",
+      "재료": [
+        "블랙마리아",
+        "로브 루치",
+        "크로커다일",
+        "로빈",
+        "초월쿠마"
+      ],
+      "출처": "대표 게임 화면 확인 2026-08-20"
+    }
+  ],
+  "_유닛추가": "공개 데이터에 없는 유닛. 조합식수정이 참조할 수 있게 최소 정보만 넣는다.",
+  "유닛추가": [
+    {
+      "이름": "블랙마리아",
+      "등급": "전설",
+      "출처": "대표 확인 2026-08-20"
+    }
+  ]
 };
 </script>
 <script>
@@ -7754,6 +7777,51 @@ function applyOverrides(index, overrides) {
     const u = typeof row === 'string' ? pick(row) : pick(row.name, row.grade);
     if (u) index.oncePerGame.add(u.id);
   }
+  // 공개 데이터에 없는 유닛을 먼저 만들어 둔다 (조합식수정이 참조할 수 있게)
+  for (const row of overrides['유닛추가'] ?? []) {
+    if ([...index.units.values()].some((u) => u.name === row['이름'])) continue;
+    const id = `ADD_${normalize(row['이름'])}`;
+    const unit = {
+      id, name: row['이름'], image: '', grade: row['등급'] ?? '기타',
+      gradeBase: (row['등급'] ?? '기타').split(' [')[0], damageType: null,
+      abilities: {}, desc: row['설명'] ?? '', commands: [], stuffs: [],
+      isResource: false, isWildcard: false,
+      norm: normalize(row['이름']), cho: chosungOf(row['이름']),
+      craftable: false, roles: [], added: true,
+    };
+    index.units.set(id, unit);
+  }
+
+  // 게임에서 확인한 실제 조합식으로 덮어쓴다
+  for (const row of overrides['조합식수정'] ?? []) {
+    const target = [...index.units.values()].find((u) =>
+      u.name === row['유닛'] && (!row['등급'] || u.gradeBase === row['등급']));
+    if (!target) continue;
+    const stuffs = [];
+    for (const raw of row['재료'] ?? []) {
+      const m = /^(.*?)\s*[x×](\d+)$/.exec(String(raw));
+      const nm = (m ? m[1] : String(raw)).trim();
+      const cnt = m ? Number(m[2]) : 1;
+      const hit = [...index.units.values()].find((u) => u.name === nm)
+        ?? [...index.units.values()].find((u) => u.norm === normalize(nm));
+      if (hit) stuffs.push({ id: hit.id, count: cnt });
+    }
+    if (stuffs.length) {
+      target.stuffs = stuffs;
+      target.craftable = true;
+      target.fixed = true;
+    }
+  }
+
+  // 조합식을 고쳤으니 '무엇의 재료인가'를 다시 계산한다
+  index.usedIn.clear();
+  for (const unit of index.units.values()) {
+    for (const stuff of unit.stuffs) {
+      if (!index.usedIn.has(stuff.id)) index.usedIn.set(stuff.id, []);
+      index.usedIn.get(stuff.id).push({ id: unit.id, count: stuff.count });
+    }
+  }
+
   index.gradeNotes = overrides['등급메모'] ?? {};
   // 이름으로 적어둔 획득법을 유닛에 붙인다
   index.howNotes = new Map();
