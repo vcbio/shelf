@@ -183,11 +183,11 @@ h1, h2, h3 { margin: 0; letter-spacing: -.02em; }
 
 /* ── 태그 ── */
 .gr, .dt, .rt { font-size: calc(12px * var(--zoom)); font-weight: 700; border-radius: 6px; padding: 2px 8px; }
-.gr.low { background: #eee9dd; color: #6b6355; }
-.gr.mid { background: #dfeaf5; color: #2f5f8a; }
-.gr.high { background: #e6e1f5; color: #52439a; }
-.gr.top { background: #fbe9c8; color: #8a5a0c; }
-.gr.sp { background: #f2e2e2; color: #8a3d3d; }
+.gr-low { background: #eee9dd; color: #6b6355; }
+.gr-mid { background: #dfeaf5; color: #2f5f8a; }
+.gr-high { background: #e6e1f5; color: #52439a; }
+.gr-top { background: #fbe9c8; color: #8a5a0c; }
+.gr-sp { background: #f2e2e2; color: #8a3d3d; }
 .dt.p { background: #fde8e2; color: #a8452a; }
 .dt.m { background: #e2ecfd; color: #2a5aa8; }
 .dt.s { background: #efe4fb; color: #6a3aa8; }
@@ -252,6 +252,13 @@ h1, h2, h3 { margin: 0; letter-spacing: -.02em; }
 .sheet-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
 .sheet-head h2 { font-size: 22px; font-weight: 800; }
 .picker-list { display: flex; flex-direction: column; gap: 6px; max-height: 60vh; overflow-y: auto; }
+.pick-sec { padding: 14px 4px 6px; }
+.pick-sec:first-child { padding-top: 0; }
+.pick-sec h3 { font-size: 16px; font-weight: 800; }
+.pick-sec p { margin: 3px 0 0; font-size: 13.5px; color: var(--ink-3); }
+.hint-line { margin-top: 16px !important; font-size: 14.5px !important; color: var(--ink-3) !important; }
+.hint-line b { color: var(--ink-2); }
+
 .pick-row {
   display: flex; align-items: center; gap: 12px; text-align: left;
   background: var(--card); border: 1px solid var(--line); border-radius: 11px; padding: 10px 14px;
@@ -266,6 +273,15 @@ h1, h2, h3 { margin: 0; letter-spacing: -.02em; }
 .pr-pct.full { color: var(--go); }
 
 /* ── 토스트 ── */
+.finished {
+  display: flex; flex-direction: column; align-items: flex-start; gap: calc(10px * var(--zoom));
+  background: var(--go-soft); border: 2px solid var(--go); border-radius: 14px;
+  padding: calc(22px * var(--zoom)) calc(24px * var(--zoom));
+}
+.finished b { font-size: calc(28px * var(--zoom)); font-weight: 800; color: var(--go); }
+.finished span { font-size: calc(15px * var(--zoom)); color: var(--ink-2); }
+.cmd-btn.big { font-size: calc(16px * var(--zoom)); padding: calc(11px * var(--zoom)) calc(18px * var(--zoom)); }
+
 .toast {
   position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%);
   background: var(--navy); color: #fff; border-radius: 999px;
@@ -7163,13 +7179,16 @@ function planTarget(index, targetId, inventory, { qty = 1 } = {}) {
   emit(targetId);
   for (const id of makeCounts.keys()) emit(id);   // 순환 등으로 목표에서 못 닿은 것 보강
 
-  const leafSumTotal = [...totalLeaves].reduce((sum, [id, n]) => sum + (index.get(id)?.isResource ? 0 : n), 0);
-  const leafSumShort = [...shortage.values()].reduce((sum, n) => sum + n, 0);
+  // ⚠️ 자원(목재·금화)을 빼고 세면 목재가 없어도 100%로 보인다(2026-08-20 검증에서 적발).
+  //    자원도 '있어야 완성되는 것'이므로 총량·부족분에 함께 넣는다.
+  const leafSumTotal = [...totalLeaves].reduce((sum, [, n]) => sum + n, 0);
+  const leafSumShort = [...shortage.values()].reduce((sum, n) => sum + n, 0)
+    + [...resources.values()].reduce((sum, n) => sum + n, 0);
 
   const nextStep = steps.find((step) => craftTimes(index, inventory, index.get(step.unitId)) >= step.times) ?? null;
 
   return {
-    ok: shortage.size === 0,
+    ok: shortage.size === 0 && resources.size === 0,
     steps,
     reserved,
     shortage,
@@ -7777,6 +7796,54 @@ function battlePlan(index, deckIds, inventory = new Map()) {
   return { targets, keep, drop, steps, commands, totals };
 }
 
+/* ─────────────────── 초보자용 목표 추천 ─────────────────── */
+
+/**
+ * "뭘 만들지 모르겠다"는 사람에게 줄 목표 후보.
+ *
+ * 고르는 기준 (초보자 관점) —
+ *   ① 재료가 적게 든다 (완주 가능성)
+ *   ② 핵심 역할(방깎·이감·스턴·보잡)을 맡는다 (실제로 쓸모 있다)
+ *   ③ 지금 보유로 얼마나 가까운가
+ *   ④ 조합 단계가 너무 깊지 않다
+ */
+function starterGoals(index, inventory = new Map(), { limit = 8 } = {}) {
+  const rows = [];
+  for (const unit of index.units.values()) {
+    if (!unit.craftable) continue;
+    const rank = powerRank(index, unit);
+    if (rank < 2) continue;                       // 흔함·안흔함은 목표라기엔 약하다
+    const cost = unitCost(index, unit.id);
+    if (!cost || cost.units > 60) continue;       // 초보에게 60개 넘는 건 이번 판에 무리다
+
+    const plan = planTarget(index, unit.id, inventory);
+    const progress = plan.leafTotal ? plan.leafHave / plan.leafTotal : 0;
+    const coreRoles = unit.roles.filter((r) => CORE_ROLE_KEYS.includes(r));
+
+    // 싸고 · 쓸모 있고 · 가까울수록 높다
+    const score = (60 - cost.units) * 1.2
+      + coreRoles.length * 14
+      + progress * 60
+      + Math.max(0, 8 - cost.steps) * 3
+      + rank * 2;
+    rows.push({ unit, cost, plan, progress, coreRoles, score });
+  }
+  return rows.sort((a, b) => b.score - a.score).slice(0, limit);
+}
+
+/** 지금 보유로 가장 가까운(완성이 임박한) 목표 */
+function closestGoals(index, inventory, { limit = 6 } = {}) {
+  return [...index.units.values()]
+    .filter((u) => u.craftable && powerRank(index, u) >= 2)
+    .map((unit) => {
+      const plan = planTarget(index, unit.id, inventory);
+      return { unit, plan, progress: plan.leafTotal ? plan.leafHave / plan.leafTotal : 0 };
+    })
+    .filter((r) => r.progress > 0 && r.progress < 1)
+    .sort((a, b) => b.progress - a.progress || powerRank(index, b.unit) - powerRank(index, a.unit))
+    .slice(0, limit);
+}
+
 /**
  * ORANDI 조합 도우미 — 화면 계층 (2026-08-20 전면 개편)
  *
@@ -7804,7 +7871,7 @@ const state = {
   made: [],               // 만든 순서 기록
   mode: 'run',
   zoom: 1,
-  pickerRole: 'mainDps',
+  pickerRole: 'reco',        // 처음엔 추천부터 보여준다 (초보자 기준)
   findRole: 'mainDps',
   selected: null,
 };
@@ -7841,7 +7908,8 @@ function toast(msg) {
 
 function gradeTag(u) {
   const r = powerRank(state.index, u);
-  const tier = r < 0 ? 'sp' : r <= 3 ? 'low' : r <= 5 ? 'mid' : r <= 8 ? 'high' : 'top';
+  // ⚠️ 클래스 이름을 'top'으로 두면 헤더의 .top 스타일이 배지에 딸려 붙는다(2026-08-20 적발)
+  const tier = r < 0 ? 'gr-sp' : r <= 3 ? 'gr-low' : r <= 5 ? 'gr-mid' : r <= 8 ? 'gr-high' : 'gr-top';
   return `<span class="gr ${tier}">${esc(u.gradeBase)}</span>`
     + (u.damageType ? `<span class="dt ${u.damageType === '마딜' ? 'm' : u.damageType === '물딜' ? 'p' : 's'}">${esc(u.damageType)}</span>` : '');
 }
@@ -7859,12 +7927,6 @@ function matsOf(u) {
   }).join('');
 }
 
-const matchQ = (u, q) => {
-  const t = String(q ?? '').trim();
-  if (!t) return true;
-  return isChosungQuery(t) ? u.cho.includes(chosungOf(t)) : u.name.toLowerCase().includes(t.toLowerCase());
-};
-
 /* ───────────────────────── 진행 화면 ───────────────────────── */
 
 function renderRun() {
@@ -7876,7 +7938,7 @@ function renderRun() {
         <h1>무엇을 만들까요?</h1>
         <p>목표를 하나 정하면 <b>만들 순서가 전부 펼쳐집니다.</b><br />만들 때마다 누르기만 하면 됩니다.</p>
         <button class="big-btn" data-open-picker>목표 고르기</button>
-        <button class="link-btn" id="recoBtn">지금 재료로 추천받기</button>
+        <p class="hint-line">뭘 만들지 모르겠으면 눌러보세요 — <b>⭐추천</b>에 쉬운 것부터 나옵니다.</p>
       </div>`;
     $('#laneNow').innerHTML = '';
     $('#laneWait').innerHTML = '';
@@ -7908,6 +7970,20 @@ function renderRun() {
     </div>`;
 
   // 1) 지금 만들 수 있는 것 — 화면에서 제일 크다
+  if (plan.ok && !plan.steps.length) {
+    $('#laneNow').innerHTML = `
+      <div class="finished">
+        <b>완성했습니다</b>
+        <span>${esc(goal.name)} 재료가 전부 모였습니다. 인게임에서 조합하세요.</span>
+        ${goal.commands.length ? `<button class="cmd-btn big" data-copy="${esc(goal.commands[0])}">-${esc(goal.commands[0])} 복사</button>` : ''}
+        <button class="big-btn sm" data-open-picker>다음 목표 고르기</button>
+      </div>`;
+    $('#laneWait').innerHTML = '';
+    $('#laneMats').innerHTML = '';
+    renderDone();
+    return;
+  }
+
   $('#laneNow').innerHTML = doable.length ? `
     <h2 class="lane-h now">지금 만들 수 있는 것 <b>${doable.length}</b></h2>
     ${doable.map((s) => {
@@ -7920,7 +7996,7 @@ function renderRun() {
           <div class="t-mats">${matsOf(u)}</div>
         </div>
         ${cmd ? `<button class="cmd-btn" data-copy="${esc(cmd)}">-${esc(cmd)}</button>` : ''}
-        <button class="make-btn" data-make="${esc(u.id)}">만들었음</button>
+        <button class="make-btn" data-make="${esc(u.id)}" data-n="${s.times}">만들었음</button>
       </article>`;
     }).join('')}` : `
     <h2 class="lane-h idle">지금 만들 수 있는 게 없습니다</h2>
@@ -7966,13 +8042,20 @@ function renderRun() {
       ${res.map((r) => `
         <div class="mat res">
           ${img(r.unit)}
-          <span class="mat-n"><b>${esc(r.unit.name)}</b><small>자원</small></span>
-          <span class="mat-need">${r.n}</span>
+          <span class="mat-n"><b>${esc(r.unit.name)}</b><small>${invGet(state.inventory, r.unit.id)} / 필요 ${r.n + invGet(state.inventory, r.unit.id)}</small></span>
+          <span class="mat-need">${r.n}<i>더</i></span>
+          <span class="mat-btns">
+            <button data-inv="${esc(r.unit.id)}" data-d="-1">−</button>
+            <button data-inv="${esc(r.unit.id)}" data-d="1">＋</button>
+          </span>
         </div>`).join('')}
     </div>` : `
     <h2 class="lane-h ok">재료가 전부 모였습니다</h2>`;
 
-  // 4) 만든 것
+  renderDone();
+}
+
+function renderDone() {
   const drawer = $('#doneDrawer');
   drawer.hidden = state.made.length === 0;
   $('#doneCount').textContent = state.made.length;
@@ -7991,29 +8074,60 @@ function openPicker() {
   $('#pickerQ').focus();
 }
 
+function pickRow(u, note) {
+  const c = unitCost(state.index, u.id);
+  const p = planTarget(state.index, u.id, state.inventory);
+  const pct = p.leafTotal ? Math.round((p.leafHave / p.leafTotal) * 100) : 100;
+  return `<button class="pick-row" data-goal="${esc(u.id)}">
+    ${img(u)}
+    <span class="pr-text">
+      <b>${esc(u.name)}</b>
+      <span class="pr-tags">${gradeTag(u)}${roleTags(u)}</span>
+      <small>${esc(costLabel(c))}${note ? ` · ${esc(note)}` : ''}</small>
+    </span>
+    <span class="pr-pct ${pct >= 100 ? 'full' : ''}">${pct}%</span>
+  </button>`;
+}
+
 function renderPicker() {
   const q = $('#pickerQ').value.trim();
-  $('#pickerRoles').innerHTML = ROLES.map((r) =>
-    `<button class="chip ${state.pickerRole === r.key ? 'on' : ''}" data-prole="${r.key}">${esc(r.label)}</button>`).join('');
+  $('#pickerRoles').innerHTML =
+    `<button class="chip ${state.pickerRole === 'reco' ? 'on' : ''}" data-prole="reco">⭐ 추천</button>`
+    + ROLES.map((r) =>
+      `<button class="chip ${state.pickerRole === r.key ? 'on' : ''}" data-prole="${r.key}">${esc(r.label)}</button>`).join('');
 
-  const list = q
-    ? searchUnits(state.index, q, { limit: 40 }).map((h) => h.unit).filter((u) => u.craftable)
-    : heroesByRole(state.index, state.pickerRole, { limit: 40 }).filter((u) => u.craftable);
+  // 검색 중이면 검색 결과
+  if (q) {
+    const list = searchUnits(state.index, q, { limit: 40 }).map((h) => h.unit).filter((u) => u.craftable);
+    $('#pickerList').innerHTML = list.length ? list.map((u) => pickRow(u)).join('')
+      : '<p class="empty">해당하는 영웅이 없습니다.</p>';
+    return;
+  }
 
-  $('#pickerList').innerHTML = list.length ? list.map((u) => {
-    const c = unitCost(state.index, u.id);
-    const p = planTarget(state.index, u.id, state.inventory);
-    const pct = p.leafTotal ? Math.round((p.leafHave / p.leafTotal) * 100) : 100;
-    return `<button class="pick-row" data-goal="${esc(u.id)}">
-      ${img(u)}
-      <span class="pr-text">
-        <b>${esc(u.name)}</b>
-        <span class="pr-tags">${gradeTag(u)}${roleTags(u)}</span>
-        <small>${esc(costLabel(c))}</small>
-      </span>
-      <span class="pr-pct ${pct >= 100 ? 'full' : ''}">${pct}%</span>
-    </button>`;
-  }).join('') : '<p class="empty">해당하는 영웅이 없습니다.</p>';
+  // 추천 — 뭘 만들지 모를 때 여기부터 본다
+  if (state.pickerRole === 'reco') {
+    const starters = starterGoals(state.index, state.inventory, { limit: 8 });
+    const close = closestGoals(state.index, state.inventory, { limit: 5 });
+    const label = (k) => ROLES.find((r) => r.key === k)?.label ?? k;
+    $('#pickerList').innerHTML = `
+      ${close.length ? `
+        <div class="pick-sec">
+          <h3>지금 재료로 가장 가까운 것</h3>
+          <p>거의 다 모았습니다. 이것부터 끝내면 빠릅니다.</p>
+        </div>
+        ${close.map((r) => pickRow(r.unit, '거의 다 됨')).join('')}` : ''}
+      <div class="pick-sec">
+        <h3>처음이라면 이것부터</h3>
+        <p>재료가 적게 들고 쓸모 있는 순서입니다.</p>
+      </div>
+      ${starters.map((r) => pickRow(r.unit,
+        r.coreRoles.length ? `${r.coreRoles.map(label).join('·')} 담당` : '')).join('')}`;
+    return;
+  }
+
+  const list = heroesByRole(state.index, state.pickerRole, { limit: 40 }).filter((u) => u.craftable);
+  $('#pickerList').innerHTML = list.length ? list.map((u) => pickRow(u)).join('')
+    : '<p class="empty">해당하는 영웅이 없습니다.</p>';
 }
 
 /* ───────────────────────── 영웅 찾기 ───────────────────────── */
@@ -8102,13 +8216,16 @@ function setGoal(id) {
   toast(`목표: ${state.index.name(id)}`);
 }
 
-function make(id) {
+function make(id, want = 1) {
   try {
-    state.inventory = applyCraft(state.index, state.inventory, id, 1);
-    state.made.push(id);
+    // 화면에 「×4」라고 적어놓고 1개만 만들면 라벨이 거짓말이 된다.
+    // 만들 수 있는 만큼 한 번에 만든다.
+    const n = Math.max(1, Math.min(want, craftTimes(state.index, state.inventory, state.index.get(id))));
+    state.inventory = applyCraft(state.index, state.inventory, id, n);
+    for (let i = 0; i < n; i += 1) state.made.push(id);
     persist();
     renderRun();
-    toast(`${state.index.name(id)} 완료`);
+    toast(`${state.index.name(id)}${n > 1 ? ` ${n}개` : ''} 완료`);
   } catch (e) {
     toast(e.message);
   }
@@ -8132,7 +8249,7 @@ document.addEventListener('click', (e) => {
   if (t('[data-open-picker]')) { openPicker(); return; }
   if (t('#pickerClose')) { $('#picker').hidden = true; return; }
   if (t('[data-goal]')) { setGoal(t('[data-goal]').dataset.goal); return; }
-  if (t('[data-make]')) { make(t('[data-make]').dataset.make); return; }
+  if (t('[data-make]')) { const b = t('[data-make]'); make(b.dataset.make, Number(b.dataset.n || 1)); return; }
 
   const inv = t('[data-inv]');
   if (inv) {
@@ -8158,11 +8275,6 @@ document.addEventListener('click', (e) => {
       .catch(() => toast('복사 실패'));
   }
 
-  if (t('#recoBtn')) {
-    const picks = recommendDeck(state.index, state.inventory, { slots: 1 });
-    if (picks.length) setGoal(picks[0].unit.id);
-    else toast('추천할 후보가 없습니다.');
-  }
 });
 
 $('#pickerQ').addEventListener('input', renderPicker);
