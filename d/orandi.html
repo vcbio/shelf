@@ -329,6 +329,9 @@ h1, h2, h3 { margin: 0; letter-spacing: -.02em; }
 .tree, .tree ul { list-style: none; margin: 0; padding: 0; }
 .tree ul { margin-left: 16px; padding-left: 14px; border-left: 3px solid var(--amber); }
 .tree li { padding: 3px 0; }
+.tnode { cursor: pointer; }
+.tnode:hover { border-color: var(--navy); }
+.tnode .tok { color: var(--go); font-weight: 800; }
 .tnode {
   display: inline-flex; align-items: center; gap: 7px;
   background: var(--card); border: 1px solid var(--line); border-radius: 9px; padding: 5px 11px 5px 5px;
@@ -8556,13 +8559,16 @@ function recipeTree(unitId, times = 1, depth = 0, path = new Set()) {
   const have = invGet(state.inventory, unitId);
   const enough = have >= times;
 
-  const head = `<span class="tnode ${enough ? 'ok' : ''}">
+  // 누르면 +1, 오른쪽 클릭이면 −1. 다 채우면 초록으로 바뀌고 아래가 접힌다.
+  const head = `<button class="tnode ${enough ? 'ok' : ''}" data-inv="${esc(u.id)}" data-d="1"
+      title="누르면 있음(+1) · 오른쪽 클릭이면 −1">
       ${img(u)}
       <b>${esc(u.name)}</b>
       ${times > 1 ? `<i class="tq">×${times}</i>` : ''}
       <span class="tg">${esc(u.gradeBase)}</span>
       <span class="ts">${have}/${times}</span>
-    </span>`;
+      ${enough ? '<span class="tok">✓</span>' : ''}
+    </button>`;
 
   if (!u.craftable || path.has(unitId) || depth > 9) return `<li>${head}</li>`;
   if (enough) return `<li>${head}<span class="tfold">아래 생략</span></li>`;
@@ -8633,9 +8639,13 @@ document.addEventListener('click', (e) => {
 
   const inv = t('[data-inv]');
   if (inv) {
+    const openRecipe = document.querySelector('.recipe-drawer')?.open;
     state.inventory = invAdd(state.inventory, inv.dataset.inv, Number(inv.dataset.d));
     persist();
     renderRun();
+    if (state.mode === 'find') renderFind();
+    // 조합식을 펼쳐놓고 체크하던 중이면 계속 펼쳐 둔다
+    if (openRecipe) { const d = document.querySelector('.recipe-drawer'); if (d) d.open = true; }
     return;
   }
 
@@ -8659,6 +8669,18 @@ document.addEventListener('click', (e) => {
 
 $('#pickerQ').addEventListener('input', renderPicker);
 $('#q').addEventListener('input', renderFind);
+
+document.addEventListener('contextmenu', (e) => {
+  const el = e.target.closest('[data-inv]');
+  if (!el) return;
+  e.preventDefault();
+  const openRecipe = document.querySelector('.recipe-drawer')?.open;
+  state.inventory = invAdd(state.inventory, el.dataset.inv, -1);
+  persist();
+  renderRun();
+  if (state.mode === 'find') renderFind();
+  if (openRecipe) { const d = document.querySelector('.recipe-drawer'); if (d) d.open = true; }
+});
 
 $('#homeBtn').addEventListener('click', () => {
   // 첫 화면으로. 모은 재료는 그대로 두고 목표만 푼다(재료까지 지우는 건 '새 판'이다).
