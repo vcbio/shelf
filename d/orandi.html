@@ -2,950 +2,332 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>ORANDI 조합 도우미 · ORDR 시즌2 2.314[R]</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <style>
+/* ORANDI 조합 도우미 — 2026-08-20 전면 개편
+   원칙: 게임 옆에 띄워두고 곁눈질한다. 큰 글씨·강한 대비·한 화면. */
+
 :root {
-  --bg: #faf7f0;
-  --card: #ffffff;
+  --zoom: 1;
+  --bg: #f7f4ee;
+  --card: #fff;
   --ink: #16222e;
-  --ink-2: #57697a;
-  --ink-3: #8b9aa8;
-  --line: #e5dfd3;
-  --line-2: #d2cabb;
+  --ink-2: #58697a;
+  --ink-3: #8d9aa7;
+  --line: #e4ded2;
+  --line-2: #cfc7b8;
   --navy: #14283c;
-  --teal: #2c7f6f;
-  --teal-soft: #e6f1ed;
+  --go: #1f8a5f;
+  --go-soft: #e4f3ec;
+  --need: #c0453f;
+  --need-soft: #fbeae9;
   --amber: #e39328;
   --amber-soft: #fdf1dc;
-  --red: #c0453f;
-  --red-soft: #fbeae9;
-  --radius: 10px;
   --mono: 'IBM Plex Mono', ui-monospace, monospace;
 }
 
 * { box-sizing: border-box; }
-
+html { color-scheme: light; }
 body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--ink);
+  margin: 0; background: var(--bg); color: var(--ink);
   font-family: Pretendard, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
-  font-size: 16px;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
+  font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased;
 }
+button { font: inherit; color: inherit; cursor: pointer; }
+h1, h2, h3 { margin: 0; letter-spacing: -.02em; }
+.empty { color: var(--ink-3); font-size: 15px; padding: 12px 2px; }
 
-button, input, textarea, select { font: inherit; color: inherit; }
-button { cursor: pointer; }
-h1, h2, h3, h4 { margin: 0; letter-spacing: -0.02em; }
-code { font-family: var(--mono); font-size: .92em; background: var(--teal-soft); padding: 1px 6px; border-radius: 4px; }
-
-/* ───────── 상단 ───────── */
-
-.topbar {
-  display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  padding: 16px 28px; background: var(--card); border-bottom: 1px solid var(--line);
+/* ── 상단 ── */
+.top {
+  position: sticky; top: 0; z-index: 30;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 10px 16px; background: rgba(247,244,238,.94); backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
 }
-.brand { display: flex; align-items: center; gap: 12px; }
-.brand-mark {
-  display: grid; place-items: center; width: 40px; height: 40px; border-radius: 10px;
-  background: var(--navy); color: #fff; font-weight: 800; font-size: 20px;
+.modes { display: flex; gap: 4px; background: #ece7dd; border-radius: 10px; padding: 3px; }
+.mode {
+  border: none; background: none; border-radius: 8px;
+  padding: 8px 18px; font-size: 15px; font-weight: 700; color: var(--ink-2);
 }
-.brand strong { display: block; font-size: 17px; font-weight: 700; }
-.brand small { display: block; color: var(--ink-3); font-family: var(--mono); font-size: 12px; }
-.topbar-meta { display: flex; gap: 8px; flex-wrap: wrap; }
-
-.chip {
-  padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 600;
-  background: var(--teal-soft); color: var(--teal); white-space: nowrap;
-}
-.chip.warn { background: var(--red-soft); color: var(--red); }
-.reset-all {
-  border-color: #e8c4c2; color: var(--red); background: var(--card);
-  border-radius: 999px; padding: 6px 16px;
-}
-.reset-all:hover { background: var(--red-soft); border-color: var(--red); }
-
-/* ───────── 탭 ───────── */
-
-.tabs {
-  display: flex; gap: 4px; padding: 0 28px; background: var(--card);
-  border-bottom: 1px solid var(--line); overflow-x: auto;
-}
-.tab {
-  background: none; border: none; padding: 14px 18px; font-size: 16px; font-weight: 600;
-  color: var(--ink-3); border-bottom: 3px solid transparent; white-space: nowrap;
-}
-.tab b { font-family: var(--mono); font-weight: 600; margin-right: 4px; }
-.tab:hover { color: var(--ink-2); }
-.tab.active { color: var(--ink); border-bottom-color: var(--navy); }
-
-.shell {
-  max-width: 1500px; margin: 0 auto; padding: 0 28px;
-  display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 26px; align-items: start;
-}
-main { min-width: 0; padding: 28px 0 60px; }
-
-/* 어느 탭에서든 옆에 붙어 있는 목표 덱 요약 */
-.rail {
-  position: sticky; top: 16px; margin-top: 28px;
-  max-height: calc(100vh - 40px); overflow-y: auto;
-  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
-  padding: 16px 18px;
-}
-.rail h3 {
-  font-size: 15px; display: flex; align-items: center; justify-content: space-between;
-  gap: 8px; margin-bottom: 12px;
-}
-.rail h3 .count { margin-left: 0; }
-.rail h3 .hintkey {
-  font-size: 11.5px; font-weight: 600; color: var(--ink-3);
-  background: #f0ece3; border-radius: 5px; padding: 2px 7px; font-family: var(--mono);
-}
-.rail h3.sep { padding-top: 14px; border-top: 1px solid var(--line); margin-top: 14px; }
-
-.quick-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
-.quick-tile {
-  position: relative; display: flex; flex-direction: column; align-items: center; gap: 2px;
-  background: var(--card); border: 1px solid var(--line); border-radius: 8px;
-  padding: 6px 3px 4px;
-}
-.quick-tile:hover { border-color: var(--teal); background: var(--teal-soft); }
-.quick-tile img { width: 34px; height: 34px; border-radius: 6px; }
-.quick-tile span {
-  font-size: 10.5px; font-weight: 600; line-height: 1.15; text-align: center;
-  word-break: keep-all; color: var(--ink-2);
-}
-.quick-tile .key {
-  position: absolute; top: -5px; left: -5px; width: 17px; height: 17px;
-  border-radius: 5px; background: var(--navy); color: #fff;
-  font-family: var(--mono); font-size: 10.5px; font-style: normal;
-  display: grid; place-items: center;
-}
-.quick-tile .own-badge {
-  position: absolute; top: -6px; right: -6px; min-width: 20px; height: 20px;
-  border-radius: 999px; background: var(--teal); color: #fff;
-  font-family: var(--mono); font-size: 11px; font-style: normal; font-weight: 600;
-  display: grid; place-items: center; padding: 0 5px;
-}
-.quick-search { display: block; margin-top: 8px; }
-.quick-search input { font-size: 13.5px; padding: 8px 11px; }
-
-.rail h4 {
-  font-size: 13px; color: var(--ink-2); margin: 16px 0 7px;
-  padding-top: 14px; border-top: 1px solid var(--line);
-}
-.rail h4.keep { color: var(--amber); }
-.rail .empty { font-size: 13.5px; }
-.rail-slot {
-  display: flex; align-items: center; gap: 9px;
-  border: 1px solid var(--line); border-radius: 8px; padding: 7px 9px; margin-bottom: 6px;
-}
-.rail-slot.ready { border-color: var(--teal); background: var(--teal-soft); }
-.rail-slot img { width: 34px; height: 34px; border-radius: 6px; flex: none; }
-.rail-slot .rs { flex: 1; min-width: 0; }
-.rail-slot .rs b { display: block; font-size: 14px; font-weight: 700; }
-.rail-slot .rs .bar { height: 4px; background: #ece7dc; border-radius: 2px; margin-top: 4px; overflow: hidden; }
-.rail-slot .rs .bar i { display: block; height: 100%; background: var(--amber); }
-.rail-slot.ready .rs .bar i { background: var(--teal); }
-.rail-slot .pc { font-family: var(--mono); font-size: 12px; color: var(--ink-3); flex: none; }
-.rail .uchip { font-size: 13px; padding: 3px 10px 3px 3px; }
-.rail .uchip img { width: 24px; height: 24px; }
-.rail-next {
-  display: flex; align-items: center; gap: 9px;
-  border: 1px solid var(--amber); background: var(--amber-soft);
-  border-radius: 8px; padding: 8px 10px;
-}
-.rail-next img { width: 32px; height: 32px; border-radius: 6px; flex: none; }
-.rail-next .rn { flex: 1; min-width: 0; }
-.rail-next .rn b { display: block; font-size: 14px; }
-.rail-next .rn small { color: #9a7333; font-size: 12px; }
-.rail-summary { font-size: 13.5px; color: var(--ink-2); }
-.view { display: none; }
-.view.active { display: block; }
-
-/* ───────── 머리말 ───────── */
-
-.head { margin-bottom: 24px; }
-.eyebrow {
-  margin: 0 0 6px; font-family: var(--mono); font-size: 12px; font-weight: 600;
-  letter-spacing: .14em; color: var(--teal);
-}
-.head h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
-.lead { margin: 0; font-size: 16px; color: var(--ink-2); max-width: 74ch; }
-.lead b { color: var(--ink); font-weight: 600; }
-
-/* ───────── 카드 ───────── */
-
-.card {
-  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
-  padding: 22px 24px; margin-bottom: 18px;
-}
-.card-head {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 14px; flex-wrap: wrap; margin-bottom: 14px;
-}
-.card h2 { font-size: 20px; font-weight: 700; }
-.card .sub { margin: 6px 0 12px; color: var(--ink-2); font-size: 14.5px; }
-.card-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.count {
-  font-family: var(--mono); font-size: 15px; color: var(--teal);
-  background: var(--teal-soft); padding: 2px 10px; border-radius: 999px; margin-left: 6px;
-}
-.empty { margin: 8px 0; color: var(--ink-3); font-size: 15px; }
-
-/* ───────── 버튼 · 입력 ───────── */
-
-.btn {
+.mode.on { background: var(--card); color: var(--ink); box-shadow: 0 1px 3px rgba(20,40,60,.12); }
+.top-right { display: flex; gap: 6px; }
+.ghost-btn {
   background: var(--card); border: 1px solid var(--line-2); border-radius: 8px;
-  padding: 9px 16px; font-size: 15px; font-weight: 600; color: var(--ink);
+  padding: 7px 13px; font-size: 14px; font-weight: 600; color: var(--ink-2);
 }
-.btn:hover { border-color: var(--ink-3); }
-.btn.primary { background: var(--navy); border-color: var(--navy); color: #fff; }
-.btn.primary:hover { background: #203c56; border-color: #203c56; }
-.btn.quiet { background: transparent; border-color: transparent; color: var(--ink-2); }
-.btn.quiet:hover { background: #f2eee5; color: var(--ink); }
-.btn.quiet.danger:hover { background: var(--red-soft); color: var(--red); }
-.btn.small { padding: 6px 12px; font-size: 14px; }
-.btn.go { background: var(--teal); border-color: var(--teal); color: #fff; }
-.btn.go:hover { background: #246a5c; border-color: #246a5c; }
-.btn[disabled] { opacity: .4; cursor: not-allowed; }
+.ghost-btn:hover { border-color: var(--ink-3); color: var(--ink); }
+.ghost-btn.danger:hover { border-color: var(--need); color: var(--need); }
 
-input[type="search"], textarea, select {
-  background: var(--card); border: 1px solid var(--line-2); border-radius: 8px;
-  padding: 10px 14px; outline: none; width: 100%; font-size: 15px;
+/* ── 진행 화면 ── */
+.run, .find { max-width: 980px; margin: 0 auto; padding: 18px 16px 60px; font-size: calc(16px * var(--zoom)); }
+
+.pick-hero { text-align: center; padding: 48px 16px; }
+.pick-hero h1 { font-size: calc(34px * var(--zoom)); font-weight: 800; margin-bottom: 12px; }
+.pick-hero p { color: var(--ink-2); font-size: calc(16px * var(--zoom)); margin: 0 0 24px; line-height: 1.7; }
+.big-btn {
+  background: var(--navy); color: #fff; border: none; border-radius: 12px;
+  padding: calc(16px * var(--zoom)) calc(34px * var(--zoom));
+  font-size: calc(19px * var(--zoom)); font-weight: 700;
 }
-textarea { resize: vertical; font-family: inherit; line-height: 1.5; }
-input:focus, textarea:focus, select:focus { border-color: var(--navy); }
-select { width: auto; }
-.big-input { font-size: 18px; padding: 14px 18px; }
-.inline-search { flex: 1; min-width: 200px; max-width: 340px; }
+.big-btn:hover { background: #203c56; }
+.big-btn.sm { padding: 9px 18px; font-size: 15px; border-radius: 9px; margin-top: 10px; }
+.link-btn { display: block; margin: 14px auto 0; background: none; border: none; color: var(--ink-2); font-size: 15px; text-decoration: underline; }
 
-/* ───────── 붙여넣기 카드 ───────── */
-
-.paste-actions { display: flex; align-items: center; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
-.paste-result { font-size: 14.5px; color: var(--ink-2); }
-.paste-result.ok { color: var(--teal); font-weight: 600; }
-.paste-result.warn { color: var(--red); font-weight: 600; }
-
-/* ───────── 아이콘 팔레트 ───────── */
-
-.palette details {
-  border-top: 1px solid var(--line); padding: 12px 0 4px;
+/* 목표 카드 */
+.goal-card {
+  position: relative; display: flex; align-items: center; gap: calc(14px * var(--zoom));
+  background: var(--card); border: 2px solid var(--navy); border-radius: 14px;
+  padding: calc(14px * var(--zoom)) calc(18px * var(--zoom)) calc(18px * var(--zoom));
+  margin-bottom: calc(20px * var(--zoom)); overflow: hidden; flex-wrap: wrap;
 }
-.palette details:first-child { border-top: none; padding-top: 0; }
-.palette summary {
-  cursor: pointer; font-size: 16px; font-weight: 700; padding: 6px 0;
-  list-style: none; display: flex; align-items: center; gap: 8px;
-}
-.palette summary::-webkit-details-marker { display: none; }
-.palette summary::before { content: '▸'; color: var(--ink-3); font-size: 13px; }
-.palette details[open] > summary::before { content: '▾'; }
-.palette summary .g-count { font-family: var(--mono); font-size: 13px; color: var(--ink-3); font-weight: 500; }
+.goal-card.ready { border-color: var(--go); }
+.goal-card > img { width: calc(58px * var(--zoom)); height: calc(58px * var(--zoom)); border-radius: 11px; }
+.gc-text { flex: 1; min-width: 140px; }
+.gc-label { font-size: calc(12px * var(--zoom)); font-weight: 700; color: var(--ink-3); letter-spacing: .08em; }
+.gc-text b { display: block; font-size: calc(26px * var(--zoom)); font-weight: 800; line-height: 1.2; }
+.gc-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 5px; }
+.gc-pct { text-align: right; }
+.gc-pct b { font-size: calc(32px * var(--zoom)); font-weight: 800; font-family: var(--mono); }
+.gc-pct i { font-style: normal; font-size: calc(16px * var(--zoom)); }
+.gc-pct span { display: block; font-size: calc(12px * var(--zoom)); color: var(--ink-3); }
+.gc-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 6px; background: #ece7dd; }
+.gc-bar i { display: block; height: 100%; background: var(--amber); }
+.goal-card.ready .gc-bar i { background: var(--go); }
 
-.tile-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
-  gap: 8px; padding: 8px 0 12px;
-}
-.tile {
-  display: flex; align-items: center; gap: 9px; text-align: left;
-  background: var(--card); border: 1px solid var(--line); border-radius: 9px;
-  padding: 7px 9px; position: relative;
-}
-.tile:hover { border-color: var(--teal); background: var(--teal-soft); }
-.tile img { width: 38px; height: 38px; border-radius: 6px; flex: none; background: #eee; }
-.tile span { font-size: 14px; font-weight: 600; line-height: 1.25; min-width: 0; word-break: keep-all; }
-.tile .own-badge {
-  position: absolute; top: -6px; right: -6px; min-width: 22px; height: 22px;
-  border-radius: 999px; background: var(--teal); color: #fff;
-  font-family: var(--mono); font-size: 12px; font-weight: 600;
-  display: grid; place-items: center; padding: 0 5px;
-}
-
-/* ───────── 보유 목록 ───────── */
-
-.owned-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 8px; }
-.owned-row {
-  display: flex; align-items: center; gap: 11px;
-  border: 1px solid var(--line); border-radius: 9px; padding: 8px 10px;
-}
-.owned-row.reserved { border-color: var(--amber); background: var(--amber-soft); }
-.owned-row img { width: 40px; height: 40px; border-radius: 6px; flex: none; }
-.owned-name { flex: 1; min-width: 0; }
-.owned-name b { display: block; font-size: 15.5px; font-weight: 700; }
-.owned-name small { color: var(--ink-3); font-size: 13px; }
-.keep-badge {
-  font-size: 12.5px; font-weight: 700; color: var(--amber);
-  background: #fff; border: 1px solid var(--amber); border-radius: 999px; padding: 1px 8px;
-}
-.stepper { display: flex; align-items: center; gap: 8px; }
-.stepper button {
-  width: 28px; height: 28px; border-radius: 7px; border: 1px solid var(--line-2);
-  background: var(--card); font-size: 16px; line-height: 1; display: grid; place-items: center;
-}
-.stepper button:hover { border-color: var(--ink-3); }
-.stepper b { font-family: var(--mono); font-size: 16px; min-width: 22px; text-align: center; }
-
-/* ───────── ② 조합표 ───────── */
-
-.filterbar { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
-.segmented { display: inline-flex; background: #efeadf; border-radius: 9px; padding: 3px; gap: 2px; }
-.seg {
-  background: none; border: none; border-radius: 7px; padding: 8px 16px;
-  font-size: 15px; font-weight: 600; color: var(--ink-2);
-}
-.seg i { font-style: normal; font-family: var(--mono); font-size: 13px; margin-left: 6px; opacity: .75; }
-.seg.active { background: var(--card); color: var(--ink); box-shadow: 0 1px 3px rgba(20,40,60,.1); }
-
-.filter-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
-.fchip {
-  font-size: 13.5px; font-weight: 600; padding: 5px 12px; border-radius: 999px;
-  background: var(--card); border: 1px solid var(--line-2); color: var(--ink-2);
-}
-.fchip:hover { border-color: var(--ink-3); }
-.fchip.on { background: var(--navy); border-color: var(--navy); color: #fff; }
-.fchip i { font-style: normal; font-family: var(--mono); font-size: 12px; margin-left: 5px; opacity: .7; }
-.fchip.dmg.on { background: var(--teal); border-color: var(--teal); }
-
-.reco-slot { border-color: var(--amber) !important; background: var(--amber-soft); }
-.reco-why { font-size: 12px; color: #8a5a0c; font-weight: 600; }
-
-.grade-group { margin-bottom: 22px; }
-.grade-title {
-  font-size: 15px; font-weight: 700; color: var(--ink-2); margin-bottom: 8px;
+/* 레인 */
+.lane { margin-bottom: calc(26px * var(--zoom)); }
+.lane-h {
   display: flex; align-items: center; gap: 8px;
+  font-size: calc(18px * var(--zoom)); margin-bottom: calc(10px * var(--zoom));
 }
-.grade-title::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+.lane-h b { font-family: var(--mono); color: var(--ink-3); font-size: calc(15px * var(--zoom)); }
+.lane-h::before { content: ''; width: 5px; height: calc(20px * var(--zoom)); border-radius: 3px; background: var(--ink-3); }
+.lane-h.now::before { background: var(--go); }
+.lane-h.wait::before { background: var(--ink-3); }
+.lane-h.mats::before { background: var(--need); }
+.lane-h.ok { color: var(--go); }
+.lane-h.ok::before { background: var(--go); }
+.lane-h.idle { color: var(--ink-3); }
+.lane-note { color: var(--ink-3); font-size: calc(14px * var(--zoom)); margin: 6px 0 0; }
 
-.make-row {
-  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
-  margin-bottom: 8px; overflow: hidden;
+/* 할 일 카드 */
+.task {
+  display: flex; align-items: center; gap: calc(12px * var(--zoom));
+  background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  padding: calc(11px * var(--zoom)) calc(14px * var(--zoom)); margin-bottom: calc(7px * var(--zoom));
+  flex-wrap: wrap;
 }
-.make-row.ready { border-color: var(--teal); }
-.make-main {
-  display: flex; align-items: center; gap: 14px; width: 100%;
-  background: none; border: none; padding: 13px 16px; text-align: left;
+.task.go { border: 2px solid var(--go); background: var(--go-soft); }
+.task:not(.go) { opacity: .62; }
+.task > img { width: calc(46px * var(--zoom)); height: calc(46px * var(--zoom)); border-radius: 9px; flex: none; }
+.t-text { flex: 1; min-width: 150px; }
+.t-text b { font-size: calc(19px * var(--zoom)); font-weight: 700; }
+.t-mats { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
+.t-mats .m {
+  font-size: calc(13px * var(--zoom)); background: #f0ece3; color: var(--ink-2);
+  border-radius: 5px; padding: 2px 8px;
 }
-.make-main:hover { background: #fbf9f4; }
-.make-main > img { width: 52px; height: 52px; border-radius: 8px; flex: none; }
-.make-text { flex: 1; min-width: 0; }
-.make-text b { display: block; font-size: 17px; font-weight: 700; }
-.make-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 3px; font-size: 13.5px; color: var(--ink-2); }
-.pill {
-  font-size: 12.5px; font-weight: 700; border-radius: 999px; padding: 2px 9px;
-  background: #f0ece3; color: var(--ink-2);
+.t-mats .m.ok { background: var(--go-soft); color: var(--go); font-weight: 600; }
+.t-mats.big .m { font-size: calc(15px * var(--zoom)); padding: 4px 11px; }
+.make-btn {
+  background: var(--go); color: #fff; border: none; border-radius: 10px;
+  padding: calc(11px * var(--zoom)) calc(20px * var(--zoom));
+  font-size: calc(16px * var(--zoom)); font-weight: 700; flex: none;
 }
-.pill.ready { background: var(--teal-soft); color: var(--teal); }
-.pill.near { background: var(--amber-soft); color: #a8690e; }
-.progress { width: 130px; flex: none; }
-.progress .bar { height: 6px; background: #ece7dc; border-radius: 3px; overflow: hidden; }
-.progress .bar i { display: block; height: 100%; background: var(--amber); }
-.make-row.ready .progress .bar i { background: var(--teal); }
-.progress .num { font-family: var(--mono); font-size: 12.5px; color: var(--ink-3); text-align: right; display: block; }
-.make-actions { display: flex; gap: 8px; flex: none; }
-.short-list { color: var(--red); font-weight: 600; }
-.role-tags { display: flex; gap: 4px; flex-wrap: wrap; }
-.rtag {
-  font-size: 12px; font-weight: 600; padding: 1px 7px; border-radius: 5px;
-  background: #f0ece3; color: var(--ink-2);
+.make-btn:hover { background: #17734e; }
+.cmd-btn {
+  font-family: var(--mono); font-size: calc(13px * var(--zoom)); font-weight: 700;
+  background: var(--amber-soft); color: #8a5a0c; border: 1px solid #e9d4ac;
+  border-radius: 8px; padding: calc(8px * var(--zoom)) calc(12px * var(--zoom)); flex: none;
 }
-.rtag.inferred { background: none; border: 1px dashed var(--line-2); color: var(--ink-3); }
 
-.steps-panel { border-top: 1px solid var(--line); padding: 14px 16px 16px; background: #fbf9f4; }
-.steps-panel h4 { font-size: 14px; color: var(--ink-2); margin-bottom: 10px; }
-.steps { list-style: none; margin: 0 0 12px; padding: 0; counter-reset: s; }
-.steps li {
-  display: flex; align-items: center; gap: 11px; padding: 9px 12px;
-  background: var(--card); border: 1px solid var(--line); border-radius: 8px; margin-bottom: 6px;
+/* 재료 */
+.mat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: calc(7px * var(--zoom)); }
+.mat {
+  display: flex; align-items: center; gap: calc(10px * var(--zoom));
+  background: var(--card); border: 1px solid var(--line); border-radius: 11px;
+  padding: calc(8px * var(--zoom)) calc(12px * var(--zoom));
 }
-.steps li.next { border-color: var(--amber); background: var(--amber-soft); }
-.steps li.waiting { opacity: .55; }
-.steps .no { font-family: var(--mono); font-size: 13px; color: var(--ink-3); min-width: 18px; }
-.steps img { width: 34px; height: 34px; border-radius: 6px; flex: none; }
-.steps .st { flex: 1; min-width: 0; }
-.steps .st b { font-size: 15px; }
-.steps .st small { display: block; color: var(--ink-3); font-size: 13px; }
-
-/* ───────── ③ 검색 결과 · 상세 ───────── */
-
-.find-results { display: grid; grid-template-columns: repeat(auto-fill, minmax(258px, 1fr)); gap: 8px; margin-top: 14px; }
-.find-card {
-  display: flex; align-items: center; gap: 11px; text-align: left;
-  background: var(--card); border: 1px solid var(--line); border-radius: 9px; padding: 10px 12px;
+.mat > img { width: calc(40px * var(--zoom)); height: calc(40px * var(--zoom)); border-radius: 8px; flex: none; }
+.mat-n { flex: 1; min-width: 0; }
+.mat-n b { display: block; font-size: calc(15px * var(--zoom)); font-weight: 700; }
+.mat-n small { color: var(--ink-3); font-size: calc(12px * var(--zoom)); font-family: var(--mono); }
+.mat-need {
+  font-family: var(--mono); font-size: calc(24px * var(--zoom)); font-weight: 700;
+  color: var(--need); flex: none;
 }
-.find-card:hover { border-color: var(--navy); }
-.find-card.active { border-color: var(--navy); box-shadow: inset 0 0 0 1px var(--navy); }
-.find-card img { width: 46px; height: 46px; border-radius: 7px; flex: none; }
-.find-card .ft { flex: 1; min-width: 0; }
-.find-card .ft b { display: block; font-size: 16px; font-weight: 700; }
-.find-card .ft small { color: var(--ink-3); font-size: 13px; }
-.why { font-size: 11.5px; font-weight: 700; border-radius: 5px; padding: 2px 7px; background: #f0ece3; color: var(--ink-3); }
-.why.이름 { background: var(--navy); color: #fff; }
-.why.별칭 { background: var(--teal-soft); color: var(--teal); }
-.why.묶음 { background: var(--amber-soft); color: #a8690e; }
-
-/* 영웅 카드 — 가시성 최우선 */
-.find-results { grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); }
-.hero-card {
-  display: flex; align-items: flex-start; gap: 13px; text-align: left; width: 100%;
-  background: var(--card); border: 1px solid var(--line); border-radius: 11px; padding: 13px 14px;
+.mat-need i { font-style: normal; font-size: calc(12px * var(--zoom)); margin-left: 2px; }
+.mat-btns { display: flex; gap: 4px; flex: none; }
+.mat-btns button {
+  width: calc(34px * var(--zoom)); height: calc(34px * var(--zoom));
+  border-radius: 8px; border: 1px solid var(--line-2); background: var(--card);
+  font-size: calc(18px * var(--zoom)); line-height: 1; display: grid; place-items: center;
 }
-.hero-card:hover { border-color: var(--navy); box-shadow: 0 2px 10px rgba(20,40,60,.08); }
-.hero-card.active { border-color: var(--navy); box-shadow: inset 0 0 0 2px var(--navy); }
-.hero-card > img { width: 58px; height: 58px; border-radius: 9px; flex: none; }
-.hc { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 5px; }
-.hc-top { display: flex; align-items: center; gap: 7px; }
-.hc-top b { font-size: 17px; font-weight: 700; }
-.hc-badges { display: flex; gap: 5px; flex-wrap: wrap; }
+.mat-btns button:hover { border-color: var(--go); color: var(--go); }
+.mat.res { opacity: .8; }
+.mat.res .mat-need { color: var(--ink-2); }
 
-.gr { font-size: 12px; font-weight: 700; padding: 2px 9px; border-radius: 6px; }
+/* 만든 것 */
+.drawer { margin-top: 20px; border-top: 1px solid var(--line); padding-top: 12px; }
+.drawer summary { cursor: pointer; font-size: 15px; color: var(--ink-2); }
+.done-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.done-chip {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 14px;
+  background: var(--go-soft); border: 1px solid #bfdfd5; border-radius: 999px; padding: 3px 12px 3px 3px;
+}
+.done-chip img { width: 26px; height: 26px; border-radius: 999px; }
+
+/* ── 태그 ── */
+.gr, .dt, .rt { font-size: calc(12px * var(--zoom)); font-weight: 700; border-radius: 6px; padding: 2px 8px; }
 .gr.low { background: #eee9dd; color: #6b6355; }
 .gr.mid { background: #dfeaf5; color: #2f5f8a; }
 .gr.high { background: #e6e1f5; color: #52439a; }
 .gr.top { background: #fbe9c8; color: #8a5a0c; }
 .gr.sp { background: #f2e2e2; color: #8a3d3d; }
-.dt { font-size: 12px; font-weight: 700; padding: 2px 9px; border-radius: 6px; }
 .dt.p { background: #fde8e2; color: #a8452a; }
 .dt.m { background: #e2ecfd; color: #2a5aa8; }
 .dt.s { background: #efe4fb; color: #6a3aa8; }
-.how { font-size: 12px; font-weight: 700; padding: 2px 9px; border-radius: 6px; }
-.how.craft { background: var(--teal-soft); color: var(--teal); }
-.how.drop { background: #eef1f4; color: #55636e; }
-.how.rand { background: var(--amber-soft); color: #a8690e; }
-.how.res { background: #eaf3e6; color: #4a7a3a; }
-.how.sp { background: var(--red-soft); color: var(--red); }
-.cost { font-family: var(--mono); font-size: 12.5px; color: var(--ink-3); }
-.once-badge { font-size: 12px; font-weight: 700; color: #8a5a0c; background: var(--amber-soft); border-radius: 6px; padding: 2px 8px; }
-.hero-facts .fact.once { background: rgba(227,147,40,.28); color: #ffe6bf; }
-.hero-facts .fact.once i { color: #ffcf85; }
-.reg .reg-row { display: block; margin-bottom: 12px; }
-.reg .reg-row > span { display: block; font-size: 14px; font-weight: 700; margin-bottom: 5px; }
-.reg .reg-check { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; font-size: 15px; }
-.reg .reg-check input { width: 18px; height: 18px; }
-.reg-actions { display: flex; align-items: center; gap: 10px; }
-.reg-msg { font-size: 13.5px; color: var(--teal); }
-.conflict { font-size: 12px; font-weight: 700; color: var(--red); background: var(--red-soft); border-radius: 6px; padding: 2px 8px; }
-.hero-facts .fact.warn { background: rgba(224,96,92,.22); color: #ffd9d7; }
-.hero-facts .fact.warn i { color: #ff9d99; }
+.rt { background: #f0ece3; color: var(--ink-2); font-weight: 600; }
 
-.hero-facts { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 12px; }
-.hero-facts .fact {
-  font-size: 14px; background: rgba(255,255,255,.12); border-radius: 8px;
-  padding: 6px 12px; color: #dce6ef;
+/* ── 영웅 찾기 ── */
+.q {
+  width: 100%; background: var(--card); border: 1px solid var(--line-2); border-radius: 10px;
+  padding: 13px 16px; font-size: 17px; outline: none; margin-bottom: 12px;
 }
-.hero-facts .fact i { font-style: normal; color: var(--amber); font-weight: 700; margin-right: 7px; }
+.q:focus { border-color: var(--navy); }
+.chips { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 14px; }
+.chip {
+  background: var(--card); border: 1px solid var(--line-2); border-radius: 999px;
+  padding: 6px 14px; font-size: 14px; font-weight: 600; color: var(--ink-2);
+}
+.chip.on { background: var(--navy); border-color: var(--navy); color: #fff; }
 
-.partner-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 8px; margin-top: 12px; }
-.partner {
+.find-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 7px; }
+.hero {
   display: flex; align-items: center; gap: 11px; text-align: left;
-  background: var(--card); border: 1px solid var(--line); border-radius: 9px; padding: 10px 12px;
+  background: var(--card); border: 1px solid var(--line); border-radius: 11px; padding: 10px 13px;
 }
-.partner:hover { border-color: var(--navy); }
-.partner img { width: 44px; height: 44px; border-radius: 7px; flex: none; }
-.partner .pt { flex: 1; min-width: 0; }
-.partner .pt b { display: block; font-size: 15.5px; }
-.partner .pt small { color: var(--ink-3); font-size: 12.5px; }
-.rtag.on { background: var(--teal-soft); color: var(--teal); }
-.ovl { font-size: 12px; font-weight: 700; border-radius: 6px; padding: 3px 8px; flex: none; }
-.ovl.good { background: var(--teal-soft); color: var(--teal); }
-.ovl.mid { background: var(--amber-soft); color: #a8690e; }
-.ovl.bad { background: var(--red-soft); color: var(--red); }
+.hero:hover { border-color: var(--navy); }
+.hero.on { border-color: var(--navy); box-shadow: inset 0 0 0 1px var(--navy); }
+.hero > img { width: 50px; height: 50px; border-radius: 9px; flex: none; }
+.h-text { min-width: 0; }
+.h-text b { display: block; font-size: 17px; font-weight: 700; }
+.h-tags { display: flex; gap: 4px; flex-wrap: wrap; margin: 4px 0; }
+.h-text small { font-family: var(--mono); font-size: 12.5px; color: var(--ink-3); }
 
-.detail-hero {
-  display: flex; gap: 20px; align-items: flex-start;
-  background: var(--navy); color: #fff; border-radius: var(--radius); padding: 22px 24px; margin-bottom: 18px;
+.detail { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px; margin-top: 18px; }
+.d-head { display: flex; gap: 16px; align-items: flex-start; }
+.d-head > img { width: 76px; height: 76px; border-radius: 12px; flex: none; }
+.d-head b { font-size: 24px; font-weight: 800; }
+.d-facts { display: flex; flex-direction: column; gap: 5px; margin-top: 8px; }
+.d-facts span { font-size: 14.5px; color: var(--ink-2); }
+.d-facts i { font-style: normal; font-weight: 700; color: var(--ink-3); margin-right: 8px; }
+.d-facts .warn { color: var(--need); }
+.d-desc {
+  white-space: pre-wrap; font-family: inherit; font-size: 14px; color: var(--ink-2);
+  background: var(--bg); border-radius: 9px; padding: 12px 14px; margin: 16px 0 0; line-height: 1.6;
 }
-.detail-hero img { width: 96px; height: 96px; border-radius: 10px; border: 3px solid var(--amber); flex: none; }
-.detail-hero .grade { font-family: var(--mono); font-size: 13px; color: var(--amber); }
-.detail-hero h2 { font-size: 30px; font-weight: 800; margin: 2px 0 8px; }
-.detail-hero .desc { white-space: pre-wrap; font-size: 14.5px; color: #cdd8e2; line-height: 1.65; margin: 0 0 12px; }
-.hero-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-.hero-actions .btn { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.3); color: #fff; }
-.hero-actions .btn:hover { background: rgba(255,255,255,.2); }
-.hero-actions .btn.primary { background: var(--amber); border-color: var(--amber); color: #21160a; }
-
-.ability-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
-.ability {
-  font-size: 14px; background: var(--card); border: 1px solid var(--line);
-  border-radius: 7px; padding: 5px 11px;
-}
-.ability i { font-style: normal; font-family: var(--mono); font-weight: 600; color: var(--teal); margin-left: 5px; }
-
-/* 조합 트리 */
-.tree, .tree ul { list-style: none; margin: 0; padding: 0; }
-.tree ul { margin-left: 20px; padding-left: 18px; border-left: 3px solid var(--amber); }
-.tree li { padding: 4px 0; }
-.node {
-  display: inline-flex; align-items: center; gap: 9px;
-  background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 7px 12px 7px 8px;
-}
-.node:hover { border-color: var(--navy); }
-.node.have { background: var(--teal-soft); border-color: #bfdfd5; }
-.node img { width: 34px; height: 34px; border-radius: 6px; flex: none; }
-.node b { font-size: 15.5px; font-weight: 700; }
-.node small { color: var(--ink-3); font-size: 13px; }
-.node .qty { font-family: var(--mono); font-weight: 700; color: var(--amber); }
-.node .stock { font-family: var(--mono); font-size: 12.5px; color: var(--ink-3); }
-.node.have .stock { color: var(--teal); font-weight: 600; }
-
-.node-row { display: inline-flex; align-items: center; gap: 6px; }
-.node-row.satisfied .node { background: var(--teal-soft); border-color: #bfdfd5; }
-.mk {
-  font-size: 12px; font-weight: 700; border-radius: 6px; padding: 4px 9px;
-  background: var(--card); border: 1px dashed var(--line-2); color: var(--ink-3);
-}
-.mk:hover { border-color: var(--teal); color: var(--teal); }
-.mk.on { background: var(--teal); border: 1px solid var(--teal); color: #fff; border-style: solid; }
-li.folded > ul { display: none; }
-.fold-note { font-size: 12px; color: var(--ink-3); margin-left: 8px; }
-
-.cmd-box {
-  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-  background: var(--amber-soft); border: 1px solid #f0dcb4; border-radius: 9px;
-  padding: 12px 14px; margin-top: 16px;
-}
-.cmd-box > span { font-size: 14px; font-weight: 700; color: #8a5a0c; }
-.cmd {
-  font-family: var(--mono); font-size: 15px; font-weight: 600;
-  background: var(--card); border: 1px solid #e3c891; border-radius: 7px; padding: 6px 12px; color: #8a5a0c;
-}
-.cmd:hover { border-color: var(--amber); }
-.cmd-box small { font-size: 13px; color: #9a7333; width: 100%; }
-
+.d-sec { margin-top: 18px; }
+.d-sec h3 { font-size: 16px; margin-bottom: 9px; }
+.d-sec h3 b { font-family: var(--mono); color: var(--ink-3); font-size: 14px; }
 .chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
 .uchip {
-  display: inline-flex; align-items: center; gap: 7px;
-  background: var(--card); border: 1px solid var(--line); border-radius: 999px;
-  padding: 4px 13px 4px 4px; font-size: 14.5px; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 7px; font-size: 14.5px; font-weight: 600;
+  background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 4px 13px 4px 4px;
 }
+.uchip:hover { border-color: var(--navy); }
 .uchip img { width: 28px; height: 28px; border-radius: 999px; }
-.uchip i { font-style: normal; font-family: var(--mono); color: var(--ink-3); }
-.uchip.keep { border-color: var(--amber); background: var(--amber-soft); }
-.uchip.short { border-color: #e8b6b3; background: var(--red-soft); }
-.uchip.short i { color: var(--red); }
-button.uchip:hover { border-color: var(--navy); }
+.uchip i { font-style: normal; font-size: 12px; color: var(--ink-3); font-weight: 500; }
 
-/* ───────── ④ 덱 ───────── */
-
-.deck-slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin-bottom: 18px; }
-.slot {
-  border: 1px solid var(--line); border-radius: 9px; padding: 11px 13px;
-  display: flex; align-items: center; gap: 11px; min-height: 74px;
+/* ── 목표 고르기 시트 ── */
+.sheet { position: fixed; inset: 0; z-index: 50; background: rgba(20,40,60,.45); display: grid; place-items: start center; padding: 40px 16px; overflow-y: auto; }
+.sheet-box { background: var(--bg); border-radius: 16px; padding: 22px; width: 100%; max-width: 720px; }
+.sheet-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.sheet-head h2 { font-size: 22px; font-weight: 800; }
+.picker-list { display: flex; flex-direction: column; gap: 6px; max-height: 60vh; overflow-y: auto; }
+.pick-row {
+  display: flex; align-items: center; gap: 12px; text-align: left;
+  background: var(--card); border: 1px solid var(--line); border-radius: 11px; padding: 10px 14px;
 }
-.slot.empty-slot { border-style: dashed; color: var(--ink-3); justify-content: center; font-size: 14.5px; }
-.slot.ready { border-color: var(--teal); background: var(--teal-soft); }
-.slot img { width: 44px; height: 44px; border-radius: 7px; flex: none; }
-.slot .st { flex: 1; min-width: 0; }
-.slot .st b { display: block; font-size: 15.5px; }
-.slot .st small { color: var(--ink-3); font-size: 13px; }
-.slot .bar { height: 5px; background: #ece7dc; border-radius: 3px; margin-top: 5px; overflow: hidden; }
-.slot .bar i { display: block; height: 100%; background: var(--amber); }
-.slot.ready .bar i { background: var(--teal); }
+.pick-row:hover { border-color: var(--navy); }
+.pick-row > img { width: 46px; height: 46px; border-radius: 9px; flex: none; }
+.pr-text { flex: 1; min-width: 0; }
+.pr-text b { display: block; font-size: 17px; font-weight: 700; }
+.pr-tags { display: flex; gap: 4px; flex-wrap: wrap; margin: 3px 0; }
+.pr-text small { font-family: var(--mono); font-size: 12.5px; color: var(--ink-3); }
+.pr-pct { font-family: var(--mono); font-size: 17px; font-weight: 700; color: var(--ink-3); flex: none; }
+.pr-pct.full { color: var(--go); }
 
-.cov-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
-.cov {
-  font-size: 13.5px; font-weight: 600; border-radius: 7px; padding: 4px 11px;
-  background: #f0ece3; color: var(--ink-3);
-}
-.cov i { font-style: normal; font-family: var(--mono); margin-left: 5px; }
-.cov.on { background: var(--teal-soft); color: var(--teal); }
-.cov.gap { background: var(--red-soft); color: var(--red); }
-.gaps h3 { font-size: 16px; color: var(--red); margin-bottom: 10px; }
-.gap { margin-bottom: 14px; }
-.gap > b { display: block; font-size: 15px; margin-bottom: 6px; }
-.inferred-note { font-weight: 400; font-size: 13px; color: var(--ink-3); margin-left: 6px; }
-.ok-note { color: var(--teal); font-weight: 600; }
-
-.plan-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 24px; }
-.plan-col h4 { font-size: 15px; margin: 0 0 8px; }
-.plan-col h4.keep { color: var(--amber); }
-.plan-col h4.short { color: var(--red); }
-.plan-col h4 + .chip-row { margin-bottom: 18px; }
-
-/* 화면 인식 */
-.vision summary { cursor: pointer; font-size: 16px; }
-.vision p { color: var(--ink-2); font-size: 14.5px; }
-.vision-row { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 16px; margin-top: 12px; }
-.screen-preview {
-  position: relative; aspect-ratio: 16/9; background: #ece7dc;
-  border: 1px solid var(--line); border-radius: 9px; overflow: hidden;
-}
-.screen-preview video { width: 100%; height: 100%; object-fit: contain; display: none; }
-.screen-preview.connected video { display: block; }
-.preview-empty { position: absolute; inset: 0; display: grid; place-content: center; color: var(--ink-3); font-size: 14px; }
-.vision-actions { display: flex; flex-direction: column; gap: 8px; }
-.capture-status { font-size: 13.5px; color: var(--ink-3); margin: 0; }
-
-/* ───────── ⑤ 작전 카드 — 곁눈질 0.5초에 읽히게 ───────── */
-
-:root { --glance-zoom: 1; }
-.glance { font-size: calc(16px * var(--glance-zoom)); }
-
-/* 지금 조합 — 화면에서 제일 큰 덩어리 */
-.g-now {
-  display: flex; align-items: center; gap: calc(16px * var(--glance-zoom)); flex-wrap: wrap;
-  background: var(--navy); color: #fff; border-radius: 14px;
-  padding: calc(18px * var(--glance-zoom)) calc(22px * var(--glance-zoom));
-  margin-bottom: calc(18px * var(--glance-zoom));
-}
-.g-now.idle { background: #46535f; }
-.g-now img { width: calc(64px * var(--glance-zoom)); height: calc(64px * var(--glance-zoom)); border-radius: 12px; border: 3px solid var(--amber); }
-.g-label {
-  font-size: calc(13px * var(--glance-zoom)); font-weight: 700; color: var(--amber);
-  letter-spacing: .08em; width: 100%;
-}
-.g-now > b { font-size: calc(34px * var(--glance-zoom)); font-weight: 800; letter-spacing: -.02em; }
-.g-now .g-none { font-size: calc(24px * var(--glance-zoom)); color: #c3ced8; }
-.g-mats { font-size: calc(15px * var(--glance-zoom)); color: #b9c7d4; }
-.g-cmd {
-  margin-left: auto; font-family: var(--mono); font-size: calc(15px * var(--glance-zoom)); font-weight: 700;
-  background: var(--amber); color: #21160a; border: none; border-radius: 9px;
-  padding: calc(9px * var(--glance-zoom)) calc(16px * var(--glance-zoom));
-}
-.g-cmd:hover { background: #f2a745; }
-
-/* 구역 */
-.g-sec { margin-bottom: calc(16px * var(--glance-zoom)); }
-.g-sec h3 {
-  display: flex; align-items: center; gap: 8px;
-  font-size: calc(17px * var(--glance-zoom)); margin-bottom: calc(9px * var(--glance-zoom));
-}
-.g-sec h3 small { font-weight: 400; font-size: calc(13px * var(--glance-zoom)); color: var(--ink-3); }
-.g-dot { width: 12px; height: 12px; border-radius: 3px; flex: none; }
-.g-dot.need { background: var(--red); }
-.g-dot.drop { background: var(--ink-3); }
-.g-dot.done { background: var(--teal); }
-.g-ok { color: var(--teal); font-weight: 700; font-size: calc(16px * var(--glance-zoom)); }
-
-/* 타일 — 아이콘 + 이름 + 큰 숫자 */
-.g-tiles { display: flex; flex-wrap: wrap; gap: calc(7px * var(--glance-zoom)); }
-.gt {
-  display: inline-flex; align-items: center; gap: calc(8px * var(--glance-zoom));
-  border: 2px solid var(--line); border-radius: 11px;
-  padding: calc(7px * var(--glance-zoom)) calc(13px * var(--glance-zoom)) calc(7px * var(--glance-zoom)) calc(7px * var(--glance-zoom));
-  background: var(--card);
-}
-.gt img { width: calc(42px * var(--glance-zoom)); height: calc(42px * var(--glance-zoom)); border-radius: 8px; }
-.gt b { font-size: calc(16px * var(--glance-zoom)); font-weight: 700; }
-.gt i { font-style: normal; font-family: var(--mono); font-size: calc(26px * var(--glance-zoom)); font-weight: 700; line-height: 1; }
-.gt em { font-style: normal; font-size: calc(12px * var(--glance-zoom)); color: var(--ink-3); }
-
-.gt.keep { border-color: #e8b6b3; background: var(--red-soft); }
-.gt.keep i { color: var(--red); }
-.gt.done { border-color: #bfdfd5; background: var(--teal-soft); }
-.gt.done i { color: var(--teal); font-size: calc(20px * var(--glance-zoom)); }
-.gt.drop { border-color: var(--line); opacity: .75; }
-.gt.drop i { color: var(--ink-3); font-size: calc(18px * var(--glance-zoom)); }
-.gt.drop.dead { border-color: #e8b6b3; opacity: 1; }
-.gt.drop.dead em { color: var(--red); font-weight: 700; }
-
-/* 자세히 — 평소엔 접어 둔다 */
-.g-more { margin-top: calc(14px * var(--glance-zoom)); border-top: 1px solid var(--line); padding-top: 12px; }
-.g-more summary { cursor: pointer; font-size: calc(14px * var(--glance-zoom)); color: var(--ink-2); }
-.g-targets { display: flex; flex-wrap: wrap; gap: 7px; margin: 12px 0; }
-.g-target {
-  display: inline-flex; align-items: center; gap: 7px;
-  background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 5px 11px 5px 5px;
-}
-.g-target img { width: 30px; height: 30px; border-radius: 6px; }
-.g-target b { font-size: 14px; }
-.g-target small { color: var(--ink-3); font-size: 12px; }
-
-/* ───────── 작전 카드 (인쇄용 표 형태 잔여) ───────── */
-
-.bcard { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 24px 26px; }
-.bc-head {
-  display: flex; align-items: flex-start; justify-content: space-between; gap: 20px;
-  padding-bottom: 18px; border-bottom: 2px solid var(--navy); margin-bottom: 20px; flex-wrap: wrap;
-}
-.bc-eyebrow { font-size: 13px; font-weight: 700; color: var(--teal); letter-spacing: .06em; }
-.bc-targets { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
-.bc-target {
-  display: inline-flex; align-items: center; gap: 7px;
-  background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px 6px 6px;
-}
-.bc-target img { width: 34px; height: 34px; border-radius: 6px; }
-.bc-target b { font-size: 15px; }
-.bc-target small { color: var(--ink-3); font-size: 12px; }
-.bc-total { text-align: right; flex: none; }
-.bc-total b { display: block; font-size: 34px; font-weight: 800; line-height: 1; }
-.bc-total span { font-size: 13px; color: var(--ink-3); }
-.bc-total i { display: block; font-style: normal; font-family: var(--mono); font-size: 13px; color: var(--ink-2); margin-top: 3px; }
-
-.bc-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 24px; }
-@media (max-width: 900px) { .bc-grid { grid-template-columns: 1fr; } }
-.bc-sec { margin-bottom: 22px; }
-.bc-sec h3 { font-size: 17px; margin-bottom: 10px; }
-.bc-sec h3 small { font-weight: 400; font-size: 13px; color: var(--ink-3); margin-left: 8px; }
-
-.bc-table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
-.bc-table th {
-  text-align: right; font-size: 12.5px; color: var(--ink-3); font-weight: 600;
-  padding: 4px 8px; border-bottom: 1px solid var(--line);
-}
-.bc-table th:first-child { text-align: left; }
-.bc-table td { padding: 6px 8px; border-bottom: 1px solid var(--line); }
-.bc-table td.nm { display: flex; align-items: center; gap: 8px; }
-.bc-table td.nm img { width: 30px; height: 30px; border-radius: 5px; }
-.bc-table td.num { text-align: right; font-family: var(--mono); }
-.bc-table td.have { color: var(--teal); }
-.bc-table td.short { color: var(--red); font-weight: 700; }
-.bc-table tr.done td.short { color: var(--ink-3); font-weight: 400; }
-
-.bc-drop { display: flex; flex-wrap: wrap; gap: 7px; }
-.drop-chip {
-  display: inline-flex; align-items: center; gap: 7px;
-  background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 5px 11px 5px 5px; font-size: 14px;
-}
-.drop-chip img { width: 28px; height: 28px; border-radius: 5px; }
-.drop-chip i { font-style: normal; font-family: var(--mono); color: var(--ink-3); font-size: 12.5px; }
-.drop-chip em { font-style: normal; font-size: 12px; color: var(--ink-3); }
-.drop-chip.dead { border-color: #e8b6b3; background: var(--red-soft); }
-.drop-chip.dead em { color: var(--red); font-weight: 700; }
-.bc-note { font-size: 13px; color: var(--ink-3); margin-top: 9px; }
-
-.bc-next {
-  background: var(--amber-soft); border: 1px solid #f0dcb4; border-radius: 8px;
-  padding: 9px 13px; font-size: 15px; margin-bottom: 10px;
-}
-.bc-steps { list-style: none; margin: 0; padding: 0; counter-reset: bc; columns: 2; column-gap: 20px; }
-@media (max-width: 900px) { .bc-steps { columns: 1; } }
-.bc-steps li {
-  break-inside: avoid; display: flex; align-items: center; gap: 8px;
-  padding: 5px 8px; border-radius: 7px; margin-bottom: 3px; counter-increment: bc;
-}
-.bc-steps li::before {
-  content: counter(bc); font-family: var(--mono); font-size: 12px; color: var(--ink-3); min-width: 20px;
-}
-.bc-steps li.now { background: var(--teal-soft); }
-.bc-steps img { width: 26px; height: 26px; border-radius: 5px; flex: none; }
-.bc-steps b { font-size: 14px; }
-.bc-steps small { color: var(--ink-3); font-size: 12px; }
-
-.bc-cmds { display: flex; flex-wrap: wrap; gap: 10px; }
-.bc-cmd { font-size: 14px; }
-.bc-cmd code { font-family: var(--mono); background: var(--amber-soft); color: #8a5a0c; padding: 2px 8px; border-radius: 5px; }
-
-/* 인쇄 — 작전 카드만 남기고 전부 숨긴다 */
-@media print {
-  .topbar, .tabs, .rail, .foot, .toast, .no-print { display: none !important; }
-  body { background: #fff; }
-  .shell { display: block; padding: 0; max-width: none; }
-  main { padding: 0; }
-  .view { display: none !important; }
-  .view#view-plan { display: block !important; }
-  .bcard { border: none; padding: 0; }
-  .bc-steps { columns: 3; }
-  .g-more[open] summary, .g-more summary { list-style: none; }
-  .g-more > *:not(summary) { display: block !important; }
-  a[href]::after { content: none !important; }
-}
-
-/* ───────── 기타 ───────── */
-
-.foot {
-  max-width: 1180px; margin: 0 auto; padding: 20px 28px 40px;
-  color: var(--ink-3); font-size: 13px; border-top: 1px solid var(--line);
-}
+/* ── 토스트 ── */
 .toast {
-  position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%);
+  position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%);
   background: var(--navy); color: #fff; border-radius: 999px;
-  padding: 12px 24px; font-size: 15px; font-weight: 600; z-index: 50;
-  box-shadow: 0 8px 28px rgba(20,40,60,.25);
+  padding: 12px 24px; font-size: 15px; font-weight: 600; z-index: 60;
+  box-shadow: 0 8px 28px rgba(20,40,60,.28);
 }
 
-@media (max-width: 1180px) {
-  .shell { grid-template-columns: 1fr; gap: 0; }
-  .rail { position: static; max-height: none; margin-top: 0; margin-bottom: 18px; }
+@media (max-width: 640px) {
+  .run, .find { padding: 14px 12px 50px; }
+  .gc-pct { text-align: left; }
 }
 
-@media (max-width: 900px) {
-  .shell { padding: 0 16px; }
-  main { padding: 20px 0 50px; }
-  .topbar, .tabs { padding-left: 16px; padding-right: 16px; }
-  .head h1 { font-size: 26px; }
-  .card { padding: 18px 16px; }
-  .plan-grid, .vision-row { grid-template-columns: 1fr; }
-  .detail-hero { flex-direction: column; gap: 14px; }
-  .progress { display: none; }
+@media print {
+  .top, .toast, .sheet, .drawer { display: none !important; }
+  body { background: #fff; }
+  .task:not(.go) { opacity: 1; }
 }
 
 </style>
   </head>
   <body>
-    <header class="topbar">
-      <div class="brand">
-        <span class="brand-mark">O</span>
-        <div>
-          <strong>ORANDI 조합 도우미</strong>
-          <small>ORDR 시즌2 · 2.314[R]</small>
-        </div>
+    <header class="top">
+      <div class="modes">
+        <button class="mode on" data-mode="run">진행</button>
+        <button class="mode" data-mode="find">영웅 찾기</button>
       </div>
-      <div class="topbar-meta">
-        <span class="chip" id="invStatus">보유 없음</span>
-        <span class="chip" id="dataStatus">데이터 불러오는 중…</span>
-        <button class="btn small reset-all" id="resetAll" title="보유·목표 덱을 모두 비웁니다 (새 게임 시작용)">초기화</button>
+      <div class="top-right">
+        <button class="ghost-btn" id="zoomBtn" title="글씨 크기">가 100%</button>
+        <button class="ghost-btn danger" id="resetBtn">새 판</button>
       </div>
     </header>
 
-    <nav class="tabs" id="tabs">
-      <button class="tab active" data-tab="own"><b>①</b> 내 보유</button>
-      <button class="tab" data-tab="make"><b>②</b> 만들 수 있는 것</button>
-      <button class="tab" data-tab="find"><b>③</b> 캐릭터 찾기</button>
-      <button class="tab" data-tab="deck"><b>④</b> 목표 덱</button>
-      <button class="tab" data-tab="plan"><b>⑤</b> 작전 카드</button>
-    </nav>
-
-    <div class="shell">
-    <main>
-      <!-- ① 내 보유 -->
-      <section class="view active" id="view-own">
-        <div class="head">
-          <p class="eyebrow">STEP 1 · MY UNITS</p>
-          <h1>가진 캐릭터를 넣습니다</h1>
-          <p class="lead">아이콘을 <b>왼쪽 클릭하면 +1</b>, <b>오른쪽 클릭하면 −1</b>입니다. 조합할 때마다 재료가 자동으로 빠지니, 게임 시작할 때 한 번만 넣으면 됩니다.</p>
-        </div>
-
-        <div class="card paste-card">
-          <h2>한 번에 붙여넣기</h2>
-          <p class="sub">쉼표나 줄바꿈으로 구분합니다. 예: <code>해군총병 12, 루피 4, 목재 6</code></p>
-          <textarea id="pasteBox" rows="3" placeholder="해군총병 12, 해군칼병 8, 루피 4, 버기 3, 목재 6"></textarea>
-          <div class="paste-actions">
-            <button class="btn primary" id="pasteApply">보유에 넣기</button>
-            <button class="btn quiet" id="pasteReplace">기존 것 지우고 넣기</button>
-            <span class="paste-result" id="pasteResult"></span>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-head">
-            <h2>아이콘으로 고르기</h2>
-            <label class="inline-search">
-              <input id="paletteSearch" type="search" placeholder="이름·초성으로 좁히기 (예: ㅎㄱㅊㅂ)" />
-            </label>
-          </div>
-          <div id="palette" class="palette"></div>
-        </div>
-
-        <div class="card">
-          <div class="card-head">
-            <h2>지금 보유 <span class="count" id="ownCount">0</span></h2>
-            <div class="card-actions">
-              <button class="btn quiet" id="undoButton" disabled>실행 취소</button>
-              <button class="btn quiet danger" id="resetInv">전부 비우기</button>
-            </div>
-          </div>
-          <div id="ownedList" class="owned-list"><p class="empty">아직 없습니다. 위에서 아이콘을 누르거나 붙여넣으세요.</p></div>
-        </div>
-      </section>
-
-      <!-- ② 만들 수 있는 것 -->
-      <section class="view" id="view-make">
-        <div class="head">
-          <p class="eyebrow">STEP 2 · CRAFTABLE</p>
-          <h1>지금 만들 수 있는 조합</h1>
-          <p class="lead">가진 재료로 <b>여러 단계를 거쳐</b> 도달할 수 있는 상위·최상위 조합까지 전부 계산합니다. 각 줄은 <b>그것 하나만 만들 때</b> 기준입니다.</p>
-        </div>
-
-        <div class="filterbar">
-          <div class="segmented" id="makeFilter">
-            <button class="seg active" data-filter="ready">지금 바로 <i id="cntReady">0</i></button>
-            <button class="seg" data-filter="near">조금만 더 <i id="cntNear">0</i></button>
-            <button class="seg" data-filter="all">전체 <i id="cntAll">0</i></button>
-          </div>
-          <label class="inline-search">
-            <input id="makeSearch" type="search" placeholder="이름·초성으로 좁히기" />
-          </label>
-        </div>
-
-        <div class="filter-chips" id="typeFilter" aria-label="딜 타입"></div>
-        <div class="filter-chips" id="roleFilter" aria-label="역할"></div>
-
-        <div id="makeList" class="make-list"><p class="empty">①에서 보유 캐릭터를 넣으면 계산합니다.</p></div>
-      </section>
-
-      <!-- ③ 캐릭터 찾기 -->
-      <section class="view" id="view-find">
-        <div class="head">
-          <p class="eyebrow">STEP 3 · HEROES</p>
-          <h1>영웅 찾기 · 역할별 보기</h1>
-          <p class="lead">역할을 고르면 그 자리에 쓰는 영웅이 <b>센 순서로</b> 나옵니다. 영웅을 누르면 <b>상위 조합</b>과 <b>같이 쓰면 좋은 영웅</b>까지 보여줍니다.</p>
-        </div>
-        <div class="card">
-          <input id="unitSearch" class="big-input" type="search" autocomplete="off" spellcheck="false"
-                 placeholder="이름·별칭·초성으로 찾기 (예: 검은수염 · ㄱㅇㅅㅇ)" />
-          <div class="filter-chips" id="heroDmg" style="margin-top:14px"></div>
-          <div class="filter-chips" id="heroRole"></div>
-          <div id="searchResults" class="find-results"></div>
-        </div>
-        <div id="unitDetail"></div>
-      </section>
-
-      <!-- ④ 목표 덱 -->
-      <section class="view" id="view-deck">
-        <div class="head">
-          <p class="eyebrow">STEP 4 · FINAL DECK</p>
-          <h1>최종 덱 목표</h1>
-          <p class="lead">목표를 넣으면 <b>남겨야 할 유닛 · 부족한 재료 · 조합 순서</b>를 계산하고, 역할이 비면 알려줍니다.</p>
-        </div>
-
-        <div class="card">
-          <div class="card-head">
-            <h2>덱 슬롯 <span class="count" id="deckCount">0 / 6</span></h2>
-            <div class="card-actions">
-              <select id="recoType" aria-label="추천 딜 타입">
-                <option value="">타입 무관</option>
-                <option value="물딜">물딜 위주</option>
-                <option value="마딜">마딜 위주</option>
-              </select>
-              <button class="btn primary" id="recommendDeck">보유 기준 덱 추천</button>
-            </div>
-          </div>
-          <p class="hint" id="recoNote"></p>
-          <div id="deckSlots" class="deck-slots"></div>
-          <div id="roleCoverage"></div>
-          <div id="roleGaps"></div>
-        </div>
-
-        <div class="card">
-          <div class="card-head">
-            <h2>목표까지 조합 경로</h2>
-            <div class="card-actions">
-              <select id="planTarget"></select>
-              <span class="chip" id="planProgress">—</span>
-            </div>
-          </div>
-          <div id="planBody"><p class="empty">위에서 목표를 하나 이상 잡으면 계산합니다.</p></div>
-        </div>
-
-      </section>
-      <!-- ⑤ 작전 카드 -->
-      <section class="view" id="view-plan">
-        <div class="head no-print">
-          <p class="eyebrow">STEP 5 · BATTLE CARD</p>
-          <h1>이번 판 작전 카드</h1>
-          <p class="lead"><b>보자마자 파악되게</b> 만든 화면입니다. 게임 옆에 띄워두고 곁눈질하세요. 글씨가 작으면 <b>글씨 100%</b> 버튼으로 키우면 됩니다.</p>
-          <div class="card-actions" style="margin-top:12px">
-            <button class="btn" id="zoomPlan">글씨 100%</button>
-            <button class="btn primary" id="printPlan">인쇄 / PDF로 저장</button>
-            <button class="btn quiet" id="copyPlan">글로 복사</button>
-          </div>
-        </div>
-        <div id="planCard"></div>
-      </section>
-
+    <!-- 진행 — 목표 하나를 정하고 만들어 나가는 화면 -->
+    <main class="run" id="viewRun">
+      <section id="goalBar"></section>
+      <section class="lane" id="laneNow"></section>
+      <section class="lane" id="laneWait"></section>
+      <section class="lane" id="laneMats"></section>
+      <details class="drawer" id="doneDrawer" hidden>
+        <summary>만든 것 <b id="doneCount">0</b></summary>
+        <div id="doneList" class="done-list"></div>
+      </details>
     </main>
 
-      <aside class="rail" id="rail"></aside>
-    </div>
+    <!-- 영웅 찾기 -->
+    <main class="find" id="viewFind" hidden>
+      <input id="q" class="q" type="search" autocomplete="off" spellcheck="false"
+             placeholder="이름·초성으로 찾기 (예: 검은수염 · ㄱㅇㅅㅇ)" />
+      <div class="chips" id="roleChips"></div>
+      <div id="findList" class="find-list"></div>
+      <div id="findDetail"></div>
+    </main>
 
-    <footer class="foot">
-      데이터 출처 <code>static.tmo.gg/ord-helper/assets.json</code> (공개 데이터) · TMO.GG 실행파일을 읽거나 고치지 않으며 게임 메모리·패킷·매크로 조작을 하지 않습니다.
-    </footer>
+    <!-- 목표 고르기 -->
+    <div class="sheet" id="picker" hidden>
+      <div class="sheet-box">
+        <div class="sheet-head">
+          <h2>무엇을 만들까요</h2>
+          <button class="ghost-btn" id="pickerClose">닫기</button>
+        </div>
+        <input id="pickerQ" class="q" type="search" placeholder="이름·초성으로 찾기" />
+        <div class="chips" id="pickerRoles"></div>
+        <div id="pickerList" class="picker-list"></div>
+      </div>
+    </div>
 
     <div class="toast" id="toast" hidden></div>
     <script>
@@ -8393,1293 +7775,438 @@ function battlePlan(index, deckIds, inventory = new Map()) {
 }
 
 /**
- * ORANDI 조합 도우미 — 화면 계층.
+ * ORANDI 조합 도우미 — 화면 계층 (2026-08-20 전면 개편)
+ *
+ * 설계 원칙 하나: **요리 레시피처럼 체크해 나간다.**
+ *   목표 하나를 정하면 만들어야 할 것이 순서대로 뜨고,
+ *   만들 때마다 「만들었음」만 누르면 다음 것이 저절로 올라온다.
+ *   보유를 일일이 입력하던 병목을 없애는 것이 목적이다.
+ *
  * 계산은 전부 engine.js가 한다. 여기서는 그리기와 상태 보관만 한다.
  */
 
 const REMOTE = 'https://static.tmo.gg/ord-helper/assets.json';
-const LOCAL = './data/assets.json';
-const STORE = 'orandi:v3';
-const DECK_SLOTS = 6;
-// 팔레트에서 기본으로 펼쳐 두는 등급 (실제로 손에 자주 들어오는 것들)
-const OPEN_GRADES = ['흔함', '안흔함', '자원'];
-// 빠른 담기 칸 수 (숫자키 1~9,0에 대응)
-const QUICK_SLOTS = 10;
-// Shift+숫자를 누르면 브라우저는 기호를 준다. 빼기 단축키를 위해 되돌린다.
-const SHIFT_DIGITS = {
-  '!': '1', '@': '2', '#': '3', '$': '4', '%': '5',
-  '^': '6', '&': '7', '*': '8', '(': '9', ')': '0',
-  // 자판에 따라 숫자가 그대로 오기도 한다
-  '1': '1', '2': '2', '3': '3', '4': '4', '5': '5',
-  '6': '6', '7': '7', '8': '8', '9': '9', '0': '0',
-};
+const STORE = 'orandi:v4';
 
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => [...document.querySelectorAll(s)];
 const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const img = (unit) => `<img src="${esc(unit.image)}" alt="" loading="lazy" />`;
-// 한글 가나다 순 비교 (숫자·영문 섞여도 자연스럽게)
-const byName = (a, b) => a.name.localeCompare(b.name, 'ko', { numeric: true });
+const img = (u) => `<img src="${esc(u.image)}" alt="" loading="lazy" />`;
 
 const state = {
   index: null,
-  inventory: new Map(),
-  deck: [],
-  tab: 'own',
-  selectedUnitId: null,
-  planTargetId: null,
-  makeFilter: 'ready',
-  makeQuery: '',
-  dmgFilter: '',                      // 물딜 / 마딜 / 스턴
-  roleFilter: new Set(),              // 방깎·이감·스턴 … 여러 개 동시 선택
-  heroRole: 'mainDps',                // ③탭 역할별 보기
-  heroDmg: '',
-  myNotes: {},                        // 대표가 직접 등록한 정보
-  planZoom: 1,                        // 작전 카드 글씨 배율
-  paletteQuery: '',
-  openGrades: new Set(OPEN_GRADES),   // 사용자가 펼쳐 둔 등급 (클릭해도 유지)
-  quickSlots: [],                     // 빠른 담기 칸 (숫자키에 대응 — 순서 고정)
-  lastUse: new Map(),                 // 유닛별 마지막 사용 순번 (칸 교체 기준)
-  useSeq: 0,
-  quickSignature: null,               // 빠른 담기 칸 구성이 바뀌었는지 판단용
-  recoWhy: new Map(),                 // 추천 덱에서 각 칸이 맡은 역할
-  openSteps: new Set(),
-  history: [],
+  inventory: new Map(),   // 기본 재료 보유
+  goal: null,             // 지금 만들려는 최종 영웅 id
+  made: [],               // 만든 순서 기록
+  mode: 'run',
+  zoom: 1,
+  pickerRole: 'mainDps',
+  findRole: 'mainDps',
+  selected: null,
 };
 
-/* ───────────────────────── 저장 · 실행취소 ───────────────────────── */
-
-function snapshot() {
-  state.history.push({ inventory: new Map(state.inventory), deck: [...state.deck] });
-  if (state.history.length > 50) state.history.shift();
-}
-
-function undo() {
-  const prev = state.history.pop();
-  if (!prev) return;
-  state.inventory = prev.inventory;
-  state.deck = prev.deck;
-  persist();
-  renderAll();
-  toast('되돌렸습니다.');
-}
+/* ───────────────────────── 저장 ───────────────────────── */
 
 function persist() {
   try {
     localStorage.setItem(STORE, JSON.stringify({
-      inventory: [...state.inventory], deck: state.deck, planTargetId: state.planTargetId,
-      quickSlots: state.quickSlots, lastUse: [...state.lastUse], useSeq: state.useSeq,
+      inventory: [...state.inventory], goal: state.goal, made: state.made, zoom: state.zoom,
     }));
   } catch { /* 저장 실패가 기능을 막지는 않는다 */ }
 }
 
 function restore() {
   try {
-    const saved = JSON.parse(localStorage.getItem(STORE) || '{}');
-    if (Array.isArray(saved.inventory)) {
-      state.inventory = new Map(saved.inventory.filter(([id]) => state.index.get(id)));
-    }
-    if (Array.isArray(saved.deck)) state.deck = saved.deck.filter((id) => state.index.get(id)).slice(0, DECK_SLOTS);
-    if (saved.planTargetId && state.index.get(saved.planTargetId)) state.planTargetId = saved.planTargetId;
-    if (Array.isArray(saved.quickSlots)) {
-      state.quickSlots = saved.quickSlots.filter((id) => state.index.get(id)).slice(0, QUICK_SLOTS);
-    }
-    if (Array.isArray(saved.lastUse)) state.lastUse = new Map(saved.lastUse);
-    if (Number.isFinite(saved.useSeq)) state.useSeq = saved.useSeq;
-  } catch { /* 손상된 저장값은 버리고 새로 시작 */ }
+    const s = JSON.parse(localStorage.getItem(STORE) || '{}');
+    if (Array.isArray(s.inventory)) state.inventory = new Map(s.inventory.filter(([id]) => state.index.get(id)));
+    if (s.goal && state.index.get(s.goal)) state.goal = s.goal;
+    if (Array.isArray(s.made)) state.made = s.made.filter((id) => state.index.get(id));
+    if (Number(s.zoom) > 0) state.zoom = Number(s.zoom);
+  } catch { /* 손상된 저장값은 버린다 */ }
 }
 
-function toast(message) {
+function toast(msg) {
   const el = $('#toast');
-  el.textContent = message;
+  el.textContent = msg;
   el.hidden = false;
-  clearTimeout(toast.timer);
-  toast.timer = setTimeout(() => { el.hidden = true; }, 2600);
+  clearTimeout(toast.t);
+  toast.t = setTimeout(() => { el.hidden = true; }, 2400);
 }
 
-/* ─────────────────────────── 공통 조각 ─────────────────────────── */
+/* ───────────────────────── 공통 조각 ───────────────────────── */
 
-function roleTags(unit) {
-  return unit.roles
-    .map((key) => ROLES.find((r) => r.key === key))
-    .filter(Boolean)
-    .map((r) => `<span class="rtag ${r.kind === 'inferred' ? 'inferred' : ''}"${
-      r.kind === 'inferred' ? ` title="${esc(r.note)}"` : ''}>${esc(r.label)}</span>`)
-    .join('');
+function gradeTag(u) {
+  const r = powerRank(state.index, u);
+  const tier = r < 0 ? 'sp' : r <= 3 ? 'low' : r <= 5 ? 'mid' : r <= 8 ? 'high' : 'top';
+  return `<span class="gr ${tier}">${esc(u.gradeBase)}</span>`
+    + (u.damageType ? `<span class="dt ${u.damageType === '마딜' ? 'm' : u.damageType === '물딜' ? 'p' : 's'}">${esc(u.damageType)}</span>` : '');
 }
 
-/** 등급을 색으로 구분되는 배지로 (한눈에 세기를 알아보게) */
-function gradeBadge(unit) {
-  const rank = powerRank(state.index, unit);
-  const tier = rank < 0 ? 'sp' : rank <= 3 ? 'low' : rank <= 5 ? 'mid' : rank <= 8 ? 'high' : 'top';
-  return `<span class="gr ${tier}">${esc(unit.gradeBase)}</span>`
-    + (unit.damageType ? `<span class="dt ${unit.damageType === '마딜' ? 'm' : unit.damageType === '물딜' ? 'p' : 's'}">${esc(unit.damageType)}</span>` : '');
+function roleTags(u) {
+  return u.roles.map((k) => ROLES.find((r) => r.key === k)).filter(Boolean)
+    .map((r) => `<span class="rt">${esc(r.label)}</span>`).join('');
 }
 
-/** 얻는 방법 배지 */
-function getBadge(unit) {
-  const how = howToGet(state.index, unit);
-  if (!how) return '';
-  const cls = { '조합': 'craft', '직접 획득': 'drop', '랜덤': 'rand', '자원': 'res' }[how.kind] || 'sp';
-  return `<span class="how ${cls}" title="${esc(how.text)}">${esc(how.kind)}${how.sure ? '' : '?'}</span>`;
+function matsOf(u) {
+  return u.stuffs.map((s) => {
+    const have = invGet(state.inventory, s.id);
+    const ok = have >= s.count;
+    return `<span class="m ${ok ? 'ok' : ''}">${esc(state.index.name(s.id))}${s.count > 1 ? `×${s.count}` : ''}</span>`;
+  }).join('');
 }
 
-const MY_STORE = 'orandi:mynotes';
+const matchQ = (u, q) => {
+  const t = String(q ?? '').trim();
+  if (!t) return true;
+  return isChosungQuery(t) ? u.cho.includes(chosungOf(t)) : u.name.toLowerCase().includes(t.toLowerCase());
+};
 
-/** 대표가 직접 등록한 정보 (획득법·1회제한). 앱 안에서 고치고 파일로 내보낼 수 있다. */
-function loadMyNotes() {
-  try { return JSON.parse(localStorage.getItem(MY_STORE) || '{}'); } catch { return {}; }
-}
-function saveMyNotes(notes) {
-  try { localStorage.setItem(MY_STORE, JSON.stringify(notes)); } catch { /* 저장 실패는 무시 */ }
-}
-function myNote(unitId) {
-  return state.myNotes[unitId] ?? null;
-}
+/* ───────────────────────── 진행 화면 ───────────────────────── */
 
-/** 등록 카드 — 여기에 적으면 그 유닛 화면에 바로 뜬다 */
-function registerCard(unit) {
-  const note = myNote(unit.id) ?? {};
-  return `<div class="card reg">
-    <div class="card-head">
-      <h2>내가 등록한 정보</h2>
-      <div class="card-actions">
-        <button class="btn quiet small" id="exportNotes">전체 내보내기</button>
+function renderRun() {
+  const goal = state.index.get(state.goal);
+
+  if (!goal) {
+    $('#goalBar').innerHTML = `
+      <div class="pick-hero">
+        <h1>무엇을 만들까요?</h1>
+        <p>목표를 하나 정하면 <b>만들 순서가 전부 펼쳐집니다.</b><br />만들 때마다 누르기만 하면 됩니다.</p>
+        <button class="big-btn" data-open-picker>목표 고르기</button>
+        <button class="link-btn" id="recoBtn">지금 재료로 추천받기</button>
+      </div>`;
+    $('#laneNow').innerHTML = '';
+    $('#laneWait').innerHTML = '';
+    $('#laneMats').innerHTML = '';
+    $('#doneDrawer').hidden = true;
+    return;
+  }
+
+  const plan = planTarget(state.index, goal.id, state.inventory);
+  const pct = plan.leafTotal ? Math.round((plan.leafHave / plan.leafTotal) * 100) : 100;
+  const doable = plan.steps.filter((s) => craftTimes(state.index, state.inventory, state.index.get(s.unitId)) >= s.times);
+  const waiting = plan.steps.filter((s) => !doable.includes(s));
+
+  // 목표 + 진행률
+  $('#goalBar').innerHTML = `
+    <div class="goal-card ${plan.ok ? 'ready' : ''}">
+      ${img(goal)}
+      <div class="gc-text">
+        <span class="gc-label">목표</span>
+        <b>${esc(goal.name)}</b>
+        <span class="gc-tags">${gradeTag(goal)}${roleTags(goal)}</span>
       </div>
-    </div>
-    <p class="sub">공개 데이터에 없는 건 여기에 적어두세요. <b>적는 즉시 이 유닛 화면에 뜹니다.</b></p>
-    <label class="reg-row">
-      <span>얻는 방법</span>
-      <textarea id="regHow" rows="2" placeholder="예: 스토리 보상으로만 얻음 / 랜덤 위습에서만 나옴">${esc(note.how ?? '')}</textarea>
-    </label>
-    <label class="reg-check">
-      <input type="checkbox" id="regOnce" ${note.once ? 'checked' : ''} />
-      <span>한 판에 <b>한 번만</b> 얻을 수 있는 유닛</span>
-    </label>
-    <label class="reg-row">
-      <span>같이 못 쓰는 유닛</span>
-      <input id="regConflict" type="text" placeholder="유닛 이름 (쉼표로 여러 개)" value="${esc((note.conflicts ?? []).join(', '))}" />
-    </label>
-    <div class="reg-actions">
-      <button class="btn primary" data-save-note="${esc(unit.id)}">등록</button>
-      ${Object.keys(note).length ? `<button class="btn quiet danger" data-clear-note="${esc(unit.id)}">지우기</button>` : ''}
-      <span class="reg-msg" id="regMsg"></span>
-    </div>
-  </div>`;
-}
-
-/** 같이 넣으면 안 되는 유닛 배지 */
-function conflictBadge(unit) {
-  const list = conflictsOf(state.index, unit.id);
-  if (!list.length) return '';
-  const names = list.map((c) => c.withName + (c.unsure ? '?' : '')).join(', ');
-  return `<span class="conflict" title="${esc(list.map((c) => c.reason).join(' / '))}">⚠ ${esc(names)}와 겹침</span>`;
-}
-
-/** 코스트 한 줄 (조합으로 만드는 유닛만) */
-function costLine(unit) {
-  const cost = unitCost(state.index, unit.id);
-  return cost ? `<span class="cost">${esc(costLabel(cost))}</span>` : '';
-}
-
-/** 검색어(이름 또는 초성)로 유닛을 거른다 */
-function matchesQuery(unit, query) {
-  const q = String(query ?? '').trim();
-  if (!q) return true;
-  if (isChosungQuery(q)) return unit.cho.includes(chosungOf(q));
-  return unit.name.toLowerCase().includes(q.toLowerCase());
-}
-
-/**
- * 빠른 담기 칸을 채운다. 처음에는 흔함 등급(실제로 손에 제일 자주 들어오는 것들)으로.
- * ⚠️ 칸 순서는 절대 재정렬하지 않는다 — 숫자키 자리가 바뀌면 외울 수가 없다(2026-08-19 실측 교정).
- */
-function initQuickSlots() {
-  if (state.quickSlots.length >= QUICK_SLOTS) return;
-  const pool = [...state.index.units.values()]
-    .filter((u) => ['흔함', '안흔함'].includes(u.gradeBase))
-    .sort((a, b) => state.index.rank(a) - state.index.rank(b) || byName(a, b));
-  for (const unit of pool) {
-    if (state.quickSlots.length >= QUICK_SLOTS) break;
-    if (!state.quickSlots.includes(unit.id)) state.quickSlots.push(unit.id);
-  }
-}
-
-/**
- * 담은 유닛을 빠른 칸에 반영한다.
- * 이미 칸에 있으면 자리를 그대로 두고 사용 시각만 갱신하고,
- * 없으면 **가장 오래 안 쓴 칸 하나만** 바꾼다 (나머지 자리는 불변).
- */
-function pushRecent(id) {
-  state.lastUse.set(id, ++state.useSeq);
-  if (state.quickSlots.includes(id)) return;
-  initQuickSlots();
-  let victim = 0;
-  let oldest = Infinity;
-  state.quickSlots.forEach((slotId, i) => {
-    const used = state.lastUse.get(slotId) ?? -1;
-    if (used < oldest) { oldest = used; victim = i; }
-  });
-  state.quickSlots[victim] = id;
-}
-
-/** 빠른 담기 칸의 유닛 (자리 순서 그대로) */
-function quickUnits() {
-  initQuickSlots();
-  return state.quickSlots.map((id) => state.index.get(id)).filter(Boolean).slice(0, QUICK_SLOTS);
-}
-
-/** 목표 덱에 묶여 있어 남겨야 하는 수량 */
-function reservedMap() {
-  const reserved = new Map();
-  for (const targetId of state.deck) {
-    for (const [id, n] of planTarget(state.index, targetId, state.inventory).reserved) {
-      reserved.set(id, Math.max(reserved.get(id) ?? 0, n));
-    }
-  }
-  return reserved;
-}
-
-/* ─────────────────────────── ① 내 보유 ─────────────────────────── */
-
-function renderPalette() {
-  const searching = Boolean(state.paletteQuery.trim());
-  const groups = state.index.grades
-    .map(({ grade }) => ({
-      grade,
-      units: [...state.index.units.values()]
-        .filter((u) => u.grade === grade && matchesQuery(u, state.paletteQuery))
-        .sort(byName),
-    }))
-    .filter((g) => g.units.length);
-
-  $('#palette').innerHTML = groups.map(({ grade, units }) => `
-    <details data-grade="${esc(grade)}" ${searching || state.openGrades.has(grade) ? 'open' : ''}>
-      <summary>${esc(grade)} <span class="g-count">${units.length}</span></summary>
-      <div class="tile-grid">
-        ${units.map((unit) => {
-          const have = invGet(state.inventory, unit.id);
-          return `<button class="tile" data-own="${esc(unit.id)}"
-            title="${esc(unit.name)} — 왼쪽클릭 담기, 오른쪽클릭 빼기">
-            ${img(unit)}<span>${esc(unit.name)}</span>
-            ${have ? `<em class="own-badge">${have}</em>` : ''}
-          </button>`;
-        }).join('')}
+      <div class="gc-pct">
+        <b>${pct}<i>%</i></b>
+        <span>재료 ${plan.leafHave}/${plan.leafTotal}</span>
       </div>
-    </details>`).join('') || '<p class="empty">일치하는 캐릭터가 없습니다.</p>';
-}
-
-/**
- * 보유 수량 배지만 제자리에서 고친다.
- * 팔레트를 통째로 다시 그리면 펼쳐 둔 등급이 접히고 스크롤도 튄다(2026-08-19 대표 지적).
- */
-function updatePaletteBadges() {
-  for (const tile of $$('#palette .tile')) {
-    const have = invGet(state.inventory, tile.dataset.own);
-    const badge = tile.querySelector('.own-badge');
-    if (have && badge) badge.textContent = have;
-    else if (have) tile.insertAdjacentHTML('beforeend', `<em class="own-badge">${have}</em>`);
-    else if (badge) badge.remove();
-  }
-}
-
-function renderOwned() {
-  const total = [...state.inventory.values()].reduce((s, n) => s + n, 0);
-  $('#ownCount').textContent = state.inventory.size ? `${state.inventory.size}종 ${total}개` : '0';
-  $('#invStatus').textContent = state.inventory.size ? `보유 ${state.inventory.size}종 · ${total}개` : '보유 없음';
-  $('#undoButton').disabled = state.history.length === 0;
-
-  const reserved = reservedMap();
-  const rows = [...state.inventory.entries()]
-    .map(([id, count]) => ({ unit: state.index.get(id), count }))
-    .filter((r) => r.unit)
-    .sort((a, b) => byName(a.unit, b.unit));
-
-  $('#ownedList').innerHTML = rows.length ? rows.map(({ unit, count }) => {
-    const keep = reserved.get(unit.id) ?? 0;
-    return `<div class="owned-row ${keep ? 'reserved' : ''}">
-      ${img(unit)}
-      <span class="owned-name"><b>${esc(unit.name)}</b><small>${esc(unit.gradeBase)}</small></span>
-      ${keep ? `<span class="keep-badge" title="목표 조합에 쓰이므로 남겨야 합니다">남길 ${keep}</span>` : ''}
-      <span class="stepper">
-        <button data-own="${esc(unit.id)}" data-delta="-1" aria-label="빼기">−</button>
-        <b>${count}</b>
-        <button data-own="${esc(unit.id)}" data-delta="1" aria-label="더하기">+</button>
-      </span>
+      <button class="ghost-btn" data-open-picker>바꾸기</button>
+      <div class="gc-bar"><i style="width:${pct}%"></i></div>
     </div>`;
-  }).join('') : '<p class="empty">아직 없습니다. 위에서 아이콘을 누르거나 붙여넣으세요.</p>';
-}
 
-function applyPaste(replace) {
-  const text = $('#pasteBox').value;
-  const result = $('#pasteResult');
-  if (!text.trim()) { result.textContent = ''; return; }
-  const { resolved, unknown } = parseInventoryText(state.index, text);
-  if (!resolved.length) {
-    result.className = 'paste-result warn';
-    result.textContent = `못 알아본 항목: ${unknown.join(', ')}`;
-    return;
-  }
-  snapshot();
-  if (replace) state.inventory = new Map();
-  for (const { unit, count } of resolved) {
-    state.inventory = invAdd(state.inventory, unit.id, count);
-    pushRecent(unit.id);
-  }
-  persist();
-  renderAll();
+  // 1) 지금 만들 수 있는 것 — 화면에서 제일 크다
+  $('#laneNow').innerHTML = doable.length ? `
+    <h2 class="lane-h now">지금 만들 수 있는 것 <b>${doable.length}</b></h2>
+    ${doable.map((s) => {
+      const u = state.index.get(s.unitId);
+      const cmd = u.commands[0];
+      return `<article class="task go">
+        ${img(u)}
+        <div class="t-text">
+          <b>${esc(u.name)}${s.times > 1 ? ` ×${s.times}` : ''}</b>
+          <div class="t-mats">${matsOf(u)}</div>
+        </div>
+        ${cmd ? `<button class="cmd-btn" data-copy="${esc(cmd)}">-${esc(cmd)}</button>` : ''}
+        <button class="make-btn" data-make="${esc(u.id)}">만들었음</button>
+      </article>`;
+    }).join('')}` : `
+    <h2 class="lane-h idle">지금 만들 수 있는 게 없습니다</h2>
+    <p class="lane-note">아래 <b>더 모아야 할 재료</b>를 채우면 여기에 올라옵니다.</p>`;
 
-  const notes = resolved.filter((r) => r.note);
-  const parts = [`${resolved.length}종 넣었습니다`];
-  if (unknown.length) parts.push(`못 알아본 것: ${unknown.join(', ')}`);
-  if (notes.length) parts.push(notes.map((n) => `${n.unit.name} — ${n.note}`).join(' / '));
-  result.className = `paste-result ${unknown.length ? 'warn' : 'ok'}`;
-  result.textContent = parts.join(' · ');
-  $('#pasteBox').value = '';
-}
+  // 2) 재료 기다리는 것
+  $('#laneWait').innerHTML = waiting.length ? `
+    <h2 class="lane-h wait">재료 모이면 만들 것 <b>${waiting.length}</b></h2>
+    ${waiting.slice(0, 12).map((s) => {
+      const u = state.index.get(s.unitId);
+      return `<article class="task">
+        ${img(u)}
+        <div class="t-text">
+          <b>${esc(u.name)}${s.times > 1 ? ` ×${s.times}` : ''}</b>
+          <div class="t-mats">${matsOf(u)}</div>
+        </div>
+      </article>`;
+    }).join('')}
+    ${waiting.length > 12 ? `<p class="lane-note">그 밖에 ${waiting.length - 12}단계 더 있습니다.</p>` : ''}` : '';
 
-/* ────────────────────── ② 만들 수 있는 것 ────────────────────── */
-
-const DMG_TYPES = ['물딜', '마딜', '스턴'];
-
-function renderFilters(rows) {
-  // 칩 옆 숫자는 '지금 목록에 몇 개 있는지'다 — 눌러보기 전에 감이 온다
-  const dmgCount = (t) => rows.filter((r) => r.unit.damageType === t).length;
-  $('#typeFilter').innerHTML = DMG_TYPES.map((t) =>
-    `<button class="fchip dmg ${state.dmgFilter === t ? 'on' : ''}" data-dmg="${t}">${t}<i>${dmgCount(t)}</i></button>`).join('')
-    + `<button class="fchip dmg ${state.dmgFilter ? '' : 'on'}" data-dmg="">타입 무관</button>`;
-
-  $('#roleFilter').innerHTML = ROLES.map((role) => {
-    const n = rows.filter((r) => r.unit.roles.includes(role.key)).length;
-    if (!n) return '';
-    return `<button class="fchip ${state.roleFilter.has(role.key) ? 'on' : ''}" data-role="${role.key}"
-      ${role.kind === 'inferred' ? `title="${esc(role.note)}"` : ''}>${esc(role.label)}<i>${n}</i></button>`;
-  }).join('');
-}
-
-function renderMake() {
-  const box = $('#makeList');
-  if (!state.inventory.size) {
-    box.innerHTML = '<p class="empty">①에서 보유 캐릭터를 넣으면 계산합니다.</p>';
-    for (const id of ['#cntReady', '#cntNear', '#cntAll']) $(id).textContent = '0';
-    return;
-  }
-
-  const all = reachableTable(state.index, state.inventory);
-  $('#cntReady').textContent = all.filter((r) => r.status === 'ready').length;
-  $('#cntNear').textContent = all.filter((r) => r.status === 'near').length;
-  $('#cntAll').textContent = all.length;
-
-  let rows = all;
-  if (state.makeFilter === 'ready') rows = rows.filter((r) => r.status === 'ready');
-  else if (state.makeFilter === 'near') rows = rows.filter((r) => r.status === 'near');
-  rows = rows.filter((r) => matchesQuery(r.unit, state.makeQuery));
-  renderFilters(rows);
-  if (state.dmgFilter) rows = rows.filter((r) => r.unit.damageType === state.dmgFilter);
-  if (state.roleFilter.size) {
-    rows = rows.filter((r) => [...state.roleFilter].every((k) => r.unit.roles.includes(k)));
-  }
-
-  if (!rows.length) {
-    box.innerHTML = `<p class="empty">${state.makeFilter === 'ready'
-      ? '지금 바로 만들 수 있는 조합이 없습니다. “조금만 더”를 눌러 보세요.'
-      : '해당하는 조합이 없습니다.'}</p>`;
-    return;
-  }
-
-  // 등급별로 묶되 높은 등급이 위로 — 최상위부터 눈에 들어오게 한다
-  const groups = new Map();
-  for (const row of rows) {
-    if (!groups.has(row.unit.grade)) groups.set(row.unit.grade, []);
-    groups.get(row.unit.grade).push(row);
-  }
-  const ordered = [...groups.entries()]
-    .sort((a, b) => state.index.rank(b[1][0].unit) - state.index.rank(a[1][0].unit));
-
-  for (const [, list] of ordered) list.sort((a, b) => byName(a.unit, b.unit));
-
-  box.innerHTML = ordered.map(([grade, list]) => `
-    <div class="grade-group">
-      <div class="grade-title">${esc(grade)} <span>${list.length}</span></div>
-      ${list.map((row) => makeRow(row)).join('')}
-    </div>`).join('');
-}
-
-function makeRow(row) {
-  const { unit, plan, progress, status, stepCount } = row;
-  const pct = Math.round(progress * 100);
-  const open = state.openSteps.has(unit.id);
-  const shortText = [...plan.shortage.entries()]
-    .sort((a, b) => b[1] - a[1]).slice(0, 4)
-    .map(([id, n]) => `${state.index.name(id)}×${n}`).join(', ');
-
-  return `<article class="make-row ${status === 'ready' ? 'ready' : ''}">
-    <button class="make-main" data-steps="${esc(unit.id)}">
-      ${img(unit)}
-      <span class="make-text">
-        <b>${esc(unit.name)}</b>
-        <span class="make-meta">
-          <span class="pill ${status === 'ready' ? 'ready' : status === 'near' ? 'near' : ''}">${
-            status === 'ready' ? `지금 가능 · ${stepCount}단계` : `부족 ${row.shortSum}개`}</span>
-          ${status !== 'ready' && shortText ? `<span class="short-list">${esc(shortText)}</span>` : ''}
-          <span class="role-tags">${roleTags(unit)}</span>
-        </span>
-      </span>
-      <span class="progress"><span class="bar"><i style="width:${pct}%"></i></span>
-        <span class="num">재료 ${plan.leafHave}/${plan.leafTotal} · ${pct}%</span></span>
-    </button>
-    ${open ? stepsPanel(row) : ''}
-  </article>`;
-}
-
-function stepRows(plan) {
-  return plan.steps.map((step, i) => {
-    const su = state.index.get(step.unitId);
-    const doable = craftTimes(state.index, state.inventory, su) >= step.times;
-    const isNext = plan.nextStep?.unitId === step.unitId;
-    return `<li class="${isNext ? 'next' : ''} ${doable ? '' : 'waiting'}">
-      <span class="no">${i + 1}</span>${img(su)}
-      <span class="st"><b>${esc(su.name)}${step.times > 1 ? ` ×${step.times}` : ''}</b>
-        <small>${su.stuffs.map((s) => `${esc(state.index.name(s.id))}${s.count > 1 ? `×${s.count}` : ''}`).join(' + ')}</small></span>
-      ${doable ? `<button class="btn small go" data-craft="${esc(su.id)}">조합</button>`
-               : '<span class="pill">재료 대기</span>'}
-    </li>`;
-  }).join('');
-}
-
-function chipList(map, cls) {
-  return [...map.entries()]
+  // 3) 더 모아야 할 기본 재료 — 여기가 유일한 입력 지점
+  const short = [...plan.shortage.entries()]
     .map(([id, n]) => ({ unit: state.index.get(id), n }))
     .filter((r) => r.unit)
-    .sort((a, b) => byName(a.unit, b.unit))
-    .map(({ unit, n }) => `<button class="uchip ${cls}" data-pick="${esc(unit.id)}">${img(unit)}${esc(unit.name)}<i>×${n}</i></button>`)
-    .join('');
+    .sort((a, b) => b.n - a.n);
+  const res = [...plan.resources.entries()]
+    .map(([id, n]) => ({ unit: state.index.get(id), n })).filter((r) => r.unit);
+
+  $('#laneMats').innerHTML = (short.length || res.length) ? `
+    <h2 class="lane-h mats">더 모아야 할 재료</h2>
+    <p class="lane-note">게임에서 얻으면 <b>+</b>를 누르세요.</p>
+    <div class="mat-grid">
+      ${short.map((r) => `
+        <div class="mat">
+          ${img(r.unit)}
+          <span class="mat-n"><b>${esc(r.unit.name)}</b><small>${invGet(state.inventory, r.unit.id)} / 필요 ${r.n + invGet(state.inventory, r.unit.id)}</small></span>
+          <span class="mat-need">${r.n}<i>더</i></span>
+          <span class="mat-btns">
+            <button data-inv="${esc(r.unit.id)}" data-d="-1">−</button>
+            <button data-inv="${esc(r.unit.id)}" data-d="1">＋</button>
+          </span>
+        </div>`).join('')}
+      ${res.map((r) => `
+        <div class="mat res">
+          ${img(r.unit)}
+          <span class="mat-n"><b>${esc(r.unit.name)}</b><small>자원</small></span>
+          <span class="mat-need">${r.n}</span>
+        </div>`).join('')}
+    </div>` : `
+    <h2 class="lane-h ok">재료가 전부 모였습니다</h2>`;
+
+  // 4) 만든 것
+  const drawer = $('#doneDrawer');
+  drawer.hidden = state.made.length === 0;
+  $('#doneCount').textContent = state.made.length;
+  $('#doneList').innerHTML = state.made.slice().reverse().map((id) => {
+    const u = state.index.get(id);
+    return u ? `<span class="done-chip">${img(u)}${esc(u.name)}</span>` : '';
+  }).join('');
 }
 
-function commandBox(guide) {
-  if (!guide.commands.length) return '';
-  return `<div class="cmd-box"><span>맵 조합 명령어</span>
-    ${guide.commands.map((c) => `<button class="cmd" data-copy="${esc(c)}">-${esc(c)}</button>`).join('')}
-    <small>누르면 복사됩니다. 게임 채팅창에 직접 붙여넣으세요 — 자동 입력은 하지 않습니다.</small></div>`;
+/* ───────────────────────── 목표 고르기 ───────────────────────── */
+
+function openPicker() {
+  $('#picker').hidden = false;
+  $('#pickerQ').value = '';
+  renderPicker();
+  $('#pickerQ').focus();
 }
 
-function stepsPanel(row) {
-  const { unit, plan } = row;
-  const guide = craftGuide(state.index, unit.id, state.inventory);
-  return `<div class="steps-panel">
-    ${plan.reserved.size ? `<h4>이 조합에 쓰이는 보유분 — 다른 데 쓰지 마세요</h4>
-      <div class="chip-row" style="margin-bottom:14px">${chipList(plan.reserved, 'keep')}</div>` : ''}
-    ${plan.shortage.size ? `<h4 style="color:var(--red)">더 구해야 할 재료</h4>
-      <div class="chip-row" style="margin-bottom:14px">${chipList(plan.shortage, 'short')}</div>` : ''}
-    <h4>조합 순서 — 위에서부터</h4>
-    <ol class="steps">${stepRows(plan)}</ol>
-    ${commandBox(guide)}
-    <div style="margin-top:12px"><button class="btn small" data-goal="${esc(unit.id)}">◎ 목표 덱에 넣기</button></div>
-  </div>`;
+function renderPicker() {
+  const q = $('#pickerQ').value.trim();
+  $('#pickerRoles').innerHTML = ROLES.map((r) =>
+    `<button class="chip ${state.pickerRole === r.key ? 'on' : ''}" data-prole="${r.key}">${esc(r.label)}</button>`).join('');
+
+  const list = q
+    ? searchUnits(state.index, q, { limit: 40 }).map((h) => h.unit).filter((u) => u.craftable)
+    : heroesByRole(state.index, state.pickerRole, { limit: 40 }).filter((u) => u.craftable);
+
+  $('#pickerList').innerHTML = list.length ? list.map((u) => {
+    const c = unitCost(state.index, u.id);
+    const p = planTarget(state.index, u.id, state.inventory);
+    const pct = p.leafTotal ? Math.round((p.leafHave / p.leafTotal) * 100) : 100;
+    return `<button class="pick-row" data-goal="${esc(u.id)}">
+      ${img(u)}
+      <span class="pr-text">
+        <b>${esc(u.name)}</b>
+        <span class="pr-tags">${gradeTag(u)}${roleTags(u)}</span>
+        <small>${esc(costLabel(c))}</small>
+      </span>
+      <span class="pr-pct ${pct >= 100 ? 'full' : ''}">${pct}%</span>
+    </button>`;
+  }).join('') : '<p class="empty">해당하는 영웅이 없습니다.</p>';
 }
 
-/* ────────────────────── ③ 캐릭터 찾기 ────────────────────── */
-
-/** 영웅 카드 — 누구인지·얼마나 세지·어떻게 얻는지·얼마나 드는지를 한 장에 */
-function heroCard(unit, why) {
-  return `<button class="hero-card ${state.selectedUnitId === unit.id ? 'active' : ''}" data-pick="${esc(unit.id)}">
-    ${img(unit)}
-    <span class="hc">
-      <span class="hc-top"><b>${esc(unit.name)}</b>${why ? `<em class="why ${why}">${why}</em>` : ''}</span>
-      <span class="hc-badges">${gradeBadge(unit)}${getBadge(unit)}</span>
-      <span class="role-tags">${roleTags(unit)}</span>
-      ${costLine(unit)}
-      ${conflictBadge(unit)}
-      ${myNote(unit.id)?.once ? '<span class="once-badge">1회 한정</span>' : ''}
-    </span>
-  </button>`;
-}
-
-function renderHeroFilters() {
-  $('#heroDmg').innerHTML = ['물딜', '마딜', '스턴'].map((t) =>
-    `<button class="fchip dmg ${state.heroDmg === t ? 'on' : ''}" data-hdmg="${t}">${t}</button>`).join('')
-    + `<button class="fchip dmg ${state.heroDmg ? '' : 'on'}" data-hdmg="">타입 무관</button>`;
-  $('#heroRole').innerHTML = ROLES.map((r) =>
-    `<button class="fchip ${state.heroRole === r.key ? 'on' : ''}" data-hrole="${r.key}"
-      ${r.kind === 'inferred' ? `title="${esc(r.note)}"` : ''}>${esc(r.label)}</button>`).join('');
-}
+/* ───────────────────────── 영웅 찾기 ───────────────────────── */
 
 function renderFind() {
-  const query = $('#unitSearch').value.trim();
-  const box = $('#searchResults');
-  renderHeroFilters();
+  const q = $('#q').value.trim();
+  $('#roleChips').innerHTML = ROLES.map((r) =>
+    `<button class="chip ${!q && state.findRole === r.key ? 'on' : ''}" data-frole="${r.key}">${esc(r.label)}</button>`).join('');
 
-  // 검색어가 없으면 '역할별 보기'로 동작한다 — 게임 중엔 이쪽이 더 자주 쓰인다
-  if (!query) {
-    const list = heroesByRole(state.index, state.heroRole, { damageType: state.heroDmg, limit: 60 });
-    box.innerHTML = list.length ? list.map((unit) => heroCard(unit)).join('')
-      : '<p class="empty">해당 역할의 영웅이 없습니다.</p>';
-    return;
-  }
+  const list = q
+    ? searchUnits(state.index, q, { limit: 48 }).map((h) => h.unit)
+    : heroesByRole(state.index, state.findRole, { limit: 48 });
 
-  const hits = searchUnits(state.index, query, { limit: 48 });
-  const label = { name: '이름', alias: '별칭', category: '묶음', lineage: '계보' };
-  box.innerHTML = hits.length ? hits.map(({ unit, reason }) => heroCard(unit, label[reason])).join('')
-    : '<p class="empty">일치하는 캐릭터가 없습니다.</p>';
-}
+  $('#findList').innerHTML = list.length ? list.map((u) => {
+    const c = unitCost(state.index, u.id);
+    return `<button class="hero ${state.selected === u.id ? 'on' : ''}" data-sel="${esc(u.id)}">
+      ${img(u)}
+      <span class="h-text">
+        <b>${esc(u.name)}</b>
+        <span class="h-tags">${gradeTag(u)}${roleTags(u)}</span>
+        ${c ? `<small>${esc(costLabel(c))}</small>` : `<small>${esc(howToGet(state.index, u).kind)}</small>`}
+      </span>
+    </button>`;
+  }).join('') : '<p class="empty">없습니다.</p>';
 
-/**
- * 조합 트리.
- * ⭐ 이미 만든 하위 조합은 눌러서 체크하면 **그 아래 가지가 통째로 접히고 남은 것만 보인다**
- *   (대표 요청 2026-08-20). 체크 = 그 유닛을 보유에 넣는 것과 같으므로 계산도 자동으로 맞는다.
- */
-function recipeTree(unitId, times = 1, depth = 0, path = new Set()) {
-  const unit = state.index.get(unitId);
-  if (!unit) return `<li>알 수 없는 재료 (${esc(unitId)})</li>`;
-  const have = invGet(state.inventory, unitId);
-  const enough = have >= times;
-
-  const check = unit.craftable
-    ? `<button class="mk ${enough ? 'on' : ''}" data-own="${esc(unit.id)}"
-        title="${enough ? '만든 것으로 표시됨 — 다시 누르면 취소' : '이미 만들었으면 눌러 체크하세요'}"
-        data-delta="${enough ? -1 : 1}">${enough ? '✓ 만듦' : '만듦?'}</button>`
-    : '';
-
-  const head = `<span class="node-row ${enough ? 'satisfied' : ''}">
-      <button class="node ${enough ? 'have' : ''}" data-pick="${esc(unit.id)}">
-        ${img(unit)}<b>${esc(unit.name)}</b><small>${esc(unit.gradeBase)}</small>
-        ${times > 1 ? `<span class="qty">×${times}</span>` : ''}
-        <span class="stock">보유 ${have}/${times}</span>
-      </button>${check}</span>`;
-
-  // 다 갖췄으면 아래를 펼치지 않는다 — 남은 것만 눈에 들어오게
-  if (enough) return `<li class="folded">${head}<span class="fold-note">아래 재료 생략</span></li>`;
-  if (!unit.craftable || path.has(unitId) || depth > 8) return `<li>${head}</li>`;
-  const next = new Set(path).add(unitId);
-  return `<li>${head}<ul>${unit.stuffs
-    .map((s) => recipeTree(s.id, s.count * times, depth + 1, next)).join('')}</ul></li>`;
-}
-
-/** 이 영웅이 재료로 들어가는 상위 조합 (바로 위 → 그 위) */
-function upgradeCard(unit) {
-  const ups = upgradePaths(state.index, unit.id, { depth: 2 });
-  if (!ups.length) return `<div class="card"><h2>상위 조합</h2>
-    <p class="empty">이 영웅을 재료로 쓰는 조합이 없습니다 — 여기가 끝입니다.</p></div>`;
-  const step1 = ups.filter((u) => u.step === 1);
-  const step2 = ups.filter((u) => u.step === 2);
-  const row = (list) => `<div class="chip-row">${list.map(({ unit: u, uses }) =>
-    `<button class="uchip" data-pick="${esc(u.id)}">${img(u)}${esc(u.name)}
-      <i>${esc(u.gradeBase)}${uses > 1 ? ` ×${uses}` : ''}</i></button>`).join('')}</div>`;
-  return `<div class="card">
-    <h2>상위 조합 <span class="count">${ups.length}</span></h2>
-    <p class="sub">이 영웅을 재료로 써서 만들 수 있는 것들입니다.</p>
-    <h4 style="font-size:14px;margin:10px 0 6px">바로 위 ${step1.length}</h4>${row(step1)}
-    ${step2.length ? `<h4 style="font-size:14px;margin:14px 0 6px">그 위 ${step2.length}</h4>${row(step2)}` : ''}
-  </div>`;
-}
-
-/** 같이 쓰면 좋은 영웅 — 역할 보완 + 재료 안 겹침 */
-function partnerCard(unit) {
-  const rows = partnersFor(state.index, unit.id, { limit: 8 });
-  if (!rows.length) return '';
-  const label = (k) => ROLES.find((r) => r.key === k)?.label ?? k;
-  return `<div class="card">
-    <h2>같이 쓰면 좋은 영웅</h2>
-    <p class="sub"><b>${esc(unit.name)}</b>이(가) 못 맡는 역할을 채우면서, <b>재료를 덜 뺏는</b> 순서입니다.</p>
-    <div class="partner-list">${rows.map(({ unit: u, covers, overlap }) => `
-      <button class="partner" data-pick="${esc(u.id)}">
-        ${img(u)}
-        <span class="pt">
-          <b>${esc(u.name)}</b>
-          <small>${esc(u.grade)}</small>
-          <span class="role-tags">${covers.map((k) => `<span class="rtag on">${esc(label(k))} 보완</span>`).join('')}</span>
-        </span>
-        <span class="ovl ${overlap < 0.25 ? 'good' : overlap < 0.5 ? 'mid' : 'bad'}">재료 겹침 ${Math.round(overlap * 100)}%</span>
-      </button>`).join('')}</div>
-  </div>`;
+  renderDetail();
 }
 
 function renderDetail() {
-  const box = $('#unitDetail');
-  const unit = state.index.get(state.selectedUnitId);
-  if (!unit) { box.innerHTML = ''; return; }
-  const abilities = Object.entries(unit.abilities ?? {});
-  const guide = craftGuide(state.index, unit.id, state.inventory);
+  const box = $('#findDetail');
+  const u = state.index.get(state.selected);
+  if (!u) { box.innerHTML = ''; return; }
+
+  const how = howToGet(state.index, u);
+  const cost = unitCost(state.index, u.id);
+  const ups = upgradePaths(state.index, u.id, { depth: 2 });
+  const mates = partnersFor(state.index, u.id, { limit: 6 });
+  const conf = conflictsOf(state.index, u.id);
 
   box.innerHTML = `
-    <div class="detail-hero">
-      ${img(unit)}
-      <div>
-        <div class="grade">${esc(unit.grade)}</div>
-        <h2>${esc(unit.name)}</h2>
-        <div class="hero-facts">
-          <span class="fact"><i>얻는 법</i>${esc(myNote(unit.id)?.how || howToGet(state.index, unit).text)}</span>
-          ${myNote(unit.id)?.once ? '<span class="fact once"><i>주의</i>한 판에 한 번만 얻을 수 있음</span>' : ''}
-          ${unitCost(state.index, unit.id) ? `<span class="fact"><i>코스트</i>${esc(costLabel(unitCost(state.index, unit.id)))}</span>` : ''}
-          ${conflictsOf(state.index, unit.id).map((c) =>
-            `<span class="fact warn"><i>같이 못 씀</i>${esc(c.withName)}${c.unsure ? ' (확인 필요)' : ''} — ${esc(c.reason)}</span>`).join('')}
-        </div>
-        ${unit.desc ? `<p class="desc">${esc(unit.desc)}</p>` : ''}
-        <div class="hero-actions">
-          <button class="btn primary" data-own="${esc(unit.id)}">＋ 보유에 담기</button>
-          <button class="btn" data-goal="${esc(unit.id)}">◎ 목표 덱에 넣기</button>
+    <div class="detail">
+      <div class="d-head">
+        ${img(u)}
+        <div>
+          <b>${esc(u.name)}</b>
+          <div class="h-tags">${gradeTag(u)}${roleTags(u)}</div>
+          <div class="d-facts">
+            <span><i>얻는 법</i>${esc(how.text)}</span>
+            ${cost ? `<span><i>코스트</i>${esc(costLabel(cost))}</span>` : ''}
+            ${conf.map((c) => `<span class="warn"><i>같이 못 씀</i>${esc(c.withName)} — ${esc(c.reason)}</span>`).join('')}
+          </div>
+          ${u.craftable ? `<button class="big-btn sm" data-goal="${esc(u.id)}">이걸 목표로</button>` : ''}
         </div>
       </div>
-    </div>
-    ${abilities.length ? `<div class="ability-row">${abilities.map(([k, v]) =>
-      `<span class="ability">${esc(k)}${v === true ? '' : `<i>${esc(v)}</i>`}</span>`).join('')}</div>` : ''}
-    <div class="card">
-      <h2>조합 재료</h2>
-      <p class="sub">이미 만든 하위 조합은 <b>만듦?</b>을 눌러 체크하세요. 그 아래는 접히고 <b>남은 것만</b> 보입니다.</p>
-      ${unit.craftable
-        ? `<ul class="tree" style="margin-top:14px">${recipeTree(unit.id)}</ul>${commandBox(guide)}`
-        : '<p class="empty">더 낮은 재료가 없는 기본 유닛입니다.</p>'}
-    </div>
-    ${upgradeCard(unit)}
-    ${partnerCard(unit)}
-    ${registerCard(unit)}`;
-}
 
-/* ───────────── 사이드 레일 — 어느 탭에서든 보이는 목표 덱 요약 ───────────── */
+      ${u.desc ? `<pre class="d-desc">${esc(u.desc)}</pre>` : ''}
 
-/**
- * 목표 덱과 보유가 탭으로 갈라져 오가기 힘들다는 지적(2026-08-19)에 대한 답.
- * ①~③ 어느 탭에서 보유를 만지든 옆에서 목표 진행률이 바로 바뀐다.
- */
-/** 숫자키 1~9,0으로도 담을 수 있는 빠른 담기 줄 */
-function quickBlock() {
-  const units = quickUnits();
-  return `<h3>빠른 담기 <small class="hintkey">숫자키 담기 · 오른쪽클릭 빼기</small></h3>
-    <div class="quick-grid">${units.map((unit, i) => {
-      const have = invGet(state.inventory, unit.id);
-      const key = (i + 1) % 10;
-      return `<button class="quick-tile" data-own="${esc(unit.id)}"
-        title="${esc(unit.name)} — 왼쪽클릭/숫자 ${key} 담기, 오른쪽클릭/Shift+${key} 빼기">
-        ${img(unit)}<em class="key">${key}</em>
-        ${have ? `<em class="own-badge">${have}</em>` : ''}
-        <span>${esc(unit.name)}</span>
-      </button>`;
-    }).join('')}</div>
-    <label class="quick-search">
-      <input id="quickSearch" type="search" placeholder="초성·이름 치고 Enter (예: ㅎㄱㅊㅂ)" />
-    </label>`;
-}
-
-/**
- * 레일은 두 조각이다.
- *  · #railQuick — 빠른 담기 칸. 칸 구성이 바뀔 때만 다시 그린다.
- *    (매번 다시 그리면 눌러둔 버튼이 DOM에서 떨어져 연속 클릭이 먹지 않는다 — 2026-08-19 실측)
- *  · #railDeck  — 목표 진행률. 보유가 바뀔 때마다 갱신한다.
- */
-function renderRail() {
-  const rail = $('#rail');
-  if (!$('#railQuick')) rail.innerHTML = '<div id="railQuick"></div><div id="railDeck"></div>';
-
-  const signature = state.quickSlots.join(',');
-  if (signature !== state.quickSignature) {
-    const keepFocus = document.activeElement?.id === 'quickSearch';
-    const quickValue = $('#quickSearch')?.value ?? '';
-    $('#railQuick').innerHTML = quickBlock();
-    state.quickSignature = signature;
-    restoreQuickInput(quickValue, keepFocus);
-  }
-  updateQuickBadges();
-  renderRailDeck();
-}
-
-/** 빠른 담기 칸의 수량 배지만 제자리에서 고친다 */
-function updateQuickBadges() {
-  for (const tile of $$('#railQuick .quick-tile')) {
-    const have = invGet(state.inventory, tile.dataset.own);
-    const badge = tile.querySelector('.own-badge');
-    if (have && badge) badge.textContent = have;
-    else if (have) tile.insertAdjacentHTML('beforeend', `<em class="own-badge">${have}</em>`);
-    else if (badge) badge.remove();
-  }
-}
-
-function renderRailDeck() {
-  const rail = $('#railDeck');
-  const units = state.deck.map((id) => state.index.get(id)).filter(Boolean);
-
-  if (!units.length) {
-    rail.innerHTML = `<h3 class="sep">목표 덱 <span class="count">0 / ${DECK_SLOTS}</span></h3>
-      <p class="empty">아직 목표가 없습니다.<br />② 조합표나 ③ 검색에서 <b>◎ 목표</b>를 누르면 여기에 붙어서 진행률이 따라옵니다.</p>
-      <button class="btn small" data-tab="deck">④ 목표 덱 열기</button>`;
-    return;
-  }
-
-  const slots = units.map((unit) => {
-    const plan = planTarget(state.index, unit.id, state.inventory);
-    const pct = plan.leafTotal ? Math.round((plan.leafHave / plan.leafTotal) * 100) : 100;
-    return { unit, plan, pct };
-  });
-
-  // 목표 전체에서 남겨야 할 유닛을 합쳐 보여준다
-  const keep = new Map();
-  for (const { plan } of slots) {
-    for (const [id, n] of plan.reserved) keep.set(id, Math.max(keep.get(id) ?? 0, n));
-  }
-
-  // 지금 바로 할 수 있는 다음 조합 하나
-  const next = slots.map(({ plan }) => plan.nextStep).find(Boolean);
-  const nextUnit = next && state.index.get(next.unitId);
-
-  rail.innerHTML = `
-    <h3 class="sep">목표 덱 <span class="count">${units.length} / ${DECK_SLOTS}</span></h3>
-    ${slots.map(({ unit, pct, plan }) => `
-      <div class="rail-slot ${plan.ok ? 'ready' : ''}">
-        ${img(unit)}
-        <span class="rs"><b>${esc(unit.name)}</b><span class="bar"><i style="width:${pct}%"></i></span></span>
-        <span class="pc">${pct}%</span>
-      </div>`).join('')}
-
-    ${nextUnit ? `<h4>다음 조합</h4>
-      <div class="rail-next">${img(nextUnit)}
-        <span class="rn"><b>${esc(nextUnit.name)}${next.times > 1 ? ` ×${next.times}` : ''}</b>
-          <small>${nextUnit.stuffs.map((x) => `${esc(state.index.name(x.id))}${x.count > 1 ? `×${x.count}` : ''}`).join(' + ')}</small></span>
-        <button class="btn small go" data-craft="${esc(nextUnit.id)}">조합</button>
+      ${u.craftable ? `<div class="d-sec">
+        <h3>재료</h3>
+        <div class="t-mats big">${matsOf(u)}</div>
       </div>` : ''}
 
-    ${keep.size ? `<h4 class="keep">남겨야 할 유닛 ${keep.size}종</h4>
-      <div class="chip-row">${chipList(keep, 'keep')}</div>` : ''}
-
-    <h4>내 보유</h4>
-    <p class="rail-summary">${state.inventory.size
-      ? `${state.inventory.size}종 · ${[...state.inventory.values()].reduce((a, b) => a + b, 0)}개`
-      : '없음'}</p>`;
-}
-
-/** 레일을 다시 그려도 빠른 검색창의 입력과 포커스를 잃지 않게 한다 */
-function restoreQuickInput(value, focused) {
-  const input = $('#quickSearch');
-  if (!input) return;
-  input.value = value;
-  if (focused) input.focus();
-}
-
-/** 초성·이름으로 첫 후보를 찾아 바로 담는다 (Enter 한 번) */
-function quickAddByQuery(query) {
-  const q = query.trim();
-  if (!q) return;
-  const pool = [...state.index.units.values()].filter((u) => matchesQuery(u, q));
-  if (!pool.length) { toast(`"${q}" — 일치하는 캐릭터가 없습니다.`); return; }
-  // 이름이 정확히 같은 게 있으면 그것, 없으면 낮은 등급(=재료로 쓰는 쪽) 우선
-  const exact = pool.filter((u) => u.name === q || normalizeName(u.name) === normalizeName(q));
-  const pick = (exact.length ? exact : pool).sort((a, b) => state.index.rank(a) - state.index.rank(b))[0];
-  ownDelta(pick.id, 1);
-  toast(`${pick.name} +1 (${pick.gradeBase})`);
-}
-
-const normalizeName = (v) => String(v ?? '').toLowerCase().replace(/[\s.·]/g, '');
-
-/* ─────────────────────────── ④ 목표 덱 ─────────────────────────── */
-
-function renderDeck() {
-  $('#deckCount').textContent = `${state.deck.length} / ${DECK_SLOTS}`;
-  $('#deckSlots').innerHTML = Array.from({ length: DECK_SLOTS }, (_, i) => {
-    const unit = state.index.get(state.deck[i]);
-    if (!unit) return '<div class="slot empty-slot">빈 슬롯</div>';
-    const plan = planTarget(state.index, unit.id, state.inventory);
-    const pct = plan.leafTotal ? Math.round((plan.leafHave / plan.leafTotal) * 100) : 100;
-    const why = state.recoWhy?.get(unit.id);
-    const label = (k) => ROLES.find((r) => r.key === k)?.label;
-    // 새로 메운 역할이 있으면 '담당', 없으면 이미 있는 역할을 '보강'으로 보여준다
-    let whyText = '';
-    if (why) {
-      whyText = why.length
-        ? `담당 ${why.map(label).filter(Boolean).join('·')}`
-        : `보강 ${unit.roles.filter((r) => CORE_ROLE_KEYS.includes(r)).map(label).filter(Boolean).join('·') || '화력'}`;
-    }
-    return `<div class="slot ${plan.ok ? 'ready' : ''} ${whyText ? 'reco-slot' : ''}">
-      ${img(unit)}
-      <span class="st"><b>${esc(unit.name)}</b><small>${esc(unit.grade)} · ${pct}%</small>
-        ${whyText ? `<span class="reco-why">${esc(whyText)}</span>` : ''}
-        <span class="bar"><i style="width:${pct}%"></i></span></span>
-      <button class="btn quiet small" data-goal="${esc(unit.id)}" aria-label="빼기">×</button>
-    </div>`;
-  }).join('');
-
-  const analysis = analyzeDeck(state.index, state.deck, state.inventory, { slots: DECK_SLOTS });
-  $('#roleCoverage').innerHTML = `<div class="cov-grid">${analysis.coverage.map((row) => {
-    const core = CORE_ROLE_KEYS.includes(row.key);
-    return `<span class="cov ${row.members.length ? 'on' : (core ? 'gap' : '')}"
-      title="${esc(row.members.map((id) => state.index.name(id)).join(', ') || '없음')}">
-      ${esc(row.label)}<i>${row.members.length}</i></span>`;
-  }).join('')}</div>`;
-
-  $('#roleGaps').innerHTML = analysis.gaps.length
-    ? `<div class="gaps"><h3>비어 있는 핵심 역할 ${analysis.gaps.length}개</h3>${analysis.suggestions.map((sug) => `
-        <div class="gap"><b>${esc(sug.role.label)}${sug.role.kind === 'inferred'
-          ? `<span class="inferred-note">${esc(sug.role.note)}</span>` : ''}</b>
-        <div class="chip-row">${sug.candidates.map(({ unit, progress }) =>
-          `<button class="uchip" data-goal="${esc(unit.id)}">${img(unit)}${esc(unit.name)}<i>${Math.round(progress * 100)}%</i></button>`).join('')}</div></div>`).join('')}</div>`
-    : (state.deck.length
-        ? '<p class="ok-note">핵심 역할(주딜·방깎·이감·스턴·보잡·바제스)이 모두 채워졌습니다.</p>'
-        : '<p class="empty">목표를 넣으면 역할 공백을 검사합니다.</p>');
-}
-
-function renderPlan() {
-  const select = $('#planTarget');
-  const options = state.deck.map((id) => state.index.get(id)).filter(Boolean);
-  select.innerHTML = options.length
-    ? options.map((u) => `<option value="${esc(u.id)}">${esc(u.name)} · ${esc(u.gradeBase)}</option>`).join('')
-    : '<option value="">목표 없음</option>';
-  if (!options.some((u) => u.id === state.planTargetId)) state.planTargetId = options[0]?.id ?? null;
-  if (state.planTargetId) select.value = state.planTargetId;
-
-  const target = state.index.get(state.planTargetId);
-  if (!target) {
-    $('#planBody').innerHTML = '<p class="empty">위에서 목표를 하나 이상 잡으면 계산합니다.</p>';
-    $('#planProgress').textContent = '—';
-    return;
-  }
-  const plan = planTarget(state.index, target.id, state.inventory);
-  const pct = plan.leafTotal ? Math.round((plan.leafHave / plan.leafTotal) * 100) : 100;
-  $('#planProgress').textContent = `재료 ${plan.leafHave}/${plan.leafTotal} · ${pct}%`;
-
-  $('#planBody').innerHTML = `<div class="plan-grid">
-    <div class="plan-col">
-      <h4 class="keep">지금 남겨야 할 유닛</h4>
-      <div class="chip-row">${plan.reserved.size ? chipList(plan.reserved, 'keep') : '<p class="empty">해당 없음</p>'}</div>
-      <h4 class="short">더 구해야 할 재료</h4>
-      <div class="chip-row">${plan.shortage.size ? chipList(plan.shortage, 'short') : '<p class="ok-note">부족 재료 없습니다 — 바로 완성 가능합니다.</p>'}</div>
-      ${plan.resources.size ? `<h4>필요 자원</h4><div class="chip-row">${chipList(plan.resources, '')}</div>` : ''}
-    </div>
-    <div class="plan-col">
-      <h4>조합 순서 — 위에서부터</h4>
-      ${plan.steps.length ? `<ol class="steps">${stepRows(plan)}</ol>` : '<p class="empty">추가 조합 없이 확보 가능합니다.</p>'}
-    </div>
-  </div>`;
-}
-
-/* ───────────────────── ⑤ 작전 카드 ───────────────────── */
-
-/**
- * 게임 전에 한 번 보고 끄는 정적 요약.
- * 회의 결론(2026-08-20): 게임 중에 보게 만들지 말고 **안 봐도 되게** 만든다.
- */
-function renderPlanCard() {
-  const box = $('#planCard');
-  if (!state.deck.length) {
-    box.innerHTML = '<p class="empty">④ 목표 덱에서 목표를 먼저 정하세요. 「보유 기준 덱 추천」을 누르면 자동으로 채워집니다.</p>';
-    return;
-  }
-  const plan = battlePlan(state.index, state.deck, state.inventory);
-  const nextStep = plan.steps.find((s) => s.doable);
-
-  // 곁눈질 0.5초에 읽혀야 한다 — 덩어리 3개, 큰 글씨, 색으로 구분.
-  // 자세한 것(전체 순서·명령어)은 접어 두고 필요할 때만 편다.
-  const keepTiles = plan.keep.filter((k) => k.short > 0).slice(0, 10).map((k) => `
-    <span class="gt keep">
-      ${img(k.unit)}
-      <b>${esc(k.unit.name)}</b>
-      <i>${k.short}</i>
-      <em>더</em>
-    </span>`).join('');
-
-  const doneTiles = plan.keep.filter((k) => k.short === 0).slice(0, 8).map((k) => `
-    <span class="gt done">${img(k.unit)}<b>${esc(k.unit.name)}</b><i>✓</i></span>`).join('');
-
-  const dropTiles = plan.drop.map((d) => `
-    <span class="gt drop ${d.reach === 0 ? 'dead' : ''}">
-      ${img(d.unit)}<b>${esc(d.unit.name)}</b><i>${d.count}</i>
-      <em>${d.reach === 0 ? '안 쓰임' : `타 ${d.reach}`}</em>
-    </span>`).join('');
-
-  box.innerHTML = `
-    <div class="glance">
-      <div class="g-now ${nextStep ? '' : 'idle'}">
-        <span class="g-label">지금 조합</span>
-        ${nextStep ? `
-          ${img(nextStep.unit)}
-          <b>${esc(nextStep.unit.name)}${nextStep.times > 1 ? ` ×${nextStep.times}` : ''}</b>
-          <span class="g-mats">${nextStep.unit.stuffs.map((x) =>
-            `${esc(state.index.name(x.id))}${x.count > 1 ? `×${x.count}` : ''}`).join(' + ')}</span>
-          ${nextStep.unit.commands.length
-            ? `<button class="g-cmd" data-copy="${esc(nextStep.unit.commands[0])}">-${esc(nextStep.unit.commands[0])} 복사</button>` : ''}
-        ` : '<b class="g-none">재료 모으는 중</b>'}
-      </div>
-
-      <div class="g-sec need">
-        <h3><span class="g-dot need"></span>더 모아라 <small>부족한 개수</small></h3>
-        <div class="g-tiles">${keepTiles || '<span class="g-ok">전부 모았습니다</span>'}</div>
-      </div>
-
-      ${dropTiles ? `<div class="g-sec drop">
-        <h3><span class="g-dot drop"></span>안 써도 됨</h3>
-        <div class="g-tiles">${dropTiles}</div>
+      ${ups.length ? `<div class="d-sec">
+        <h3>이걸 재료로 쓰는 조합 <b>${ups.length}</b></h3>
+        <div class="chip-row">${ups.slice(0, 12).map((x) =>
+          `<button class="uchip" data-sel="${esc(x.unit.id)}">${img(x.unit)}${esc(x.unit.name)}<i>${x.step}단계</i></button>`).join('')}</div>
       </div>` : ''}
 
-      ${doneTiles ? `<div class="g-sec done">
-        <h3><span class="g-dot done"></span>다 모음</h3>
-        <div class="g-tiles">${doneTiles}</div>
+      ${mates.length ? `<div class="d-sec">
+        <h3>같이 쓰면 좋은 영웅</h3>
+        <div class="chip-row">${mates.map((m) =>
+          `<button class="uchip" data-sel="${esc(m.unit.id)}">${img(m.unit)}${esc(m.unit.name)}
+            <i>${m.covers.map((k) => ROLES.find((r) => r.key === k)?.label).filter(Boolean).join('·')} 보완</i></button>`).join('')}</div>
       </div>` : ''}
-
-      <details class="g-more">
-        <summary>목표 ${plan.targets.length}개 · 전체 순서 ${plan.steps.length}단계 · 명령어 보기</summary>
-        <div class="g-targets">${plan.targets.map((t) =>
-          `<span class="g-target">${img(t)}<b>${esc(t.name)}</b><small>${esc(t.gradeBase)}</small></span>`).join('')}</div>
-        <ol class="bc-steps">${plan.steps.map((st) => `
-          <li class="${st.doable ? 'now' : ''}">${img(st.unit)}<b>${esc(st.unit.name)}${st.times > 1 ? ` ×${st.times}` : ''}</b>
-            <small>${st.unit.stuffs.map((x) => `${esc(state.index.name(x.id))}${x.count > 1 ? `×${x.count}` : ''}`).join(' + ')}</small></li>`).join('')}</ol>
-        ${plan.commands.length ? `<div class="bc-cmds">${plan.commands.map((c) =>
-          `<span class="bc-cmd"><b>${esc(c.unit.name)}</b> ${c.list.map((x) =>
-            `<button class="cmd" data-copy="${esc(x)}">-${esc(x)}</button>`).join(' ')}</span>`).join('')}</div>` : ''}
-      </details>
     </div>`;
 }
 
-/** 작전 카드를 글로 뽑아 복사 (폰 메모·카톡에 붙여넣기용) */
-function planAsText() {
-  if (!state.deck.length) return '';
-  const p = battlePlan(state.index, state.deck, state.inventory);
-  const lines = [`■ 이번 판 목표 — ${p.targets.map((t) => t.name).join(', ')}`,
-    `총 재료 ${p.totals.units}개${p.totals.lumber ? ` · 목재 ${p.totals.lumber}` : ''}`, '',
-    '■ 지켜라'];
-  for (const k of p.keep.slice(0, 12)) lines.push(`  ${k.unit.name} — 필요 ${k.need} / 보유 ${k.have} / 부족 ${k.short}`);
-  if (p.drop.length) {
-    lines.push('', '■ 이번 목표엔 안 쓰임');
-    for (const d of p.drop) lines.push(`  ${d.unit.name} ${d.count}개 (${d.reach === 0 ? '어디에도 안 쓰임' : `다른 조합 ${d.reach}곳`})`);
-  }
-  lines.push('', `■ 조합 순서 (${p.steps.length}단계)`);
-  p.steps.forEach((s, i) => lines.push(`  ${i + 1}. ${s.unit.name}${s.times > 1 ? ` ×${s.times}` : ''}`));
-  if (p.commands.length) {
-    lines.push('', '■ 명령어');
-    for (const c of p.commands) lines.push(`  ${c.unit.name}: ${c.list.map((x) => `-${x}`).join(' ')}`);
-  }
-  return lines.join('\n');
-}
+/* ───────────────────────── 동작 ───────────────────────── */
 
-/* ─────────────────────────── 동작 ─────────────────────────── */
-
-function ownDelta(id, delta) {
-  snapshot();
-  if (delta > 0) pushRecent(id);
-  state.inventory = invAdd(state.inventory, id, delta);
+function setGoal(id) {
+  state.goal = id;
+  $('#picker').hidden = true;
+  setMode('run');
   persist();
-  renderAll();
+  renderRun();
+  toast(`목표: ${state.index.name(id)}`);
 }
 
-function toggleGoal(id) {
-  if (state.deck.includes(id)) {
-    snapshot();
-    state.deck = state.deck.filter((x) => x !== id);
-  } else {
-    if (state.deck.length >= DECK_SLOTS) { toast(`덱 슬롯이 ${DECK_SLOTS}개로 꽉 찼습니다.`); return; }
-    snapshot();
-    state.deck = [...state.deck, id];
-    state.planTargetId = id;
-    toast(`${state.index.name(id)} — 목표 덱에 넣었습니다.`);
-  }
-  persist();
-  renderAll();
-}
-
-function doCraft(id) {
+function make(id) {
   try {
-    snapshot();
     state.inventory = applyCraft(state.index, state.inventory, id, 1);
+    state.made.push(id);
     persist();
-    renderAll();
-    toast(`${state.index.name(id)} 조합 완료 — 재료를 차감했습니다.`);
-  } catch (error) {
-    state.history.pop();
-    toast(error.message);
+    renderRun();
+    toast(`${state.index.name(id)} 완료`);
+  } catch (e) {
+    toast(e.message);
   }
 }
 
-function switchTab(tab) {
-  state.tab = tab;
-  $$('.tab').forEach((b) => b.classList.toggle('active', b.dataset.tab === tab));
-  $$('.view').forEach((v) => v.classList.toggle('active', v.id === `view-${tab}`));
+function setMode(mode) {
+  state.mode = mode;
+  $$('.mode').forEach((b) => b.classList.toggle('on', b.dataset.mode === mode));
+  $('#viewRun').hidden = mode !== 'run';
+  $('#viewFind').hidden = mode !== 'find';
   window.scrollTo(0, 0);
+  if (mode === 'find') renderFind();
 }
 
-function renderAll() {
-  updatePaletteBadges();
-  renderPlanCard();
-  renderRail();
-  renderOwned();
-  renderMake();
-  renderDetail();
-  renderDeck();
-  renderPlan();
-}
+/* ───────────────────────── 이벤트 ───────────────────────── */
 
-/* ─────────────────────────── 이벤트 ─────────────────────────── */
+document.addEventListener('click', (e) => {
+  const t = (sel) => e.target.closest(sel);
 
-document.addEventListener('click', (event) => {
-  const tab = event.target.closest('[data-tab]');
-  if (tab) { switchTab(tab.dataset.tab); return; }
+  if (t('[data-mode]')) { setMode(t('[data-mode]').dataset.mode); return; }
+  if (t('[data-open-picker]')) { openPicker(); return; }
+  if (t('#pickerClose')) { $('#picker').hidden = true; return; }
+  if (t('[data-goal]')) { setGoal(t('[data-goal]').dataset.goal); return; }
+  if (t('[data-make]')) { make(t('[data-make]').dataset.make); return; }
 
-  const seg = event.target.closest('[data-filter]');
-  if (seg) {
-    state.makeFilter = seg.dataset.filter;
-    $$('.seg').forEach((b) => b.classList.toggle('active', b === seg));
-    renderMake();
+  const inv = t('[data-inv]');
+  if (inv) {
+    state.inventory = invAdd(state.inventory, inv.dataset.inv, Number(inv.dataset.d));
+    persist();
+    renderRun();
     return;
   }
 
-  const hrole = event.target.closest('[data-hrole]');
-  if (hrole) { state.heroRole = hrole.dataset.hrole; renderFind(); return; }
-  const hdmg = event.target.closest('[data-hdmg]');
-  if (hdmg) {
-    state.heroDmg = state.heroDmg === hdmg.dataset.hdmg ? '' : hdmg.dataset.hdmg;
-    renderFind();
-    return;
+  const prole = t('[data-prole]');
+  if (prole) { state.pickerRole = prole.dataset.prole; $('#pickerQ').value = ''; renderPicker(); return; }
+
+  const frole = t('[data-frole]');
+  if (frole) { state.findRole = frole.dataset.frole; $('#q').value = ''; renderFind(); return; }
+
+  const sel = t('[data-sel]');
+  if (sel) { state.selected = sel.dataset.sel; renderFind(); $('#findDetail').scrollIntoView({ block: 'start' }); return; }
+
+  const copy = t('[data-copy]');
+  if (copy) {
+    navigator.clipboard?.writeText(`-${copy.dataset.copy}`)
+      .then(() => toast(`"-${copy.dataset.copy}" 복사됨 — 채팅창에 붙여넣으세요`))
+      .catch(() => toast('복사 실패'));
   }
 
-  const dmg = event.target.closest('[data-dmg]');
-  if (dmg) {
-    state.dmgFilter = state.dmgFilter === dmg.dataset.dmg ? '' : dmg.dataset.dmg;
-    renderMake();
-    return;
-  }
-  const role = event.target.closest('[data-role]');
-  if (role) {
-    const k = role.dataset.role;
-    if (state.roleFilter.has(k)) state.roleFilter.delete(k);
-    else state.roleFilter.add(k);
-    renderMake();
-    return;
-  }
-
-  const el = event.target.closest('[data-own],[data-goal],[data-craft],[data-pick],[data-steps],[data-copy]');
-  if (!el) return;
-
-  if (el.dataset.own) ownDelta(el.dataset.own, Number(el.dataset.delta ?? 1));
-  else if (el.dataset.goal) toggleGoal(el.dataset.goal);
-  else if (el.dataset.craft) doCraft(el.dataset.craft);
-  else if (el.dataset.steps) {
-    const id = el.dataset.steps;
-    if (state.openSteps.has(id)) state.openSteps.delete(id);
-    else state.openSteps.add(id);
-    renderMake();
-  } else if (el.dataset.pick) {
-    state.selectedUnitId = el.dataset.pick;
-    switchTab('find');
-    $('#unitSearch').value = state.index.name(el.dataset.pick);
-    renderFind();
-    renderDetail();
-  } else if (el.dataset.copy) {
-    navigator.clipboard?.writeText(`-${el.dataset.copy}`)
-      .then(() => toast(`"-${el.dataset.copy}" 복사됨 — 게임 채팅창에 붙여넣으세요.`))
-      .catch(() => toast('복사 실패 — 직접 입력하세요.'));
+  if (t('#recoBtn')) {
+    const picks = recommendDeck(state.index, state.inventory, { slots: 1 });
+    if (picks.length) setGoal(picks[0].unit.id);
+    else toast('추천할 후보가 없습니다.');
   }
 });
 
-document.addEventListener('toggle', (event) => {
-  const grade = event.target?.dataset?.grade;
-  if (!grade) return;
-  if (event.target.open) state.openGrades.add(grade);
-  else state.openGrades.delete(grade);
-}, true);
+$('#pickerQ').addEventListener('input', renderPicker);
+$('#q').addEventListener('input', renderFind);
 
-/**
- * 게임 중에는 손이 적게 가야 한다(2026-08-19 대표 지적).
- *  · 숫자키 1~9,0 = 빠른 담기 칸 그대로 담기
- *  · / = 빠른 검색창으로 이동
- *  · 검색창에서 Enter = 첫 후보 바로 담기 (창은 비워져 연속 입력 가능)
- */
-document.addEventListener('keydown', (event) => {
-  const el = event.target;
-  const typing = el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable);
-
-  if (event.key === 'Enter' && el?.id === 'quickSearch') {
-    event.preventDefault();
-    quickAddByQuery(el.value);
-    el.value = '';
-    el.focus();
-    return;
-  }
-  if (typing || event.metaKey || event.ctrlKey || event.altKey) return;
-
-  if (event.key === '/') { event.preventDefault(); $('#quickSearch')?.focus(); return; }
-
-  // Shift+숫자 = 빼기. Shift 조합이라 숫자 자리는 그대로 쓴다.
-  const digit = event.shiftKey ? SHIFT_DIGITS[event.key] : (/^[0-9]$/.test(event.key) ? event.key : null);
-  if (!digit) return;
-  const index = digit === '0' ? 9 : Number(digit) - 1;
-  const unit = quickUnits()[index];
-  if (!unit) return;
-  event.preventDefault();
-  if (event.shiftKey) {
-    if (invGet(state.inventory, unit.id) <= 0) { toast(`${unit.name} — 이미 0개입니다.`); return; }
-    ownDelta(unit.id, -1);
-    toast(`${unit.name} −1`);
-  } else {
-    ownDelta(unit.id, 1);
-    toast(`${unit.name} +1`);
-  }
-});
-
-/**
- * 오른쪽 클릭 = 1개 빼기. 실수로 여러 번 담았을 때 되돌리는 가장 빠른 길이다.
- * (담기와 같은 자리에서 처리하니 마우스를 옮길 필요가 없다 — 2026-08-19 대표 요청)
- */
-document.addEventListener('contextmenu', (event) => {
-  const el = event.target.closest('[data-own]');
-  if (!el) return;
-  const id = el.dataset.own;
-  // 보유 목록의 ± 버튼은 이미 제 역할이 있으니 건드리지 않는다
-  if (el.dataset.delta) return;
-  event.preventDefault();
-  if (invGet(state.inventory, id) <= 0) { toast(`${state.index.name(id)} — 이미 0개입니다.`); return; }
-  ownDelta(id, -1);
-  toast(`${state.index.name(id)} −1`);
-});
-
-document.addEventListener('click', (event) => {
-  const save = event.target.closest('[data-save-note]');
-  if (save) {
-    const id = save.dataset.saveNote;
-    const how = $('#regHow')?.value.trim() ?? '';
-    const once = Boolean($('#regOnce')?.checked);
-    const conflicts = ($('#regConflict')?.value ?? '').split(',').map((x) => x.trim()).filter(Boolean);
-    if (!how && !once && !conflicts.length) delete state.myNotes[id];
-    else state.myNotes[id] = { how, once, conflicts };
-    saveMyNotes(state.myNotes);
-    renderDetail();
-    renderFind();
-    toast(`${state.index.name(id)} 정보를 등록했습니다.`);
-    return;
-  }
-  const clear = event.target.closest('[data-clear-note]');
-  if (clear) {
-    delete state.myNotes[clear.dataset.clearNote];
-    saveMyNotes(state.myNotes);
-    renderDetail();
-    renderFind();
-    toast('등록한 정보를 지웠습니다.');
-  }
-});
-
-$('#zoomPlan')?.addEventListener('click', () => {
+$('#zoomBtn').addEventListener('click', () => {
   const steps = [1, 1.15, 1.3, 1.5];
-  state.planZoom = steps[(steps.indexOf(state.planZoom) + 1) % steps.length];
-  document.documentElement.style.setProperty('--glance-zoom', state.planZoom);
-  $('#zoomPlan').textContent = `글씨 ${Math.round(state.planZoom * 100)}%`;
-  try { localStorage.setItem('orandi:zoom', String(state.planZoom)); } catch { /* 무시 */ }
+  state.zoom = steps[(steps.indexOf(state.zoom) + 1) % steps.length];
+  document.documentElement.style.setProperty('--zoom', state.zoom);
+  $('#zoomBtn').textContent = `가 ${Math.round(state.zoom * 100)}%`;
+  persist();
 });
 
-$('#printPlan')?.addEventListener('click', () => window.print());
-$('#copyPlan')?.addEventListener('click', () => {
-  const text = planAsText();
-  if (!text) { toast('목표를 먼저 정하세요.'); return; }
-  navigator.clipboard?.writeText(text)
-    .then(() => toast('작전 카드를 글로 복사했습니다.'))
-    .catch(() => toast('복사 실패'));
-});
-
-$('#pasteApply').addEventListener('click', () => applyPaste(false));
-$('#pasteReplace').addEventListener('click', () => applyPaste(true));
-$('#paletteSearch').addEventListener('input', (e) => { state.paletteQuery = e.target.value; renderPalette(); });
-$('#makeSearch').addEventListener('input', (e) => { state.makeQuery = e.target.value; renderMake(); });
-$('#unitSearch').addEventListener('input', renderFind);
-$('#planTarget').addEventListener('change', (e) => { state.planTargetId = e.target.value; persist(); renderPlan(); });
-$('#undoButton').addEventListener('click', undo);
-document.addEventListener('click', (event) => {
-  if (!event.target.closest('#exportNotes')) return;
-  const rows = Object.entries(state.myNotes).map(([id, n]) => ({
-    유닛: state.index.name(id), 등급: state.index.get(id)?.grade,
-    획득법: n.how || undefined, 한판에한번만: n.once || undefined,
-    같이못씀: n.conflicts?.length ? n.conflicts : undefined,
-  }));
-  const text = JSON.stringify(rows, null, 2);
-  navigator.clipboard?.writeText(text)
-    .then(() => toast(`등록한 ${rows.length}건을 복사했습니다 — 저에게 붙여넣으면 파일에 넣어드립니다.`))
-    .catch(() => toast('복사 실패'));
-});
-
-$('#resetInv').addEventListener('click', () => {
-  if (!state.inventory.size) return;
-  snapshot();
+$('#resetBtn').addEventListener('click', () => {
+  if (!state.inventory.size && !state.goal && !state.made.length) { toast('이미 비어 있습니다.'); return; }
+  if (!confirm('새 판을 시작합니다.\n\n지금까지 모은 재료와 목표를 모두 지웁니다.')) return;
   state.inventory = new Map();
+  state.goal = null;
+  state.made = [];
   persist();
-  renderAll();
-  toast('보유 목록을 비웠습니다.');
-});
-$('#resetAll').addEventListener('click', () => {
-  if (!state.inventory.size && !state.deck.length) { toast('이미 비어 있습니다.'); return; }
-  const total = [...state.inventory.values()].reduce((a, b) => a + b, 0);
-  const ok = confirm(`새 게임을 시작합니다.\n\n보유 ${state.inventory.size}종 ${total}개와 목표 덱 ${state.deck.length}개를 모두 비웁니다.\n(실행 취소로 되돌릴 수 있습니다)`);
-  if (!ok) return;
-  snapshot();
-  state.inventory = new Map();
-  state.deck = [];
-  state.planTargetId = null;
-  state.openSteps.clear();
-  persist();
-  renderAll();
-  toast('초기화했습니다 — 새 게임 시작하세요.');
+  renderRun();
+  toast('새 판을 시작합니다.');
 });
 
-$('#recommendDeck').addEventListener('click', () => {
-  if (!state.inventory.size) { toast('①에서 보유 유닛을 먼저 넣으세요.'); return; }
-  const type = $('#recoType').value || null;
-  const picks = recommendDeck(state.index, state.inventory, { slots: DECK_SLOTS, damageType: type });
-  if (!picks.length) { toast('추천할 후보가 없습니다.'); return; }
-  snapshot();
-  state.deck = picks.map((p) => p.unit.id);
-  state.recoWhy = new Map(picks.map((p) => [p.unit.id, p.covers]));
-  state.planTargetId = state.deck[0];
-  persist();
-  renderAll();
+/* ───────────────────────── 부팅 ───────────────────────── */
 
-  const covered = new Set(picks.flatMap((p) => p.unit.roles.filter((r) => CORE_ROLE_KEYS.includes(r))));
-  const miss = CORE_ROLE_KEYS.filter((k) => !covered.has(k))
-    .map((k) => ROLES.find((r) => r.key === k).label);
-  const mats = deckMaterials(state.index, state.deck, state.inventory).filter((m) => !m.resource);
-  $('#recoNote').innerHTML = `추천 완료 — ${miss.length ? `<b style="color:var(--red)">빈 역할: ${miss.join('·')}</b>` : '핵심 역할 전부 채움'}`
-    + ` · 이 덱에 필요한 최하위 재료 <b>${mats.reduce((s, m) => s + m.need, 0)}개</b>`
-    + ` (가장 많이 드는 것: ${mats.slice(0, 3).map((m) => `${esc(m.unit.name)} ${m.need}`).join(', ')})`;
-  toast(`덱 추천 완료 — ${picks.length}칸${type ? ` · ${type} 위주` : ''}`);
-});
-
-
-/* ─────────────────────────── 부팅 ─────────────────────────── */
-
-/** 공개 데이터에 없는 사실(중복 불가 등). 없으면 조용히 넘어간다. */
-async function loadOverrides() {
-  if (globalThis.__ORANDI_OVERRIDES__) return globalThis.__ORANDI_OVERRIDES__;
-  try {
-    const res = await fetch('./data/overrides.json');
-    return res.ok ? await res.json() : null;
-  } catch { return null; }
-}
-
-async function loadPayload() {
-  // 단일 파일 버전은 데이터를 통째로 품고 있다 (인터넷·서버 없이 열림)
-  if (globalThis.__ORANDI_DATA__) return { payload: globalThis.__ORANDI_DATA__, source: '내장 데이터' };
-  try {
-    const response = await fetch(REMOTE, { cache: 'no-store' });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    return { payload: await response.json(), source: '원격 최신' };
-  } catch {
-    const response = await fetch(LOCAL);
-    if (!response.ok) throw new Error('로컬 스냅샷도 읽지 못했습니다');
-    return { payload: await response.json(), source: '로컬 스냅샷' };
+async function load() {
+  if (globalThis.__ORANDI_DATA__) {
+    return { payload: globalThis.__ORANDI_DATA__, overrides: globalThis.__ORANDI_OVERRIDES__ ?? null };
   }
+  const res = await fetch(REMOTE, { cache: 'no-store' });
+  const payload = res.ok ? await res.json() : JSON.parse(await (await fetch('./data/assets.json')).text());
+  let overrides = null;
+  try { const o = await fetch('./data/overrides.json'); if (o.ok) overrides = await o.json(); } catch { /* 없어도 된다 */ }
+  return { payload, overrides };
 }
 
 (async function boot() {
   try {
-    const { payload, source } = await loadPayload();
-    state.index = buildIndex(payload);
-    applyOverrides(state.index, await loadOverrides());
-    $('#dataStatus').textContent = `${source} · 유닛 ${state.index.unitCount}종`;
-    state.myNotes = loadMyNotes();
-    const savedZoom = Number(localStorage.getItem('orandi:zoom') || 1);
-    if (savedZoom > 0) {
-      state.planZoom = savedZoom;
-      document.documentElement.style.setProperty('--glance-zoom', savedZoom);
-      const zb = $('#zoomPlan');
-      if (zb) zb.textContent = `글씨 ${Math.round(savedZoom * 100)}%`;
-    }
+    const { payload, overrides } = await load();
+    state.index = applyOverrides(buildIndex(payload), overrides);
     restore();
-    renderPalette();
-    renderAll();
-    renderFind();
-  } catch (error) {
-    $('#dataStatus').textContent = `데이터 로드 실패: ${error.message}`;
-    $('#dataStatus').classList.add('warn');
+    document.documentElement.style.setProperty('--zoom', state.zoom);
+    $('#zoomBtn').textContent = `가 ${Math.round(state.zoom * 100)}%`;
+    renderRun();
+  } catch (err) {
+    $('#goalBar').innerHTML = `<p class="empty">데이터를 불러오지 못했습니다: ${esc(err.message)}</p>`;
   }
 })();
 
