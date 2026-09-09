@@ -553,7 +553,7 @@ const trendSVG = d => {
     </svg>
     <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--ink2);margin-top:4px">
       <span>기간 평균 <b>${num(pAvg(d))}</b></span>
-      <span>가장 높았던 주 <b>${num(mx)}</b></span>
+      <span>가장 높았던 ${useDaily()?'날':'주'} <b>${num(mx)}</b></span>
       ${pDelta(d)==null?'':`<span>직전 같은 기간 대비 <b class="${cls(pDelta(d))}">${pct(pDelta(d))}</b></span>`}
       <span class="muted">${useDaily()?'일':'주'} ${s.length}개</span>
     </div>
