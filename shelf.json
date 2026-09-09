@@ -325,13 +325,13 @@
   "date": "2026-09-09"
  },
  {
-  "slug": "market-dashboard",
-  "title": "원료 시장 대시보드",
+  "slug": "health-trend",
+  "title": "요즘 뜨는 건강 원료 (소비자용)",
   "date": "2026-09-10"
  },
  {
-  "slug": "health-trend",
-  "title": "요즘 뜨는 건강 원료 (소비자용)",
+  "slug": "market-dashboard",
+  "title": "원료 시장 대시보드",
   "date": "2026-09-10"
  }
 ]
