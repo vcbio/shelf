@@ -465,6 +465,79 @@ const sparkHTML = d => {
     <path class="ar" d="${area}"/><path class="ln" d="${dd}"/>
     <circle class="pt" cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="2"/></svg>`;
 };
+
+// ── 출처 (대표 지시 2026-09-10 — 공식 출처를 단다) ──────────────────────
+const SRC = {
+  search:{n:'네이버 검색광고 키워드도구',u:'https://searchad.naver.com/',d:'월 검색량(PC+모바일)'},
+  trend: {n:'네이버 데이터랩 검색어트렌드',u:'https://datalab.naver.com/keyword/trendSearch.naver',d:'검색 추이(상대지수)'},
+  shop:  {n:'네이버 데이터랩 쇼핑인사이트',u:'https://datalab.naver.com/shoppingInsight/sCategory.naver',d:'쇼핑 클릭·구매층'},
+  reg:   {n:'식품안전나라 품목제조보고',u:'https://www.foodsafetykorea.go.kr/api/openApiInfo.do',d:'신규 제품 신고'},
+  cert:  {n:'식품안전나라 기능성원료 인정현황',u:'https://www.foodsafetykorea.go.kr/portal/board/boardDetail.do',d:'고시형·개별인정 구분'},
+  hs:    {n:'홈쇼핑모아',u:'https://hsmoa.com/',d:'홈쇼핑 편성·실시간 판매수'},
+};
+const srcTag = k => { const s=SRC[k]; if(!s) return '';
+  return `<a class="src" href="${s.u}" target="_blank" rel="noopener noreferrer" title="${s.n} — ${s.d}">출처: ${s.n} ↗</a>`; };
+const srcAll = () => `<div class="srcbox">
+  <div class="l">이 화면의 자료 출처 <span class="muted" style="font-size:12px">— 전부 공개 자료입니다</span></div>
+  ${Object.values(SRC).map(s=>`<div class="srcline"><a href="${s.u}" target="_blank" rel="noopener noreferrer">${s.n} ↗</a><span class="muted">${s.d}</span></div>`).join('')}
+  <div class="muted" style="font-size:12px;margin-top:8px">「4주 뒤 전망」은 위 자료로 계산한 <b>추정</b>이며 공식 자료가 아닙니다.</div></div>`;
+
+// 검색 순위 변동 (최근 13개월)
+const rankCell = d => {
+  if(!d.rk) return '<span class="muted">–</span>';
+  const v=d.rk.filter(x=>x); if(!v.length) return '<span class="muted">–</span>';
+  const now=v[v.length-1], was=v[0], mv=was-now;
+  const badge = mv>=5?`<span class="tag hot">▲${mv}</span>`:(mv<=-5?`<span class="tag cool">▼${-mv}</span>`:'');
+  return `<b>${now}위</b><span class="muted" style="font-size:12px"> ← ${was}위</span> ${badge}`;
+};
+// 홈쇼핑 방송일
+const pinList = d => {
+  if(!d.pins || !d.pins.length) return '';
+  const p=d.pins.slice(-8).reverse();
+  return `<div class="box" style="margin-bottom:10px">
+    <div class="l">홈쇼핑 방송일 — 최근 ${p.length}건 (전체 ${d.pins.length}건) ${srcTag("hs")}</div>
+    <div style="font-size:14px;line-height:1.8;margin-top:2px">
+    ${p.map(x=>`<span style="display:inline-block;margin-right:10px"><b>${x.d}</b>${x.c?' <span class="muted">'+x.c+'</span>':''}</span>`).join('')}</div></div>`;
+};
+// 쇼핑 클릭 + 누가 사나
+const shopCell = d => d.shopCh==null ? '<span class="muted">–</span>'
+  : `<b class="${cls(d.shopCh)}">${d.shopCh>0?'+':''}${d.shopCh}%</b>`;
+const whoBox = d => {
+  if(!d.who) return '';
+  const block=(axis,arr)=>{ const mx=Math.max(...arr.map(x=>x.p),1);
+    return `<div style="margin-bottom:10px"><div class="muted" style="font-size:13px;margin-bottom:4px">${axis}</div>
+      ${arr.map(x=>`<div class="wbar"><span class="wk">${x.k}</span>
+        <span class="wt"><i style="width:${(x.p/mx*100).toFixed(1)}%"></i></span>
+        <span class="wp">${x.p}%</span></div>`).join('')}</div>`; };
+  const rows=['연령','성별','기기'].filter(a=>d.who[a]).map(a=>block(a,d.who[a])).join('');
+  return `<div class="box" style="margin-bottom:10px">
+    <div class="l">누가 사나 <span class="muted" style="font-size:12px">— 최근 3년</span> ${srcTag("shop")}</div>
+    <div style="margin-top:8px">${rows}</div></div>`;
+};
+const shopBox = d => {
+  if(!d.shop || !d.shop.length) return '';
+  const s=d.shop, use=s.slice(-Math.min(s.length, Math.max(8, Math.round(PD/7))));
+  const W=560,H=70,Pd=4,m=Math.max(...use)||1;
+  const pts=use.map((v,i)=>[Pd+i*(W-2*Pd)/(use.length-1||1), H-Pd-(v/m)*(H-2*Pd)]);
+  return `<div class="box" style="margin-bottom:10px">
+    <div class="l">쇼핑 클릭 추이 <span class="muted" style="font-size:12px">— 주별 · ~${d.shopEnd||''} · 상대지수</span> ${srcTag("shop")}</div>
+    <svg class="trend" style="height:70px" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img"
+      aria-label="${d.name} 쇼핑 클릭 추이"><path class="ln" d="${pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ')}"/></svg>
+    ${d.shopCh==null?'':`<div style="font-size:13px;color:var(--ink2);margin-top:3px">최근 4주가 그 앞 4주보다 <b class="${cls(d.shopCh)}">${d.shopCh>0?'+':''}${d.shopCh}%</b>입니다.</div>`}</div>`;
+};
+// 4주 뒤 전망 (추정)
+const fcCell = d => { const f=d.fc; if(!f||f.ch==null) return '<span class="muted">–</span>';
+  const c=f.ch>3?'up':(f.ch<-3?'down':'muted');
+  return `<b class="${c}">${f.ch>0?'+':''}${f.ch}%</b><span class="muted" style="font-size:12px"> 신뢰 ${f.conf}</span>`; };
+const fcBox = d => { const f=d.fc; if(!f||f.ch==null) return '';
+  const dir=f.ch>3?'더 오를 것으로 보입니다':(f.ch<-3?'내릴 것으로 보입니다':'비슷할 것으로 보입니다');
+  return `<div class="box" style="margin-bottom:10px">
+    <div class="l">4주 뒤 전망 <span class="tag warn">추정</span></div>
+    <div style="font-size:15px;line-height:1.7;margin-top:3px">
+      지금 <b>${num(f.base)}</b> → 4주 뒤 <b>${num(f.f4)}</b> (<b class="${f.ch>0?'up':(f.ch<0?'down':'muted')}">${f.ch>0?'+':''}${f.ch}%</b>) — ${dir}.<br>
+      <span class="muted" style="font-size:13px">근거: 최근 8주 흐름${f.seas==null?'':` + 작년 같은 때 ${f.seas>0?'+':''}${f.seas}%`} · 신뢰 <b>${f.conf}</b></span>
+    </div></div>`; };
+
 const verdictTag = d => {
   if(!d.verdict) return '';
   if(d.verdict==='신규 상승') return '<span class="tag hot">신규 상승</span>';
