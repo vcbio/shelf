@@ -152,6 +152,14 @@ footer{color:var(--muted);font-size:13px;line-height:1.7;text-align:center;
 .trend .ln{fill:none;stroke:var(--blue-strong);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
 .trend .base{stroke:var(--border);stroke-width:1}
 .trend .pk{fill:var(--up);}
+
+.scat{width:100%;height:340px;display:block;background:var(--bg);border-radius:var(--r-sm)}
+.scat .ax{stroke:var(--border);stroke-width:1}
+.scat .qd{stroke:var(--border);stroke-width:1;stroke-dasharray:3 3}
+.scat .dot{fill:var(--blue-strong);fill-opacity:.55;stroke:var(--card);stroke-width:1.5;cursor:pointer}
+.scat .dot.gap{fill:var(--up);fill-opacity:.75}
+.scat .lb{font-size:11px;fill:var(--ink2)}
+.scat .qt{font-size:12px;fill:var(--muted)}
 </style>
 </head>
 <body>
@@ -216,6 +224,7 @@ footer{color:var(--muted);font-size:13px;line-height:1.7;text-align:center;
 <section id="gap" class="panel-hide">
   <div class="card">
     <h2>빈자리 신호 &mdash; 찾는데 아무도 안 파는 원료</h2>
+    <div id="scatterbox"></div>
     <div class="desc">검색은 오르는데 <em>홈쇼핑 편성이 0건</em>인 원료입니다. 소비자가 먼저 찾고 있는데 아직 브랜드가 안 붙었습니다. <em>여기가 제안할 자리입니다.</em></div>
     <table><thead><tr>
       <th>원료</th><th class="num">주간</th><th class="num">월 검색량</th>
@@ -445,6 +454,44 @@ function renderAll(){
 }
 [q,fg,fc].forEach(el=>el.addEventListener('input',renderAll));
 renderAll();
+
+
+// 빈자리 산점도 — X: 홈쇼핑 편성, Y: 월 검색량. 왼쪽 위 = 찾는데 아무도 안 파는 자리
+function drawScatter(){
+  const pts = DATA.filter(d=>d.search>0);
+  const W=900,H=340,L=44,R=16,T=16,B=34;
+  const lx = v => Math.log10(v+1), ly = v => Math.log10(v+1);
+  const mxX = Math.max(...pts.map(d=>lx(hsAll(d))), 1);
+  const mxY = Math.max(...pts.map(d=>ly(d.search)), 1);
+  const X = v => L + lx(v)/mxX*(W-L-R);
+  const Y = v => H-B - ly(v)/mxY*(H-T-B);
+  const rr = d => Math.max(3, Math.min(11, 3 + Math.sqrt(d.r30||0)/3));
+  const midX = L + (W-L-R)*0.18, midY = Y(3000);
+  const body = pts.map(d=>{
+    const isGap = hsAll(d)===0 && d.search>=3000;
+    return `<circle class="dot${isGap?' gap':''}" cx="${X(hsAll(d)).toFixed(1)}" cy="${Y(d.search).toFixed(1)}" r="${rr(d).toFixed(1)}"
+      onclick='openDetail(${JSON.stringify(d).replace(/'/g,"&#39;")})'><title>${d.name}
+월 검색량 ${fmt(d.search)} · 편성 ${hsAll(d)}건 · 30일 신규제품 ${d.r30||0}건</title></circle>`;
+  }).join('');
+  const lbl = pts.filter(d=>hsAll(d)===0 && d.search>=20000).slice(0,8)
+    .map(d=>`<text class="lb" x="${(X(0)+8).toFixed(1)}" y="${(Y(d.search)+4).toFixed(1)}">${d.name}</text>`).join('');
+  document.getElementById('scatterbox').innerHTML = `
+   <div class="desc" style="margin-bottom:8px">가로는 <em>홈쇼핑 편성 건수</em>, 세로는 <em>월 검색량</em>입니다.
+     동그라미 크기는 <em>최근 30일 신규 제품 수</em>입니다.
+     <b>왼쪽 위 주황 점</b>이 사람들은 찾는데 방송에는 없는 원료입니다. 점을 누르면 상세가 열립니다.</div>
+   <svg class="scat" viewBox="0 0 ${W} ${H}" role="img" aria-label="편성 대비 검색량 산점도">
+     <line class="qd" x1="${midX}" y1="${T}" x2="${midX}" y2="${H-B}"/>
+     <line class="qd" x1="${L}" y1="${midY.toFixed(1)}" x2="${W-R}" y2="${midY.toFixed(1)}"/>
+     <text class="qt" x="${L+6}" y="${T+14}">찾는데 방송 없음 (빈자리)</text>
+     <text class="qt" x="${W-R-6}" y="${T+14}" text-anchor="end">방송도 있고 검색도 큼</text>
+     <line class="ax" x1="${L}" y1="${H-B}" x2="${W-R}" y2="${H-B}"/>
+     <line class="ax" x1="${L}" y1="${T}" x2="${L}" y2="${H-B}"/>
+     ${body}${lbl}
+     <text class="qt" x="${L}" y="${H-10}">편성 0건</text>
+     <text class="qt" x="${W-R}" y="${H-10}" text-anchor="end">편성 많음 →</text>
+   </svg>`;
+}
+drawScatter();
 
 function verdict(d){
   if(d.w==null) return '<b>판정할 수 없습니다.</b> 네이버 데이터랩에 이 이름으로는 조회 결과가 없습니다. 검색량은 검색광고 쪽 수치입니다.';
