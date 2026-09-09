@@ -438,6 +438,21 @@ h1, h2, h3 { margin: 0; letter-spacing: -.02em; }
 .tree.sub .tnode img { width: calc(26px * var(--zoom)); height: calc(26px * var(--zoom)); }
 .tree.sub .tnode b { font-size: calc(14px * var(--zoom)); }
 
+/* ─── 다 모은 것은 꺼진 상태로 (대표 지시 2026-09-09) ───
+   초록 강조는 눈에 계속 들어와서 방해된다. 끝난 건 흐릿하게 죽여
+   아직 할 일만 또렷하게 남긴다. */
+.tnode.ok, .bs-item.ok, .rb-col.ok > .tnode.head {
+  background: #e9e7e2 !important; border-color: #d6d2ca !important;
+  color: var(--ink-3) !important; opacity: .5;
+}
+.tnode.ok img, .bs-item.ok img, .rb-col.ok > .tnode.head img { filter: grayscale(1); }
+.tnode.ok b, .bs-item.ok .bs-n { text-decoration: line-through; font-weight: 600; }
+.tnode.ok .ts, .tnode.ok .tq, .bs-item.ok .bs-c { color: var(--ink-3) !important; }
+.tnode.ok .tok, .bs-item.ok .tok { color: var(--ink-3) !important; }
+.rb-col.ok { background: #efedea !important; border-color: #ddd9d2 !important; opacity: .62; }
+.tnode.ok:hover, .bs-item.ok:hover, .rb-col.ok > .tnode.head:hover { opacity: 1; }
+.tfold { color: var(--ink-3); font-size: calc(11.5px * var(--zoom)); margin-left: 6px; }
+
 </style>
   </head>
   <body>
