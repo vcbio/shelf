@@ -364,6 +364,60 @@ h1, h2, h3 { margin: 0; letter-spacing: -.02em; }
   .task:not(.go) { opacity: 1; }
 }
 
+/* ─── 2026-09-09 개편: 조합식이 화면의 주인공 ───
+   대표 지시 — "조합식을 보고 플레이한다. 가시성을 높여라.
+   조합식 위에 저코스트 영웅 뭐가 몇 개 필요한지 요약해라." */
+
+/* 모아야 할 기본 유닛 요약 */
+.basesum {
+  margin: calc(14px * var(--zoom)) 0 calc(10px * var(--zoom));
+  padding: calc(12px * var(--zoom)) calc(14px * var(--zoom));
+  background: #fff; border: 2px solid var(--line); border-radius: 14px;
+}
+.bs-h {
+  margin: 0 0 calc(10px * var(--zoom)); font-size: calc(15px * var(--zoom));
+  font-weight: 800; color: var(--ink-1); display: flex; align-items: baseline; gap: 8px;
+}
+.bs-h b { font-family: var(--mono); color: var(--amber); }
+.bs-h small { font-weight: 500; font-size: calc(11.5px * var(--zoom)); color: var(--ink-3); margin-left: auto; }
+.bs-row { display: flex; gap: calc(10px * var(--zoom)); align-items: flex-start; padding: calc(5px * var(--zoom)) 0; }
+.bs-row + .bs-row { border-top: 1px dashed var(--line); }
+.bs-g {
+  flex: 0 0 calc(84px * var(--zoom)); font-size: calc(12.5px * var(--zoom));
+  font-weight: 700; color: var(--ink-2); padding-top: calc(6px * var(--zoom));
+}
+.bs-g i { display: block; font-style: normal; font-family: var(--mono); font-size: calc(12px * var(--zoom)); color: var(--ink-3); }
+.bs-items { display: flex; flex-wrap: wrap; gap: calc(6px * var(--zoom)); flex: 1; }
+.bs-item {
+  display: flex; align-items: center; gap: calc(5px * var(--zoom));
+  padding: calc(4px * var(--zoom)) calc(8px * var(--zoom));
+  background: #fff; border: 2px solid var(--line); border-radius: 9px; cursor: pointer;
+}
+.bs-item:hover { border-color: var(--navy); }
+.bs-item.ok { background: var(--go-soft); border-color: #bfdfd5; }
+.bs-item img { width: calc(24px * var(--zoom)); height: calc(24px * var(--zoom)); border-radius: 5px; }
+.bs-n { font-size: calc(13px * var(--zoom)); font-weight: 600; }
+.bs-c { font-family: var(--mono); font-size: calc(13px * var(--zoom)); color: var(--amber); }
+.bs-item.ok .bs-c { color: var(--go); }
+
+/* 조합식 — 크게, 눈에 띄게 */
+.recipe-drawer {
+  margin: calc(10px * var(--zoom)) 0 calc(20px * var(--zoom));
+  border: 3px solid var(--navy); border-radius: 14px; background: #fff;
+  padding: calc(10px * var(--zoom)) calc(14px * var(--zoom)) calc(14px * var(--zoom));
+}
+.recipe-drawer summary {
+  font-size: calc(16px * var(--zoom)); font-weight: 800; color: var(--navy);
+  padding: calc(4px * var(--zoom)) 0;
+}
+.tree ul { border-left-width: 4px; }
+.tree li { padding: calc(4px * var(--zoom)) 0; }
+.tnode { padding: calc(5px * var(--zoom)) calc(9px * var(--zoom)); }
+.tnode img { width: calc(34px * var(--zoom)); height: calc(34px * var(--zoom)); }
+.tnode b { font-size: calc(16px * var(--zoom)); }
+.tnode .ts { font-size: calc(14px * var(--zoom)); font-weight: 700; }
+.tnode .tq { font-size: calc(15px * var(--zoom)); }
+
 </style>
   </head>
   <body>
@@ -1729,6 +1783,7 @@ function wispPicks(index, gradeBase, { limit = 12 } = {}) {
 
 const REMOTE = 'https://static.tmo.gg/ord-helper/assets.json';
 const STORE = 'orandi:v4';
+let treeOpen = true;   // 조합식은 기본으로 펼쳐 둔다 — 이 앱의 주인공이다
 
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => [...document.querySelectorAll(s)];
@@ -1884,8 +1939,9 @@ function renderRun() {
       <button class="ghost-btn" data-open-picker>바꾸기</button>
       <div class="gc-bar"><i style="width:${pct}%"></i></div>
     </div>
-    <details class="recipe-drawer">
-      <summary>${esc(goal.name)} 조합식 전체 보기</summary>
+    ${baseSummary(goal, plan)}
+    <details class="recipe-drawer" ${treeOpen ? 'open' : ''}>
+      <summary>📋 ${esc(goal.name)} 조합식 — 누르면 있음 표시</summary>
       <ul class="tree">${recipeTree(goal.id)}</ul>
     </details>`;
 
@@ -2214,6 +2270,57 @@ function renderDetail() {
  * 조합식 트리 — 이 유닛이 무엇으로 만들어지는지 끝까지 펼친다.
  * 이미 다 갖춘 가지는 접어서 남은 것만 보이게 한다.
  */
+/**
+ * 조합식 위에 붙는 「기본 유닛 요약」.
+ * 목표를 끝까지 펼쳤을 때 손으로 모아야 하는 최하위 유닛을 등급별로 묶어 보여준다.
+ * 대표님 요청(2026-09-09): "조합식 위에 1코·2코짜리 영웅 뭐가 몇 개 필요한지 요약".
+ * ⚠️ 코스트 숫자는 공개 데이터에 없어 등급으로 묶는다 — 없는 값을 지어내지 않는다.
+ */
+function baseSummary(goal, plan) {
+  const leaves = expandLeaves(state.index, goal.id);
+  const rows = [];
+  for (const [id, need] of leaves) {
+    const u = state.index.get(id);
+    if (!u || u.isResource || u.isWildcard) continue;
+    rows.push({ u, need, have: Math.min(invGet(state.inventory, id), need) });
+  }
+  if (!rows.length) return '';
+
+  const rank = new Map(GRADE_ORDER.map((g, i) => [g, i]));
+  const groups = new Map();
+  for (const r of rows) {
+    const g = r.u.gradeBase;
+    if (!groups.has(g)) groups.set(g, []);
+    groups.get(g).push(r);
+  }
+  const ordered = [...groups.entries()]
+    .sort((a, b) => (rank.get(a[0]) ?? 99) - (rank.get(b[0]) ?? 99));
+
+  const totalNeed = rows.reduce((n, r) => n + r.need, 0);
+  const totalHave = rows.reduce((n, r) => n + r.have, 0);
+
+  return `<section class="basesum">
+    <h2 class="bs-h">모아야 할 기본 유닛 <b>${totalHave}/${totalNeed}</b>
+      <small>누르면 +1 · 오른쪽 클릭 −1</small></h2>
+    ${ordered.map(([grade, list]) => {
+      const n = list.reduce((a, r) => a + r.need, 0);
+      const h = list.reduce((a, r) => a + r.have, 0);
+      return `<div class="bs-row">
+        <span class="bs-g">${esc(grade)} <i>${h}/${n}</i></span>
+        <div class="bs-items">
+          ${list.sort((a, b) => b.need - a.need).map((r) => `
+            <button class="bs-item ${r.have >= r.need ? 'ok' : ''}"
+                    data-inv="${esc(r.u.id)}" data-d="1" title="${esc(r.u.name)}">
+              ${img(r.u)}
+              <span class="bs-n">${esc(r.u.name)}</span>
+              <b class="bs-c">${r.have}/${r.need}</b>
+            </button>`).join('')}
+        </div>
+      </div>`;
+    }).join('')}
+  </section>`;
+}
+
 function recipeTree(unitId, times = 1, depth = 0, path = new Set()) {
   const u = state.index.get(unitId);
   if (!u) return `<li>알 수 없는 재료</li>`;
@@ -2300,13 +2407,10 @@ document.addEventListener('click', (e) => {
 
   const inv = t('[data-inv]');
   if (inv) {
-    const openRecipe = document.querySelector('.recipe-drawer')?.open;
     state.inventory = invAdd(state.inventory, inv.dataset.inv, Number(inv.dataset.d));
     persist();
     renderRun();
     if (state.mode === 'find') renderFind();
-    // 조합식을 펼쳐놓고 체크하던 중이면 계속 펼쳐 둔다
-    if (openRecipe) { const d = document.querySelector('.recipe-drawer'); if (d) d.open = true; }
     return;
   }
 
@@ -2328,6 +2432,10 @@ document.addEventListener('click', (e) => {
 
 });
 
+document.addEventListener('toggle', (e) => {
+  if (e.target.classList?.contains('recipe-drawer')) treeOpen = e.target.open;
+}, true);
+
 $('#pickerQ').addEventListener('input', renderPicker);
 $('#q').addEventListener('input', renderFind);
 
@@ -2335,12 +2443,10 @@ document.addEventListener('contextmenu', (e) => {
   const el = e.target.closest('[data-inv]');
   if (!el) return;
   e.preventDefault();
-  const openRecipe = document.querySelector('.recipe-drawer')?.open;
   state.inventory = invAdd(state.inventory, el.dataset.inv, -1);
   persist();
   renderRun();
   if (state.mode === 'find') renderFind();
-  if (openRecipe) { const d = document.querySelector('.recipe-drawer'); if (d) d.open = true; }
 });
 
 $('#homeBtn').addEventListener('click', () => {
@@ -2378,8 +2484,9 @@ async function load() {
   if (globalThis.__ORANDI_DATA__) {
     return { payload: globalThis.__ORANDI_DATA__, overrides: globalThis.__ORANDI_OVERRIDES__ ?? null };
   }
-  const res = await fetch(REMOTE, { cache: 'no-store' });
-  const payload = res.ok ? await res.json() : JSON.parse(await (await fetch('./data/assets.json')).text());
+  // ⚠️ 원격(TMO)은 낡았다 — 로빈 초월에 블랙마리아가 빠져 있었다(2026-09-08 실측).
+  //    정본은 ordsearch 기준으로 다시 지은 로컬 data/assets.json 하나뿐이다.
+  const payload = await (await fetch('./data/assets.json', { cache: 'no-store' })).json();
   let overrides = null;
   try { const o = await fetch('./data/overrides.json'); if (o.ok) overrides = await o.json(); } catch { /* 없어도 된다 */ }
   return { payload, overrides };
