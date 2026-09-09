@@ -199,6 +199,16 @@ footer{color:var(--muted);font-size:13px;line-height:1.7;text-align:center;
 .wbar .wt{flex:1;height:16px;background:#EFF6FF;border-radius:4px;overflow:hidden}
 .wbar .wt i{display:block;height:100%;background:var(--blue-strong);border-radius:4px}
 .wbar .wp{font-size:13px;font-weight:600;min-width:44px;text-align:right;font-variant-numeric:tabular-nums}
+
+.src{display:inline-block;margin-left:6px;font-size:11px;font-weight:600;color:var(--blue);
+  text-decoration:none;border-bottom:1px solid transparent}
+.src:hover{border-bottom-color:var(--blue)}
+.src:focus-visible{outline:2px solid var(--blue-strong);outline-offset:2px}
+.srcbox{background:var(--card);border-radius:var(--r-lg);padding:18px 20px;margin-top:20px;box-shadow:var(--shadow)}
+.srcbox .l{color:var(--ink2);font-size:14px;font-weight:600;margin-bottom:9px}
+.srcline{display:flex;gap:10px;flex-wrap:wrap;font-size:13px;line-height:1.9}
+.srcline a{color:var(--blue);text-decoration:none;font-weight:600;min-width:230px}
+.srcline a:hover{text-decoration:underline}
 </style>
 </head>
 <body>
@@ -329,6 +339,7 @@ footer{color:var(--muted);font-size:13px;line-height:1.7;text-align:center;
   </div>
 </section>
 
+<div id="srcall"></div>
 <footer>
   브이씨바이오 원료 시장 데이터베이스 &middot; 시안<br>
   검색 = 네이버(데이터랩&middot;검색광고) &middot; 편성 = 홈쇼핑 12채널 &middot; 제조 = 식약처 품목제조보고 &middot; 매출 = DART 공시<br>
@@ -455,7 +466,7 @@ const pinList = d => {
   if(!d.pins || !d.pins.length) return '';
   const p = d.pins.slice(-8).reverse();
   return `<div class="box" style="margin-bottom:10px">
-    <div class="l">홈쇼핑 방송일 — 최근 ${p.length}건 (전체 ${d.pins.length}건)</div>
+    <div class="l">홈쇼핑 방송일 — 최근 ${p.length}건 (전체 ${d.pins.length}건) ${srcTag("hs")}</div>
     <div style="font-size:14px;line-height:1.8;margin-top:2px">
       ${p.map(x=>`<span style="display:inline-block;margin-right:10px"><b>${x.d}</b>${x.c?' <span class="muted">'+x.c+'</span>':''}</span>`).join('')}
     </div></div>`;
@@ -508,7 +519,7 @@ const whoBox = d => {
   const order = ['연령','성별','기기'];
   const rows = order.filter(a=>d.who[a]).map(a=>block(a, d.who[a])).join('');
   return `<div class="box" style="margin-bottom:10px">
-    <div class="l">누가 사나 <span class="muted" style="font-size:12px">— 네이버 쇼핑 클릭 기준 · 최근 3년</span></div>
+    <div class="l">누가 사나 <span class="muted" style="font-size:12px">— 최근 3년</span> ${srcTag("shop")}</div>
     <div style="margin-top:8px">${rows}</div></div>`;
 };
 const shopBox = d => {
@@ -520,13 +531,37 @@ const shopBox = d => {
   const pts = use.map((v,i)=>[P+i*(W-2*P)/(use.length-1||1), H-P-(v/m)*(H-2*P)]);
   const dd = pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
   return `<div class="box" style="margin-bottom:10px">
-    <div class="l">쇼핑 클릭 추이 <span class="muted" style="font-size:12px">— 주별 · ~${d.shopEnd||''} · 상대지수</span></div>
+    <div class="l">쇼핑 클릭 추이 <span class="muted" style="font-size:12px">— 주별 · ~${d.shopEnd||''} · 상대지수</span> ${srcTag("shop")}</div>
     <svg class="trend" style="height:70px" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img"
       aria-label="${d.name} 쇼핑 클릭 추이"><path class="ln" d="${dd}"/></svg>
     ${d.shopCh==null?'':`<div style="font-size:13px;color:var(--ink2);margin-top:3px">
       최근 4주가 그 앞 4주보다 <b class="${cls(d.shopCh)}">${d.shopCh>0?'+':''}${d.shopCh}%</b>입니다.</div>`}
   </div>`;
 };
+
+
+// ── 출처 (대표 지시 2026-09-10 — 공식 출처를 단다) ──────────────────────
+const SRC = {
+  search:  {n:'네이버 검색광고 키워드도구', u:'https://searchad.naver.com/', d:'월 검색량(PC+모바일)'},
+  trend:   {n:'네이버 데이터랩 검색어트렌드', u:'https://datalab.naver.com/keyword/trendSearch.naver', d:'검색 추이(상대지수)'},
+  shop:    {n:'네이버 데이터랩 쇼핑인사이트', u:'https://datalab.naver.com/shoppingInsight/sCategory.naver', d:'쇼핑 클릭·구매층'},
+  reg:     {n:'식품안전나라 품목제조보고', u:'https://www.foodsafetykorea.go.kr/api/openApiInfo.do', d:'신규 제품 신고'},
+  cert:    {n:'식품안전나라 기능성원료 인정현황', u:'https://www.foodsafetykorea.go.kr/portal/board/boardDetail.do', d:'고시형·개별인정 구분'},
+  hs:      {n:'홈쇼핑모아', u:'https://hsmoa.com/', d:'홈쇼핑 편성·실시간 판매수'},
+};
+const srcTag = k => {
+  const s = SRC[k]; if(!s) return '';
+  return `<a class="src" href="${s.u}" target="_blank" rel="noopener noreferrer"
+    title="${s.n} — ${s.d}">출처: ${s.n} ↗</a>`;
+};
+const srcAll = () => `<div class="srcbox">
+  <div class="l">이 화면의 자료 출처 <span class="muted" style="font-size:12px">— 전부 공개 자료입니다</span></div>
+  ${Object.values(SRC).map(s=>`<div class="srcline">
+     <a href="${s.u}" target="_blank" rel="noopener noreferrer">${s.n} ↗</a>
+     <span class="muted">${s.d}</span></div>`).join('')}
+  <div class="muted" style="font-size:12px;margin-top:8px">
+    「4주 뒤 전망」은 위 자료로 계산한 <b>추정</b>이며 공식 자료가 아닙니다.</div>
+</div>`;
 
 const verdictTag = d => {
   if(!d.verdict) return '';
@@ -734,7 +769,7 @@ const trendSVG = d => {
   }
   const nPin = (pins.match(/<line/g)||[]).length;
   return `<div class="box" style="margin-bottom:10px">
-    <div class="l">${PLABEL[PD]} 검색 추이 &mdash; ${useDaily()?'일별':'주별'} · ${pRange(d)}</div>
+    <div class="l">${srcTag("trend")} ${PLABEL[PD]} 검색 추이 &mdash; ${useDaily()?'일별':'주별'} · ${pRange(d)}</div>
     <svg class="trend" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img"
          aria-label="${d.name} ${PLABEL[PD]} 검색 추이">
       <line class="base" x1="0" y1="${H-P-18}" x2="${W}" y2="${H-P-18}"/>
@@ -791,14 +826,14 @@ function openDetail(d){
     ${whyBox(d)}
     ${pinList(d)}
     <div class="grid2">
-      <div class="box"><div class="l">월 검색량</div><div class="v">${fmt(d.search)}</div></div>
-      <div class="box"><div class="l">홈쇼핑 편성</div><div class="v">${hsAll(d)}<span style="font-size:14px;color:var(--muted);font-weight:500"> 건</span></div>
+      <div class="box"><div class="l">월 검색량 ${srcTag("search")}</div><div class="v">${fmt(d.search)}</div></div>
+      <div class="box"><div class="l">홈쇼핑 편성 ${srcTag("hs")}</div><div class="v">${hsAll(d)}<span style="font-size:14px;color:var(--muted);font-weight:500"> 건</span></div>
         ${d.hsl?`<div style="font-size:13px;color:var(--muted);margin-top:3px">이름 일부만 일치 ${d.hsl}건 포함</div>`:''}</div>
       <div class="box"><div class="l">주간 등락</div><div class="v ${cls(d.w)}">${pct(d.w)}</div></div>
       <div class="box"><div class="l">월간 등락</div><div class="v ${cls(d.m)}">${pct(d.m)}</div></div>
     </div>
     ${(d.r365||d.r30)?`<div class="box" style="margin-bottom:10px">
-      <div class="l">신규 품목제조보고 — 이 원료로 만들어진 제품 수${d.rAsOf?' (자료 '+d.rAsOf+' 기준)':''}</div>
+      <div class="l">신규 품목제조보고 — 이 원료로 만들어진 제품 수${d.rAsOf?' (자료 '+d.rAsOf+' 기준)':''} ${srcTag("reg")}</div>
       <div style="display:flex;gap:14px;margin-top:5px;flex-wrap:wrap">
         <span><b style="font-size:17px">${fmt(d.r1||0)}</b><span class="muted" style="font-size:13px"> 오늘</span></span>
         <span><b style="font-size:17px">${fmt(d.r3||0)}</b><span class="muted" style="font-size:13px"> 3일</span></span>
@@ -903,6 +938,7 @@ function bindNav(){
 document.querySelectorAll('.mt').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.m)));
 let _m='biz'; try{ _m = localStorage.getItem('vcbio-mode') || 'biz'; }catch(e){}
 setMode(_m);
+document.getElementById('srcall').innerHTML = srcAll();
 
 </script>
 </body>
