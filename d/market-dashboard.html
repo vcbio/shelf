@@ -209,6 +209,14 @@ footer{color:var(--muted);font-size:13px;line-height:1.7;text-align:center;
 .srcline{display:flex;gap:10px;flex-wrap:wrap;font-size:13px;line-height:1.9}
 .srcline a{color:var(--blue);text-decoration:none;font-weight:600;min-width:230px}
 .srcline a:hover{text-decoration:underline}
+
+.spk{width:104px;height:26px;display:block;overflow:visible}
+.spk .ln{fill:none;stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+.spk .ar{stroke:none;opacity:.13}
+.spk.up .ln,.spk.up .pt{stroke:var(--up);fill:var(--up)}
+.spk.up .ar{fill:var(--up)}
+.spk.down .ln,.spk.down .pt{stroke:var(--down);fill:var(--down)}
+.spk.down .ar{fill:var(--down)}
 </style>
 </head>
 <body>
@@ -438,131 +446,25 @@ const gradeTag = g => g==='비인정' ? '<span class="tag g">일반</span>'
 // ⚠️ 원료를 임의로 빼지 않는다. 전부 보여주고 판단 재료(절대량·스파크라인·배지)를 함께 준다.
 const sparkHTML = d => {
   const s = seriesOf(d);
-  if(!s.length) return '';
-  const B = Math.min(24, Math.max(3, s.length)), out = [];                       // 기간이 길어도 막대는 12개로 압축
+  if(s.length < 2) return '';
+  const N = 40, out = [];                     // 선이므로 점을 촘촘히 (막대보다 흐름이 잘 보인다)
+  const B = Math.min(N, s.length);
   for(let i=0;i<B;i++){
-    const a = Math.floor(i*s.length/B), b = Math.max(a+1, Math.floor((i+1)*s.length/B));
-    const seg = s.slice(a,b);
-    out.push(seg.reduce((x,y)=>x+y,0)/seg.length);
+    const a=Math.floor(i*s.length/B), b=Math.max(a+1, Math.floor((i+1)*s.length/B));
+    const seg=s.slice(a,b); out.push(seg.reduce((x,y)=>x+y,0)/seg.length);
   }
-  const mx = Math.max(...out, 0.0001);
-  const dir = out[B-1] >= out[B-2] ? 'up':'down';
-  return `<span class="spark ${dir}" title="${PLABEL[PD]} · ${pRange(d)}">` +
-    out.map(v=>`<i style="height:${Math.max(1, Math.round(v/mx*20))}px"></i>`).join('') + '</span>';
+  const mx=Math.max(...out), mn=Math.min(...out), rg=(mx-mn)||1;
+  const W=104,H=26,P=2;
+  const pts=out.map((v,i)=>[P+i*(W-2*P)/(out.length-1||1), H-P-(v-mn)/rg*(H-2*P)]);
+  const dd=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+  const up = out[out.length-1] >= out[out.length-2];
+  const area = `M${pts[0][0].toFixed(1)} ${H-P} ` + pts.map(p=>`L${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(' ') + ` L${pts[pts.length-1][0].toFixed(1)} ${H-P} Z`;
+  const last = pts[pts.length-1];
+  return `<svg class="spk ${up?'up':'down'}" viewBox="0 0 ${W} ${H}" role="img"
+      aria-label="${d.name} ${PLABEL[PD]} 검색 추이"><title>${PLABEL[PD]} · ${pRange(d)}</title>
+    <path class="ar" d="${area}"/><path class="ln" d="${dd}"/>
+    <circle class="pt" cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="2"/></svg>`;
 };
-
-// 순위 변동 (최근 13개월 월별 검색 순위) — 벤치마크 차용: 순위보다 "이동"이 판단에 쓰인다
-const rankCell = d => {
-  if(!d.rk) return '<span class="muted">–</span>';
-  const v = d.rk.filter(x=>x);
-  if(!v.length) return '<span class="muted">–</span>';
-  const now = v[v.length-1], was = v[0], mv = was - now;
-  const badge = mv >= 5 ? `<span class="tag hot">▲${mv}</span>`
-              : mv <= -5 ? `<span class="tag cool">▼${-mv}</span>` : '';
-  return `<b>${now}위</b><span class="muted" style="font-size:12px"> ← ${was}위</span> ${badge}`;
-};
-// 방송 핀 (홈쇼핑 편성일)
-const pinList = d => {
-  if(!d.pins || !d.pins.length) return '';
-  const p = d.pins.slice(-8).reverse();
-  return `<div class="box" style="margin-bottom:10px">
-    <div class="l">홈쇼핑 방송일 — 최근 ${p.length}건 (전체 ${d.pins.length}건) ${srcTag("hs")}</div>
-    <div style="font-size:14px;line-height:1.8;margin-top:2px">
-      ${p.map(x=>`<span style="display:inline-block;margin-right:10px"><b>${x.d}</b>${x.c?' <span class="muted">'+x.c+'</span>':''}</span>`).join('')}
-    </div></div>`;
-};
-
-
-// ── 4주 뒤 전망 (추정) ────────────────────────────────────────────────
-// 최근 8주 기울기 + 작년 같은 시기 계절 변화를 반반 섞는다. ⚠️ 추정이므로 반드시 '추정'이라 적는다.
-const fcCell = d => {
-  const f = d.fc;
-  if(!f || f.ch==null) return '<span class="muted">–</span>';
-  const c = f.ch > 3 ? 'up' : (f.ch < -3 ? 'down' : 'muted');
-  return `<b class="${c}">${f.ch>0?'+':''}${f.ch}%</b>`
-       + `<span class="muted" style="font-size:12px"> 신뢰 ${f.conf}</span>`;
-};
-const fcBox = d => {
-  const f = d.fc;
-  if(!f || f.ch==null) return '';
-  const dir = f.ch > 3 ? '더 오를 것으로 보입니다' : (f.ch < -3 ? '내릴 것으로 보입니다' : '비슷할 것으로 보입니다');
-  return `<div class="box" style="margin-bottom:10px">
-    <div class="l">4주 뒤 전망 <span class="tag warn">추정</span></div>
-    <div style="font-size:15px;line-height:1.7;margin-top:3px">
-      지금 <b>${num(f.base)}</b> → 4주 뒤 <b>${num(f.f4)}</b> (<b class="${f.ch>0?'up':(f.ch<0?'down':'muted')}">${f.ch>0?'+':''}${f.ch}%</b>) — ${dir}.<br>
-      <span class="muted" style="font-size:13px">근거: 최근 8주 흐름${f.seas==null?'':` + 작년 같은 때 ${f.seas>0?'+':''}${f.seas}%`} · 신뢰 <b>${f.conf}</b>
-      (최근 8주 들쭉날쭉하면 신뢰가 낮습니다)</span>
-    </div></div>`;
-};
-
-
-// ── 쇼핑 클릭 + 누가 사는지 (네이버 데이터랩 쇼핑인사이트) ───────────────
-// 검색은 '관심', 쇼핑 클릭은 '사려고 눌렀다'. 검색보다 구매에 가깝다.
-// ⚠️ 아직 안 끝난 이번 주는 뺐다(미완성 주를 쓰면 폭락처럼 보인다).
-const shopCell = d => {
-  if(d.shopCh==null) return '<span class="muted">–</span>';
-  return `<b class="${cls(d.shopCh)}">${d.shopCh>0?'+':''}${d.shopCh}%</b>`;
-};
-const whoBox = d => {
-  if(!d.who) return '';
-  // 대표 지시 2026-09-10: "60대 이상만 적지 말고 각 연령별 판매량 누르면 다 나오게"
-  const block = (axis, arr) => {
-    const mx = Math.max(...arr.map(x=>x.p), 1);
-    return `<div style="margin-bottom:10px">
-      <div class="muted" style="font-size:13px;margin-bottom:4px">${axis}</div>
-      ${arr.map(x=>`<div class="wbar">
-        <span class="wk">${x.k}</span>
-        <span class="wt"><i style="width:${(x.p/mx*100).toFixed(1)}%"></i></span>
-        <span class="wp">${x.p}%</span></div>`).join('')}
-    </div>`;
-  };
-  const order = ['연령','성별','기기'];
-  const rows = order.filter(a=>d.who[a]).map(a=>block(a, d.who[a])).join('');
-  return `<div class="box" style="margin-bottom:10px">
-    <div class="l">누가 사나 <span class="muted" style="font-size:12px">— 최근 3년</span> ${srcTag("shop")}</div>
-    <div style="margin-top:8px">${rows}</div></div>`;
-};
-const shopBox = d => {
-  if(!d.shop || !d.shop.length) return '';
-  const s = d.shop, mx = Math.max(...s), n = s.length;
-  const W=560,H=70,P=4;
-  const use = s.slice(-Math.min(n, Math.max(8, Math.round(PD/7))));
-  const m = Math.max(...use)||1;
-  const pts = use.map((v,i)=>[P+i*(W-2*P)/(use.length-1||1), H-P-(v/m)*(H-2*P)]);
-  const dd = pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
-  return `<div class="box" style="margin-bottom:10px">
-    <div class="l">쇼핑 클릭 추이 <span class="muted" style="font-size:12px">— 주별 · ~${d.shopEnd||''} · 상대지수</span> ${srcTag("shop")}</div>
-    <svg class="trend" style="height:70px" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img"
-      aria-label="${d.name} 쇼핑 클릭 추이"><path class="ln" d="${dd}"/></svg>
-    ${d.shopCh==null?'':`<div style="font-size:13px;color:var(--ink2);margin-top:3px">
-      최근 4주가 그 앞 4주보다 <b class="${cls(d.shopCh)}">${d.shopCh>0?'+':''}${d.shopCh}%</b>입니다.</div>`}
-  </div>`;
-};
-
-
-// ── 출처 (대표 지시 2026-09-10 — 공식 출처를 단다) ──────────────────────
-const SRC = {
-  search:  {n:'네이버 검색광고 키워드도구', u:'https://searchad.naver.com/', d:'월 검색량(PC+모바일)'},
-  trend:   {n:'네이버 데이터랩 검색어트렌드', u:'https://datalab.naver.com/keyword/trendSearch.naver', d:'검색 추이(상대지수)'},
-  shop:    {n:'네이버 데이터랩 쇼핑인사이트', u:'https://datalab.naver.com/shoppingInsight/sCategory.naver', d:'쇼핑 클릭·구매층'},
-  reg:     {n:'식품안전나라 품목제조보고', u:'https://www.foodsafetykorea.go.kr/api/openApiInfo.do', d:'신규 제품 신고'},
-  cert:    {n:'식품안전나라 기능성원료 인정현황', u:'https://www.foodsafetykorea.go.kr/portal/board/boardDetail.do', d:'고시형·개별인정 구분'},
-  hs:      {n:'홈쇼핑모아', u:'https://hsmoa.com/', d:'홈쇼핑 편성·실시간 판매수'},
-};
-const srcTag = k => {
-  const s = SRC[k]; if(!s) return '';
-  return `<a class="src" href="${s.u}" target="_blank" rel="noopener noreferrer"
-    title="${s.n} — ${s.d}">출처: ${s.n} ↗</a>`;
-};
-const srcAll = () => `<div class="srcbox">
-  <div class="l">이 화면의 자료 출처 <span class="muted" style="font-size:12px">— 전부 공개 자료입니다</span></div>
-  ${Object.values(SRC).map(s=>`<div class="srcline">
-     <a href="${s.u}" target="_blank" rel="noopener noreferrer">${s.n} ↗</a>
-     <span class="muted">${s.d}</span></div>`).join('')}
-  <div class="muted" style="font-size:12px;margin-top:8px">
-    「4주 뒤 전망」은 위 자료로 계산한 <b>추정</b>이며 공식 자료가 아닙니다.</div>
-</div>`;
-
 const verdictTag = d => {
   if(!d.verdict) return '';
   if(d.verdict==='신규 상승') return '<span class="tag hot">신규 상승</span>';
