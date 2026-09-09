@@ -242,8 +242,9 @@ k3.textContent = peak.length;
 k4.textContent = brand.length;
 
 const row = (d, cols) => `<tr onclick='openDetail(${JSON.stringify(d).replace(/'/g,"&#39;")})'>${cols}</tr>`;
+const $ = id => document.getElementById(id);
 
-tb_brief.innerHTML = up.slice(0,20).map(d=>row(d,
+$('tb-brief').innerHTML = up.slice(0,20).map(d=>row(d,
   `<td class="nm">${d.name}</td>
    <td class="num ${cls(d.w)}">${pct(d.w)}</td>
    <td class="num ${cls(d.m)}">${pct(d.m)}</td>
@@ -251,21 +252,21 @@ tb_brief.innerHTML = up.slice(0,20).map(d=>row(d,
    <td class="hide-m muted">${d.kw||'-'}</td>
    <td class="num ${d.hs===0?'muted':''}">${d.hs||'–'}</td>`)).join('');
 
-tb_gap.innerHTML = gap.slice(0,25).map(d=>row(d,
+$('tb-gap').innerHTML = gap.slice(0,25).map(d=>row(d,
   `<td class="nm">${d.name}</td>
    <td class="num up">${pct(d.w)}</td>
    <td class="num">${fmt(d.search)}</td>
    <td>${gradeTag(d.grade)}</td>
    <td class="hide-m muted">${d.kw||'-'}</td>`)).join('');
 
-tb_peak.innerHTML = peak.slice(0,20).map(d=>row(d,
+$('tb-peak').innerHTML = peak.slice(0,20).map(d=>row(d,
   `<td class="nm">${d.name}</td>
    <td class="num up">${pct(d.m)}</td>
    <td class="num down">${pct(d.w)}</td>
    <td class="num">${fmt(d.search)}</td>
    <td class="hide-m muted">${d.cat||'-'}</td>`)).join('');
 
-tb_brand.innerHTML = brand.slice(0,25).map(d=>row(d,
+$('tb-brand').innerHTML = brand.slice(0,25).map(d=>row(d,
   `<td class="nm">${d.name}</td>
    <td class="num">${d.hs}</td>
    <td>${d.brand? d.brand : '<span class="muted">미상</span>'}</td>
@@ -283,7 +284,7 @@ function renderAll(){
     (!g || d.grade===g) && (!c || d.cat===c));
   list.sort((a,b)=>b.search-a.search);
   cnt.innerHTML = `<b>${list.length}개</b> 표시 중 (전체 ${DATA.length}개). 검색량 많은 순.`;
-  tb_all.innerHTML = list.slice(0,120).map(d=>row(d,
+  $('tb-all').innerHTML = list.slice(0,120).map(d=>row(d,
     `<td class="nm">${d.name}</td>
      <td class="num ${cls(d.w)}">${pct(d.w)}</td>
      <td class="num ${cls(d.m)}">${pct(d.m)}</td>
