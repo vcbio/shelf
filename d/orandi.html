@@ -418,6 +418,26 @@ h1, h2, h3 { margin: 0; letter-spacing: -.02em; }
 .tnode .ts { font-size: calc(14px * var(--zoom)); font-weight: 700; }
 .tnode .tq { font-size: calc(15px * var(--zoom)); }
 
+/* ─── 조합식 가로 보드 (대표 지시 2026-09-09 — "너무 세로라 보기 힘들다") ─── */
+.rboard > .tnode.top {
+  display: inline-flex; margin-bottom: calc(10px * var(--zoom));
+  border-width: 3px; border-color: var(--navy);
+}
+.rboard > .tnode.top b { font-size: calc(18px * var(--zoom)); }
+.rb-cols { display: flex; flex-wrap: wrap; gap: calc(10px * var(--zoom)); align-items: flex-start; }
+.rb-col {
+  flex: 1 1 calc(230px * var(--zoom)); min-width: calc(210px * var(--zoom));
+  padding: calc(9px * var(--zoom)); border: 2px solid var(--line);
+  border-radius: 12px; background: var(--paper);
+}
+.rb-col.ok { background: var(--go-soft); border-color: #bfdfd5; }
+.rb-col .tnode.head { width: 100%; border-width: 2px; }
+.rb-g { display: block; font-size: calc(11.5px * var(--zoom)); color: var(--ink-3); margin: calc(3px * var(--zoom)) 0 0 calc(4px * var(--zoom)); }
+.tree.sub { margin-top: calc(6px * var(--zoom)); }
+.tree.sub ul { margin-left: calc(10px * var(--zoom)); padding-left: calc(9px * var(--zoom)); }
+.tree.sub .tnode img { width: calc(26px * var(--zoom)); height: calc(26px * var(--zoom)); }
+.tree.sub .tnode b { font-size: calc(14px * var(--zoom)); }
+
 </style>
   </head>
   <body>
@@ -1942,7 +1962,7 @@ function renderRun() {
     ${baseSummary(goal, plan)}
     <details class="recipe-drawer" ${treeOpen ? 'open' : ''}>
       <summary>📋 ${esc(goal.name)} 조합식 — 누르면 있음 표시</summary>
-      <ul class="tree">${recipeTree(goal.id)}</ul>
+      ${recipeBoard(goal.id)}
     </details>`;
 
   // 1) 지금 만들 수 있는 것 — 화면에서 제일 크다
@@ -2319,6 +2339,48 @@ function baseSummary(goal, plan) {
       </div>`;
     }).join('')}
   </section>`;
+}
+
+/**
+ * 조합식 보드 — 목표 바로 아래 재료를 **가로로** 늘어놓는다.
+ * 대표 지시(2026-09-09): "너무 세로라서 보기 힘들다. 바로 하위 2~3개를 가로로."
+ * 1층(목표) → 2층(직속 재료, 가로 칸) → 3층 이하는 각 칸 안에서 세로.
+ */
+function recipeBoard(goalId) {
+  const g = state.index.get(goalId);
+  if (!g) return '';
+  const have = invGet(state.inventory, goalId);
+  const top = `<button class="tnode top ${have >= 1 ? 'ok' : ''}" data-inv="${esc(g.id)}" data-d="1">
+      ${img(g)}<b>${esc(g.name)}</b><span class="tg">${esc(g.gradeBase)}</span>
+      ${have >= 1 ? '<span class="tok">✓</span>' : ''}
+    </button>`;
+  if (!g.craftable || !g.stuffs.length) return `<div class="rboard">${top}</div>`;
+
+  const path = new Set([goalId]);
+  return `<div class="rboard">
+    ${top}
+    <div class="rb-cols">
+      ${g.stuffs.map((x) => {
+        const u = state.index.get(x.id);
+        if (!u) return '';
+        const need = x.count;
+        const h = invGet(state.inventory, x.id);
+        const ok = h >= need;
+        return `<div class="rb-col ${ok ? 'ok' : ''}">
+          <button class="tnode head ${ok ? 'ok' : ''}" data-inv="${esc(u.id)}" data-d="1"
+                  title="누르면 있음(+1) · 오른쪽 클릭이면 −1">
+            ${img(u)}<b>${esc(u.name)}</b>
+            ${need > 1 ? `<i class="tq">×${need}</i>` : ''}
+            <span class="ts">${h}/${need}</span>
+            ${ok ? '<span class="tok">✓</span>' : ''}
+          </button>
+          <span class="rb-g">${esc(u.gradeBase)}</span>
+          ${ok || !u.craftable ? '' : `<ul class="tree sub">${u.stuffs
+            .map((y) => recipeTree(y.id, y.count * need, 1, new Set(path).add(u.id))).join('')}</ul>`}
+        </div>`;
+      }).join('')}
+    </div>
+  </div>`;
 }
 
 function recipeTree(unitId, times = 1, depth = 0, path = new Set()) {
