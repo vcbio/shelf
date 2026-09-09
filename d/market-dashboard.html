@@ -168,6 +168,7 @@ footer{color:var(--muted);font-size:13px;line-height:1.7;text-align:center;
 .sb:active{transform:scale(.96)}
 .sb.on{background:var(--ink);border-color:var(--ink);color:#fff}
 .sb:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.trend .pin{stroke:var(--up);stroke-width:1.5;stroke-dasharray:2 2;opacity:.75}
 </style>
 </head>
 <body>
@@ -596,17 +597,32 @@ function verdict(d){
 const trendSVG = d => {
   const s = seriesOf(d);
   if(s.length < 2) return '';
-  const W=560, H=110, P=6;
-  const mx = Math.max(...s), mn = Math.min(...s);
-  const rng = (mx-mn) || 1;
-  const pts = s.map((v,i)=>[P + i*(W-2*P)/(s.length-1), H-P - (v-mn)/rng*(H-2*P)]);
+  const W=560, H=120, P=6;
+  const mx = Math.max(...s), mn = Math.min(...s), rng=(mx-mn)||1;
+  const pts = s.map((v,i)=>[P + i*(W-2*P)/(s.length-1), H-P-18 - (v-mn)/rng*(H-2*P-18)]);
   const dd = pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
   const pi = s.indexOf(mx);
+  // 방송 핀 — 선 위 실제 날짜 자리에 세로선
+  const end = useDaily() ? (d.dEnd||'') : (d.wEnd||'');
+  let pins = '';
+  if(d.pins && end){
+    const e = new Date(end+'T00:00:00');
+    const span = useDaily() ? (s.length-1) : (s.length-1)*7;
+    const start = new Date(e.getTime() - span*86400000);
+    d.pins.forEach(p=>{
+      const dt = new Date(p.d+'T00:00:00');
+      if(dt < start || dt > e) return;
+      const x = P + ((dt-start)/86400000)/span*(W-2*P);
+      pins += `<line class="pin" x1="${x.toFixed(1)}" y1="${P}" x2="${x.toFixed(1)}" y2="${H-P-18}"><title>홈쇼핑 방송 ${p.d} ${p.c||''}</title></line>`;
+    });
+  }
+  const nPin = (pins.match(/<line/g)||[]).length;
   return `<div class="box" style="margin-bottom:10px">
     <div class="l">${PLABEL[PD]} 검색 추이 &mdash; ${useDaily()?'일별':'주별'} · ${pRange(d)}</div>
     <svg class="trend" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img"
          aria-label="${d.name} ${PLABEL[PD]} 검색 추이">
-      <line class="base" x1="0" y1="${H-P}" x2="${W}" y2="${H-P}"/>
+      <line class="base" x1="0" y1="${H-P-18}" x2="${W}" y2="${H-P-18}"/>
+      ${pins}
       <path class="ln" d="${dd}"/>
       <circle class="pk" cx="${pts[pi][0].toFixed(1)}" cy="${pts[pi][1].toFixed(1)}" r="3.5"/>
     </svg>
@@ -615,16 +631,45 @@ const trendSVG = d => {
       <span>가장 높았던 ${useDaily()?'날':'주'} <b>${num(mx)}</b></span>
       ${pDelta(d)==null?'':`<span>직전 같은 기간 대비 <b class="${cls(pDelta(d))}">${pct(pDelta(d))}</b></span>`}
       <span class="muted">${useDaily()?'일':'주'} ${s.length}개</span>
+      ${nPin?`<span class="muted">| 세로선 = 홈쇼핑 방송 ${nPin}회</span>`:''}
     </div>
   </div>`;
 };
-
+// ── 왜 올랐나 (원인 문장) ─────────────────────────────────────────────
+// 근거가 없으면 "원인 근거 없음"이라고 쓴다. 지어내지 않는다.
+const whyBox = d => {
+  const out = [];
+  if(d.peakDay) out.push(`검색이 가장 높았던 날은 <b>${d.peakDay}</b>입니다.`);
+  if(d.pins && d.pins.length){
+    const last = d.pins[d.pins.length-1];
+    let rel = '';
+    if(d.peakDay){
+      const g = Math.round((new Date(d.peakDay)-new Date(last.d))/86400000);
+      rel = g === 0 ? ' 방송한 날과 같은 날입니다.'
+          : g > 0 ? ` 방송이 <b>${g}일 먼저</b>였습니다 — 방송이 끌어올렸을 수 있습니다.`
+                  : ` 검색이 <b>${-g}일 먼저</b>였습니다 — 사람들이 먼저 찾았고 방송이 따라왔습니다.`;
+    }
+    out.push(`홈쇼핑 방송은 ${d.pins.length}회, 가장 최근이 <b>${last.d}</b>${last.c?' ('+last.c+')':''}입니다.${rel}`);
+  } else {
+    out.push('홈쇼핑 방송 기록이 <b>없습니다</b>.');
+  }
+  if(d.r30) out.push(`최근 30일에 이 원료로 <b>${fmt(d.r30)}개</b> 제품이 새로 신고됐습니다.`);
+  if(d.rk){ const v=d.rk.filter(x=>x);
+    if(v.length>1) out.push(`검색 순위는 <b>${v[0]}위 → ${v[v.length-1]}위</b>입니다.`); }
+  if(d.season && d.season.indexOf('계절')>=0 && d.seasonMonth)
+    out.push(`해마다 <b>${d.seasonMonth}월</b>에 오르는 편입니다 — 계절 때문일 수 있습니다.`);
+  if(!d.pins && !d.r30 && !d.peakDay) return '';
+  return `<div class="box" style="margin-bottom:10px">
+    <div class="l">왜 올랐나</div>
+    <div style="font-size:14px;line-height:1.75;margin-top:3px">${out.join('<br>')}</div></div>`;
+};
 function openDetail(d){
   sheet.innerHTML = `
     <h3>${d.name}</h3>
     <div class="meta">${gradeTag(d.grade)}${d.cat?'<span class="tag">'+d.cat+'</span>':''}${d.dist?'<span class="tag">'+d.dist+'</span>':''}</div>
     <div class="verdict">${verdict(d)}</div>
     ${trendSVG(d)}
+    ${whyBox(d)}
     ${pinList(d)}
     <div class="grid2">
       <div class="box"><div class="l">월 검색량</div><div class="v">${fmt(d.search)}</div></div>
