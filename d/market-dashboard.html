@@ -374,6 +374,26 @@ th,td{white-space:nowrap}
 .kpi .n{font-size:26px}
 /* 좁은 화면에서 덜 중요한 열 숨김 */
 @media(max-width:1180px){.hide-s{display:none}}
+
+/* 가로 넘침 해결 — 사이드바 축소 + 폭 넓힘 + 열 압축 */
+.wrap{max-width:1500px;padding:0 20px 80px}
+.split{grid-template-columns:200px 1fr;gap:14px}
+.side{top:104px}
+.sbox{padding:12px 13px}
+.chip{padding:4px 9px;font-size:12px}
+table{font-size:13.5px}
+th{font-size:11px;letter-spacing:.03em;padding:0 7px 10px}
+td{padding:12px 7px}
+td.nm{max-width:170px;font-size:14px}
+.spk{width:118px;height:32px}
+.rkc b{font-size:14px}
+.mv{font-size:10.5px;padding:1px 4px;margin-left:3px}
+/* 「신뢰 보통」 같은 꼬리말은 좁으면 감춘다 */
+@media(max-width:1400px){.fcnote{display:none}}
+@media(max-width:1240px){.hide-s{display:none}}
+/* 접힌 블록 안쪽 여백 축소 */
+.fold .in{padding:0 16px 14px}
+.fold>summary{padding:11px 16px;font-size:13px}
 </style>
 </head>
 <body>
@@ -802,7 +822,7 @@ const sparkHTML = d => {
     const seg=s.slice(a,b); out.push(seg.reduce((x,y)=>x+y,0)/seg.length);
   }
   const mx=Math.max(...out), mn=Math.min(...out), rg=(mx-mn)||1;
-  const W=132,H=34,P=2;
+  const W=118,H=32,P=2;
   const pts=out.map((v,i)=>[P+i*(W-2*P)/(out.length-1||1), H-P-(v-mn)/rg*(H-2*P)]);
   const dd=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
   const up = out[out.length-1] >= out[out.length-2];
@@ -879,7 +899,7 @@ const shopBox = d => {
 // 4주 뒤 전망 (추정)
 const fcCell = d => { const f=d.fc; if(!f||f.ch==null) return '<span class="muted">–</span>';
   const c=f.ch>3?'up':(f.ch<-3?'down':'muted');
-  return `<b class="${c}">${f.ch>0?'+':''}${f.ch}%</b><span class="muted" style="font-size:12px"> 신뢰 ${f.conf}</span>`; };
+  return `<b class="${c}">${f.ch>0?'+':''}${f.ch}%</b><span class="muted fcnote" style="font-size:12px"> 신뢰 ${f.conf}</span>`; };
 const fcBox = d => { const f=d.fc; if(!f||f.ch==null) return '';
   const dir=f.ch>3?'더 오를 것으로 보입니다':(f.ch<-3?'내릴 것으로 보입니다':'비슷할 것으로 보입니다');
   return `<div class="box" style="margin-bottom:10px">
