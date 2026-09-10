@@ -415,7 +415,7 @@ a.acard{text-decoration:none;color:inherit}
       <button class="mt" data-m="con">소비자용</button>
     </div>
   </div>
-  <div class="sub" id="subline">2026-09-10 기준 · 원료 <b>633개</b> <span style='color:var(--muted)'>+ 의약품 7개(참고)</span> · 검색 <b>3년</b> 주별 <span style="color:var(--muted)">(그 이전은 보관)</span> · 홈쇼핑 편성 <b>8,718건</b></div>
+  <div class="sub" id="subline">2026-09-10 기준 · 원료 <b>633개</b> <span style=\"color:var(--muted)\">+ 의약품 7개(참고)</span> · 검색 <b>3년</b> 주별 <span style="color:var(--muted)">(그 이전은 보관)</span> · 홈쇼핑 편성 <b>8,718건</b></div>
 </header>
 
 <div class="periodbar">
@@ -1335,7 +1335,7 @@ function setMode(m){
   $('h1').textContent = con ? '요즘 뜨는 건강 원료' : '건강식품 데이터 랩';
   $('subline').innerHTML = con
     ? '사람들이 <b>실제로 검색하고 사는</b> 원료를 모았습니다. 광고가 아니라 <b>숫자</b>로 고른 것입니다.'
-    : '2026-09-10 기준 · 원료 <b>633개</b> <span style='color:var(--muted)'>+ 의약품 7개(참고)</span> · 검색 <b>3년</b> 주별 <span style="color:var(--muted)">(그 이전은 보관)</span> · 홈쇼핑 편성 <b>8,718건</b>';
+    : '2026-09-10 기준 · 원료 <b>633개</b> <span style=\"color:var(--muted)\">+ 의약품 7개(참고)</span> · 검색 <b>3년</b> 주별 <span style="color:var(--muted)">(그 이전은 보관)</span> · 홈쇼핑 편성 <b>8,718건</b>';
   document.querySelector('.kpis').style.display = con ? 'none' : '';
   document.querySelector('.periodbar').style.display = con ? 'none' : '';
   // 탭 버튼 교체
