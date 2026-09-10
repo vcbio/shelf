@@ -327,6 +327,21 @@ footer{font-size:12px;color:var(--muted)}
 .qd.warn{background:var(--warn-soft);color:var(--warn)}
 .qd.bad{background:#F3F1ED;color:var(--muted)}
 .ok2{color:var(--ok)}
+
+.alertbox{background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);
+  padding:16px 18px;margin-bottom:16px}
+.ah{font-size:13px;font-weight:600;color:var(--ink2);margin-bottom:10px;letter-spacing:-.01em}
+.arow{display:flex;gap:9px;overflow-x:auto;padding-bottom:3px;-webkit-overflow-scrolling:touch}
+.acard{flex:0 0 auto;max-width:280px;text-align:left;background:var(--bg);border:1px solid var(--line);
+  border-radius:var(--r);padding:11px 13px;cursor:pointer;font-family:inherit;
+  display:flex;flex-direction:column;gap:3px;min-height:74px;
+  transition-property:transform,background-color;transition-duration:var(--motion)}
+.acard:hover{background:var(--blue-soft)}
+.acard:active{transform:scale(.98);transition-duration:100ms}
+.acard:focus-visible{outline:2px solid var(--c1);outline-offset:2px}
+.acard b{font-size:15px;letter-spacing:-.01em}
+.acard span:last-child{font-size:12.5px;color:var(--muted);line-height:1.45}
+.acard .tag{align-self:flex-start}
 </style>
 </head>
 <body>
@@ -360,6 +375,8 @@ footer{font-size:12px;color:var(--muted)}
   <button class="pb" data-p="1095">3년</button>
   <span class="pn" id="pnote"></span>
 </div>
+
+<div id="alerts"></div>
 
 <div class="kpis">
   <div class="kpi"><div class="n" id="k1">–</div><div class="l">진짜 뜨는 원료</div><div class="s">작년·3년 평균 둘 다 넘음</div></div>
@@ -560,6 +577,24 @@ const btBox = d => {
     </div></div>`;
 };
 
+
+// ── 오늘의 알림 (조사에서 뒤처진 항목) ─────────────────────────────────
+// ⚠️ 발송은 하지 않는다(대표: "발송은 지금은 생각 ㄴㄴ"). 화면에만 띄운다.
+const ALERTS = {"date": "2026-09-10", "items": [{"k": "확증", "n": "젖산마그네슘", "m": "최근 7일에 제품 348개가 새로 신고됐고 검색도 오릅니다", "w": 100, "v": 137200}, {"k": "확증", "n": "글루타치온", "m": "최근 7일에 제품 133개가 새로 신고됐고 검색도 오릅니다", "w": 100, "v": 70300}, {"k": "확증", "n": "견과류", "m": "최근 7일에 제품 942개가 새로 신고됐고 검색도 오릅니다", "w": 100, "v": 56100}, {"k": "확증", "n": "프로폴리스", "m": "최근 7일에 제품 126개가 새로 신고됐고 검색도 오릅니다", "w": 100, "v": 40230}, {"k": "확증", "n": "홍삼", "m": "최근 7일에 제품 94개가 새로 신고됐고 검색도 오릅니다", "w": 100, "v": 38800}, {"k": "확증", "n": "감태", "m": "최근 7일에 제품 86개가 새로 신고됐고 검색도 오릅니다", "w": 100, "v": 15760}, {"k": "확증", "n": "저분자콜라겐", "m": "최근 7일에 제품 908개가 새로 신고됐고 검색도 오릅니다", "w": 100, "v": 11100}, {"k": "확증", "n": "매스틱검", "m": "최근 7일에 제품 134개가 새로 신고됐고 검색도 오릅니다", "w": 100, "v": 10830}, {"k": "확증", "n": "자일리톨", "m": "최근 7일에 제품 927개가 새로 신고됐고 검색도 오릅니다", "w": 100, "v": 10130}, {"k": "확증", "n": "MCT오일", "m": "최근 7일에 제품 90개가 새로 신고됐고 검색도 오릅니다", "w": 100, "v": 7760}, {"k": "확증", "n": "비타민E", "m": "최근 7일에 제품 133개가 새로 신고됐고 검색도 오릅니다", "w": 100, "v": 6490}, {"k": "확증", "n": "비타민B6", "m": "최근 7일에 제품 836개가 새로 신고됐고 검색도 오릅니다", "w": 100, "v": 5480}, {"k": "확증", "n": "가바", "m": "최근 7일에 제품 91개가 새로 신고됐고 검색도 오릅니다", "w": 100, "v": 2950}, {"k": "확증", "n": "카르니틴", "m": "최근 7일에 제품 89개가 새로 신고됐고 검색도 오릅니다", "w": 100, "v": 2940}, {"k": "확증", "n": "레드비트", "m": "최근 7일에 제품 188개가 새로 신고됐고 검색도 오릅니다", "w": 100, "v": 2680}]};
+const AKC = {확증:'hot', 순위:'hot', 구매:'ok', 빈자리:'warn', 고점:'cool', 전망:'cool'};
+function renderAlerts(){
+  const box=$('alerts'); if(!box||!ALERTS||!ALERTS.items) return;
+  const it=ALERTS.items.filter(a=>{const d=DATA.find(x=>x.name===a.n); return d&&passF(d);});
+  if(!it.length){ box.innerHTML=''; return; }
+  box.innerHTML = `<div class="alertbox">
+    <div class="ah">오늘 눈여겨볼 것 <span class="muted">${ALERTS.date} · ${it.length}건</span></div>
+    <div class="arow">${it.slice(0,8).map(a=>`
+      <button class="acard" onclick='const d=DATA.find(x=>x.name===${JSON.stringify(a.n)}); if(d) openDetail(d)'>
+        <span class="tag ${AKC[a.k]||''}">${a.k}</span>
+        <b>${a.n}</b><span>${a.m}</span>
+      </button>`).join('')}</div></div>`;
+}
+
 // ── 좌우 분할 필터 (대표 지시 2026-09-10 A105) ──────────────────────────
 // 왼쪽에서 좁히면 오른쪽 모든 표가 같이 좁혀진다.
 const F = {q:'', cat:new Set(), grade:new Set(), sig:new Set()};
@@ -594,6 +629,7 @@ function applyF(){
   const on = F.q || F.cat.size || F.grade.size || F.sig.size;
   $('hit').innerHTML = on ? `<b>${fmt(n)}개</b> 골라짐 (전체 ${fmt(DATA.length)})` : `전체 ${fmt(DATA.length)}개`;
   renderTables(); renderAll(); if(typeof renderSeg==='function') renderSeg();
+  if(typeof renderAlerts==='function') renderAlerts();
   if(!document.getElementById('con').classList.contains('panel-hide')) renderCon();
 }
 
@@ -1134,6 +1170,7 @@ $('reset').addEventListener('click', ()=>{
 });
 setMode(_m);
 applyF();
+renderAlerts();
 document.getElementById('srcall').innerHTML = srcAll();
 
 </script>
