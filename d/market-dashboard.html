@@ -216,7 +216,7 @@ footer{color:var(--muted);font-size:13px;line-height:1.7;text-align:center;
 .srcline a{color:var(--blue);text-decoration:none;font-weight:600;min-width:230px}
 .srcline a:hover{text-decoration:underline}
 
-.spk{width:104px;height:26px;display:block;overflow:visible}
+.spk{width:132px;height:34px;display:block;overflow:visible}
 .spk .ln{fill:none;stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
 .spk .ar{stroke:none;opacity:.13}
 .spk.up .ln,.spk.up .pt{stroke:var(--up);fill:var(--up)}
@@ -346,6 +346,34 @@ footer{font-size:12px;color:var(--muted)}
 .mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
 .mcard{background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:13px 15px}
 .mh{font-size:13px;font-weight:600;color:var(--ink2);margin-bottom:9px}
+
+/* ── UI 정리 (대표 지적 2026-09-10) ─────────────────────────────── */
+/* 원료 이름이 세로로 쪼개지는 것 방지 */
+td.nm{white-space:nowrap;max-width:190px;overflow:hidden;text-overflow:ellipsis}
+table{table-layout:auto;min-width:0}
+.main{min-width:0;overflow-x:auto}
+th,td{white-space:nowrap}
+/* 순위 한 줄 */
+.rkc{display:inline-flex;align-items:baseline;gap:2px;font-variant-numeric:tabular-nums}
+.rkc b{font-size:15px}
+.mv{font-size:11px;font-weight:600;margin-left:4px;padding:1px 5px;border-radius:4px}
+.mv.up{background:#FDF0E8;color:var(--up)}
+.mv.down{background:var(--blue-soft);color:var(--down)}
+/* 상단 3블록은 접을 수 있게 */
+.fold{border:1px solid var(--border);border-radius:var(--r-lg);background:var(--card);margin-bottom:14px}
+.fold>summary{list-style:none;cursor:pointer;padding:13px 18px;font-size:13.5px;font-weight:600;
+  color:var(--ink2);display:flex;align-items:center;gap:8px}
+.fold>summary::-webkit-details-marker{display:none}
+.fold>summary::before{content:'▸';color:var(--muted);font-size:12px;transition:transform var(--motion)}
+.fold[open]>summary::before{transform:rotate(90deg)}
+.fold>summary:hover{background:var(--bg);border-radius:var(--r-lg)}
+.fold .in{padding:0 18px 16px}
+.fold .alertbox{border:none;padding:0;margin:0;background:transparent}
+/* KPI 축소 */
+.kpi{padding:13px 15px}
+.kpi .n{font-size:26px}
+/* 좁은 화면에서 덜 중요한 열 숨김 */
+@media(max-width:1180px){.hide-s{display:none}}
 </style>
 </head>
 <body>
@@ -380,8 +408,8 @@ footer{font-size:12px;color:var(--muted)}
   <span class="pn" id="pnote"></span>
 </div>
 
-<div id="alerts"></div>
-<div id="mkt"></div>
+<details class="fold" id="foldA" open><summary>오늘 눈여겨볼 것</summary><div class="in"><div id="alerts"></div></div></details>
+<details class="fold" id="foldM"><summary>시장 전체 — 언제 많이 팔리나</summary><div class="in"><div id="mkt"></div></div></details>
 
 <div class="kpis">
   <div class="kpi"><div class="n" id="k1">–</div><div class="l">진짜 뜨는 원료</div><div class="s">작년·3년 평균 둘 다 넘음</div></div>
@@ -428,7 +456,7 @@ footer{font-size:12px;color:var(--muted)}
     <div class="desc"><em>작년 이맘때</em>와 <em>3년 평균</em>을 둘 다 넘은 원료입니다. 3년 주별 데이터로 가려냈습니다. 한 주 반짝한 것과 다릅니다.</div>
     <table><thead><tr>
       <th>원료</th><th class="hide-m sp-h">추이</th><th class="num">월 검색량</th>
-      <th class="num">신규 제품 30·7·3일</th><th class="hide-m">검색 순위</th><th class="hide-m">자료</th><th class="num hide-m">쇼핑 클릭</th><th class="num">4주 뒤 전망 <span class="tag warn" style="text-transform:none">추정</span></th><th class="num">작년 대비</th><th class="num">3년 대비</th><th>판정</th>
+      <th class="num">신규 제품 30·7·3일</th><th class="num hide-m">순위</th><th class="num hide-m">쇼핑 클릭</th><th class="num">4주 뒤 전망 <span class="tag warn" style="text-transform:none">추정</span></th><th class="num hide-s">작년 대비</th><th>판정</th>
     </tr></thead><tbody id="tb-rise"></tbody></table>
     <div class="note"><b>읽는 법</b> &mdash; <em>월 검색량이 큰 순</em>으로 놓았습니다. %가 커도 원래 안 찾던 단어면 작아 보입니다.<br>
     <b>「신규 제품」이 핵심입니다</b> &mdash; 그 원료로 <em>실제 품목제조보고가 된 제품 수</em>입니다(30일 / 7일 / 3일). 검색은 관심이지만 <b>제조보고는 회사가 돈을 들여 만들기 시작했다는 증거</b>입니다. 검색도 오르고 신규 제품도 나오면 진짜입니다.<br>
@@ -592,7 +620,7 @@ function renderAlerts(){
   const it=ALERTS.items.filter(a=>{const d=DATA.find(x=>x.name===a.n); return d&&passF(d);});
   if(!it.length){ box.innerHTML=''; return; }
   box.innerHTML = `<div class="alertbox">
-    <div class="ah">오늘 눈여겨볼 것 <span class="muted">${ALERTS.date} · ${it.length}건</span></div>
+    <div class="ah muted" style="font-weight:400">${ALERTS.date} · ${it.length}건</div>
     <div class="arow">${it.slice(0,8).map(a=>`
       <button class="acard" onclick='const d=DATA.find(x=>x.name===${JSON.stringify(a.n)}); if(d) openDetail(d)'>
         <span class="tag ${AKC[a.k]||''}">${a.k}</span>
@@ -638,7 +666,7 @@ function renderMkt(){
       <div class="muted" style="font-size:12px;margin-top:5px">단위 = ${unit}</div></div>`;
   };
   box.innerHTML = `<div class="alertbox">
-    <div class="ah">시장 전체 — 언제 많이 팔리나 <span class="muted">홈쇼핑 실측 판매수량</span> ${srcTag("hs")}</div>
+    <div class="ah muted" style="font-weight:400">홈쇼핑 실측 판매수량 ${srcTag("hs")}</div>
     <div class="mgrid">
       ${card('시간대별', MKT['시간대'], '개')}
       ${card('요일별', MKT['요일'], '개')}
@@ -774,7 +802,7 @@ const sparkHTML = d => {
     const seg=s.slice(a,b); out.push(seg.reduce((x,y)=>x+y,0)/seg.length);
   }
   const mx=Math.max(...out), mn=Math.min(...out), rg=(mx-mn)||1;
-  const W=104,H=26,P=2;
+  const W=132,H=34,P=2;
   const pts=out.map((v,i)=>[P+i*(W-2*P)/(out.length-1||1), H-P-(v-mn)/rg*(H-2*P)]);
   const dd=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
   const up = out[out.length-1] >= out[out.length-2];
@@ -810,7 +838,8 @@ const rankCell = d => {
   const v=d.rk.filter(x=>x); if(!v.length) return '<span class="muted">–</span>';
   const now=v[v.length-1], was=v[0], mv=was-now;
   const badge = mv>=5?`<span class="tag hot">▲${mv}</span>`:(mv<=-5?`<span class="tag cool">▼${-mv}</span>`:'');
-  return `<b>${now}위</b><span class="muted" style="font-size:12px"> ← ${was}위</span> ${badge}`;
+  const arrow = mv>0?`<span class="mv up">▲${mv}</span>`:(mv<0?`<span class="mv down">▼${-mv}</span>`:'');
+  return `<span class="rkc"><b>${now}</b><span class="muted">위</span>${arrow}</span>`;
 };
 // 홈쇼핑 방송일
 const pinList = d => {
@@ -903,11 +932,9 @@ $('tb-rise').innerHTML = rising.filter(_f).map(d=>row(d,
    <td class="num" style="font-weight:700">${fmt(d.search)}</td>
    <td class="num">${regCell(d)}</td>
    <td class="hide-m">${rankCell(d)}</td>
-   <td class="hide-m">${qCell(d)}</td>
    <td class="num hide-m">${shopCell(d)}</td>
    <td class="num">${fcCell(d)}</td>
-   <td class="num ${cls(d.yoy)}">${d.yoy==null?'–':pct(d.yoy)}</td>
-   <td class="num ${cls(d.vs3y)}">${d.vs3y==null?'–':pct(d.vs3y)}</td>
+   <td class="num hide-s ${cls(d.yoy)}">${d.yoy==null?'–':pct(d.yoy)}</td>
    <td>${verdictTag(d)}${lowVol(d)}</td>`)).join('');
 
 $('tb-brief').innerHTML = up.filter(_f).slice(0,40).map(d=>row(d,
