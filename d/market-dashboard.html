@@ -441,7 +441,7 @@ a.acard{text-decoration:none;color:inherit}
   <div class="kpi"><div class="n" id="k1">–</div><div class="l">진짜 뜨는 원료</div><div class="s">작년·3년 평균 둘 다 넘음</div></div>
   <div class="kpi"><div class="n" id="k2">–</div><div class="l">빈자리 신호</div><div class="s">검색 있는데 편성 0건</div></div>
   <div class="kpi"><div class="n" id="k3">–</div><div class="l">고점 지난 원료</div><div class="s">월간 상승, 주간 하락</div></div>
-  <div class="kpi"><div class="n" id="k4">–</div><div class="l">홈쇼핑에 잡힌 원료</div><div class="s">건기식 편성 매칭</div></div>
+  <div class="kpi"><div class="n" id="k4">–</div><div class="l">뜨는 브랜드</div><div class="s">홈쇼핑·올리브영에서 잡힘</div></div>
 </div>
 
 <nav>
@@ -450,7 +450,7 @@ a.acard{text-decoration:none;color:inherit}
   <button data-t="gap">빈자리·기회</button>
   <button data-t="all">원료 전체</button>
   <button data-t="peak">고점 신호</button>
-  <button data-t="brand">주도 브랜드</button>
+  <button data-t="brand">뜨는 브랜드</button>
   <button data-t="seg4">4갈래 분류</button>
 </nav>
 
@@ -546,12 +546,15 @@ a.acard{text-decoration:none;color:inherit}
 
 <section id="brand" class="panel-hide">
   <div class="card">
-    <h2>누가 밀고 있나</h2>
-    <div class="desc">홈쇼핑 편성에서 원료별로 가장 많이 나온 브랜드입니다. <em>따라갈지 빈자리를 칠지</em> 판단할 재료입니다.</div>
+    <h2>뜨는 브랜드</h2>
+    <div class="desc">홈쇼핑 편성·실판매와 올리브영 순위에서 뽑은 브랜드입니다.
+      <em>어느 브랜드가 어느 원료를 미는지</em> 보입니다. 상품명 대괄호에서 브랜드를 뽑았습니다.</div>
     <table><thead><tr>
-      <th>원료</th><th class="num">편성</th><th>주도 브랜드</th><th class="num">월 검색량</th><th class="num hide-m">주간</th>
+      <th>브랜드</th><th class="num">홈쇼핑 편성</th><th class="num hide-m">판매수량</th>
+      <th class="num hide-s">올리브영</th><th class="num hide-s">리뷰</th>
+      <th>미는 원료</th><th class="hide-m">채널</th>
     </tr></thead><tbody id="tb-brand"></tbody></table>
-    <div class="note"><b>주의</b> &mdash; 편성 횟수는 매출이 아닙니다. 실측으로 확인했습니다. 정관장은 편성 27회인데 매출이 1조로, 편성 61회인 곳보다 10배 큽니다. <b>편성은 밀고 있다는 신호일 뿐입니다.</b></div>
+    <div class="note" id="brcnt"></div>
   </div>
 </section>
 
@@ -789,6 +792,28 @@ function renderYT(){
       </a>`).join('')}</div></div>`;
 }
 
+
+// ── 뜨는 브랜드 (A106) — 제0원칙 4판정 중 ④「누가 주도하나」 ────────────
+const BRANDS = {"top": [{"b": "오쏘몰", "qty": 0, "bc": 0, "hf": 0, "rev": 117648, "ing": [], "ch": [], "top": null, "oyrk": 5, "src": ["올리브영"], "p": ["오쏘몰 이뮨 멀티비타민&미네랄 14+1입", "오쏘몰 이뮨 멀티비타민&미네랄 14입+1입 증정 기획 (2주분)"]}, {"b": "고려은단", "qty": 0, "bc": 0, "hf": 0, "rev": 49829, "ing": ["비타민C", "오메가3(rTG)"], "ch": [], "top": null, "oyrk": 1, "src": ["올리브영"], "p": ["고려은단 메가도스C 비타민C 3000mg 100포 (100일분)", "[9월 올영픽] 고려은단 메가도스C 비타민C 3000mg 30포 (+헬로"]}, {"b": "푸드올로지", "qty": 0, "bc": 0, "hf": 0, "rev": 45634, "ing": [], "ch": [], "top": null, "oyrk": 15, "src": ["올리브영"], "p": ["[서현PICK] 콜레올로지 PRO 600mg*30정/60정 (15/30일", "[파격특가] 콜레올로지 컷팅 젤리 레몬/키위/석류 10+2+2포 기획 외"]}, {"b": "덴프스", "qty": 0, "bc": 1, "hf": 1, "rev": 41323, "ing": ["유산균"], "ch": ["홈앤쇼핑"], "top": null, "oyrk": 2, "src": ["올리브영", "홈쇼핑"], "p": ["덴마크 유산균 이야기 6병 (12개월분) + 쇼핑백 1장 + 선물박스 1", "[덴프스] 덴마크 유산균이야기 30캡슐 1+1 기획 (+트루바이타민 3포"]}, {"b": "바이탈뷰티", "qty": 0, "bc": 0, "hf": 0, "rev": 31198, "ing": [], "ch": [], "top": null, "oyrk": 33, "src": ["올리브영"], "p": ["바이탈뷰티 슈퍼콜라겐 14/28입", "[1일 1정] 바이탈뷰티 메타그린 슬림업 30일"]}, {"b": "멜라메이트", "qty": 0, "bc": 0, "hf": 0, "rev": 28464, "ing": [], "ch": [], "top": null, "oyrk": 4, "src": ["올리브영"], "p": ["[감자숭이 기획] 멜라메이트 구미/로우슈가/버라이어티팩 구미 20/40/", "[골라담기/신제품] 멜라메이트 구미 타트체리맛/리치백도맛/애플민트맛/2m"]}, {"b": "락토핏", "qty": 0, "bc": 0, "hf": 0, "rev": 27732, "ing": [], "ch": [], "top": null, "oyrk": 13, "src": ["올리브영"], "p": ["락토핏 골드 패밀리팩 130포 (130일분)(RE)", "락토핏 골드 트리플 기획 (3개월분)"]}, {"b": "바이오코어유산균", "qty": 0, "bc": 0, "hf": 0, "rev": 26959, "ing": ["유산균"], "ch": [], "top": null, "oyrk": 21, "src": ["올리브영"], "p": ["[9월 올영픽/산리오콜라보] CJ 바이오코어 유산균 3종 (피부/다이어트", "[화사 PICK] CJ 바이오코어 피부면역유산균 30포 (+10포 증정기"]}, {"b": "지노마스터", "qty": 0, "bc": 0, "hf": 0, "rev": 25401, "ing": ["유산균"], "ch": [], "top": null, "oyrk": 6, "src": ["올리브영"], "p": ["지노마스터 질유산균 30캡슐 기획 (+보라지유 5일분) (1개월분)", "마스터바이옴 더블마스터 장앤스킨 피부유산균 1개월분"]}, {"b": "씨제이웰케어", "qty": 0, "bc": 0, "hf": 0, "rev": 18560, "ing": ["오메가3(rTG)"], "ch": [], "top": null, "oyrk": 26, "src": ["올리브영"], "p": ["CJ웰케어 혈행건강 초임계 rTG 오메가3 30캡슐 (30일분) (OY단", "[골라담기] CJ웰케어 건강루틴 가격혁명 10종 택 1"]}, {"b": "알디콤", "qty": 0, "bc": 0, "hf": 0, "rev": 17932, "ing": [], "ch": [], "top": null, "oyrk": 69, "src": ["올리브영"], "p": ["[1+1]알디콤 숙취해소제 4포입 3종 (플러스, 에이, 브이)"]}, {"b": "생활약속", "qty": 0, "bc": 0, "hf": 0, "rev": 16611, "ing": [], "ch": [], "top": null, "oyrk": 22, "src": ["올리브영"], "p": ["[곽민경 PICK] 생활약속 기분전환 알파플러스 10포 (+1포 증정기획"]}, {"b": "칼로(Kalo)", "qty": 0, "bc": 0, "hf": 0, "rev": 12976, "ing": [], "ch": [], "top": null, "oyrk": 59, "src": ["올리브영"], "p": ["[올영단독] 칼로 스탑 PLUS 15포 + 컨트롤 PLUS 15포 기획 ", "[9월 올영픽/급찐급빠] 칼로 스탑/컨트롤 PLUS 15포+15포 (+폼"]}, {"b": "올더베러", "qty": 0, "bc": 0, "hf": 0, "rev": 11923, "ing": ["비타민C"], "ch": [], "top": null, "oyrk": 24, "src": ["올리브영"], "p": ["올더베러 이뮨 멀티비타민 워터믹스 1일분/7일분", "올더베러 웰니스 구미 7일분 택1"]}, {"b": "코자아", "qty": 0, "bc": 0, "hf": 0, "rev": 11743, "ing": [], "ch": [], "top": null, "oyrk": 36, "src": ["올리브영"], "p": ["코자아 식물성 멜라토닌 함유 젤리/드링크 (단품/기획)", "코자아 식물성 멜라토닌 함유 젤리 기획 (+10구미+틴케이스) (20일분"]}, {"b": "비비랩", "qty": 0, "bc": 0, "hf": 0, "rev": 11402, "ing": ["저분자콜라겐"], "ch": [], "top": null, "oyrk": 37, "src": ["올리브영"], "p": ["[단독기획] 비비랩 저분자콜라겐S 30포 단품/더블기획 (1개월/2개월분", "비비랩 석류콜라겐S 14포*4입 기획 (8주분)"]}, {"b": "아임비타", "qty": 0, "bc": 0, "hf": 0, "rev": 10914, "ing": [], "ch": [], "top": null, "oyrk": 10, "src": ["올리브영"], "p": ["[9월 올영픽/김우빈PICK] 아임비타 멀티비타민 이뮨샷 12입 (+포차"]}, {"b": "뉴오리진", "qty": 0, "bc": 0, "hf": 0, "rev": 9159, "ing": ["유산균"], "ch": [], "top": null, "oyrk": 62, "src": ["올리브영"], "p": ["[호빵맨콜라보] 이너플로라 질유산균 60캡슐+호빵맨 스티커 / 이노시톨콜", "뉴오리진 이너플로라 60캡슐 기획(+ 이노시톨 3포 증정)(2개월분)"]}, {"b": "판도라", "qty": 0, "bc": 0, "hf": 0, "rev": 8911, "ing": [], "ch": [], "top": null, "oyrk": 29, "src": ["올리브영"], "p": ["판도라 브이트리티 7/14+1포 (7/15일분)"]}, {"b": "종근당건강", "qty": 0, "bc": 2, "hf": 2, "rev": 6714, "ing": ["유산균", "오메가3(rTG)"], "ch": ["GS샵"], "top": null, "oyrk": 27, "src": ["올리브영", "홈쇼핑"], "p": ["락토핏 19종유산균 맥스19 6통+2통 더", "종근당건강 프로메가 오메가3 트리플 60캡슐 (장용성) (1개월분)"]}, {"b": "닥터아돌", "qty": 0, "bc": 0, "hf": 0, "rev": 6593, "ing": ["유산균"], "ch": [], "top": null, "oyrk": 16, "src": ["올리브영"], "p": ["[9월 올영픽/품절대란] 닥터아돌 카테킨 아세로라 칼시페롤 C D 60정", "닥터아돌 히알바이오틱스 질 유래 유산균 30개입 (30일분)"]}, {"b": "세노비스", "qty": 0, "bc": 0, "hf": 0, "rev": 6131, "ing": ["마그네슘", "오메가3(rTG)"], "ch": [], "top": null, "oyrk": 38, "src": ["올리브영"], "p": ["세노비스 마그네슘 180정 기획 (6개월분)", "세노비스 루테인+오메가3 80캡슐 (+10캡슐 증정기획) (45일분)"]}, {"b": "메디슨벨", "qty": 0, "bc": 0, "hf": 0, "rev": 5977, "ing": [], "ch": [], "top": null, "oyrk": 47, "src": ["올리브영"], "p": ["[하루PICK] 메디슨벨 마시는 샐러드 트리플 7+1포/ 오리지널 14포"]}, {"b": "그린몬스터", "qty": 0, "bc": 0, "hf": 0, "rev": 5606, "ing": ["유산균"], "ch": [], "top": null, "oyrk": 3, "src": ["올리브영"], "p": ["[50억 보장] 그린몬스터 이너블라썸 질 유래 유산균 30캡슐 (1개월분", "[4일추가증정] 그린몬스터 다이어트 쾌변쑥/체지방쏙 기획세트"]}, {"b": "대원제약", "qty": 0, "bc": 0, "hf": 0, "rev": 5338, "ing": [], "ch": [], "top": null, "oyrk": 31, "src": ["올리브영"], "p": ["[수면 효율증가]대원제약 대원헬스 꿀잠샷 20gX12포 (+2포+수면안대"]}, {"b": "아이힐", "qty": 0, "bc": 0, "hf": 0, "rev": 4401, "ing": ["유산균"], "ch": [], "top": null, "oyrk": 12, "src": ["올리브영"], "p": ["아이힐 비너스 질유산균 30캡슐 (+6캡슐) 증량 기획"]}, {"b": "락티브", "qty": 0, "bc": 0, "hf": 0, "rev": 3943, "ing": ["유산균"], "ch": [], "top": null, "oyrk": 97, "src": ["올리브영"], "p": ["락티브 이노시톨 30포 (+시크릿케어 질유래유산균 10캡슐 증정기획)"]}, {"b": "닥터린", "qty": 0, "bc": 0, "hf": 0, "rev": 3277, "ing": ["콘드로이친", "비오틴"], "ch": [], "top": null, "oyrk": 17, "src": ["올리브영"], "p": ["닥터린 콘드로이친 1200 맥스 60정 (60일분)", "[올영단독] 닥터린 알파CD 원데이 핏 30포 (1개월분)"]}, {"b": "이너랩", "qty": 0, "bc": 0, "hf": 0, "rev": 3073, "ing": [], "ch": [], "top": null, "oyrk": 14, "src": ["올리브영"], "p": ["[올영단독 증량기획] 셀트리온 홀드잇 매드 MAD 10일 (+2일)"]}, {"b": "슬리플러스", "qty": 0, "bc": 0, "hf": 0, "rev": 2947, "ing": [], "ch": [], "top": null, "oyrk": 9, "src": ["올리브영"], "p": ["슬리플러스X카카오프렌즈 슬리핑보틀 100ml 6개입"]}, {"b": "미에로화이바", "qty": 0, "bc": 0, "hf": 0, "rev": 2820, "ing": [], "ch": [], "top": null, "oyrk": 43, "src": ["올리브영"], "p": ["[TWS PICK] 미에로화이바 데이톡 14포 (14일분)"]}, {"b": "라이킷", "qty": 0, "bc": 0, "hf": 0, "rev": 2625, "ing": [], "ch": [], "top": null, "oyrk": 89, "src": ["올리브영"], "p": ["[알파CD] 라이킷 쓸림쏙 씬덱스 3500 10포 (10일분)", "라이킷 파인셔스 브이샷 7포 (7일분)"]}, {"b": "비에날씬", "qty": 0, "bc": 0, "hf": 0, "rev": 2225, "ing": ["유산균"], "ch": [], "top": null, "oyrk": 74, "src": ["올리브영"], "p": ["BNR17 다이어트 유산균 비에날씬 슬림+ 14포 (2주분)"]}, {"b": "올더뮤", "qty": 0, "bc": 0, "hf": 0, "rev": 1958, "ing": [], "ch": [], "top": null, "oyrk": 23, "src": ["올리브영"], "p": ["올더뮤 뮤신 딥글로우 자두맛 7포 (+2포 증정)"]}, {"b": "헬시플레이스", "qty": 0, "bc": 0, "hf": 0, "rev": 1811, "ing": ["글루타치온"], "ch": [], "top": null, "oyrk": 56, "src": ["올리브영"], "p": ["헬시플레이스 더블 토닝 화이트 글루타치온 콜라겐 스틱 14포 (14일분)"]}, {"b": "에스더포뮬러", "qty": 0, "bc": 0, "hf": 0, "rev": 1116, "ing": [], "ch": [], "top": null, "oyrk": 46, "src": ["올리브영"], "p": ["[국민영양] 여에스더 멀티비타민 미네랄 30정 (1개월분)"]}, {"b": "대웅제약", "qty": 0, "bc": 0, "hf": 0, "rev": 969, "ing": [], "ch": [], "top": null, "oyrk": 76, "src": ["올리브영"], "p": ["대웅제약 에너씨슬 콜레다운 30캡슐 (1개월분)"]}, {"b": "바이너랩", "qty": 0, "bc": 0, "hf": 0, "rev": 600, "ing": [], "ch": [], "top": null, "oyrk": 42, "src": ["올리브영"], "p": ["바이너랩 겟글로이 14병 (2주분)"]}, {"b": "네이처메이드", "qty": 0, "bc": 0, "hf": 0, "rev": 509, "ing": ["비타민C"], "ch": [], "top": null, "oyrk": 51, "src": ["올리브영"], "p": ["네이처메이드 여성 건강 기획 (멀티 포 우먼 120정+칼슘 180정)", "네이처메이드 비타민C 구미 (40일분)"]}, {"b": "GNM자연의품격", "qty": 0, "bc": 0, "hf": 0, "rev": 507, "ing": [], "ch": [], "top": null, "oyrk": 61, "src": ["올리브영"], "p": ["GNM 알파CD 알파시클로덱스트린 3박스 / 알파씨디", "GNM 미오 이노시톨 콜린 4000 30포X2박스(2개월분)"]}], "n": 75};
+function renderBrands(){
+  const box=$('tb-brand'); if(!box||!BRANDS||!BRANDS.top) return;
+  // 필터가 걸리면 그 원료를 미는 브랜드만
+  const on = F.q || F.cat.size || F.grade.size || F.sig.size;
+  const ok = new Set(DATA.filter(passF).map(d=>d.name));
+  let list = BRANDS.top.filter(b=>!on || (b.ing||[]).some(x=>ok.has(x)));
+  $('brcnt').innerHTML = `<b>${fmt(list.length)}개</b> 표시 (전체 ${fmt(BRANDS.n)}개) · 홈쇼핑 편성 많은 순`;
+  list = list.slice().sort((a,b)=>(b.bc-a.bc)||(b.rev-a.rev));
+  box.innerHTML = list.slice(0,40).map(b=>`<tr>
+    <td class="nm">${b.b}${b.src&&b.src.length>1?'<span class="tag ok2t" style="margin-left:5px">여러 채널</span>':''}</td>
+    <td class="num">${b.bc?`<b>${fmt(b.bc)}</b><span class="muted" style="font-size:12px"> 회${b.hf?` · 건기식 ${b.hf}`:''}</span>`:'<span class="muted">–</span>'}</td>
+    <td class="num hide-m">${b.qty?fmt(b.qty):'<span class="muted">–</span>'}</td>
+    <td class="num hide-s">${b.oyrk?`<b>${b.oyrk}</b><span class="muted" style="font-size:12px">위</span>`:'<span class="muted">–</span>'}</td>
+    <td class="num hide-s">${b.rev?fmt(b.rev):'<span class="muted">–</span>'}</td>
+    <td>${(b.ing||[]).map(x=>`<span class="tag">${x}</span>`).join('') || '<span class="muted">–</span>'}</td>
+    <td class="hide-m muted">${(b.ch||[]).join(', ')||'-'}</td>
+  </tr>`).join('');
+}
+
 // ── 좌우 분할 필터 (대표 지시 2026-09-10 A105) ──────────────────────────
 // 왼쪽에서 좁히면 오른쪽 모든 표가 같이 좁혀진다.
 const F = {q:'', cat:new Set(), grade:new Set(), sig:new Set()};
@@ -823,7 +848,8 @@ function applyF(){
   const on = F.q || F.cat.size || F.grade.size || F.sig.size;
   $('hit').innerHTML = on ? `<b>${fmt(n)}개</b> 골라짐 (전체 ${fmt(DATA.length)})` : `전체 ${fmt(DATA.length)}개`;
   renderTables(); renderAll(); if(typeof renderSeg==='function') renderSeg();
-  if(typeof renderAlerts==='function') renderAlerts(); renderMkt(); renderYT();
+  if(typeof renderBrands==='function') renderBrands();
+  if(typeof renderAlerts==='function') renderAlerts(); renderMkt(); renderYT(); renderBrands();
   if(!document.getElementById('con').classList.contains('panel-hide')) renderCon();
 }
 
@@ -1004,7 +1030,7 @@ const rising = DATA.filter(d=>d.verdict==='신규 상승'||d.verdict==='최근 �
 k1.textContent = rising.length;
 k2.textContent = gap.length;
 k3.textContent = peak.length;
-k4.textContent = brand.length;
+k4.textContent = (typeof BRANDS!=='undefined'&&BRANDS.n)?BRANDS.n:brand.length;
 
 const row = (d, cols) => `<tr tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}" onclick='openDetail(${JSON.stringify(d).replace(/'/g,"&#39;")})'>${cols}</tr>`;
 const $ = id => document.getElementById(id);
@@ -1052,12 +1078,6 @@ $('tb-peak').innerHTML = peak.filter(_f).slice(0,20).map(d=>row(d,
    <td class="num">${fmt(d.search)}</td>
    <td class="hide-m muted">${d.cat||'-'}</td>`)).join('');
 
-$('tb-brand').innerHTML = brand.filter(_f).slice(0,25).map(d=>row(d,
-  `<td class="nm">${d.name}</td>
-   <td class="num">${hsCell(d)}</td>
-   <td>${d.brand? d.brand : '<span class="muted">미상</span>'}</td>
-   <td class="num">${fmt(d.search)}</td>
-   <td class="num hide-m ${cls(d.w)}">${pct(d.w)}</td>`)).join('');
 }
 renderTables();
 
@@ -1344,7 +1364,7 @@ function setMode(m){
     ? Object.entries(CVIEWS).map(([k,v],i)=>`<button class="${i===0?'on':''}" data-c="${k}">${v.t}</button>`).join('')
     : BIZTABS.map((k,i)=>`<button class="${i===0?'on':''}" data-t="${k}">${
         ({rise:'진짜 뜨는 원료',brief:'이번 주',gap:'빈자리·기회',all:'원료 전체',
-          peak:'고점 신호',brand:'주도 브랜드',seg4:'4갈래 분류'})[k]}</button>`).join('');
+          peak:'고점 신호',brand:'뜨는 브랜드',seg4:'4갈래 분류'})[k]}</button>`).join('');
   BIZTABS.forEach(k=>{ const el=$(k); if(el) el.classList.toggle('panel-hide', con || k!=='rise'); });
   $('con').classList.toggle('panel-hide', !con);
   if(con){ CV='hot'; renderCon(); }
@@ -1372,7 +1392,7 @@ $('reset').addEventListener('click', ()=>{
 });
 setMode(_m);
 applyF();
-renderAlerts(); renderMkt(); renderYT();
+renderAlerts(); renderMkt(); renderYT(); renderBrands();
 document.getElementById('srcall').innerHTML = srcAll();
 
 </script>
