@@ -294,6 +294,32 @@ footer{font-size:12px;color:var(--muted)}
   .tag{border:1px solid currentColor}
   td{border-bottom-color:var(--border)}
 }
+
+.split{display:grid;grid-template-columns:236px 1fr;gap:18px;align-items:start}
+.side{position:sticky;top:112px;display:flex;flex-direction:column;gap:12px}
+.sbox{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px 15px}
+.sl{display:block;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--muted);font-weight:600;margin-bottom:8px}
+.side input[type=search]{width:100%;min-height:40px;padding:9px 12px;border:1px solid var(--border);
+  border-radius:var(--r-sm);font-size:14px;font-family:inherit;background:var(--bg);color:var(--ink)}
+.side input[type=search]:focus{outline:2px solid var(--c1);outline-offset:1px;background:var(--card)}
+.hit{font-size:12px;color:var(--muted);margin-top:7px;min-height:16px;font-variant-numeric:tabular-nums}
+.chips{display:flex;flex-wrap:wrap;gap:5px;max-height:190px;overflow-y:auto}
+.chip{padding:5px 10px;border:1px solid var(--border);background:var(--bg);border-radius:99px;
+  font-size:12.5px;font-weight:500;color:var(--ink2);cursor:pointer;
+  transition-property:background-color,color,border-color,transform;transition-duration:var(--motion)}
+.chip:active{transform:scale(.96);transition-duration:100ms}
+.chip.on{background:var(--c1);border-color:var(--c1);color:#fff;font-weight:600}
+.chip:focus-visible{outline:2px solid var(--ink);outline-offset:1px}
+.reset{min-height:40px;border:1px solid var(--border);background:var(--card);border-radius:99px;
+  font-size:13.5px;font-weight:600;font-family:inherit;color:var(--ink2);cursor:pointer}
+.reset:active{transform:scale(.97);transition-duration:100ms}
+@media(max-width:900px){
+  .split{grid-template-columns:1fr}
+  .side{position:static;flex-direction:row;flex-wrap:wrap}
+  .sbox{flex:1 1 200px}
+  .chips{max-height:none}
+}
 </style>
 </head>
 <body>
@@ -345,6 +371,28 @@ footer{font-size:12px;color:var(--muted)}
   <button data-t="seg4">4갈래 분류</button>
 </nav>
 
+<div class="split">
+<aside class="side">
+  <div class="sbox">
+    <label class="sl" for="q2">원료 찾기</label>
+    <input type="search" id="q2" placeholder="이름·기능 (예: 콜라겐, 관절)" autocomplete="off">
+    <div class="hit" id="hit"></div>
+  </div>
+  <div class="sbox">
+    <div class="sl">기능</div>
+    <div class="chips" id="fcat"></div>
+  </div>
+  <div class="sbox">
+    <div class="sl">구분</div>
+    <div class="chips" id="fgrade"></div>
+  </div>
+  <div class="sbox">
+    <div class="sl">신호</div>
+    <div class="chips" id="fsig"></div>
+  </div>
+  <button class="reset" id="reset">전체 보기</button>
+</aside>
+<div class="main">
 <section id="rise">
   <div class="card">
     <h2>진짜 뜨는 원료</h2>
@@ -452,6 +500,8 @@ footer{font-size:12px;color:var(--muted)}
   </div>
 </section>
 
+</div>
+</div>
 <div id="srcall"></div>
 <footer>
   브이씨바이오 원료 시장 데이터베이스 &middot; 시안<br>
@@ -653,7 +703,8 @@ const regCell = d => {
 };
 
 function renderTables(){
-$('tb-rise').innerHTML = rising.map(d=>row(d,
+  const _f = d => passF(d);
+$('tb-rise').innerHTML = rising.filter(_f).map(d=>row(d,
   `<td class="nm">${d.name}</td>
    <td class="hide-m">${sparkHTML(d)}</td>
    <td class="num" style="font-weight:700">${fmt(d.search)}</td>
@@ -665,7 +716,7 @@ $('tb-rise').innerHTML = rising.map(d=>row(d,
    <td class="num ${cls(d.vs3y)}">${d.vs3y==null?'–':pct(d.vs3y)}</td>
    <td>${verdictTag(d)}${lowVol(d)}</td>`)).join('');
 
-$('tb-brief').innerHTML = up.slice(0,40).map(d=>row(d,
+$('tb-brief').innerHTML = up.filter(_f).slice(0,40).map(d=>row(d,
   `<td class="nm">${d.name}</td>
    <td class="num" style="font-weight:700">${fmt(d.search)}</td>
    <td class="hide-m">${sparkHTML(d)}</td>
@@ -674,21 +725,21 @@ $('tb-brief').innerHTML = up.slice(0,40).map(d=>row(d,
    <td class="hide-m muted">${d.kw||'-'}</td>
    <td class="num">${hsCell(d)}</td>`)).join('');
 
-$('tb-gap').innerHTML = gap.slice(0,25).map(d=>row(d,
+$('tb-gap').innerHTML = gap.filter(_f).slice(0,25).map(d=>row(d,
   `<td class="nm">${d.name}</td>
    <td class="num up">${pct(d.w)}</td>
    <td class="num">${fmt(d.search)}</td>
    <td>${gradeTag(d.grade)}</td>
    <td class="hide-m muted">${d.kw||'-'}</td>`)).join('');
 
-$('tb-peak').innerHTML = peak.slice(0,20).map(d=>row(d,
+$('tb-peak').innerHTML = peak.filter(_f).slice(0,20).map(d=>row(d,
   `<td class="nm">${d.name}</td>
    <td class="num up">${pct(d.m)}</td>
    <td class="num down">${pct(d.w)}</td>
    <td class="num">${fmt(d.search)}</td>
    <td class="hide-m muted">${d.cat||'-'}</td>`)).join('');
 
-$('tb-brand').innerHTML = brand.slice(0,25).map(d=>row(d,
+$('tb-brand').innerHTML = brand.filter(_f).slice(0,25).map(d=>row(d,
   `<td class="nm">${d.name}</td>
    <td class="num">${hsCell(d)}</td>
    <td>${d.brand? d.brand : '<span class="muted">미상</span>'}</td>
@@ -703,7 +754,7 @@ fc.innerHTML = '<option value="">기능 전체</option>' + cats.map(c=>`<option>
 function renderAll(){
   const t = q.value.trim().toLowerCase();
   const g = fg.value, c = fc.value;
-  let list = DATA.filter(d =>
+  let list = DATA.filter(passF).filter(d =>
     (!t || d.name.toLowerCase().includes(t) || (d.kw||'').toLowerCase().includes(t)) &&
     (!g || d.grade===g) && (!c || d.cat===c));
   list.sort((a,b)=>b.search-a.search);
@@ -922,6 +973,44 @@ document.querySelectorAll('.pb').forEach(b=>{
 document.getElementById('pnote').textContent = PLABEL[PD] + (useDaily()?' · 일별':' · 주별') + ' — 3년 넘는 자료는 보관 폴더에 있습니다';
 
 
+
+// ── 좌우 분할 필터 (대표 지시 2026-09-10 A105) ──────────────────────────
+// 왼쪽에서 좁히면 오른쪽 모든 표가 같이 좁혀진다.
+const F = {q:'', cat:new Set(), grade:new Set(), sig:new Set()};
+const SIGS = ['신규 상승','최근 급등','고점 지남','계절반복'];
+function passF(d){
+  if(F.q){
+    const q=F.q.toLowerCase();
+    if(!(d.name.toLowerCase().includes(q) || (d.kw||'').toLowerCase().includes(q)
+       || (d.cat||'').toLowerCase().includes(q))) return false;
+  }
+  if(F.cat.size   && !F.cat.has(d.cat||'')) return false;
+  if(F.grade.size && !F.grade.has(d.grade||'')) return false;
+  if(F.sig.size   && !F.sig.has(d.verdict||'')) return false;
+  return true;
+}
+function buildChips(){
+  const mk=(host,vals,key)=>{
+    host.innerHTML = vals.map(v=>`<button class="chip" data-k="${key}" data-v="${v}">${v}</button>`).join('');
+  };
+  mk($('fcat'), [...new Set(DATA.map(d=>d.cat).filter(Boolean))].sort(), 'cat');
+  mk($('fgrade'), ['고시형','개별인정','비인정'], 'grade');
+  mk($('fsig'), SIGS, 'sig');
+  document.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>{
+    const s=F[b.dataset.k]; const v=b.dataset.v;
+    if(s.has(v)) s.delete(v); else s.add(v);
+    b.classList.toggle('on', s.has(v));
+    applyF();
+  }));
+}
+function applyF(){
+  const n = DATA.filter(passF).length;
+  const on = F.q || F.cat.size || F.grade.size || F.sig.size;
+  $('hit').innerHTML = on ? `<b>${fmt(n)}개</b> 골라짐 (전체 ${fmt(DATA.length)})` : `전체 ${fmt(DATA.length)}개`;
+  renderTables(); renderAll(); if(typeof renderSeg==='function') renderSeg();
+  if(!document.getElementById('con').classList.contains('panel-hide')) renderCon();
+}
+
 // ── 유통사용 / 소비자용 토글 (대표 지시 2026-09-10) ──────────────────────
 // 같은 데이터, 보는 사람이 다르다. 유통사는 '뭘 만들까', 소비자는 '뭘 먹을까'.
 const BIZTABS = ['rise','brief','gap','all','peak','brand','seg4'];
@@ -946,7 +1035,7 @@ const CP = () => DATA.filter(d => d.role!=='일반 식재료' && d.search>0);
 function renderCon(){
   const v=CVIEWS[CV];
   $('cttl').textContent=v.t; $('cdsc').innerHTML=v.d;
-  const list=CP().filter(v.f).sort((a,b)=>b.search-a.search).slice(0,20);
+  const list=CP().filter(passF).filter(v.f).sort((a,b)=>b.search-a.search).slice(0,20);
   $('clist').innerHTML = list.length ? list.map((d,i)=>{
     const f=v.fig(d), w=v.why(d)||'';
     return `<div class="citem" tabindex="0" role="button"
@@ -991,7 +1080,15 @@ function bindNav(){
 }
 document.querySelectorAll('.mt').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.m)));
 let _m='biz'; try{ _m = localStorage.getItem('vcbio-mode') || 'biz'; }catch(e){}
+buildChips();
+$('q2').addEventListener('input', e=>{ F.q = e.target.value.trim(); applyF(); });
+$('reset').addEventListener('click', ()=>{
+  F.q=''; F.cat.clear(); F.grade.clear(); F.sig.clear();
+  $('q2').value=''; document.querySelectorAll('.chip').forEach(b=>b.classList.remove('on'));
+  applyF();
+});
 setMode(_m);
+applyF();
 document.getElementById('srcall').innerHTML = srcAll();
 
 </script>
