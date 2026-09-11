@@ -1664,7 +1664,7 @@ async function renderChannelView(){
 }
 function setMode(m){
  if(m==='con'){location.href=location.hostname==='vcbio.github.io'?'vcbio-market-consumer.html':'consumer.html';return;}
- initializeViews();showView(Object.hasOwn(VIEW_LABELS,location.hash.slice(1))?location.hash.slice(1):'market');
+ initializeViews();showView(Object.hasOwn(VIEW_LABELS,location.hash.slice(1))?location.hash.slice(1):'discover');
 }
 function bindNav(){} // Navigation is bound once by initializeViews.
 
@@ -1789,7 +1789,7 @@ document.getElementById('product-next').addEventListener('click',()=>{productPag
  document.addEventListener('submit',e=>{if(e.target.id==='plan-picker'){e.preventDefault();addCompare(document.getElementById('plan-pick-id').value);}});
  document.addEventListener('change',e=>{const b=e.target;if(b.id==='plan-rank-segment'){rankSegment=b.value;rankPage=0;render();}if(b.id==='plan-calendar-id'){calendarId=b.value;calendarCell=null;render();}if(b.id==='plan-calendar-month'){calendarMonth=Number(b.value);render();}if(b.dataset.stage){state.stages[b.dataset.stage]=b.value;persist();}if(b.dataset.checkId){const id=b.dataset.checkId,k=b.dataset.checkKey;const values=new Set(state.checks[id]||[]);b.checked?values.add(k):values.delete(k);state.checks[id]=[...values];persist();render();document.querySelector('[data-check-id="'+id+'"][data-check-key="'+k+'"]').focus({preventScroll:true});}});
  window.PlanningUI={render,sync,resetFilterSearch(){document.querySelectorAll('.plan-filter-search').forEach(i=>{i.value='';i.dispatchEvent(new Event('input',{bubbles:true}));});},refresh(){filterSummary();render();},observations:O,ranking,state};
- filterSummary();const initial=location.hash.slice(1);showView(initial==='market'||!initial?'discover':initial);
+ filterSummary();const initial=location.hash.slice(1);showView(initial||'discover');
 })();
 
 </script>
