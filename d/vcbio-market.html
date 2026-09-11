@@ -535,6 +535,14 @@ h1,.kpi .n,.box .v,.sheet h3{font-weight:700}
 @media(max-width:1100px){.compare-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.compare-name,.compare-search{grid-column:1/-1}.compare-name .visual-name{min-height:32px}.compare-reading{margin-bottom:8px}}
 @media(max-width:600px){.compare-row{gap:16px 12px;padding:20px 0}.compare-groups button{font-size:13px;padding:8px 10px}.compare-bar{grid-template-columns:28px minmax(0,1fr) 88px}.compare-scale{margin-right:96px}.compare-reading>strong{font-size:24px}.compare-broadcast>strong,.compare-reports>strong{font-size:20px}}
 
+/* Compact desktop filters with separate, non-overlapping 40px hit areas. */
+.side .chips{gap:8px;padding:4px 3px;align-content:flex-start}
+.side .chip{position:relative;min-width:40px;min-height:32px;padding:5px 8px;font-size:13px;line-height:20px;font-weight:500;border-radius:8px}
+.side .chip::before{content:"";position:absolute;inset:-4px 0}
+.side .chip.on{font-weight:600}
+.side .reset{min-height:40px;padding:8px 12px;border-radius:8px;font-size:13px}
+@media(max-width:900px),(any-pointer:coarse){.side .chip{min-height:44px;min-width:44px;padding:8px 10px}.side .chip::before{inset:0}.side .reset{min-height:44px}}
+
 </style>
 </head>
 <body>
@@ -1103,7 +1111,7 @@ function passF(d){
 }
 function buildChips(){
   const mk=(host,vals,key)=>{
-    host.innerHTML = vals.map(v=>`<button class="chip" data-k="${key}" data-v="${v}">${v}</button>`).join('');
+    host.innerHTML = vals.map(v=>`<button class="chip" aria-pressed="false" data-k="${key}" data-v="${v}">${v}</button>`).join('');
   };
   mk($('fcat'), [...new Set(DATA.map(d=>d.cat).filter(Boolean))].sort(), 'cat');
   mk($('fgrade'), ['고시형','개별인정','비인정'], 'grade');
@@ -1111,7 +1119,7 @@ function buildChips(){
   document.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>{
     const s=F[b.dataset.k]; const v=b.dataset.v;
     if(s.has(v)) s.delete(v); else s.add(v);
-    b.classList.toggle('on', s.has(v));
+    b.classList.toggle('on', s.has(v));b.setAttribute('aria-pressed',String(s.has(v)));
     applyF();
   }));
 }
@@ -1636,7 +1644,7 @@ buildChips();
 $('q2').addEventListener('input', e=>{ F.q = e.target.value.trim(); applyF(); });
 $('reset').addEventListener('click', ()=>{
   F.q=''; F.cat.clear(); F.grade.clear(); F.sig.clear();
-  $('q2').value=''; document.querySelectorAll('.chip').forEach(b=>b.classList.remove('on'));
+  $('q2').value=''; document.querySelectorAll('.side .chip').forEach(b=>{b.classList.remove('on');b.setAttribute('aria-pressed','false');});
   applyF();
 });
 MarketViz.open=openById;
