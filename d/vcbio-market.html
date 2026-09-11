@@ -473,6 +473,8 @@ h1,.kpi .n,.box .v,.sheet h3{font-weight:700}
 
 #alerts .visual-card{position:relative}#alerts .visual-name{padding-right:96px}#alerts .viz-small .viz-heading{position:absolute;right:20px;top:24px;margin:0}#alerts .viz-small .viz-heading h3{display:none}#alerts .viz-small{display:flex;flex-direction:column}#alerts .viz-small>[data-viz-panel]{order:2}#alerts .viz-small>.viz-switch{order:3}#alerts .viz-small>.viz-comparison{order:4}#alerts .viz-small>.viz-source{order:5}#alerts .viz-small>.viz-method{order:6}
 @media(max-width:600px){header{padding:0 0 8px;margin-bottom:8px}.view-heading{display:none}#alerts .viz-small .viz-heading{right:16px;top:24px}}
+
+.forecast-visual{scroll-margin-top:80px}.sheet:focus-visible{outline:2px solid var(--blue-strong);outline-offset:-2px}
 </style>
 </head>
 <body>
@@ -767,7 +769,7 @@ window.MarketViz=(()=>{
  document.addEventListener('click',e=>{
   const opener=e.target.closest('[data-open-id]');if(opener){e.stopPropagation();window.MarketViz.open?.(opener.dataset.openId);return;}
   const b=e.target.closest('[data-viz-show],[data-viz-csv],[data-detail-tab]');if(!b)return;e.stopPropagation();
-  if(b.dataset.detailTab){const host=b.closest('[data-viz-tabs]');host.querySelectorAll('[data-detail-panel]').forEach(p=>p.hidden=p.dataset.detailPanel!==b.dataset.detailTab);host.querySelectorAll('[data-detail-tab]').forEach(p=>p.setAttribute('aria-selected',p===b));return;}
+  if(b.dataset.detailTab){const host=b.closest('[data-viz-tabs]');host.querySelectorAll('[data-detail-panel]').forEach(p=>p.hidden=p.dataset.detailPanel!==b.dataset.detailTab);host.querySelectorAll('[data-detail-tab]').forEach(p=>p.setAttribute('aria-selected',p===b));const sheet=host.closest('.sheet');if(sheet)sheet.scrollTop=0;return;}
   const host=b.closest('[data-viz]');if(!host)return;
   if(b.hasAttribute('data-viz-csv')){const context=[...host.querySelectorAll(':scope > .viz-source span')].map(x=>x.textContent);const rows=[...host.querySelector('[data-viz-panel="table"]').querySelectorAll('tr')].map((r,i)=>[...[...r.children].map(c=>c.innerText),...(i?context:['출처','기간','단위'])].map(x=>{let t=String(x);if(/^[=+@\t\r]/.test(t)||(/^[-]/.test(t)&&!/^[-]?[0-9]+([.][0-9]+)?%?$/.test(t)))t="'"+t;return '"'+t.replaceAll('"','""')+'"'}).join(','));const csv='\uFEFF'+rows.join('\r\n');const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='vcbio-chart-data.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);return;}
   host.querySelectorAll(':scope > [data-viz-panel]').forEach(p=>p.hidden=p.dataset.vizPanel!==b.dataset.vizShow);host.querySelectorAll(':scope > .viz-switch [data-viz-show]').forEach(p=>p.setAttribute('aria-pressed',p===b));
@@ -1416,7 +1418,7 @@ async function openDetail(d){
    audience:whoBox(d)+ytBox(d),
    evidence:MarketViz.registration(d)+MarketViz.linkedProducts(d)+pinList(d)+oyBox(d)+impBox(d)+qBox(d)+recBox(d)+MarketViz.criteria(Object.entries(d.metricNotes||{}),'지표 정의 전체')+`<details class="viz-method"><summary>함께 찾는 말·분류 근거</summary>${MarketViz.table(['항목','값'],[['함께 찾는 말',d.kw],['유통 정보',d.dist],['홈쇼핑 브랜드',d.brand],['해석 주의','편성과 검색의 동시 증가만으로 원인을 확정하지 않음. 방송 미매칭은 시장 부재 아님.']])}</details>`
   },ACTIVE_VIEW==='forecast'?'forecast':'search')}<button class="closebtn" onclick="modal.classList.remove('on')">닫기</button>`;
-  modal.classList.add('on');
+  sheet.scrollTop=0;modal.classList.add('on');
 }
 modal.addEventListener('click', e=>{ if(e.target===modal) modal.classList.remove('on'); });
 document.addEventListener('keydown', e=>{ if(e.key==='Escape') modal.classList.remove('on'); });
