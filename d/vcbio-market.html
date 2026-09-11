@@ -522,6 +522,19 @@ h1,.kpi .n,.box .v,.sheet h3{font-weight:700}
  #main-nav button{font-size:15px;padding:10px 12px;min-height:44px}
 }
 
+.compare-toolbar,.compare-pager{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:20px 0 12px}
+.compare-groups{display:flex;gap:8px;flex-wrap:wrap}.compare-groups button,.compare-pager button{min-height:44px;border:1px solid var(--border);border-radius:10px;padding:8px 14px;background:var(--card);font-size:15px;color:var(--ink2)}
+.compare-groups button[aria-pressed=true]{color:var(--blue);background:var(--blue-soft);border-color:var(--blue)}.compare-pager button:disabled{opacity:.45;cursor:default}.compare-pager>div{display:flex;gap:8px}
+.compare-toolbar>span,.compare-help,.compare-sources,.compare-pager{font-size:13px;color:var(--muted)}.compare-help{margin:12px 0 20px;line-height:1.6}.compare-sources{padding-top:12px;border-top:1px solid var(--border);line-height:1.8}
+.compare-row{display:grid;grid-template-columns:minmax(110px,1fr) minmax(240px,2.4fr) minmax(110px,1fr) minmax(110px,1fr);gap:24px;padding:24px 0;border-top:1px solid var(--border);align-items:start;font-variant-numeric:tabular-nums}
+.compare-row>div{min-width:0;overflow-wrap:anywhere}.compare-name>span{font-size:13px;color:var(--muted)}.compare-name .visual-name{font-size:17px;min-height:44px}
+.compare-reading{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px}.compare-reading>strong{font-size:24px}.compare-reading small{font-size:13px;font-weight:400;color:var(--muted)}
+.compare-bar{display:grid;grid-template-columns:28px minmax(0,1fr) 88px;gap:8px;align-items:center;margin:8px 0;font-size:13px}.compare-bar>strong{text-align:right;font-size:15px}.compare-track{height:10px;background:var(--bg)}.compare-track i{display:block;height:100%;background:var(--blue)}.compare-track i.previous{background:#64748B}
+.compare-scale{display:flex;justify-content:space-between;margin:4px 96px 12px 36px;color:var(--muted);font-size:13px}.compare-dates{font-size:13px;line-height:1.7;color:var(--muted)}.compare-dates>span{display:block}
+.compare-broadcast>span,.compare-reports>span{display:block;font-size:13px;color:var(--muted)}.compare-broadcast>strong,.compare-reports>strong{display:block;font-size:24px;margin:8px 0 2px}.compare-row strong>small{font-size:13px;font-weight:400;margin-left:4px}.compare-broadcast>small,.compare-reports>small{display:block;font-size:13px;color:var(--muted);line-height:1.7;margin-top:8px}
+@media(max-width:1100px){.compare-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.compare-name,.compare-search{grid-column:1/-1}.compare-name .visual-name{min-height:32px}.compare-reading{margin-bottom:8px}}
+@media(max-width:600px){.compare-row{gap:16px 12px;padding:20px 0}.compare-groups button{font-size:13px;padding:8px 10px}.compare-bar{grid-template-columns:28px minmax(0,1fr) 88px}.compare-scale{margin-right:96px}.compare-reading>strong{font-size:24px}.compare-broadcast>strong,.compare-reports>strong{font-size:20px}}
+
 </style>
 </head>
 <body>
@@ -622,14 +635,16 @@ h1,.kpi .n,.box .v,.sheet h3{font-weight:700}
 
 <section id="gap" class="panel-hide">
   <div class="card">
-    <h2>빈자리 신호 &mdash; 검색은 있고 방송 연결이 없는 원료</h2>
+    <h2>검색 변화와 방송 연결</h2>
+    <p class="compare-help">검색이 늘었는지, 수집한 방송에서 연결됐는지 원료별로 확인하세요.</p>
     <div id="scatterbox"></div>
-    <div class="desc">선택 기간의 일평균 검색지수를 직전 같은 길이의 기간과 비교합니다. 지수 크기순이며, 원료 간 실제 검색 횟수 순위가 아닙니다.</div>
+    <details class="viz-method"><summary>기존 조건 수치표 · 검색 20% 초과 증가·방송 미연결</summary>
     <table><thead><tr>
       <th>원료</th><th class="num">선택 기간 검색지수</th><th class="num">직전 기간 대비</th>
       <th>구분</th><th class="hide-m">함께 찾는 말</th>
     </tr></thead><tbody id="tb-gap"></tbody></table>
     <div class="note">검색지수는 횟수가 아닙니다. 원료별 정규화 기준이 같다는 근거가 없어 지수 크기를 시장 규모 차이로 해석하지 않습니다. 제조보고는 출시·판매 건수가 아니며, 방송 미매칭은 방송이 없다는 뜻이 아닙니다.</div>
+    </details>
   </div>
 </section>
 
@@ -1337,43 +1352,26 @@ function renderAll(){
 renderAll();
 
 
-// 빈자리 산점도 — X: 홈쇼핑 편성, Y: 월 검색량. 왼쪽 위 = 검색은 있고 방송 연결이 없는 자리
+// A141: compare each ingredient with its own previous period; never rank unrelated index scales.
+let compareGroup='unlinked',comparePage=0;
 function drawScatter(){
-  const pts = DATA.filter(passF).filter(d=>pAvg(d)>0);
-  const W=900,H=340,L=44,R=16,T=16,B=34;
-  const lx = v => Math.log10(v+1), ly = v => Math.log10(v+1);
-  const mxX = Math.max(...pts.map(d=>lx(hsAll(d))), 1);
-  const mxY = Math.max(...pts.map(d=>ly(pAvg(d))), 1);
-  const X = v => L + lx(v)/mxX*(W-L-R);
-  const Y = v => H-B - ly(v)/mxY*(H-T-B);
-  const rr = d => Math.max(3, Math.min(11, 3 + Math.sqrt(d.r30||0)/3));
-  const midX = L + (W-L-R)*0.18, midY = Y(10);
-  const body = pts.map(d=>{
-    const isGap = hsAll(d)===0 && pDelta(d)>20;
-    return `<circle class="dot${isGap?' gap':''}" cx="${X(hsAll(d)).toFixed(1)}" cy="${Y(pAvg(d)).toFixed(1)}" r="${rr(d).toFixed(1)}"
-      onclick='openById("${d.id}")'><title>${d.name}
-선택 기간 검색지수 ${indexNumber(pAvg(d))} 지수 (${pRange(d)}) · 편성 ${hsAll(d)}건 · 원료 매칭 제조보고 30일 ${d.r30??'미확인'}건</title></circle>`;
-  }).join('');
-  const lbl = pts.filter(d=>hsAll(d)===0 && pDelta(d)>20).slice(0,8)
-    .map(d=>`<text class="lb" x="${(X(0)+8).toFixed(1)}" y="${(Y(pAvg(d))+4).toFixed(1)}">${d.name}</text>`).join('');
-  document.getElementById('scatterbox').innerHTML = `
-   <div class="desc" style="margin-bottom:8px">가로는 <em>홈쇼핑 편성 건수</em>, 세로는 <em>선택 기간 검색지수</em>입니다.
-     기간 선택은 세로축에 적용됩니다. 가로축·동그라미 크기는 기간 선택과 무관한 고정값입니다. 지수는 원료 간 검색량 순위가 아닙니다. 동그라미 크기는 <em>원료 매칭 제조보고 최근30일 건수</em>입니다.
-     <b>왼쪽 위 주황 점</b>이 수집한 편성에서 연결하지 못한 원료입니다. 관측 원본: 2026-08-10~2026-09-23 과거·예정 편성. 원료명 정확/일부 일치 범위이며 전체 방송을 포괄하지 않습니다. 점을 누르면 상세가 열립니다.</div>
-   <svg class="scat" viewBox="0 0 ${W} ${H}" role="img" aria-label="편성 대비 검색량 산점도">
-     <line class="qd" x1="${midX}" y1="${T}" x2="${midX}" y2="${H-B}"/>
-     <line class="qd" x1="${L}" y1="${midY.toFixed(1)}" x2="${W-R}" y2="${midY.toFixed(1)}"/>
-     <text class="qt" x="${L+6}" y="${T+14}">수집한 편성에서 연결하지 못한 원료</text>
-     <text class="qt" x="${W-R-6}" y="${T+14}" text-anchor="end">수집한 편성과 검색 관심도</text>
-     <line class="ax" x1="${L}" y1="${H-B}" x2="${W-R}" y2="${H-B}"/>
-     <line class="ax" x1="${L}" y1="${T}" x2="${L}" y2="${H-B}"/>
-     ${body}${lbl}
-     <text class="qt" x="${L}" y="${H-10}">편성 0건</text>
-     <text class="qt" x="${(L+W-R)/2}" y="${H-10}" text-anchor="middle" style="font-weight:600">가로축 — 홈쇼핑 편성 건수 (로그)</text>
-     <text class="qt" x="${W-R}" y="${H-10}" text-anchor="end">편성 많음 →</text>
-     <text class="qt" x="${-(H/2)}" y="12" transform="rotate(-90)" text-anchor="middle" style="font-weight:600">세로축 — 선택 기간 검색지수 (지수, 로그)</text>
-   </svg>`;
+ const all=DATA.filter(passF).sort((a,b)=>a.name.localeCompare(b.name,'ko'));
+ const rows=all.filter(d=>compareGroup==='all'||(compareGroup==='unlinked'?hsAll(d)===0:hsAll(d)>0));
+ const size=6,pages=Math.max(1,Math.ceil(rows.length/size));comparePage=Math.min(comparePage,pages-1);
+ const visible=rows.slice(comparePage*size,(comparePage+1)*size),n=v=>MarketViz.number(v,5);
+ const tabs=[['unlinked','방송 미연결',all.filter(d=>hsAll(d)===0).length],['linked','방송 연결',all.filter(d=>hsAll(d)>0).length],['all','전체',all.length]];
+ const rowHTML=d=>{
+  const p=d.periods?.[PD],current=p?.mean,previous=p?.previous_mean,scale=Math.max(current||0,previous||0)||1;
+  const bar=(label,value,kind)=>`<div class="compare-bar"><span>${label}</span><div class="compare-track"><i class="${kind}" style="width:${Number.isFinite(value)?value/scale*100:0}%"></i></div><strong>${n(value)}</strong></div>`;
+  return `<article class="compare-row" data-comparison-id="${d.id}"><div class="compare-name"><button data-open-id="${d.id}" class="visual-name">${escapeHTML(d.name)}</button><span>${escapeHTML(d.cat||'기능 분류 없음')}</span></div><div class="compare-search"><div class="compare-reading"><strong>${n(current)}<small> 검색지수</small></strong><span class="${cls(pDelta(d))}">${pct(pDelta(d))}<small> 직전 대비</small></span></div>${bar('직전',previous,'previous')}${bar('현재',current,'current')}<div class="compare-scale"><span>0</span><span>${n(scale)} · 이 원료의 눈금</span></div><div class="compare-dates"><span>현재 ${pRange(d)} · ${observationLabel(d)}</span><span>직전 ${previousRange(d)} · ${p?.previous_days??'미확인'}일 관측</span></div></div><div class="compare-broadcast"><span>방송 연결</span><strong>${hsAll(d).toLocaleString()}<small>건</small></strong><span>${hsAll(d)===0?'수집한 편성에서 미연결':'원료명 매칭 편성'}</span><small>2026-08-10~09-23<br>기간 선택과 무관</small></div><div class="compare-reports"><span>제조보고 · 30일 고정</span><strong>${d.r30==null?'미수집':d.r30.toLocaleString()}${d.r30==null?'':'<small>건</small>'}</strong><small>자료 기준 ${escapeHTML(d.rAsOf||'미확인')}<br>집계 시작·끝 미제공</small></div></article>`;
+ };
+ document.getElementById('scatterbox').innerHTML=`<div class="compare-toolbar"><div class="compare-groups" role="group" aria-label="방송 연결 여부">${tabs.map(([key,label,count])=>`<button data-compare-group="${key}" aria-pressed="${key===compareGroup}">${label} <b>${count.toLocaleString()}</b></button>`).join('')}</div><span>가나다순 · 원료명을 누르면 상세</span></div><p class="compare-help">막대는 <b>같은 원료의 직전·현재</b>를 비교합니다. 원료마다 눈금이 달라 서로의 검색량 비교에는 쓸 수 없습니다.</p><div class="compare-list">${visible.length?visible.map(rowHTML).join(''):'<p class="viz-empty">이 조건에 해당하는 원료가 없습니다.</p>'}</div><div class="compare-pager"><span role="status">${rows.length?comparePage*size+1:0}~${Math.min((comparePage+1)*size,rows.length)} / ${rows.length}개</span><div><button data-compare-page="-1" ${comparePage===0?'disabled':''}>이전</button><button data-compare-page="1" ${comparePage===pages-1?'disabled':''}>다음</button></div></div><div class="compare-sources">출처 <a href="https://datalab.naver.com/keyword/trendSearch.naver" target="_blank" rel="noopener noreferrer">네이버 데이터랩</a> · <a href="https://hsmoa.com/" target="_blank" rel="noopener noreferrer">홈쇼핑모아</a> · <a href="https://www.foodsafetykorea.go.kr/portal/healthyfoodlife/searchHomeHF.do" target="_blank" rel="noopener noreferrer">식품안전나라</a></div><details class="viz-method"><summary>계산 기준·주의점</summary><dl><dt>검색지수</dt><dd>선택 기간 일평균과 바로 앞 같은 길이 구간의 일평균입니다. 횟수가 아닌 요청 내 상대지수입니다. 표시값은 소수 5자리까지이며 변화율은 원본 정밀값 기준입니다. 막대는 원료별 0부터 두 값 중 큰 값까지 표시합니다. 원료 간 시장 규모를 비교하지 않습니다. 원본이 제공하지 않는 오차·신뢰구간은 만들지 않습니다.</dd><dt>방송 연결</dt><dd>2026-08-10~2026-09-23 과거·예정 편성의 원료명 전체/일부 일치 건수입니다. 기간 선택과 무관합니다. 0건은 수집본에서 연결하지 못했다는 뜻이며 방송 부재나 시장 기회를 확정하지 않습니다. 매칭 정확도·신뢰구간·기저율·p값은 검증 자료가 없습니다.</dd><dt>제조보고</dt><dd>원료 매칭 최근 30일 보고 건수입니다. 행별 자료 기준일을 표시하며 정확한 집계 시작·끝은 원본에 없습니다. 출시·판매 건수가 아닙니다.</dd></dl></details>`;
 }
+document.getElementById('scatterbox').addEventListener('click',e=>{
+ const group=e.target.closest('[data-compare-group]'),page=e.target.closest('[data-compare-page]');if(!group&&!page)return;
+ if(group){compareGroup=group.dataset.compareGroup;comparePage=0;}else comparePage+=Number(page.dataset.comparePage);
+ drawScatter();document.querySelector(page?'[data-compare-page="'+page.dataset.comparePage+'"]':'[data-compare-group="'+compareGroup+'"]').focus({preventScroll:true});
+});
 drawScatter();
 
 
