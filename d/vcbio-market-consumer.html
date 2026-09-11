@@ -160,6 +160,8 @@ h1,.kpi .n,.box .v,.sheet h3{font-weight:700}
 
 
 .study-counts b small{display:inline;margin-left:4px;font-size:13px}.study-counts>div{padding:12px}.study-counts b{font-size:24px}.view-panel .kpis{margin:12px 0 20px}.header-scope summary{font-size:13px;cursor:pointer}.header-scope p{margin-top:8px}
+
+.forecast-visual{scroll-margin-top:80px}.sheet:focus-visible{outline:2px solid var(--blue-strong);outline-offset:-2px}
 </style>
 </head>
 <body>
@@ -273,7 +275,7 @@ window.MarketViz=(()=>{
  document.addEventListener('click',e=>{
   const opener=e.target.closest('[data-open-id]');if(opener){e.stopPropagation();window.MarketViz.open?.(opener.dataset.openId);return;}
   const b=e.target.closest('[data-viz-show],[data-viz-csv],[data-detail-tab]');if(!b)return;e.stopPropagation();
-  if(b.dataset.detailTab){const host=b.closest('[data-viz-tabs]');host.querySelectorAll('[data-detail-panel]').forEach(p=>p.hidden=p.dataset.detailPanel!==b.dataset.detailTab);host.querySelectorAll('[data-detail-tab]').forEach(p=>p.setAttribute('aria-selected',p===b));return;}
+  if(b.dataset.detailTab){const host=b.closest('[data-viz-tabs]');host.querySelectorAll('[data-detail-panel]').forEach(p=>p.hidden=p.dataset.detailPanel!==b.dataset.detailTab);host.querySelectorAll('[data-detail-tab]').forEach(p=>p.setAttribute('aria-selected',p===b));const sheet=host.closest('.sheet');if(sheet)sheet.scrollTop=0;return;}
   const host=b.closest('[data-viz]');if(!host)return;
   if(b.hasAttribute('data-viz-csv')){const context=[...host.querySelectorAll(':scope > .viz-source span')].map(x=>x.textContent);const rows=[...host.querySelector('[data-viz-panel="table"]').querySelectorAll('tr')].map((r,i)=>[...[...r.children].map(c=>c.innerText),...(i?context:['출처','기간','단위'])].map(x=>{let t=String(x);if(/^[=+@\t\r]/.test(t)||(/^[-]/.test(t)&&!/^[-]?[0-9]+([.][0-9]+)?%?$/.test(t)))t="'"+t;return '"'+t.replaceAll('"','""')+'"'}).join(','));const csv='\uFEFF'+rows.join('\r\n');const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='vcbio-chart-data.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);return;}
   host.querySelectorAll(':scope > [data-viz-panel]').forEach(p=>p.hidden=p.dataset.vizPanel!==b.dataset.vizShow);host.querySelectorAll(':scope > .viz-switch [data-viz-show]').forEach(p=>p.setAttribute('aria-pressed',p===b));
@@ -367,7 +369,7 @@ function open_(name){
   search:MarketViz.period(d,p,(d.d400||[]).slice(-(p?.observed_days||30)))+MarketViz.shop(d)+MarketViz.criteria([['월 검색 추정',fmt(d.search)+'회'],['산정 기간',d.metricNotes?.search],['쇼핑 변화',pc(d.shopCh)+' · 4주 고정 · 마지막 주 '+d.shopEnd]],'추정값과 관측 기준'),
   forecast:fcBox(d),audience:MarketViz.demographic(d)+youtubeRatioBox(d),
   evidence:MarketViz.criteria(Object.entries(d.metricNotes||{}),'자료 기준 전체')+MarketViz.table(['항목','내용'],[['원료',d.name],['기능 묶음',d.cat],['함께 찾는 말',d.kw],['관측된 브랜드',d.brand],['안내','검색 관심도이며 제품 효능·안전성을 뜻하지 않습니다.']])+`<details class="viz-method"><summary>영상 원문</summary>${(d.ytv||[]).map(v=>`<p><a href="${escapeHTML(v.u)}" target="_blank" rel="noopener noreferrer">${escapeHTML(v.t)}</a> · ${escapeHTML(v.ch)}</p>`).join('')||'연결된 영상 없음'}</details>`
- },V==='next'?'forecast':'search')}<button class="closebtn" onclick="modal.classList.remove('on')">닫기</button>`;modal.classList.add('on');
+ },V==='next'?'forecast':'search')}<button class="closebtn" onclick="modal.classList.remove('on')">닫기</button>`;sheet.scrollTop=0;modal.classList.add('on');
 }
 MarketViz.open=id=>{const d=P.find(d=>d.id===id);if(d)open_(d.name);};
 
