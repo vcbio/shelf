@@ -1,4 +1,4 @@
-/* Healt Food Data Lab: searchable single-select controls, with native change events. */
+/* Healt Food Data Lab: direct small choices, searchable long lists, native change events. */
 (() => {
   'use strict';
   if (window.VCBioSearchableSelects) {
@@ -44,8 +44,26 @@
   function normalized(text) {
     return String(text).normalize('NFKC').toLocaleLowerCase('ko-KR').replace(/[\s\-–]/g, '');
   }
+  function visibleOptions(select) {
+    return Array.from(select.options).map((option, index) => ({ option, index }))
+      .filter(({ option }) => !option.hidden && !(option.parentElement?.tagName === 'OPTGROUP' && option.parentElement.hidden));
+  }
+  function modeOf(select) {
+    const override = select.getAttribute('data-select-mode');
+    if (override === 'direct' || override === 'search') return override;
+    return visibleOptions(select).length <= 8 ? 'direct' : 'search';
+  }
+  function focusControl(entry) {
+    if (!entry) return null;
+    return entry.mode === 'direct'
+      ? entry.direct.querySelector('[aria-checked="true"]:not(:disabled)') || entry.direct.querySelector('button:not(:disabled)')
+      : entry.trigger;
+  }
   function focusIdentity(entry) {
-    return { entry, id: entry.select.id, label: entry.label, until: performance.now() + 10000 };
+    const focused = document.activeElement;
+    return { entry, id: entry.select.id, label: entry.label,
+      node: entry.direct.contains(focused) || focused === entry.trigger ? focused : focusControl(entry),
+      until: performance.now() + 10000 };
   }
   function restoreFocus() {
     if (!pendingFocus) return;
@@ -53,10 +71,11 @@
     let entry = entries.get(pendingFocus.entry.select);
     if (!entry?.select.isConnected && pendingFocus.id) entry = entries.get(document.getElementById(pendingFocus.id));
     if (!entry?.select.isConnected) {
-      entry = Array.from(entries.values()).find(item => item.label === pendingFocus.label && item.trigger.getClientRects().length);
+      entry = Array.from(entries.values()).find(item => item.label === pendingFocus.label && focusControl(item)?.getClientRects().length);
     }
-    if (entry?.trigger.isConnected && !entry.trigger.disabled && entry.trigger.getClientRects().length) {
-      entry.trigger.focus({ preventScroll: true });
+    const control = focusControl(entry);
+    if (control?.isConnected && !control.disabled && control.getClientRects().length) {
+      control.focus({ preventScroll: true });
       pendingFocus = null;
     }
   }
@@ -84,8 +103,7 @@
     if (!active) return;
     const select = active.select, previousOption = keepCursor ? options[cursor]?.option : null;
     const terms = search.value.trim().split(/\s+/).filter(Boolean).map(normalized);
-    const all = Array.from(select.options).map((option, index) => ({ option, index }))
-      .filter(({ option }) => !option.hidden && !(option.parentElement?.tagName === 'OPTGROUP' && option.parentElement.hidden));
+    const all = visibleOptions(select);
     options = all.filter(({ option }) => {
       const group = option.parentElement?.tagName === 'OPTGROUP' ? option.parentElement.label : '';
       const haystack = normalized(option.label + ' ' + option.value + ' ' + group);
@@ -131,10 +149,20 @@
     const entry = active, select = entry.select, choice = options[position];
     if (!select.isConnected || select.matches(':disabled') || disabled(choice.option)) return;
     if (select.options[choice.index] !== choice.option) { renderList(); return; }
-    const changed = select.selectedIndex !== choice.index;
-    close(true);
+    commit(entry, choice.index);
+  }
+  function commit(entry, index) {
+    const select = entry.select, option = select.options[index];
+    if (!select.isConnected || select.matches(':disabled') || !option || disabled(option) || option.hidden
+        || option.parentElement?.tagName === 'OPTGROUP' && option.parentElement.hidden) return;
+    const changed = select.selectedIndex !== index;
+    if (active === entry) close(true);
+    else {
+      pendingFocus = focusIdentity(entry);
+      rememberedFocus = pendingFocus;
+    }
     if (changed) {
-      select.selectedIndex = choice.index;
+      select.selectedIndex = index;
       select.dispatchEvent(new Event('input', { bubbles: true }));
       select.dispatchEvent(new Event('change', { bubbles: true }));
     }
@@ -144,7 +172,9 @@
     const select = typeof target === 'string' ? document.getElementById(target) : target;
     refresh();
     const entry = entries.get(select);
-    if (!entry || entry.trigger.disabled || !entry.trigger.getClientRects().length) return;
+    const control = focusControl(entry);
+    if (!entry || !control || control.disabled || !control.getClientRects().length) return;
+    if (entry.mode === 'direct') { control.focus(); return; }
     if (active) close(false);
     pendingFocus = null;
     active = entry;
@@ -162,9 +192,11 @@
     if (cursor >= 0) activate(cursor);
   }
   function sync(entry) {
-    const { select, trigger } = entry;
+    const { select, trigger, direct } = entry;
     if (!trigger.isConnected) select.after(trigger);
+    if (!direct.isConnected) trigger.after(direct);
     entry.label = labelOf(select);
+    entry.mode = modeOf(select);
     const selected = selectedText(select);
     setText(trigger.firstElementChild, selected);
     setAttribute(trigger, 'aria-label', entry.label + ' 선택, 현재 ' + selected);
@@ -173,9 +205,13 @@
     if (description) setAttribute(trigger, 'aria-describedby', description);
     else trigger.removeAttribute('aria-describedby');
     trigger.disabled = select.matches(':disabled') || !select.options.length;
-    trigger.hidden = select.hidden || select.style.display === 'none';
-    const signature = JSON.stringify([select.selectedIndex, trigger.disabled, entry.label,
-      Array.from(select.options, option => [option.label, option.value, option.hidden, Boolean(disabled(option)), option.parentElement?.hidden, option.parentElement?.label])]);
+    const hidden = select.hidden || select.style.display === 'none';
+    trigger.hidden = hidden || entry.mode === 'direct';
+    direct.hidden = hidden || entry.mode !== 'direct';
+    const optionSignature = JSON.stringify(Array.from(select.options, option =>
+      [option.label, option.value, option.hidden, Boolean(disabled(option)), option.parentElement?.hidden, option.parentElement?.label]));
+    const signature = JSON.stringify([select.selectedIndex, trigger.disabled, entry.label, entry.mode, optionSignature]);
+    if (entry.mode === 'direct') syncDirect(entry, optionSignature);
     if (signature !== entry.signature) {
       entry.signature = signature;
       if (active === entry) {
@@ -184,11 +220,52 @@
       }
     }
   }
+  function syncDirect(entry, optionSignature) {
+    const { select, direct } = entry;
+    setAttribute(direct, 'aria-label', entry.label);
+    setAttribute(direct, 'aria-disabled', select.matches(':disabled') || !select.options.length);
+    const description = select.getAttribute('aria-describedby');
+    if (description) setAttribute(direct, 'aria-describedby', description);
+    else direct.removeAttribute('aria-describedby');
+    if (entry.directSignature !== optionSignature) {
+      if (direct.contains(document.activeElement)) pendingFocus = focusIdentity(entry);
+      const fragment = document.createDocumentFragment();
+      for (const { option, index } of visibleOptions(select)) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'vcbss-direct-option';
+        button.setAttribute('role', 'radio');
+        button.dataset.nativeIndex = index;
+        button.textContent = option.label;
+        button.title = option.label;
+        fragment.append(button);
+      }
+      if (!fragment.childNodes.length) {
+        const empty = document.createElement('span');
+        empty.className = 'vcbss-direct-empty';
+        empty.textContent = '선택할 항목이 없습니다.';
+        fragment.append(empty);
+      }
+      direct.replaceChildren(fragment);
+      entry.directSignature = optionSignature;
+    }
+    const buttons = Array.from(direct.querySelectorAll('button'));
+    for (const button of buttons) {
+      const option = select.options[Number(button.dataset.nativeIndex)];
+      button.disabled = select.matches(':disabled') || !option || Boolean(disabled(option));
+      setAttribute(button, 'aria-checked', Boolean(option?.selected));
+      setAttribute(button, 'aria-disabled', button.disabled);
+    }
+    const tabStop = buttons.find(button => !button.disabled && button.getAttribute('aria-checked') === 'true')
+      || buttons.find(button => !button.disabled);
+    for (const button of buttons) button.tabIndex = button === tabStop ? 0 : -1;
+  }
   function refresh() {
     if (!dialog) return;
     // An async view can render twice after one change. Recover the same field
     // only when its focused trigger was removed, never after the user moved focus.
-    if (!active && !pendingFocus && rememberedFocus && !rememberedFocus.entry.trigger.isConnected
+    if (!active && !pendingFocus && rememberedFocus
+        && (!rememberedFocus.node?.isConnected || !rememberedFocus.node.getClientRects().length)
         && (document.activeElement === document.body || document.activeElement === document.documentElement)) {
       pendingFocus = rememberedFocus;
     }
@@ -196,6 +273,7 @@
       if (!select.isConnected || select.multiple || select.size > 1) {
         if (active === entry) close(false);
         entry.trigger.remove();
+        entry.direct.remove();
         select.removeAttribute('data-vcbss-native');
         entries.delete(select);
       }
@@ -212,9 +290,16 @@
         trigger.setAttribute('aria-controls', 'vcbss-dialog');
         trigger.setAttribute('aria-expanded', 'false');
         trigger.innerHTML = '<span class="vcbss-trigger-label"></span>' + chevron;
-        entry = { select, trigger, number: ++serial, label: '', signature: '' };
+        const direct = document.createElement('span');
+        direct.className = 'vcbss-direct';
+        direct.setAttribute(own, '');
+        direct.setAttribute('role', 'radiogroup');
+        direct.hidden = true;
+        entry = { select, trigger, direct, mode: 'search', number: ++serial,
+          label: '', signature: '', directSignature: null };
         entries.set(select, entry);
         select.after(trigger);
+        trigger.after(direct);
         select.setAttribute('data-vcbss-native', '');
         trigger.addEventListener('click', () => open(select));
         trigger.addEventListener('keydown', event => {
@@ -222,6 +307,27 @@
             event.preventDefault();
             open(select);
           }
+        });
+        direct.addEventListener('click', event => {
+          const button = event.target.closest('button[data-native-index]');
+          if (button && direct.contains(button)) commit(entry, Number(button.dataset.nativeIndex));
+        });
+        direct.addEventListener('keydown', event => {
+          const button = event.target.closest('button[data-native-index]');
+          if (!button || event.isComposing) return;
+          const available = Array.from(direct.querySelectorAll('button:not(:disabled)'));
+          if (!available.length) return;
+          const index = available.indexOf(button);
+          let next;
+          if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next = (index + 1) % available.length;
+          else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') next = (index - 1 + available.length) % available.length;
+          else if (event.key === 'Home') next = 0;
+          else if (event.key === 'End') next = available.length - 1;
+          else if (event.key === 'Enter' || event.key === ' ') next = index;
+          else return;
+          event.preventDefault();
+          event.stopPropagation();
+          commit(entry, Number(available[next].dataset.nativeIndex));
         });
       }
       sync(entry);
@@ -241,6 +347,7 @@
     style.setAttribute(own, '');
     style.textContent = `
 select[data-vcbss-native]{display:none!important}
+.vcbss-direct{display:flex;align-items:stretch;flex-wrap:wrap;gap:4px;min-width:0;max-width:100%;align-self:stretch}.vcbss-direct[hidden]{display:none}.field>.vcbss-direct{flex:1}.data-controls .vcbss-direct{width:100%}.vcbss-direct-option{min-width:36px;min-height:36px;max-width:100%;padding:7px 10px;border:1px solid var(--line,#E2E8F0);border-radius:8px;background:var(--paper,#FFFFFF);color:var(--body,#334155);font:500 13px/1.4 Pretendard,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;white-space:normal;overflow-wrap:anywhere;cursor:pointer;touch-action:manipulation}.vcbss-direct-option[aria-checked=true]{border-color:var(--blue,#0369A1);background:var(--soft,#E0F2FE);color:var(--blue,#0369A1)}.vcbss-direct-option:disabled{color:var(--muted,#64748B);background:var(--canvas,#F8FAFC);cursor:not-allowed}.vcbss-direct-option:focus-visible{outline:2px solid var(--action,#0066CC);outline-offset:2px}.vcbss-direct-option:active:not(:disabled){transform:scale(.98)}.vcbss-direct-empty{padding:8px 0;color:var(--muted,#64748B);font-size:13px}
 .vcbss-trigger{display:inline-flex;align-items:center;justify-content:space-between;gap:8px;min-width:0;max-width:100%;min-height:40px;padding:8px 12px;border:1px solid var(--line,#E2E8F0);border-radius:8px;background:var(--paper,#FFFFFF);color:var(--body,#334155);font:400 15px/1.5 Pretendard,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;cursor:pointer;text-align:left}
 .field>.vcbss-trigger{flex:1}.data-controls .vcbss-trigger{width:100%}.forecast-selector>.vcbss-trigger{min-width:160px;min-height:44px}.vcbss-trigger-label{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.vcbss-trigger svg{flex:none}.vcbss-trigger:disabled{color:var(--muted,#64748B);background:var(--canvas,#F8FAFC);cursor:not-allowed}.vcbss-trigger[hidden]{display:none}.vcbss-trigger:active:not(:disabled){transform:scale(.98)}
 .vcbss-dialog{box-sizing:border-box;width:min(560px,calc(100vw - 32px));max-width:calc(100vw - 32px);max-height:min(640px,var(--vcbss-height,calc(100dvh - 32px)));margin:auto;padding:0;border:1px solid var(--line,#E2E8F0);border-radius:16px;background:var(--paper,#FFFFFF);color:var(--ink,#0F172A);box-shadow:0 2px 4px #0f172a0f,0 8px 20px #0f172a14;font:400 15px/1.5 Pretendard,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;font-feature-settings:"kern" 1;overflow:hidden}
@@ -249,9 +356,11 @@ select[data-vcbss-native]{display:none!important}
 .vcbss-status-row{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px;padding:4px 16px;font-size:13px;flex:none}.vcbss-status{color:var(--muted,#64748B)}.vcbss-clear{min-height:36px;padding:4px 8px;border:0;border-radius:8px;background:transparent;color:var(--blue,#0369A1);font:inherit;cursor:pointer}.vcbss-clear[hidden]{display:none}
 .vcbss-list{list-style:none;margin:0;padding:4px 8px 8px;min-height:48px;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;scroll-behavior:auto;border-top:1px solid var(--line,#E2E8F0);font-variant-numeric:tabular-nums}.vcbss-option{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;padding:10px 12px;border-radius:8px;cursor:pointer;line-height:1.5}.vcbss-option-label{min-width:0;overflow-wrap:anywhere;word-break:keep-all;white-space:normal}.vcbss-option.is-active{background:var(--soft,#E0F2FE);color:var(--blue,#0369A1)}.vcbss-option[aria-disabled=true]{color:var(--muted,#64748B);cursor:not-allowed}.vcbss-marker{display:flex;align-items:center;gap:4px;flex:none;font-size:13px;color:var(--blue,#0369A1);white-space:nowrap}.vcbss-option[aria-disabled=true] .vcbss-marker{color:var(--muted,#64748B)}
 .vcbss-trigger:focus-visible,.vcbss-dialog button:focus-visible,.vcbss-search:focus-visible{outline:2px solid var(--action,#0066CC);outline-offset:2px}
-@media(hover:hover) and (pointer:fine){.vcbss-trigger:hover:not(:disabled){border-color:var(--blue,#0369A1)}.vcbss-close:hover,.vcbss-clear:hover{background:var(--soft,#E0F2FE)}}
-@media(max-width:600px){.vcbss-trigger{min-height:44px;max-width:100%}.vcbss-dialog{width:calc(100vw - 24px);max-width:calc(100vw - 24px)}.vcbss-option{gap:8px}.vcbss-marker{font-size:13px}}
-@media(prefers-reduced-motion:reduce){.vcbss-trigger:active:not(:disabled){transform:none}}
+@media(hover:hover) and (pointer:fine){.vcbss-trigger:hover:not(:disabled),.vcbss-direct-option:hover:not(:disabled){border-color:var(--blue,#0369A1)}.vcbss-close:hover,.vcbss-clear:hover{background:var(--soft,#E0F2FE)}}
+@media(max-width:600px){.vcbss-trigger{min-height:44px;max-width:100%}.vcbss-direct-option{min-width:44px;min-height:44px;font-size:15px}.vcbss-dialog{width:calc(100vw - 24px);max-width:calc(100vw - 24px)}.vcbss-option{gap:8px}.vcbss-marker{font-size:13px}}
+@media(max-width:600px){.toolbar .field:has(>.vcbss-direct:not([hidden])){flex-basis:100%;min-width:0;align-items:stretch}.toolbar .field>.vcbss-direct{width:100%}select[data-forecast-horizon]+.vcbss-trigger+.vcbss-direct{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}select[data-forecast-horizon]+.vcbss-trigger+.vcbss-direct[hidden]{display:none}select[data-forecast-horizon]+.vcbss-trigger+.vcbss-direct>.vcbss-direct-option{font-size:13px;padding-inline:8px}}
+@media(max-width:600px){.forecast-selectors:not([hidden]):has(.vcbss-direct:not([hidden])){display:grid;grid-template-columns:minmax(0,1fr);flex-basis:100%;width:100%;gap:12px;align-items:stretch}.forecast-selectors:has(.vcbss-direct:not([hidden]))>.field{width:100%;flex:none;flex-direction:column;align-items:stretch;margin:0}}
+@media(prefers-reduced-motion:reduce){.vcbss-trigger:active:not(:disabled),.vcbss-direct-option:active:not(:disabled){transform:none}}
 @media(prefers-reduced-transparency:reduce){.vcbss-dialog::backdrop{background:#334155}}
 @media(prefers-contrast:more){.vcbss-trigger,.vcbss-dialog,.vcbss-search{border-color:var(--ink,#0F172A)}.vcbss-option.is-active{outline:2px solid var(--blue,#0369A1);outline-offset:-2px}}
 `;
@@ -313,7 +422,7 @@ select[data-vcbss-native]{display:none!important}
     document.addEventListener('reset', () => setTimeout(refresh, 0), true);
     document.addEventListener('focusin', event => {
       if (dialog.contains(event.target)) return;
-      const entry = Array.from(entries.values()).find(item => item.trigger === event.target);
+      const entry = Array.from(entries.values()).find(item => item.trigger === event.target || item.direct.contains(event.target));
       rememberedFocus = entry ? focusIdentity(entry) : null;
     }, true);
     document.addEventListener('pointerdown', event => {
@@ -338,7 +447,7 @@ select[data-vcbss-native]{display:none!important}
       });
       if (external) schedule();
     }).observe(document.body, { subtree: true, childList: true, characterData: true, attributes: true,
-      attributeFilter: ['disabled', 'selected', 'value', 'label', 'hidden', 'aria-label', 'aria-labelledby', 'aria-describedby', 'title', 'id', 'class', 'style', 'multiple', 'size'] });
+      attributeFilter: ['disabled', 'selected', 'value', 'label', 'hidden', 'aria-label', 'aria-labelledby', 'aria-describedby', 'title', 'id', 'class', 'style', 'multiple', 'size', 'data-select-mode'] });
     // Native .value/.selectedIndex property changes do not emit DOM mutations.
     // A small visible-page check keeps programmatic updates in sync without patching native setters.
     setInterval(() => { if (!document.hidden) refresh(); }, 250);
