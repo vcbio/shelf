@@ -162,6 +162,53 @@ h1,.kpi .n,.box .v,.sheet h3{font-weight:700}
 .study-counts b small{display:inline;margin-left:4px;font-size:13px}.study-counts>div{padding:12px}.study-counts b{font-size:24px}.view-panel .kpis{margin:12px 0 20px}.header-scope summary{font-size:13px;cursor:pointer}.header-scope p{margin-top:8px}
 
 .forecast-visual{scroll-margin-top:80px}.sheet:focus-visible{outline:2px solid var(--blue-strong);outline-offset:-2px}
+/* Tables fit the available page width; every field remains visible. */
+.main,.card{overflow-x:visible;min-width:0}
+.fit-table,.viz-table .fit-table{table-layout:fixed;width:100%;min-width:0;max-width:100%}
+.fit-table th,.fit-table td{min-width:0;max-width:none;white-space:normal;overflow-wrap:anywhere;word-break:normal;letter-spacing:normal}
+.fit-table td.nm{overflow:visible;text-overflow:clip;max-width:none}
+.fit-value{min-width:0;max-width:100%;font-variant-numeric:tabular-nums}
+.fit-value .metric-cell,.fit-value .forecast-cell{min-width:0;max-width:100%}
+.fit-value .spk{width:100%;max-width:160px;height:48px}
+.fit-value .tag{white-space:normal}
+.fit-label{display:none}
+.fit-table.fit-records{display:block}
+.fit-records>thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.fit-records>tbody{display:grid;gap:16px}
+.fit-records>tbody>tr{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 24px;padding:20px;border:1px solid var(--border);border-radius:10px;background:var(--card)}
+.fit-records>tbody>tr>td{display:block!important;padding:0;border:0;text-align:left;font-size:15px;line-height:1.6}
+.fit-records>tbody>tr>td:first-child{grid-column:1/-1;border-bottom:1px solid var(--border);padding-bottom:12px;font-size:20px;font-weight:600}
+.fit-records>tbody>tr>td.fit-span{grid-column:1/-1}
+.fit-records .fit-label{display:block;color:var(--muted);font-size:13px;font-weight:500;line-height:1.5;margin-bottom:8px}
+.fit-records .fit-label small,.fit-records .fit-label .thsub{display:block;font-size:13px;font-weight:400;margin-top:4px}
+.fit-records td.nm>.fit-label{display:none}
+.fit-records .metric-cell>small{font-weight:400}
+.fit-records>tbody>tr>td:first-child{order:-2}
+.fit-records>tbody>tr>td:has(.metric-cell){order:-1}
+@media(min-width:701px){#rise,#brief,#peak,#gap,#all,#seg4{scroll-margin-top:80px}}
+.fit-records .fit-value:empty::after{content:'자료 없음';color:var(--muted)}
+.fit-records tr:focus-visible{outline:2px solid var(--blue-strong);outline-offset:2px}
+.spark-single{display:block;color:var(--ink2);font-size:15px;line-height:1.6}
+.spark-single small{display:block;color:var(--muted);font-size:13px}
+@media(max-width:1100px){.fit-records>tbody>tr{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){
+ .fit-table,.viz-table .fit-table{display:block}
+ .fit-table>thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+ .fit-table>tbody{display:grid;gap:16px}
+ .fit-table>tbody>tr{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;padding:16px;border:1px solid var(--border);border-radius:10px;background:var(--card)}
+ .fit-table>tbody>tr>td{display:block!important;padding:0;border:0;text-align:left;font-size:15px;line-height:1.6}
+ .fit-table>tbody>tr>td:first-child{grid-column:1/-1;padding-bottom:12px;border-bottom:1px solid var(--border);font-size:17px;font-weight:600}
+ .fit-table .fit-label{display:block;color:var(--muted);font-size:13px;font-weight:500;line-height:1.5;margin-bottom:6px}
+ .fit-table td.nm>.fit-label{display:none}
+ .fit-table .fit-label small{display:block;font-size:13px;font-weight:400;margin-top:4px}
+ .fit-table .hide-m,.fit-table .hide-s{display:block}
+ .fit-table td .fixed-note{font-size:13px}
+ .viz-table{max-height:none;overflow:visible}
+ .view-subtabs,.period-options{flex-wrap:wrap;overflow:visible}
+ #main-nav{flex-wrap:wrap;position:relative;overflow:visible}
+ #main-nav button{font-size:15px;padding:10px 12px;min-height:44px}
+}
+
 </style>
 </head>
 <body>
@@ -282,6 +329,28 @@ window.MarketViz=(()=>{
  const showPoint=(host,index)=>{const data=JSON.parse(host.dataset.linePoints||'[]');if(!data.length)return;const i=Math.max(0,Math.min(data.length-1,index)),o=host.querySelector('output');host.dataset.pointIndex=i;o.hidden=false;o.textContent=data[i][0]+' · '+number(data[i][1],5)+' 지수';};
  document.addEventListener('pointermove',e=>{const host=e.target.closest('[data-line-points]');if(!host)return;const data=JSON.parse(host.dataset.linePoints||'[]'),r=host.getBoundingClientRect(),start=Date.parse(host.dataset.timeStart+'T00:00:00Z'),end=Date.parse(host.dataset.timeEnd+'T00:00:00Z'),time=start+(end-start)*(e.clientX-r.left)/r.width;if(host.dataset.forecastStart&&time>=Date.parse(host.dataset.forecastStart+'T00:00:00Z')){const o=host.querySelector('output');o.hidden=false;o.textContent='2주 평균 예상 '+number(Number(host.dataset.forecastPoint),5)+' 지수';return;}if(!data.length)return;let i=0;for(let j=1;j<data.length;j++)if(Math.abs(Date.parse(data[j][0]+'T00:00:00Z')-time)<Math.abs(Date.parse(data[i][0]+'T00:00:00Z')-time))i=j;showPoint(host,i);});
  document.addEventListener('keydown',e=>{const host=e.target.closest('[data-line-points]');if(host&&['ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();showPoint(host,Number(host.dataset.pointIndex||0)+(e.key==='ArrowRight'?1:-1));}const tab=e.target.closest('[role="tab"]');if(tab&&['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){const list=[...tab.parentElement.querySelectorAll('[role="tab"]')];let i=list.indexOf(tab);i=e.key==='Home'?0:e.key==='End'?list.length-1:(i+(e.key==='ArrowRight'?1:-1)+list.length)%list.length;e.preventDefault();list[i].focus();list[i].click();}});
+ // Keep table headers attached to values when narrow screens stack the fields.
+ function fitTable(table){
+  const headers=[...(table.tHead?.rows[0]?.cells||[])];if(!headers.length)return;
+  table.classList.add('fit-table');table.classList.toggle('fit-records',headers.length>5);table.setAttribute('role','table');
+  for(const body of table.tBodies)for(const row of body.rows){
+   [...row.cells].forEach((cell,i)=>{
+    let label=cell.querySelector(':scope > .fit-label');
+    if(!label){const value=document.createElement('div');value.className='fit-value';while(cell.firstChild)value.append(cell.firstChild);label=document.createElement('div');label.className='fit-label';label.setAttribute('aria-hidden','true');cell.append(label,value);}
+    const html=headers[i]?.innerHTML||'';if(label.innerHTML!==html)label.innerHTML=html;
+    cell.classList.toggle('fit-span',cell.colSpan>1);
+   });
+  }
+ }
+ function watchTables(){
+  const observer=new MutationObserver(records=>{
+   const tables=new Set();for(const record of records){const el=record.target.nodeType===1?record.target:record.target.parentElement;const parent=el?.closest('table');if(parent)tables.add(parent);for(const node of record.addedNodes){if(node.nodeType!==1)continue;if(node.matches('table'))tables.add(node);node.querySelectorAll('table').forEach(t=>tables.add(t));}}
+   observer.disconnect();tables.forEach(fitTable);observer.observe(document.body,{childList:true,subtree:true});
+  });
+  document.querySelectorAll('table').forEach(fitTable);observer.observe(document.body,{childList:true,subtree:true});
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',watchTables,{once:true});else watchTables();
+
  return {esc,number,signed,day,meta,table,tabs,bars,line,errorChart,stats,briefStats,range,forecast,period,demographic,youtube,registration,linkedProducts,shop,criteria,detailTabs};
 })();
 </script>
