@@ -2105,6 +2105,7 @@ const minis=[
   }
 ];
 document.querySelector('.tabs').insertAdjacentHTML('afterbegin','<button data-view="minis">미니 <span id="mini-count"></span></button>');
+const stableQuestCoords={e15:'-3259, 226, -1763',e17:'0388, 0123, 1045',e20:'-2912, 0275, -0530',e24:'1757, 0145, 1924',e26:'-2817, 0135, 2237'};episodes.forEach(x=>{if(stableQuestCoords[x.id])x.coord=stableQuestCoords[x.id]});
 const stableCleared=['e16','e18','e19','e21','e22','e23','e25'];
 const savedDone=JSON.parse(localStorage.getItem('totk-done')||'[]');
 const state={view:'quests',filter:'전체',search:'',done:[...new Set([...savedDone,...stableCleared])]},all=()=>[...quests,...episodes,...minis,...gear,...tips];
