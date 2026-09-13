@@ -8,6 +8,18 @@ gear.push({id:'g5',name:'바바리안 아머',type:'방어구',area:'크레넬 �
 gear.push({id:'g29',name:'마조라의 가면',type:'방어구',area:'부유 콜로세움',icon:'☻',desc:'어둠의 라이넬 5마리를 연속으로 쓰러뜨리면 얻습니다.',coord:null,source:'https://www.zeldadungeon.net/wiki/Majora%27s_Mask'},{id:'g30',name:'빅고론의 검',type:'양손검',area:'아칼라의 뼈무덤',icon:'⚔',desc:'해골 적과 스탈녹스를 쓰러뜨린 뒤 상자를 엽니다.',coord:null,source:'https://www.zeldadungeon.net/wiki/Biggoron%27s_Sword'},{id:'g31',name:'귀신의 검',type:'양손검',area:'세플라 호수 동굴',icon:'⚔',desc:'귀신의 방어구 세트를 모두 입고 동굴로 돌아가세요.',coord:null,source:'https://www.zeldadungeon.net/wiki/Fierce_Deity_Set'},{id:'g32',name:'카메라',type:'기능',area:'지저 이아유수스 근처',icon:'◎',desc:'지저에서 로비와 대화하면 프루아패드에 추가됩니다.',coord:null,source:'https://www.zeldadungeon.net/wiki/Camera_Work_in_the_Depths'},{id:'g33',name:'트래블 메달리온',type:'기능',area:'아칼라 고대 연구소',icon:'⌁',desc:'로비의 연구소 시제품을 회수해 전달하세요.',coord:null,source:'https://www.zeldadungeon.net/wiki/Presenting:_The_Travel_Medallion!'},{id:'g34',name:'지저 돌파 매뉴얼',type:'기능',area:'이가단 아지트',icon:'▤',desc:'이가 세트를 입고 훈련 2단계를 1분 안에 끝내세요.',coord:null,source:'https://www.zeldadungeon.net/wiki/Earthwake_Manual'},{id:'g35',name:'에너지 셀',type:'동력 장치',area:'대하늘섬',icon:'▣',desc:'이니사 사당 뒤 스튜어드 컨스트럭트에게 받습니다.',coord:null,source:'https://www.zeldadungeon.net/wiki/Energy_Cell'},{id:'g36',name:'현자의 의지',type:'수집품',area:'하늘섬 여러 곳',icon:'✦',desc:'하늘섬 보물상자에서 총 20개를 모읍니다.',coord:null,source:'https://www.zeldadungeon.net/wiki/Sage%27s_Will'});
 // Full equipment catalogue. Existing quest/tip/completion behavior continues to use `gear`.
 gear.splice(0,gear.length);
+const questGuides={
+ '젤다를 찾아서':{start:'시간의 신전 · 집사 골렘',guide:'시작의 하늘섬에서 네 사당을 완료하고 네 가지 오른팔 능력을 얻은 뒤 시간의 신전 문을 엽니다.',completion:'시간의 신전 문 앞',reward:'지상으로 이동'},
+ '네 지방의 이변 조사':{start:'감시 요새 · 프루아',guide:'리토·조라·고론·겔드 네 지방의 지역 메인 퀘스트와 신전을 모두 완료한 뒤 프루아에게 보고합니다.',completion:'감시 요새 · 프루아',reward:'네 현자의 맹약'},
+ '리토의 마을의 튤리':{start:'리토의 마을 · 테바',guide:'바람의 신전 다섯 장치를 작동하고 프리즈게이라를 처치한 뒤 리토의 마을로 돌아옵니다.',completion:'리토의 마을',reward:'튤리의 맹약, 하트의 그릇'},
+ '고론 시티의 윤돌':{start:'고론 시티 · 윤돌',guide:'광차를 타고 화염의 신전으로 가서 다섯 징을 작동한 뒤 마블드 고마를 처치합니다.',completion:'고론 시티',reward:'윤돌의 맹약, 하트의 그릇'},
+ '조라의 마을의 시드':{start:'조라의 마을 · 시드',guide:'진흙을 물 열매로 씻고 고대 조라 수로를 지나 물의 신전 네 장치를 작동한 뒤 옥타코스를 처치합니다.',completion:'조라의 마을',reward:'시드의 맹약, 하트의 그릇'},
+ '겔드의 마을의 루쥬':{start:'겔드의 마을 · 루쥬',guide:'카라카라 바자르와 겔드의 마을을 지키고 번개의 신전 네 배터리를 연결한 뒤 퀸 기브도를 처치합니다.',completion:'겔드의 마을',reward:'루쥬의 맹약, 하트의 그릇'},
+ '지저로 부르는 목소리':{start:'시작의 대지 · 시간의 신전 옛터',guide:'시작의 대지 네 굴의 눈알을 지저로 옮겨 중앙 대폐광의 마인상에 모두 끼웁니다.',completion:'지저 중앙 대폐광 · 마인상',reward:'하트 또는 스태미나의 그릇'},
+ '용사의 검 찾기':{start:'코로그의 숲 · 데크나무님',guide:'코로그의 숲을 구한 뒤 백룡을 찾아 머리 위에서 스태미나 두 바퀴를 사용해 마스터 소드를 뽑습니다.',completion:'백룡의 머리 위',reward:'마스터 소드'},
+ '하테노 마을의 연구소':{start:'하테노 고대 연구소 · 로베리',guide:'감시 요새에서 로비의 연구를 시작하고 하테노 연구소에서 사당 센서가 가리키는 사당을 발견한 뒤 보고합니다.',completion:'하테노 고대 연구소',reward:'사당 센서'}
+};
+quests.forEach(x=>Object.assign(x,questGuides[x.name]||{}));
 const gearSpecial={
   Weapon_Sword_070:{area:'백룡',obtain:'용의 눈물 또는 코로그의 숲 관련 진행 후 백룡의 머리에서 뽑습니다.',materials:null},
   Weapon_Sword_070_Broken:{area:'시작의 하늘섬',obtain:'도입부에서 자동으로 얻고 시간의 신전 진행 중 젤다에게 보냅니다.',materials:null},
