@@ -46,7 +46,9 @@ let gearSeq=0;
 function addGearRows(type,base,raw){
   const d=gearDefaults[type];
   raw.trim().split('\n').filter(Boolean).forEach(line=>{
-    const [catalogId,name,rowArea,rowCoord,rowObtain,rowMaterials]=line.split('|');
+    const [catalogId,name,rowArea,rowCoord,...details]=line.split('|');
+    if(details[0]==='')details.shift();
+    const [rowObtain,rowMaterials]=details;
     const special=gearSpecial[catalogId]||{};
     const obtain=special.obtain||rowObtain||d.obtain;
     const materials=special.materials!==undefined?special.materials:(rowMaterials?rowMaterials.split('·'):null);
@@ -2106,13 +2108,86 @@ const minis=[
 ];
 document.querySelector('.tabs').insertAdjacentHTML('afterbegin','<button data-view="minis">미니 <span id="mini-count"></span></button>');
 const stableQuestCoords={e15:'-3259, 226, -1763',e17:'0388, 0123, 1045',e20:'-2912, 0275, -0530',e24:'1757, 0145, 1924',e26:'-2817, 0135, 2237'};episodes.forEach(x=>{if(stableQuestCoords[x.id])x.coord=stableQuestCoords[x.id]});
+const koreanTerms={
+  'North Lomei Depths Labyrinth':'북쪽 로미 지저 미궁','South Lomei Depths Labyrinth':'남쪽 로미 지저 미궁','Lomei Depths Labyrinth':'로미 지저 미궁',
+  'North Biron Snowshelf Cave':'북비론 설원 동굴','Cape Cales Cliffbase Cave':'케일스 곶 절벽 동굴','West Gerudo Underground Ruins':'서겔드 지하 유적',
+  'Upland Zorana Skyview Tower':'조라 대지 조망대','Hudson Construction Site':'허드슨 건설 작업장','Tabantha Village Ruins':'타반타 마을 옛터',
+  'Death Mountain West Tunnel':'데스마운틴 서쪽 갱도','Ancient Zora Waterworks':'고대 조라의 제단','Floating Scales Island':'물고기 비늘을 닮은 섬',
+  'Lomei Labyrinth Island':'로미섬 미궁','North Lomei Labyrinth':'북쪽 로미 미궁','South Lomei Labyrinth':'남쪽 로미 미궁',
+  'Tabantha Bridge Stable':'타반타대교 마구간','Gerudo Canyon Stable':'겔드 캐니언 마구간','Digdogg Suspension Bridge':'데그도 현수교',
+  'New Serenne Stable':'신마리타 마구간','Outskirt Stable':'평원 변두리의 마구간','Riverside Stable':'리버 사이드 마구간',
+  'Dueling Peaks Stable':'쌍둥이 마구간','South Akkala Stable':'남추낙 마구간','East Akkala Stable':'동추낙 마구간',
+  'Lakeside Stable':'레이크 사이드 마구간','Highland Stable':'고원의 마구간','Woodland Stable':'숲의 마구간','Foothill Stable':'산기슭의 마구간',
+  'Lucky Clover Gazette':'토끼풀 신문사','Emergency Shelter':'지하 피난소','Lookout Landing':'감시 요새',
+  'Great Eagle Bow':'참수리의 활','Forest Dweller\'s Shield':'숲에 사는 자의 방패','Forest Dweller\'s Spear':'숲에 사는 자의 창','Forest Dweller\'s Sword':'숲에 사는 자의 검',
+  'Vah Rudania Divine Helm':'신수 병기·루다니아','Vah Naboris Divine Helm':'신수 병기·나보리스','Vah Medoh Divine Helm':'신수 병기·메도','Vah Ruta Divine Helm':'신수 병기·루타',
+  'Ancient Hero\'s Aspect':'고대의 용사의 영혼','White Sword of the Sky':'천공의 백도검','Scimitar of the Seven':'칠보의 나이프','Lightscale Trident':'광린의 창',
+  'Evil Spirit Greaves':'이차원악령의 경갑','Evil Spirit Armor':'이차원악령의 갑옷','Evil Spirit Mask':'이차원악령의 투구',
+  'Champion\'s Leathers':'신식·영걸의 옷','Island Lobster Shirt':'푸른 가재 셔츠','Mask of Awakening':'꿈꾸는 용사의 가면','Tunic of Awakening':'꿈꾸는 용사의 옷','Trousers of Awakening':'꿈꾸는 용사의 바지',
+  'Tingle\'s Shirt':'팅글의 옷','Tingle\'s Tights':'팅글의 바지','Tingle\'s Hood':'팅글의 두건','Boulder Breaker':'거암 크러셔','Daybreaker':'칠보의 방패',
+  'Strong Zonaite Shield':'튼튼한 조나니움 방패','Zora Greaves':'조라의 경갑','Zora Helm':'조라의 투구','Zora Sword':'조라의 검','Zora Spear':'조라의 창',
+  'Hudson Construction Fabric':'허드슨 건설점 원단','Lurelin Village Fabric':'나크시 마을 원단','Goron Fabric':'고론족 원단','Zora Fabric':'조라족 원단','Korok Fabric':'코로그족 원단','Chuchu Fabric':'츄츄 원단',
+  'Blue-Maned Lynel Saber Horn':'푸른 갈기의 라이넬 칼날뿔','Electric Keese Wing':'일렉트로 키이스의 날개','Thunderwing Butterfly':'찌릿찌릿나비',
+  'Large Zonai Charge':'커다란 조나우 에너지','Zonai Charge':'조나우 에너지','Ancient Blade':'고대의 칼날','Bomb Flower':'폭탄꽃',
+  'Endura Carrot':'활력당근','Swift Carrot':'고고당근','Hylian Rice':'하이랄 쌀','Fresh Milk':'신선 우유','Sun Pumpkin':'해품이호박','Rushroom':'고고버섯','Sundelion':'해품이꽃',
+  'Star Fragment':'별의 조각','Diamond':'다이아몬드','Sapphire':'사파이어','Ruby':'루비','Topaz':'토파즈','Opal':'오팔','Arrow':'나무 화살',
+  'Purple Rupee':'퍼플 루피','Silver Rupee':'실버 루피','Gold Rupee':'골드 루피','Red Rupee':'레드 루피','Pony Point':'마구간 포인트','Sleepover Ticket':'숙박권',
+  'All\'s Well':'우물 순례 기념품','Jewelry Shop':'보석상','Mother Goddess Statue':'어머니 여신상','Goddess Statue':'여신상','Mining Construct':'채굴 골렘','Mysterious Voice':'수수께끼의 목소리',
+  'Spirit Temple':'영혼의 신전','Forgotten Temple':'잊혀진 신전','Temple of Time':'시간의 신전','Shrine of Light':'파마의 사당',
+  'Spring of Wisdom':'지혜의 샘','Spring of Power':'힘의 샘','Spring of Courage':'용기의 샘','Hyrule Castle Sanctum':'하이랄 성 본관',
+  'Rito Rope Bridge':'리토의 밧줄 다리','Selmie’s Spot':'셀미의 집','Selmie\'s Spot':'셀미의 집','Flight Range':'비행 훈련장',
+  'Rito Village':'리토의 마을','Korok Forest':'코로그의 숲','Goron City':'고론 시티','Zora’s Domain':'조라의 마을','Zora\'s Domain':'조라의 마을',
+  'Gerudo Shelter':'겔드의 지하 거리','Gerudo Town':'겔드의 마을','Kara Kara Bazaar':'카라카라 바자르','Gerudo Canyon Pass':'겔드 캐니언 통로','Gerudo Canyon':'겔드 캐니언',
+  'Kakariko Village':'카카리코 마을','Hateno Village':'하테노 마을','Lurelin Village':'나크시 마을','Eventide Island':'사이하테노섬','Hateno Beach':'하테노 해변',
+  'Hebra Mountains':'헤브라산맥','Tabantha Frontier':'타반타 변두리','Bedrock Bistro':'암반 레스토랑','Southern Mine':'남쪽 채굴장',
+  'Eldin Great Skeleton':'올딘의 대화석','Hebra Great Skeleton':'헤브라의 대화석','Gerudo Great Skeleton':'겔드의 대화석','East Reservoir Lake':'동쪽 저수지',
+  'Gerudo Canyon 기둥':'겔드 캐니언 기둥','Northern Icehouse':'북쪽 얼음 창고','Hateno School':'하테노 학교','Lurelin Water Rally':'나크시 수상 랠리',
+  'Cephla Lake Cave':'세플라호의 동굴','Goronbi River Cave':'고론비강의 동굴','Ancient Columns Cave':'고대 돌기둥군의 동굴','Coliseum Ruins Cave':'투기장 옛터의 동굴',
+  'Mapla Point Cave':'마푸라 곶 동굴','Tarm Point Cave':'타름 곶 동굴','Rebonae Bridge Well':'레보나 다리의 우물','Rikoka Hills Well':'리코나 반도의 우물',
+  'Tabantha Village Ruins':'타반타 마을 옛터','Rauru Hillside':'라울 구릉','Hateno School':'하테노 학교','Death Mountain':'데스마운틴','N/A':'미확인'
+};
+const koreanEntries=Object.entries(koreanTerms).sort((a,b)=>b[0].length-a[0].length);
+function translateKnown(value){
+  if(value==null)return null;
+  let text=String(value);
+  koreanEntries.forEach(([from,to])=>{text=text.split(from).join(to)});
+  return text;
+}
+function markUnverifiedNames(value){
+  const text=translateKnown(value);
+  return text==null?null:text.replace(/[A-Za-z][A-Za-z’']*(?: [A-Za-z][A-Za-z’']*)*/g,name=>`원문명(${name})`);
+}
+function translateReward(value){
+  const text=translateKnown(value);
+  if(!text||text==='미확인')return null;
+  return /[A-Za-z]/.test(text)?null:text.replace(/\s*x\s*(\d+)/g,' $1개').replace(/×\s*(\d+)/g,' $1개').replace(/,\s*/g,' · ');
+}
+function makeGuide(item){
+  const action=(item.guide?markUnverifiedNames(item.guide):item.desc)||'원문에 구체적인 행동 순서가 없습니다.';
+  return `시작 위치: ${item.start||item.area||'원문 미제공'}<br>행동 순서: ${action}<br>완료 위치: ${item.completion||item.area||'원문 미제공'}<br>보상: ${item.reward||'확인된 보상 없음'}`;
+}
+[...quests,...episodes,...minis].forEach(item=>{
+  item.area=markUnverifiedNames(item.area);
+  item.start=markUnverifiedNames(item.start);
+  item.completion=markUnverifiedNames(item.completion);
+  item.reward=translateReward(item.reward);
+  item.desc=markUnverifiedNames(item.desc);
+  item.guide=makeGuide(item);
+});
+gear.forEach(item=>{
+  item.area=markUnverifiedNames(item.area);
+  item.obtain=markUnverifiedNames(item.obtain);
+  item.materials=Array.isArray(item.materials)?item.materials.map(markUnverifiedNames):null;
+  const materialText=item.materials?.length?item.materials.join(' · '):'원문에 별도 재료 없음';
+  item.desc=`획득 방법: ${item.obtain}\n장소: ${item.area}\n좌표: ${item.coord||'원문 미제공'}\n필요 재료: ${materialText}`;
+});
 const stableCleared=['e16','e18','e19','e21','e22','e23','e25'];
 const savedDone=JSON.parse(localStorage.getItem('totk-done')||'[]');
 const state={view:'quests',filter:'전체',search:'',done:[...new Set([...savedDone,...stableCleared])]},all=()=>[...quests,...episodes,...minis,...gear,...tips];
 const save=()=>localStorage.setItem('totk-done',JSON.stringify(state.done));function toggle(id){state.done=state.done.includes(id)?state.done.filter(x=>x!==id):[...state.done,id];save();render()}
 function stats(){let d=state.done.length;document.querySelector('#stats').innerHTML=`<div class="stat"><strong>${d}</strong><span>내가 완료한 기록</span></div><div class="stat"><strong>${quests.length+episodes.length+minis.length+gear.length-d}</strong><span>아직 남은 기록</span></div><div class="stat"><strong>${gear.length}</strong><span>장비 도감</span></div><div class="stat"><strong>${tips.length}</strong><span>꿀팁 카드</span></div>`}
 function filters(data){let v=['전체',...new Set(data.map(x=>x.type))];document.querySelector('#filters').innerHTML=v.map(x=>`<button class="filter ${state.filter===x?'active':''}" data-filter="${x}">${x}</button>`).join('')}
-function direction(c){const p=String(c).split(',').map(Number);if(p.length<2||p.some(Number.isNaN))return '';return `${p[0]>=0?'동쪽':'서쪽'} · ${p[1]>=0?'북쪽':'남쪽'}`}
+function direction(c){const p=String(c).split(',').map(Number);if(p.length<2||p.some(Number.isNaN))return '';return `하이랄 전체 기준 ${p[0]>=0?'동쪽':'서쪽'} · ${p[1]>=0?'북쪽':'남쪽'}`}
 function card(x){let d=state.done.includes(x.id),g=x.id[0]==='g';return `<article class="card ${g?'gear':''}" data-card-id="${x.id}" tabindex="0" role="button" aria-label="${x.name} 공략 열기">${g?`<div class="visual">${x.icon}</div>`:''}<div><div class="top"><span class="tag">${x.type}</span>${x.id[0]==='t'?`<b style="color:var(--gold)">${x.id.slice(1).padStart(2,'0')}</b>`:''}</div><h3>${x.name}</h3><p><strong>${g?'획득 방법':'공략'}</strong><br>${x.guide||x.desc}</p>${x.start?`<div class="location">시작 · ${x.start}</div><div class="location">완료 · ${x.completion}</div><div class="location">보상 · ${x.reward}</div>`:`<div class="location">⌖ ${x.area}</div>`}${x.coord?`<div class="location">방향 · ${direction(x.coord)}</div><div class="map"><span class="pin"></span><span class="coord">${x.coord}</span></div>`:''}</div><div class="card-bottom"><a class="source" href="${x.source}" target="_blank" rel="noreferrer">원문 보기 ↗</a>${x.id[0]!=='t'?`<button class="check ${d?'done':''}" data-id="${x.id}">${d?'✓ 완료됨':'완료 체크'}</button>`:''}</div></article>`}
 const guideModal=document.createElement('div');guideModal.id='guide-modal';guideModal.hidden=true;document.body.appendChild(guideModal);
 function openGuide(id){const x=all().find(item=>item.id===id);if(!x)return;const g=x.id[0]==='g';guideModal.innerHTML=`<div class="modal-backdrop" data-close="1"></div><section class="guide-dialog" role="dialog" aria-modal="true" aria-labelledby="guide-title"><button class="modal-close" aria-label="공략 닫기">×</button><div class="modal-kicker">${x.type} · ${x.area||'하이랄 전역'}</div><h2 id="guide-title">${x.name}</h2><div class="guide-layout"><div><h3>${g?'획득 방법':'공략 순서'}</h3><p class="guide-copy">${x.guide||x.desc||'확인된 한국어 공략이 없습니다.'}</p></div><div class="guide-facts">${x.start?`<div><small>시작</small><strong>${x.start}</strong></div>`:''}${x.completion?`<div><small>완료</small><strong>${x.completion}</strong></div>`:''}${x.reward?`<div><small>보상</small><strong>${x.reward}</strong></div>`:''}${x.materials?`<div><small>필요 재료</small><strong>${Array.isArray(x.materials)?x.materials.join(' · '):x.materials}</strong></div>`:''}${x.coord?`<div><small>좌표 · 방향</small><strong>${x.coord} · ${direction(x.coord)}</strong></div>`:''}</div></div><a class="modal-source" href="${x.source}" target="_blank" rel="noreferrer">원문도 확인하기 ↗</a></section>`;guideModal.hidden=false;document.body.classList.add('modal-open');guideModal.querySelector('.modal-close').focus();guideModal.querySelector('.modal-close').onclick=closeGuide;guideModal.querySelector('[data-close]').onclick=closeGuide}
