@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-09-13",
+  "asOf": "2026-09-14",
   "excluded": {
     "reason": "의약품(참고) 6개는 이번 범위 밖이며 0으로 채우지 않았습니다.",
     "terms": [
@@ -21,7 +21,7 @@
     "note": "오메가3 대비 상대지수입니다. 오메가3의 일별 변동 영향이 포함되어 절대 검색추이가 아니며, 절대 검색횟수 환산과 원료 간 지수 순위 비교에는 쓰지 않습니다."
   },
   "periodAnchor": {
-    "end": "2026-09-13",
+    "end": "2026-09-14",
     "reason": "모든 기간은 수집 요청 종료일을 공통 기준으로 계산. 과거 관측을 최근 기간으로 당기지 않음."
   },
   "periodDays": [
@@ -2486,6 +2486,12 @@
           "index": 109.51924385839837,
           "normalizerRatio": 64.42497,
           "rawRatio": 70.55774
+        },
+        {
+          "date": "2026-09-13",
+          "index": 58.03623402230755,
+          "normalizerRatio": 84.45212,
+          "rawRatio": 49.01283
         }
       ],
       "duplicateBatchCheck": {
@@ -2493,129 +2499,129 @@
         "status": "not_duplicated"
       },
       "id": "kw_49ada5a662db7c401315",
-      "observedDays": 408,
-      "observedEnd": "2026-09-12",
+      "observedDays": 409,
+      "observedEnd": "2026-09-13",
       "observedStart": "2025-08-01",
       "periods": [
         {
           "days": 1,
-          "end": "2026-09-13",
+          "end": "2026-09-14",
           "mean": null,
           "missingDays": 1,
           "observedDays": 0,
           "observedEnd": null,
           "observedStart": null,
-          "previous": 109.51924385839837,
+          "previous": 58.03623402230755,
           "previousObservedDays": 1,
-          "start": "2026-09-13"
+          "start": "2026-09-14"
         },
         {
           "days": 3,
-          "end": "2026-09-13",
-          "mean": 91.16849281045549,
+          "end": "2026-09-14",
+          "mean": 83.77773894035296,
           "missingDays": 1,
           "observedDays": 2,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2026-09-11",
-          "previous": 68.78924935015924,
+          "observedEnd": "2026-09-13",
+          "observedStart": "2026-09-12",
+          "previous": 69.57739454585796,
           "previousObservedDays": 3,
-          "start": "2026-09-11"
+          "start": "2026-09-12"
         },
         {
           "days": 7,
-          "end": "2026-09-13",
-          "mean": 74.60026227856478,
+          "end": "2026-09-14",
+          "mean": 74.45682794894937,
           "missingDays": 1,
           "observedDays": 6,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2026-09-07",
-          "previous": 68.76574911607652,
+          "observedEnd": "2026-09-13",
+          "observedStart": "2026-09-08",
+          "previous": 67.38908458731171,
           "previousObservedDays": 7,
-          "start": "2026-09-07"
+          "start": "2026-09-08"
         },
         {
           "days": 14,
-          "end": "2026-09-13",
-          "mean": 71.45860134491724,
+          "end": "2026-09-14",
+          "mean": 70.65111998499063,
           "missingDays": 1,
           "observedDays": 13,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2026-08-31",
-          "previous": 70.15437548050886,
+          "observedEnd": "2026-09-13",
+          "observedStart": "2026-09-01",
+          "previous": 71.23655026036927,
           "previousObservedDays": 14,
-          "start": "2026-08-31"
+          "start": "2026-09-01"
         },
         {
           "days": 30,
-          "end": "2026-09-13",
-          "mean": 71.54431147145075,
+          "end": "2026-09-14",
+          "mean": 70.96218601801922,
           "missingDays": 1,
           "observedDays": 29,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2026-08-15",
-          "previous": 74.03213581198709,
+          "observedEnd": "2026-09-13",
+          "observedStart": "2026-08-16",
+          "previous": 74.28125057905035,
           "previousObservedDays": 30,
-          "start": "2026-08-15"
+          "start": "2026-08-16"
         },
         {
           "days": 90,
-          "end": "2026-09-13",
-          "mean": 68.78297167790582,
+          "end": "2026-09-14",
+          "mean": 68.80586676905615,
           "missingDays": 1,
           "observedDays": 89,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2026-06-16",
-          "previous": 65.59673173065629,
+          "observedEnd": "2026-09-13",
+          "observedStart": "2026-06-17",
+          "previous": 65.49913967200642,
           "previousObservedDays": 90,
-          "start": "2026-06-16"
+          "start": "2026-06-17"
         },
         {
           "days": 180,
-          "end": "2026-09-13",
-          "mean": 67.18095159269656,
+          "end": "2026-09-14",
+          "mean": 67.14326655266242,
           "missingDays": 1,
           "observedDays": 179,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2026-03-18",
-          "previous": 73.04847900830156,
+          "observedEnd": "2026-09-13",
+          "observedStart": "2026-03-19",
+          "previous": 72.86979547398856,
           "previousObservedDays": 180,
-          "start": "2026-03-18"
+          "start": "2026-03-19"
         },
         {
           "days": 365,
-          "end": "2026-09-13",
-          "mean": 70.40477100775922,
+          "end": "2026-09-14",
+          "mean": 70.35414420761076,
           "missingDays": 1,
           "observedDays": 364,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2025-09-14",
+          "observedEnd": "2026-09-13",
+          "observedStart": "2025-09-15",
           "previous": null,
-          "previousObservedDays": 44,
-          "start": "2025-09-14"
+          "previousObservedDays": 45,
+          "start": "2025-09-15"
         },
         {
           "days": 730,
-          "end": "2026-09-13",
-          "mean": 74.29776535794684,
-          "missingDays": 322,
-          "observedDays": 408,
-          "observedEnd": "2026-09-12",
+          "end": "2026-09-14",
+          "mean": 74.25800611262743,
+          "missingDays": 321,
+          "observedDays": 409,
+          "observedEnd": "2026-09-13",
           "observedStart": "2025-08-01",
           "previous": null,
           "previousObservedDays": 0,
-          "start": "2024-09-14"
+          "start": "2024-09-15"
         },
         {
           "days": 1095,
-          "end": "2026-09-13",
-          "mean": 74.29776535794684,
-          "missingDays": 687,
-          "observedDays": 408,
-          "observedEnd": "2026-09-12",
+          "end": "2026-09-14",
+          "mean": 74.25800611262743,
+          "missingDays": 686,
+          "observedDays": 409,
+          "observedEnd": "2026-09-13",
           "observedStart": "2025-08-01",
           "previous": null,
           "previousObservedDays": 0,
-          "start": "2023-09-15"
+          "start": "2023-09-16"
         }
       ],
       "searchVolume": {
@@ -5116,6 +5122,12 @@
           "index": 11.20473940461284,
           "normalizerRatio": 64.42497,
           "rawRatio": 7.21865
+        },
+        {
+          "date": "2026-09-13",
+          "index": 7.46638450284019,
+          "normalizerRatio": 84.45212,
+          "rawRatio": 6.30552
         }
       ],
       "duplicateBatchCheck": {
@@ -5123,129 +5135,129 @@
         "status": "not_duplicated"
       },
       "id": "kw_dc11e523a35f35755ccf",
-      "observedDays": 408,
-      "observedEnd": "2026-09-12",
+      "observedDays": 409,
+      "observedEnd": "2026-09-13",
       "observedStart": "2025-08-01",
       "periods": [
         {
           "days": 1,
-          "end": "2026-09-13",
+          "end": "2026-09-14",
           "mean": null,
           "missingDays": 1,
           "observedDays": 0,
           "observedEnd": null,
           "observedStart": null,
-          "previous": 11.20473940461284,
+          "previous": 7.46638450284019,
           "previousObservedDays": 1,
-          "start": "2026-09-13"
+          "start": "2026-09-14"
         },
         {
           "days": 3,
-          "end": "2026-09-13",
-          "mean": 10.464444649031954,
+          "end": "2026-09-14",
+          "mean": 9.335561953726515,
           "missingDays": 1,
           "observedDays": 2,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2026-09-11",
-          "previous": 9.389580408304221,
+          "observedEnd": "2026-09-13",
+          "observedStart": "2026-09-12",
+          "previous": 9.613488690136018,
           "previousObservedDays": 3,
-          "start": "2026-09-11"
+          "start": "2026-09-12"
         },
         {
           "days": 7,
-          "end": "2026-09-13",
-          "mean": 9.540291753829429,
+          "end": "2026-09-14",
+          "mean": 9.427335837636127,
           "missingDays": 1,
           "observedDays": 6,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2026-09-07",
-          "previous": 8.997008193830489,
+          "observedEnd": "2026-09-13",
+          "observedStart": "2026-09-08",
+          "previous": 8.929424849752426,
           "previousObservedDays": 7,
-          "start": "2026-09-07"
+          "start": "2026-09-08"
         },
         {
           "days": 14,
-          "end": "2026-09-13",
-          "mean": 9.247754452291538,
+          "end": "2026-09-14",
+          "mean": 9.159229921083364,
           "missingDays": 1,
           "observedDays": 13,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2026-08-31",
-          "previous": 9.351327175452896,
+          "observedEnd": "2026-09-13",
+          "observedStart": "2026-09-01",
+          "previous": 9.358609897074047,
           "previousObservedDays": 14,
-          "start": "2026-08-31"
+          "start": "2026-09-01"
         },
         {
           "days": 30,
-          "end": "2026-09-13",
-          "mean": 9.371874021590786,
+          "end": "2026-09-14",
+          "mean": 9.280176803813053,
           "missingDays": 1,
           "observedDays": 29,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2026-08-15",
-          "previous": 8.806318219509421,
+          "observedEnd": "2026-09-13",
+          "observedStart": "2026-08-16",
+          "previous": 8.875604315966692,
           "previousObservedDays": 30,
-          "start": "2026-08-15"
+          "start": "2026-08-16"
         },
         {
           "days": 90,
-          "end": "2026-09-13",
-          "mean": 8.505865617118765,
+          "end": "2026-09-14",
+          "mean": 8.50755981855216,
           "missingDays": 1,
           "observedDays": 89,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2026-06-16",
-          "previous": 9.012185781927291,
+          "observedEnd": "2026-09-13",
+          "observedStart": "2026-06-17",
+          "previous": 8.983794519060414,
           "previousObservedDays": 90,
-          "start": "2026-06-16"
+          "start": "2026-06-17"
         },
         {
           "days": 180,
-          "end": "2026-09-13",
-          "mean": 8.760440001659365,
+          "end": "2026-09-14",
+          "mean": 8.747007433332845,
           "missingDays": 1,
           "observedDays": 179,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2026-03-18",
-          "previous": 11.850467457857828,
+          "observedEnd": "2026-09-13",
+          "observedStart": "2026-03-19",
+          "previous": 11.820603584841203,
           "previousObservedDays": 180,
-          "start": "2026-03-18"
+          "start": "2026-03-19"
         },
         {
           "days": 365,
-          "end": "2026-09-13",
-          "mean": 10.384809456898216,
+          "end": "2026-09-14",
+          "mean": 10.371835216906211,
           "missingDays": 1,
           "observedDays": 364,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2025-09-14",
+          "observedEnd": "2026-09-13",
+          "observedStart": "2025-09-15",
           "previous": null,
-          "previousObservedDays": 44,
-          "start": "2025-09-14"
+          "previousObservedDays": 45,
+          "start": "2025-09-15"
         },
         {
           "days": 730,
-          "end": "2026-09-13",
-          "mean": 11.307650513326239,
-          "missingDays": 322,
-          "observedDays": 408,
-          "observedEnd": "2026-09-12",
+          "end": "2026-09-14",
+          "mean": 11.298258664889843,
+          "missingDays": 321,
+          "observedDays": 409,
+          "observedEnd": "2026-09-13",
           "observedStart": "2025-08-01",
           "previous": null,
           "previousObservedDays": 0,
-          "start": "2024-09-14"
+          "start": "2024-09-15"
         },
         {
           "days": 1095,
-          "end": "2026-09-13",
-          "mean": 11.307650513326239,
-          "missingDays": 687,
-          "observedDays": 408,
-          "observedEnd": "2026-09-12",
+          "end": "2026-09-14",
+          "mean": 11.298258664889843,
+          "missingDays": 686,
+          "observedDays": 409,
+          "observedEnd": "2026-09-13",
           "observedStart": "2025-08-01",
           "previous": null,
           "previousObservedDays": 0,
-          "start": "2023-09-15"
+          "start": "2023-09-16"
         }
       ],
       "searchVolume": {
@@ -7779,6 +7791,12 @@
           "index": 7.661361735985286,
           "normalizerRatio": 64.42497,
           "rawRatio": 4.93583
+        },
+        {
+          "date": "2026-09-13",
+          "index": 6.502039262010238,
+          "normalizerRatio": 84.45212,
+          "rawRatio": 5.49111
         }
       ],
       "duplicateBatchCheck": {
@@ -7793,129 +7811,129 @@
         "tolerance": 0.001
       },
       "id": "kw_ea4c014f061608a4daaa",
-      "observedDays": 408,
-      "observedEnd": "2026-09-12",
+      "observedDays": 409,
+      "observedEnd": "2026-09-13",
       "observedStart": "2025-08-01",
       "periods": [
         {
           "days": 1,
-          "end": "2026-09-13",
+          "end": "2026-09-14",
           "mean": null,
           "missingDays": 1,
           "observedDays": 0,
           "observedEnd": null,
           "observedStart": null,
-          "previous": 7.661361735985286,
+          "previous": 6.502039262010238,
           "previousObservedDays": 1,
-          "start": "2026-09-13"
+          "start": "2026-09-14"
         },
         {
           "days": 3,
-          "end": "2026-09-13",
-          "mean": 7.950789853218405,
+          "end": "2026-09-14",
+          "mean": 7.081700498997762,
           "missingDays": 1,
           "observedDays": 2,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2026-09-11",
-          "previous": 8.155860591089075,
+          "observedEnd": "2026-09-13",
+          "observedStart": "2026-09-12",
+          "previous": 8.394863272010229,
           "previousObservedDays": 3,
-          "start": "2026-09-11"
+          "start": "2026-09-12"
         },
         {
           "days": 7,
-          "end": "2026-09-13",
-          "mean": 7.92307524661734,
+          "end": "2026-09-14",
+          "mean": 7.811866790285713,
           "missingDays": 1,
           "observedDays": 6,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2026-09-07",
-          "previous": 7.756580206024596,
+          "observedEnd": "2026-09-13",
+          "observedStart": "2026-09-08",
+          "previous": 7.66314732729959,
           "previousObservedDays": 7,
-          "start": "2026-09-07"
+          "start": "2026-09-08"
         },
         {
           "days": 14,
-          "end": "2026-09-13",
-          "mean": 7.833424070913555,
+          "end": "2026-09-14",
+          "mean": 7.731787079447031,
           "missingDays": 1,
           "observedDays": 13,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2026-08-31",
-          "previous": 9.441344523058774,
+          "observedEnd": "2026-09-13",
+          "observedStart": "2026-09-01",
+          "previous": 9.43356741777208,
           "previousObservedDays": 14,
-          "start": "2026-08-31"
+          "start": "2026-09-01"
         },
         {
           "days": 30,
-          "end": "2026-09-13",
-          "mean": 8.67427788340287,
+          "end": "2026-09-14",
+          "mean": 8.58864131202389,
           "missingDays": 1,
           "observedDays": 29,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2026-08-15",
-          "previous": 8.887360756984572,
+          "observedEnd": "2026-09-13",
+          "observedStart": "2026-08-16",
+          "previous": 8.911907220753443,
           "previousObservedDays": 30,
-          "start": "2026-08-15"
+          "start": "2026-08-16"
         },
         {
           "days": 90,
-          "end": "2026-09-13",
-          "mean": 8.66236589581541,
+          "end": "2026-09-14",
+          "mean": 8.650130557375128,
           "missingDays": 1,
           "observedDays": 89,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2026-06-16",
-          "previous": 10.484381353834,
+          "observedEnd": "2026-09-13",
+          "observedStart": "2026-06-17",
+          "previous": 10.456071013338844,
           "previousObservedDays": 90,
-          "start": "2026-06-16"
+          "start": "2026-06-17"
         },
         {
           "days": 180,
-          "end": "2026-09-13",
-          "mean": 9.578463053478387,
+          "end": "2026-09-14",
+          "mean": 9.558145311770291,
           "missingDays": 1,
           "observedDays": 179,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2026-03-18",
-          "previous": 14.775692091145954,
+          "observedEnd": "2026-09-13",
+          "observedStart": "2026-03-19",
+          "previous": 14.714752628959074,
           "previousObservedDays": 180,
-          "start": "2026-03-18"
+          "start": "2026-03-19"
         },
         {
           "days": 365,
-          "end": "2026-09-13",
-          "mean": 12.317930013990258,
+          "end": "2026-09-14",
+          "mean": 12.270953730100693,
           "missingDays": 1,
           "observedDays": 364,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2025-09-14",
+          "observedEnd": "2026-09-13",
+          "observedStart": "2025-09-15",
           "previous": null,
-          "previousObservedDays": 44,
-          "start": "2025-09-14"
+          "previousObservedDays": 45,
+          "start": "2025-09-15"
         },
         {
           "days": 730,
-          "end": "2026-09-13",
-          "mean": 14.604394498735573,
-          "missingDays": 322,
-          "observedDays": 408,
-          "observedEnd": "2026-09-12",
+          "end": "2026-09-14",
+          "mean": 14.584584339232578,
+          "missingDays": 321,
+          "observedDays": 409,
+          "observedEnd": "2026-09-13",
           "observedStart": "2025-08-01",
           "previous": null,
           "previousObservedDays": 0,
-          "start": "2024-09-14"
+          "start": "2024-09-15"
         },
         {
           "days": 1095,
-          "end": "2026-09-13",
-          "mean": 14.604394498735573,
-          "missingDays": 687,
-          "observedDays": 408,
-          "observedEnd": "2026-09-12",
+          "end": "2026-09-14",
+          "mean": 14.584584339232578,
+          "missingDays": 686,
+          "observedDays": 409,
+          "observedEnd": "2026-09-13",
           "observedStart": "2025-08-01",
           "previous": null,
           "previousObservedDays": 0,
-          "start": "2023-09-15"
+          "start": "2023-09-16"
         }
       ],
       "searchVolume": {
@@ -10515,6 +10533,12 @@
           "index": 5.286335406908222,
           "normalizerRatio": 64.42497,
           "rawRatio": 3.40572
+        },
+        {
+          "date": "2026-09-13",
+          "index": 3.6528271877603555,
+          "normalizerRatio": 84.45212,
+          "rawRatio": 3.08489
         }
       ],
       "duplicateBatchCheck": {
@@ -10529,129 +10553,129 @@
         "tolerance": 0.001
       },
       "id": "kw_29431cd5eb26bdf802dd",
-      "observedDays": 408,
-      "observedEnd": "2026-09-12",
+      "observedDays": 409,
+      "observedEnd": "2026-09-13",
       "observedStart": "2025-08-01",
       "periods": [
         {
           "days": 1,
-          "end": "2026-09-13",
+          "end": "2026-09-14",
           "mean": null,
           "missingDays": 1,
           "observedDays": 0,
           "observedEnd": null,
           "observedStart": null,
-          "previous": 5.286335406908222,
+          "previous": 3.6528271877603555,
           "previousObservedDays": 1,
-          "start": "2026-09-13"
+          "start": "2026-09-14"
         },
         {
           "days": 3,
-          "end": "2026-09-13",
-          "mean": 5.523752255429361,
+          "end": "2026-09-14",
+          "mean": 4.4695812973342885,
           "missingDays": 1,
           "observedDays": 2,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2026-09-11",
-          "previous": 5.074080838940239,
+          "observedEnd": "2026-09-13",
+          "observedStart": "2026-09-12",
+          "previous": 5.3514704166242275,
           "previousObservedDays": 3,
-          "start": "2026-09-11"
+          "start": "2026-09-12"
         },
         {
           "days": 7,
-          "end": "2026-09-13",
-          "mean": 5.186532837946573,
+          "end": "2026-09-14",
+          "mean": 4.9870957025733,
           "missingDays": 1,
           "observedDays": 6,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2026-09-07",
-          "previous": 5.130827680851977,
+          "observedEnd": "2026-09-13",
+          "observedStart": "2026-09-08",
+          "previous": 5.103960093111662,
           "previousObservedDays": 7,
-          "start": "2026-09-07"
+          "start": "2026-09-08"
         },
         {
           "days": 14,
-          "end": "2026-09-13",
-          "mean": 5.156537753357174,
+          "end": "2026-09-14",
+          "mean": 5.050022682093957,
           "missingDays": 1,
           "observedDays": 13,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2026-08-31",
-          "previous": 5.539346275060774,
+          "observedEnd": "2026-09-13",
+          "observedStart": "2026-09-01",
+          "previous": 5.5437216430957745,
           "previousObservedDays": 14,
-          "start": "2026-08-31"
+          "start": "2026-09-01"
         },
         {
           "days": 30,
-          "end": "2026-09-13",
-          "mean": 5.43573412450394,
+          "end": "2026-09-14",
+          "mean": 5.331142857397159,
           "missingDays": 1,
           "observedDays": 29,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2026-08-15",
-          "previous": 6.613981180099871,
+          "observedEnd": "2026-09-13",
+          "observedStart": "2026-08-16",
+          "previous": 6.606581889435314,
           "previousObservedDays": 30,
-          "start": "2026-08-15"
+          "start": "2026-08-16"
         },
         {
           "days": 90,
-          "end": "2026-09-13",
-          "mean": 6.239529464715846,
+          "end": "2026-09-14",
+          "mean": 6.194338705674064,
           "missingDays": 1,
           "observedDays": 89,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2026-06-16",
-          "previous": 9.932707060825248,
+          "observedEnd": "2026-09-13",
+          "observedStart": "2026-06-17",
+          "previous": 9.937689286391493,
           "previousObservedDays": 90,
-          "start": "2026-06-16"
+          "start": "2026-06-17"
         },
         {
           "days": 180,
-          "end": "2026-09-13",
-          "mean": 8.096434401307166,
+          "end": "2026-09-14",
+          "mean": 8.076470282571094,
           "missingDays": 1,
           "observedDays": 179,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2026-03-18",
-          "previous": 8.873279386795133,
+          "observedEnd": "2026-09-13",
+          "observedStart": "2026-03-19",
+          "previous": 8.855036306845003,
           "previousObservedDays": 180,
-          "start": "2026-03-18"
+          "start": "2026-03-19"
         },
         {
           "days": 365,
-          "end": "2026-09-13",
-          "mean": 8.512663102673812,
+          "end": "2026-09-14",
+          "mean": 8.49655302147674,
           "missingDays": 1,
           "observedDays": 364,
-          "observedEnd": "2026-09-12",
-          "observedStart": "2025-09-14",
+          "observedEnd": "2026-09-13",
+          "observedStart": "2025-09-15",
           "previous": null,
-          "previousObservedDays": 44,
-          "start": "2025-09-14"
+          "previousObservedDays": 45,
+          "start": "2025-09-15"
         },
         {
           "days": 730,
-          "end": "2026-09-13",
-          "mean": 8.971073855911664,
-          "missingDays": 322,
-          "observedDays": 408,
-          "observedEnd": "2026-09-12",
+          "end": "2026-09-14",
+          "mean": 8.958070807823274,
+          "missingDays": 321,
+          "observedDays": 409,
+          "observedEnd": "2026-09-13",
           "observedStart": "2025-08-01",
           "previous": null,
           "previousObservedDays": 0,
-          "start": "2024-09-14"
+          "start": "2024-09-15"
         },
         {
           "days": 1095,
-          "end": "2026-09-13",
-          "mean": 8.971073855911664,
-          "missingDays": 687,
-          "observedDays": 408,
-          "observedEnd": "2026-09-12",
+          "end": "2026-09-14",
+          "mean": 8.958070807823274,
+          "missingDays": 686,
+          "observedDays": 409,
+          "observedEnd": "2026-09-13",
           "observedStart": "2025-08-01",
           "previous": null,
           "previousObservedDays": 0,
-          "start": "2023-09-15"
+          "start": "2023-09-16"
         }
       ],
       "searchVolume": {
@@ -10822,7 +10846,7 @@
       "periods": [
         {
           "days": 1,
-          "end": "2026-09-13",
+          "end": "2026-09-14",
           "mean": null,
           "missingDays": 1,
           "observedDays": 0,
@@ -10830,11 +10854,11 @@
           "observedStart": null,
           "previous": null,
           "previousObservedDays": 0,
-          "start": "2026-09-13"
+          "start": "2026-09-14"
         },
         {
           "days": 3,
-          "end": "2026-09-13",
+          "end": "2026-09-14",
           "mean": null,
           "missingDays": 3,
           "observedDays": 0,
@@ -10842,11 +10866,11 @@
           "observedStart": null,
           "previous": null,
           "previousObservedDays": 0,
-          "start": "2026-09-11"
+          "start": "2026-09-12"
         },
         {
           "days": 7,
-          "end": "2026-09-13",
+          "end": "2026-09-14",
           "mean": null,
           "missingDays": 7,
           "observedDays": 0,
@@ -10854,11 +10878,11 @@
           "observedStart": null,
           "previous": null,
           "previousObservedDays": 0,
-          "start": "2026-09-07"
+          "start": "2026-09-08"
         },
         {
           "days": 14,
-          "end": "2026-09-13",
+          "end": "2026-09-14",
           "mean": null,
           "missingDays": 14,
           "observedDays": 0,
@@ -10866,11 +10890,11 @@
           "observedStart": null,
           "previous": null,
           "previousObservedDays": 0,
-          "start": "2026-08-31"
+          "start": "2026-09-01"
         },
         {
           "days": 30,
-          "end": "2026-09-13",
+          "end": "2026-09-14",
           "mean": null,
           "missingDays": 30,
           "observedDays": 0,
@@ -10878,11 +10902,11 @@
           "observedStart": null,
           "previous": null,
           "previousObservedDays": 0,
-          "start": "2026-08-15"
+          "start": "2026-08-16"
         },
         {
           "days": 90,
-          "end": "2026-09-13",
+          "end": "2026-09-14",
           "mean": null,
           "missingDays": 90,
           "observedDays": 0,
@@ -10890,11 +10914,11 @@
           "observedStart": null,
           "previous": null,
           "previousObservedDays": 0,
-          "start": "2026-06-16"
+          "start": "2026-06-17"
         },
         {
           "days": 180,
-          "end": "2026-09-13",
+          "end": "2026-09-14",
           "mean": null,
           "missingDays": 180,
           "observedDays": 0,
@@ -10902,11 +10926,11 @@
           "observedStart": null,
           "previous": null,
           "previousObservedDays": 1,
-          "start": "2026-03-18"
+          "start": "2026-03-19"
         },
         {
           "days": 365,
-          "end": "2026-09-13",
+          "end": "2026-09-14",
           "mean": 0.0844979681448921,
           "missingDays": 364,
           "observedDays": 1,
@@ -10914,11 +10938,11 @@
           "observedStart": "2026-02-01",
           "previous": null,
           "previousObservedDays": 0,
-          "start": "2025-09-14"
+          "start": "2025-09-15"
         },
         {
           "days": 730,
-          "end": "2026-09-13",
+          "end": "2026-09-14",
           "mean": 0.0844979681448921,
           "missingDays": 729,
           "observedDays": 1,
@@ -10926,11 +10950,11 @@
           "observedStart": "2026-02-01",
           "previous": null,
           "previousObservedDays": 0,
-          "start": "2024-09-14"
+          "start": "2024-09-15"
         },
         {
           "days": 1095,
-          "end": "2026-09-13",
+          "end": "2026-09-14",
           "mean": 0.0844979681448921,
           "missingDays": 1094,
           "observedDays": 1,
@@ -10938,7 +10962,7 @@
           "observedStart": "2026-02-01",
           "previous": null,
           "previousObservedDays": 0,
-          "start": "2023-09-15"
+          "start": "2023-09-16"
         }
       ],
       "searchVolume": {
@@ -11048,22 +11072,28 @@
         "startDate": "2026-08-30",
         "timeUnit": "date"
       },
-      "8844af74826d57d4dae4fd8e0fd6aeab710934e1624a1cf9f9a8e53f81a581c2.json": {
-        "endDate": "2026-09-13",
-        "sha256": "8844af74826d57d4dae4fd8e0fd6aeab710934e1624a1cf9f9a8e53f81a581c2",
-        "startDate": "2026-08-31",
-        "timeUnit": "date"
-      },
       "9a34d263e87f695c9ae4f0b68cf485bbc2a4c1012323802e46cdb1df909bb114.json": {
         "endDate": "2026-09-11",
         "sha256": "9a34d263e87f695c9ae4f0b68cf485bbc2a4c1012323802e46cdb1df909bb114",
         "startDate": "2025-08-01",
         "timeUnit": "date"
       },
+      "acaad244218c56c53631263286c53c60109d4cad3738708dda5d077fab64eb9c.json": {
+        "endDate": "2026-09-14",
+        "sha256": "acaad244218c56c53631263286c53c60109d4cad3738708dda5d077fab64eb9c",
+        "startDate": "2026-09-01",
+        "timeUnit": "date"
+      },
       "be90151e6f1abd1e1c99f921ef345956e45a26278bbb27b30cabbcae9f0da7cd.json": {
         "endDate": "2026-09-13",
         "sha256": "be90151e6f1abd1e1c99f921ef345956e45a26278bbb27b30cabbcae9f0da7cd",
         "startDate": "2026-08-31",
+        "timeUnit": "date"
+      },
+      "f83bc8fd3214f7abe59b2d2674ff5cec06adafeca331dad8e9580561c999dacb.json": {
+        "endDate": "2026-09-14",
+        "sha256": "f83bc8fd3214f7abe59b2d2674ff5cec06adafeca331dad8e9580561c999dacb",
+        "startDate": "2026-09-01",
         "timeUnit": "date"
       }
     }
