@@ -315,11 +315,6 @@
   "date": "2026-09-05"
  },
  {
-  "slug": "semiclass-w3-draft",
-  "title": "세미클래스 3주차 — 슬라이드 가안 22장",
-  "date": "2026-09-08"
- },
- {
   "slug": "orandi",
   "title": "원랜디 조합 도우미 (ORDR 시즌2)",
   "date": "2026-09-09"
@@ -352,6 +347,11 @@
  {
   "slug": "vcbio-market",
   "title": "Healt Food Data Lab — 건강식품 시장 데이터",
+  "date": "2026-09-15"
+ },
+ {
+  "slug": "semiclass-w3-draft",
+  "title": "세미클래스 3주차 — 가안 27장(옵시디언)",
   "date": "2026-09-15"
  }
 ]
