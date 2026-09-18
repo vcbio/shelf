@@ -547,10 +547,10 @@ var H=b.clientHeight,h=Math.max(H*r,30),g=p.scrollHeight-p.clientHeight;i.style.
 i.style.top=(g>0?p.scrollTop/g:0)*(H-h)+'px';}
 p.addEventListener('scroll',up,{passive:true});addEventListener('resize',up);U.push(up);up();});
 return U;};
-</script><div class="nav" id="nv"></div><script>
+</script><script>
 (function(){var S=[].slice.call(document.querySelectorAll('.slide')),N=S.length,c=0,UPS=[];
 function show(i){c=Math.max(0,Math.min(N-1,i));S.forEach(function(e,k){e.classList.toggle('on',k===c)});
-document.getElementById('nv').textContent=(c+1)+' / '+N;history.replaceState(null,'','#p'+String(c+1).padStart(2,'0'));
+history.replaceState(null,'','#p'+String(c+1).padStart(2,'0'));
 UPS.forEach(function(f){f()});}
 document.addEventListener('keydown',function(e){if(!e.isTrusted||e.repeat||e.metaKey||e.ctrlKey||e.altKey)return;
 if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();show(c+1)}
