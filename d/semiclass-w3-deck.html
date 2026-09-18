@@ -1,0 +1,441 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>세미클래스 3주차 — 슬라이드 가안</title><style>
+:root{
+  --brand:#2F6BFF; --deep:#163D8C; --light:#A9D8FF; --mint:#24A78B;
+  --cloud:#F5F7FB; --sunk:#E4E9F0; --white:#FFFFFF;
+  --blue-50:#EAF2FE; --blue-100:#D3E4FC; --blue-600:#0F53B0;
+  --green-50:#E7F4EC; --green-700:#237A51;
+  --ink-900:#16202E; --ink-700:#2C3A4B; --ink-500:#5A6877;
+  --ink-400:#8A97A6; --ink-300:#BCC6D2; --ink-200:#DCE3EB; --ink-100:#EAEFF4;
+  --font:'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont,
+         'Apple SD Gothic Neo', system-ui, 'Noto Sans KR', sans-serif;
+  --sh-sm:0 .2rem .8rem rgba(22,32,46,.08), 0 .1rem .3rem rgba(22,32,46,.06);
+  --sh-md:0 .4rem 1.6rem rgba(22,32,46,.10), 0 .2rem .6rem rgba(22,32,46,.07);
+}
+html{ font-size:min(0.625vw, 1.111vh);
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+*{ box-sizing:border-box; margin:0; padding:0; }
+body{ font-family:var(--font); color:var(--ink-900); background:var(--sunk);
+      word-break:keep-all; overflow-wrap:anywhere; letter-spacing:-.01em;
+      min-height:100vh; display:flex; align-items:center; justify-content:center; }
+
+/* 한 장씩 본다. 켜진 장만 그린다 — 스크롤로 이어 붙이지 않는다. */
+.slide{ position:relative; width:160rem; height:90rem; background:var(--cloud);
+        margin:0 auto; overflow:hidden; display:none; }
+.slide.on{ display:grid; }
+
+/* 넘김 막대 */
+.nav{ position:fixed; left:50%; bottom:2.4rem; transform:translateX(-50%);
+      display:flex; align-items:center; gap:1.6rem; z-index:99;
+      background:rgba(255,255,255,.86); backdrop-filter:blur(1.2rem);
+      border:.1rem solid var(--ink-200); border-radius:99rem;
+      padding:1rem 2rem; box-shadow:var(--sh-md); }
+.nav button{ font:inherit; font-size:2rem; font-weight:700; color:var(--ink-700);
+             background:none; border:0; cursor:pointer; padding:.4rem 1rem;
+             border-radius:.8rem; }
+.nav button:hover{ background:var(--blue-50); color:var(--brand); }
+body.cue .brandfoot, body.cue .pg, body.cue .zoom .hint{ display:none; }   /* 큐카드 iframe 안에서는 막대·힌트 숨김 */
+.nav .num{ font-size:1.9rem; font-weight:700; color:var(--ink-500);
+           font-variant-numeric:tabular-nums; min-width:7rem; text-align:center; }
+@media print{ .nav{ display:none; } .slide{ display:grid !important; } }
+/* 쪽번호 — 우하단 소형 고정(2026-09-05 대표 선택). 좌하단 브랜드 문구와 같은 줄·색·크기. 넘김 막대는 뺐다(키·클릭·스와이프로 넘김). */
+.pg{ position:absolute; right:5.2rem; bottom:3.4rem; display:block;
+     font-size:1.7rem; font-weight:600; color:var(--ink-300); font-variant-numeric:tabular-nums; }
+.brandfoot{ position:absolute; left:5.2rem; bottom:3.4rem;
+     font-size:1.7rem; color:var(--ink-300); }
+
+/* ── 표지 ─────────────────────────────────── */
+/* 원본 그림이 1024×1024 정사각이다. 우측 칸을 슬라이드 높이와 같은 정사각(90rem)으로
+   두면 잘림 없이 전부 들어간다 — 그림 안의 제목도 온전히 보인다. */
+.cover{ grid-template-columns:1fr 90rem; }
+.cover .l{ padding:0 5rem 0 7rem; align-self:center; }
+.cover .kick{ font-size:2rem; font-weight:700; letter-spacing:.16em;
+              color:var(--brand); margin-bottom:2.4rem; }
+.cover h1{ font-size:7.6rem; font-weight:800; line-height:1.06; letter-spacing:-.035em; }
+.cover h1 em{ font-style:normal; color:var(--brand); }
+.cover .sub{ font-size:2.5rem; line-height:1.5; color:var(--ink-500); margin-top:3rem; }
+.cover .r{ overflow:hidden; }
+.cover .r img{ width:100%; height:100%; object-fit:cover; display:block; }
+/* 표지에서는 쪽번호가 사진 위에 얹힌다. 어두운 땅 위라 흰 글씨로 바꾼다. */
+.cover .pg{ color:rgba(255,255,255,.85); }
+
+/* ── 본문 공통 ────────────────────────────── */
+.body{ grid-template-rows:auto 1fr; padding:6rem 7rem 7rem; }
+.hd{ border-bottom:.1rem solid var(--ink-200); padding-bottom:2.8rem; }
+.hd h1{ font-size:5.4rem; font-weight:800; line-height:1.14; letter-spacing:-.03em; }
+.hd h1 em{ font-style:normal; color:var(--brand); }
+.hd .sub{ font-size:2.5rem; line-height:1.5; color:var(--ink-500); margin-top:1.6rem; }
+/* 카드를 1fr 로 늘리면 글이 짧은 장에서 안이 텅 빈다.
+   내용 높이만큼만 차지하게 두고 덩어리째 세로 가운데에 놓는다. */
+.main{ padding-top:3.4rem; display:grid; grid-template-rows:auto auto;
+       align-content:center; min-height:0; }
+
+/* ── 열 카드 ──────────────────────────────── */
+.cols{ display:grid; gap:2.2rem; min-height:0; }
+.cols.c2{ grid-template-columns:repeat(2,1fr); }
+.cols.c3{ grid-template-columns:repeat(3,1fr); }
+.cols.c4{ grid-template-columns:repeat(4,1fr); }
+.cx{ background:var(--white); border-radius:1.8rem; box-shadow:var(--sh-sm);
+     padding:2.8rem 3rem; display:flex; flex-direction:column; gap:1.2rem; min-height:0; }
+.cx .tag{ font-size:1.75rem; font-weight:700; letter-spacing:.08em; color:var(--brand); line-height:1; }
+.cx h3{ font-size:2.8rem; font-weight:800; line-height:1.2; letter-spacing:-.02em; }
+.cx p{ font-size:1.95rem; line-height:1.55; color:var(--ink-500); }
+.cx .foot{ margin-top:auto; padding-top:1.6rem; border-top:.1rem solid var(--ink-100);
+           font-size:1.8rem; color:var(--ink-400); }
+.cx .shot{ width:100%; border-radius:1rem; overflow:hidden; background:var(--ink-100);
+           aspect-ratio:16/10; }
+.cx .shot img, .cx .shot video{ width:100%; height:100%; object-fit:cover;
+                                display:block; background:var(--ink-200); }
+.cols.c3 .cx h3{ font-size:2.5rem; }
+.cols.c4 .cx{ padding:2.4rem; }
+.cols.c4 .cx h3{ font-size:2.4rem; }
+.cols.c4 .cx p{ font-size:1.8rem; }
+
+/* ── 목록 대비 ────────────────────────────── */
+.cmp{ display:grid; grid-template-columns:repeat(2,1fr); gap:2.2rem; min-height:0; }
+.cmp .box{ background:var(--white); border-radius:1.8rem; box-shadow:var(--sh-sm);
+           padding:2.8rem 3rem; }
+.cmp .box.good{ border-top:.6rem solid var(--brand); }
+.cmp .box.bad{ border-top:.6rem solid var(--ink-300); }
+.cmp h3{ font-size:2.8rem; font-weight:800; margin-bottom:1.8rem; }
+.cmp li{ list-style:none; font-size:2.1rem; line-height:1.9; color:var(--ink-700);
+         padding-left:2.4rem; position:relative; }
+.cmp li::before{ content:''; position:absolute; left:0; top:1.1rem;
+                 width:.9rem; height:.9rem; border-radius:50%; background:var(--brand); }
+.cmp .bad li::before{ background:var(--ink-300); }
+
+/* ── 미디어 ───────────────────────────────── */
+.media{ display:grid; grid-template-columns:1fr 1fr; gap:3.4rem; min-height:0; align-items:center; }
+.media.wide{ grid-template-columns:1fr; align-content:center; }
+.media .shot{ border-radius:1.6rem; overflow:hidden; box-shadow:var(--sh-md); background:var(--white); }
+.media .shot img{ width:100%; height:auto; display:block; }
+.media .txt p{ font-size:2.2rem; line-height:1.65; color:var(--ink-500); margin-bottom:1.4rem; }
+.grid-shots{ display:grid; gap:1.8rem; }
+.grid-shots img{ width:100%; border-radius:1.2rem; display:block; box-shadow:var(--sh-sm); }
+.grid-shots .cap{ grid-column:1/-1; font-size:2.1rem; line-height:1.6; color:var(--ink-500); }
+
+/* ── 큰 문장 ──────────────────────────────── */
+.stmt{ align-content:center; padding:0 12rem; }
+.stmt .kick{ font-size:2rem; font-weight:700; letter-spacing:.16em; color:var(--brand);
+             margin-bottom:3rem; }
+.stmt h1{ font-size:7.6rem; font-weight:800; line-height:1.12; letter-spacing:-.035em; }
+.stmt h1 em{ font-style:normal; color:var(--brand); }
+.stmt .sub{ font-size:2.8rem; line-height:1.6; color:var(--ink-500); margin-top:3.4rem; }
+
+/* ── 흐름도 ───────────────────────────────── */
+.jr{ display:grid; gap:2.6rem; align-content:center; min-height:0; }
+.jr .node{ background:var(--white); border-radius:1.8rem; box-shadow:var(--sh-sm);
+           padding:3rem 3.4rem; display:grid; grid-template-columns:24rem 1fr; gap:3rem;
+           align-items:center; }
+.jr .node.on{ border-left:.7rem solid var(--brand); }
+.jr .when{ font-size:2.1rem; font-weight:700; color:var(--brand); }
+.jr .what h3{ font-size:3.2rem; font-weight:800; margin-bottom:.8rem; }
+.jr .what p{ font-size:2.1rem; color:var(--ink-500); line-height:1.5; }
+
+/* ── 강사 소개 ────────────────────────────── */
+.tt2{ display:grid; grid-template-columns:repeat(2,1fr); gap:3rem; align-content:center; }
+.tt2 .who{ background:var(--white); border-radius:1.8rem; box-shadow:var(--sh-sm);
+           padding:3rem 3.2rem; display:grid; grid-template-columns:14rem 1fr; gap:2.6rem;
+           align-items:center; }
+.tt2 .ph{ width:14rem; height:14rem; border-radius:50%; overflow:hidden;
+          background:var(--ink-100); }
+.tt2 .ph img{ display:block; height:auto; }
+.tt2 .nm{ display:flex; align-items:baseline; gap:1.2rem; margin-bottom:1.2rem; }
+.tt2 .nm b{ font-size:3rem; font-weight:800; }
+.tt2 .nm span{ font-size:1.8rem; font-weight:700; letter-spacing:.06em; color:var(--brand); }
+.tt2 li{ list-style:none; font-size:1.95rem; line-height:1.6; color:var(--ink-500); }
+
+/* ── QR (참여하는 법) ────────────────────────
+   원본 QR SVG 는 다크 덱용이라 점이 흰색이다. 어두운 판에 올려야 보인다. */
+.qrs{ display:grid; grid-template-columns:repeat(2,1fr); gap:3rem; align-content:center; }
+.qrs .q{ background:var(--ink-900); border-radius:2rem; padding:3.2rem 3.2rem 2.6rem;
+         display:flex; flex-direction:column; align-items:center; gap:2rem; }
+.qrs .q img{ width:auto; height:40rem; display:block; }
+.qrs .q .lb{ font-size:2.4rem; font-weight:800; color:var(--white); }
+.qrs .q .ds{ font-size:1.9rem; color:rgba(255,255,255,.72); text-align:center; line-height:1.5; }
+
+/* ── 캘린더 전면 ────────────────────────────
+   슬라이드 높이를 넘기면 아래가 잘린다. 남은 높이 안에 통째로 담는다. */
+.body.cal .main{ grid-template-rows:1fr; min-height:0; }
+.calwrap{ min-height:0; display:flex; align-items:center; justify-content:center; }
+.calwrap img{ max-width:100%; max-height:100%; width:auto; height:auto;
+              display:block; border-radius:1.6rem; box-shadow:var(--sh-md); }
+
+/* ── 문답 ─────────────────────────────────── */
+.qa{ display:grid; gap:2rem; align-content:center; }
+.qa .row{ background:var(--white); border-radius:1.6rem; box-shadow:var(--sh-sm);
+          padding:2.6rem 3rem; }
+.qa .qq{ font-size:2.4rem; font-weight:800; margin-bottom:1rem; }
+.qa .qq::before{ content:'Q. '; color:var(--brand); }
+.qa .aa{ font-size:2.05rem; line-height:1.6; color:var(--ink-500); }
+
+/* ── 마무리 한 줄 ─────────────────────────── */
+.kicker{ margin-top:2.8rem; background:var(--blue-50); border-radius:1.4rem;
+         padding:2.2rem 3rem; font-size:2.2rem; font-weight:600; color:var(--deep);
+         border-left:.6rem solid var(--brand); }
+/* ── 세미콜로니 OT에서 가져온 3장 (2026-09-04) — 3층 구조 · 탭 매트릭스 · 폰 vs 노트북 ── */
+.dia{ color:var(--ink-700); width:100%; height:100%; display:block; }
+.dia .f-t{ fill:var(--blue-50); } .dia .f-s{ fill:var(--white); } .dia .f-a{ fill:var(--brand); }
+.dia .s-soft{ stroke:var(--ink-300); } .dia .s-acc{ stroke:var(--brand); } .dia .s-line{ stroke:var(--ink-200); }
+.dia .f-line{ fill:var(--ink-300); } .dia .f-shell{ fill:var(--ink-100); }
+
+/* 카드 아이콘 · 로고 칸 (2026-09-04 — 글만 있던 장 보강) */
+.cx .ico{ width:5.6rem; height:5.6rem; border-radius:1.4rem; background:var(--blue-50); color:var(--brand);
+          display:grid; place-items:center; margin-bottom:.4rem; flex:none; }
+.cx .ico svg{ width:3rem; height:3rem; }
+.main:has(.cols.c3 .cx:nth-child(6)) .cols{ gap:1.6rem; }
+.main:has(.cols.c3 .cx:nth-child(6)) .cx{ padding:2rem 3rem; gap:.6rem; }
+.main:has(.cols.c3 .cx:nth-child(6)) .cx .ico{ width:4.6rem; height:4.6rem; margin-bottom:0; }
+.main:has(.cols.c3 .cx:nth-child(6)) .cx .ico svg{ width:2.6rem; height:2.6rem; }
+.main:has(.cols.c3 .cx:nth-child(6)) .cx h3{ font-size:2.3rem; }
+.main:has(.cols.c3 .cx:nth-child(6)) .cx p{ font-size:1.8rem; line-height:1.45; }
+.main:has(.cols.c3 .cx:nth-child(6)) .kicker{ margin-top:1.8rem; }
+.cx .ico.brand{ background:var(--white); border:.1rem solid var(--ink-200); width:7.2rem; height:7.2rem; }
+.cx .ico.brand .lg{ display:block; height:4rem; width:auto; }
+.cx .ico.brand .lg-cl, .cx .ico.brand .lg-gm{ height:4.4rem; }
+
+.cx .ih{ display:flex; align-items:center; gap:1.4rem; margin-bottom:.4rem; }
+.cx .ih .ico{ margin-bottom:0; }
+.cx .bignum{ font-size:4rem; font-weight:800; color:var(--brand); line-height:1; letter-spacing:-.03em;
+             font-variant-numeric:tabular-nums; }
+.main:has(.cols.c3 .cx:nth-child(6)) .cx .bignum{ font-size:3.2rem; }
+
+/* 눌러서 크게 보기 · 사이트 열기 (2026-09-04) */
+.zoom{ position:relative; cursor:zoom-in; }
+.zoom .hint{ position:absolute; right:1.2rem; bottom:1.2rem; font-size:1.6rem; font-weight:700; color:var(--white);
+             background:rgba(22,32,46,.72); border-radius:99rem; padding:.6rem 1.4rem; pointer-events:none;
+             opacity:0; transition:opacity .18s ease; }
+.zoom:hover .hint, .zoom:focus-visible .hint{ opacity:1; }
+.zoom:focus-visible{ outline:.3rem solid var(--brand); outline-offset:.3rem; }
+.lb{ position:fixed; inset:0; z-index:200; background:rgba(22,32,46,.86); display:none;
+     align-items:center; justify-content:center; padding:3rem; }
+.lb.on{ display:flex; }
+.lb .box{ position:relative; width:min(96vw, 170.7vh); height:min(96vh, 54vw); background:var(--white);
+          border-radius:1.6rem; overflow:hidden; box-shadow:0 2rem 6rem rgba(0,0,0,.4); }
+.lb #lbbody{ width:100%; height:100%; }
+.lb img{ width:100%; height:100%; object-fit:contain; display:block; background:var(--white); }
+.lb iframe{ width:100%; height:100%; border:0; display:block; background:var(--white); }
+.lb .bar{ position:absolute; top:1.4rem; right:1.4rem; display:flex; gap:.8rem; z-index:1; }
+.lb .bar a, .lb .bar button{ font:inherit; font-size:1.7rem; font-weight:700; color:var(--ink-900);
+     background:rgba(255,255,255,.94); border:.1rem solid var(--ink-200); border-radius:99rem;
+     padding:.8rem 1.6rem; cursor:pointer; text-decoration:none; box-shadow:var(--sh-sm); }
+.lb .bar a:hover, .lb .bar button:hover{ background:var(--blue-50); color:var(--brand); }
+
+/* 9단계 레벨 사다리 — 시안 F 블록형 */
+.L{ display:grid; grid-template-rows:auto auto; gap:1rem; min-height:0; }
+.L .gh{ display:grid; grid-template-columns:repeat(9,1fr); gap:1.2rem; }
+.L .g{ background:var(--blue-50); border-radius:1rem; padding:.7rem 1.4rem; display:flex; gap:1rem; align-items:baseline; }
+.L .g b{ font-size:1.9rem; color:var(--brand); } .L .g span{ font-size:1.55rem; color:var(--ink-500); }
+.L .steps{ position:relative; display:grid; grid-template-columns:repeat(9,1fr); gap:1.2rem; align-items:end; padding-top:4.2rem; }
+.L .phone{ position:absolute; left:calc(2/9 * 100% - .6rem); top:0; transform:translateX(-50%); white-space:nowrap; font-size:1.55rem; font-weight:700; color:var(--ink-700);
+           background:var(--white); border:.1rem solid var(--ink-200); border-radius:99rem; padding:.7rem 1.4rem; box-shadow:var(--sh-sm); }
+.L .phone::after{ content:''; position:absolute; left:50%; top:100%; width:.15rem; height:1.4rem; background:var(--ink-300); }
+.L .st{ position:relative; display:flex; flex-direction:column; justify-content:flex-end; gap:.35rem; border-radius:2rem; padding:6rem 1.5rem 1.4rem;
+        background:var(--cloud); border:.1rem solid var(--ink-200); }
+.L .st.on{ background:linear-gradient(160deg,#2F6BFF 0%,#163D8C 100%); border-color:transparent; color:var(--white); box-shadow:0 1rem 2.8rem rgba(22,61,140,.28); }
+.L .badge{ position:absolute; left:1.4rem; top:1.2rem; font-size:4.4rem; font-weight:800; letter-spacing:-.04em; line-height:1; color:var(--ink-300); }
+.L .st.on .badge{ color:rgba(255,255,255,.92); }
+.L .lv{ display:none; }
+.L h3{ font-size:2.05rem; font-weight:800; letter-spacing:-.02em; line-height:1.2; } .L .st:not(.on) h3{ color:var(--ink-700); }
+.L .tm{ font-size:1.5rem; font-weight:700; color:var(--brand); } .L .st.on .tm{ color:#A9D8FF; }
+.L p{ font-size:1.5rem; line-height:1.38; margin-top:.2rem; color:var(--ink-500); } .L .st.on p{ color:rgba(255,255,255,.88); }
+.L .now{ margin-top:.9rem; font-size:1.45rem; font-weight:800; color:#A9D8FF; } .L .now.dim{ color:var(--ink-400); font-weight:600; }
+.credit{ font-size:1.45rem; color:var(--ink-400); text-align:right; margin-top:1rem; }
+
+/* 3층 구조 */
+.lay{ display:grid; grid-template-columns:38rem 1fr; gap:4.4rem; align-items:stretch; min-height:0; }
+.lay .pic{ background:var(--white); border-radius:1.8rem; box-shadow:var(--sh-sm); padding:3rem 4.4rem;
+           display:flex; align-items:center; justify-content:center; }
+.lay .pic svg{ max-height:44rem; width:auto; }
+.lay .rows{ display:grid; grid-template-rows:repeat(3,1fr); gap:1.6rem; }
+.lay .row{ background:var(--white); border-radius:1.8rem; box-shadow:var(--sh-sm); padding:2.4rem 3rem;
+           display:grid; grid-template-columns:5.6rem 6rem 1fr; gap:2rem; align-items:center; }
+.lay .row .n{ width:5.6rem; height:5.6rem; border-radius:50%; background:var(--brand); color:var(--white);
+              font-size:2.6rem; font-weight:800; display:grid; place-items:center; }
+.lay .row .ic{ width:5rem; height:5rem; color:var(--ink-500); }
+.lay .row h3{ font-size:2.8rem; font-weight:800; letter-spacing:-.02em; }
+.lay .row p{ font-size:2rem; line-height:1.5; color:var(--ink-500); margin-top:.5rem; }
+.lay .row .ex{ font-size:1.75rem; color:var(--ink-400); margin-top:.6rem; }
+
+/* 탭 매트릭스 + 차이 */
+.tabs{ display:grid; grid-template-columns:1.15fr 1fr; gap:3.2rem; min-height:0; align-items:stretch; }
+.mx{ background:var(--white); border-radius:1.8rem; box-shadow:var(--sh-sm); padding:3rem; display:grid;
+     grid-template-rows:auto 1fr; gap:2.4rem; }
+.mx .win{ height:16rem; }
+.mx table{ width:100%; border-collapse:separate; border-spacing:.8rem 0; }
+.mx th, .mx td{ text-align:center; font-size:2.2rem; padding:1.5rem .6rem; border-radius:1rem; }
+.mx th{ font-weight:700; color:var(--ink-500); font-size:1.9rem; letter-spacing:.02em; }
+.mx td{ font-weight:600; color:var(--ink-700); background:var(--cloud); }
+.mx td.rh{ text-align:left; background:none; font-weight:800; color:var(--ink-900); font-size:2.3rem; padding-left:0; }
+.mx th.hi{ color:var(--brand); }
+.mx td.hi{ background:var(--blue-50); color:var(--brand); font-weight:800; box-shadow:inset 0 0 0 .2rem var(--brand); }
+.diff{ display:grid; grid-template-rows:1fr 1fr; gap:1.6rem; }
+.diff .d{ background:var(--white); border-radius:1.8rem; box-shadow:var(--sh-sm); padding:2.6rem 3rem;
+          display:grid; grid-template-columns:7rem 1fr; gap:2.2rem; align-items:center; }
+.diff .d.hi{ border-left:.6rem solid var(--brand); }
+.diff .d .ic{ width:6.4rem; height:6.4rem; color:var(--ink-400); }
+.diff .d.hi .ic{ color:var(--brand); }
+.diff .d h3{ font-size:2.8rem; font-weight:800; letter-spacing:-.02em; }
+.diff .d p{ font-size:2.05rem; line-height:1.5; color:var(--ink-500); margin-top:.6rem; }
+
+/* 폰 vs 노트북 */
+.duo{ display:grid; grid-template-columns:1fr 1fr; grid-template-rows:auto auto; gap:2.2rem; min-height:0; }
+.duo .side{ background:var(--white); border-radius:1.8rem; box-shadow:var(--sh-sm); padding:3rem 3.4rem; }
+.duo .side.hi{ border-top:.6rem solid var(--brand); }
+.duo .side .pic{ height:13rem; margin-bottom:2.2rem; color:var(--ink-500); }
+.duo .side.hi .pic{ color:var(--ink-900); }
+.duo .side h3{ font-size:3rem; font-weight:800; letter-spacing:-.02em; }
+.duo .side p{ font-size:2.15rem; line-height:1.55; color:var(--ink-500); margin-top:1rem; }
+.duo .src{ background:var(--blue-50); border-radius:1.4rem; padding:1.8rem 2.4rem; }
+.duo .src p{ font-size:1.95rem; line-height:1.5; color:var(--ink-700); }
+.duo .src .s{ font-size:1.6rem; color:var(--ink-400); margin-top:.6rem; }
+.steps4{ display:grid; grid-template-rows:repeat(4,1fr); gap:1.2rem; min-height:0; }
+.steps4 .row{ background:var(--white); border-radius:1.6rem; box-shadow:var(--sh-sm); padding:1.4rem 2.6rem;
+              display:grid; grid-template-columns:5.4rem 1fr; gap:2.2rem; align-items:center; }
+.steps4 .row .n{ width:5.4rem; height:5.4rem; border-radius:50%; background:var(--brand); color:var(--white);
+                 font-size:2.5rem; font-weight:800; display:grid; place-items:center; }
+.steps4 .row h3{ font-size:2.5rem; font-weight:800; letter-spacing:-.02em; }
+.steps4 .row p{ font-size:1.9rem; line-height:1.4; color:var(--ink-500); margin-top:.3rem; }
+.steps4 .row .ex{ font-size:1.7rem; color:var(--brand); margin-top:.35rem; }
+/* 노드 그래프 — 라이트 배경판 (대표 «전이 낫다» 복귀) */
+.graph{ width:100%; height:100%; display:block; overflow:visible; }
+.graph .es{ stroke:var(--ink-300); stroke-width:1.6; opacity:.75; }
+.graph .et{ stroke:var(--ink-200); stroke-width:1.2; opacity:.65; }
+.graph .ex{ stroke:var(--light); stroke-width:1.6; opacity:.85; stroke-dasharray:7 9; }
+.graph .em{ stroke:url(#gEdge); stroke-width:5; stroke-linecap:round; opacity:.9; }
+.graph .n{ fill:var(--ink-300); }
+.graph .n.a{ fill:#6E9BFF; } .graph .n.b{ fill:var(--brand); } .graph .n.c{ fill:var(--deep); } .graph .n.d{ fill:#24A78B; }
+.graph .n.mid{ stroke:var(--white); stroke-width:3.5; filter:url(#fGlow); }
+.graph .n.h{ fill:var(--brand); }
+.graph .n.hub{ stroke:var(--white); stroke-width:6; filter:url(#fGlow); }
+.graph .halo{ fill:currentColor; opacity:.12; }
+.graph .halo.a{ color:#6E9BFF; } .graph .halo.b{ color:#2F6BFF; } .graph .halo.c{ color:#163D8C; } .graph .halo.d{ color:#24A78B; }
+.graph .ring{ fill:none; stroke:var(--brand); }
+.graph .ring.r1{ opacity:.28; stroke-width:2; }
+.graph .ring.r2{ opacity:.14; stroke-width:1.5; stroke-dasharray:4 10; }
+.graph .glb{ font-family:var(--font); font-size:29px; font-weight:800; fill:var(--ink-700); text-anchor:middle;
+             paint-order:stroke; stroke:var(--cloud); stroke-width:7px; stroke-linejoin:round; }
+.graph .glb.hb{ fill:var(--brand); font-size:33px; }
+.stmt.gcov{ align-content:stretch; padding:0; }
+.gcov .cov{ display:grid; grid-template-columns:1fr 1.05fr; align-items:center; width:100%; height:100%; }
+.gcov .cov .l{ padding:0 2rem 0 12rem; } .gcov .cov .l .stmt{ padding:0; }
+.gcov .cov .r{ height:92%; padding-right:4rem; }
+.gsplit{ display:grid; grid-template-columns:1.15fr 1fr; gap:3rem; align-items:center; min-height:0; }
+.gv{ background:var(--white); border-radius:1.8rem; box-shadow:var(--sh-sm); padding:1.6rem; height:50rem; }
+.gc{ display:grid; grid-template-rows:repeat(3,1fr); gap:1.6rem; }
+.gc .cx{ display:grid; grid-template-columns:6rem 1fr; column-gap:2rem; row-gap:.3rem; align-items:center; padding:2rem 2.4rem; }
+.gc .cx .ico{ grid-row:1 / span 3; }
+.gc .cx .tag{ grid-column:2; }
+.gc .cx h3{ grid-column:2; font-size:2.4rem; }
+.gc .cx p{ grid-column:2; font-size:1.9rem; }
+.gc .cx .ico{ margin-bottom:0; }
+.nav{ position:fixed; right:2rem; bottom:1.6rem; background:var(--ink-900); color:var(--white); font-weight:800;
+      font-size:1.6rem; border-radius:99rem; padding:.7rem 1.6rem; font-variant-numeric:tabular-nums; opacity:.85; z-index:50; }
+@media print{ .nav{ display:none; } .slide{ display:grid !important; } }
+.pcs{ display:grid; grid-template-columns:repeat(3,1fr); gap:2rem; min-height:0; }
+.pc{ background:var(--white); border-radius:1.8rem; box-shadow:var(--sh-sm); padding:2.4rem 2.6rem; display:flex; flex-direction:column; gap:1rem; }
+.pc .tag{ font-size:1.7rem; font-weight:700; color:var(--brand); letter-spacing:.04em; }
+.pc h3{ font-size:2.4rem; font-weight:800; letter-spacing:-.02em; }
+.pc .pw{ flex:1; position:relative; display:flex; }
+.pc .cp{ position:absolute; right:1rem; top:1rem; font:inherit; font-size:1.5rem; font-weight:700; color:var(--ink-700);
+         background:var(--white); border:.1rem solid var(--ink-200); border-radius:.9rem; padding:.5rem 1.2rem; cursor:pointer;
+         box-shadow:var(--sh-sm); }
+.pc .cp:hover{ background:var(--blue-50); color:var(--brand); border-color:var(--brand); }
+.pc .cp.done{ background:var(--brand); color:var(--white); border-color:var(--brand); }
+.pc pre{ flex:1; margin:0; background:var(--cloud); border-radius:1.2rem; padding:1.8rem 2rem; font-family:'SF Mono',Menlo,monospace;
+         font-size:1.6rem; line-height:1.65; color:var(--ink-700); white-space:pre-wrap; word-break:keep-all; }
+.tw{ display:grid; grid-template-columns:1.25fr 1fr; gap:3rem; min-height:0; align-items:start; }
+.tree{ background:var(--white); border-radius:1.8rem; box-shadow:var(--sh-sm); padding:2.6rem 3rem; font-family:'SF Mono',Menlo,monospace; }
+.tree .nd{ display:flex; align-items:baseline; gap:1.2rem; padding:.5rem 0; font-size:2rem; }
+.tree .nd.d0{ font-weight:800; color:var(--ink-900); }
+.tree .nd.d1{ padding-left:3.2rem; color:var(--ink-700); }
+.tree .nd.d2{ padding-left:6.4rem; color:var(--ink-500); font-size:1.85rem; }
+.tree .nd.f .nm{ color:var(--brand); }
+.tree .nt{ font-family:var(--font); font-size:1.6rem; color:var(--ink-400); }
+.sd{ display:flex; flex-direction:column; gap:1.4rem; }
+.sd .s{ background:var(--white); border-radius:1.6rem; box-shadow:var(--sh-sm); padding:2.2rem 2.4rem; border-left:.5rem solid var(--brand); }
+.sd .s b{ font-size:2.2rem; font-weight:800; display:block; margin-bottom:.6rem; }
+.sd .s p{ font-size:1.8rem; line-height:1.5; color:var(--ink-500); }
+
+.slide{display:none;margin:0 auto;}.slide.on{display:grid;}</style></head><body><div class="slide stmt gcov" id="p01"><div class="cov"><div class="l"><div class="stmt"><p class="kick">세미클래스 3주차 · AI 기초공사</p><h1>내 문서 모아서<br><em>AI 참고서</em> 만들기</h1><p class="sub">쌓아두면 AI가 알아서 꺼내 씁니다 · 2026-09-19 토 15:00 · Ray</p></div></div><div class="r"><svg viewBox="0 0 1000 860" class="graph" aria-hidden="true"><defs><radialGradient id="gGlow" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#2F6BFF" stop-opacity=".22"/><stop offset="60%" stop-color="#2F6BFF" stop-opacity=".06"/><stop offset="100%" stop-color="#2F6BFF" stop-opacity="0"/></radialGradient><linearGradient id="gEdge" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2F6BFF"/><stop offset="100%" stop-color="#163D8C"/></linearGradient><filter id="fGlow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="9" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><ellipse cx="492" cy="455" rx="470" ry="400" fill="url(#gGlow)"/><g class="edges"><line x1="492.0" y1="455.0" x2="285.0" y2="235.0" class="em"/><line x1="492.0" y1="455.0" x2="690.0" y2="405.0" class="em"/><line x1="492.0" y1="455.0" x2="320.0" y2="640.0" class="em"/><line x1="492.0" y1="455.0" x2="700.0" y2="690.0" class="em"/><line x1="285.0" y1="235.0" x2="361.8" y2="228.0" class="es"/><line x1="285.0" y1="235.0" x2="393.1" y2="265.2" class="es"/><line x1="285.0" y1="235.0" x2="355.9" y2="308.4" class="es"/><line x1="285.0" y1="235.0" x2="277.8" y2="294.5" class="es"/><line x1="285.0" y1="235.0" x2="197.5" y2="330.2" class="es"/><line x1="285.0" y1="235.0" x2="175.0" y2="280.9" class="es"/><line x1="285.0" y1="235.0" x2="190.0" y2="206.8" class="es"/><line x1="285.0" y1="235.0" x2="164.8" y2="166.6" class="es"/><line x1="285.0" y1="235.0" x2="259.1" y2="175.2" class="es"/><line x1="285.0" y1="235.0" x2="331.4" y2="178.9" class="es"/><line x1="285.0" y1="235.0" x2="371.7" y2="195.4" class="es"/><line x1="690.0" y1="405.0" x2="762.9" y2="388.2" class="es"/><line x1="690.0" y1="405.0" x2="784.4" y2="459.6" class="es"/><line x1="690.0" y1="405.0" x2="751.1" y2="490.2" class="es"/><line x1="690.0" y1="405.0" x2="682.1" y2="526.9" class="es"/><line x1="690.0" y1="405.0" x2="640.9" y2="502.8" class="es"/><line x1="690.0" y1="405.0" x2="607.4" y2="452.3" class="es"/><line x1="690.0" y1="405.0" x2="589.5" y2="449.0" class="es"/><line x1="690.0" y1="405.0" x2="569.9" y2="401.6" class="es"/><line x1="690.0" y1="405.0" x2="589.1" y2="310.9" class="es"/><line x1="690.0" y1="405.0" x2="676.1" y2="318.2" class="es"/><line x1="690.0" y1="405.0" x2="712.9" y2="295.3" class="es"/><line x1="690.0" y1="405.0" x2="811.1" y2="305.5" class="es"/><line x1="690.0" y1="405.0" x2="760.1" y2="380.6" class="es"/><line x1="320.0" y1="640.0" x2="465.8" y2="651.1" class="es"/><line x1="320.0" y1="640.0" x2="401.5" y2="678.2" class="es"/><line x1="320.0" y1="640.0" x2="376.2" y2="710.6" class="es"/><line x1="320.0" y1="640.0" x2="314.6" y2="694.8" class="es"/><line x1="320.0" y1="640.0" x2="266.8" y2="692.1" class="es"/><line x1="320.0" y1="640.0" x2="255.7" y2="627.5" class="es"/><line x1="320.0" y1="640.0" x2="211.8" y2="568.1" class="es"/><line x1="320.0" y1="640.0" x2="312.0" y2="568.6" class="es"/><line x1="320.0" y1="640.0" x2="351.1" y2="525.4" class="es"/><line x1="320.0" y1="640.0" x2="369.7" y2="592.5" class="es"/><line x1="700.0" y1="690.0" x2="782.4" y2="678.6" class="es"/><line x1="700.0" y1="690.0" x2="735.4" y2="718.6" class="es"/><line x1="700.0" y1="690.0" x2="687.0" y2="766.0" class="es"/><line x1="700.0" y1="690.0" x2="619.1" y2="714.2" class="es"/><line x1="700.0" y1="690.0" x2="655.6" y2="666.4" class="es"/><line x1="700.0" y1="690.0" x2="693.7" y2="594.1" class="es"/><line x1="700.0" y1="690.0" x2="744.1" y2="635.5" class="es"/><line x1="190.0" y1="206.8" x2="361.8" y2="228.0" class="et"/><line x1="760.1" y1="380.6" x2="693.7" y2="594.1" class="et"/><line x1="393.1" y1="265.2" x2="197.5" y2="330.2" class="et"/><line x1="751.1" y1="490.2" x2="693.7" y2="594.1" class="et"/><line x1="744.1" y1="635.5" x2="607.4" y2="452.3" class="et"/><line x1="255.7" y1="627.5" x2="211.8" y2="568.1" class="et"/><line x1="175.0" y1="280.9" x2="331.4" y2="178.9" class="et"/><line x1="393.1" y1="265.2" x2="369.7" y2="592.5" class="ex"/><line x1="589.1" y1="310.9" x2="175.0" y2="280.9" class="ex"/><line x1="760.1" y1="380.6" x2="371.7" y2="195.4" class="ex"/><line x1="782.4" y1="678.6" x2="351.1" y2="525.4" class="ex"/></g><g class="nodes"><circle cx="492" cy="455" r="46" class="ring r1"/><circle cx="492" cy="455" r="72" class="ring r2"/><circle cx="492.0" cy="455.0" r="19.0" class="n h hub"/><circle cx="285.0" cy="235.0" r="23.1" class="halo a"/><circle cx="285.0" cy="235.0" r="11.0" class="n a mid"/><circle cx="361.8" cy="228.0" r="5.9" class="n a"/><circle cx="393.1" cy="265.2" r="4.7" class="n a"/><circle cx="355.9" cy="308.4" r="3.4" class="n a"/><circle cx="277.8" cy="294.5" r="3.6" class="n a"/><circle cx="197.5" cy="330.2" r="3.7" class="n a"/><circle cx="175.0" cy="280.9" r="7.2" class="n a"/><circle cx="190.0" cy="206.8" r="7.3" class="n a"/><circle cx="164.8" cy="166.6" r="4.4" class="n a"/><circle cx="259.1" cy="175.2" r="4.5" class="n a"/><circle cx="331.4" cy="178.9" r="5.6" class="n a"/><circle cx="371.7" cy="195.4" r="5.5" class="n a"/><circle cx="690.0" cy="405.0" r="23.1" class="halo b"/><circle cx="690.0" cy="405.0" r="11.0" class="n b mid"/><circle cx="762.9" cy="388.2" r="4.1" class="n b"/><circle cx="784.4" cy="459.6" r="4.5" class="n b"/><circle cx="751.1" cy="490.2" r="4.5" class="n b"/><circle cx="682.1" cy="526.9" r="4.2" class="n b"/><circle cx="640.9" cy="502.8" r="6.9" class="n b"/><circle cx="607.4" cy="452.3" r="7.3" class="n b"/><circle cx="589.5" cy="449.0" r="6.4" class="n b"/><circle cx="569.9" cy="401.6" r="3.4" class="n b"/><circle cx="589.1" cy="310.9" r="5.6" class="n b"/><circle cx="676.1" cy="318.2" r="6.1" class="n b"/><circle cx="712.9" cy="295.3" r="5.1" class="n b"/><circle cx="811.1" cy="305.5" r="5.2" class="n b"/><circle cx="760.1" cy="380.6" r="6.1" class="n b"/><circle cx="320.0" cy="640.0" r="23.1" class="halo c"/><circle cx="320.0" cy="640.0" r="11.0" class="n c mid"/><circle cx="465.8" cy="651.1" r="6.7" class="n c"/><circle cx="401.5" cy="678.2" r="6.0" class="n c"/><circle cx="376.2" cy="710.6" r="3.9" class="n c"/><circle cx="314.6" cy="694.8" r="6.4" class="n c"/><circle cx="266.8" cy="692.1" r="4.8" class="n c"/><circle cx="255.7" cy="627.5" r="5.1" class="n c"/><circle cx="211.8" cy="568.1" r="6.6" class="n c"/><circle cx="312.0" cy="568.6" r="4.9" class="n c"/><circle cx="351.1" cy="525.4" r="7.2" class="n c"/><circle cx="369.7" cy="592.5" r="4.2" class="n c"/><circle cx="700.0" cy="690.0" r="23.1" class="halo d"/><circle cx="700.0" cy="690.0" r="11.0" class="n d mid"/><circle cx="782.4" cy="678.6" r="5.7" class="n d"/><circle cx="735.4" cy="718.6" r="5.0" class="n d"/><circle cx="687.0" cy="766.0" r="7.2" class="n d"/><circle cx="619.1" cy="714.2" r="5.8" class="n d"/><circle cx="655.6" cy="666.4" r="7.0" class="n d"/><circle cx="693.7" cy="594.1" r="6.6" class="n d"/><circle cx="744.1" cy="635.5" r="3.6" class="n d"/></g><text x="285" y="203" class="glb">거래처</text><text x="690" y="373" class="glb">매입매출</text><text x="320" y="608" class="glb">회의록</text><text x="700" y="658" class="glb">양식·규칙</text><text x="492" y="392" class="glb hb">내 자료 창고</text></svg></div></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">1 / 30</p></div><div class="slide body" id="p02"><div class="hd"><h1>오늘 <em>두 시간</em>, 이렇게 갑니다</h1><p class="sub">앞 30분 지식베이스 · 가운데 옵시디언 · 뒤 AI에 연결</p></div><div class="main"><div class="cols c3"><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg></div><span class="tag">앞 30분</span><h3>지식베이스가 뭔가</h3><p>AI가 내 사정을 모르는 이유. 제 화면으로 직접 보여드립니다.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h4l2 3h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2Z"/></svg></div><span class="tag">가운데</span><h3>옵시디언으로 만들기</h3><p>설치하고, 노트 만들고, 이어두고, 목차까지 짭니다.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M12 8V4M8 4h8"/><circle cx="9" cy="14" r="1"/><circle cx="15" cy="14" r="1"/></svg></div><span class="tag">뒤</span><h3>Claude·ChatGPT에 연결</h3><p>만든 창고를 AI가 읽게 연결하고 직접 물어봅니다.</p></div></div><div class="kicker">오늘 목표는 하나 — 내 자료를 읽은 AI가 내 질문에 답하는 걸 직접 보고 가기.</div></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">2 / 30</p></div><div class="slide body" id="p03"><div class="hd"><h1>AI가 <em>매번 헤매는</em> 이유</h1><p class="sub">똑똑한 게 문제가 아니라, 내 사정을 모르는 게 문제입니다</p></div><div class="main"><div class="cmp"><div class="box bad"><h3>지금 — 매번 처음부터</h3><ul><li>&quot;저희 회사는 이런 걸 하고요…&quot; 부터 설명</li><li>필요한 파일을 찾아 하나씩 붙여넣기</li><li>어제 한 대화는 오늘 기억 못 함</li><li>답이 그럴듯한데 우리 현실과 다름</li></ul></div><div class="box good"><h3>자료 창고를 주면</h3><ul><li>&quot;우리 자료 보고 답해&quot; 한 줄이면 끝</li><li>AI가 폴더에서 알아서 찾아 읽음</li><li>기준·이력이 파일에 남아 계속 이어짐</li><li>우리 숫자·거래처로 답이 나옴</li></ul></div></div><div class="kicker">2주차에 「내 소개」 한 장을 넣었다면, 오늘은 창고 전체를 넘깁니다.</div></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">3 / 30</p></div><div class="slide body" id="p04"><div class="hd"><h1>같은 질문, <em>답이 이렇게</em> 달라집니다</h1><p class="sub">«지난달 대림상사 매입 얼마였지?» — 왼쪽은 창고 없이, 오른쪽은 창고를 주고</p></div><div class="main"><div class="cmp"><div class="box bad"><h3>창고 없이 물으면</h3><ul><li>«어떤 자료를 말씀하시는지 알려주세요»</li><li>내가 파일을 찾아 붙여넣어야 함</li><li>숫자를 물으면 «확인이 어렵습니다»</li><li>답이 일반론이라 그대로 못 씀</li></ul></div><div class="box good"><h3>창고를 주고 물으면</h3><ul><li>«매입 내역 파일 기준 4,820,000원입니다»</li><li>어느 파일 몇 번째 줄인지까지 말해줌</li><li>«단가는 지난달과 같습니다» 같은 비교도 함</li><li>그대로 보고에 붙여 쓸 수 있음</li></ul></div></div><div class="kicker">차이는 AI의 똑똑함이 아니라 «읽을 게 있느냐»입니다.</div></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">4 / 30</p></div><div class="slide stmt" id="p05"><div class="stmt"><p class="kick">LIVE</p><h1>제 걸로 <em>직접</em> 보여드릴게요</h1><p class="sub">질문 세 개를 실제로 던져보겠습니다 — 매입 총액, 거래처 단가, 회의 결정사항</p></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">5 / 30</p></div><div class="slide body" id="p06"><div class="hd"><h1>방금 <em>무슨 일</em>이 일어났나</h1><p class="sub">AI가 한 건 딱 세 가지입니다</p></div><div class="main"><div class="cols c3"><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h4l2 3h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2Z"/></svg></div><span class="tag">1</span><h3>폴더를 열었습니다</h3><p>제가 지정한 폴더 하나. 그 안의 글 파일들을 읽었습니다.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></div><span class="tag">2</span><h3>필요한 것만 골랐습니다</h3><p>질문과 상관있는 파일만 찾아서 봤습니다. 전부 읽는 게 아닙니다.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg></div><span class="tag">3</span><h3>그걸로 답했습니다</h3><p>지어낸 게 아니라 파일에 적힌 내용으로 답했습니다.</p></div></div><div class="kicker">이게 지식베이스(내 자료 창고)입니다. 특별한 프로그램이 아니라 «잘 정리된 폴더»입니다.</div></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">6 / 30</p></div><div class="slide body" id="p07"><div class="hd"><h1>쌓아두면 <em>이런 게</em> 됩니다</h1><p class="sub">1인 사장·사무 담당자가 매일 하는 일들</p></div><div class="main"><div class="cols c4"><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></div><span class="tag">매입·매출</span><h3>숫자를 물어봅니다</h3><p>«지난달 A거래처 매입 얼마였지?» «이번 달 매출 합계 뽑아줘»</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></div><span class="tag">거래처</span><h3>조건을 기억시킵니다</h3><p>«B사 단가 조건이랑 결제일 알려줘» — 메일 뒤지지 않아도 됩니다.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><span class="tag">업무 관리</span><h3>결정사항을 찾습니다</h3><p>«지난 회의에서 정한 것만 정리해줘» — 회의록을 넣어두면 됩니다.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="6" height="14" rx="1"/><rect x="9" y="5" width="6" height="14" rx="1"/><rect x="16" y="5" width="6" height="14" rx="1"/></svg></div><span class="tag">문서 작성</span><h3>우리 양식대로 씁니다</h3><p>«저번 견적서 양식으로 새로 하나 만들어줘»</p></div></div><div class="kicker">공통점 하나 — 전부 «이미 내 컴퓨터에 있는 자료»입니다. 새로 만들 게 없습니다.</div></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">7 / 30</p></div><div class="slide body" id="p08"><div class="hd"><h1>그럼 <em>뭘 넣어야</em> 하나요</h1><p class="sub">이미 있는 것부터 넣습니다. 새로 만들 필요 없습니다</p></div><div class="main"><div class="cols c3"><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h4l2 3h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2Z"/></svg></div><span class="tag">이런 것</span><h3>반복해서 찾는 자료</h3><p>거래처 조건, 단가표, 자주 쓰는 양식. «또 어디 있더라» 하는 것들.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></div><span class="tag">이런 것</span><h3>기록해두면 좋은 것</h3><p>회의록, 통화 메모, 결정한 이유. 나중에 «왜 그렇게 했더라» 할 것들.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></div><span class="tag">이런 것</span><h3>숫자가 든 것</h3><p>매입·매출 내역, 재고. 물어보면 계산까지 해줍니다.</p></div></div><div class="kicker">시작은 다섯 개면 충분합니다. 완벽하게 모으려다 시작을 못 합니다.</div></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">8 / 30</p></div><div class="slide stmt" id="p09"><div class="stmt"><p class="kick">이제 만들어 봅니다</p><h1>창고는 <em>옵시디언</em>으로 만듭니다</h1><p class="sub">설치 → 사용법 → 구성 → AI에 연결, 이 순서로 갑니다</p></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">9 / 30</p></div><div class="slide body" id="p10"><div class="hd"><h1><em>옵시디언</em>이 뭔가요</h1><p class="sub">내 컴퓨터에 노트를 쌓는 무료 앱입니다</p></div><div class="main"><div class="cols c3"><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h4l2 3h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2Z"/></svg></div><span class="tag">저장</span><h3>내 폴더에 글 파일로</h3><p>노트는 내 컴퓨터 폴더 안의 .md 글 파일로 저장됩니다. 이 폴더를 «볼트»라고 부릅니다.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg></div><span class="tag">요금</span><h3>개인·업무 모두 무료</h3><p>회사 업무에 써도 무료입니다. 유료 옵션은 개발 후원용이라 안 사도 됩니다.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 3 7l9 5 9-5-9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg></div><span class="tag">연결</span><h3>노트끼리 이어집니다</h3><p>노트 이름을 [[ ]]로 감싸면 이어지고, 그 연결이 그림으로 보입니다.</p></div></div><div class="kicker">핵심 — 옵시디언이 쌓는 건 «그냥 글 파일»입니다. 그래서 AI가 그대로 읽습니다.</div></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">10 / 30</p></div><div class="slide body" id="p11"><div class="hd"><h1>왜 메모장·노션이 <em>아니고</em></h1><p class="sub">AI 창고로 쓰기엔 옵시디언이 딱 맞습니다</p></div><div class="main"><div class="cols c3"><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></div><span class="tag">메모장</span><h3>파일은 남는데 안 이어짐</h3><p>글 파일이라 AI가 읽긴 합니다. 하지만 노트끼리 잇거나 한눈에 보기가 어렵습니다.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><span class="tag">노션</span><h3>예쁜데 내 폴더에 없음</h3><p>노트가 인터넷에 저장돼 내 컴퓨터 폴더에 파일로 남지 않습니다. AI 앱에 폴더로 못 붙입니다.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg></div><span class="tag">옵시디언</span><h3>둘의 장점만</h3><p>내 폴더에 글 파일로 남고, 이어지고, 그림으로 보입니다.</p></div></div><div class="kicker">기준은 하나 — «AI 앱에 폴더째로 붙일 수 있느냐»입니다.</div></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">11 / 30</p></div><div class="slide body" id="p12"><div class="hd"><h1>손은 <em>세 번</em>만 씁니다</h1><p class="sub">설치·폴더 연결·열기만 직접 — 볼트 만들기는 AI가 합니다</p></div><div class="main"><div class="steps4"><div class="row"><div class="n">1</div><div><h3>옵시디언 설치</h3><p>obsidian.md 에서 내 컴퓨터에 맞는 걸 받아 설치합니다. 여기만 직접 누릅니다.</p><p class="ex">막히면 다음 장 ① 프롬프트를 AI에게 그대로 물어보세요</p></div></div><div class="row"><div class="n">2</div><div><h3>빈 폴더를 AI에 연결</h3><p>바탕화면에 «내자료» 폴더를 만들고, Claude Cowork(또는 ChatGPT Work)에 그 폴더를 연결합니다.</p><p class="ex">연결하는 법은 바로 다음 두 장</p></div></div><div class="row"><div class="n">3</div><div><h3>프롬프트 복붙 → AI가 볼트를 만듦</h3><p>그다음 장 ② 프롬프트를 붙여넣으면 폴더·목차·안내문·예시 노트를 AI가 만들어 줍니다.</p><p class="ex">직접 만드는 것 없음</p></div></div><div class="row"><div class="n">4</div><div><h3>옵시디언에서 그 폴더 열기</h3><p>옵시디언 첫 화면 «Open folder as vault» 옆 Open → «내자료» 폴더 선택 → Open.</p><p class="ex">AI가 만든 노트와 연결선이 바로 보입니다</p></div></div></div><div class="kicker">손으로 하는 건 설치·연결·열기뿐입니다. 만드는 일은 전부 AI에게 시킵니다.</div></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">12 / 30</p></div><div class="slide body" id="p13"><div class="hd"><h1><em>Claude</em>에 연결하기</h1><p class="sub">Claude 데스크톱 앱의 Cowork — 유료 요금제(Pro 이상)에서 됩니다</p></div><div class="main"><div class="steps4"><div class="row"><div class="n">1</div><div><h3>Claude 데스크톱 앱 열기</h3><p>웹이 아니라 컴퓨터에 설치한 앱입니다(맥·윈도우).</p><p class="ex">1주차에 설치한 그 앱입니다</p></div></div><div class="row"><div class="n">2</div><div><h3>Cowork 선택</h3><p>화면 위에서 Chat이 아닌 Cowork를 고릅니다.</p><p class="ex">Chat은 내 폴더를 못 엽니다</p></div></div><div class="row"><div class="n">3</div><div><h3>작업 폴더로 볼트 고르기</h3><p>폴더 선택에서 옵시디언 볼트 폴더(«내자료»)를 그대로 고릅니다.</p><p class="ex">고르는 순간 그 폴더를 읽고 고칠 권한을 준 것입니다</p></div></div><div class="row"><div class="n">4</div><div><h3>안내문부터 읽히기</h3><p>«00-여기부터-읽어 먼저 읽고, 지난달 대림상사 매입 알려줘»</p><p class="ex">Claude가 고친 노트는 옵시디언에 바로 반영됩니다</p></div></div></div><div class="kicker">파일을 영구 삭제할 땐 Claude가 항상 먼저 물어봅니다. 그래도 주민번호·계약서 원본은 볼트에 넣지 마세요.</div></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">13 / 30</p></div><div class="slide body" id="p14"><div class="hd"><h1><em>ChatGPT</em>에 연결하기</h1><p class="sub">새 ChatGPT 데스크톱 앱의 Work — 요금제·회사 설정에 따라 다를 수 있습니다</p></div><div class="main"><div class="steps4"><div class="row"><div class="n">1</div><div><h3>새 ChatGPT 데스크톱 앱 열기</h3><p>«ChatGPT Classic»이 아니라 새 «ChatGPT» 앱입니다.</p><p class="ex">둘 다 깔려 있으면 Classic이 아닌 쪽</p></div></div><div class="row"><div class="n">2</div><div><h3>ChatGPT → Work</h3><p>왼쪽 위 메뉴에서 ChatGPT를 고르고, 위쪽 토글에서 Work를 고릅니다.</p><p class="ex">Chat은 가벼운 대화용입니다</p></div></div><div class="row"><div class="n">3</div><div><h3>로컬 폴더 열기</h3><p>Work에서 로컬 폴더 열기로 옵시디언 볼트 폴더를 고릅니다.</p><p class="ex">허락한 폴더만 읽습니다</p></div></div><div class="row"><div class="n">4</div><div><h3>안내문부터 읽히기</h3><p>«00-여기부터-읽어 먼저 읽고, 이번 달 매출 합계 알려줘»</p><p class="ex">내 컴퓨터에서 돌아도 대화 기록은 인터넷에 저장될 수 있습니다</p></div></div></div><div class="kicker">Work가 안 보이면 요금제나 회사 계정 설정 문제입니다. 그땐 Claude 쪽으로 해보세요.</div></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">14 / 30</p></div><div class="slide body" id="p15"><div class="hd"><h1>AI한테 <em>이 세 개</em>만 복붙하세요</h1><p class="sub">설치 도움 → 볼트 만들기 → 사용법 익히기</p></div><div class="main"><div class="pcs"><div class="pc"><span class="tag">① 설치가 막히면</span><h3>설치 도와줘</h3><div class="pw"><pre>내 컴퓨터는 (맥 / 윈도우)야.
+옵시디언을 처음 설치하려고 해.
+어디서 받고 어떤 순서로 누르면 되는지
+한 단계씩만 알려줘.
+내가 «다음» 하면 그다음을 알려줘.</pre><button class="cp" type="button" aria-label="복사">복사</button></div></div><div class="pc"><span class="tag">② 볼트 만들기</span><h3>이 폴더를 볼트로 만들어줘</h3><div class="pw"><pre>이 폴더를 옵시디언 볼트로 쓸 거야.
+나는 ○○업 1인 사업자야.
+거래처/ 매입매출/ 회의록/ 폴더를 만들고
+00-INDEX.md 목차와
+00-여기부터-읽어.md 안내문을 써줘.
+예시 노트 3개를 만들어 [[ ]]로 이어줘.</pre><button class="cp" type="button" aria-label="복사">복사</button></div></div><div class="pc"><span class="tag">③ 사용법 익히기</span><h3>5분 안에 써보게 해줘</h3><div class="pw"><pre>옵시디언이 처음이야.
+방금 만든 볼트로 노트 만들기, [[ ]] 링크,
+노트 속성, 그래프 보기를
+5분 안에 직접 해볼 순서로 알려줘.
+한 번에 하나씩.</pre><button class="cp" type="button" aria-label="복사">복사</button></div></div></div><div class="kicker">외울 필요 없습니다. 모르면 AI에게 묻고, 만들 일은 AI에게 시키면 됩니다.</div></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">15 / 30</p></div><div class="slide body" id="p16"><div class="hd"><h1>노트끼리 <em>이어두면</em></h1><p class="sub">지식그래프 — 노트끼리 이어두면 AI가 맥락째로 읽습니다</p></div><div class="main"><div class="gsplit"><div class="gv"><svg viewBox="0 0 1000 860" class="graph" aria-hidden="true"><defs><radialGradient id="gGlow" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#2F6BFF" stop-opacity=".22"/><stop offset="60%" stop-color="#2F6BFF" stop-opacity=".06"/><stop offset="100%" stop-color="#2F6BFF" stop-opacity="0"/></radialGradient><linearGradient id="gEdge" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2F6BFF"/><stop offset="100%" stop-color="#163D8C"/></linearGradient><filter id="fGlow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="9" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><ellipse cx="492" cy="455" rx="470" ry="400" fill="url(#gGlow)"/><g class="edges"><line x1="492.0" y1="455.0" x2="285.0" y2="235.0" class="em"/><line x1="492.0" y1="455.0" x2="690.0" y2="405.0" class="em"/><line x1="492.0" y1="455.0" x2="320.0" y2="640.0" class="em"/><line x1="492.0" y1="455.0" x2="700.0" y2="690.0" class="em"/><line x1="285.0" y1="235.0" x2="361.8" y2="228.0" class="es"/><line x1="285.0" y1="235.0" x2="393.1" y2="265.2" class="es"/><line x1="285.0" y1="235.0" x2="355.9" y2="308.4" class="es"/><line x1="285.0" y1="235.0" x2="277.8" y2="294.5" class="es"/><line x1="285.0" y1="235.0" x2="197.5" y2="330.2" class="es"/><line x1="285.0" y1="235.0" x2="175.0" y2="280.9" class="es"/><line x1="285.0" y1="235.0" x2="190.0" y2="206.8" class="es"/><line x1="285.0" y1="235.0" x2="164.8" y2="166.6" class="es"/><line x1="285.0" y1="235.0" x2="259.1" y2="175.2" class="es"/><line x1="285.0" y1="235.0" x2="331.4" y2="178.9" class="es"/><line x1="285.0" y1="235.0" x2="371.7" y2="195.4" class="es"/><line x1="690.0" y1="405.0" x2="762.9" y2="388.2" class="es"/><line x1="690.0" y1="405.0" x2="784.4" y2="459.6" class="es"/><line x1="690.0" y1="405.0" x2="751.1" y2="490.2" class="es"/><line x1="690.0" y1="405.0" x2="682.1" y2="526.9" class="es"/><line x1="690.0" y1="405.0" x2="640.9" y2="502.8" class="es"/><line x1="690.0" y1="405.0" x2="607.4" y2="452.3" class="es"/><line x1="690.0" y1="405.0" x2="589.5" y2="449.0" class="es"/><line x1="690.0" y1="405.0" x2="569.9" y2="401.6" class="es"/><line x1="690.0" y1="405.0" x2="589.1" y2="310.9" class="es"/><line x1="690.0" y1="405.0" x2="676.1" y2="318.2" class="es"/><line x1="690.0" y1="405.0" x2="712.9" y2="295.3" class="es"/><line x1="690.0" y1="405.0" x2="811.1" y2="305.5" class="es"/><line x1="690.0" y1="405.0" x2="760.1" y2="380.6" class="es"/><line x1="320.0" y1="640.0" x2="465.8" y2="651.1" class="es"/><line x1="320.0" y1="640.0" x2="401.5" y2="678.2" class="es"/><line x1="320.0" y1="640.0" x2="376.2" y2="710.6" class="es"/><line x1="320.0" y1="640.0" x2="314.6" y2="694.8" class="es"/><line x1="320.0" y1="640.0" x2="266.8" y2="692.1" class="es"/><line x1="320.0" y1="640.0" x2="255.7" y2="627.5" class="es"/><line x1="320.0" y1="640.0" x2="211.8" y2="568.1" class="es"/><line x1="320.0" y1="640.0" x2="312.0" y2="568.6" class="es"/><line x1="320.0" y1="640.0" x2="351.1" y2="525.4" class="es"/><line x1="320.0" y1="640.0" x2="369.7" y2="592.5" class="es"/><line x1="700.0" y1="690.0" x2="782.4" y2="678.6" class="es"/><line x1="700.0" y1="690.0" x2="735.4" y2="718.6" class="es"/><line x1="700.0" y1="690.0" x2="687.0" y2="766.0" class="es"/><line x1="700.0" y1="690.0" x2="619.1" y2="714.2" class="es"/><line x1="700.0" y1="690.0" x2="655.6" y2="666.4" class="es"/><line x1="700.0" y1="690.0" x2="693.7" y2="594.1" class="es"/><line x1="700.0" y1="690.0" x2="744.1" y2="635.5" class="es"/><line x1="190.0" y1="206.8" x2="361.8" y2="228.0" class="et"/><line x1="760.1" y1="380.6" x2="693.7" y2="594.1" class="et"/><line x1="393.1" y1="265.2" x2="197.5" y2="330.2" class="et"/><line x1="751.1" y1="490.2" x2="693.7" y2="594.1" class="et"/><line x1="744.1" y1="635.5" x2="607.4" y2="452.3" class="et"/><line x1="255.7" y1="627.5" x2="211.8" y2="568.1" class="et"/><line x1="175.0" y1="280.9" x2="331.4" y2="178.9" class="et"/><line x1="393.1" y1="265.2" x2="369.7" y2="592.5" class="ex"/><line x1="589.1" y1="310.9" x2="175.0" y2="280.9" class="ex"/><line x1="760.1" y1="380.6" x2="371.7" y2="195.4" class="ex"/><line x1="782.4" y1="678.6" x2="351.1" y2="525.4" class="ex"/></g><g class="nodes"><circle cx="492" cy="455" r="46" class="ring r1"/><circle cx="492" cy="455" r="72" class="ring r2"/><circle cx="492.0" cy="455.0" r="19.0" class="n h hub"/><circle cx="285.0" cy="235.0" r="23.1" class="halo a"/><circle cx="285.0" cy="235.0" r="11.0" class="n a mid"/><circle cx="361.8" cy="228.0" r="5.9" class="n a"/><circle cx="393.1" cy="265.2" r="4.7" class="n a"/><circle cx="355.9" cy="308.4" r="3.4" class="n a"/><circle cx="277.8" cy="294.5" r="3.6" class="n a"/><circle cx="197.5" cy="330.2" r="3.7" class="n a"/><circle cx="175.0" cy="280.9" r="7.2" class="n a"/><circle cx="190.0" cy="206.8" r="7.3" class="n a"/><circle cx="164.8" cy="166.6" r="4.4" class="n a"/><circle cx="259.1" cy="175.2" r="4.5" class="n a"/><circle cx="331.4" cy="178.9" r="5.6" class="n a"/><circle cx="371.7" cy="195.4" r="5.5" class="n a"/><circle cx="690.0" cy="405.0" r="23.1" class="halo b"/><circle cx="690.0" cy="405.0" r="11.0" class="n b mid"/><circle cx="762.9" cy="388.2" r="4.1" class="n b"/><circle cx="784.4" cy="459.6" r="4.5" class="n b"/><circle cx="751.1" cy="490.2" r="4.5" class="n b"/><circle cx="682.1" cy="526.9" r="4.2" class="n b"/><circle cx="640.9" cy="502.8" r="6.9" class="n b"/><circle cx="607.4" cy="452.3" r="7.3" class="n b"/><circle cx="589.5" cy="449.0" r="6.4" class="n b"/><circle cx="569.9" cy="401.6" r="3.4" class="n b"/><circle cx="589.1" cy="310.9" r="5.6" class="n b"/><circle cx="676.1" cy="318.2" r="6.1" class="n b"/><circle cx="712.9" cy="295.3" r="5.1" class="n b"/><circle cx="811.1" cy="305.5" r="5.2" class="n b"/><circle cx="760.1" cy="380.6" r="6.1" class="n b"/><circle cx="320.0" cy="640.0" r="23.1" class="halo c"/><circle cx="320.0" cy="640.0" r="11.0" class="n c mid"/><circle cx="465.8" cy="651.1" r="6.7" class="n c"/><circle cx="401.5" cy="678.2" r="6.0" class="n c"/><circle cx="376.2" cy="710.6" r="3.9" class="n c"/><circle cx="314.6" cy="694.8" r="6.4" class="n c"/><circle cx="266.8" cy="692.1" r="4.8" class="n c"/><circle cx="255.7" cy="627.5" r="5.1" class="n c"/><circle cx="211.8" cy="568.1" r="6.6" class="n c"/><circle cx="312.0" cy="568.6" r="4.9" class="n c"/><circle cx="351.1" cy="525.4" r="7.2" class="n c"/><circle cx="369.7" cy="592.5" r="4.2" class="n c"/><circle cx="700.0" cy="690.0" r="23.1" class="halo d"/><circle cx="700.0" cy="690.0" r="11.0" class="n d mid"/><circle cx="782.4" cy="678.6" r="5.7" class="n d"/><circle cx="735.4" cy="718.6" r="5.0" class="n d"/><circle cx="687.0" cy="766.0" r="7.2" class="n d"/><circle cx="619.1" cy="714.2" r="5.8" class="n d"/><circle cx="655.6" cy="666.4" r="7.0" class="n d"/><circle cx="693.7" cy="594.1" r="6.6" class="n d"/><circle cx="744.1" cy="635.5" r="3.6" class="n d"/></g></svg></div><div class="gc"><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M12 8V4M8 4h8"/><circle cx="9" cy="14" r="1"/><circle cx="15" cy="14" r="1"/></svg></div><span class="tag">시키기</span><h3>«관련 노트끼리 이어줘»</h3><p>AI가 거래처·회의록 노트를 읽고 [[ ]] 링크를 알아서 걸어 줍니다.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><span class="tag">확인</span><h3>그래프 보기를 누릅니다</h3><p>옵시디언 왼쪽 막대의 그래프 보기에서 점과 선이 늘어난 걸 봅니다.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 3 7l9 5 9-5-9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg></div><span class="tag">효과</span><h3>AI가 맥락째로 읽습니다</h3><p>한 노트만 보지 않고 이어진 노트까지 따라가며 답합니다.</p></div></div></div><div class="kicker">직접 [[ ]]를 칠 필요 없습니다. 이어달라고 하면 됩니다.</div></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">16 / 30</p></div><div class="slide body" id="p17"><div class="hd"><h1>AI가 만들면 <em>이렇게</em> 됩니다</h1><p class="sub">② 프롬프트의 결과 — 제가 3년째 쓰는 뼈대를 줄인 것입니다</p></div><div class="main"><div class="tw"><div class="tree"><div class="nd d0 f"><span class="nm">내자료(볼트)/</span><span class="nt">AI에 연결할 폴더</span></div><div class="nd d0"><span class="nm">00-INDEX.md</span><span class="nt">목차 — 어디에 뭐가 있는지</span></div><div class="nd d0"><span class="nm">00-여기부터-읽어.md</span><span class="nt">AI가 제일 먼저 읽는 안내문</span></div><div class="nd d0"><span class="nm">거래처/</span><span class="nt">거래처마다 노트 하나</span></div><div class="nd d0"><span class="nm">매입매출/</span><span class="nt">월별 내역·엑셀</span></div><div class="nd d0"><span class="nm">회의록/</span><span class="nt">날짜별</span></div><div class="nd d0"><span class="nm">_templates/</span><span class="nt">자주 쓰는 양식</span></div><div class="nd d0"><span class="nm">_inbox/</span><span class="nt">분류 전 임시</span></div><div class="nd d0"><span class="nm">_보관/</span><span class="nt">끝난 것</span></div></div><div class="sd"><div class="s"><b>맨 위 두 장이 핵심</b><p>목차(INDEX)는 사람이 찾으려고, 안내문은 AI가 헤매지 않으려고 둡니다.</p></div><div class="s"><b>폴더는 «누구 자료인가»로</b><p>종류(견적·계약)보다 거래처로 나누면 찾기가 훨씬 쉽습니다.</p></div><div class="s"><b>3개 넘으면 폴더</b><p>같은 갈래가 세 개 넘게 쌓이면 그때 폴더로 뺍니다. 처음부터 다 만들지 않습니다.</p></div></div></div><div class="kicker">구조가 마음에 안 들면 «회의록을 거래처별로 나눠줘»처럼 말로 고치면 됩니다.</div></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">17 / 30</p></div><div class="slide body" id="p18"><div class="hd"><h1>AI가 쓴 <em>목차·안내문</em>, 이것만 확인하세요</h1><p class="sub">틀린 곳만 말로 고쳐 달라고 하면 됩니다</p></div><div class="main"><div class="pcs"><div class="pc"><span class="tag">00-INDEX.md</span><h3>사람이 보는 목차</h3><div class="pw"><pre># 내자료 목차
+
+## 거래처
+- [[거래처-대림상사]]
+- [[거래처-한빛유통]]
+
+## 매입매출
+- [[매입매출-2026-08]]
+
+## 회의록
+- [[회의-2026-09-10-대림상사]]</pre><button class="cp" type="button" aria-label="복사">복사</button></div></div><div class="pc"><span class="tag">00-여기부터-읽어.md</span><h3>AI가 먼저 읽는 안내문</h3><div class="pw"><pre>이 볼트는 ○○상사 업무 자료다.
+
+- 거래처 정보는 거래처/ 에 있다
+- 매입·매출 숫자는 매입매출/ 기준
+- 파일 이름 = 종류-대상-내용
+- 모르는 건 지어내지 말고
+  어느 파일을 봤는지 말해라</pre><button class="cp" type="button" aria-label="복사">복사</button></div></div><div class="pc"><span class="tag">노트 맨 위 속성</span><h3>노트마다 붙이는 정보</h3><div class="pw"><pre>---
+종류: 거래처
+담당자: 김대리
+결제일: 매월 25일
+갱신일: 2026-09-15
+---
+
+# 대림상사
+- 주요 품목: 비타민C
+- 관련 회의: [[회의-2026-09-10-대림상사]]</pre><button class="cp" type="button" aria-label="복사">복사</button></div></div></div><div class="kicker">«안내문에 결제일은 매월 25일이라고 추가해줘» — 고치는 것도 AI에게 시킵니다.</div></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">18 / 30</p></div><div class="slide body" id="p19"><div class="hd"><h1>파일 이름도 <em>AI가</em> 바꿉니다</h1><p class="sub">규칙 하나만 정해 주면 됩니다</p></div><div class="main"><div class="cols c3"><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></div><span class="tag">규칙</span><h3>종류 - 대상 - 내용</h3><p>«견적-대림상사-비타민C-2609»처럼 앞에서부터 좁혀지게 짓습니다.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M12 8V4M8 4h8"/><circle cx="9" cy="14" r="1"/><circle cx="15" cy="14" r="1"/></svg></div><span class="tag">시키기</span><h3>«이 규칙대로 이름 바꿔줘»</h3><p>폴더 안 파일 이름을 AI가 한 번에 바꾸고, 목차 링크도 같이 고칩니다.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg></div><span class="tag">효과</span><h3>이름만 보고 골라 읽습니다</h3><p>열어보지 않아도 뭔지 알아서 AI가 필요한 파일을 빨리 찾습니다.</p></div></div><div class="kicker">바꾸기 전에 «어떻게 바꿀지 먼저 보여줘»라고 하면 안전합니다.</div></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">19 / 30</p></div><div class="slide body" id="p20"><div class="hd"><h1>둘 다 <em>같은 볼트</em>에 연결하세요</h1><p class="sub">창고는 하나, 일 시키는 AI는 여럿</p></div><div class="main"><div class="cols c3"><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="6" height="14" rx="1"/><rect x="9" y="5" width="6" height="14" rx="1"/><rect x="16" y="5" width="6" height="14" rx="1"/></svg></div><span class="tag">옵시디언</span><h3>보는 창</h3><p>내가 노트를 쓰고, 찾고, 이어두는 곳입니다.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M12 8V4M8 4h8"/><circle cx="9" cy="14" r="1"/><circle cx="15" cy="14" r="1"/></svg></div><span class="tag">Claude·ChatGPT</span><h3>일하는 손</h3><p>같은 폴더를 읽고 답하고, 노트를 대신 정리합니다.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg></div><span class="tag">규칙</span><h3>정본은 한 곳</h3><p>같은 내용을 두 군데 쓰지 않습니다. 볼트 안 노트 하나가 정본입니다.</p></div></div><div class="kicker">AI를 바꿔도 창고는 그대로 — 지금 쌓는 게 다음 AI에서도 그대로 쓰입니다.</div></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">20 / 30</p></div><div class="slide body" id="p21"><div class="hd"><h1><em>스킬</em>은 이렇게 생겼습니다</h1><p class="sub">규칙을 적어둔 글 한 장 — 세 부분이면 끝납니다</p></div><div class="main"><div class="cols c3"><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></div><span class="tag">1</span><h3>이름과 설명</h3><p>«볼트 노트 쓰기» 같은 이름과, 언제 꺼내 쓸지 한 줄. AI는 이 줄을 보고 알아서 꺼냅니다.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="6" height="14" rx="1"/><rect x="9" y="5" width="6" height="14" rx="1"/><rect x="16" y="5" width="6" height="14" rx="1"/></svg></div><span class="tag">2</span><h3>내 규칙 본문</h3><p>파일 이름 규칙, 폴더 나누는 기준, 노트 맨 위에 넣을 것. 제 건 116줄입니다.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg></div><span class="tag">3</span><h3>저장 위치</h3><p>Claude 설정의 Customize에 넣어 둡니다. 그다음부터 매번 설명할 필요가 없습니다.</p></div></div><div class="kicker">제 스킬을 그대로 드리진 않습니다 — 업종이 다르면 규칙도 다릅니다. 각자 AI가 만들어 줍니다.</div></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">21 / 30</p></div><div class="slide body" id="p22"><div class="hd"><h1><em>내 스킬</em>은 AI가 만듭니다</h1><p class="sub">내 규칙을 불러주면 → 스킬로 정리 → 진짜 지키는지 시험</p></div><div class="main"><div class="pcs"><div class="pc"><span class="tag">① 만들기</span><h3>내 규칙으로 스킬 만들어줘</h3><div class="pw"><pre>내 볼트 규칙을 스킬로 만들어줘.
+나는 ○○업 1인 사업자야.
+규칙: 파일 이름은 종류-대상-내용,
+폴더는 거래처별로, 노트 맨 위엔 종류와 갱신일.
+이름·설명·본문 형식으로 써주고
+어디에 저장하는지도 알려줘.</pre><button class="cp" type="button" aria-label="복사">복사</button></div></div><div class="pc"><span class="tag">② 다듬기</span><h3>빠진 규칙 물어봐줘</h3><div class="pw"><pre>내가 말 안 한 규칙 중에
+꼭 정해야 하는 게 뭔지 물어봐줘.
+한 번에 하나씩,
+내가 답하면 스킬에 반영해줘.</pre><button class="cp" type="button" aria-label="복사">복사</button></div></div><div class="pc"><span class="tag">③ 시험하기</span><h3>진짜 지키는지 보자</h3><div class="pw"><pre>새 대화를 열고 이 스킬이 켜진 상태에서
+«거래처 회의록 하나 만들어줘»라고 할 거야.
+규칙대로 이름 짓고 폴더에 넣는지 보여줘.
+안 지키면 어느 줄이 문제인지 알려줘.</pre><button class="cp" type="button" aria-label="복사">복사</button></div></div></div><div class="kicker">남의 규칙을 받아 쓰는 게 아니라, 내 규칙을 AI에게 받아 적게 하는 겁니다.</div></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">22 / 30</p></div><div class="slide body" id="p23"><div class="hd"><h1><em>훅</em>이 뭔가요</h1><p class="sub">한 번 만들어 두면 매번 시키지 않아도 자동으로 도는 규칙입니다</p></div><div class="main"><div class="cols c3"><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><span class="tag">언제</span><h3>정해진 순간에 저절로</h3><p>«파일을 고칠 때», «작업이 끝났을 때»처럼 정해둔 순간에 AI가 알아서 실행합니다.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div><span class="tag">무엇을</span><h3>규칙을 강제합니다</h3><p>«이름 규칙 안 지키면 막기», «끝나면 목차에 추가하기» 같은 걸 매번 시키지 않아도 됩니다.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="6" height="14" rx="1"/><rect x="9" y="5" width="6" height="14" rx="1"/><rect x="16" y="5" width="6" height="14" rx="1"/></svg></div><span class="tag">어디서</span><h3>Claude Code 탭에서</h3><p>Cowork가 아니라 개발자용 Code 탭 기능입니다. 설정 파일에 몇 줄 넣으면 됩니다.</p></div></div><div class="kicker">오늘은 «이런 게 있다»까지만. 제대로 만드는 건 다음 주 4주차입니다.</div></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">23 / 30</p></div><div class="slide body" id="p24"><div class="hd"><h1>훅은 <em>이 세 개</em>로 만듭니다</h1><p class="sub">만들기 → 일부러 어겨보기 → 멀쩡한 건 안 막히는지</p></div><div class="main"><div class="pcs"><div class="pc"><span class="tag">① 만들기</span><h3>훅 만들어줘</h3><div class="pw"><pre>Claude Code에서 훅을 만들고 싶어.
+내 볼트에 새 파일이 들어오면
+«종류-대상-내용» 규칙에 맞는지 검사하고,
+안 맞으면 알려주게 해줘.
+설정 파일 어디에 뭘 넣는지도 알려줘.</pre><button class="cp" type="button" aria-label="복사">복사</button></div></div><div class="pc"><span class="tag">② 시험하기</span><h3>일부러 어겨서 막히는지 봐줘</h3><div class="pw"><pre>방금 만든 훅이 진짜 도는지 시험해줘.
+규칙을 어긴 파일 이름 세 개를 일부러 만들어서
+각각 막히는지 보여줘.
+안 막히면 어디가 문제인지 알려줘.</pre><button class="cp" type="button" aria-label="복사">복사</button></div></div><div class="pc"><span class="tag">③ 오탐 보기</span><h3>멀쩡한 건 안 막히지?</h3><div class="pw"><pre>규칙에 맞는 파일 이름 세 개로도 시험해줘.
+이건 막히면 안 돼.
+그리고 훅이 고장 나도
+내 작업은 멈추지 않는지 확인해줘.</pre><button class="cp" type="button" aria-label="복사">복사</button></div></div></div><div class="kicker">만들고 끝내지 않습니다. 어겨보고, 멀쩡한 것도 넣어보고 — 두 번 다 통과해야 쓸 수 있습니다.</div></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">24 / 30</p></div><div class="slide body" id="p25"><div class="hd"><h1>매일 쓰는 <em>프롬프트</em> 세 개</h1><p class="sub">볼트를 만든 뒤 계속 쌓을 때</p></div><div class="main"><div class="pcs"><div class="pc"><span class="tag">① 창고 만들 때</span><h3>내 볼트 구성 짜줘</h3><div class="pw"><pre>나는 ○○업을 하는 1인 사업자야. 옵시디언 볼트에
+매입매출·거래처·회의록을 AI가 읽기 좋게 정리하고 싶어.
+폴더 구조를 3단계 이내로 짜고, 00-INDEX.md 목차도 만들어줘.
+지금 내 파일 목록은 이래: (붙여넣기)</pre><button class="cp" type="button" aria-label="복사">복사</button></div></div><div class="pc"><span class="tag">② 안내문 쓸 때</span><h3>«여기부터 읽어» 대신 써줘</h3><div class="pw"><pre>이 볼트를 처음 보는 AI가 읽을 00-여기부터-읽어.md 를 써줘.
+내용: 이 볼트가 뭔지, 어디에 뭐가 있는지, 파일 이름 규칙,
+답할 때 지켜야 할 것. 한 장 넘기지 말고 쉽게.</pre><button class="cp" type="button" aria-label="복사">복사</button></div></div><div class="pc"><span class="tag">③ 계속 쌓을 때</span><h3>새 파일 들어오면 정리시키기</h3><div class="pw"><pre>이 파일을 볼트에 넣으려고 해. 규칙에 맞는 이름을 짓고,
+어느 폴더에 넣을지, 노트 맨 위 속성을 뭘로 달지 알려줘.
+00-INDEX.md 에 추가할 링크 한 줄도 써줘.</pre><button class="cp" type="button" aria-label="복사">복사</button></div></div></div><div class="kicker">이 세 개는 외울 필요 없습니다 — 복사해서 쓰시면 됩니다.</div></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">25 / 30</p></div><div class="slide body" id="p26"><div class="hd"><h1>옆 사람 창고를 <em>3분만</em> 보세요</h1><p class="sub">업종이 다르면 창고 모양도 다릅니다</p></div><div class="main"><div class="cols c3"><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h4l2 3h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2Z"/></svg></div><span class="tag">보여주기</span><h3>내 폴더 구조 열기</h3><p>어떤 폴더를 만들었는지, 안내문에 뭘 썼는지 화면으로 보여줍니다.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg></div><span class="tag">물어보기</span><h3>«왜 그렇게 나눴어요?»</h3><p>같은 자료도 업종에 따라 나누는 기준이 다릅니다. 그 이유를 물어보세요.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M4 21h16"/></svg></div><span class="tag">가져오기</span><h3>하나만 가져오기</h3><p>괜찮아 보이는 폴더 이름·규칙 하나를 내 창고에 옮겨 적습니다.</p></div></div><div class="kicker">강사한테 배우는 것보다 옆 사람한테 배우는 게 빠를 때가 많습니다.</div></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">26 / 30</p></div><div class="slide body" id="p27"><div class="hd"><h1>집에 가서 <em>이것만</em> 하세요</h1><p class="sub">이번 주 과제</p></div><div class="main"><div class="cols c3"><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M4 21h16"/></svg></div><span class="tag">1</span><h3>파일 다섯 개 넣고 정리시키기</h3><p>평소 파일을 볼트에 넣고 «규칙대로 정리해줘» 한 번.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 3 7l9 5 9-5-9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg></div><span class="tag">2</span><h3>노트끼리 이어달라고 하기</h3><p>«관련 노트끼리 이어줘» 후 그래프 보기로 확인합니다.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg></div><span class="tag">3</span><h3>AI에게 세 번 묻기</h3><p>볼트로 질문 세 개. 답이 이상하면 «어느 파일 봤어?»부터 묻습니다.</p></div></div><div class="kicker">다음 주 4주차 — 매번 «이 폴더 읽어» 치는 게 귀찮으시죠? 한 단어로 줄입니다.</div></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">27 / 30</p></div><div class="slide stmt" id="p28"><div class="stmt"><p class="kick">질문 시간</p><h1>막힌 데 <em>같이</em> 봅니다</h1><p class="sub">각자 업종이 다르니 창고 모양도 달라집니다. 편하게 물어보세요</p></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">28 / 30</p></div><div class="slide body" id="p29"><div class="hd"><h1><em>[참고]</em> 엑셀·PDF는 어떻게 넣나요</h1><p class="sub">부록 — 실습 중 막히면 보세요 · 인쇄물로도 드립니다</p></div><div class="main"><div class="cols c3"><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="6" height="14" rx="1"/><rect x="9" y="5" width="6" height="14" rx="1"/><rect x="16" y="5" width="6" height="14" rx="1"/></svg></div><span class="tag">그대로</span><h3>엑셀은 폴더에 그냥 넣습니다</h3><p>AI가 표를 읽습니다. 파일을 바꿀 필요 없습니다.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M12 8V4M8 4h8"/><circle cx="9" cy="14" r="1"/><circle cx="15" cy="14" r="1"/></svg></div><span class="tag">시키기</span><h3>«이 엑셀 요약 노트 만들어줘»</h3><p>시트마다 뭐가 들었는지 한 장짜리 노트를 AI가 씁니다. 답이 훨씬 정확해집니다.</p></div><div class="cx"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></div><span class="tag">PDF</span><h3>스캔 서류도 읽습니다</h3><p>흐린 사진은 잘 못 읽습니다. «읽은 내용 노트로 옮겨줘»로 확인하세요.</p></div></div><div class="kicker">큰 엑셀일수록 요약 노트 한 장이 효과가 큽니다.</div></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">29 / 30</p></div><div class="slide body" id="p30"><div class="hd"><h1><em>[참고]</em> 답이 이상하면 이렇게</h1><p class="sub">부록 — 창고를 만들어도 첫 답은 대개 부실합니다</p></div><div class="main"><div class="steps4"><div class="row"><div class="n">1</div><div><h3>어디서 봤는지 물어봅니다</h3><p>«어느 파일 보고 답했어?» — 엉뚱한 파일을 봤으면 자료가 부족한 겁니다.</p><p class="ex">AI 잘못이 아니라 창고 문제일 때가 대부분입니다</p></div></div><div class="row"><div class="n">2</div><div><h3>그 자료를 넣습니다</h3><p>없어서 못 답한 거면, 그 내용이 든 파일을 창고에 넣고 다시 묻습니다.</p><p class="ex">«이제 다시 답해봐» 한 줄이면 됩니다</p></div></div><div class="row"><div class="n">3</div><div><h3>안내문에 한 줄 씁니다</h3><p>«매입 숫자는 매입내역.xlsx 기준» 처럼 적어두면 다음부터 안 헤맵니다.</p><p class="ex">이게 창고 품질을 올리는 가장 빠른 방법입니다</p></div></div><div class="row"><div class="n">4</div><div><h3>그래도 이상하면 쪼갭니다</h3><p>파일 하나가 너무 크면 주제별로 나눕니다. 한 파일 = 한 주제가 좋습니다.</p><p class="ex">«이 파일 주제별로 나눠줘»라고 시켜도 됩니다</p></div></div></div><div class="kicker">창고는 한 번에 완성되지 않습니다. 물어보고 → 보강하고를 반복하면 좋아집니다.</div></div><p class="brandfoot">세미클래스 · 3주차</p><p class="pg">30 / 30</p></div><div class="nav" id="nv"></div><script>
+(function(){var S=[].slice.call(document.querySelectorAll('.slide')),N=S.length,c=0;
+function show(i){c=Math.max(0,Math.min(N-1,i));S.forEach(function(e,k){e.classList.toggle('on',k===c)});
+document.getElementById('nv').textContent=(c+1)+' / '+N;history.replaceState(null,'','#p'+String(c+1).padStart(2,'0'));}
+document.addEventListener('keydown',function(e){if(!e.isTrusted||e.repeat||e.metaKey||e.ctrlKey||e.altKey)return;
+if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();show(c+1)}
+else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();show(c-1)}
+else if(e.key==='Home'){show(0)}else if(e.key==='End'){show(N-1)}
+else if(e.key==='f'||e.key==='F'){e.preventDefault();if(document.fullscreenElement){document.exitFullscreen()}else{document.documentElement.requestFullscreen()}}});
+var x0=null;addEventListener('touchstart',function(e){x0=e.touches[0].clientX},{passive:true});
+addEventListener('touchend',function(e){if(x0===null)return;var d=e.changedTouches[0].clientX-x0;x0=null;if(Math.abs(d)>48)show(c+(d<0?1:-1))},{passive:true});
+document.addEventListener('click',function(e){var b=e.target.closest('.cp');if(!b||!e.isTrusted)return;
+var t=b.parentNode.querySelector('pre').innerText;
+navigator.clipboard.writeText(t).then(function(){b.textContent='복사됨';b.classList.add('done');
+setTimeout(function(){b.textContent='복사';b.classList.remove('done')},1400)});});
+var m=(location.hash||'').match(/^#p(\d+)$/);show(m?parseInt(m[1],10)-1:0);})();
+</script></body></html>
