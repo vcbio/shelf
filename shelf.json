@@ -345,11 +345,6 @@
   "date": "2026-09-13"
  },
  {
-  "slug": "semiclass-w3-deck",
-  "title": "세미클래스 3주차 덱 (30장·프롬프트 복사 가능)",
-  "date": "2026-09-18"
- },
- {
   "slug": "vcbio-market",
   "title": "Healt Food Data Lab — 건강식품 시장 데이터",
   "date": "2026-09-18"
@@ -357,6 +352,11 @@
  {
   "slug": "semiclass-w3-draft",
   "title": "세미클래스 3주차 — 가안 30장(검토용)",
+  "date": "2026-09-18"
+ },
+ {
+  "slug": "semiclass-w3-deck",
+  "title": "세미클래스 3주차 덱 (30장·프롬프트 복사 가능)",
   "date": "2026-09-18"
  }
 ]
