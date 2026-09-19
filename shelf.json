@@ -350,11 +350,6 @@
   "date": "2026-09-18"
  },
  {
-  "slug": "vcbio-market",
-  "title": "Healt Food Data Lab — 건강식품 시장 데이터",
-  "date": "2026-09-19"
- },
- {
   "slug": "semiclass-w3-deck",
   "title": "세미클래스 3주차 덱",
   "date": "2026-09-19"
@@ -362,6 +357,11 @@
  {
   "slug": "semiclass-w3-cue",
   "title": "세미클래스 3주차 큐카드",
+  "date": "2026-09-19"
+ },
+ {
+  "slug": "vcbio-market",
+  "title": "Healt Food Data Lab — 건강식품 시장 데이터",
   "date": "2026-09-19"
  }
 ]
