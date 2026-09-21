@@ -1,0 +1,155 @@
+{
+  "schema": "ingredient-manufacturing-links.v1",
+  "verifiedAt": "2026-09-22",
+  "sourceSha256": "fb3e96dad546e9218bc9bf454dd1b80f191b28161eb997282f781a08aeddfc9a",
+  "matchRule": "ingredientId + exact reportNo; product fields are read from the published product source, not copied here",
+  "rows": [
+    {
+      "ingredientId": "ing_975390965534dba9",
+      "reportNo": "201104490151114",
+      "evidenceType": "상품명표현근거만",
+      "exportOnly": false,
+      "domesticSaleConfirmed": false
+    },
+    {
+      "ingredientId": "ing_78610a68eb170fe6",
+      "reportNo": "202005933604",
+      "evidenceType": "상품명표현근거만",
+      "exportOnly": false,
+      "domesticSaleConfirmed": false
+    },
+    {
+      "ingredientId": "ing_ab5769a379aea8a3",
+      "reportNo": "200400200023866",
+      "evidenceType": "상품명표현근거만",
+      "exportOnly": false,
+      "domesticSaleConfirmed": false
+    },
+    {
+      "ingredientId": "ing_ab5769a379aea8a3",
+      "reportNo": "200400200023322",
+      "evidenceType": "상품명표현근거만",
+      "exportOnly": false,
+      "domesticSaleConfirmed": false
+    },
+    {
+      "ingredientId": "ing_ab5769a379aea8a3",
+      "reportNo": "2020019538551",
+      "evidenceType": "상품명표현근거만",
+      "exportOnly": false,
+      "domesticSaleConfirmed": false
+    },
+    {
+      "ingredientId": "ing_36239d8e1840cdbe",
+      "reportNo": "19810227007405",
+      "evidenceType": "상품명표현근거만",
+      "exportOnly": false,
+      "domesticSaleConfirmed": false
+    },
+    {
+      "ingredientId": "ing_36239d8e1840cdbe",
+      "reportNo": "20010515081672",
+      "evidenceType": "상품명표현근거만",
+      "exportOnly": false,
+      "domesticSaleConfirmed": false
+    },
+    {
+      "ingredientId": "ing_36239d8e1840cdbe",
+      "reportNo": "20030368010615",
+      "evidenceType": "상품명표현근거만",
+      "exportOnly": false,
+      "domesticSaleConfirmed": false
+    },
+    {
+      "ingredientId": "ing_ac63d7ab8af230d9",
+      "reportNo": "200400200082816",
+      "evidenceType": "상품명표현근거만",
+      "exportOnly": false,
+      "domesticSaleConfirmed": false
+    },
+    {
+      "ingredientId": "ing_ac63d7ab8af230d9",
+      "reportNo": "200400200201491",
+      "evidenceType": "상품명표현근거만",
+      "exportOnly": false,
+      "domesticSaleConfirmed": false
+    },
+    {
+      "ingredientId": "ing_ac63d7ab8af230d9",
+      "reportNo": "20240028080611",
+      "evidenceType": "상품명표현근거만",
+      "exportOnly": false,
+      "domesticSaleConfirmed": false
+    },
+    {
+      "ingredientId": "ing_ea7a9ea0885d93c9",
+      "reportNo": "2004001706768",
+      "evidenceType": "상품명표현근거만",
+      "exportOnly": false,
+      "domesticSaleConfirmed": false
+    },
+    {
+      "ingredientId": "ing_ea7a9ea0885d93c9",
+      "reportNo": "202102030781405",
+      "evidenceType": "상품명표현근거만",
+      "exportOnly": false,
+      "domesticSaleConfirmed": false
+    },
+    {
+      "ingredientId": "ing_1603085e8e915b31",
+      "reportNo": "200600200032614",
+      "evidenceType": "실제원재료성분확인",
+      "exportOnly": true,
+      "domesticSaleConfirmed": false
+    },
+    {
+      "ingredientId": "ing_1603085e8e915b31",
+      "reportNo": "2024002808039",
+      "evidenceType": "실제원재료성분확인",
+      "exportOnly": true,
+      "domesticSaleConfirmed": false
+    },
+    {
+      "ingredientId": "ing_1603085e8e915b31",
+      "reportNo": "200600200032691",
+      "evidenceType": "실제원재료성분확인",
+      "exportOnly": true,
+      "domesticSaleConfirmed": false
+    },
+    {
+      "ingredientId": "ing_bdca988ed740aa2a",
+      "reportNo": "2019001602441",
+      "evidenceType": "상품명표현근거만",
+      "exportOnly": false,
+      "domesticSaleConfirmed": false
+    },
+    {
+      "ingredientId": "ing_bdca988ed740aa2a",
+      "reportNo": "200700170352932",
+      "evidenceType": "상품명표현근거만",
+      "exportOnly": false,
+      "domesticSaleConfirmed": false
+    },
+    {
+      "ingredientId": "ing_bdca988ed740aa2a",
+      "reportNo": "202200188362",
+      "evidenceType": "상품명표현근거만",
+      "exportOnly": false,
+      "domesticSaleConfirmed": false
+    },
+    {
+      "ingredientId": "ing_f5df13dcaa7a25ed",
+      "reportNo": "20010364551245",
+      "evidenceType": "상품명표현근거만",
+      "exportOnly": false,
+      "domesticSaleConfirmed": false
+    },
+    {
+      "ingredientId": "ing_fa4fee4b4c95aed0",
+      "reportNo": "2022019937344",
+      "evidenceType": "상품명표현근거만",
+      "exportOnly": false,
+      "domesticSaleConfirmed": false
+    }
+  ]
+}
