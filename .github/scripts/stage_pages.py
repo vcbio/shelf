@@ -54,6 +54,8 @@ def stage(root, output):
     selected.add("shelf.json")
     # An index can resolve per-ingredient files at runtime. Preserve every generation.
     selected.update(path for path in json_paths if path.startswith("d/main-series/generations/"))
+    # The publisher waits for a new YouTube sidecar to be public before updating HTML.
+    selected.update(path for path in json_paths if path.startswith("d/youtube-"))
 
     for source in sorted(path for path in selected if path.endswith((".html", ".js", ".css"))):
         text = (root / source).read_text(encoding="utf-8", errors="replace")
