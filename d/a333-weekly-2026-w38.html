@@ -12,67 +12,60 @@
 @page{size:A4;margin:0}@media print{html,body{background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}.sheet{width:210mm;height:297mm;min-height:0;margin:0;padding:13mm 15mm;box-shadow:none;break-after:page}.sheet:last-child{break-after:auto}.brand{padding-bottom:3mm}.eyebrow{margin:7mm 0 2mm}.title{font-size:25pt}.sub{margin:3mm 0 6mm}.kpis{margin-bottom:6mm}.kpi{min-height:20mm}.lane{min-height:31mm}h2{margin:6mm 0 2mm}.footer{margin-top:7mm}.link{color:var(--green)}}
 
 .daily-chart{margin:22px 0 0;padding:15px 18px;background:#f3f7f1;border-radius:8px}.daily-chart h2{margin:0 0 2px}.daily-chart p{margin:0 0 10px;color:var(--muted);font-size:11px}.daily-bars{height:126px;display:grid;grid-template-columns:repeat(7,1fr);gap:9px;align-items:end}.daily-day{text-align:center;min-width:0}.daily-day strong{display:block;font-size:11px;font-variant-numeric:tabular-nums;color:var(--green)}.daily-barbox{height:91px;display:flex;align-items:end;justify-content:center;border-bottom:1px solid #bdcabb}.daily-bar{display:block;width:min(100%,34px);height:var(--h);background:#2e7d5b;border-radius:3px 3px 0 0}.daily-day.missing .daily-barbox{align-items:center}.daily-day.missing .daily-barbox span{font-size:10px;color:#715d3b}.daily-day small{display:block;margin-top:4px;color:var(--muted);font-size:10px}.volume-chart{display:grid;gap:12px;margin:16px 0 10px}.volume-row{display:grid;grid-template-columns:120px minmax(0,1fr) 90px 50px;gap:8px;align-items:center;font-variant-numeric:tabular-nums}.volume-name{font-weight:700;text-decoration:none}.volume-track{height:16px;background:#e7eee6;border-radius:3px;overflow:hidden}.volume-fill{height:100%;width:var(--w);background:#2e7d5b;border-radius:3px}.volume-value{text-align:right;font-weight:700}.volume-change{text-align:right;color:var(--accent);font-weight:700;font-size:11px}@media(max-width:600px){.daily-chart{padding:12px 9px}.daily-bars{gap:3px}.volume-row{grid-template-columns:70px minmax(0,1fr) 70px 45px;gap:4px;font-size:11px}.volume-value{font-size:10px}.volume-change{font-size:10px}}
+
+.lead{border:1px solid #bed0bf;border-left:5px solid #2e7d5b;background:#f4f8f2;padding:17px 19px;border-radius:8px}.lead h2{font-size:22px;margin:2px 0 8px}.lead-label{font-size:11px;font-weight:800;color:#2e7d5b}.lead-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.lead-metrics div{background:#fff;border:1px solid var(--line);padding:10px;border-radius:6px}.lead-metrics strong{display:block;color:var(--green);font-size:21px;font-variant-numeric:tabular-nums}.lead-metrics span{font-size:10px;color:var(--muted)}.lead p:last-child{margin:11px 0 0}.insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:11px 0}.insight{border-top:2px solid var(--green);background:#f8f9f6;padding:11px 13px}.insight strong{color:var(--green);font-size:16px}.insight p{margin:5px 0;color:var(--muted)}.chart-context{font-size:11px;color:var(--muted);margin:4px 0 10px}.broadcast-chart{display:grid;gap:9px;margin:13px 0 8px}.broadcast-row{display:grid;grid-template-columns:80px minmax(0,1fr) 52px;gap:8px;align-items:center}.broadcast-row strong{font-size:12px}.broadcast-row em{text-align:right;font-style:normal;font-weight:700;font-variant-numeric:tabular-nums}.broadcast-track{height:16px;display:flex;background:#edf0eb;border-radius:3px;overflow:hidden}.broadcast-fresh{height:100%;width:var(--fresh);background:#2e7d5b}.broadcast-held{height:100%;width:var(--held);background:#c9b893}.legend{display:flex;gap:12px;font-size:10px;color:var(--muted)}.legend i{display:inline-block;width:10px;height:10px;margin-right:4px;background:#2e7d5b;border-radius:2px}.legend i.held{background:#c9b893}.scope-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.scope{border:1px solid var(--line);padding:9px 11px;border-radius:6px}.scope strong{display:block;font-size:12px}.scope span{display:block;font-size:11px;color:var(--muted)}.scope a{font-size:11px;font-weight:700}@media(max-width:600px){.lead{padding:13px}.lead h2{font-size:19px}.lead-metrics{grid-template-columns:1fr 1fr}.lead-metrics strong{font-size:18px}.insight-grid,.scope-grid{grid-template-columns:1fr}.broadcast-row{grid-template-columns:64px minmax(0,1fr) 45px;gap:5px}}@media print{.lead{padding:3mm 4mm}.lead h2{font-size:17pt}.lead-metrics div{padding:2mm}.lead-metrics strong{font-size:15pt}.insight{padding:2mm 3mm}.broadcast-chart{gap:2mm}.broadcast-row{gap:2mm}.scope-grid{gap:2mm}.scope{padding:2mm 3mm}.footer{margin-top:5mm}}
 </style>
 </head>
 <body>
 <article class="sheet">
-  <div class="brand"><span>VCBIO · HEALTH FOOD DATA LAB</span><span>W38 / 2026</span></div>
-  <p class="eyebrow">주간 공개자료 보고서</p>
-  <h1 class="title">2026년 9월 3주차</h1>
-  <p class="sub">관측 대상 2026.09.14(월)–09.20(일) · 작성 2026.09.25 · 브이씨바이오</p>
-  <div class="kpis" aria-label="이번 호 핵심 수치">
-    <div class="kpi"><strong>156행</strong><span>건기식 제품 · 보고일 기준</span></div>
-    <div class="kpi"><strong>251행</strong><span>일반식품 후보 · 기능성 미확정</span></div>
-    <div class="kpi"><strong>239개</strong><span>홈쇼핑 편성 시간대 · 판매량 아님</span></div>
-    <div class="kpi"><strong>215/631</strong><span>등록 원료 검색지수 · 2주 모두 7일 관측</span></div>
-  </div>
-  <h2>네 갈래로 보기</h2>
-  <div class="lane-grid">
-    <section class="lane"><h3>건강기능식품</h3><strong>156개 제품 기록</strong><p>9/14–20 보고일인 식품안전나라 품목행. 9/24 공개 파일에서 확인했습니다. 판매량은 아닙니다.</p><a class="link" target="_top" href="vcbio-market-fable.html#view=products&amp;scope=1&amp;from=2026-09-14&amp;to=2026-09-20">해당 기간 제품 보기 →</a></section>
-    <section class="lane"><h3>건강기능식품 원료</h3><strong>아연 · 인삼</strong><p>9/22 조회 월 검색량 기준으로 고른 원료. 두 주 모두 7일 검색지수 관측을 확인했습니다.</p><a class="link" target="_top" href="vcbio-market-fable.html#view=ingredients&amp;id=ing_0616815ac902144e&amp;tab=trend&amp;from=2026-09-14&amp;to=2026-09-20">아연 상세 보기 →</a></section>
-    <section class="lane"><h3>건강보조식품</h3><span class="pill wait">확정 집계 보류</span><p>일반식품 251행은 제조사 전체 품목을 포함합니다. 개별 제품의 기능성 키워드 확인 전까지 건강보조식품 수로 세지 않습니다.</p><a class="link" target="_top" href="vcbio-market-fable.html#view=products&amp;scope=3&amp;from=2026-09-14&amp;to=2026-09-20">일반식품 후보 보기 →</a></section>
-    <section class="lane"><h3>건강보조식품 원료</h3><strong>감태 · 차가버섯</strong><p>일반식품 원료 갈래. 월 검색량 확인일과 주간 검색지수 관측 기간은 서로 다릅니다.</p><a class="link" target="_top" href="vcbio-market-fable.html#view=ingredients&amp;id=ing_9fee7adaa4d697d6&amp;tab=trend&amp;from=2026-09-14&amp;to=2026-09-20">감태 상세 보기 →</a></section>
-  </div>
-  <section class="daily-chart" aria-label="9월 14일부터 19일까지 보고일별 제품 기록 막대그래프">
-    <h2>제품 기록은 9월 18일이 가장 많았습니다</h2>
-    <p>공개 9/24 파일에서 보고일이 해당 날짜인 407행 · 9/20은 자료 미확인, 0건으로 해석하지 않음</p>
-    <div class="daily-bars">
-      <div class="daily-day"><strong>72</strong><div class="daily-barbox"><span class="daily-bar" style="--h:77.4%"></span></div><small>9/14</small></div>
-      <div class="daily-day"><strong>82</strong><div class="daily-barbox"><span class="daily-bar" style="--h:88.2%"></span></div><small>9/15</small></div>
-      <div class="daily-day"><strong>84</strong><div class="daily-barbox"><span class="daily-bar" style="--h:90.3%"></span></div><small>9/16</small></div>
-      <div class="daily-day"><strong>74</strong><div class="daily-barbox"><span class="daily-bar" style="--h:79.6%"></span></div><small>9/17</small></div>
-      <div class="daily-day"><strong>93</strong><div class="daily-barbox"><span class="daily-bar" style="--h:100%"></span></div><small>9/18</small></div>
-      <div class="daily-day"><strong>2</strong><div class="daily-barbox"><span class="daily-bar" style="--h:2.2%"></span></div><small>9/19</small></div>
-      <div class="daily-day missing"><strong>미확인</strong><div class="daily-barbox"><span>—</span></div><small>9/20</small></div>
-    </div>
+  <div class="brand"><span>헬스푸드 데이터랩</span><span>2026년 9월 3주차</span></div>
+  <p class="eyebrow">이번 주 원료 검토</p>
+  <h1 class="title">글루타치온: 검색 상승·편성 9건 동시 관측</h1>
+  <p class="sub">관측 주간 2026.09.14–09.20 · 월 검색량은 9월 22일 조회 참고값</p>
+  <section class="lead" aria-label="이번 주 핵심 관측">
+    <span class="lead-label">자료 검토 1순위 · 당사 판단</span><h2>글루타치온</h2>
+    <div class="lead-metrics"><div><strong>68,270회</strong><span>월 검색량 · 9/22 조회</span></div><div><strong>+8.0%</strong><span>전주 대비 9/14–20 상대지수</span></div><div><strong>9행 · 3채널</strong><span>같은 주 홈쇼핑 편성</span></div></div>
+    <p>두 주 모두 7일씩 관측됐습니다. 편성 9행은 W쇼핑·GS샵·현대홈쇼핑에서 최근 수집 시 확인됐습니다. 두 신호가 함께 잡혔지만, 검색 상승의 원인이나 실제 판매량은 확인되지 않았습니다. <a class="link" target="_top" href="vcbio-market-fable.html#view=ingredients&amp;id=ing_7d604df0b60dfed9&amp;tab=trend&amp;from=2026-09-14&amp;to=2026-09-20">원료 상세 →</a></p>
   </section>
-  <p class="note">이 보고서는 공개 자료의 <strong>관측·보고 기록</strong>입니다. 검색지수·편성·제품행을 매출 또는 소비자 구매량으로 해석하지 않습니다. 상세 화면은 수치와 원문을 확인하는 출발점입니다.</p>
-  <div class="footer"><span>브이씨바이오 · 헬스푸드 데이터랩</span><span>다음: 원료·채널 상세</span></div>
+  <div class="insight-grid">
+    <section class="insight"><h3>다음 주 추적 · 홍삼정</h3><strong>10,410회 · +36.1%</strong><p>9/22 월 검색량과 주간 상대지수. 같은 주 홈쇼핑 2행·2채널. 규모는 글루타치온보다 작습니다.</p><a class="link" target="_top" href="vcbio-market-fable.html#view=ingredients&amp;id=ing_0e9665833d62f781&amp;tab=trend&amp;from=2026-09-14&amp;to=2026-09-20">홍삼정 상세 →</a></section>
+    <section class="insight"><h3>검색 단독 관찰 · 피크노제놀</h3><strong>20,220회 · +52.1%</strong><p>9/24 월 검색량과 주간 상대지수. 같은 주 홈쇼핑 편성은 이 자료에서 확인되지 않았습니다. 상승률만으로 우선순위를 올리지 않았습니다.</p><a class="link" target="_top" href="vcbio-market-fable.html#view=ingredients&amp;id=ing_9b29e717777f83f6&amp;tab=trend&amp;from=2026-09-14&amp;to=2026-09-20">피크노제놀 상세 →</a></section>
+  </div>
+  <h2>월 검색량이 큰 원료</h2>
+  <p class="chart-context">9/22 정확값이 있고 두 주 모두 7일 관측·상승한 등록 원료의 상위 4개. 월간값의 산정 시작·끝은 원문 미제공입니다. 오른쪽 변화율은 각 원료의 상대지수 변화입니다.</p>
+  <section class="volume-chart" aria-label="월 검색량 막대그래프: 글루타치온 68270회, 병아리콩 62380회, 비트 40800회, 아연 19920회"><div class="volume-row"><a class="link" target="_top" href="vcbio-market-fable.html#view=ingredients&amp;id=ing_7d604df0b60dfed9&amp;tab=trend&amp;from=2026-09-14&amp;to=2026-09-20">글루타치온 →</a><div class="volume-track"><div class="volume-fill" style="--w:100.0%"></div></div><span class="volume-value">68,270회</span><span class="volume-change">+8.0%</span></div>
+<div class="volume-row"><a class="link" target="_top" href="vcbio-market-fable.html#view=ingredients&amp;id=ing_f3d263dc4d03b8e2&amp;tab=trend&amp;from=2026-09-14&amp;to=2026-09-20">병아리콩 →</a><div class="volume-track"><div class="volume-fill" style="--w:91.4%"></div></div><span class="volume-value">62,380회</span><span class="volume-change">+1.2%</span></div>
+<div class="volume-row"><a class="link" target="_top" href="vcbio-market-fable.html#view=ingredients&amp;id=ing_0a58c245fe6c01e1&amp;tab=trend&amp;from=2026-09-14&amp;to=2026-09-20">비트 →</a><div class="volume-track"><div class="volume-fill" style="--w:59.8%"></div></div><span class="volume-value">40,800회</span><span class="volume-change">+1.7%</span></div>
+<div class="volume-row"><a class="link" target="_top" href="vcbio-market-fable.html#view=ingredients&amp;id=ing_0616815ac902144e&amp;tab=trend&amp;from=2026-09-14&amp;to=2026-09-20">아연 →</a><div class="volume-track"><div class="volume-fill" style="--w:29.2%"></div></div><span class="volume-value">19,920회</span><span class="volume-change">+3.3%</span></div></section>
+  <p class="note">월 검색량은 주간 판매량이 아닙니다. 검색지수는 오메가3 대비 상대지수이므로 원료끼리 지수 크기를 직접 비교하지 않았습니다. 편성은 매출 증거가 아닙니다.</p>
+  <div class="footer"><span>헬스푸드 데이터랩</span><span>다음: 채널·제품 자료</span></div>
 </article>
 <article class="sheet">
-  <div class="brand"><span>VCBIO · HEALTH FOOD DATA LAB</span><span>2026.09.14–09.20</span></div>
-  <p class="eyebrow">원료·채널 상세</p>
-  <h2>검색량을 먼저 보고, 주간 변화를 곁들였습니다</h2>
-  <p class="section-intro">아래 월 검색량은 <strong>9/22 조회 참고값</strong>이며 산정 시작·끝은 원문 미제공입니다. 변화율은 9/7–13과 9/14–20의 오메가3 대비 검색지수 평균을 비교했습니다. 서로 다른 원료의 지수 크기는 직접 비교하지 않습니다.</p>
-  <section class="volume-chart" aria-label="9월 22일 조회 월 검색량 참고값: 아연 19920회, 인삼 19080회, 감태 16290회, 차가버섯 11620회">
-    <div class="volume-row"><a class="volume-name" target="_top" href="vcbio-market-fable.html#view=ingredients&amp;id=ing_0616815ac902144e&amp;tab=trend&amp;from=2026-09-14&amp;to=2026-09-20">아연</a><div class="volume-track"><div class="volume-fill" style="--w:100%"></div></div><span class="volume-value">19,920회</span><span class="volume-change">+3.3%</span></div>
-    <div class="volume-row"><a class="volume-name" target="_top" href="vcbio-market-fable.html#view=ingredients&amp;id=ing_9dbfa34f6897fba1&amp;tab=trend&amp;from=2026-09-14&amp;to=2026-09-20">인삼</a><div class="volume-track"><div class="volume-fill" style="--w:95.8%"></div></div><span class="volume-value">19,080회</span><span class="volume-change">+11.3%</span></div>
-    <div class="volume-row"><a class="volume-name" target="_top" href="vcbio-market-fable.html#view=ingredients&amp;id=ing_9fee7adaa4d697d6&amp;tab=trend&amp;from=2026-09-14&amp;to=2026-09-20">감태</a><div class="volume-track"><div class="volume-fill" style="--w:81.8%"></div></div><span class="volume-value">16,290회</span><span class="volume-change">+8.7%</span></div>
-    <div class="volume-row"><a class="volume-name" target="_top" href="vcbio-market-fable.html#view=ingredients&amp;id=ing_5593b57d3d292938&amp;tab=trend&amp;from=2026-09-14&amp;to=2026-09-20">차가버섯</a><div class="volume-track"><div class="volume-fill" style="--w:58.3%"></div></div><span class="volume-value">11,620회</span><span class="volume-change">+54.4%</span></div>
-  </section>
-  <p class="small">선정: 9/22 월 검색량 정확값, 전주·해당 주 각 7일 관측, 지수 증가 조건을 통과한 원료 중 각 갈래에서 검색량 상위 2개. 증가 원인은 이 자료만으로 확정할 수 없습니다.</p>
-  <h2>함께 관측한 채널</h2>
-  <div class="facts">
-    <div class="fact"><strong>262행 · 239시간대</strong><span>9/14–20 날짜의 홈쇼핑 상품 편성 기록, 13개 채널. 최근 수집시 화면 관측 215행, 9/9 보존·변경 미확인 47행.</span><br><a class="link" target="_top" href="vcbio-market-fable.html#view=home&amp;from=2026-09-14&amp;to=2026-09-20">편성 날짜로 보기 →</a></div>
-    <div class="fact"><strong>4개 영상</strong><span>9/14–20 게시일인 포함 영상. 조회수 관측은 9/21·9/25로 보고 기간 이후입니다.</span><br><a class="link" target="_top" href="vcbio-market-fable.html#view=youtube">영상 자료 보기 →</a></div>
+  <div class="brand"><span>헬스푸드 데이터랩</span><span>2026.09.14–09.20</span></div>
+  <p class="eyebrow">채널·제품 자료</p>
+  <h2>홈쇼핑 편성은 유산균에 집중</h2>
+  <p class="chart-context">유산균 관련 편성 82행 중 최근 화면 관측 58행, 9/9 보존·변경 미확인 24행입니다. 한 편성에 원료가 여러 개 잡힐 수 있어 아래 막대를 합산하지 않습니다.</p>
+  <section class="broadcast-chart" aria-label="홈쇼핑 원료명별 편성행: 유산균 82, 비타민D 17, 홍삼 15, 콘드로이친 13, 마그네슘 11"><div class="broadcast-row"><strong>유산균</strong><div class="broadcast-track"><span class="broadcast-fresh" style="--fresh:70.7%"></span><span class="broadcast-held" style="--held:29.3%"></span></div><em>82행</em></div>
+<div class="broadcast-row"><strong>비타민D</strong><div class="broadcast-track"><span class="broadcast-fresh" style="--fresh:17.1%"></span><span class="broadcast-held" style="--held:3.7%"></span></div><em>17행</em></div>
+<div class="broadcast-row"><strong>홍삼</strong><div class="broadcast-track"><span class="broadcast-fresh" style="--fresh:15.9%"></span><span class="broadcast-held" style="--held:2.4%"></span></div><em>15행</em></div>
+<div class="broadcast-row"><strong>콘드로이친</strong><div class="broadcast-track"><span class="broadcast-fresh" style="--fresh:14.6%"></span><span class="broadcast-held" style="--held:1.2%"></span></div><em>13행</em></div>
+<div class="broadcast-row"><strong>마그네슘</strong><div class="broadcast-track"><span class="broadcast-fresh" style="--fresh:13.4%"></span><span class="broadcast-held" style="--held:0.0%"></span></div><em>11행</em></div></section>
+  <p class="legend"><span><i></i>최근 화면 관측</span><span><i class="held"></i>9/9 보존 · 이후 변경 미확인</span></p>
+  <div class="callout"><p><strong>유산균은 편성 1위지만 수요 증가로 단정하지 않았습니다.</strong> 최신 공개 검색량은 관측값이 충돌해 정확한 월간값이 없습니다. 해당 주 유산균 관련 유튜브 영상 1개가 게시됐지만 조회수의 주간 증가량은 미제공입니다. <a target="_top" href="vcbio-market-fable.html#view=home&amp;from=2026-09-14&amp;to=2026-09-20">편성표 보기 →</a></p></div>
+  <h2>제품·원료 네 갈래</h2>
+  <div class="scope-grid">
+    <div class="scope"><strong>건강기능식품</strong><span>보고일이 해당 주인 제품 156행. 판매량 아님.</span><a target="_top" href="vcbio-market-fable.html#view=products&amp;scope=1&amp;from=2026-09-14&amp;to=2026-09-20">제품 기록 →</a></div>
+    <div class="scope"><strong>건강기능식품 원료</strong><span>아연 등은 두 주 검색지수 관측. 원료별로 확인.</span><a class="link" target="_top" href="vcbio-market-fable.html#view=ingredients&amp;id=ing_0616815ac902144e&amp;tab=trend&amp;from=2026-09-14&amp;to=2026-09-20">아연 상세 →</a></div>
+    <div class="scope"><strong>건강보조식품</strong><span>일반식품 251행은 후보. 기능성 확인 전 확정 건수 미제공.</span><a target="_top" href="vcbio-market-fable.html#view=products&amp;scope=3&amp;from=2026-09-14&amp;to=2026-09-20">일반식품 후보 →</a></div>
+    <div class="scope"><strong>건강보조식품 원료</strong><span>글루타치온 등은 원료명 관측. 실제 제품 배합은 미확인.</span><a class="link" target="_top" href="vcbio-market-fable.html#view=ingredients&amp;id=ing_7d604df0b60dfed9&amp;tab=trend&amp;from=2026-09-14&amp;to=2026-09-20">원료 신호 →</a></div>
   </div>
-  <h2>이 호에서 확인되지 않은 범위</h2>
-  <div class="callout"><p><strong>등록 원료 검색지수 비교 가능 215/631개.</strong> 나머지 416개는 원천 시계열이 없거나 두 주의 7일 관측이 모두 갖춰지지 않았습니다. 확장 검색어는 5개 중 4개를 별도로 비교할 수 있습니다. 결측일을 0으로 바꾸지 않았습니다.</p><p>일반식품 251행 중 기능성 키워드가 확인된 제품 수는 별도 산출되지 않았습니다. 건강보조식품 확정 수치는 미제공입니다.</p></div>
-  <h2>자료와 기준</h2>
-  <ul class="source-list small"><li><a href="https://vcbio.github.io/shelf/d/main-series/generations/ff00e4781bff1967-yhy6jjyh/main-series-index-c74ecbc1d09b8fdf.json">네이버 데이터랩 원료 시계열 색인</a> · 공개 9/24 · 등록 원료 631개와 확장 검색어 5개 ID 구분 대조</li><li><a href="https://vcbio.github.io/shelf/d/products-497441959126.json">식품안전나라 제품 색인</a> · 공개 9/24 · 12개 분할 자료 SHA 대조</li><li><a href="https://vcbio.github.io/shelf/d/homeshopping-35f1d87bcd62.json">홈쇼핑 편성 관측</a> · 기준 9/25</li><li><a href="https://vcbio.github.io/shelf/d/youtube-515674ca3a1c.json">유튜브 공개 관측</a> · 기준 9/25</li></ul>
-  <p class="small">유통 <a target="_top" href="vcbio-market-fable.html#view=markets">시장 자료</a>와 <a target="_top" href="vcbio-market-fable.html#view=forecast">예측</a>은 관측일·의미가 이 주의 제품 보고일/검색지수와 달라 합산하지 않았습니다. 각 탭에서 자료일과 누락 상태를 확인하세요.</p>
-  <p class="meta">보고서 입력 공개 HTML SHA-256 d9e78e6b19a7d31d8740fccc3921a73af908e5b9e63358d81400462872bd1fbe · 작성 2026-09-25</p>
-  <div class="footer"><span>브이씨바이오 · 자료별 관측시각이 다릅니다</span><span>보고서 끝</span></div>
+  <p class="small">제품 기록은 9/24 공개 자료에서 9/14–20 보고일을 골랐습니다. 9/20 공개 행은 확인되지 않았으며 0건으로 해석하지 않습니다. 홈쇼핑은 262편성행·239시간대·13채널입니다.</p>
+  <h2>확인 안 된 범위</h2>
+  <p class="small">등록 원료 중 두 주 모두 비교 가능한 것은 215/631개입니다. 나머지 416개는 원천 시계열이나 관측일이 부족합니다. 확장 검색어는 별도로 4/5개가 비교됩니다. 일반식품 후보의 기능성 분류와 검색 상승 원인·실제 매출은 확인되지 않았습니다.</p>
+  <h2>자료 원문</h2>
+  <ul class="source-list small"><li><a href="keywords-672a1193a506.json">정확 월 검색량</a> · 원료별 조회일 9/22·9/24</li><li><a href="main-series/generations/ff00e4781bff1967-yhy6jjyh/main-series-index-c74ecbc1d09b8fdf.json">원료 검색지수</a> · 두 주 각 7일</li><li><a href="homeshopping-35f1d87bcd62.json">홈쇼핑 편성</a> · 기준 9/25</li><li><a href="products-497441959126.json">제품 보고 기록</a> · 공개 9/24</li><li><a href="youtube-515674ca3a1c.json">유튜브 관측</a> · 9/21·9/25</li></ul>
+  <p class="meta">자료별 수집일과 관측 범위가 다릅니다. 검색량 원문 SHA-256 672a1193a506 · 편성 원문 SHA-256 35f1d87bcd62</p>
+  <div class="footer"><span>헬스푸드 데이터랩</span><span>보고서 끝</span></div>
 </article>
 </body>
 </html>
