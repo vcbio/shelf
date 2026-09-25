@@ -10,12 +10,51 @@ import posixpath
 import re
 import shutil
 import subprocess
+import urllib.request
 from pathlib import Path
 
 
 JSON_NAME = re.compile(r"[A-Za-z0-9_./-]+\.json")
 DECLARED_REF = re.compile(r"\b[A-Z_]+_REF\s*=\s*['\"]([^'\"]+\.json)['\"]")
 MAX_BYTES = 1_000_000_000
+
+
+def pending_json_paths(tracked):
+    """Carry unpublished JSON commits across canceled intermediate Pages runs."""
+    repository = os.environ.get("GITHUB_REPOSITORY")
+    head = os.environ.get("GITHUB_SHA")
+    token = os.environ.get("GITHUB_TOKEN")
+    if not all((repository, head, token)):
+        return set()
+
+    def api(path):
+        request = urllib.request.Request(
+            f"https://api.github.com/repos/{repository}/{path}",
+            headers={"Accept": "application/vnd.github+json",
+                     "Authorization": f"Bearer {token}",
+                     "User-Agent": "vcbio-shelf-pages-stage"},
+        )
+        with urllib.request.urlopen(request, timeout=20) as response:
+            return json.load(response)
+
+    deployments = api("deployments?environment=github-pages&per_page=15")
+    previous = None
+    for deployment in deployments:
+        statuses = api(f"deployments/{deployment['id']}/statuses?per_page=1")
+        if statuses and statuses[0]["state"] == "success":
+            previous = deployment["sha"]
+            break
+    if not previous or previous == head:
+        return set()
+    comparison = api(f"compare/{previous}...{head}")
+    files = comparison.get("files", [])
+    if len(files) >= 300:
+        raise ValueError("too many changes since the last Pages deployment; refusing to omit data")
+    if comparison.get("status") not in {"ahead", "identical"}:
+        raise ValueError("Pages deployment is not an ancestor of this build")
+    return {entry["filename"] for entry in files
+            if entry.get("status") != "removed" and entry["filename"].endswith(".json")
+            and entry["filename"] in tracked}
 
 
 def tracked_paths(root):
@@ -56,6 +95,7 @@ def stage(root, output):
     selected.update(path for path in json_paths if path.startswith("d/main-series/generations/"))
     # The publisher waits for a new YouTube sidecar to be public before updating HTML.
     selected.update(path for path in json_paths if path.startswith("d/youtube-"))
+    selected.update(pending_json_paths(tracked))
 
     for source in sorted(path for path in selected if path.endswith((".html", ".js", ".css"))):
         text = (root / source).read_text(encoding="utf-8", errors="replace")
