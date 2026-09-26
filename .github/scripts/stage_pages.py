@@ -19,7 +19,7 @@ DECLARED_REF = re.compile(r"\b[A-Z_]+_REF\s*=\s*['\"]([^'\"]+\.json)['\"]")
 MAX_BYTES = 1_000_000_000
 
 
-def pending_json_paths(tracked):
+def pending_json_paths(tracked, root):
     """Carry unpublished JSON commits across canceled intermediate Pages runs."""
     repository = os.environ.get("GITHUB_REPOSITORY")
     head = os.environ.get("GITHUB_SHA")
@@ -47,11 +47,18 @@ def pending_json_paths(tracked):
     if not previous or previous == head:
         return set()
     comparison = api(f"compare/{previous}...{head}")
-    files = comparison.get("files", [])
-    if len(files) >= 300:
-        raise ValueError("too many changes since the last Pages deployment; refusing to omit data")
     if comparison.get("status") not in {"ahead", "identical"}:
         raise ValueError("Pages deployment is not an ancestor of this build")
+    files = comparison.get("files", [])
+    if len(files) >= 300:
+        # GitHub's compare API returns at most 300 files. Diff the two trees
+        # locally so a large batch cannot silently drop unpublished JSON.
+        subprocess.run(["git", "fetch", "--no-tags", "--depth=1", "origin", previous],
+                       cwd=root, check=True, stdout=subprocess.DEVNULL)
+        changed = subprocess.check_output(
+            ["git", "diff", "--name-only", "--diff-filter=ACMRTUXB", previous, head, "--", "*.json"],
+            cwd=root, text=True).splitlines()
+        return {path for path in changed if path in tracked}
     return {entry["filename"] for entry in files
             if entry.get("status") != "removed" and entry["filename"].endswith(".json")
             and entry["filename"] in tracked}
@@ -95,7 +102,7 @@ def stage(root, output):
     selected.update(path for path in json_paths if path.startswith("d/main-series/generations/"))
     # The publisher waits for a new YouTube sidecar to be public before updating HTML.
     selected.update(path for path in json_paths if path.startswith("d/youtube-"))
-    selected.update(pending_json_paths(tracked))
+    selected.update(pending_json_paths(tracked, root))
 
     for source in sorted(path for path in selected if path.endswith((".html", ".js", ".css"))):
         text = (root / source).read_text(encoding="utf-8", errors="replace")
