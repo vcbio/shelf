@@ -69,6 +69,42 @@ def tracked_paths(root):
     return {Path(os.fsdecode(part)).as_posix() for part in raw.split(b"\0") if part}
 
 
+def fable_runtime_paths(root, json_paths):
+    """Keep per-ingredient files fetched by directory and ID at runtime."""
+    page = (root / "d/vcbio-market-fable.html").read_text(encoding="utf-8")
+    marker = re.search(r"\bAUDIENCE\s*=\s*", page)
+    if not marker:
+        raise ValueError("Fable audience declaration is missing")
+    audience = json.JSONDecoder().raw_decode(page[marker.end():])[0]
+    directory = audience.get("directory", "")
+    ids = audience.get("ids")
+    if not re.fullmatch(r"audience-[a-f0-9]{12}", directory) or not isinstance(ids, list) or len(set(ids)) != len(ids):
+        raise ValueError("Fable audience directory or IDs are invalid")
+    paths = {f"d/{directory}/{ingredient_id}.json" for ingredient_id in ids}
+    missing = paths - json_paths
+    if missing:
+        raise ValueError(f"missing Fable audience files: {sorted(missing)[:5]}")
+
+    for name in ("OFFDIR", "PMDIR"):
+        match = re.search(r"\bconst " + name + r"\s*=\s*['\"]([a-z-]+/)['\"]", page)
+        if not match:
+            raise ValueError(f"Fable {name} is missing")
+        directory = match.group(1)
+        prefix = "d/" + directory
+        index_path = prefix + "index.json"
+        if index_path not in json_paths:
+            raise ValueError(f"missing Fable index: {index_path}")
+        index = json.loads((root / index_path).read_text(encoding="utf-8"))
+        ids = index.get("ids")
+        if not isinstance(ids, list) or len(set(ids)) != len(ids):
+            raise ValueError(f"invalid Fable index IDs: {index_path}")
+        missing = {prefix + ingredient_id + ".json" for ingredient_id in ids} - json_paths
+        if missing:
+            raise ValueError(f"missing Fable detail files: {sorted(missing)[:5]}")
+        paths.update(path for path in json_paths if path.startswith(prefix))
+    return paths
+
+
 def stage(root, output):
     tracked = tracked_paths(root)
     if output.exists() and any(output.iterdir()):
@@ -102,6 +138,8 @@ def stage(root, output):
     selected.update(path for path in json_paths if path.startswith("d/main-series/generations/"))
     # The publisher waits for a new YouTube sidecar to be public before updating HTML.
     selected.update(path for path in json_paths if path.startswith("d/youtube-"))
+    if "d/vcbio-market-fable.html" in tracked:
+        selected.update(fable_runtime_paths(root, json_paths))
     selected.update(pending_json_paths(tracked, root))
 
     for source in sorted(path for path in selected if path.endswith((".html", ".js", ".css"))):
