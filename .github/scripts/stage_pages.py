@@ -85,6 +85,21 @@ def fable_runtime_paths(root, json_paths):
     if missing:
         raise ValueError(f"missing Fable audience files: {sorted(missing)[:5]}")
 
+    archive_marker = re.search(r"\bAUDIENCE_ARCHIVE\s*=\s*", page)
+    if archive_marker:
+        archive = json.JSONDecoder().raw_decode(page[archive_marker.end():])[0]
+        archive_directory = archive.get("directory", "")
+        archive_ids = archive.get("ids")
+        if (not re.fullmatch(r"audience-[a-f0-9]{12}", archive_directory)
+                or not isinstance(archive_ids, list)
+                or len(set(archive_ids)) != len(archive_ids)):
+            raise ValueError("Fable archive audience directory or IDs are invalid")
+        archive_paths = {f"d/{archive_directory}/{ingredient_id}.json" for ingredient_id in archive_ids}
+        missing = archive_paths - json_paths
+        if missing:
+            raise ValueError(f"missing Fable archive audience files: {sorted(missing)[:5]}")
+        paths.update(archive_paths)
+
     for name in ("OFFDIR", "PMDIR"):
         match = re.search(r"\bconst " + name + r"\s*=\s*['\"]([a-z-]+/)['\"]", page)
         if not match:
