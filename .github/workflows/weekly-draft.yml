@@ -1,0 +1,77 @@
+name: Prepare weekly Data Lab draft
+
+on:
+  schedule:
+    - cron: '0 7 * * *'
+  workflow_dispatch:
+    inputs:
+      week_end:
+        description: 'Closed Sunday in YYYY-MM-DD; blank uses last closed Sunday in Korea'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - name: Choose the last closed week
+        id: week
+        env:
+          MANUAL_WEEK_END: ${{ inputs.week_end }}
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import datetime as dt
+          import os
+          from zoneinfo import ZoneInfo
+          manual = os.environ.get('MANUAL_WEEK_END', '').strip()
+          if manual:
+              end = dt.date.fromisoformat(manual)
+              if end.weekday() != 6:
+                  raise SystemExit('week_end must be Sunday')
+          else:
+              today = dt.datetime.now(ZoneInfo('Asia/Seoul')).date()
+              end = today - dt.timedelta(days=today.weekday() + 1)
+          print(f'week_end={end.isoformat()}')
+          print(f'week_id={end.isocalendar().year}-W{end.isocalendar().week:02d}')
+          PY
+      - name: Check whether the issue is already published
+        id: existing
+        env:
+          WEEK_ID: ${{ steps.week.outputs.week_id }}
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          import os
+          from pathlib import Path
+          reports = json.loads(Path('d/weekly-reports.json').read_text())['reports']
+          print('published=' + str(any(x['week'] == os.environ['WEEK_ID'] for x in reports)).lower())
+          PY
+      - name: Collect and render a closed-week candidate
+        id: generate
+        if: steps.existing.outputs.published != 'true'
+        env:
+          WEEK_END: ${{ steps.week.outputs.week_end }}
+          WEEK_ID: ${{ steps.week.outputs.week_id }}
+        run: |
+          mkdir -p /tmp/weekly-candidate
+          python3 .github/scripts/weekly_source_collect.py --week-end "$WEEK_END" --output-dir /tmp/weekly-candidate
+          SUMMARY=$(python3 -c 'import json,pathlib; p=pathlib.Path("/tmp/weekly-candidate"); print(p/json.loads((p/"latest-candidate.json").read_text())["generation"])')
+          set +e
+          python3 .github/scripts/render_weekly_report.py --root . --summary "$SUMMARY" --output "/tmp/weekly-candidate/lab-weekly-${WEEK_ID,,}.html"
+          weekly_gate_code=$?
+          set -e
+          if [ "$weekly_gate_code" -eq 75 ]; then echo "ready=false" >> "$GITHUB_OUTPUT"; exit 0; fi
+          if [ "$weekly_gate_code" -ne 0 ]; then exit "$weekly_gate_code"; fi
+          echo "ready=true" >> "$GITHUB_OUTPUT"
+      - name: Keep source-backed draft for review
+        if: steps.generate.outputs.ready == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: data-lab-weekly-${{ steps.week.outputs.week_id }}
+          path: /tmp/weekly-candidate/
+          retention-days: 30
