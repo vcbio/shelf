@@ -75,11 +75,6 @@
   "date": "2026-06-30"
  },
  {
-  "slug": "saju-minsik-vc26x7",
-  "title": "사주 · 민식(본인)",
-  "date": "2026-07-05"
- },
- {
   "slug": "raw-material-sales-match",
   "title": "원료↔완제품 매칭 검증 (2024~2026)",
   "date": "2026-07-10"
@@ -377,6 +372,11 @@
  {
   "slug": "saju-songi-vc26x7",
   "title": "백송이 님 통합 인생 분석",
+  "date": "2026-09-27"
+ },
+ {
+  "slug": "saju-minsik-vc26x7",
+  "title": "사주 · 민식(본인)",
   "date": "2026-09-27"
  }
 ]
