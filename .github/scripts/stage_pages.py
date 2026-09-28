@@ -122,6 +122,34 @@ def fable_runtime_paths(root, json_paths):
     return paths
 
 
+def publisher_pending_paths(root, tracked):
+    """Keep immutable assets public while the publisher waits to switch HTML refs."""
+    name = "d/platform-pending-assets.json"
+    if name not in tracked:
+        return set()
+    document = json.loads((root / name).read_text(encoding="utf-8"))
+    assets = document.get("assets")
+    if document.get("version") != "platform-pending-assets.v1" or not isinstance(assets, list):
+        raise ValueError("invalid publisher pending asset manifest")
+    selected = {name}
+    for item in assets:
+        path = item.get("path") if isinstance(item, dict) else None
+        expected = item.get("sha256") if isinstance(item, dict) else None
+        size = item.get("bytes") if isinstance(item, dict) else None
+        if (not isinstance(path, str) or not re.fullmatch(r"d/[A-Za-z0-9_./-]+\.(?:json|js)", path)
+                or ".." in Path(path).parts or path not in tracked
+                or not isinstance(expected, str) or not re.fullmatch(r"[0-9a-f]{64}", expected)
+                or not isinstance(size, int) or isinstance(size, bool) or size < 0):
+            raise ValueError("invalid publisher pending asset")
+        data = (root / path).read_bytes()
+        if len(data) != size or hashlib.sha256(data).hexdigest() != expected:
+            raise ValueError(f"publisher pending asset checksum mismatch: {path}")
+        selected.add(path)
+    if len(selected) != len(assets) + 1:
+        raise ValueError("duplicate publisher pending asset")
+    return selected
+
+
 def stage(root, output):
     tracked = tracked_paths(root)
     if output.exists() and any(output.iterdir()):
@@ -157,6 +185,7 @@ def stage(root, output):
     selected.update(path for path in json_paths if path.startswith("d/youtube-"))
     if "d/vcbio-market-fable.html" in tracked:
         selected.update(fable_runtime_paths(root, json_paths))
+    selected.update(publisher_pending_paths(root, tracked))
     selected.update(pending_json_paths(tracked, root))
 
     for source in sorted(path for path in selected if path.endswith((".html", ".js", ".css"))):
