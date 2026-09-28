@@ -72,6 +72,8 @@ def tracked_paths(root):
 def fable_runtime_paths(root, json_paths):
     """Keep per-ingredient files fetched by directory and ID at runtime."""
     page = (root / "d/vcbio-market-fable.html").read_text(encoding="utf-8")
+    if re.search(r"/Users/|/private/|file://|[A-Za-z]:\\\\Users\\\\", page):
+        raise ValueError("Fable public HTML contains a local filesystem path")
     marker = re.search(r"\bAUDIENCE\s*=\s*", page)
     if not marker:
         raise ValueError("Fable audience declaration is missing")
