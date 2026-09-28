@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>세미클래스 워크샵 게임</title>
+<style>
+  /* 놀이용 발표 화면 — 어두운 방·프로젝터 기준 다크 테마 */
+  :root {
+    --bg: #15171b; --panel: #1f2228; --line: #2e323a;
+    --text: #f2efe8; --muted: #a3a7b0;
+    --accent: #f5b83d; --a: #ff6b5b; --b: #4fb3ff; --ok: #5fd08a;
+    --ease: cubic-bezier(.2,.8,.2,1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: "Pretendard", "Apple SD Gothic Neo", system-ui, sans-serif;
+    display: flex; flex-direction: column; overflow: hidden; user-select: none;
+    -webkit-font-smoothing: antialiased;
+  }
+  .score {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 32px; background: var(--panel);
+    box-shadow: 0 1px 0 var(--line);
+  }
+  .team { display: flex; align-items: center; gap: 14px; }
+  .team .name { font-size: 22px; font-weight: 700; outline: none; padding: 2px 6px; border-radius: 6px; }
+  .team .name:focus { background: var(--line); }
+  .team .pts { font-size: 40px; font-weight: 800; min-width: 56px; text-align: center; font-variant-numeric: tabular-nums; }
+  .team.a .pts { color: var(--a); } .team.b .pts { color: var(--b); }
+  .team button {
+    width: 44px; height: 44px; border-radius: 10px; border: 1px solid var(--line);
+    background: var(--bg); color: var(--text); font-size: 22px; cursor: pointer;
+    transition: transform 100ms ease-out, border-color 150ms ease-out;
+  }
+  .team button:active { transform: scale(0.96); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .center-title { font-size: 16px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  main { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px 48px; text-align: center; }
+  .home h1 { font-size: 64px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 12px; }
+  .home p { color: var(--muted); font-size: 20px; margin-bottom: 48px; }
+  .cards { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; }
+  .card {
+    width: 260px; padding: 36px 24px; border-radius: 10px; background: var(--panel);
+    border: 1px solid var(--line); cursor: pointer; color: inherit; font: inherit;
+    transition: transform 220ms var(--ease), border-color 220ms var(--ease);
+  }
+  .card:active { transform: scale(0.96); }
+  @media (hover: hover) and (pointer: fine) {
+    .card:hover { transform: translateY(-4px); border-color: var(--accent); }
+    .team button:hover { border-color: var(--accent); }
+  }
+  .card .num { font-size: 15px; color: var(--accent); font-weight: 700; margin-bottom: 10px; }
+  .card .t { font-size: 32px; font-weight: 800; margin-bottom: 10px; }
+  .card .d { font-size: 16px; color: var(--muted); line-height: 1.5; }
+  .meta { font-size: 18px; color: var(--accent); font-weight: 700; margin-bottom: 18px; font-variant-numeric: tabular-nums; }
+  .q { font-size: 52px; font-weight: 800; line-height: 1.35; letter-spacing: -0.01em; max-width: 1100px; word-break: keep-all; text-wrap: balance; }
+  .chosung { font-size: 110px; letter-spacing: .12em; font-weight: 800; word-break: keep-all; line-height: 1.3; }
+  .choices { margin-top: 36px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 40px; font-size: 32px; color: var(--muted); text-align: left; }
+  /* 인물 사진: 확대+흐림 → 조금 멀리 → 전체 → 정답 */
+  .photo-row { display: flex; align-items: center; gap: 48px; min-height: 0; }
+  .frame {
+    height: min(62vh, 620px); aspect-ratio: 3 / 4; border-radius: 10px; overflow: hidden;
+    background: #0b0c0e; outline: 1px solid rgba(255,255,255,.1); outline-offset: -1px;
+    box-shadow: 0 20px 50px rgba(0,0,0,.45);
+  }
+  .frame img {
+    width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%;
+    transform-origin: 50% 28%; transition: transform 600ms var(--ease), filter 600ms var(--ease);
+  }
+  .z0 img { transform: scale(3.2); filter: blur(10px); }
+  .z1 img { transform: scale(1.9); filter: blur(3px); }
+  .z2 img, .z3 img { transform: none; filter: none; }
+  .side { text-align: left; min-width: 320px; }
+  .side .step { font-size: 22px; color: var(--muted); margin-bottom: 14px; }
+  .answer {
+    font-size: 64px; font-weight: 800; letter-spacing: -0.02em; color: var(--ok);
+    opacity: 0; transform: scale(.95); transition: opacity 250ms var(--ease), transform 250ms var(--ease);
+  }
+  main > .answer, .bell-a { margin-top: 44px; }
+  .answer.show { opacity: 1; transform: none; }
+  .answer small { display: block; font-size: 22px; letter-spacing: 0; color: var(--muted); font-weight: 400; margin-top: 8px; }
+  .timer { position: fixed; right: 36px; bottom: 76px; font-size: 64px; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--accent); }
+  .timer.end { color: var(--a); }
+  footer { padding: 12px 32px; color: var(--muted); font-size: 14px; display: flex; justify-content: space-between; gap: 24px; box-shadow: 0 -1px 0 var(--line); }
+  kbd { background: var(--panel); border: 1px solid var(--line); border-radius: 4px; padding: 1px 6px; font-family: inherit; }
+  @media (max-width: 900px) {
+    .score { padding: 10px 12px; }
+    .team { gap: 6px; }
+    .team .name { font-size: 16px; white-space: nowrap; }
+    .team .pts { font-size: 30px; min-width: 36px; }
+    .team button { width: 40px; height: 40px; }
+    .center-title { display: none; }
+    .photo-row { flex-direction: column; gap: 20px; }
+    .frame { height: 46vh; }
+    .side { text-align: center; min-width: 0; }
+    .chosung { font-size: 64px; }
+    .q { font-size: 34px; }
+    .choices { font-size: 22px; }
+    footer { flex-direction: column; gap: 4px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .frame img { transition: filter 200ms; }
+    .answer, .card, .team button { transition: opacity 200ms; transform: none; }
+  }
+</style>
+</head>
+<body>
+  <div class="score">
+    <div class="team a"><span class="name" contenteditable>A팀</span><button data-t="a" data-d="-1" aria-label="A팀 1점 빼기">−</button><span class="pts" id="pa">0</span><button data-t="a" data-d="1" aria-label="A팀 1점 더하기">+</button></div>
+    <div class="center-title" id="ctitle">세미클래스 워크샵</div>
+    <div class="team b"><button data-t="b" data-d="-1" aria-label="B팀 1점 빼기">−</button><span class="pts" id="pb">0</span><button data-t="b" data-d="1" aria-label="B팀 1점 더하기">+</button><span class="name" contenteditable>B팀</span></div>
+  </div>
+  <main id="stage"></main>
+  <div class="timer" id="timer" hidden></div>
+  <footer>
+    <span><kbd>스페이스</kbd> 다음 단계·정답 &nbsp; <kbd>→</kbd> 다음 문제 &nbsp; <kbd>←</kbd> 이전 &nbsp; <kbd>T</kbd> 타이머 &nbsp; <kbd>Esc</kbd> 처음으로</span>
+    <span><kbd>1</kbd>/<kbd>2</kbd> A팀 +1/−1 &nbsp; <kbd>9</kbd>/<kbd>0</kbd> B팀 +1/−1</span>
+  </footer>
+
+<script>
+const GAMES = {
+  person: {
+    title: '인물퀴즈', desc: '확대된 사진이 점점 멀어집니다.<br>빨리 맞힐수록 점수 UP', type: 'person',
+    // [사진, 이름, 한 줄 설명] — 케이윌(대성 닮은꼴)·박소담(김고은 닮은꼴)은 함정 문제
+    items: [
+      ['yujaesuk.jpg', '유재석', '국민 MC, 무한도전'],
+      ['son.jpg', '손흥민', '축구, 찰칵 세리머니'],
+      ['einstein.jpg', '아인슈타인', '물리학자, E=mc²'],
+      ['iu.jpg', '아이유', '가수·배우, 「폭싹 속았수다」'],
+      ['madongseok.jpg', '마동석', '배우, 「범죄도시」'],
+      ['kimgu.jpg', '김구', '독립운동가, 호는 백범'],
+      ['kwill.jpg', '케이윌', '대성 아닙니다!'],
+      ['faker.jpg', '페이커 (이상혁)', '프로게이머, 리그 오브 레전드'],
+      ['leehyori.png', '이효리', '가수, 핑클'],
+      ['jobs.jpg', '스티브 잡스', '애플 창업자, 아이폰'],
+      ['kanghodong.jpg', '강호동', '천하장사 출신 MC'],
+      ['yuna.jpg', '김연아', '피겨 여왕, 2010 밴쿠버 금메달'],
+      ['parksodam.jpg', '박소담', '김고은 아닙니다!'],
+      ['bongjoonho.jpg', '봉준호', '영화감독, 「기생충」'],
+      ['mj.jpg', '마이클 잭슨', '팝의 황제, 문워크'],
+      ['ohtani.jpg', '오타니 쇼헤이', '야구, 투수와 타자를 모두 하는 선수'],
+      ['jangwonyoung.png', '장원영', '아이브(IVE)'],
+    ]
+  },
+  chosung: {
+    title: '초성퀴즈', desc: '초성을 보고 먼저 외치는 팀이<br>1점!', type: 'chosung',
+    items: [
+      ['음식', 'ㄸㅂㅇ', '떡볶이'],
+      ['음식', 'ㄱㅊㅉㄱ', '김치찌개'],
+      ['음식', 'ㅅㄱㅅ', '삼겹살'],
+      ['음식', 'ㅉㅈㅁ', '짜장면'],
+      ['음식', 'ㅊㅋ', '치킨'],
+      ['영화·드라마', 'ㄱㅅㅊ', '기생충'],
+      ['영화·드라마', 'ㄱㅎㅈㅇ', '극한직업'],
+      ['영화·드라마', 'ㅂㅅㅎ', '부산행'],
+      ['영화·드라마', 'ㄱㅇㅇㄱ', '겨울왕국'],
+      ['영화·드라마', 'ㅇㅈㅇㄱㅇ', '오징어게임'],
+      ['나라', 'ㅇㄹㅎㅌㄴ', '아르헨티나'],
+      ['나라', 'ㅇㅅㅌㄹㅇㄹㅇ', '오스트레일리아'],
+      ['생활', 'ㅅㅁㅌㅍ', '스마트폰'],
+      ['생활', 'ㅇㅋㅅ', '워크숍'],
+      ['AI', 'ㅇㄱㅈㄴ', '인공지능'],
+      ['AI', 'ㅊㅈㅍㅌ', '챗지피티'],
+      ['속담', 'ㄱㄴ ㅁㅇ ㄱㅇㅇ<br>ㅇㄴ ㅁㅇ ㄱㄷ', '가는 말이 고와야 오는 말이 곱다'],
+      ['속담', 'ㅅㄱㅇ ㅁㅇㅁ<br>ㅂㄱ ㅅㅇㄹ ㄱㄷ', '사공이 많으면 배가 산으로 간다'],
+      ['속담', 'ㅂㅈㅈㄷ<br>ㅁㄷㅁ ㄴㄷ', '백지장도 맞들면 낫다'],
+      ['속담', 'ㅇㅅㅇㄷ<br>ㄴㅁㅇㅅ ㄸㅇㅈㄷ', '원숭이도 나무에서 떨어진다'],
+    ]
+  },
+  bell: {
+    title: '골든벨', desc: '쉬움 1점 → 보통 2점 → 어려움 3점<br>팀별로 적어 동시에 공개, 타이머 15초', type: 'bell',
+    // [난이도, 종류, 문제, 보기(객관식만), 정답, 덧붙임]
+    items: [
+      ['쉬움', 'O/X', '문어의 다리는 8개다.', null, 'O'],
+      ['쉬움', '주관식', '우리나라 꽃(국화)은?', null, '무궁화'],
+      ['쉬움', '주관식', '태양계에서 가장 큰 행성은?', null, '목성'],
+      ['쉬움', '객관식', '한글날은 언제일까요?', ['3월 1일', '8월 15일', '10월 3일', '10월 9일'], '10월 9일'],
+      ['쉬움', '객관식', '세계에서 가장 넓은 바다는?', ['대서양', '인도양', '태평양', '북극해'], '태평양'],
+      ['쉬움', '주관식', '올림픽 깃발의 고리는 몇 개?', null, '5개'],
+      ['쉬움', 'O/X', '펭귄은 북극에 산다.', null, 'X', '펭귄은 남반구(남극 등)에 삽니다'],
+      ['쉬움', '객관식', '빨간 물감과 파란 물감을 섞으면?', ['초록색', '보라색', '주황색', '갈색'], '보라색'],
+      ['쉬움', '주관식', '제주도에서 가장 높은 산은?', null, '한라산'],
+      ['쉬움', '주관식', '무지개는 몇 가지 색일까요?', null, '7가지'],
+      ['보통', '객관식', '사람의 심장은 몇 개의 방으로 나뉠까요?', ['2개', '3개', '4개', '5개'], '4개'],
+      ['보통', '주관식', '개미의 다리는 몇 개?', null, '6개'],
+      ['보통', 'O/X', '박쥐는 새다.', null, 'X', '박쥐는 젖을 먹이는 포유류입니다'],
+      ['보통', '객관식', '달이 지구를 한 바퀴 도는 데 걸리는 시간은?', ['하루', '일주일', '약 한 달', '1년'], '약 한 달'],
+      ['보통', '주관식', '윤년의 2월은 며칠까지 있을까요?', null, '29일'],
+      ['보통', '객관식', '1년 중 낮이 가장 긴 절기는?', ['춘분', '하지', '추분', '동지'], '하지'],
+      ['보통', '주관식', '산소의 원소 기호는?', null, 'O'],
+      ['보통', '주관식', '추석은 음력 몇 월 며칠?', null, '8월 15일'],
+      ['보통', '객관식', '지금 세계에서 인구가 가장 많은 나라는?', ['중국', '인도', '미국', '인도네시아'], '인도', '2023년 UN 추정 기준, 중국을 앞섰습니다'],
+      ['보통', '주관식', '5만 원짜리 지폐에 그려진 인물은?', null, '신사임당'],
+      ['보통', '주관식', '빛의 3원색은? (셋 다 맞혀야 정답)', null, '빨강·초록·파랑'],
+      ['보통', '주관식', '헌법 제1조 1항, 대한민국은 ○○○○○이다.', null, '민주공화국'],
+      ['어려움', '객관식', '국보 제1호로 지정됐던 문화재는?', ['숭례문', '불국사', '경복궁', '첨성대'], '숭례문', '2021년부터 국보 번호는 쓰지 않습니다'],
+      ['어려움', '주관식', '태극기 네 귀퉁이의 검은 막대 무늬를 부르는 말은?', null, '4괘', '건·곤·감·리'],
+      ['어려움', '주관식', '표준 피아노 건반은 모두 몇 개?', null, '88개'],
+      ['어려움', '주관식', '「홍길동전」을 쓴 사람은?', null, '허균'],
+      ['어려움', '객관식', '세계에서 가장 작은 나라는?', ['모나코', '바티칸 시국', '산마리노', '리히텐슈타인'], '바티칸 시국'],
+      ['어려움', '객관식', '훈민정음이 반포된 해는?', ['1392년', '1446년', '1592년', '1910년'], '1446년'],
+      ['어려움', '주관식', '지구에서 가장 가까운 별(항성)은?', null, '태양', '태양도 스스로 빛나는 별입니다'],
+      ['어려움', '객관식', '남한에서 가장 긴 강은?', ['한강', '낙동강', '금강', '섬진강'], '낙동강'],
+      ['어려움', '주관식', '어른 몸의 뼈는 모두 몇 개일까요?', null, '206개', '성인 기준입니다'],
+      ['어려움', '객관식', '사람 몸에서 가장 큰 뼈는?', ['척추뼈', '넓적다리뼈', '골반뼈', '위팔뼈'], '넓적다리뼈', '대퇴골이라고도 합니다'],
+    ]
+  }
+};
+
+const stage = document.getElementById('stage');
+const ctitle = document.getElementById('ctitle');
+const timerEl = document.getElementById('timer');
+let game = null, idx = 0, step = 0, timer = null;
+const pts = { a: 0, b: 0 };
+
+function addPt(t, d) {
+  pts[t] = Math.max(0, pts[t] + d);
+  document.getElementById('p' + t).textContent = pts[t];
+}
+document.querySelectorAll('.team button').forEach(b =>
+  b.addEventListener('click', () => addPt(b.dataset.t, +b.dataset.d)));
+
+// 사진을 미리 받아 둬서 넘길 때 깜빡이지 않게
+GAMES.person.items.forEach(([f]) => { new Image().src = 'https://raw.githubusercontent.com/vcbio/shelf/main/d/img/wsgame-' + f; });
+
+function home() {
+  game = null; stopTimer();
+  ctitle.textContent = '세미클래스 워크샵';
+  stage.innerHTML = `<div class="home">
+    <h1>오늘의 게임</h1>
+    <p>팀 이름은 점수판의 이름을 눌러 바꿀 수 있어요</p>
+    <div class="cards">${Object.entries(GAMES).map(([k, g], i) =>
+      `<button class="card" data-k="${k}"><div class="num">GAME ${i + 1}</div><div class="t">${g.title}</div>
+       <div class="d">${g.desc}<br>(${g.items.length}문제)</div></button>`).join('')}</div></div>`;
+  stage.querySelectorAll('.card').forEach(c => c.onclick = () => start(c.dataset.k));
+}
+
+function start(k) { game = GAMES[k]; idx = 0; step = 0; render(); }
+
+const maxStep = () => game.type === 'person' ? 3 : 1;
+const PERSON_STEP = ['아주 가까이', '조금 멀리', '전체 사진', '정답!'];
+
+function render() {
+  stopTimer();
+  const it = game.items[idx];
+  const n = `${game.title} ${idx + 1} / ${game.items.length}`;
+  ctitle.textContent = n;
+  let h = '';
+  if (game.type === 'person') {
+    const [img, name, note] = it;
+    h = `<div class="meta">${n}</div>
+      <div class="photo-row">
+        <div class="frame z${step}"><img src="https://raw.githubusercontent.com/vcbio/shelf/main/d/img/wsgame-${img}" alt=""></div>
+        <div class="side"><div class="step">${PERSON_STEP[step]}</div>
+          <div class="answer ${step >= 3 ? 'show' : ''}">${name}<small>${note}</small></div></div>
+      </div>`;
+  } else if (game.type === 'chosung') {
+    h = `<div class="meta">${n} · ${it[0]}</div><div class="chosung">${it[1]}</div>
+      <div class="answer ${step >= 1 ? 'show' : ''}">${it[2]}</div>`;
+  } else {
+    const [level, kind, q, ch, a, note] = it;
+    const point = { '쉬움': 1, '보통': 2, '어려움': 3 }[level];
+    h = `<div class="meta">${n} · ${level} ${point}점 · ${kind}</div><div class="q">${q}</div>` +
+      (ch ? `<div class="choices">${ch.map((c, i) => `<div>${i + 1}. ${c}</div>`).join('')}</div>` : '') +
+      `<div class="answer bell-a ${step >= 1 ? 'show' : ''}">${a}${note ? `<small>${note}</small>` : ''}</div>`;
+  }
+  stage.innerHTML = h;
+}
+
+function stopTimer() { clearInterval(timer); timer = null; timerEl.hidden = true; timerEl.classList.remove('end'); }
+function startTimer(sec = 15) {
+  stopTimer(); let s = sec; timerEl.hidden = false; timerEl.textContent = s;
+  timer = setInterval(() => {
+    s--; timerEl.textContent = s;
+    if (s <= 0) { clearInterval(timer); timer = null; timerEl.textContent = '땡!'; timerEl.classList.add('end'); }
+  }, 1000);
+}
+
+function stepTo(s) {
+  step = s;
+  if (game.type === 'person') { // 사진은 다시 그리지 않고 클래스만 바꿔 부드럽게 줌아웃
+    document.querySelector('.frame').className = 'frame z' + step;
+    document.querySelector('.side .step').textContent = PERSON_STEP[step];
+    document.querySelector('.answer').classList.toggle('show', step >= 3);
+  } else render();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.target.isContentEditable) { if (e.key === 'Enter') { e.preventDefault(); e.target.blur(); } return; }
+  const k = e.key;
+  if (k === '1') addPt('a', 1); else if (k === '2') addPt('a', -1);
+  else if (k === '9') addPt('b', 1); else if (k === '0') addPt('b', -1);
+  else if (k === 'Escape') home();
+  if (!game) return;
+  if (k === ' ') { e.preventDefault(); if (step < maxStep()) stepTo(step + 1); }
+  else if (k === 'ArrowRight') { if (idx < game.items.length - 1) { idx++; step = 0; render(); } }
+  else if (k === 'ArrowLeft') { if (idx > 0) { idx--; step = 0; render(); } }
+  else if (k === 't' || k === 'T') startTimer(15);
+});
+
+home();
+</script>
+</body>
+</html>
