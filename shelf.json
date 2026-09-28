@@ -355,11 +355,6 @@
   "date": "2026-09-19"
  },
  {
-  "slug": "vcbio-market",
-  "title": "Healt Food Data Lab — 건강식품 시장 데이터",
-  "date": "2026-09-25"
- },
- {
   "slug": "a333-weekly-2026-w38",
   "title": "헬스푸드 데이터랩 · 2026년 9월 3주차 보고서",
   "date": "2026-09-26"
@@ -382,6 +377,11 @@
  {
   "slug": "semiclass-workshop-game",
   "title": "세미클래스 워크샵 게임 (인물·초성·골든벨)",
+  "date": "2026-09-28"
+ },
+ {
+  "slug": "vcbio-market",
+  "title": "Healt Food Data Lab — 건강식품 시장 데이터",
   "date": "2026-09-28"
  }
 ]
