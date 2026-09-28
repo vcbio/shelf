@@ -179,8 +179,7 @@ def stage(root, output):
     selected = {path for path in tracked
                 if not path.endswith(".json") and not path.startswith(".github/")}
     selected.add("shelf.json")
-    # An index can resolve per-ingredient files at runtime. Preserve every generation.
-    selected.update(path for path in json_paths if path.startswith("d/main-series/generations/"))
+    # An index can resolve per-ingredient files at runtime. Keep linked generations.
     # The publisher waits for a new YouTube sidecar to be public before updating HTML.
     selected.update(path for path in json_paths if path.startswith("d/youtube-"))
     if "d/vcbio-market-fable.html" in tracked:
@@ -200,6 +199,11 @@ def stage(root, output):
                 if not target:
                     raise ValueError(f"unpublished dashboard reference: {source}: {token}")
                 selected.add(target)
+
+    for index in tuple(selected):
+        if re.fullmatch(r"d/main-series/generations/[^/]+/main-series-index-[0-9a-f]{16}\.json", index):
+            directory = posixpath.dirname(index) + "/"
+            selected.update(path for path in json_paths if path.startswith(directory))
 
     # Product indexes are split into immutable parts that are fetched after page load.
     for source in sorted(path for path in selected if path.startswith("d/products-")
