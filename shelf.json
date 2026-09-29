@@ -360,11 +360,6 @@
   "date": "2026-09-27"
  },
  {
-  "slug": "saju-minsik-vc26x7",
-  "title": "사주 · 민식(본인)",
-  "date": "2026-09-27"
- },
- {
   "slug": "semiclass-workshop-game",
   "title": "세미클래스 워크샵 게임 (인물·초성·골든벨)",
   "date": "2026-09-28"
@@ -402,6 +397,11 @@
  {
   "slug": "saju-jonggook-jg93k2",
   "title": "박종국님 인생 분석 (사주·자미두수·베다·서양 4체계)",
+  "date": "2026-09-29"
+ },
+ {
+  "slug": "saju-minsik-vc26x7",
+  "title": "사주 · 민식(본인)",
   "date": "2026-09-29"
  }
 ]
