@@ -56,6 +56,16 @@ def refresh(root):
             or classification.get("denominator") != 631
             or len(classification.get("rows", [])) != 631):
         raise ValueError("classification is incomplete")
+    if reports.get("sourceSha256", {}).get("classification") != sha(inputs["CLASSIFICATION_REF"]):
+        raise ValueError("report links and classification do not share a generation")
+    by_name = {row["name"]: row for row in classification["rows"]}
+    required_products = {"흑염소진액": "진액", "양배추즙": "즙", "마늘즙": "즙",
+                         "양파즙": "즙", "사과즙": "즙", "생강차": "차"}
+    if any(by_name.get(name, {}).get("branch") != "건강보조식품" or
+           by_name[name].get("productForm") != form for name, form in required_products.items()):
+        raise ValueError("stale classification pointer would undo the six health-support products")
+    if by_name.get("비오틴", {}).get("recognitionStatus") != "고시형":
+        raise ValueError("stale classification pointer would undo the official biotin correction")
     day = period["source"]["asOf"]
     if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", day):
         raise ValueError("invalid observed date")
