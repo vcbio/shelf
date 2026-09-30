@@ -39,7 +39,7 @@ def refresh(root):
     if len(source_rows) != 631 or len({row["id"] for row in source_rows}) != 631:
         raise ValueError("631 unique ingredient IDs required")
     refs = {key: literal(html, key) for key in
-            ("PERIOD_SUMMARY_REF", "REPORT_LINKS_REF", "NEW_FORECAST_REF")}
+            ("PERIOD_SUMMARY_REF", "REPORT_LINKS_REF", "NEW_FORECAST_REF", "CLASSIFICATION_REF")}
     inputs = {key: directory / value for key, value in refs.items()}
     for key, path in inputs.items():
         if not path.is_file() or not path.resolve().is_relative_to(directory.resolve()):
@@ -47,15 +47,23 @@ def refresh(root):
     period = json.loads(inputs["PERIOD_SUMMARY_REF"].read_text())
     reports = json.loads(inputs["REPORT_LINKS_REF"].read_text())
     forecast = json.loads(inputs["NEW_FORECAST_REF"].read_text())
+    classification = json.loads(inputs["CLASSIFICATION_REF"].read_text())
     if period.get("status") != "complete" or period.get("source", {}).get("zeroFill") is not False:
         raise ValueError("period source is incomplete or zero-filled")
     if reports.get("schemaVersion") != "healthfood-report-links.a348.v1" or len(reports.get("rows", [])) != 631:
         raise ValueError("report links are incomplete")
+    if (classification.get("schemaVersion") != "healthfood-classification.a348.v1"
+            or classification.get("denominator") != 631
+            or len(classification.get("rows", [])) != 631):
+        raise ValueError("classification is incomplete")
     day = period["source"]["asOf"]
     if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", day):
         raise ValueError("invalid observed date")
     period_by_id = {row["id"]: row for row in period["ingredients"]}
     report_by_id = {row["id"]: row for row in reports["rows"]}
+    class_by_id = {row["id"]: row for row in classification["rows"]}
+    if len(class_by_id) != 631 or {row["id"] for row in source_rows} != set(class_by_id):
+        raise ValueError("classification IDs do not match the detail files")
     forecast_by_id = {row["id"]: row for row in forecast.get("items", [])}
     ranking_by_id = {row["id"]: row for row in literal(html, "RANKING")["items"]}
     source_hashes = {key: sha(path) for key, path in inputs.items()}
@@ -76,11 +84,30 @@ def refresh(root):
         link = report_by_id.get(row["id"])
         if not link or link["name"] != row["name"]:
             raise ValueError("report link ID/name mismatch: " + row["id"])
+        shared = class_by_id[row["id"]]
+        if shared["name"] != row["name"] or any(not shared.get(key) for key in
+                ("branch", "recognitionStatus", "domesticDistribution", "productForm", "functionCategory")):
+            raise ValueError("classification ID/name/field mismatch: " + row["id"])
         volume = ranking_by_id.get(row["id"], {}).get("volume") or {}
         forecast_item = forecast_by_id.get(row["id"], {})
         eligible_horizons = sorted(item["horizon_weeks"] for item in forecast_item.get("forecasts", [])
                                    if item.get("platform_eligible") is True and isinstance(item.get("horizon_weeks"), int))
         next_row = dict(old)
+        next_row["branch"] = shared["branch"]
+        next_row["grade"] = shared["recognitionStatus"]
+        next_row["cat"] = shared["functionCategory"]
+        next_row["dist"] = shared["domesticDistribution"]
+        next_row["s2"] = shared["branch"] == "건강기능식품 원료"
+        next_row["s4"] = shared["branch"] == "건강보조식품 원료"
+        next_row["classification"] = {
+            "branch": shared["branch"],
+            "recognitionStatus": shared["recognitionStatus"],
+            "domesticDistribution": shared["domesticDistribution"],
+            "productForm": shared["productForm"],
+            "functionCategory": shared["functionCategory"],
+            "tags": shared.get("tags", []),
+            "recognitions": shared.get("recognitions", []),
+        }
         observed = current and current.get("status") == "observed"
         observed_end = current.get("observedEnd") if observed else None
         statuses["observed" if observed else "noSource"] += 1
