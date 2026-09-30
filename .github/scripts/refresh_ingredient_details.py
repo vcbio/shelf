@@ -7,6 +7,7 @@ reads the already published, locally tracked input generations.
 import argparse
 import hashlib
 import json
+import os
 import re
 from pathlib import Path
 
@@ -236,7 +237,24 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", type=Path, default=Path("."))
     args = parser.parse_args()
-    print(json.dumps(refresh(args.root.resolve()), ensure_ascii=False))
+    root = args.root.resolve()
+    try:
+        result = refresh(root)
+    except ValueError as error:
+        # A Pages workflow can finish while the main and Fable publishers are
+        # moving between generations. Only the exact known old pair is a safe
+        # no-op for that event; the nightly schedule and unknown generations
+        # still fail so a persistent outage is visible.
+        if (str(error) == "unreviewed classification/report generation; preserve all 631 detail files"
+                and os.environ.get("GITHUB_EVENT_NAME") == "workflow_run"):
+            html = (root / "d/vcbio-market-fable.html").read_text()
+            if (literal(html, "CLASSIFICATION_REF") == "ingredient-classification-ffd355e65a82.json"
+                    and literal(html, "REPORT_LINKS_REF") == "ingredient-report-links-c64168e14db0.json"):
+                print("::warning::The old public Fable references are still live; 631 detail files were preserved.")
+                print(json.dumps({"status": "held_known_old_public_refs", "updated": 0}, ensure_ascii=False))
+                return
+        raise
+    print(json.dumps(result, ensure_ascii=False))
 
 
 if __name__ == "__main__":
