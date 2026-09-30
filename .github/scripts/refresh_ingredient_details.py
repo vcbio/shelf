@@ -11,6 +11,13 @@ import re
 from pathlib import Path
 
 
+# The daily numeric refresh must not silently replace the reviewed 631-ID
+# classification or report generation. A later reviewed generation updates
+# these two pins in the same change as its public references.
+REVIEWED_CLASS_SHA256 = "a83424b82ddfa5c124d855119a607f5f7ffb16d9c9e710f6d43db2da9a6ad559"
+REVIEWED_REPORT_SHA256 = "e6e997f172bf8b85ca4bbf869abcd4e00d3eb5094006053f4c4d8763f00957b7"
+
+
 def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -48,6 +55,9 @@ def refresh(root):
     reports = json.loads(inputs["REPORT_LINKS_REF"].read_text())
     forecast = json.loads(inputs["NEW_FORECAST_REF"].read_text())
     classification = json.loads(inputs["CLASSIFICATION_REF"].read_text())
+    if (sha(inputs["CLASSIFICATION_REF"]) != REVIEWED_CLASS_SHA256 or
+            sha(inputs["REPORT_LINKS_REF"]) != REVIEWED_REPORT_SHA256):
+        raise ValueError("unreviewed classification/report generation; preserve all 631 detail files")
     if period.get("status") != "complete" or period.get("source", {}).get("zeroFill") is not False:
         raise ValueError("period source is incomplete or zero-filled")
     if reports.get("schemaVersion") != "healthfood-report-links.a348.v1" or len(reports.get("rows", [])) != 631:
