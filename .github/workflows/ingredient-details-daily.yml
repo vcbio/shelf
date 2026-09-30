@@ -1,0 +1,61 @@
+name: Refresh ingredient detail files
+
+on:
+  schedule:
+    - cron: "30 12 * * *" # 21:30 Asia/Seoul, after the daily source snapshots
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Publish linked shelf files"]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: ingredient-details-daily
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Refresh from the currently published source generations
+        run: python3 .github/scripts/refresh_ingredient_details.py --root .
+      - name: Validate and publish an atomic Git revision
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- d/data-34bc103ee6fa; then
+            echo "Ingredient details already match the current source generations."
+            exit 0
+          fi
+          git diff --check
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add d/data-34bc103ee6fa/ing_*.json
+          git commit -m "data: refresh 631 ingredient details from current sources"
+          if ! git push origin HEAD:main; then
+            # Another publisher landed meanwhile. Rebase once, then refresh
+            # against its newly committed pointers before trying again.
+            git fetch origin main
+            git rebase origin/main
+            python3 .github/scripts/refresh_ingredient_details.py --root .
+            git diff --check
+            git add d/data-34bc103ee6fa/ing_*.json
+            git commit --amend --no-edit
+            git push origin HEAD:main
+          fi
+          # A GITHUB_TOKEN push does not trigger push workflows. Explicitly
+          # dispatch Pages so the new 631 files actually reach the public site.
+          gh workflow run pages.yml --ref main
+        env:
+          GH_TOKEN: ${{ github.token }}
