@@ -395,11 +395,6 @@
   "date": "2026-09-29"
  },
  {
-  "slug": "vcbio-market-fable",
-  "title": "헬스푸드 데이터랩",
-  "date": "2026-09-30"
- },
- {
   "slug": "saju-guidebook-vc26x7",
   "title": "사주 4체계 공부 가이드북",
   "date": "2026-09-30"
@@ -407,6 +402,11 @@
  {
   "slug": "vcbio-market",
   "title": "Healt Food Data Lab — 건강식품 시장 데이터",
+  "date": "2026-09-30"
+ },
+ {
+  "slug": "vcbio-market-fable",
+  "title": "헬스푸드 데이터랩",
   "date": "2026-09-30"
  }
 ]
