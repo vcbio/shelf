@@ -150,6 +150,26 @@ def publisher_pending_paths(root, tracked):
     return selected
 
 
+def detail_source_paths(root, selected, tracked):
+    """Keep the generation recorded in public ingredient details during a publisher switch."""
+    generations = set()
+    for name in selected:
+        if not re.fullmatch(r"d/data-[0-9a-f]+/ing_[0-9a-f]+\.json", name):
+            continue
+        source = json.loads((root / name).read_text(encoding="utf-8")).get("refreshMeta", {}).get("sourceSha256", {})
+        for key, stem in (("CLASSIFICATION_REF", "ingredient-classification"),
+                          ("REPORT_LINKS_REF", "ingredient-report-links")):
+            digest = source.get(key)
+            if digest is not None:
+                if not re.fullmatch(r"[0-9a-f]{64}", digest):
+                    raise ValueError(f"invalid detail source hash: {name}: {key}")
+                generations.add((f"d/{stem}-{digest[:12]}.json", digest))
+    for name, digest in generations:
+        if name not in tracked or hashlib.sha256((root / name).read_bytes()).hexdigest() != digest:
+            raise ValueError(f"missing or altered detail source: {name}")
+    return {name for name, _ in generations}
+
+
 def stage(root, output):
     tracked = tracked_paths(root)
     if output.exists() and any(output.iterdir()):
@@ -199,6 +219,8 @@ def stage(root, output):
                 if not target:
                     raise ValueError(f"unpublished dashboard reference: {source}: {token}")
                 selected.add(target)
+
+    selected.update(detail_source_paths(root, selected, tracked))
 
     for index in tuple(selected):
         if re.fullmatch(r"d/main-series/generations/[^/]+/main-series-index-[0-9a-f]{16}\.json", index):
