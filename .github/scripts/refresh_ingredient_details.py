@@ -15,8 +15,8 @@ from pathlib import Path
 # The daily numeric refresh must not silently replace the reviewed 631-ID
 # classification or report generation. A later reviewed generation updates
 # these two pins in the same change as its public references.
-REVIEWED_CLASS_SHA256 = "a83424b82ddfa5c124d855119a607f5f7ffb16d9c9e710f6d43db2da9a6ad559"
-REVIEWED_REPORT_SHA256 = "e6e997f172bf8b85ca4bbf869abcd4e00d3eb5094006053f4c4d8763f00957b7"
+REVIEWED_CLASS_SHA256 = "6a25a47fe601f115a17fbf83e63211d0d1d73dd348ea750a971f9ed9bf11ba1c"
+REVIEWED_REPORT_SHA256 = "998fdf1fc05a784f2f1ada8d2c2811c40f645008eedfb010ef2d80ee991deb3f"
 
 
 def sha(path):
@@ -248,8 +248,12 @@ def main():
         if (str(error) == "unreviewed classification/report generation; preserve all 631 detail files"
                 and os.environ.get("GITHUB_EVENT_NAME") == "workflow_run"):
             html = (root / "d/vcbio-market-fable.html").read_text()
-            if (literal(html, "CLASSIFICATION_REF") == "ingredient-classification-ffd355e65a82.json"
-                    and literal(html, "REPORT_LINKS_REF") == "ingredient-report-links-c64168e14db0.json"):
+            pair = (literal(html, "CLASSIFICATION_REF"), literal(html, "REPORT_LINKS_REF"))
+            known_old_pairs = {
+                ("ingredient-classification-ffd355e65a82.json", "ingredient-report-links-c64168e14db0.json"),
+                ("ingredient-classification-a83424b82ddf.json", "ingredient-report-links-e6e997f172bf.json"),
+            }
+            if pair in known_old_pairs:
                 print("::warning::The old public Fable references are still live; 631 detail files were preserved.")
                 print(json.dumps({"status": "held_known_old_public_refs", "updated": 0}, ensure_ascii=False))
                 return
