@@ -15,8 +15,8 @@ from pathlib import Path
 # The daily numeric refresh must not silently replace the reviewed 631-ID
 # classification or report generation. A later reviewed generation updates
 # these two pins in the same change as its public references.
-REVIEWED_CLASS_SHA256 = "6a25a47fe601f115a17fbf83e63211d0d1d73dd348ea750a971f9ed9bf11ba1c"
-REVIEWED_REPORT_SHA256 = "998fdf1fc05a784f2f1ada8d2c2811c40f645008eedfb010ef2d80ee991deb3f"
+REVIEWED_CLASS_SHA256 = "387180eb11dc3436d35065a0446618170d678f982ac64f7dbc53e6b3867f32bb"
+REVIEWED_REPORT_SHA256 = "b7f27160df803d51c4f3a862f9173348ef2546f0198406477a9313c4e64eb69d"
 
 
 def sha(path):
@@ -128,6 +128,8 @@ def refresh(root):
             "functionCategory": shared["functionCategory"],
             "tags": shared.get("tags", []),
             "recognitions": shared.get("recognitions", []),
+            "recognitionHoldReason": shared.get("recognitionHoldReason"),
+            "distributionAudit": shared.get("distributionAudit"),
         }
         observed = current and current.get("status") == "observed"
         observed_end = current.get("observedEnd") if observed else None
@@ -250,6 +252,7 @@ def main():
             html = (root / "d/vcbio-market-fable.html").read_text()
             pair = (literal(html, "CLASSIFICATION_REF"), literal(html, "REPORT_LINKS_REF"))
             known_old_pairs = {
+                ("ingredient-classification-6a25a47fe601.json", "ingredient-report-links-998fdf1fc05a.json"),
                 ("ingredient-classification-ffd355e65a82.json", "ingredient-report-links-c64168e14db0.json"),
                 ("ingredient-classification-a83424b82ddf.json", "ingredient-report-links-e6e997f172bf.json"),
             }
