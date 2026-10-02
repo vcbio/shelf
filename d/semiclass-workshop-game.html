@@ -219,7 +219,9 @@ const timerEl = document.getElementById('timer');
 let game = null, idx = 0, step = 0, timer = null;
 const pts = { a: 0, b: 0 };
 
+// 골든벨에선 버튼 한 번에 그 문제 점수(1·2·3점)만큼 오르내린다
 function addPt(t, d) {
+  if (game && game.type === 'bell') d *= game.items[idx][0];
   pts[t] = Math.max(0, pts[t] + d);
   document.getElementById('p' + t).textContent = pts[t];
 }
