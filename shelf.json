@@ -400,11 +400,6 @@
   "date": "2026-09-30"
  },
  {
-  "slug": "vcbio-market-fable",
-  "title": "헬스푸드 데이터랩",
-  "date": "2026-10-02"
- },
- {
   "slug": "lab-weekly-2026-w39",
   "title": "헬스푸드 데이터랩 · 2026년 9월 4주차 보고서",
   "date": "2026-10-02"
@@ -412,6 +407,11 @@
  {
   "slug": "vcbio-market",
   "title": "Healt Food Data Lab — 건강식품 시장 데이터",
+  "date": "2026-10-02"
+ },
+ {
+  "slug": "vcbio-market-fable",
+  "title": "헬스푸드 데이터랩",
   "date": "2026-10-02"
  }
 ]
