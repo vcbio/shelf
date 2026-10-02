@@ -79,6 +79,8 @@ def weekly_data(root, snapshot_root, summary):
     if len(overrides) != 631:
         raise ValueError("classification denominator changed; review ranking logic")
     lanes = {"health": [], "general": []}
+    lane_totals = {"health": sum(v.get("branch") == "건강기능식품 원료" for v in overrides.values()),
+                   "general": sum(v.get("branch") == "건강보조식품 원료" for v in overrides.values())}
     for row in ranking["items"]:
         volume = row.get("volume") or {}
         checked = dt.date.fromisoformat(volume["date"]) if volume.get("date") else None
@@ -93,6 +95,7 @@ def weekly_data(root, snapshot_root, summary):
             lanes[lane].append({"name": override["name"], "volume": volume["lower"],
                                 "upper": volume.get("upperExclusive"), "date": volume.get("date"),
                                 "exact": volume.get("exact") is True, "id": row["id"]})
+    lane_available = {lane: len(items) for lane, items in lanes.items()}
     for lane in lanes:
         lanes[lane] = sorted(lanes[lane], key=lambda x: (-x["volume"], x["name"]))[:10]
         if len(lanes[lane]) != 10:
@@ -126,7 +129,8 @@ def weekly_data(root, snapshot_root, summary):
     weekly_news = [news[v["sourceIndex"]] for v in news_scope["items"]
                    if start.isoformat() <= news[v["sourceIndex"]].get("날짜", "") <= end.isoformat()]
     weekly_news.sort(key=lambda v: v["날짜"], reverse=True)
-    return {"start": start, "end": end, "lanes": lanes, "slots": slots,
+    return {"start": start, "end": end, "lanes": lanes, "lane_available": lane_available,
+            "lane_totals": lane_totals, "slots": slots,
             "channels": {r.get("channel") for r in schedule if r.get("channel")},
             "broadcast": top_broadcast, "broadcast_ref": broadcast_ref, "preserved_slots": preserved_slots,
             "videos": videos, "mentioned": mentioned, "terms": terms,
@@ -137,7 +141,7 @@ def weekly_data(root, snapshot_root, summary):
 
 CSS = """
 :root{--paper:#f5f3ee;--ink:#17251f;--green:#1e3932;--accent:#1e6a50;--muted:#526259;--rule:#d9dfd7}
-*{box-sizing:border-box}html{background:var(--paper)}body{margin:0;color:var(--ink);font:14px/1.5 Pretendard,'Noto Sans KR',sans-serif}a{color:var(--green);text-underline-offset:3px}.sheet{width:min(100%,820px);min-height:1060px;margin:20px auto;padding:40px 46px;background:#fff}.mast{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--green);padding-bottom:11px}.mast img{width:145px}.mast span{font-size:12px;color:var(--muted);text-align:right}.eyebrow{margin:21px 0 4px;color:var(--accent);font-size:12px;font-weight:800;letter-spacing:.08em}h1{font-size:32px;line-height:1.16;letter-spacing:-.03em;margin:0 0 10px}h2{font-size:18px;margin:0 0 8px}h3{font-size:14px;margin:0 0 5px}.lead{font-size:14px;color:var(--muted);margin:0 0 17px}.hero{background:var(--green);color:white;padding:23px;display:grid;grid-template-columns:135px 1fr;gap:20px}.hero strong{font-size:76px;line-height:1}.hero p{margin:3px 0}.hero small{color:#d7e7de}.metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.metrics div{background:white;padding:10px;border:1px solid var(--rule)}.metrics strong{font-size:19px;color:var(--green)}.metrics small{display:block;color:var(--muted)}.section{margin-top:20px}.bars{display:grid;gap:7px}.bar{display:grid;grid-template-columns:1fr 100px;gap:7px;align-items:center}.bar b{min-width:0;overflow-wrap:anywhere}.bar em{text-align:right;font-style:normal;font-weight:700}.track{grid-column:1/-1;height:5px;background:#e7eee9}.track i{display:block;height:100%;background:var(--accent)}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.cards article{border:1px solid var(--rule);padding:12px;overflow-wrap:anywhere}.cards article strong{display:block;color:var(--green);font-size:26px}.cards article small{display:block;color:var(--muted);font-size:11.5px}.rank-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.rank-list{list-style:none;padding:0;margin:0}.rank-list li{display:grid;grid-template-columns:27px minmax(0,1fr) auto;gap:6px;padding:6px 0;border-bottom:1px solid var(--rule);font-size:12.5px}.rank-list li b{min-width:0;overflow-wrap:anywhere}.rank-list li em{font-style:normal;font-weight:700;white-space:nowrap}.rank-list li small{grid-column:2/-1;color:var(--muted)}.news{display:grid;grid-template-columns:1fr 1fr;gap:8px}.news article{padding:12px;background:#f0f5f1}.news p{margin:0 0 5px}.caption,.note{font-size:11.5px;color:var(--muted);line-height:1.5}.note{padding:10px 12px;background:#f3f6f2}.foot{border-top:1px solid var(--rule);display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin-top:20px;padding-top:9px}
+*{box-sizing:border-box}html{background:var(--paper)}body{margin:0;color:var(--ink);font:14px/1.5 Pretendard,'Noto Sans KR',sans-serif}a{color:var(--green);text-underline-offset:3px}.sheet{width:min(100%,820px);min-height:1060px;margin:20px auto;padding:40px 46px;background:#fff}.mast{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--green);padding-bottom:11px}.mast img{width:145px}.mast span{font-size:12px;color:var(--muted);text-align:right}.eyebrow{margin:21px 0 4px;color:var(--accent);font-size:12px;font-weight:800;letter-spacing:.08em}h1{font-size:32px;line-height:1.16;letter-spacing:-.03em;margin:0 0 10px}h2{font-size:18px;margin:0 0 8px}h3{font-size:14px;margin:0 0 5px}.lead{font-size:14px;color:var(--muted);margin:0 0 17px}.hero{background:var(--green);color:white;padding:23px;display:grid;grid-template-columns:max-content 1fr;gap:20px}.hero strong{font-size:76px;line-height:1;white-space:nowrap}.hero strong small{font-size:24px;margin-left:3px}.hero p{margin:3px 0}.hero small{color:#d7e7de}.metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.metrics div{background:white;padding:10px;border:1px solid var(--rule)}.metrics strong{font-size:19px;color:var(--green)}.metrics small{display:block;color:var(--muted)}.section{margin-top:20px}.bars{display:grid;gap:7px}.bar{display:grid;grid-template-columns:1fr 100px;gap:7px;align-items:center}.bar b{min-width:0;overflow-wrap:anywhere}.bar em{text-align:right;font-style:normal;font-weight:700}.track{grid-column:1/-1;height:5px;background:#e7eee9}.track i{display:block;height:100%;background:var(--accent)}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.cards article{border:1px solid var(--rule);padding:12px;overflow-wrap:anywhere}.cards article strong{display:block;color:var(--green);font-size:26px}.cards article small{display:block;color:var(--muted);font-size:11.5px}.rank-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.rank-list{list-style:none;padding:0;margin:0}.rank-list li{display:grid;grid-template-columns:27px minmax(0,1fr) auto;gap:6px;padding:6px 0;border-bottom:1px solid var(--rule);font-size:12.5px}.rank-list li b{min-width:0;overflow-wrap:anywhere}.rank-list li em{font-style:normal;font-weight:700;white-space:nowrap}.rank-list li small{grid-column:2/-1;color:var(--muted)}.news{display:grid;grid-template-columns:1fr 1fr;gap:8px}.news article{padding:12px;background:#f0f5f1}.news p{margin:0 0 5px}.caption,.note{font-size:11.5px;color:var(--muted);line-height:1.5}.note{padding:10px 12px;background:#f3f6f2}.foot{border-top:1px solid var(--rule);display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin-top:20px;padding-top:9px}
 @media screen and (max-width:600px){.sheet{margin:0;min-height:0;padding:23px 18px}.mast img{width:120px}h1{font-size:26px}.hero{grid-template-columns:1fr}.hero strong{font-size:62px}.rank-grid,.news{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.bar{grid-template-columns:1fr 86px}}
 @page{size:A4;margin:0}@media print{html,body{background:white;print-color-adjust:exact;-webkit-print-color-adjust:exact}.sheet{width:210mm;min-height:0;height:297mm;overflow:hidden;margin:0;padding:10mm 13mm 4mm;break-after:page}.sheet:last-child{break-after:auto}.hero strong{font-size:48pt}.section{margin-top:4mm}.rank-list li{padding:1.2mm 0}.foot{margin-top:3mm}.sheet:nth-of-type(2){font-size:11.5px;line-height:1.32}.sheet:nth-of-type(2) h1{font-size:22px}.sheet:nth-of-type(2) h2{font-size:14px}.sheet:nth-of-type(2) .lead{font-size:10.5px;margin-bottom:2mm}.sheet:nth-of-type(2) .section{margin-top:2mm}.sheet:nth-of-type(2) .rank-list li{font-size:10.5px;padding:.7mm 0}.sheet:nth-of-type(2) .rank-list li small{font-size:9.8px}.sheet:nth-of-type(2) .rank-grid{gap:3mm}.sheet:nth-of-type(2) .news article{padding:2mm}.sheet:nth-of-type(2) .note,.sheet:nth-of-type(2) .caption{font-size:10px;line-height:1.3}}
 """
@@ -170,14 +174,17 @@ def render(summary, data):
             value = number(row["volume"])
             if not row["exact"] and isinstance(row["upper"], int):
                 value += "~" + number(row["upper"] - 1)
+            elif not row["exact"]:
+                value += " 이상"
             width = max(5, min(100, row["volume"] / max_value * 100))
             url = f'vcbio-market-fable.html#view=ingredients&id={h(row["id"])}&tab=trend&from={start.isoformat()}&to={end.isoformat()}'
             out.append(f'<li><span>{index:02}</span><b><a href="{url}">{h(row["name"])}</a></b><em>{value}</em><small>{h(row["date"] or "조회일 미제공")} 조회 · 월간 참고값</small><span class="track" style="grid-column:1/-1"><i style="width:{width:.1f}%"></i></span></li>')
         return ''.join(out)
     featured = summary.get("featured", {})
     signals = [row for lane in ("health", "general") for row in featured.get(lane, [])]
+    signal_max = max((row["weekChangePct"] for row in signals[:4]), default=1) or 1
     signals_html = ''.join(
-        f'<div class="bar"><b>{h(row["name"])}</b><em>{row["previousMean"]:.2f} → {row["weekMean"]:.2f} (+{row["weekChangePct"]:.1f}%){" · 기저 낮음" if row.get("lowBase") else ""}</em><span class="track"><i style="width:{min(100, row["weekChangePct"] * 2):.1f}%"></i></span></div>'
+        f'<div class="bar"><b>{h(row["name"])}</b><em>{row["previousMean"]:.2f} → {row["weekMean"]:.2f} (+{row["weekChangePct"]:.1f}%){" · 기저 낮음" if row.get("lowBase") else ""}</em><span class="track"><i style="width:{row["weekChangePct"] / signal_max * 100:.1f}%"></i></span></div>'
         for row in signals[:4]) or '<p class="note">두 주를 각각 7일 모두 관측한 상승 원료가 확인되지 않았습니다.</p>'
     terms = data["terms"]
     terms_html = ', '.join(f'{h(term)} {count}개 영상' for term, count in terms.most_common(8)) or '원료명 연결 영상 미확인'
@@ -194,8 +201,9 @@ def render(summary, data):
 <section class="section"><h2>두 주 모두 관측된 검색지수 변화</h2><div class="bars">{signals_html}</div><p class="caption">직전 7일 평균 → 이번 7일 평균입니다. 지수는 오메가3 대비 상대값이며 검색 횟수가 아닙니다. ‘기저 낮음’은 직전 평균이 이번 평균의 20%보다 작은 경우입니다. 개별 원료의 증감이 시장 전체의 원인이나 매출을 뜻하지 않습니다.</p></section>
 <div class="foot"><span>헬스푸드 데이터랩 · 공개자료</span><span>1 / 2</span></div></article>
 <article class="sheet"><header class="mast"><img src="{logo}" alt="HEALTH FOOD DATA LAB"><span>{week}<br>{period}</span></header><p class="eyebrow">원료명 검색과 공개 소식</p><h1>많이 찾아본 원료명</h1><p class="lead">월 검색 참고값입니다. 이 주의 검색량·제품 판매량 순위가 아닙니다. 같은 말이 다른 뜻으로 검색됐을 수 있습니다.</p>
-<div class="rank-grid"><section><h2>건강기능식품 원료</h2><ol class="rank-list">{rank_html(data["lanes"]["health"])}</ol></section><section><h2>건강보조식품 원료</h2><ol class="rank-list">{rank_html(data["lanes"]["general"])}</ol></section></div>
-<section class="section"><h2>지난주 유튜브 영상의 원료명</h2><p>{len(data["videos"])}개 영상 중 {len(data["mentioned"])}개에서 원료명 연결 · {terms_html}.</p><p class="caption">수집 영상 안에서의 문자 언급입니다. 동률을 억지로 순위화하지 않았고 전체 유튜브 해시태그 통계가 아닙니다. <a href="vcbio-market-fable.html#view=youtube">영상·채널 보기 →</a></p></section>
+<div class="rank-grid"><section><h2>건강기능식품 원료</h2><p class="caption">{data["lane_totals"]["health"]}개 중 기간 내 조회값이 남은 {data["lane_available"]["health"]}개에서 선정</p><ol class="rank-list">{rank_html(data["lanes"]["health"])}</ol></section><section><h2>건강보조식품 원료</h2><p class="caption">{data["lane_totals"]["general"]}개 중 기간 내 조회값이 남은 {data["lane_available"]["general"]}개에서 선정</p><ol class="rank-list">{rank_html(data["lanes"]["general"])}</ol></section></div>
+<p class="caption">{end.isoformat()}까지 조회한 월 검색량 중 상위 10개입니다. 이후 조회한 값은 제외했으므로 전체 원료의 순위와 다를 수 있습니다.</p>
+<section class="section"><h2>지난주 유튜브 영상의 원료명</h2><p>{len(data["videos"])}개 영상 중 {len(data["mentioned"])}개에서 원료명 연결 · {terms_html}.</p><p class="caption">{len({r.get('channel') for r in data['videos'] if r.get('channel')})}개 채널 · 브랜드 공식 채널 영상 {sum(bool(r.get('isBrandChannel')) for r in data['videos'])}개 포함. 브랜드 게시물은 독립 평가가 아닙니다. 수집 영상의 문자 언급이며 전체 유튜브 순위가 아닙니다. <a href="vcbio-market-fable.html#view=youtube">영상·채널 보기 →</a></p></section>
 <section class="section"><h2>이번 주 식약처 소식</h2><div class="news">{news_html}</div></section>
 <p class="note">시장자료의 판매처 표시 순위·가격·리뷰에는 실제 주간 판매량이 없습니다. 방송별 판매 카운터도 결손 상태를 확인해야 하므로 ‘많이 팔린 제품 10개’를 추정해 싣지 않았습니다. 인스타그램·틱톡 해시태그 빈도는 검증된 수집 자료가 없습니다.</p>
 <p class="caption">자료 기준: 검색지수 {h(source_dates["series"])} · 품목신고 {h(source_dates["products"])} · 편성 {h(source_dates["broadcast"])} · 유튜브 {h(source_dates["youtube"])} · 예측 {h(source_dates["forecast"])}. 예측 계산 {number(data["forecast"]["calculated"])}/{number(data["forecast"]["items"])}개는 <a href="vcbio-market-fable.html#view=forecast">예측 탭</a>에서 기간·오차와 함께 확인하세요.</p>
