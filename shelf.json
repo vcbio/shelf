@@ -360,11 +360,6 @@
   "date": "2026-09-27"
  },
  {
-  "slug": "semiclass-workshop-game",
-  "title": "세미클래스 워크샵 게임 (인물·초성·골든벨)",
-  "date": "2026-09-28"
- },
- {
   "slug": "saju-miryeo-vc26x7",
   "title": "사주 · 남미려",
   "date": "2026-09-28"
@@ -417,6 +412,11 @@
  {
   "slug": "vcbio-market-fable",
   "title": "헬스푸드 데이터랩",
+  "date": "2026-10-03"
+ },
+ {
+  "slug": "semiclass-workshop-game",
+  "title": "세미클래스 워크샵 게임 (이모지·초성·골든벨)",
   "date": "2026-10-03"
  }
 ]
