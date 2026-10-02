@@ -58,6 +58,7 @@
   .meta { font-size: 18px; color: var(--accent); font-weight: 700; margin-bottom: 18px; font-variant-numeric: tabular-nums; }
   .q { font-size: 52px; font-weight: 800; line-height: 1.35; letter-spacing: -0.01em; max-width: 1100px; word-break: keep-all; text-wrap: balance; }
   .chosung { font-size: 110px; letter-spacing: .12em; font-weight: 800; word-break: keep-all; line-height: 1.3; }
+  .emoji { font-size: 140px; line-height: 1.2; letter-spacing: .08em; }
   .hint-ch { margin-top: 32px; font-size: 44px; font-weight: 700; color: var(--accent); letter-spacing: .08em; }
   .choices { margin-top: 36px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 40px; font-size: 32px; color: var(--muted); text-align: left; }
   /* 인물 사진: 확대+흐림 → 조금 멀리 → 전체 → 정답 */
@@ -123,27 +124,30 @@
 
 <script>
 const GAMES = {
-  person: {
-    title: '인물퀴즈', desc: '확대된 사진이 점점 멀어집니다.<br>빨리 맞힐수록 점수 UP', type: 'person',
-    // [사진, 이름, 한 줄 설명] — 케이윌(대성 닮은꼴)·박소담(김고은 닮은꼴)은 함정 문제
+  emoji: {
+    title: '이모지퀴즈', desc: '이모지를 보고 제목을 맞히세요<br>못 맞히면 초성 힌트', type: 'emoji',
+    // [분야, 이모지, 정답, 힌트(없으면 정답에서 초성을 자동으로 뽑음)]
     items: [
-      ['yujaesuk.jpg', '유재석', '국민 MC, 무한도전'],
-      ['son.jpg', '손흥민', '축구, 찰칵 세리머니'],
-      ['einstein.jpg', '아인슈타인', '물리학자, E=mc²'],
-      ['iu.jpg', '아이유', '가수·배우, 「폭싹 속았수다」'],
-      ['madongseok.jpg', '마동석', '배우, 「범죄도시」'],
-      ['kimgu.jpg', '김구', '독립운동가, 호는 백범'],
-      ['kwill.jpg', '케이윌', '대성 아닙니다!'],
-      ['faker.jpg', '페이커 (이상혁)', '프로게이머, 리그 오브 레전드'],
-      ['leehyori.png', '이효리', '가수, 핑클'],
-      ['jobs.jpg', '스티브 잡스', '애플 창업자, 아이폰'],
-      ['kanghodong.jpg', '강호동', '천하장사 출신 MC'],
-      ['yuna.jpg', '김연아', '피겨 여왕, 2010 밴쿠버 금메달'],
-      ['parksodam.jpg', '박소담', '김고은 아닙니다!'],
-      ['bongjoonho.jpg', '봉준호', '영화감독, 「기생충」'],
-      ['mj.jpg', '마이클 잭슨', '팝의 황제, 문워크'],
-      ['ohtani.jpg', '오타니 쇼헤이', '야구, 투수와 타자를 모두 하는 선수'],
-      ['jangwonyoung.png', '장원영', '아이브(IVE)'],
+      ['영화', '🚢🧊💔', '타이타닉'],
+      ['영화', '🦁👑', '라이온 킹'],
+      ['영화', '🦖🏝️', '쥬라기 공원'],
+      ['영화', '🧙💍🌋', '반지의 제왕'],
+      ['영화', '👽🚲🌕', 'E.T.', '영어 두 글자'],
+      ['영화', '⚡👓🧙', '해리 포터'],
+      ['영화', '⚓🐢🔥', '명량'],
+      ['영화', '7️⃣🚪🎁', '7번방의 선물', '7ㅂㅂㅇ ㅅㅁ'],
+      ['영화', '🚀🌽⏳', '인터스텔라'],
+      ['드라마', '🇫🇷❤️', '파리의 연인'],
+      ['드라마', '👑🍲🥢', '대장금'],
+      ['드라마', '🌸👦👦👦👦', '꽃보다 남자'],
+      ['노래', '🐻🐻🐻', '곰 세 마리'],
+      ['노래', '🐴🕺', '강남스타일'],
+      ['노래', '🌸🔚', '벚꽃 엔딩'],
+      ['노래', '🧈', 'Butter (BTS)', '영어 6글자, BTS 노래'],
+      ['속담', '🐸🕳️', '우물 안 개구리'],
+      ['속담', '🐄💨🏚️🔨', '소 잃고 외양간 고친다'],
+      ['속담', '🐋🥊🐋🦐💥', '고래 싸움에 새우 등 터진다'],
+      ['속담', '🏞️🐉', '개천에서 용 난다'],
     ]
   },
   chosung: {
@@ -222,8 +226,12 @@ function addPt(t, d) {
 document.querySelectorAll('.team button').forEach(b =>
   b.addEventListener('click', () => addPt(b.dataset.t, +b.dataset.d)));
 
-// 사진을 미리 받아 둬서 넘길 때 깜빡이지 않게
-GAMES.person.items.forEach(([f]) => { new Image().src = 'https://raw.githubusercontent.com/vcbio/shelf/main/d/img/wsgame-' + f; });
+// 정답 글자에서 초성만 뽑는다 (한글이 아닌 글자는 그대로)
+const CHO = 'ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ';
+const chosungOf = s => [...s].map(c => {
+  const k = c.charCodeAt(0) - 0xAC00;
+  return k >= 0 && k < 11172 ? CHO[Math.floor(k / 588)] : c;
+}).join('');
 
 function home() {
   game = null; stopTimer();
@@ -239,9 +247,8 @@ function home() {
 
 function start(k) { game = GAMES[k]; idx = 0; step = 0; render(); }
 
-const maxStep = () => game.type === 'person' ? 3
+const maxStep = () => game.type === 'emoji' ? 2
   : game.type === 'bell' && game.items[idx][3] ? 2 : 1;
-const PERSON_STEP = ['아주 가까이', '조금 멀리', '전체 사진', '정답!'];
 
 function render() {
   stopTimer();
@@ -249,14 +256,11 @@ function render() {
   const n = `${game.title} ${idx + 1} / ${game.items.length}`;
   ctitle.textContent = n;
   let h = '';
-  if (game.type === 'person') {
-    const [img, name, note] = it;
-    h = `<div class="meta">${n}</div>
-      <div class="photo-row">
-        <div class="frame z${step}"><img src="https://raw.githubusercontent.com/vcbio/shelf/main/d/img/wsgame-${img}" alt=""></div>
-        <div class="side"><div class="step">${PERSON_STEP[step]}</div>
-          <div class="answer ${step >= 3 ? 'show' : ''}">${name}<small>${note}</small></div></div>
-      </div>`;
+  if (game.type === 'emoji') {
+    const [kind, emo, a, hint] = it;
+    h = `<div class="meta">${n}</div><div class="emoji">${emo}</div>` +
+      (step >= 1 ? `<div class="hint-ch">${kind} · ${hint || chosungOf(a)}</div>` : '') +
+      `<div class="answer bell-a ${step >= 2 ? 'show' : ''}">${a}</div>`;
   } else if (game.type === 'chosung') {
     h = `<div class="meta">${n} · ${it[0]}</div><div class="chosung">${it[1]}</div>
       <div class="answer ${step >= 1 ? 'show' : ''}">${it[2]}</div>`;
@@ -285,14 +289,7 @@ function startTimer(sec = 15) {
   }, 1000);
 }
 
-function stepTo(s) {
-  step = s;
-  if (game.type === 'person') { // 사진은 다시 그리지 않고 클래스만 바꿔 부드럽게 줌아웃
-    document.querySelector('.frame').className = 'frame z' + step;
-    document.querySelector('.side .step').textContent = PERSON_STEP[step];
-    document.querySelector('.answer').classList.toggle('show', step >= 3);
-  } else render();
-}
+function stepTo(s) { step = s; render(); }
 
 document.addEventListener('keydown', e => {
   if (e.target.isContentEditable) { if (e.key === 'Enter') { e.preventDefault(); e.target.blur(); } return; }
