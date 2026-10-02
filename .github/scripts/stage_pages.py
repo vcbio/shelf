@@ -122,9 +122,8 @@ def fable_runtime_paths(root, json_paths):
     return paths
 
 
-def publisher_pending_paths(root, tracked):
+def publisher_pending_paths(root, tracked, name="d/platform-pending-assets.json"):
     """Keep immutable assets public while the publisher waits to switch HTML refs."""
-    name = "d/platform-pending-assets.json"
     if name not in tracked:
         return set()
     document = json.loads((root / name).read_text(encoding="utf-8"))
@@ -205,6 +204,7 @@ def stage(root, output):
     if "d/vcbio-market-fable.html" in tracked:
         selected.update(fable_runtime_paths(root, json_paths))
     selected.update(publisher_pending_paths(root, tracked))
+    selected.update(publisher_pending_paths(root, tracked, "d/fable-pending-assets.json"))
     selected.update(pending_json_paths(tracked, root))
 
     for source in sorted(path for path in selected if path.endswith((".html", ".js", ".css"))):

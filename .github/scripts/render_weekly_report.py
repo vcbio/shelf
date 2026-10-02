@@ -34,30 +34,34 @@ def number(value):
     return f"{value:,}" if isinstance(value, int) else "미확인"
 
 
-def source_doc(root, summary, key):
+def source_doc(snapshot_root, summary, key):
     ref = summary["sources"][key]["ref"]
     if ref.startswith("/") or ".." in ref.split("/") or "://" in ref:
         raise ValueError(f"unsafe source reference: {ref}")
-    payload = (root / "d" / ref).read_bytes()
+    snapshot = summary["sources"][key]["snapshot"]
+    if snapshot.startswith("/") or ".." in snapshot.split("/"):
+        raise ValueError(f"unsafe source snapshot: {snapshot}")
+    payload = (snapshot_root / snapshot).read_bytes()
     digest = hashlib.sha256(payload).hexdigest()
     if digest != summary["sources"][key]["sha256"]:
         raise ValueError(f"source changed since collection: {key}")
     return json.loads(payload), ref
 
 
-def weekly_data(root, summary):
+def weekly_data(root, snapshot_root, summary):
     start = dt.date.fromisoformat(summary["week"]["start"])
     end = dt.date.fromisoformat(summary["week"]["end"])
     if end.weekday() != 6 or (end - start).days != 6:
         raise ValueError("weekly window must be Monday through Sunday")
-    index, _ = source_doc(root, summary, "MAIN_SERIES_REF")
-    products, _ = source_doc(root, summary, "PRODUCTS_REF")
-    broadcast, broadcast_ref = source_doc(root, summary, "BROADCAST_REF")
-    youtube, youtube_ref = source_doc(root, summary, "YOUTUBE_REF")
-    forecast, _ = source_doc(root, summary, "NEW_FORECAST_REF")
-    source_doc(root, summary, "KEYWORD_REF")
-    source_doc(root, summary, "PERIOD_SUMMARY_REF")
-    source_doc(root, summary, "MARKET_REFRESH_REF")
+    index, _ = source_doc(snapshot_root, summary, "MAIN_SERIES_REF")
+    products, _ = source_doc(snapshot_root, summary, "PRODUCTS_REF")
+    broadcast, broadcast_ref = source_doc(snapshot_root, summary, "BROADCAST_REF")
+    youtube, youtube_ref = source_doc(snapshot_root, summary, "YOUTUBE_REF")
+    forecast, _ = source_doc(snapshot_root, summary, "NEW_FORECAST_REF")
+    source_doc(snapshot_root, summary, "KEYWORD_REF")
+    source_doc(snapshot_root, summary, "PERIOD_SUMMARY_REF")
+    source_doc(snapshot_root, summary, "MARKET_REFRESH_REF")
+    classification, _ = source_doc(snapshot_root, summary, "CLASSIFICATION_REF")
     dates = {
         "series": index["asOf"], "products": products["snapshot"],
         "broadcast": broadcast["meta"]["asOfDate"],
@@ -65,30 +69,30 @@ def weekly_data(root, summary):
     }
     if any(date < end.isoformat() for date in dates.values()):
         raise PendingSources(f"source has not reached closed week {end}: {dates}")
-    source = (root / "d" / "vcbio-market-fable.html").read_text(encoding="utf-8")
-    data = {v["id"]: v for v in embedded(source, "DATA")}
-    overrides = {v["id"]: v for v in embedded(source, "CLASSIFICATION")["items"]}
+    source = (snapshot_root / summary["sourceSnapshot"]).read_text(encoding="utf-8")
+    if hashlib.sha256(source.encode()).hexdigest() != summary["sourceHtmlSha256"]:
+        raise ValueError("source HTML changed since collection")
+    overrides = {v["id"]: v for v in classification["rows"]}
     ranking = embedded(source, "RANKING")
-    if len(data) != 631 or len(ranking["items"]) != 631:
+    if len(ranking["items"]) != 631:
         raise ValueError("ingredient denominator changed; review ranking logic")
-    if str(ranking.get("volumeRefresh", {}).get("asOf") or "") < end.isoformat():
-        raise PendingSources("monthly keyword lookup has not reached the closed week")
+    if len(overrides) != 631:
+        raise ValueError("classification denominator changed; review ranking logic")
     lanes = {"health": [], "general": []}
-    # Official membership/term ambiguity was left unresolved in the approved first issue.
-    excluded_ids = {"ing_304fbb1a972d232d", "ing_ba7da3f885a3d688"}  # 프로폴리스, 크롬
     for row in ranking["items"]:
-        if row["id"] in excluded_ids:
-            continue
-        definition = data.get(row["id"], {})
         volume = row.get("volume") or {}
-        if definition.get("role") != "원료" or not volume.get("eligible") or not isinstance(volume.get("lower"), int):
+        checked = dt.date.fromisoformat(volume["date"]) if volume.get("date") else None
+        if (not volume.get("eligible")
+                or not isinstance(volume.get("lower"), int) or not checked
+                or checked > end or (end - checked).days > 35):
             continue
         override = overrides.get(row["id"], {})
-        for lane, field, fallback in (("health", "healthScope", "s2"), ("general", "generalScope", "s4")):
-            if override.get(field, definition.get(fallback)):
-                lanes[lane].append({"name": definition["name"], "volume": volume["lower"],
-                                    "upper": volume.get("upperExclusive"), "date": volume.get("date"),
-                                    "exact": volume.get("exact") is True, "id": row["id"]})
+        lane = ("health" if override.get("branch") == "건강기능식품 원료" else
+                "general" if override.get("branch") == "건강보조식품 원료" else None)
+        if lane:
+            lanes[lane].append({"name": override["name"], "volume": volume["lower"],
+                                "upper": volume.get("upperExclusive"), "date": volume.get("date"),
+                                "exact": volume.get("exact") is True, "id": row["id"]})
     for lane in lanes:
         lanes[lane] = sorted(lanes[lane], key=lambda x: (-x["volume"], x["name"]))[:10]
         if len(lanes[lane]) != 10:
@@ -110,7 +114,7 @@ def weekly_data(root, summary):
     top_broadcast = sorted(groups.values(), key=lambda x: (-len(x["slots"]), sorted(x["names"])[0]))[:3]
     videos = [r for r in youtube["rows"] if start.isoformat() <= str(r.get("publishedDate", "")) <= end.isoformat()]
     mentioned = [r for r in videos if r.get("ingredients")]
-    terms = collections.Counter(term for video in mentioned for term in set(video["ingredients"]))
+    terms = collections.Counter(term for video in mentioned for term in sorted(set(video["ingredients"])))
     news_scope = embedded(source, "NEWS_SCOPE")
     if str(news_scope.get("asOf") or "") < end.isoformat():
         raise PendingSources("MFDS news source has not reached the closed week")
@@ -172,7 +176,9 @@ def render(summary, data):
         return ''.join(out)
     featured = summary.get("featured", {})
     signals = [row for lane in ("health", "general") for row in featured.get(lane, [])]
-    signals_html = ''.join(f'<div class="bar"><b>{h(row["name"])}</b><em>+{row["weekChangePct"]:.1f}%</em><span class="track"><i style="width:{min(100, row["weekChangePct"] * 2):.1f}%"></i></span></div>' for row in signals[:4]) or '<p class="note">완전한 두 주 관측과 같은 날 검색량을 갖춘 비교 항목이 부족합니다.</p>'
+    signals_html = ''.join(
+        f'<div class="bar"><b>{h(row["name"])}</b><em>{row["previousMean"]:.2f} → {row["weekMean"]:.2f} (+{row["weekChangePct"]:.1f}%){" · 기저 낮음" if row.get("lowBase") else ""}</em><span class="track"><i style="width:{min(100, row["weekChangePct"] * 2):.1f}%"></i></span></div>'
+        for row in signals[:4]) or '<p class="note">두 주를 각각 7일 모두 관측한 상승 원료가 확인되지 않았습니다.</p>'
     terms = data["terms"]
     terms_html = ', '.join(f'{h(term)} {count}개 영상' for term, count in terms.most_common(8)) or '원료명 연결 영상 미확인'
     news_html = ''.join(f'<article><h3>{h(row.get("제목") or row.get("갈래") or "식약처 자료")}</h3><p>{h(str(row.get("내용요약") or "")[:110])}</p><small>{h(row["날짜"])} · <a href="{h(row.get("원문URL") or "#")}">원문 보기 ↗</a></small></article>' for row in data["news"])
@@ -185,10 +191,10 @@ def render(summary, data):
 <section class="hero"><strong>{len(data["slots"])}<small>건</small></strong><div><h2>건강식품 관련 편성 포착</h2><p>{len(data["channels"])}개 채널 · {period}</p><small>이번 수집에서 확인된 시간대입니다. 이전에 저장된 {len(data["preserved_slots"])}건은 제외했습니다. 실제 방영 완료와 판매량은 미확인입니다.</small></div></section>
 <section class="section"><h2>이번 주 품목신고</h2><div class="metrics"><div><strong>{number(declared["healthRows"])}건</strong><small>건강기능식품</small></div><div><strong>{number(declared["generalFoodCandidateRows"])}건</strong><small>확인 범위 일반식품 후보</small></div></div><p class="caption">보고일 {period} · 원문 갱신 {h(declared["snapshot"])}. 일반식품은 확인한 제조사업장 범위입니다. 신고가 판매나 출시를 뜻하지 않습니다. {('미확인 날짜: '+h(', '.join(missing_days))+'.') if missing_days else ''} <a href="vcbio-market-fable.html#view=products&scope=1&from={start}&to={end}">품목신고 보기 →</a></p></section>
 <section class="section"><h2>편성에 자주 나온 상품명</h2><div class="cards">{top_cards()}</div><p class="caption">동일 상품명도 판매처·상품번호가 다를 수 있습니다. 편성 횟수는 매출·판매량 순위가 아닙니다. <a href="vcbio-market-fable.html#view=home&from={start}&to={end}">방송 목록 보기 →</a></p></section>
-<section class="section"><h2>두 주 모두 관측된 검색지수 변화</h2><div class="bars">{signals_html}</div><p class="caption">완전 관측된 원료 중 예시입니다. 지수는 오메가3 대비 상대값이며 검색 횟수가 아닙니다. 개별 원료의 증감이 시장 전체의 원인이나 매출을 뜻하지 않습니다.</p></section>
+<section class="section"><h2>두 주 모두 관측된 검색지수 변화</h2><div class="bars">{signals_html}</div><p class="caption">직전 7일 평균 → 이번 7일 평균입니다. 지수는 오메가3 대비 상대값이며 검색 횟수가 아닙니다. ‘기저 낮음’은 직전 평균이 이번 평균의 20%보다 작은 경우입니다. 개별 원료의 증감이 시장 전체의 원인이나 매출을 뜻하지 않습니다.</p></section>
 <div class="foot"><span>헬스푸드 데이터랩 · 공개자료</span><span>1 / 2</span></div></article>
 <article class="sheet"><header class="mast"><img src="{logo}" alt="HEALTH FOOD DATA LAB"><span>{week}<br>{period}</span></header><p class="eyebrow">원료명 검색과 공개 소식</p><h1>많이 찾아본 원료명</h1><p class="lead">월 검색 참고값입니다. 이 주의 검색량·제품 판매량 순위가 아닙니다. 같은 말이 다른 뜻으로 검색됐을 수 있습니다.</p>
-<div class="rank-grid"><section><h2>건강기능식품 관련 원료명</h2><ol class="rank-list">{rank_html(data["lanes"]["health"])}</ol></section><section><h2>일반식품 관련 원료명</h2><ol class="rank-list">{rank_html(data["lanes"]["general"])}</ol></section></div>
+<div class="rank-grid"><section><h2>건강기능식품 원료</h2><ol class="rank-list">{rank_html(data["lanes"]["health"])}</ol></section><section><h2>건강보조식품 원료</h2><ol class="rank-list">{rank_html(data["lanes"]["general"])}</ol></section></div>
 <section class="section"><h2>지난주 유튜브 영상의 원료명</h2><p>{len(data["videos"])}개 영상 중 {len(data["mentioned"])}개에서 원료명 연결 · {terms_html}.</p><p class="caption">수집 영상 안에서의 문자 언급입니다. 동률을 억지로 순위화하지 않았고 전체 유튜브 해시태그 통계가 아닙니다. <a href="vcbio-market-fable.html#view=youtube">영상·채널 보기 →</a></p></section>
 <section class="section"><h2>이번 주 식약처 소식</h2><div class="news">{news_html}</div></section>
 <p class="note">시장자료의 판매처 표시 순위·가격·리뷰에는 실제 주간 판매량이 없습니다. 방송별 판매 카운터도 결손 상태를 확인해야 하므로 ‘많이 팔린 제품 10개’를 추정해 싣지 않았습니다. 인스타그램·틱톡 해시태그 빈도는 검증된 수집 자료가 없습니다.</p>
@@ -201,11 +207,12 @@ def main():
     parser.add_argument("--root", type=Path, required=True)
     parser.add_argument("--summary", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--validation-output", type=Path)
     args = parser.parse_args()
     root = args.root.resolve()
     summary = json.loads(args.summary.read_text(encoding="utf-8"))
     try:
-        content = render(summary, weekly_data(root, summary))
+        content = render(summary, weekly_data(root, args.summary.resolve().parent, summary))
     except PendingSources as pending:
         print(json.dumps({"status": "pending", "reason": str(pending)}, ensure_ascii=False))
         raise SystemExit(75)
@@ -214,8 +221,14 @@ def main():
     if target.exists() and target.read_text(encoding="utf-8") != content:
         raise ValueError("existing weekly report differs; do not overwrite")
     target.write_text(content, encoding="utf-8")
-    print(json.dumps({"report": str(target), "bytes": target.stat().st_size,
-                      "sha256": hashlib.sha256(target.read_bytes()).hexdigest()}, ensure_ascii=False))
+    digest = hashlib.sha256(target.read_bytes()).hexdigest()
+    result = {"rendererValidated": True, "report": str(target),
+              "bytes": target.stat().st_size, "sha256": digest,
+              "summarySha256": hashlib.sha256(args.summary.read_bytes()).hexdigest()}
+    if args.validation_output:
+        args.validation_output.write_text(json.dumps(result, ensure_ascii=False, sort_keys=True) + "\n",
+                                          encoding="utf-8")
+    print(json.dumps(result, ensure_ascii=False))
 
 
 if __name__ == "__main__":

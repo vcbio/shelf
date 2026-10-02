@@ -11,6 +11,7 @@ import os
 from pathlib import Path
 import re
 import tempfile
+from zoneinfo import ZoneInfo
 
 
 def write_atomic(path, content):
@@ -27,9 +28,9 @@ def write_atomic(path, content):
 
 
 def register(root, candidate, end, registered):
-    if end.weekday() != 6 or registered < end:
-        raise ValueError("week end must be Sunday and registration cannot precede it")
-    today = dt.date.today()
+    if end.weekday() != 6 or registered <= end:
+        raise ValueError("week end must be Sunday and registration must follow it")
+    today = dt.datetime.now(ZoneInfo("Asia/Seoul")).date()
     if registered > today:
         raise ValueError("future registration date")
     week_id = f"{end.isocalendar().year}-W{end.isocalendar().week:02d}"
@@ -42,14 +43,17 @@ def register(root, candidate, end, registered):
     board = root / "d/weekly-reports.json"
     index = root / "shelf.json"
     destination = root / "d" / f"{slug}.html"
-    if destination.exists():
-        raise ValueError("issue HTML already exists; do not overwrite")
     reports = json.loads(board.read_text(encoding="utf-8"))
     documents = json.loads(index.read_text(encoding="utf-8"))
     if reports.get("version") != 1 or not isinstance(reports.get("reports"), list):
         raise ValueError("weekly board schema changed")
-    if any(row.get("week") == week_id for row in reports["reports"]):
-        raise ValueError("week is already registered")
+    existing = next((row for row in reports["reports"] if row.get("week") == week_id), None)
+    if existing:
+        if destination.exists() and destination.read_bytes() == candidate.read_bytes() and existing.get("href") == destination.name:
+            return {"week": week_id, "status": "already_registered", "html": str(destination)}
+        raise ValueError("week is already registered with different content")
+    if destination.exists():
+        raise ValueError("issue HTML already exists; do not overwrite")
     if any(row.get("slug") == slug for row in documents):
         raise ValueError("shelf slug already exists")
     body = candidate.read_bytes()

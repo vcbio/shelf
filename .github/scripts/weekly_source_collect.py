@@ -16,21 +16,32 @@ from pathlib import Path
 import re
 import statistics
 import tempfile
+import time
+import urllib.error
 import urllib.request
 
 BASE = "https://vcbio.github.io/shelf/d/"
 REFS = ("MAIN_SERIES_REF", "PRODUCTS_REF", "BROADCAST_REF", "YOUTUBE_REF",
-        "KEYWORD_REF", "NEW_FORECAST_REF", "PERIOD_SUMMARY_REF", "MARKET_REFRESH_REF")
+        "KEYWORD_REF", "NEW_FORECAST_REF", "PERIOD_SUMMARY_REF", "MARKET_REFRESH_REF",
+        "CLASSIFICATION_REF")
 
 
 def fetch(ref, limit=55_000_000):
     if ref.startswith("/") or ".." in ref.split("/") or "://" in ref:
         raise ValueError("invalid source path")
-    with urllib.request.urlopen(BASE + ref, timeout=45) as response:
-        body = response.read(limit + 1)
-        if response.status != 200 or len(body) > limit:
-            raise ValueError("source status or size invalid: " + ref)
-    return body
+    for attempt in range(4):
+        try:
+            request = urllib.request.Request(BASE + ref, headers={"User-Agent": "health-food-data-lab-weekly/1.0"})
+            with urllib.request.urlopen(request, timeout=45) as response:
+                body = response.read(limit + 1)
+                if response.status != 200 or len(body) > limit:
+                    raise ValueError("source status or size invalid: " + ref)
+            return body
+        except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError) as error:
+            retryable = not isinstance(error, urllib.error.HTTPError) or error.code == 429 or 500 <= error.code < 600
+            if not retryable or attempt == 3:
+                raise
+            time.sleep(2 ** attempt)
 
 
 def dated_week(end):
@@ -203,12 +214,15 @@ def observed_product_sales(week_end, daily_dir, missing_log, snapshot_root=None)
             "marketWideSalesTop10Verified": False}
 
 
-def collect(week_end):
+def collect(week_end, snapshot_dir=None):
     start, end = dated_week(week_end)
     previous_start = start - dt.timedelta(days=7)
     previous_end = start - dt.timedelta(days=1)
     html_bytes = fetch("vcbio-market-fable.html")
     html = html_bytes.decode("utf-8")
+    if snapshot_dir:
+        snapshot_dir.mkdir(parents=True, exist_ok=True)
+        (snapshot_dir / "vcbio-market-fable.html").write_bytes(html_bytes)
     refs = {}
     for name in REFS:
         match = re.search(r"\b" + name + r'=\"([^\"]+)\"', html)
@@ -218,7 +232,11 @@ def collect(week_end):
     sources = {}
     for name, ref in refs.items():
         raw = fetch(ref)
-        sources[name] = {"ref": ref, "sha256": hashlib.sha256(raw).hexdigest(), "doc": json.loads(raw)}
+        snapshot = f"{name.lower()}.json"
+        if snapshot_dir:
+            (snapshot_dir / snapshot).write_bytes(raw)
+        sources[name] = {"ref": ref, "snapshot": snapshot,
+                         "sha256": hashlib.sha256(raw).hexdigest(), "doc": json.loads(raw)}
 
     index = sources["MAIN_SERIES_REF"]["doc"]
     if len({item["id"] for item in index["items"]}) != len(index["items"]):
@@ -280,35 +298,27 @@ def collect(week_end):
     youtube = sources["YOUTUBE_REF"]["doc"]
     published_videos = [row for row in youtube["rows"] if start.isoformat() <= str(row.get("publishedDate", "")) <= end.isoformat()]
 
-    catalog = {row["id"]: row for row in extract_constant(html, "DATA")}
-    classified = {row["id"]: row for row in extract_constant(html, "CLASSIFICATION")["items"]}
-    ranking = {row["id"]: row for row in extract_constant(html, "RANKING")["items"]}
-    choices = {}
+    classified = {row["id"]: row for row in sources["CLASSIFICATION_REF"]["doc"]["rows"]}
+    choices = {"health": [], "general": []}
     for item in index["items"]:
         found = series.get(item["id"])
         if not found or found["week"]["days"] != 7 or found["previous"]["days"] != 7 or not found["previous"]["mean"]:
             continue
-        volume = ranking.get(item["id"], {}).get("volume", {})
-        if volume.get("exact") is not True or not volume.get("date") or not isinstance(volume.get("lower"), int):
-            continue
         if found["week"]["mean"] <= found["previous"]["mean"]:
             continue
-        definition = catalog.get(item["id"], {})
         classification = classified.get(item["id"], {})
-        lane = "health" if classification.get("healthScope", definition.get("s2")) else (
-            "general" if classification.get("generalScope", definition.get("s4")) else None)
+        lane = ("health" if classification.get("branch") == "건강기능식품 원료" else
+                "general" if classification.get("branch") == "건강보조식품 원료" else None)
         if not lane:
             continue
-        choices.setdefault(volume["date"], {}).setdefault(lane, []).append({
-            "id": item["id"], "name": item["term"], "volume": volume["lower"],
-            "volumeCheckedAt": volume["date"], "weekMean": found["week"]["mean"],
+        choices[lane].append({
+            "id": item["id"], "name": item["term"], "weekMean": found["week"]["mean"],
             "previousMean": found["previous"]["mean"],
             "weekChangePct": (found["week"]["mean"] / found["previous"]["mean"] - 1) * 100,
+            "lowBase": found["previous"]["mean"] < found["week"]["mean"] * 0.2,
         })
-    eligible_dates = [date for date, lanes in choices.items() if all(len(lanes.get(lane, [])) >= 2 for lane in ("health", "general"))]
-    selection_date = max(eligible_dates) if eligible_dates else None
-    featured = {lane: sorted(choices[selection_date][lane], key=lambda row: -row["volume"])[:2]
-                for lane in ("health", "general")} if selection_date else {"health": [], "general": []}
+    featured = {lane: sorted(choices[lane], key=lambda row: (-row["weekChangePct"], row["name"]))[:2]
+                for lane in ("health", "general")}
 
     coverage = []
     for item in index["items"]:
@@ -335,7 +345,9 @@ def collect(week_end):
     return {
         "week": {"start": start.isoformat(), "end": end.isoformat()},
         "sourceHtmlSha256": hashlib.sha256(html_bytes).hexdigest(),
-        "sources": {name: {"ref": refs[name], "sha256": value["sha256"]} for name, value in sources.items()},
+        "sourceSnapshot": "sources/vcbio-market-fable.html",
+        "sources": {name: {"ref": refs[name], "snapshot": "sources/" + value["snapshot"],
+                           "sha256": value["sha256"]} for name, value in sources.items()},
         "coverage": {"seriesIndexItems": len(coverage), "comparableAll": comparable,
                      "registeredIngredients": len(registered),
                      "registeredComparable": sum(row["weekDays"] == row["previousDays"] == 7 for row in registered),
@@ -365,9 +377,11 @@ def collect(week_end):
                        "naverRows": len(market_doc.get("fableRetail", {}).get("naver", {}).get("rows", [])),
                        "coupangRows": len(market_doc.get("fableRetail", {}).get("coupang", {}).get("rows", []))},
         },
-        "selectionDate": selection_date, "featured": featured,
-        "readyForPublication": False,
-        "reason": "source completeness and product-level functional classification require review",
+        "selectionWindow": {"previous": [previous_start.isoformat(), previous_end.isoformat()],
+                            "current": [start.isoformat(), end.isoformat()]},
+        "featured": featured,
+        "collectionCompleted": True,
+        "rendererValidated": False,
     }
 
 
@@ -383,7 +397,7 @@ def main():
         parser.error("--snapshot-root needs --daily-broadcast-dir")
     if bool(args.daily_broadcast_dir) != bool(args.missing_log):
         parser.error("--daily-broadcast-dir and --missing-log must be supplied together")
-    summary = collect(args.week_end)
+    summary = collect(args.week_end, args.output_dir / "sources")
     if args.daily_broadcast_dir:
         summary["observedProductSales"] = observed_product_sales(
             args.week_end, args.daily_broadcast_dir, args.missing_log, args.snapshot_root)
@@ -396,7 +410,7 @@ def main():
     if not generation.exists():
         generation.write_bytes(body)
     pointer = {"weekEnd": args.week_end, "generation": generation.name, "sha256": digest,
-               "readyForPublication": summary["readyForPublication"]}
+               "collectionCompleted": True, "rendererValidated": False}
     fd, temporary = tempfile.mkstemp(prefix=".weekly-pointer-", dir=args.output_dir)
     try:
         with os.fdopen(fd, "w", encoding="utf-8") as file:
@@ -413,7 +427,7 @@ def main():
                       "registeredIngredients": summary["coverage"]["registeredIngredients"],
                       "extendedComparable": summary["coverage"]["extendedComparable"],
                       "extendedKeywords": summary["coverage"]["extendedKeywords"],
-                      "readyForPublication": False}, ensure_ascii=False))
+                      "collectionCompleted": True, "rendererValidated": False}, ensure_ascii=False))
 
 
 if __name__ == "__main__":

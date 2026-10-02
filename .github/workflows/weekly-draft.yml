@@ -1,8 +1,11 @@
-name: Prepare weekly Data Lab draft
+name: Publish weekly Data Lab report
 
 on:
   schedule:
-    - cron: '0 7 * * *'
+    # Monday 09:00 KST publishes first; the daily run retries temporarily late sources.
+    - cron: '0 0 * * *'
+    # Retry late Monday sources at 12:00, 15:00 and 18:00 KST; published weeks are a no-op.
+    - cron: '0 3,6,9 * * 1'
   workflow_dispatch:
     inputs:
       week_end:
@@ -11,10 +14,15 @@ on:
         type: string
 
 permissions:
-  contents: read
+  contents: write
+  actions: write
+
+concurrency:
+  group: weekly-data-lab-report
+  cancel-in-progress: false
 
 jobs:
-  draft:
+  publish:
     runs-on: ubuntu-latest
     timeout-minutes: 50
     steps:
@@ -62,14 +70,40 @@ jobs:
           python3 .github/scripts/weekly_source_collect.py --week-end "$WEEK_END" --output-dir /tmp/weekly-candidate
           SUMMARY=$(python3 -c 'import json,pathlib; p=pathlib.Path("/tmp/weekly-candidate"); print(p/json.loads((p/"latest-candidate.json").read_text())["generation"])')
           set +e
-          python3 .github/scripts/render_weekly_report.py --root . --summary "$SUMMARY" --output "/tmp/weekly-candidate/lab-weekly-${WEEK_ID,,}.html"
+          renderer_output=$(python3 .github/scripts/render_weekly_report.py --root . --summary "$SUMMARY" --output "/tmp/weekly-candidate/lab-weekly-${WEEK_ID,,}.html" --validation-output /tmp/weekly-candidate/renderer-validation.json 2>&1)
           weekly_gate_code=$?
           set -e
-          if [ "$weekly_gate_code" -eq 75 ]; then echo "ready=false" >> "$GITHUB_OUTPUT"; exit 0; fi
+          printf '%s\n' "$renderer_output" > /tmp/weekly-candidate/renderer-output.txt
+          if [ "$weekly_gate_code" -eq 75 ]; then
+            echo "## 주간 보고서 게시 대기" >> "$GITHUB_STEP_SUMMARY"
+            echo "지난주 자료가 아직 모두 도착하지 않았습니다. 다음 일일 실행에서 다시 확인합니다." >> "$GITHUB_STEP_SUMMARY"
+            printf '\n```text\n%s\n```\n' "$renderer_output" >> "$GITHUB_STEP_SUMMARY"
+            exit 75
+          fi
           if [ "$weekly_gate_code" -ne 0 ]; then exit "$weekly_gate_code"; fi
           echo "ready=true" >> "$GITHUB_OUTPUT"
-      - name: Keep source-backed draft for review
+      - name: Register the validated report
         if: steps.generate.outputs.ready == 'true'
+        env:
+          WEEK_END: ${{ steps.week.outputs.week_end }}
+          WEEK_ID: ${{ steps.week.outputs.week_id }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          SUMMARY=$(python3 -c 'import json,pathlib; p=pathlib.Path("/tmp/weekly-candidate"); print(p/json.loads((p/"latest-candidate.json").read_text())["generation"])')
+          REPORT="/tmp/weekly-candidate/lab-weekly-${WEEK_ID,,}.html"
+          REGISTERED_AT=$(TZ=Asia/Seoul date +%F)
+          python3 .github/scripts/register_weekly_issue.py --root . --candidate "$REPORT" --week-end "$WEEK_END" --registered-at "$REGISTERED_AT"
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add d/weekly-reports.json shelf.json "d/lab-weekly-${WEEK_ID,,}.html"
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Publish Data Lab weekly report ${WEEK_ID}"
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
+          gh workflow run pages.yml --ref main
+      - name: Keep source-backed evidence
+        if: always() && steps.existing.outputs.published != 'true'
         uses: actions/upload-artifact@v4
         with:
           name: data-lab-weekly-${{ steps.week.outputs.week_id }}
