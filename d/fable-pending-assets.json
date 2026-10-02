@@ -1,15 +1,1 @@
-{
-  "assets": [
-    {
-      "bytes": 12591976,
-      "path": "d/market-refresh-fable-59ebe46eaa28.json",
-      "sha256": "59ebe46eaa283637ee77d0179b4a9ce39060dbf5eed77903dd68a9c66547fade"
-    },
-    {
-      "path": "d/youtube-031315fbab73.json",
-      "bytes": 787064,
-      "sha256": "031315fbab7344ab98fa448642946b2a563547b0ee8085d78413dec79527cb54"
-    }
-  ],
-  "version": "platform-pending-assets.v1"
-}
+{"assets":[{"bytes":12591976,"path":"d/market-refresh-fable-59ebe46eaa28.json","sha256":"59ebe46eaa283637ee77d0179b4a9ce39060dbf5eed77903dd68a9c66547fade"},{"bytes":790076,"path":"d/youtube-598c18334e3c.json","sha256":"598c18334e3c1b150b42988df0798f315d4a244e698978edeb23949bdb7383e4"}],"version":"platform-pending-assets.v1"}
