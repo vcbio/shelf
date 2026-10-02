@@ -15,8 +15,8 @@ from pathlib import Path
 # The daily numeric refresh must not silently replace the reviewed 631-ID
 # classification or report generation. A later reviewed generation updates
 # these two pins in the same change as its public references.
-REVIEWED_CLASS_SHA256 = "387180eb11dc3436d35065a0446618170d678f982ac64f7dbc53e6b3867f32bb"
-REVIEWED_REPORT_SHA256 = "b7f27160df803d51c4f3a862f9173348ef2546f0198406477a9313c4e64eb69d"
+REVIEWED_CLASS_SHA256 = "a2d75edfd87b8cf8c5f3f2cf4863f8b62fa437eb237ade26bd2a7d26b661bccb"
+REVIEWED_REPORT_SHA256 = "45d142e012ec67d99c41f6bd07f64b27dc00f222fd2292dd819cdb2054c3fdaf"
 
 
 def sha(path):
@@ -165,12 +165,14 @@ def refresh(root):
         # or 8/31 values as current.
         next_row.update({
             "selectedSeries": [], "d400": [], "w156": [], "weekMeta": [],
-            "yr": {}, "sp": [], "demographic": None, "shop": None,
+            "yr": {}, "sp": [], "shop": None,
             "shopCh": None, "shopEnd": None, "forecastV4": None,
             "r1": None, "r3": None, "r7": None, "r30": None,
-            "r90": None, "r365": None, "rFirm": None, "rAsOf": None,
-            "p1": None, "p3": None, "hs": None, "hsl": None, "pins": [],
+            "r90": None, "r365": None, "rAsOf": None,
+            "p1": None, "p3": None, "hsl": None, "pins": [],
         })
+        for retired_key in ("hs", "demographic", "rFirm"):
+            next_row.pop(retired_key, None)
         next_row["reportLinks"] = {
             "healthFunctionalReports": link["healthFunctionalReports"],
             "healthSupportReportsProvisional": link["healthSupportReportsProvisional"],
@@ -252,6 +254,7 @@ def main():
             html = (root / "d/vcbio-market-fable.html").read_text()
             pair = (literal(html, "CLASSIFICATION_REF"), literal(html, "REPORT_LINKS_REF"))
             known_old_pairs = {
+                ("ingredient-classification-387180eb11dc.json", "ingredient-report-links-b7f27160df80.json"),
                 ("ingredient-classification-6a25a47fe601.json", "ingredient-report-links-998fdf1fc05a.json"),
                 ("ingredient-classification-ffd355e65a82.json", "ingredient-report-links-c64168e14db0.json"),
                 ("ingredient-classification-a83424b82ddf.json", "ingredient-report-links-e6e997f172bf.json"),
